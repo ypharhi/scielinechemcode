@@ -26,7 +26,7 @@ trim(
                                        regexp_replace(
                                                        regexp_replace(
                                                                       regexp_replace(
-                                                                                      DBMS_LOB.substr(f.file_content, 4000),
+                                                                                      DBMS_LOB.substr(f.file_content, 3990),
                                                                                      '<.*?>','')
                                                                       ,'\&lt;.*?\&gt;',' ')
                                                        ,'[[:space:]]',' ')
