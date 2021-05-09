@@ -1,0 +1,71 @@
+.cssDivcontrol
+{
+	text-align: center;
+	width: 350px;
+	height:350px;
+	overflow: auto;
+	border: 1px solid #99A89E;
+	
+	scrollbar-arrow-color: #006AAA;
+	scrollbar-base-color: #006AAA;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-shadow-color: #BEC6DA;
+	scrollbar-highlight-color: #FFFFFF;
+	scrollbar-3dlight-color: #BEC6DA;
+	scrollbar-darkshadow-color: #FFFFFF;
+	scrollbar-track-color: #FAFAFA;	
+}
+.cssTDItem
+{
+	height:60px;
+	background-color: #E0E0E0;
+	align:center;			
+}
+.cssTDItemSelected
+{
+	height:60px;
+	background-color: #FFFFC1;
+	align:center;			
+}
+.cssTDSpace
+{
+	height:10px;
+	background-color: #FFFFFF;
+}
+.cssButtonMobile
+{
+	   width : 170;
+	   height: 60;
+	   font-size : 14px;
+	   font-family : 'Verdana, Tahoma, Arial';
+	   text-align : center;
+	   color : #000000;
+	   font-weight : bold;
+	   cursor : default;
+	   border-top: 1px solid #FFFFFF;
+	   border-left: 1px solid silver;
+	   border-bottom: 1px solid gray;
+	   border-right: 1px solid gray;
+	   margin-bottom:5px;
+}
+.cssButtonMobileFocus
+{
+	   width : 170;
+	   height: 60;
+	   font-size : 14px;
+	   font-family : 'Verdana, Tahoma, Arial';
+	   text-align : center;
+	   color : #000000;
+	   font-weight : bold;
+	   cursor : default;
+	   border-top: 0px solid #FFFFFF;
+	   border-left: 0px solid silver;
+	   border-bottom: 2px solid gray;
+	   border-right: 2px solid gray;
+	   margin-bottom:5px;
+}
+
+u 
+{
+		color: blue;
+}

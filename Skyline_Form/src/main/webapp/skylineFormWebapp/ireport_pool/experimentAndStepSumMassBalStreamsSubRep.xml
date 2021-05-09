@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="experimentAndStepSumMassBalStreamsSubRep"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="10802"
+		 pageHeight="535"
+		 columnWidth="10802"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="SUBREPORT_DIR" isForPrompting="true" class="java.lang.String">
+		<defaultValueExpression ><![CDATA["C:\\Users\\kdvoyashov\\git\\Adama\\Skyline_Form\\src\\main\\webapp\\skylineFormWebapp\\ireport_pool\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUB_REPORT_EXPERIMENTANDSTEPSUMMASSBALSTREAMSSUBSUB" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CSTSUM_MASSBALANCE" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="STEP_ID" isForPrompting="false" class="java.lang.String"/>
+	<queryString><![CDATA[select * from fg_r_stepsum_massbalance_gr_v where 1=2]]></queryString>
+
+	<field name="SAMPLEID" class="java.lang.String"/>
+	<field name="STEP_ID" class="java.lang.String"/>
+	<field name="Order" class="java.lang.String"/>
+	<field name="GROPBYSAMPLEANDMASS" class="java.lang.String"/>
+
+	<filterExpression><![CDATA[new Boolean(String.valueOf($F{STEP_ID}).equals(String.valueOf($P{STEP_ID})))]]></filterExpression>
+
+		<group  name="massBalanceStream" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="15"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="0"
+						width="10802"
+						height="15"
+						key="subreport-1"/>
+					<subreportParameter  name="GROPBYSAMPLEANDMASS">
+						<subreportParameterExpression><![CDATA[$F{GROPBYSAMPLEANDMASS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CSTSUM_MASSBALANCE},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_EXPERIMENTANDSTEPSUMMASSBALSTREAMSSUBSUB}]]></subreportExpression>
+				</subreport>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

@@ -1,0 +1,165 @@
+.leftDiv
+{
+	width:"30%";
+	height:"450px";	
+}
+.MiddeleUpperDiv
+{
+	width:"30%";
+	height:"200px";	
+}
+.RightUpperDiv
+{
+	width:"30%";
+	height:"200px";	
+}
+.RightLowerDiv
+{
+	width:"60%";
+	height:"200px";	
+}
+.leftDivTable
+{
+	width:"100%";
+	height:"500px";	
+}
+.MiddeleUpperDivTable
+{
+	width:"100%";
+	height:"200px";	
+}
+.RightUpperDivTable
+{
+	width:"100%";
+	height:"200px";	
+}
+.RightLowerDivTable
+{
+	width:"100%";
+	height:"200px";	
+}
+
+.TDRuns
+{
+	width:100%;
+	text-indent:5px;
+	border-bottom:solid 1px #d2d2d2;
+	height:40px;
+}
+.TDRunsSelected
+{
+	background-color:#abe741;
+	width:100%;
+	text-indent:5px;
+	border-bottom:solid 1px #d2d2d2;
+	height:40px;
+}
+.loginBtn
+{
+	width:60px;
+	height: 35px;
+	background: URL(../images/loginButt.png);
+	background-repeat:no-repeat;
+	font-size : 9pt;
+	line-height: 41px;
+	font-family : 'Verdana, Tahoma, Sans-Serif';
+	text-align : center;
+	color : #000000;
+	font-weight : bold;
+	cursor: hand;
+}
+.LoginFrame
+{
+	width:351px;
+	height:214px;
+	background-image:url(../images/loginBG.png);
+	margin: 0 auto;
+	margin-top:100px;
+}
+.BannerText
+{
+    position:absolute;
+    top: 120px;
+    left: 15px;
+    z-index: 1;
+    color:#CCC;
+    font-family : 'Tahoma, Sans-Serif';
+    font-size : 12pt;
+    font-weight : bold;
+}
+.BannerTextReports
+{
+    
+    left: 15px;
+    z-index: 1;
+    color:#CCC;
+    font-family : 'Tahoma, Sans-Serif';
+    font-size : 12pt;
+    font-weight : bold;
+}
+.TRVMain
+{
+	background-color: #FFFFFF;
+}
+.TRVMainOdd
+{
+	background-color: #FFFFFF;
+}
+.TRVMainEven
+{
+	background-color: #FFFFFF;
+}
+.TDVMain
+{
+   font-size:9pt;
+   font-family:'Verdana, Tahoma, Sans-Serif';
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid #FFFFFF;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   padding-left:2px;
+   padding-right:2px;
+   cursor: default;
+}
+.cssTableColumnFirstRowMain
+{
+	height:27px;
+    font-size:18px;
+    font-family:'Tahoma, Verdana, Sans-Serif';
+    color:#000000;
+    text-align:center;
+    cursor: default;
+    background-color: #D3D3D3;
+    direction: ltr;
+}
+.TDHMain
+{
+   font-size:10pt;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;   
+   text-align: center;
+   background-color: #D3D3D3;
+/*background: url(../images/BckGrndHeaderRow.gif);*/
+}
+.cssImgButton003
+{
+	width:132px;
+	height: 41px;
+	background: URL(../images/Button002_1.gif);
+	background-color: #4db1cc;
+
+	font-size : 9pt;
+	line-height: 41px;
+	font-family : 'Verdana, Tahoma, Sans-Serif';
+	text-align : center;
+	color : #000000;
+	font-weight : bold;
+	cursor: hand;
+}
+
+.helpText
+{
+	display: none; /*inline none*/
+}

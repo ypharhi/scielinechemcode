@@ -1,0 +1,22 @@
+{ 
+	"statusTableName":"WORKUPSTATUS",
+	"firstState": "Active",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"Planned", "text":"Planned" },
+  	{"id":"Active", "text":"Active" },
+  	{"id":"Cancelled", "text":"Cancelled" },
+  	{"id":"Completed", "text":"Completed" }
+ ],
+  "linkDataArray": 
+  [
+  	{"from":"Planned", "to":"Planned"},
+  	{"from":"Planned", "to":"Cancelled"},
+	{"from":"Active", "to":"Active"},
+	
+	{"from":"Active", "to":"Cancelled"},
+	{"from":"Cancelled", "to":"Cancelled"},
+	{"from":"Completed", "to":"Completed"}
+	]
+}

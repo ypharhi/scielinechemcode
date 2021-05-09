@@ -1,0 +1,590 @@
+@charset "UTF-8";/* CSS Document */
+
+/* @group RESET
+---------------------------------------------- *//*{margin:0;padding:0;}*/
+html{color:#9d9d9d;background-color:#fff;}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,/**/table{border-collapse:collapse;border-spacing:0;}fieldset,img{border:0;}address,caption,cite,code,dfn,em,strong,th,var{font-style:normal;font-weight:normal;}li{list-style:none;}caption,th{text-align:left;}h1,h2,h3,h4,h5,h6{font-size:100%;}q:before,q:after{content:'';}abbr,acronym {border:0;font-variant:normal;}sup{vertical-align:text-top;}sub{vertical-align:text-bottom;overflow:hidden;}input,textarea,/*select{font-family:inherit;font-size:inherit;font-weight:inherit;}*/legend{color:#000;}
+body {font-family: sans-serif; /*border-top:solid 4px #80d6e5;*/	font-family:Verdana, Geneva, sans-serif;}
+table{font-size:inherit;}pre,code,kbd,samp,tt{font-family:monospace;line-height:100%;}
+/* @end */
+
+/* @group CORE STYLES
+---------------------------------------------- */
+html {
+	/*border-top:solid 4px #8fd446;*/
+	background-color:#FFFFFF;
+	font-size: 14px;
+	color:#484848;
+	font-family:Verdana, Geneva, sans-serif;
+	line-height:17px;
+	direction:ltr;
+}
+.container {width: 1000px; margin: 0 auto; overflow: hidden; text-align:center;}
+
+a {color: #519bcd; text-decoration: none;}
+a:hover {text-decoration: underline;}
+.bold {font-weight:bold;}
+
+
+/* @group CORE ELEMENTS
+---------------------------------------------- */
+#header {
+	text-align:center;
+	margin: 0 auto; 
+	overflow: hidden;
+	height: 185px;
+	margin-bottom: 0px;
+	margin-top:0px;
+	border-bottom:solid 1px #cfcfcf;
+	background-color:#fff;
+}
+#logo {
+	float:left;
+	margin:25px 0 0 14px;
+}
+#header .upperInfo {
+	float:left;
+	margin:10px 0 0 405px;
+	display:inline;
+}
+#header .upperInfo li{
+	margin:0px 0 0 0px;
+	display:inline;
+}
+#header .upperInfo li.date{
+	margin:0px 6px 0 0px;
+	color:#808080;
+}
+#header .upperInfo li.user{
+	margin:0px 8px 0 0px;
+	font-size:16px;
+	color:#000;
+}
+#header .upperInfo li.login, #header .upperInfo li .login{
+	margin:0px 0px 0 0px;
+	color:#6F6F6F;
+	font-size:10px;
+}
+#header #helpButt {
+	float:left;
+	margin:10px 0 0 14px;
+}
+#header .nav {float: left; direction:ltr; width: 967px; height:47px; outline: none; margin-top:20px; margin-left:16px; list-style-type:none; list-style-position:outside; display:inline;}
+#header .nav li {float: left; direction:ltr; display: inline; height: 47px; outline: none; list-style-type:none; list-style-position:outside;background-image:none; padding:0px;}
+
+a.navMaintenance{
+	background-image:url(images/maintenanceNav.jpg);
+	text-indent:9999px;
+	width:140px;
+	height:47px;
+	display:block;
+}
+a:focus.navMaintenance{
+	outline:none;
+}
+a.navProcess{
+	background-image:url(images/processNav.jpg);
+	text-indent:9999px;
+	width:136px;
+	height:47px;
+	background-position:top;
+	display:block;
+}
+a:focus.navProcess{
+	outline:none;
+}
+a.navData{
+	background-image:url(images/dataNav.jpg);
+	text-indent: 9999px;
+	width:126px;
+	height:47px;
+	background-position:top;
+	display:block;
+}
+a:focus.navData{
+	outline:none;
+}
+a.navSample{
+	background-image:url(images/sampleNav.jpg);
+	text-indent: 9999px;
+	width:161px;
+	height:47px;
+	background-position:top;
+	display:block;
+}
+a:focus.navSample{
+	outline:none;
+}
+a.navTrends{
+	background-image:url(images/trendsNav.jpg);
+	text-indent: 9999px;
+	width:119px;
+	height:47px;
+	background-position:top;
+	display:block;
+}
+a:focus.navTrends{
+	outline:none;
+}
+a.navAnalysis{
+	background-image:url(images/analysisNav.jpg);
+	text-indent: 9999px;
+	width:174px;
+	height:47px;
+	background-position:top;
+	display:block;
+}
+a:focus.navAnalysis{
+	outline:none;
+}
+a.navSearch{
+	background-image:url(images/searchNav.jpg);
+	text-indent: 9999px;
+	width:111px;
+	height:47px;
+	background-position:top;
+	display:block;
+}
+a:focus.navSearch{
+	outline:none;
+}
+
+a.navMaintenance:hover, 
+a.navProcess:hover, 
+a.navData:hover, 
+a.navSample:hover, 
+a.navTrends:hover,
+a.navAnalysis:hover, 
+a.navSearch:hover {
+	height:47px;
+	background-position:bottom;
+	display:block;
+}
+
+/* @group MAIN
+---------------------------------------------- */
+
+.cssCaption
+{
+	width: 100%;
+	font-size : 24px;
+	font-family: Verdana, Tahoma, Sans-Serif;
+	text-align : center;
+	color : #666E80;
+	font-weight : bold;
+	text-decoration : none;
+	cursor:default;
+}
+
+.cssCurrentPath
+{
+	FONT-SIZE: 10pt;
+	font-weight : bold;
+	FONT-FAMILY: Verdana, Tahoma, Sans-Serif;
+	TEXT-ALIGN: center;
+}
+
+.cssPrevPath
+{
+	color : #7A8398; 
+}
+
+.cssPrevPathLinked
+{
+	color: #7A8398; 
+	cursor: pointer;
+}
+
+.cssPrevPathLinkedFocus
+{
+	color: #7A83DD; 
+	text-decoration: underline;
+}
+
+.cssUser
+{
+  font-size: 10pt;
+  font-family: Verdana, Tahoma, Sans-Serif;
+  text-decoration:none;
+  color:blue;
+}
+
+.BannerText
+{
+    position:absolute;
+    top: 120px;
+    left: 15px;
+    z-index: 1;
+    color:#CCC;
+    font-family : Tahoma, Sans-Serif;
+    font-size : 12pt;
+    font-weight : bold;
+}
+
+.cssActivePath
+{
+	color: #ABE741; /*#940000; old color */
+}
+
+.cssActivePathNew
+{
+	color : #ABE741;
+}
+
+.Desc
+{
+  font-size: 13px;
+  font-family : Verdana, Tahoma, Sans-Serif;
+  font-weight:bold;
+  color:#A30052;
+  cursor:default;
+}
+
+.TDDelim
+{
+	font-size:1px;
+	height:0px;
+	border-bottom: solid 1px #C0C0C0;
+}
+
+HR
+{
+	color: #C0C0C0;
+	height: 1px;
+}
+
+.cssMainTable
+{
+	margin-top: 5px;
+}
+
+.cssStaticDataBig
+{
+	font-family : Verdana, Tahoma, Sans-Serif;
+	font-size: 15px;
+	font-weight: bold;
+	color:#000000;
+}
+
+.cssStaticData
+{
+    FONT-SIZE: 10pt;
+    font-weight : bold;
+    COLOR: #00008B;
+    FONT-FAMILY: Verdana, Tahoma, Sans-Serif;
+    TEXT-ALIGN: right;
+	padding-right: 5px;
+	white-space: noWrap;
+}
+
+.cssStaticData2
+{
+    FONT-SIZE: 10pt;
+    font-weight : bold;
+    COLOR: #00008B;
+    FONT-FAMILY: Verdana, Tahoma, Sans-Serif;
+    TEXT-ALIGN: left;
+}
+
+.cssTextData
+{
+	FONT-SIZE: 10pt;
+    font-weight : bold;
+    COLOR: #000000;
+    FONT-FAMILY: Verdana, Tahoma, Sans-Serif;
+	text-align: left;
+}
+
+.InputStyle
+{
+   border:solid 1px #999999;
+   background-color : #FFFFFF;
+   font-family : Verdana, Tahoma, Sans-Serif;
+   padding-left: 3px;
+   font-size: 12px;
+   height: 20px;
+}
+
+.InputStyleWithoutHeight
+{
+   border:solid 1px #999999;
+   background-color : #FFFFFF;
+   font-family : Verdana, Tahoma, Sans-Serif;
+   padding-left: 3px;
+   font-size: 12px;
+}
+
+.InitiationTitle
+{
+	text-align:center;
+	background-color:#93d2e3;
+	border-bottom:solid 1px #fff;
+	height:27px;
+	color:#000;
+	font-size:13px;
+	font-weight: bold;
+	padding-top: 4px;
+}
+
+.TDHMain
+{
+   height:27px;
+   font-size:13px;
+   font-family: Tahoma, Verdana, Sans-Serif;
+   text-align: center;
+   /*color: #000000;  
+   background-color: #D3D3D3;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;  
+	border: 1px solid #d3d3d3;
+	background: #e6e6e6 url(images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+	font-weight: normal;
+	color: #555555;   */
+}
+
+.TDHMainCentered
+{
+   height:27px;
+   font-size:13px;
+   font-family: Tahoma, Verdana, Sans-Serif;
+   color: #000000; 
+   text-align: center;
+   background-color: #D3D3D3;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   vertical-align: middle;
+}
+
+.cssTableColumnFirstRow
+{
+	height:35px;
+	background: url(../images/BckGrndHeaderRow.gif);
+	font-weight:bold;
+    font-size:12px;
+    font-family:'Tahoma, Verdana, Sans-Serif';
+    color:#000000;
+    text-align:center;
+    cursor: default;
+    background-color: #B7C9E1;
+    direction: ltr;
+}
+
+.TDH
+{
+   font-size:10pt;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   font-weight : bold;
+   text-align: center;
+   background-color: #D4D0C7;
+
+}
+
+.cssTabsSpaceLastTop
+{
+	
+	background-color: transparent;
+	/*font-size: 1px;
+	border-bottom: solid 1px #FFFFFF;*/
+}
+
+.cssTabsSpaceTop
+{
+	font-size: 5px;
+	background-color: transparent;
+	border-bottom: #FFFFFF 1px solid;
+}
+
+.cssTabActive
+{
+	width: 120px;
+	BORDER-BOTTOM: #314993 0px solid;
+	BORDER-RIGHT: #314993 1px solid;
+	BORDER-LEFT: #314993 1px solid;
+	BORDER-TOP: #314993 1px solid;
+	background-color: transparent;
+	font-weight: bold;
+	font-size: 70%;
+	color: #19334A;
+	font-family: Verdana, Tahoma, Sans-Serif;
+	text-align: center;
+	cursor: default;
+}
+
+.cssTabInactiveTop
+{
+	width: 120px;
+	BORDER-BOTTOM: #FFFFFF 1px solid;
+	BORDER-RIGHT: #A8CEED 1px solid;
+	BORDER-LEFT: #A8CEED 1px solid;
+	BORDER-TOP: #A8CEED 1px solid;
+	background-color: #A8CEED;
+	filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#A1BCD4', EndColorStr='#CFDDE9');
+	font-weight: bold;
+	font-size: 70%;
+	color: #19334A;
+	font-family: Verdana, Tahoma, Sans-Serif;
+	text-align: center;
+	cursor: hand;
+}
+
+.cssTabInactiveNoWidth
+{
+	BORDER-BOTTOM: #314993 1px solid;
+	BORDER-RIGHT: #A8CEED 1px solid;
+	BORDER-LEFT: #A8CEED 1px solid;
+	BORDER-TOP: #A8CEED 1px solid;
+	background-color: #A8CEED;
+	filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#A1BCD4', EndColorStr='#CFDDE9');
+	font-weight: bold;
+	font-size: 70%;
+	color: #19334A;
+	font-family: Verdana, Tahoma, Sans-Serif;
+	text-align: center;
+	/*cursor: hand;*/
+}
+
+.cssTabActiveNoWidth
+{
+	BORDER-BOTTOM: #314993 0px solid;
+	BORDER-RIGHT: #314993 1px solid;
+	BORDER-LEFT: #314993 1px solid;
+	BORDER-TOP: #314993 1px solid;
+	background-color: transparent;
+	font-weight: bold;
+	font-size: 70%;
+	color: #19334A;
+	font-family: Verdana, Tahoma, Sans-Serif;
+	text-align: center;
+	cursor: default;
+}
+
+.cssTabContent
+{
+	border-right: #314993 1px solid;
+	border-left: #314993 1px solid;
+	border-bottom: #314993 1px solid;
+	height: 250px;
+	text-align: center;
+	background-color: transparent;
+}
+
+.cssTabContentNoHeight
+{
+	border-right: #314993 1px solid;
+	border-left: #314993 1px solid;
+	border-bottom: #314993 1px solid;
+	text-align: center;
+	background-color: transparent;
+}
+
+.cssOverflow
+{
+	text-align: center;
+	width: 100%;
+	overflow: auto;
+	border: 1px solid #99A89E;
+	scrollbar-arrow-color: #006AAA;
+	scrollbar-base-color: #006AAA;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-shadow-color: #BEC6DA;
+	scrollbar-highlight-color: #FFFFFF;
+	scrollbar-3dlight-color: #BEC6DA;
+	scrollbar-darkshadow-color: #FFFFFF;
+	scrollbar-track-color: #FAFAFA;
+}
+
+.cssOverflowNoBorder
+{
+	text-align: center;
+	width: 100%;
+	overflow: auto;
+	border: 0px solid #99A89E;
+	scrollbar-arrow-color: #006AAA;
+	scrollbar-base-color: #006AAA;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-shadow-color: #BEC6DA;
+	scrollbar-highlight-color: #FFFFFF;
+	scrollbar-3dlight-color: #BEC6DA;
+	scrollbar-darkshadow-color: #FFFFFF;
+	scrollbar-track-color: #FAFAFA;
+}
+
+.blockBGColor
+{
+	background-color: #FAFAFA;
+}
+
+.blockBorder
+{
+	border-color: #314993;
+	border-style: solid;
+	border-width: 0px 1px 1px 1px;
+}
+
+.blockBorderUntitled
+{
+	border-color: #314993;
+	border-style: solid;
+	border-width: 1px 1px 1px 1px;
+}
+
+.cssUserMessage
+{	
+	FONT-SIZE: 10pt;
+    font-weight : bold;
+    COLOR: #000000;
+    FONT-FAMILY: Verdana, Tahoma, Sans-Serif;
+	text-align: left;
+}
+
+button
+{
+	cursor: hand;
+	width: 100px;
+	margin-bottom:3px;
+	height: 25px;
+}
+
+.standardButton
+{ /* same as element button design above - if "button" is accepted, this class should be deprecated */
+	cursor: hand;
+	width: 100px;
+	margin-bottom:3px;
+	height: 25px;
+}
+
+.mandatoryFieldMark
+{
+	vertical-align: bottom;
+	color: red
+}
+
+.refLikeText
+{ /* displays text (probably within a span) as a link (blue, underlined, hand cursor) */
+	color: #0000CD;
+	text-decoration:underline;
+	cursor: hand;			
+}
+
+.ui-datepicker-trigger 
+{ /* class to control the calendar image for jQuery datepicker */
+	width:20px;
+	height:20px;	
+	position: relative;
+	top: 2px; 
+	left: 5px ;
+}
+
+.cssPageHeader
+{
+	font-size:30px;
+	text-align: center; 
+	color:grey;
+}

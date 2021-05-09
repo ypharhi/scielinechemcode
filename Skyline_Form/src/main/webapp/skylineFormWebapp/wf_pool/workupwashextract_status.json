@@ -1,0 +1,22 @@
+{ 
+	"statusTableName":"STAGESTATUS",
+	"firstState": "General Data Input",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"General Data Input", "text":"General Data Input" },
+  	{"id":"Washing Liquid Addition", "text":"Washing Liquid Addition" },
+  	{"id":"Separation", "text":"Separation" },
+  	{"id":"Interphase Formation", "text":"Interphase Formation" }
+ ],
+  "linkDataArray": 
+  [
+	{"from":"General Data Input", "to":"General Data Input"},
+	{"from":"General Data Input", "to":"Washing Liquid Addition"},
+	{"from":"Washing Liquid Addition", "to":"Washing Liquid Addition"},
+	{"from":"Washing Liquid Addition", "to":"Separation"},
+	{"from":"Separation", "to":"Separation"},
+	{"from":"Separation", "to":"Interphase Formation"},
+	{"from":"Interphase Formation", "to":"Interphase Formation"}
+	]
+}

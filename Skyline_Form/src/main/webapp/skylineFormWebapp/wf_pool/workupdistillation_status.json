@@ -1,0 +1,22 @@
+{ 
+	"statusTableName":"STAGESTATUS",
+	"firstState": "General Data Input",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"General Data Input", "text":"General Data Input" },
+  	{"id":"Starting Mixture Definition", "text":"Starting Mixture Definition" },
+  	{"id":"Monitoring", "text":"Monitoring" },
+  	{"id":"Yield Calculation", "text":"Yield Calculation" }
+ ],
+  "linkDataArray": 
+  [
+	{"from":"General Data Input", "to":"General Data Input"},
+	{"from":"General Data Input", "to":"Starting Mixture Definition"},
+	{"from":"Starting Mixture Definition", "to":"Starting Mixture Definition"},
+	{"from":"Starting Mixture Definition", "to":"Monitoring"},
+	{"from":"Monitoring", "to":"Monitoring"},
+	{"from":"Monitoring", "to":"Yield Calculation"},
+	{"from":"Yield Calculation", "to":"Yield Calculation"}
+  ]
+}

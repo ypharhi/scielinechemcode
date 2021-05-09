@@ -1,0 +1,147 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>Comply</groupId>
+	<artifactId>Tool_Jasper</artifactId>
+	<version>9.6.4</version>
+	<dependencies>
+		<!-- oracle --> 
+<dependency>
+        <groupId>com.oracle</groupId>
+        <artifactId>ojdbc6</artifactId>
+        <version>11.2.0.3</version>
+   </dependency>
+		<!-- for non web project dependencies -->
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.6</version>
+		</dependency>
+		<!-- non repo jars -->
+		<!-- <dependency> -->
+		<!-- <groupId>barcode</groupId> -->
+		<!-- <artifactId>barcode</artifactId> -->
+		<!-- <scope>system</scope> -->
+		<!-- <version>1.0</version> -->
+		<!-- <systemPath>${basedir}\src\main\resources\lib\barcode.jar</systemPath> -->
+		<!-- </dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>barcode</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>core-renderer</groupId> -->
+		<!-- <artifactId>core-renderer</artifactId> -->
+		<!-- <scope>system</scope> -->
+		<!-- <version>1.0</version> -->
+		<!-- <systemPath>${basedir}\src\main\resources\lib\core-renderer.jar</systemPath> -->
+		<!-- </dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>core-renderer</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>ireport</groupId> -->
+		<!-- <artifactId>ireport</artifactId> -->
+		<!-- <scope>system</scope> -->
+		<!-- <version>1.0</version> -->
+		<!-- <systemPath>${basedir}\src\main\resources\lib\iReport.jar</systemPath> -->
+		<!-- </dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>iReport</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>jxl</groupId> -->
+		<!-- <artifactId>jxl</artifactId> -->
+		<!-- <scope>system</scope> -->
+		<!-- <version>1.0</version> -->
+		<!-- <systemPath>${basedir}\src\main\resources\lib\jxl.jar</systemPath> -->
+		<!-- </dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>jxl</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+		<!-- repo jars -->
+		<dependency>
+			<groupId>net.sourceforge.barbecue</groupId>
+			<artifactId>barbecue</artifactId>
+			<version>1.5-beta1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-digester</groupId>
+			<artifactId>commons-digester</artifactId>
+			<version>1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jcommon</artifactId>
+			<version>1.0.6</version>
+		</dependency>
+		<!-- <dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.13</version>
+		</dependency> -->
+		<dependency>
+			<groupId>jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>3.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>tomcat</groupId>
+			<artifactId>jasper-compiler-jdt</artifactId>
+			<version>5.5.15</version>
+		</dependency>
+		<dependency>
+			<groupId>poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId>
+			<artifactId>itext</artifactId>
+			<version>1.4.8</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20151123</version>
+		</dependency>
+
+
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

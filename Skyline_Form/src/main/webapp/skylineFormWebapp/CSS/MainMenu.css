@@ -1,0 +1,356 @@
+.leftDiv
+{
+	width:"30%";
+	height:"450px";	
+}
+.MiddeleUpperDiv
+{
+	width:"30%";
+	height:"200px";	
+}
+.RightUpperDiv
+{
+	width:"30%";
+	height:"200px";	
+}
+.RightLowerDiv
+{
+	width:"60%";
+	height:"200px";	
+}
+.leftDivTable
+{
+	width:"100%";
+	height:"500px";	
+}
+.MiddeleUpperDivTable
+{
+	width:"100%";
+	height:"200px";	
+}
+.RightUpperDivTable
+{
+	width:"100%";
+	height:"200px";	
+}
+.RightLowerDivTable
+{
+	width:"100%";
+	height:"200px";	
+}
+.cssNotLink
+{
+	FONT-SIZE:12px;
+	FONT-FAMILY:Tahoma;
+	color:#000000;
+	text-decoration:none;
+	cursor:default;    
+}
+
+.cssLinkOut
+{
+	FONT-SIZE:12px;
+	FONT-FAMILY:Tahoma;
+	color:#000000;
+	text-decoration:none;
+	cursor:default;    
+}
+
+.cssLinkOn
+{
+	FONT-SIZE:12px;
+	FONT-FAMILY:Tahoma;
+	color:#000000;
+	text-decoration:none;
+	cursor:default;    
+}
+.TDRuns
+{
+	width:100%;
+	text-indent:5px;
+	border-bottom:solid 1px #d2d2d2;
+	height:27px;
+	valign:middle;
+}
+.TDRunsSelected
+{
+	background-color:#abe741;
+	width:100%;
+	text-indent:5px;
+	border-bottom:solid 1px #d2d2d2;
+	height:40px;
+}
+.loginBtn
+{
+	width:60px;
+	height: 35px;
+	background: URL(../images/loginButt.png);
+	background-repeat:no-repeat;
+	font-size : 9pt;
+	line-height: 41px;
+	font-family : 'Verdana, Tahoma, Sans-Serif';
+	text-align : center;
+	color : #000000;
+	font-weight : bold;
+	cursor: hand;
+	display: block;
+}
+.FindBtn
+{
+	width:35px;
+	height: 35px;	
+	background-repeat:no-repeat;
+	
+}
+.DivData
+{
+	width:100%;
+	height:500px;
+	overflow: auto;
+	scrollbar-arrow-color: #006AAA;
+	scrollbar-base-color: #006AAA;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-shadow-color: #BEC6DA;
+	scrollbar-highlight-color: #FFFFFF;
+	scrollbar-3dlight-color: #BEC6DA;
+	scrollbar-darkshadow-color: #FFFFFF;
+	scrollbar-track-color: #FAFAFA;
+}
+
+.DivDataStability
+{
+	width:100%;
+/*	height:100px;*/ /* inner div overflows instead */
+	overflow: auto;
+	scrollbar-arrow-color: #006AAA;
+	scrollbar-base-color: #006AAA;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-shadow-color: #BEC6DA;
+	scrollbar-highlight-color: #FFFFFF;
+	scrollbar-3dlight-color: #BEC6DA;
+	scrollbar-darkshadow-color: #FFFFFF;
+	scrollbar-track-color: #FAFAFA;
+}
+.DivMainGraph
+{
+	width:100%;
+	height:400px;
+	overflow: auto;
+	scrollbar-arrow-color: #006AAA;
+	scrollbar-base-color: #006AAA;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-shadow-color: #BEC6DA;
+	scrollbar-highlight-color: #FFFFFF;
+	scrollbar-3dlight-color: #BEC6DA;
+	scrollbar-darkshadow-color: #FFFFFF;
+	scrollbar-track-color: #FAFAFA;
+}
+.LoginFrame
+{
+	width:351px;
+	height:214px;
+	background-image:url(../images/loginBG.png);
+	margin: 0 auto;
+	margin-top:100px;
+}
+.BannerText
+{
+    position:absolute;
+    top: 120px;
+    left: 15px;
+    z-index: 1;
+    color:#CCC;
+    font-family : Tahoma, Sans-Serif;
+    font-size : 12pt;
+    font-weight : bold;
+}
+.BannerTextReports
+{
+    
+    left: 15px;
+    z-index: 1;
+    color:#CCC;
+    font-family : 'Tahoma, Sans-Serif';
+    font-size : 12pt;
+    font-weight : bold;
+}
+.TRVMain
+{
+	background-color: #FFFFFF;
+}
+.TRVMainOdd
+{
+	background-color: #FFFFFF;
+}
+.TRVMainEven
+{
+	background-color: #FFFFFF;
+}
+.TDVMain
+{
+   font-size:9pt;
+   font-family:'Verdana, Tahoma, Sans-Serif';
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid #FFFFFF;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   padding-left:2px;
+   padding-right:2px;
+   cursor: default;
+}
+.TDVMain2
+{
+   font-size:9pt;
+   font-family:'Verdana, Tahoma, Sans-Serif';
+   border-bottom: 1px solid #FFFFFF;
+   border-right: 1px solid #FFFFFF;
+   border-top: 1px solid gray;
+   border-left: 1px solid gray;
+   padding-left:2px;
+   padding-right:2px;
+   padding-bottom:2px;
+   padding-top:2px;
+   cursor: default;
+}
+.TDVMainCenter
+{
+   font-size:9pt;
+   font-family:'Verdana, Tahoma, Sans-Serif';
+   border-top: 1px solid silver;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   height:20px;
+   text-align: center;
+   padding-left:2px;
+   padding-right:2px;
+   cursor: default;
+}
+.TDVMainLine
+{
+   font-size:9pt;
+   font-family:'Verdana, Tahoma, Sans-Serif';
+   border-top: 1px solid #silver;
+   border-left: 1px solid #silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   padding: 2px;
+  /* padding-left:2px;
+   padding-right:2px;
+   padding-bottom:2px;
+   padding-top:2px;*/
+   cursor: default;
+}
+.TDVMainLine_clear
+{
+   font-size:9pt;
+   font-family:'Verdana, Tahoma, Sans-Serif';
+   padding-left:2px;
+   padding-right:2px;
+   padding-bottom:2px;
+   padding-top:2px;
+   cursor: default;
+}
+.TDVMainLineMinHeight
+{
+   font-size:9pt;
+   font-family:'Verdana, Tahoma, Sans-Serif';
+   border-top: 1px solid #silver;
+   border-left: 1px solid #silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   padding: 2px;
+  /* padding-left:2px;
+   padding-right:2px;
+   padding-bottom:2px;
+   padding-top:2px;*/
+   cursor: default;
+   height: 35px;
+}
+.TDDEV
+{
+   font-size:9pt;
+   font-family:'Verdana, Tahoma, Sans-Serif';
+   border-top: 1px solid #000000;
+   border-left: 1px solid #000000;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   padding-left:2px;
+   padding-right:2px;
+   cursor: default;
+}
+.TDCMainLine
+{
+   font-size:9pt;
+   font-family:'Verdana, Tahoma, Sans-Serif';
+   border-top: 1px solid #silver;
+   border-left: 1px solid #silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   padding-left:2px;
+   padding-right:2px;
+   padding-bottom:2px;
+   padding-top:2px;
+   cursor: default;
+   background-color: Silver;
+}
+.cssTableColumnFirstRowMain
+{
+	height:27px;
+    font-size:18px;
+    font-family:'Tahoma, Verdana, Sans-Serif';
+    color:#000000;
+    text-align:center;
+    cursor: default;
+    background-color: #D3D3D3;
+    direction: ltr;
+}
+.cssTableColumnFirstRowMain_high
+{ /* same as above but higher row */
+	height:35px;
+    font-size:18px;
+    font-family:'Tahoma, Verdana, Sans-Serif';
+    color:#000000;
+    text-align:center;
+    cursor: default;
+    background-color: #D3D3D3;
+    direction: ltr;
+}
+.TDHMain
+{
+   font-size:10pt;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;   
+   text-align: center;
+   background-color: #D3D3D3;
+/*background: url(../images/BckGrndHeaderRow.gif);*/
+}
+.TDHMainNoWrap
+{
+   font-size:10pt;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;   
+   text-align: center;
+   background-color: #D3D3D3;
+   white-space: nowrap;
+   padding: 5px;
+}
+.cssHome
+{
+	width:32px;
+	height: 30px;
+	background: URL(../images/home.png);
+	background-color: #FFFFFF;
+	cursor: hand;
+}
+
+.CancelBtn
+{
+	width:60px;
+	height: 15px;
+	cursor: hand;	
+}

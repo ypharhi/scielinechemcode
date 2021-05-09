@@ -1,0 +1,55 @@
+{
+  "_args": [
+    [
+      "@xbs/webix-pro@5.1.6",
+      "D:\\xampp\\htdocs\\work\\skyline\\gaianbar-skylinereportgenerator"
+    ]
+  ],
+  "_from": "@xbs/webix-pro@5.1.6",
+  "_id": "@xbs/webix-pro@5.1.6",
+  "_inBundle": false,
+  "_integrity": "sha1-440srVgYHixFwwNsEq0sAVpflWM=",
+  "_location": "/@xbs/webix-pro",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "@xbs/webix-pro@5.1.6",
+    "name": "@xbs/webix-pro",
+    "escapedName": "@xbs%2fwebix-pro",
+    "scope": "@xbs",
+    "rawSpec": "5.1.6",
+    "saveSpec": null,
+    "fetchSpec": "5.1.6"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://npm.webix.com/@xbs%2fwebix-pro/-/webix-pro-5.1.6.tgz",
+  "_spec": "5.1.6",
+  "_where": "D:\\xampp\\htdocs\\work\\skyline\\gaianbar-skylinereportgenerator",
+  "author": {
+    "name": "XB Software"
+  },
+  "description": "Webix UI",
+  "keywords": [
+    "webix",
+    "ui",
+    "tree",
+    "datatable",
+    "list",
+    "chart",
+    "form",
+    "grid"
+  ],
+  "license": "SEE LICENSE IN license.text",
+  "main": "webix.js",
+  "name": "@xbs/webix-pro",
+  "publishConfig": {
+    "registry": "https://npm.webix.com"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "5.1.6"
+}

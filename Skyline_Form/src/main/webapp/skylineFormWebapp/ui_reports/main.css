@@ -1,0 +1,205 @@
+.toolbar_header {
+  color: #444444 !important;
+  background-color: white !important; }
+
+.webix_el_box button {
+  border: 0; }
+.toolbar_header {
+  color: #444444 !important;
+  background-color: white !important; }
+
+.webix_el_box button {
+  border: 0; }
+
+.webix_el_select select {
+  color: #666; }
+/* Style the list */
+.breadcrumb {
+  list-style: none;
+  display: block;
+  padding: 0 0 0 40px;
+  margin: 0;
+  line-height: 2em;
+  /* Display list items side by side */ }
+  .breadcrumb li {
+    display: inline;
+    font-size: 18px;
+    /* Add a slash symbol (/) before/behind each list item */
+    /* Add a color to all links inside the list */
+    /* Add a color on mouse-over */ }
+    .breadcrumb li + li:before {
+      padding-left: 8px;
+      padding-right: 8px;
+      color: black;
+      content: "/\A0"; }
+    .breadcrumb li a {
+      color: #0275d8;
+      text-decoration: none; }
+    .breadcrumb li a:hover {
+      color: #01447e;
+      text-decoration: underline; }
+.reports-datatable__column-lock {
+  text-align: center; }
+  .reports-datatable__column-lock .webix_cell {
+    position: relative; }
+  .reports-datatable__column-lock__remove {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    left: 0;
+    transform: translateY(-50%);
+    opacity: 0;
+    color: red;
+    transition: opacity 0.3s ease;
+    cursor: pointer; }
+  .reports-datatable__column-lock__remove:hover {
+    opacity: 1;
+    transition: opacity 0.3s ease; }
+.webix_column :nth-child(even) {
+  background-color: #f6f6f6; }
+
+.webix_section .webix_template {
+  font-size: 1.4em !important; }
+
+.webix_view {
+  overflow: visible; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  color: inherit;
+  text-rendering: optimizeLegibility; }
+
+select {
+  border: 1px solid #cacaca;
+  border-radius: 0;
+  background-color: #fefefe; }
+
+.webix_view.webix_header {
+  background-color: #212121;
+  height: 46px !important; }
+  .webix_view.webix_header .webix_template {
+    background: none; }
+
+.layout_reports_generated {
+  border: 1px solid #bdbdbd;
+  background-color: white;
+  padding: 28px 31px;
+  border-radius: 3px;
+  border-collapse: collapse;
+  border-spacing: 0;
+  margin-bottom: 20px;
+  margin-left: -31px !important; }
+
+.breadcrumb {
+  line-height: 2.5em; }
+  .breadcrumb li + li:before {
+    color: #808080; }
+  .breadcrumb li a {
+    color: #31a1ec;
+    position: relative; }
+    .breadcrumb li a:hover {
+      outline: none;
+      text-decoration: none;
+      color: #31a1ec; }
+    .breadcrumb li a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 2px;
+      background: #31a1ec;
+      opacity: 0;
+      -webkit-transform: translateY(5px);
+      -moz-transform: translateY(5px);
+      transform: translateY(5px);
+      -webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+      -moz-transition: -moz-transform 0.3s, opacity 0.3s;
+      transition: transform 0.3s, opacity 0.3s;
+      pointer-events: none; }
+    .breadcrumb li a:hover::after, .breadcrumb li a:focus::after {
+      opacity: 1;
+      -webkit-transform: translateY(0px);
+      -moz-transform: translateY(0px);
+      transform: translateY(0px); }
+
+.check {
+  position: relative;
+  top: 6px;
+  float: right; }
+
+body {
+  overflow-y: scroll !important;
+  background-color: #f6fafa; }
+
+.webix_dd_drag_column,
+.webix_ss_header,
+.webix_ss_header TD,
+.webix_ss_vscroll_header {
+  background-color: #e5e5e5; }
+
+.webix_cell_hover {
+  background-color: gray; }
+
+.webix_hcell {
+  font-weight: bold;
+  color: #757575; }
+
+.webix_ss_header td {
+  border-right: 1px solid #bdbdbd;
+  border-bottom: 1px solid #bdbdbd; }
+
+.webixbutton,
+.webixtype_base,
+.webixtype_next,
+.webixtype_prev {
+  background: #1779ba;
+  border-radius: 3px !important;
+  transition: background-color 0.25s ease-out, color 0.25s ease-out; }
+
+.webix_list {
+  border: none; }
+
+.webix_list .webix_list_item {
+  border: 1px solid #ebebeb;
+  border-top: none; }
+  .webix_list .webix_list_item:first-child {
+    border: 1px solid #ebebeb; }
+
+.webix_list .webix_list_item:hover {
+  background-color: #757575;
+  color: #fff; }
+
+.webix_querybuilder_wrap.webix_layout_space {
+  background: none !important; }
+
+.webix_querybuilder_wrap .webix_view {
+  border: none !important; }
+
+[class^="webix_tree_"] {
+  background-color: transparent !important; }
+
+.highlight {
+  background-color: #edf4f9;
+  font-weight: bold; }
+
+.webix_progress_icon {
+  background-color: rgba(0, 0, 0, 0.2); }
+
+.label_disabled_true .webix_el_label div {
+  color: #aaa; }
+
+.webix_progress_icon {
+  height: 100vh !important;
+  z-index: 1000;
+  position: fixed;
+  overflow: hidden; }
+
+/*# sourceMappingURL=main.css.map*/

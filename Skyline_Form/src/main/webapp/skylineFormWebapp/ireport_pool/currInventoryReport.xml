@@ -1,0 +1,325 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="currInventoryReport"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="557"
+		 columnSpacing="0"
+		 leftMargin="19"
+		 rightMargin="19"
+		 topMargin="19"
+		 bottomMargin="19"
+		 whenNoDataType="AllSectionsNoDetail"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="ReportParameterFilterDisplay" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="ReportParameterTitle" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DATA_SOURCE_CCURRINVENTORYGMPITEMSDET" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_CURRINVENTORYGMPITEMSDET" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="INVENTORY_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INVENTORY_GROUP_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SITE" isForPrompting="false" class="java.lang.String"/>
+	<queryString><![CDATA[select  t.* from fg_r_csc_invitem_pivot_v t where 1=2]]></queryString>
+
+	<field name="INVENTORY_TYPE" class="java.lang.String"/>
+	<field name="INVENTORY_ID" class="java.math.BigDecimal"/>
+	<field name="INVENTORY_TYPE_ID" class="java.math.BigDecimal"/>
+	<field name="REFERENCE_ID" class="java.lang.String"/>
+	<field name="DESCRIPTION_CHEMICAL_NAME" class="java.lang.String"/>
+	<field name="CATALOG_NUMBER" class="java.lang.String"/>
+	<field name="VENDOR_CSC" class="java.lang.String"/>
+	<field name="MANUFACTURER_LOT#" class="java.lang.String"/>
+	<field name="RETEST_EXPIRY_DATE" class="java.sql.Timestamp"/>
+	<field name="PROJECT" class="java.lang.String"/>
+	<field name="STATUS" class="java.lang.String"/>
+	<field name="QUANTITY" class="java.math.BigDecimal"/>
+	<field name="QUANTITY_UOM" class="java.lang.String"/>
+	<field name="INVENTORY_GROUP_ID" class="java.lang.String"/>
+	<field name="INVENTORY_SIZE" class="java.math.BigDecimal"/>
+	<field name="SIZE_UOM" class="java.lang.String"/>
+	<field name="LOCATION" class="java.lang.String"/>
+	<field name="MACHINE" class="java.lang.String"/>
+	<field name="MAX_NUMBER_OF_USES" class="java.math.BigDecimal"/>
+	<field name="MANUFACTURER_DATE" class="java.sql.Timestamp"/>
+	<field name="RECEIVE_DATE" class="java.sql.Timestamp"/>
+	<field name="RETEST_DATE" class="java.sql.Timestamp"/>
+	<field name="CREATED_BY" class="java.math.BigDecimal"/>
+	<field name="TIME_STAMP" class="java.sql.Timestamp"/>
+	<field name="DATA_SOURCE" class="java.lang.String"/>
+	<field name="STATUS_OUT_OF_USE" class="java.math.BigDecimal"/>
+	<field name="STATUS_GRID" class="java.math.BigDecimal"/>
+	<field name="STATUS_REPORTS" class="java.math.BigDecimal"/>
+	<field name="DELETED" class="java.math.BigDecimal"/>
+	<field name="VENDOR" class="java.lang.String"/>
+	<field name="SERIAL_NUMBER" class="java.lang.String"/>
+	<field name="RESPONSIBLE" class="java.lang.String"/>
+	<field name="SUB_LOCATION_1" class="java.lang.String"/>
+	<field name="SUB_LOCATION_2" class="java.lang.String"/>
+	<field name="CONCENTRATION" class="java.math.BigDecimal"/>
+	<field name="CONCENTRATION_UOM" class="java.lang.String"/>
+	<field name="WEIGHT_VOLUME_COUNT" class="java.math.BigDecimal"/>
+	<field name="VOLUME_UOM" class="java.lang.String"/>
+	<field name="SAFETY_CATEGORY" class="java.lang.String"/>
+	<field name="ORDERED_BY" class="java.lang.String"/>
+	<field name="TOWNSHIP_REPORTING1" class="java.lang.String"/>
+	<field name="TOWNSHIP_REPORTING2" class="java.lang.String"/>
+	<field name="TOWNSHIP_REPORTING3" class="java.lang.String"/>
+	<field name="DEA_SHEDULE" class="java.lang.String"/>
+	<field name="DATE_TYPE" class="java.lang.String"/>
+	<field name="GMP_EXPERIMENTAL" class="java.lang.String"/>
+	<field name="STORAGE_CONDITIONS" class="java.lang.String"/>
+	<field name="STOCK_ITEM#" class="java.lang.String"/>
+	<field name="CAS#" class="java.lang.String"/>
+	<field name="NUMERIC1" class="java.math.BigDecimal"/>
+	<field name="NUMERIC2" class="java.math.BigDecimal"/>
+	<field name="INVENTORY_COMMENTS" class="java.lang.String"/>
+	<field name="RECEIVER" class="java.lang.String"/>
+	<field name="PRODUCE_ID" class="java.math.BigDecimal"/>
+	<field name="PRODUCE_ID_SNAPSHOT_INFO" class="java.lang.String"/>
+	<field name="PO#" class="java.lang.String"/>
+	<field name="RECEIVING#" class="java.lang.String"/>
+	<field name="CHECKED_BY_DATE" class="java.lang.String"/>
+	<field name="RECEIVEDATE_OBJDATERANGE" class="java.lang.String"/>
+	<field name="EXPIRYDATE_OBJDATERANGE" class="java.lang.String"/>
+	<field name="SITE_NAME" class="java.lang.String"/>
+
+
+		<group  name="GMP_Items" >
+			<groupExpression><![CDATA[$F{INVENTORY_GROUP_ID}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="34"  isSplitAllowed="true" >
+				<subreport  isUsingCache="false">
+					<reportElement
+						x="0"
+						y="3"
+						width="557"
+						height="28"
+						key="subreport-1"
+						isRemoveLineWhenBlank="true"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
+					<subreportParameter  name="FILTER_PARAM_ID">
+						<subreportParameterExpression><![CDATA[$F{INVENTORY_GROUP_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CCURRINVENTORYGMPITEMSDET},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_CURRINVENTORYGMPITEMSDET}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="31"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="-32"
+						width="557"
+						height="30"
+						forecolor="#0066CC"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box topPadding="2" bottomPadding="2"></box>
+					<textElement verticalAlignment="Bottom">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{ReportParameterTitle}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="25"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="315"
+						y="3"
+						width="241"
+						height="14"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[(new SimpleDateFormat("dd/MM/yyyy")).format(new Date())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="71"
+						y="3"
+						width="31"
+						height="14"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+				</textField>
+				<line direction="BottomUp">
+					<reportElement
+						x="0"
+						y="1"
+						width="557"
+						height="2"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="1"
+						y="3"
+						width="30"
+						height="14"
+						key="staticText-9"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[Page]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="58"
+						y="3"
+						width="13"
+						height="14"
+						key="staticText-10"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[of]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="31"
+						y="3"
+						width="27"
+						height="14"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="19"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="315"
+						y="1"
+						width="241"
+						height="14"
+						key="textField-4"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[(new SimpleDateFormat("dd/MM/yyyy")).format(new Date())]]></textFieldExpression>
+				</textField>
+				<line direction="BottomUp">
+					<reportElement
+						x="0"
+						y="1"
+						width="557"
+						height="1"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="71"
+						y="3"
+						width="31"
+						height="14"
+						key="textField-5"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="1"
+						y="3"
+						width="30"
+						height="14"
+						key="staticText-11"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[Page]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="58"
+						y="3"
+						width="13"
+						height="14"
+						key="staticText-12"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[of]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="31"
+						y="3"
+						width="27"
+						height="14"
+						key="textField-6"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

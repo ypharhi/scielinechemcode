@@ -1,0 +1,36 @@
+.BorderLightGrayTable
+{
+    margin-left:35px;
+	margin-right:35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.BorderLightGrayContent
+{
+}
+
+.cssNotLink
+{
+	FONT-SIZE:13px;
+	FONT-WEIGHT: bold;
+	FONT-FAMILY:Verdana;
+	color:#000000;
+}
+
+.cssLinkOut
+{
+	FONT-SIZE:13px;
+	FONT-FAMILY:Verdana;
+	color:blue;
+	text-decoration:none;
+}
+
+.cssLinkOn
+{
+	FONT-SIZE:13px;
+	FONT-FAMILY:Verdana;
+	color:red;
+	text-decoration:underline;
+	cursor:hand;
+}

@@ -1,0 +1,84 @@
+li.search-field {
+/* fix chosen multiple chrome bug */
+    width: 100%;
+}
+li.search-field input.default {
+/* fix chosen multiple chrome bug */
+    width: auto !important;
+}
+.comboDetails {
+	FONT-SIZE: 12px;
+	font-weight: normal;
+	COLOR: #000000;
+	FONT-FAMILY: Verdana, Tahoma, Sans-Serif;
+	TEXT-ALIGN: left;
+	width: 500px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.break{
+    display:block;
+}
+caption{
+    FONT-SIZE: 12pt;
+    font-weight: bold;
+    COLOR: #1766ad;
+    text-align:center;   
+    padding-right: 10px;
+    white-space: noWrap;
+}
+.firstString {
+/* 	width:100px !important; */
+/*     margin-top: 5px !important; */
+/*     margin-bottom: 5px !important; */
+}
+input::-ms-clear {
+    display: none;
+}
+.paging_full_numbers{
+	width:400px !important;
+}
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+input,textarea,.dateInput{
+	box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+input.pw {
+    -webkit-text-security: disc;
+}
+
+.ui-datepicker-trigger {
+	cursor: pointer;
+}
+
+.dt-center{
+	text-align: center;
+}
+
+/* datatable tools menu */
+.dropdown {
+    position: relative;
+    display: inline-block;
+    white-space: normal;
+}
+.dropdown-content{
+    display: none;
+    position: absolute; 
+     background-color: #f9f9f9; 
+    width: 100%;
+    z-index: 1;
+}
+.dropdown-content a{
+    color: black;    
+    text-decoration: none;
+    padding: 6px 16px;
+    display: block;
+}
+.dropdown-content a:hover{background-color: #f1f1f1}
+.dropdown:hover .dropdown-content{
+    display: block;   
+}

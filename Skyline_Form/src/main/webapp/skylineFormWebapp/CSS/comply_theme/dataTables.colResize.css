@@ -1,0 +1,76 @@
+/**! ColResize 2.6.0
+ * ©2017 Steven Masala
+ */
+
+.dt-colresizable-table-wrapper {
+    /*overflow: auto;*/
+    width: 100%;
+    position: relative;
+    float: left;
+}
+
+.dt-colresizable {
+    height: 0;
+    position: relative;
+    top: 0;
+    z-index: 1;
+}
+
+.dt-colresizable .dt-colresizable-col {
+    display: block;
+    position: absolute;
+    box-sizing: border-box;
+    width: 5px;
+    cursor: ew-resize;
+    z-index: 1;
+    /* background-color:red; */
+}
+
+.dt-colresizable-table-wrapper.dt-colresizable-with-scroller {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+.dt-colresizable-scroller-wrapper {
+    position: absolute;
+    overflow-y: auto;
+    overflow-x: hidden; /** FF **/
+    width: 100%;
+    right: 0;
+}
+
+.dt-colresizable-scroller-content-wrapper {
+    width: 100%;
+}
+
+.dt-colresizable-scroller-content {
+    width: 100%;
+}
+
+.dt-colresizable-with-scroller table thead,
+.dt-colresizable-with-scroller table tbody tr {
+    table-layout: fixed;
+    width: 100%;    
+}
+
+.dt-colresizable-with-scroller table tbody {
+    overflow-y: auto;
+}
+
+.dt-colresizable-table-wrapper table.dataTable {
+    table-layout: fixed;
+    margin: 0;
+}
+
+.dt-colresizable-table-wrapper table.dataTable,
+.dt-colresizable-table-wrapper table.dataTable th,
+.dt-colresizable-table-wrapper table.dataTable td {
+    box-sizing: border-box
+}
+
+.dt-colresizable-table-wrapper table.dataTable thead th,
+.dt-colresizable-table-wrapper table.dataTable tbody td,
+.dt-colresizable-table-wrapper table.dataTable tfoot td {
+    /* overflow: hidden; //cause overflowing problem in column with chosen ddl, so add this ('overflow: hidden') only in columns when its should be hidden */
+    word-break: break-word;
+}

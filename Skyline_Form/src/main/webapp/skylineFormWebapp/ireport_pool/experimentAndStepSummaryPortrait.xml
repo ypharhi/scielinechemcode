@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="experimentAndStepSummary"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="561"
+		 columnSpacing="0"
+		 leftMargin="16"
+		 rightMargin="18"
+		 topMargin="19"
+		 bottomMargin="19"
+		 whenNoDataType="AllSectionsNoDetail"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="ReportParameterFilterDisplay" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="ReportParameterTitle" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DATA_SOURCE_CSTSUMSTARTMATERIALS" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_EXPERIMENTANDSTEPSUMSTARTMATSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="FORMID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="STEP_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DATA_SOURCE_CSTSUMACTIONS" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_EXPERIMENTANDSTEPSUMACTIONSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CSTSUMPRODUCT" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_EXPERIMENTANDSTEPSUMPRODUCTSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="IREPORT_PRINT_CONCLUSSION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="currentUrl" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SHORTDESCRIPTION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="parameter_DB_URL" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="parameter_DB_USER" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="parameter_DB_PASSWORD" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="itissubreport" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_STEP_ID" isForPrompting="false" class="java.lang.String"/>
+	<queryString><![CDATA[select * from fg_r_stepsum_react_schem_v where 1=2]]></queryString>
+
+	<field name="PARENTID" class="java.lang.String"/>
+	<field name="EXPERIMENT_ID" class="java.lang.String"/>
+	<field name="STEPNAME" class="java.lang.String"/>
+	<field name="FULL_IMG_FILE_ID" class="java.lang.String"/>
+	<field name="CONCLUSSION" class="java.lang.String"/>
+	<field name="STEP_ID" class="java.lang.String"/>
+
+	<filterExpression><![CDATA[new Boolean(String.valueOf($F{PARENTID}).equals(String.valueOf($P{STEP_ID})))]]></filterExpression>
+
+		<group  name="product" >
+			<groupExpression><![CDATA[$P{FORMID}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="18"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="0"
+						width="561"
+						height="15"
+						key="subreport-3"/>
+					<subreportParameter  name="STEP_ID">
+						<subreportParameterExpression><![CDATA[$F{PARENTID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CSTSUMPRODUCT},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_EXPERIMENTANDSTEPSUMPRODUCTSUBREP}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="actions" >
+			<groupExpression><![CDATA[$P{STEP_ID}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="17"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="0"
+						width="561"
+						height="15"
+						key="subreport-2"/>
+					<subreportParameter  name="STEP_ID">
+						<subreportParameterExpression><![CDATA[$F{PARENTID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CSTSUMACTIONS},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_EXPERIMENTANDSTEPSUMACTIONSSUBREP}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="starting_materials" >
+			<groupExpression><![CDATA[$P{FORMID}]]></groupExpression>
+			<groupHeader>
+			<band height="30"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="17"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="0"
+						width="561"
+						height="15"
+						key="subreport-1"/>
+					<subreportParameter  name="STEP_ID">
+						<subreportParameterExpression><![CDATA[$F{PARENTID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CSTSUMSTARTMATERIALS},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_EXPERIMENTANDSTEPSUMSTARTMATSUBREP}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="FULL_IMG_FILE_ID_GROUP" >
+			<groupExpression><![CDATA[$F{FULL_IMG_FILE_ID}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="step_id" >
+			<groupExpression><![CDATA[$F{PARENTID}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="22"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[(new Boolean(!String.valueOf($P{itissubreport}).equals("1")))]]></printWhenExpression>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="0"
+						width="561"
+						height="22"
+						backcolor="#FFFFFF"
+						key="textField"/>
+					<box topPadding="2" bottomPadding="2"></box>
+					<textElement textAlignment="Center" verticalAlignment="Bottom">
+						<font pdfFontName="Helvetica-Bold" size="12" isBold="true" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{ReportParameterTitle}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="186"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="Reference"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="18"
+						width="561"
+						height="18"
+						backcolor="#FFFFFF"
+						key="textField-8"
+						isRemoveLineWhenBlank="true"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
+					<box topPadding="2" bottomPadding="2"></box>
+					<textElement textAlignment="Left" verticalAlignment="Top">
+						<font pdfFontName="Helvetica" size="10" isBold="false" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{SHORTDESCRIPTION}.equals("")?"":"Description: " + $P{SHORTDESCRIPTION}]]></textFieldExpression>
+						<hyperlinkReferenceExpression><![CDATA[$P{currentUrl}]]></hyperlinkReferenceExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="37"
+						width="85"
+						height="15"
+						backcolor="#FFFFFF"
+						key="staticText-3"/>
+					<box leftPadding="2" rightPadding="2" topPadding="2" bottomPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement isStyledText="true">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Reaction scheme: ]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="Reference"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="561"
+						height="18"
+						forecolor="#0066CC"
+						backcolor="#FFFFFF"
+						key="textField-9"
+						isRemoveLineWhenBlank="true"/>
+					<box topPadding="2" bottomPadding="2"></box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true" isUnderline="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{STEPNAME}]]></textFieldExpression>
+						<hyperlinkReferenceExpression><![CDATA[$P{currentUrl}]]></hyperlinkReferenceExpression>
+				</textField>
+				<image  evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="52"
+						width="561"
+						height="134"
+						key="image-1"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA[(new com.skyline.customer.adama.ReportsHelper()).getBlobAsInputStream(String.valueOf($P{parameter_DB_URL}) + "," + String.valueOf($P{parameter_DB_USER}) + "," 
+									+ String.valueOf($P{parameter_DB_PASSWORD}) + "," + String.valueOf($F{FULL_IMG_FILE_ID}))]]></imageExpression>
+				</image>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="16"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[(new Boolean(!String.valueOf($P{itissubreport}).equals("1")))]]></printWhenExpression>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="313"
+						y="1"
+						width="248"
+						height="14"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[(new SimpleDateFormat("dd/MM/yyyy")).format(new Date())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="70"
+						y="1"
+						width="31"
+						height="14"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica" isBold="false" isItalic="false" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+				</textField>
+				<line direction="BottomUp">
+					<reportElement
+						x="0"
+						y="0"
+						width="561"
+						height="1"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="0"
+						y="1"
+						width="30"
+						height="14"
+						key="staticText-9"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[Page]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="57"
+						y="1"
+						width="13"
+						height="14"
+						key="staticText-10"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[of]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="30"
+						y="1"
+						width="27"
+						height="14"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="16"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[new Boolean(!String.valueOf($P{itissubreport}).equals("1"))]]></printWhenExpression>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="313"
+						y="1"
+						width="248"
+						height="15"
+						key="textField-4"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[(new SimpleDateFormat("dd/MM/yyyy")).format(new Date())]]></textFieldExpression>
+				</textField>
+				<line direction="BottomUp">
+					<reportElement
+						x="0"
+						y="0"
+						width="561"
+						height="1"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="70"
+						y="1"
+						width="31"
+						height="15"
+						key="textField-5"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica" isBold="false" isItalic="false" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="1"
+						width="30"
+						height="15"
+						key="staticText-11"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[Page]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="57"
+						y="1"
+						width="13"
+						height="15"
+						key="staticText-12"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<text><![CDATA[of]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="30"
+						y="1"
+						width="27"
+						height="15"
+						key="textField-6"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="29"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="0"
+						width="56"
+						height="28"
+						backcolor="#FFFFFF"
+						key="staticText-13"
+						stretchType="RelativeToBandHeight"/>
+					<box leftPadding="2" rightPadding="2" topPadding="2" bottomPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Step Conclusions:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="56"
+						y="0"
+						width="488"
+						height="28"
+						key="textField"
+						stretchType="RelativeToTallestObject"/>
+					<box leftPadding="2" rightPadding="2" topPadding="2" bottomPadding="2"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[(new com.skyline.customer.adama.ReportsHelper()).getClobAsInputStream(String.valueOf($P{parameter_DB_URL}) + "," + String.valueOf($P{parameter_DB_USER}) + "," 
+								    + String.valueOf($P{parameter_DB_PASSWORD}) + "," + String.valueOf($F{CONCLUSSION}))]]></textFieldExpression>
+				</textField>
+			</band>
+		</summary>
+</jasperReport>

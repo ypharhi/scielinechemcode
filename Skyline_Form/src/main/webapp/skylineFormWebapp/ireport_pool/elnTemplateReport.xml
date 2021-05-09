@@ -1,0 +1,2134 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="elnTemplateReport"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="842"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="19"
+		 bottomMargin="19"
+		 whenNoDataType="AllSectionsNoDetail"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="ReportParameterFilterDisplay" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="ReportParameterTitle" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="currentUrl" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="parameter_DB_URL" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="parameter_DB_USER" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="parameter_DB_PASSWORD" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEREACTANTSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPREACTANT" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="EXPERIMENT_ID_FOR_REPORT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="tempParameterInsteadFieldExperiment_Id" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATESTEPSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPSTEP" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATESOLVENTSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPSOLVENT" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEACTIONSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPACTION" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEPRODUCTSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPPRODUCT" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATESTEPANSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPANALYT" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATECONDITIONSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPADDITDATA" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="DATA_SOURCE_CELNREPTEMPGR" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="DETECTORGC_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CARRIERGASFLOW" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INJECVOLGCUOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INJECTEMPERGC" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SPLITRATIO" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="POSTTIMEGCUOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DETECTORTEMPERGCUOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="POSTTIMEGC" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CARRIERGASUOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INJECVOLUOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DETECTORTEMPERGC" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INJECTIONVOLGC" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="UOMCOLOVENTEMP_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="UOMWAVELENGH_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="UOMFLOWRATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="UOMPOSTTIME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INJECTEMPGCUOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="COLUMNOVENTEMPERATURE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="PHFROM" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="WAVELENGTH" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="STATIONARYPHASE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="FLOWRATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INJECTIONVOL" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="POSTTIME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="PHTO" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="MOBILEPHASE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATECONDITIONSHPLCSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPMOBPHASE" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="DETECTOR_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATETESTEDCOMPSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPTESTCOMP" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEINSTRUMENTSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPINSTRUMENTS" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATECOLUMNSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPCOLUMNS" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATECHROMATOGRAMSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPCHROMATOGRAMS" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEPARAMETRICSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPPARAMETRIC" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATECONDITIONSPARSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPDUMMY" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="ALLOY" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DURATION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DURATION_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SHAPE_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="WIDTH" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="WIDTH_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INITIALWEIGHT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INI_WEIGHT_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="PAPER_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="HEIGHT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="HEIGHT_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INITIALVOLUME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INI_VOLUME_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="WELD" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="RADIUS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="RADIUS_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TEMP" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TEMP_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="AREA" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="AREA_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CALCULATEDDENSITY" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CAL_DENSITY_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="FLASKTYPE_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CONDENSER_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="AGITATION_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IMMERSION_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INSTRUMENTSTABLE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="ADDITIONALEQUIP" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="MATERIALS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SAFETYCOMMENTS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INSTRUMENTS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="EQUIPTPREPARATIONINSTRUCTION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="REQUEST" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SAMPLES" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="USERSCREW" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="GROUPSCREW" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="RESULTSTABLE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="RESULTSCOMMENT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DOCUMENTS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="LASTMODIFDATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="LABORATORY_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="LENGTH" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="LENGTH_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="LITERATUREDENSITY" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CAL_LITDENSITYUOM" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATECONDITIONSHPLCMOBPHSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATECONDITIONSTEMPERGRADSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="CURRENTSHAPENAME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="PACKINGSUITABILITYFOR" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TEMPERATURE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="BOTTLE_PRODUCER_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="BOTTLE_MATERIAL_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="VOLUME_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="BATCHNUMBER" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INSTRUCTIONS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="B_TEMP_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SEAL_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="BATCHMATERIAL" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="HEATINGPROGRAM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INSERTTYPE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CELLTYPE_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TARE_W_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SAMPLE_W_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="PMAXCONDITION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="C_TS_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="T_ISO_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TO_M_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="HEATING_R_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="NECK_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="ISOTIME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="HEATINGRATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="ISI_T_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TAREWEIGHT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SAMPLEWEIGHT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TISO" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TSMAXCONDITION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="TOMAXCONDITION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="C_P_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="GROSSWEIGHT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CONDITIONVISCOSITY" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DENSITYUOM" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CVISCOSITYUOMID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="VISOSITYBATCHNUMBER" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CONDITIONDENSITY" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="MATERIALNAME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="VISOSITYUOM" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CDENSITYUOMID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="parameter_DIR_JASPER_XML" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEDOCUMENTSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPDOCUMENTS" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEFEEDBACKSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="DATA_SOURCE_CELNREPFEEDBACK" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="DATA_SOURCE_CELNREPANALYTADDITEQ" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEADDITEQUIPSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEORGANICINSTRUMENTSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="SOURCEEXPNO_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEORGANICADDITEQUIPSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="densityUom" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="visosityUom" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="COMMENTS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="LITDENSITYUOM" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SUB_REPORT_ELNTEMPLATEANCOMMENTSSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<queryString><![CDATA[select * from fg_r_template_v where 1=2
+/*and FORMID = 150453      
+and StepName = 'STEP 01'*/]]></queryString>
+
+	<field name="EXPERIMENT_ID" class="java.lang.String"/>
+	<field name="TEMPLATE_ID" class="java.math.BigDecimal"/>
+	<field name="FORM_TEMP_ID" class="java.lang.String"/>
+	<field name="TEMPLATE_OBJIDVAL" class="java.lang.String"/>
+	<field name="FORMID" class="java.lang.String"/>
+	<field name="TIMESTAMP" class="java.sql.Timestamp"/>
+	<field name="CREATION_DATE" class="java.sql.Timestamp"/>
+	<field name="CLONEID" class="java.lang.String"/>
+	<field name="TEMPLATEFLAG" class="java.lang.String"/>
+	<field name="CHANGE_BY" class="java.lang.String"/>
+	<field name="CREATED_BY" class="java.lang.String"/>
+	<field name="SESSIONID" class="java.lang.String"/>
+	<field name="ACTIVE" class="java.math.BigDecimal"/>
+	<field name="FORMCODE_ENTITY" class="java.lang.String"/>
+	<field name="FORMCODE" class="java.lang.String"/>
+	<field name="PROTOCOLTYPE" class="java.lang.String"/>
+	<field name="FEEDBACKHISTORY" class="java.lang.String"/>
+	<field name="TEMPLATEVERSION" class="java.lang.String"/>
+	<field name="DOCUMENTS" class="java.lang.String"/>
+	<field name="HPLC_GC" class="java.lang.String"/>
+	<field name="APPROVALDATE" class="java.lang.String"/>
+	<field name="PARENTID" class="java.lang.String"/>
+	<field name="TEMPLATENAME" class="java.lang.String"/>
+	<field name="FORMNUMBERID" class="java.lang.String"/>
+	<field name="TEMPLATETYPE" class="java.lang.String"/>
+	<field name="SOURCEEXPNO_ID" class="java.lang.String"/>
+	<field name="LABORATORYNAME" class="java.lang.String"/>
+	<field name="VALIDATED" class="java.lang.String"/>
+	<field name="LASTMODIFICATIONDATE" class="java.lang.String"/>
+	<field name="UPDATEVERSION" class="java.lang.String"/>
+	<field name="DESCRIPTION" class="java.lang.String"/>
+	<field name="LASTSTATUS_ID" class="java.lang.String"/>
+	<field name="CREATIONDATE" class="java.lang.String"/>
+	<field name="LABORATORYINFO" class="java.lang.String"/>
+	<field name="LABORATORY_ID" class="java.lang.String"/>
+	<field name="UNITS_ID" class="java.lang.String"/>
+	<field name="SITE_ID" class="java.lang.String"/>
+	<field name="EXPERIMENTTYPENAMEINFO" class="java.lang.String"/>
+	<field name="TEMPLATESTATUSNAME" class="java.lang.String"/>
+	<field name="TEMPLATETYPENAME" class="java.lang.String"/>
+	<field name="PROTOCOLTYPE_ID" class="java.lang.String"/>
+	<field name="PROTOCOLTYPENAME" class="java.lang.String"/>
+	<field name="TEAMLEADER_ID" class="java.lang.String"/>
+	<field name="PROJECTNAME" class="java.lang.String"/>
+	<field name="SUBPROJECTNAME" class="java.lang.String"/>
+	<field name="LASTSTATUSNAME" class="java.lang.String"/>
+	<field name="EXPERIMENTNAME" class="java.lang.String"/>
+	<field name="CREATOR_NAME" class="java.lang.String"/>
+	<field name="APPROVER_NAME" class="java.lang.String"/>
+
+
+		<group  name="Feedback" >
+			<groupExpression><![CDATA[$F{FORMID}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="26"  isSplitAllowed="false" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="29"
+						y="0"
+						width="784"
+						height="26"
+						key="subreport-5"
+						isRemoveLineWhenBlank="true"/>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CELNREPFEEDBACK},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_ELNTEMPLATEFEEDBACKSUBREP}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="Documents" >
+			<groupExpression><![CDATA[$F{FORMID}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="26"  isSplitAllowed="false" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="29"
+						y="0"
+						width="784"
+						height="26"
+						key="subreport-4"
+						isPrintRepeatedValues="false"
+						isRemoveLineWhenBlank="true"/>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CELNREPDOCUMENTS},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_ELNTEMPLATEDOCUMENTSSUBREP}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="parametric" >
+			<groupExpression><![CDATA[$F{EXPERIMENT_ID}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="26"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[(new Boolean(!String.valueOf($F{EXPERIMENT_ID}).equals("") && String.valueOf($F{PROTOCOLTYPENAME}).equals("Parametric")))]]></printWhenExpression>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="29"
+						y="0"
+						width="784"
+						height="26"
+						key="subreport-3"
+						isRemoveLineWhenBlank="true"/>
+					<subreportParameter  name="parameter_DB_URL">
+						<subreportParameterExpression><![CDATA[$P{parameter_DB_URL}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="parameter_DB_USER">
+						<subreportParameterExpression><![CDATA[$P{parameter_DB_USER}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="parameter_DB_PASSWORD">
+						<subreportParameterExpression><![CDATA[$P{parameter_DB_PASSWORD}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPREACTANT">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPREACTANT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEREACTANTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEREACTANTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="EXPERIMENT_ID_FOR_REPORT">
+						<subreportParameterExpression><![CDATA[$P{EXPERIMENT_ID_FOR_REPORT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATESOLVENTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATESOLVENTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPSOLVENT">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPSOLVENT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEACTIONSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEACTIONSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPACTION">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPACTION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEPRODUCTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEPRODUCTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPPRODUCT">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPPRODUCT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="EXPERIMENT_ID">
+						<subreportParameterExpression><![CDATA[$F{SOURCEEXPNO_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTORGC_ID">
+						<subreportParameterExpression><![CDATA[$P{DETECTORGC_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CARRIERGASFLOW">
+						<subreportParameterExpression><![CDATA[$P{CARRIERGASFLOW}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECVOLGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INJECVOLGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTEMPERGC">
+						<subreportParameterExpression><![CDATA[$P{INJECTEMPERGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SPLITRATIO">
+						<subreportParameterExpression><![CDATA[$P{SPLITRATIO}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="POSTTIMEGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{POSTTIMEGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTORTEMPERGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{DETECTORTEMPERGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="POSTTIMEGC">
+						<subreportParameterExpression><![CDATA[$P{POSTTIMEGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CARRIERGASUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{CARRIERGASUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECVOLUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INJECVOLUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTORTEMPERGC">
+						<subreportParameterExpression><![CDATA[$P{DETECTORTEMPERGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTIONVOLGC">
+						<subreportParameterExpression><![CDATA[$P{INJECTIONVOLGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMCOLOVENTEMP_ID">
+						<subreportParameterExpression><![CDATA[$P{UOMCOLOVENTEMP_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMWAVELENGH_ID">
+						<subreportParameterExpression><![CDATA[$P{UOMWAVELENGH_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMFLOWRATE">
+						<subreportParameterExpression><![CDATA[$P{UOMFLOWRATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMPOSTTIME">
+						<subreportParameterExpression><![CDATA[$P{UOMPOSTTIME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTEMPGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INJECTEMPGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPTEMPGR">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPTEMPGR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="COLUMNOVENTEMPERATURE">
+						<subreportParameterExpression><![CDATA[$P{COLUMNOVENTEMPERATURE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTOR_ID">
+						<subreportParameterExpression><![CDATA[$P{DETECTOR_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PHFROM">
+						<subreportParameterExpression><![CDATA[$P{PHFROM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="WAVELENGTH">
+						<subreportParameterExpression><![CDATA[$P{WAVELENGTH}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="STATIONARYPHASE">
+						<subreportParameterExpression><![CDATA[$P{STATIONARYPHASE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="FLOWRATE">
+						<subreportParameterExpression><![CDATA[$P{FLOWRATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTIONVOL">
+						<subreportParameterExpression><![CDATA[$P{INJECTIONVOL}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="POSTTIME">
+						<subreportParameterExpression><![CDATA[$P{POSTTIME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PHTO">
+						<subreportParameterExpression><![CDATA[$P{PHTO}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="MOBILEPHASE">
+						<subreportParameterExpression><![CDATA[$P{MOBILEPHASE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSHPLCSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSHPLCSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPMOBPHASE">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPMOBPHASE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATETESTEDCOMPSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATETESTEDCOMPSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPTESTCOMP">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPTESTCOMP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEINSTRUMENTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEINSTRUMENTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPINSTRUMENTS">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPINSTRUMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECOLUMNSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECOLUMNSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPCOLUMNS">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPCOLUMNS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECHROMATOGRAMSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECHROMATOGRAMSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPCHROMATOGRAMS">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPCHROMATOGRAMS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSPARSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSPARSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPDUMMY">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPDUMMY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="ALLOY">
+						<subreportParameterExpression><![CDATA[$P{ALLOY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DURATION">
+						<subreportParameterExpression><![CDATA[$P{DURATION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DURATION_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{DURATION_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SHAPE_ID">
+						<subreportParameterExpression><![CDATA[$P{SHAPE_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="WIDTH">
+						<subreportParameterExpression><![CDATA[$P{WIDTH}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="WIDTH_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{WIDTH_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INITIALWEIGHT">
+						<subreportParameterExpression><![CDATA[$P{INITIALWEIGHT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INI_WEIGHT_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INI_WEIGHT_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PAPER_ID">
+						<subreportParameterExpression><![CDATA[$P{PAPER_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="HEIGHT">
+						<subreportParameterExpression><![CDATA[$P{HEIGHT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="HEIGHT_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{HEIGHT_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INITIALVOLUME">
+						<subreportParameterExpression><![CDATA[$P{INITIALVOLUME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INI_VOLUME_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INI_VOLUME_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="WELD">
+						<subreportParameterExpression><![CDATA[$P{WELD}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="RADIUS">
+						<subreportParameterExpression><![CDATA[$P{RADIUS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="RADIUS_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{RADIUS_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TEMP">
+						<subreportParameterExpression><![CDATA[$P{TEMP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TEMP_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{TEMP_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="AREA">
+						<subreportParameterExpression><![CDATA[$P{AREA}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="AREA_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{AREA_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CALCULATEDDENSITY">
+						<subreportParameterExpression><![CDATA[$P{CALCULATEDDENSITY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CAL_DENSITY_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{CAL_DENSITY_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="FLASKTYPE_ID">
+						<subreportParameterExpression><![CDATA[$P{FLASKTYPE_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CONDENSER_ID">
+						<subreportParameterExpression><![CDATA[$P{CONDENSER_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="AGITATION_ID">
+						<subreportParameterExpression><![CDATA[$P{AGITATION_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="IMMERSION_ID">
+						<subreportParameterExpression><![CDATA[$P{IMMERSION_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INSTRUMENTSTABLE">
+						<subreportParameterExpression><![CDATA[$P{INSTRUMENTSTABLE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="ADDITIONALEQUIP">
+						<subreportParameterExpression><![CDATA[$P{ADDITIONALEQUIP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="MATERIALS">
+						<subreportParameterExpression><![CDATA[$P{MATERIALS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SAFETYCOMMENTS">
+						<subreportParameterExpression><![CDATA[$P{SAFETYCOMMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INSTRUMENTS">
+						<subreportParameterExpression><![CDATA[$P{INSTRUMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="EQUIPTPREPARATIONINSTRUCTION">
+						<subreportParameterExpression><![CDATA[$P{EQUIPTPREPARATIONINSTRUCTION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="REQUEST">
+						<subreportParameterExpression><![CDATA[$P{REQUEST}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SAMPLES">
+						<subreportParameterExpression><![CDATA[$P{SAMPLES}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="USERSCREW">
+						<subreportParameterExpression><![CDATA[$P{USERSCREW}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="GROUPSCREW">
+						<subreportParameterExpression><![CDATA[$P{GROUPSCREW}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="RESULTSTABLE">
+						<subreportParameterExpression><![CDATA[$P{RESULTSTABLE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="RESULTSCOMMENT">
+						<subreportParameterExpression><![CDATA[$P{RESULTSCOMMENT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DOCUMENTS">
+						<subreportParameterExpression><![CDATA[$P{DOCUMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LASTMODIFDATE">
+						<subreportParameterExpression><![CDATA[$P{LASTMODIFDATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LABORATORY_ID">
+						<subreportParameterExpression><![CDATA[$P{LABORATORY_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LENGTH">
+						<subreportParameterExpression><![CDATA[$P{LENGTH}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LENGTH_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{LENGTH_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LITERATUREDENSITY">
+						<subreportParameterExpression><![CDATA[$P{LITERATUREDENSITY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CAL_LITDENSITYUOM">
+						<subreportParameterExpression><![CDATA[$P{CAL_LITDENSITYUOM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CURRENTSHAPENAME">
+						<subreportParameterExpression><![CDATA[$P{CURRENTSHAPENAME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PACKINGSUITABILITYFOR">
+						<subreportParameterExpression><![CDATA[$P{PACKINGSUITABILITYFOR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TEMPERATURE">
+						<subreportParameterExpression><![CDATA[$P{TEMPERATURE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="BOTTLE_PRODUCER_ID">
+						<subreportParameterExpression><![CDATA[$P{BOTTLE_PRODUCER_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="BOTTLE_MATERIAL_ID">
+						<subreportParameterExpression><![CDATA[$P{BOTTLE_MATERIAL_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="VOLUME_ID">
+						<subreportParameterExpression><![CDATA[$P{VOLUME_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="BATCHNUMBER">
+						<subreportParameterExpression><![CDATA[$P{BATCHNUMBER}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INSTRUCTIONS">
+						<subreportParameterExpression><![CDATA[$P{INSTRUCTIONS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="B_TEMP_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{B_TEMP_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SEAL_ID">
+						<subreportParameterExpression><![CDATA[$P{SEAL_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="BATCHMATERIAL">
+						<subreportParameterExpression><![CDATA[$P{BATCHMATERIAL}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="HEATINGPROGRAM_ID">
+						<subreportParameterExpression><![CDATA[$P{HEATINGPROGRAM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INSERTTYPE">
+						<subreportParameterExpression><![CDATA[$P{INSERTTYPE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CELLTYPE_ID">
+						<subreportParameterExpression><![CDATA[$P{CELLTYPE_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TARE_W_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{TARE_W_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SAMPLE_W_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{SAMPLE_W_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PMAXCONDITION">
+						<subreportParameterExpression><![CDATA[$P{PMAXCONDITION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="C_TS_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{C_TS_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="T_ISO_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{T_ISO_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TO_M_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{TO_M_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="HEATING_R_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{HEATING_R_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="NECK_ID">
+						<subreportParameterExpression><![CDATA[$P{NECK_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="ISOTIME">
+						<subreportParameterExpression><![CDATA[$P{ISOTIME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="HEATINGRATE">
+						<subreportParameterExpression><![CDATA[$P{HEATINGRATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="ISI_T_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{ISI_T_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TAREWEIGHT">
+						<subreportParameterExpression><![CDATA[$P{TAREWEIGHT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SAMPLEWEIGHT">
+						<subreportParameterExpression><![CDATA[$P{SAMPLEWEIGHT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TISO">
+						<subreportParameterExpression><![CDATA[$P{TISO}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TSMAXCONDITION">
+						<subreportParameterExpression><![CDATA[$P{TSMAXCONDITION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TOMAXCONDITION">
+						<subreportParameterExpression><![CDATA[$P{TOMAXCONDITION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="C_P_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{C_P_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="GROSSWEIGHT">
+						<subreportParameterExpression><![CDATA[$P{GROSSWEIGHT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CONDITIONVISCOSITY">
+						<subreportParameterExpression><![CDATA[$P{CONDITIONVISCOSITY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DENSITYUOM">
+						<subreportParameterExpression><![CDATA[$P{DENSITYUOM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CVISCOSITYUOMID">
+						<subreportParameterExpression><![CDATA[$P{CVISCOSITYUOMID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="VISOSITYBATCHNUMBER">
+						<subreportParameterExpression><![CDATA[$P{VISOSITYBATCHNUMBER}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CONDITIONDENSITY">
+						<subreportParameterExpression><![CDATA[$P{CONDITIONDENSITY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="MATERIALNAME">
+						<subreportParameterExpression><![CDATA[$P{MATERIALNAME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="VISOSITYUOM">
+						<subreportParameterExpression><![CDATA[$P{VISOSITYUOM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CDENSITYUOMID">
+						<subreportParameterExpression><![CDATA[$P{CDENSITYUOMID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="parameter_DIR_JASPER_XML">
+						<subreportParameterExpression><![CDATA[$P{parameter_DIR_JASPER_XML}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SOURCEEXPNO_ID">
+						<subreportParameterExpression><![CDATA[$P{SOURCEEXPNO_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPANALYTADDITEQ">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPANALYTADDITEQ}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEADDITEQUIPSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEADDITEQUIPSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="COMMENTS">
+						<subreportParameterExpression><![CDATA[$P{COMMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LITDENSITYUOM">
+						<subreportParameterExpression><![CDATA[$P{LITDENSITYUOM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CELNREPPARAMETRIC},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_ELNTEMPLATEPARAMETRICSUBREP}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="reactant" >
+			<groupExpression><![CDATA[$F{EXPERIMENT_ID}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="26"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[(new Boolean(!String.valueOf($F{EXPERIMENT_ID}).equals("") && (String.valueOf($F{PROTOCOLTYPENAME}).equals("Organic") || String.valueOf($F{PROTOCOLTYPENAME}).equals("Continuous Process"))))]]></printWhenExpression>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="29"
+						y="0"
+						width="784"
+						height="26"
+						key="subreport-1"
+						isRemoveLineWhenBlank="true"/>
+					<subreportParameter  name="parameter_DB_URL">
+						<subreportParameterExpression><![CDATA[$P{parameter_DB_URL}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="parameter_DB_USER">
+						<subreportParameterExpression><![CDATA[$P{parameter_DB_USER}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="parameter_DB_PASSWORD">
+						<subreportParameterExpression><![CDATA[$P{parameter_DB_PASSWORD}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPREACTANT">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPREACTANT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEREACTANTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEREACTANTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="EXPERIMENT_ID_FOR_REPORT">
+						<subreportParameterExpression><![CDATA[$P{EXPERIMENT_ID_FOR_REPORT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATESOLVENTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATESOLVENTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPSOLVENT">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPSOLVENT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEACTIONSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEACTIONSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPACTION">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPACTION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEPRODUCTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEPRODUCTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPPRODUCT">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPPRODUCT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="EXPERIMENT_ID">
+						<subreportParameterExpression><![CDATA[$F{SOURCEEXPNO_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="parameter_DIR_JASPER_XML">
+						<subreportParameterExpression><![CDATA[$P{parameter_DIR_JASPER_XML}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEORGANICINSTRUMENTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEORGANICINSTRUMENTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPINSTRUMENTS">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPINSTRUMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEORGANICADDITEQUIPSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEORGANICADDITEQUIPSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="ReportParameterFilterDisplay">
+						<subreportParameterExpression><![CDATA[$P{ReportParameterFilterDisplay}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="ReportParameterTitle">
+						<subreportParameterExpression><![CDATA[$P{ReportParameterTitle}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="currentUrl">
+						<subreportParameterExpression><![CDATA[$P{currentUrl}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="tempParameterInsteadFieldExperiment_Id">
+						<subreportParameterExpression><![CDATA[$P{tempParameterInsteadFieldExperiment_Id}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATESTEPSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATESTEPSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPSTEP">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPSTEP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATESTEPANSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATESTEPANSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPANALYT">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPANALYT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPADDITDATA">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPADDITDATA}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPTEMPGR">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPTEMPGR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTORGC_ID">
+						<subreportParameterExpression><![CDATA[$P{DETECTORGC_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CARRIERGASFLOW">
+						<subreportParameterExpression><![CDATA[$P{CARRIERGASFLOW}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECVOLGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INJECVOLGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTEMPERGC">
+						<subreportParameterExpression><![CDATA[$P{INJECTEMPERGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SPLITRATIO">
+						<subreportParameterExpression><![CDATA[$P{SPLITRATIO}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="POSTTIMEGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{POSTTIMEGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTORTEMPERGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{DETECTORTEMPERGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="POSTTIMEGC">
+						<subreportParameterExpression><![CDATA[$P{POSTTIMEGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CARRIERGASUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{CARRIERGASUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECVOLUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INJECVOLUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTORTEMPERGC">
+						<subreportParameterExpression><![CDATA[$P{DETECTORTEMPERGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTIONVOLGC">
+						<subreportParameterExpression><![CDATA[$P{INJECTIONVOLGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMCOLOVENTEMP_ID">
+						<subreportParameterExpression><![CDATA[$P{UOMCOLOVENTEMP_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMWAVELENGH_ID">
+						<subreportParameterExpression><![CDATA[$P{UOMWAVELENGH_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMFLOWRATE">
+						<subreportParameterExpression><![CDATA[$P{UOMFLOWRATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMPOSTTIME">
+						<subreportParameterExpression><![CDATA[$P{UOMPOSTTIME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTEMPGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INJECTEMPGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="COLUMNOVENTEMPERATURE">
+						<subreportParameterExpression><![CDATA[$P{COLUMNOVENTEMPERATURE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PHFROM">
+						<subreportParameterExpression><![CDATA[$P{PHFROM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="WAVELENGTH">
+						<subreportParameterExpression><![CDATA[$P{WAVELENGTH}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="STATIONARYPHASE">
+						<subreportParameterExpression><![CDATA[$P{STATIONARYPHASE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="FLOWRATE">
+						<subreportParameterExpression><![CDATA[$P{FLOWRATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTIONVOL">
+						<subreportParameterExpression><![CDATA[$P{INJECTIONVOL}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="POSTTIME">
+						<subreportParameterExpression><![CDATA[$P{POSTTIME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PHTO">
+						<subreportParameterExpression><![CDATA[$P{PHTO}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="MOBILEPHASE">
+						<subreportParameterExpression><![CDATA[$P{MOBILEPHASE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSHPLCSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSHPLCSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPMOBPHASE">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPMOBPHASE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTOR_ID">
+						<subreportParameterExpression><![CDATA[$P{DETECTOR_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATETESTEDCOMPSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATETESTEDCOMPSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPTESTCOMP">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPTESTCOMP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEINSTRUMENTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEINSTRUMENTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECOLUMNSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECOLUMNSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPCOLUMNS">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPCOLUMNS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECHROMATOGRAMSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECHROMATOGRAMSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPCHROMATOGRAMS">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPCHROMATOGRAMS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEPARAMETRICSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEPARAMETRICSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPPARAMETRIC">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPPARAMETRIC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSPARSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSPARSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPDUMMY">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPDUMMY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="ALLOY">
+						<subreportParameterExpression><![CDATA[$P{ALLOY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DURATION">
+						<subreportParameterExpression><![CDATA[$P{DURATION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DURATION_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{DURATION_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SHAPE_ID">
+						<subreportParameterExpression><![CDATA[$P{SHAPE_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="WIDTH">
+						<subreportParameterExpression><![CDATA[$P{WIDTH}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="WIDTH_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{WIDTH_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INITIALWEIGHT">
+						<subreportParameterExpression><![CDATA[$P{INITIALWEIGHT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INI_WEIGHT_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INI_WEIGHT_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PAPER_ID">
+						<subreportParameterExpression><![CDATA[$P{PAPER_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="HEIGHT">
+						<subreportParameterExpression><![CDATA[$P{HEIGHT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="HEIGHT_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{HEIGHT_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INITIALVOLUME">
+						<subreportParameterExpression><![CDATA[$P{INITIALVOLUME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INI_VOLUME_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INI_VOLUME_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="WELD">
+						<subreportParameterExpression><![CDATA[$P{WELD}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="RADIUS">
+						<subreportParameterExpression><![CDATA[$P{RADIUS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="RADIUS_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{RADIUS_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TEMP">
+						<subreportParameterExpression><![CDATA[$P{TEMP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TEMP_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{TEMP_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="AREA">
+						<subreportParameterExpression><![CDATA[$P{AREA}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="AREA_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{AREA_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CALCULATEDDENSITY">
+						<subreportParameterExpression><![CDATA[$P{CALCULATEDDENSITY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CAL_DENSITY_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{CAL_DENSITY_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="FLASKTYPE_ID">
+						<subreportParameterExpression><![CDATA[$P{FLASKTYPE_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CONDENSER_ID">
+						<subreportParameterExpression><![CDATA[$P{CONDENSER_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="AGITATION_ID">
+						<subreportParameterExpression><![CDATA[$P{AGITATION_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="IMMERSION_ID">
+						<subreportParameterExpression><![CDATA[$P{IMMERSION_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INSTRUMENTSTABLE">
+						<subreportParameterExpression><![CDATA[$P{INSTRUMENTSTABLE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="ADDITIONALEQUIP">
+						<subreportParameterExpression><![CDATA[$P{ADDITIONALEQUIP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="MATERIALS">
+						<subreportParameterExpression><![CDATA[$P{MATERIALS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SAFETYCOMMENTS">
+						<subreportParameterExpression><![CDATA[$P{SAFETYCOMMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INSTRUMENTS">
+						<subreportParameterExpression><![CDATA[$P{INSTRUMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="EQUIPTPREPARATIONINSTRUCTION">
+						<subreportParameterExpression><![CDATA[$P{EQUIPTPREPARATIONINSTRUCTION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="REQUEST">
+						<subreportParameterExpression><![CDATA[$P{REQUEST}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SAMPLES">
+						<subreportParameterExpression><![CDATA[$P{SAMPLES}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="USERSCREW">
+						<subreportParameterExpression><![CDATA[$P{USERSCREW}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="GROUPSCREW">
+						<subreportParameterExpression><![CDATA[$P{GROUPSCREW}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="RESULTSTABLE">
+						<subreportParameterExpression><![CDATA[$P{RESULTSTABLE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="RESULTSCOMMENT">
+						<subreportParameterExpression><![CDATA[$P{RESULTSCOMMENT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DOCUMENTS">
+						<subreportParameterExpression><![CDATA[$P{DOCUMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LASTMODIFDATE">
+						<subreportParameterExpression><![CDATA[$P{LASTMODIFDATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LABORATORY_ID">
+						<subreportParameterExpression><![CDATA[$P{LABORATORY_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LENGTH">
+						<subreportParameterExpression><![CDATA[$P{LENGTH}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LENGTH_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{LENGTH_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="LITERATUREDENSITY">
+						<subreportParameterExpression><![CDATA[$P{LITERATUREDENSITY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CAL_LITDENSITYUOM">
+						<subreportParameterExpression><![CDATA[$P{CAL_LITDENSITYUOM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSHPLCMOBPHSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSHPLCMOBPHSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSTEMPERGRADSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSTEMPERGRADSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CURRENTSHAPENAME">
+						<subreportParameterExpression><![CDATA[$P{CURRENTSHAPENAME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PACKINGSUITABILITYFOR">
+						<subreportParameterExpression><![CDATA[$P{PACKINGSUITABILITYFOR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TEMPERATURE">
+						<subreportParameterExpression><![CDATA[$P{TEMPERATURE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="BOTTLE_PRODUCER_ID">
+						<subreportParameterExpression><![CDATA[$P{BOTTLE_PRODUCER_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="BOTTLE_MATERIAL_ID">
+						<subreportParameterExpression><![CDATA[$P{BOTTLE_MATERIAL_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="VOLUME_ID">
+						<subreportParameterExpression><![CDATA[$P{VOLUME_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="BATCHNUMBER">
+						<subreportParameterExpression><![CDATA[$P{BATCHNUMBER}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INSTRUCTIONS">
+						<subreportParameterExpression><![CDATA[$P{INSTRUCTIONS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="B_TEMP_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{B_TEMP_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SEAL_ID">
+						<subreportParameterExpression><![CDATA[$P{SEAL_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="BATCHMATERIAL">
+						<subreportParameterExpression><![CDATA[$P{BATCHMATERIAL}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="HEATINGPROGRAM_ID">
+						<subreportParameterExpression><![CDATA[$P{HEATINGPROGRAM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INSERTTYPE">
+						<subreportParameterExpression><![CDATA[$P{INSERTTYPE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CELLTYPE_ID">
+						<subreportParameterExpression><![CDATA[$P{CELLTYPE_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TARE_W_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{TARE_W_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SAMPLE_W_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{SAMPLE_W_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PMAXCONDITION">
+						<subreportParameterExpression><![CDATA[$P{PMAXCONDITION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="C_TS_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{C_TS_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="T_ISO_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{T_ISO_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TO_M_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{TO_M_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="HEATING_R_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{HEATING_R_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="NECK_ID">
+						<subreportParameterExpression><![CDATA[$P{NECK_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="ISOTIME">
+						<subreportParameterExpression><![CDATA[$P{ISOTIME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="HEATINGRATE">
+						<subreportParameterExpression><![CDATA[$P{HEATINGRATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="ISI_T_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{ISI_T_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TAREWEIGHT">
+						<subreportParameterExpression><![CDATA[$P{TAREWEIGHT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SAMPLEWEIGHT">
+						<subreportParameterExpression><![CDATA[$P{SAMPLEWEIGHT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TISO">
+						<subreportParameterExpression><![CDATA[$P{TISO}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TSMAXCONDITION">
+						<subreportParameterExpression><![CDATA[$P{TSMAXCONDITION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="TOMAXCONDITION">
+						<subreportParameterExpression><![CDATA[$P{TOMAXCONDITION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="C_P_UOM_ID">
+						<subreportParameterExpression><![CDATA[$P{C_P_UOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="GROSSWEIGHT">
+						<subreportParameterExpression><![CDATA[$P{GROSSWEIGHT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CONDITIONVISCOSITY">
+						<subreportParameterExpression><![CDATA[$P{CONDITIONVISCOSITY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DENSITYUOM">
+						<subreportParameterExpression><![CDATA[$P{DENSITYUOM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CVISCOSITYUOMID">
+						<subreportParameterExpression><![CDATA[$P{CVISCOSITYUOMID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="VISOSITYBATCHNUMBER">
+						<subreportParameterExpression><![CDATA[$P{VISOSITYBATCHNUMBER}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CONDITIONDENSITY">
+						<subreportParameterExpression><![CDATA[$P{CONDITIONDENSITY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="MATERIALNAME">
+						<subreportParameterExpression><![CDATA[$P{MATERIALNAME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="VISOSITYUOM">
+						<subreportParameterExpression><![CDATA[$P{VISOSITYUOM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CDENSITYUOMID">
+						<subreportParameterExpression><![CDATA[$P{CDENSITYUOMID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEDOCUMENTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEDOCUMENTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPDOCUMENTS">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPDOCUMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEFEEDBACKSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEFEEDBACKSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPFEEDBACK">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPFEEDBACK}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPANALYTADDITEQ">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPANALYTADDITEQ}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEADDITEQUIPSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEADDITEQUIPSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SOURCEEXPNO_ID">
+						<subreportParameterExpression><![CDATA[$P{SOURCEEXPNO_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CELNREPSTEP},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_ELNTEMPLATESTEPSUBREP}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="analitical" >
+			<groupExpression><![CDATA[$F{EXPERIMENT_ID}]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="26"  isSplitAllowed="true" >
+				<printWhenExpression><![CDATA[(new Boolean(!String.valueOf($F{EXPERIMENT_ID}).equals("") && String.valueOf($F{PROTOCOLTYPENAME}).equals("Analytical")))]]></printWhenExpression>
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="29"
+						y="0"
+						width="784"
+						height="26"
+						key="subreport-2"
+						isRemoveLineWhenBlank="true"/>
+					<subreportParameter  name="parameter_DB_URL">
+						<subreportParameterExpression><![CDATA[$P{parameter_DB_URL}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="parameter_DB_USER">
+						<subreportParameterExpression><![CDATA[$P{parameter_DB_USER}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="parameter_DB_PASSWORD">
+						<subreportParameterExpression><![CDATA[$P{parameter_DB_PASSWORD}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPREACTANT">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPREACTANT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEREACTANTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEREACTANTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="EXPERIMENT_ID_FOR_REPORT">
+						<subreportParameterExpression><![CDATA[$P{EXPERIMENT_ID_FOR_REPORT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATESOLVENTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATESOLVENTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPSOLVENT">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPSOLVENT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEACTIONSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEACTIONSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPACTION">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPACTION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEPRODUCTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEPRODUCTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPPRODUCT">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPPRODUCT}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="EXPERIMENT_ID">
+						<subreportParameterExpression><![CDATA[$F{SOURCEEXPNO_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTORGC_ID">
+						<subreportParameterExpression><![CDATA[$P{DETECTORGC_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CARRIERGASFLOW">
+						<subreportParameterExpression><![CDATA[$P{CARRIERGASFLOW}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECVOLGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INJECVOLGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTEMPERGC">
+						<subreportParameterExpression><![CDATA[$P{INJECTEMPERGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SPLITRATIO">
+						<subreportParameterExpression><![CDATA[$P{SPLITRATIO}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="POSTTIMEGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{POSTTIMEGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTORTEMPERGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{DETECTORTEMPERGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="POSTTIMEGC">
+						<subreportParameterExpression><![CDATA[$P{POSTTIMEGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="CARRIERGASUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{CARRIERGASUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECVOLUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INJECVOLUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTORTEMPERGC">
+						<subreportParameterExpression><![CDATA[$P{DETECTORTEMPERGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTIONVOLGC">
+						<subreportParameterExpression><![CDATA[$P{INJECTIONVOLGC}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMCOLOVENTEMP_ID">
+						<subreportParameterExpression><![CDATA[$P{UOMCOLOVENTEMP_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMWAVELENGH_ID">
+						<subreportParameterExpression><![CDATA[$P{UOMWAVELENGH_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMFLOWRATE">
+						<subreportParameterExpression><![CDATA[$P{UOMFLOWRATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="UOMPOSTTIME">
+						<subreportParameterExpression><![CDATA[$P{UOMPOSTTIME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTEMPGCUOM_ID">
+						<subreportParameterExpression><![CDATA[$P{INJECTEMPGCUOM_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPTEMPGR">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPTEMPGR}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="COLUMNOVENTEMPERATURE">
+						<subreportParameterExpression><![CDATA[$P{COLUMNOVENTEMPERATURE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DETECTOR_ID">
+						<subreportParameterExpression><![CDATA[$P{DETECTOR_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PHFROM">
+						<subreportParameterExpression><![CDATA[$P{PHFROM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="WAVELENGTH">
+						<subreportParameterExpression><![CDATA[$P{WAVELENGTH}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="STATIONARYPHASE">
+						<subreportParameterExpression><![CDATA[$P{STATIONARYPHASE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="FLOWRATE">
+						<subreportParameterExpression><![CDATA[$P{FLOWRATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="INJECTIONVOL">
+						<subreportParameterExpression><![CDATA[$P{INJECTIONVOL}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="POSTTIME">
+						<subreportParameterExpression><![CDATA[$P{POSTTIME}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="PHTO">
+						<subreportParameterExpression><![CDATA[$P{PHTO}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="MOBILEPHASE">
+						<subreportParameterExpression><![CDATA[$P{MOBILEPHASE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSHPLCSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSHPLCSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPMOBPHASE">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPMOBPHASE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATETESTEDCOMPSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATETESTEDCOMPSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPTESTCOMP">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPTESTCOMP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEINSTRUMENTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEINSTRUMENTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPINSTRUMENTS">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPINSTRUMENTS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECOLUMNSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECOLUMNSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPCOLUMNS">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPCOLUMNS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECHROMATOGRAMSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECHROMATOGRAMSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPCHROMATOGRAMS">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPCHROMATOGRAMS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPDUMMY">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPDUMMY}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSHPLCMOBPHSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSHPLCMOBPHSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATECONDITIONSTEMPERGRADSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATECONDITIONSTEMPERGRADSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="parameter_DIR_JASPER_XML">
+						<subreportParameterExpression><![CDATA[$P{parameter_DIR_JASPER_XML}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="DATA_SOURCE_CELNREPANALYTADDITEQ">
+						<subreportParameterExpression><![CDATA[$P{DATA_SOURCE_CELNREPANALYTADDITEQ}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEADDITEQUIPSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEADDITEQUIPSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SOURCEEXPNO_ID">
+						<subreportParameterExpression><![CDATA[$P{SOURCEEXPNO_ID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="SUB_REPORT_ELNTEMPLATEANCOMMENTSSUBREP">
+						<subreportParameterExpression><![CDATA[$P{SUB_REPORT_ELNTEMPLATEANCOMMENTSSUBREP}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CELNREPANALYT},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_ELNTEMPLATESTEPANSUBREP}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="29"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="Reference"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="0"
+						width="784"
+						height="29"
+						backcolor="#FFFFFF"
+						key="textField-8"
+						isRemoveLineWhenBlank="true"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
+					<box topPadding="2" bottomPadding="2"></box>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Procedure \"" + $F{TEMPLATENAME} + "\" Report"]]></textFieldExpression>
+						<hyperlinkReferenceExpression><![CDATA[$P{currentUrl}]]></hyperlinkReferenceExpression>
+				</textField>
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="79"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="29"
+						y="55"
+						width="275"
+						height="11"
+						key="staticText-14"
+						stretchType="RelativeToBandHeight"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Description]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="29"
+						y="66"
+						width="784"
+						height="13"
+						key="textField-9"
+						stretchType="RelativeToBandHeight"
+						isPrintRepeatedValues="false"
+						isRemoveLineWhenBlank="true"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
+					<box leftPadding="2" rightPadding="2" bottomPadding="2">					<pen lineWidth="0.0"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+</box>
+					<textElement markup="html">
+						<font fontName="Arial" pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isPdfEmbedded ="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[(new com.skyline.customer.adama.ReportsHelper()).getClobAsTextOrRich(String.valueOf($F{DESCRIPTION}), String.valueOf("html"))]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="75"
+						y="0"
+						width="229"
+						height="11"
+						key="textField"
+						stretchType="RelativeToBandHeight"
+						isPrintRepeatedValues="false"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement verticalAlignment="Top">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{PROJECTNAME}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="29"
+						y="0"
+						width="46"
+						height="11"
+						key="staticText-15"
+						stretchType="RelativeToBandHeight"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement verticalAlignment="Top">
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Project]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="29"
+						y="11"
+						width="46"
+						height="11"
+						key="staticText-16"
+						stretchType="RelativeToBandHeight"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Sub Project]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="75"
+						y="11"
+						width="229"
+						height="11"
+						key="textField-10"
+						stretchType="RelativeToBandHeight"
+						isPrintRepeatedValues="false"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{SUBPROJECTNAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="75"
+						y="22"
+						width="229"
+						height="11"
+						key="textField-11"
+						stretchType="RelativeToBandHeight"
+						isPrintRepeatedValues="false"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{TEMPLATEVERSION}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="29"
+						y="22"
+						width="46"
+						height="11"
+						key="staticText-17"
+						stretchType="RelativeToBandHeight"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Version]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="75"
+						y="33"
+						width="229"
+						height="11"
+						key="textField-12"
+						stretchType="RelativeToBandHeight"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font pdfFontName="Helvetica" size="8" isItalic="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{TEMPLATESTATUSNAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="361"
+						y="0"
+						width="205"
+						height="11"
+						key="textField-13"
+						stretchType="RelativeToBandHeight"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{CREATOR_NAME}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="304"
+						y="0"
+						width="57"
+						height="11"
+						key="staticText-19"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Author]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="304"
+						y="11"
+						width="57"
+						height="11"
+						key="staticText-20"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Approver]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="361"
+						y="11"
+						width="205"
+						height="11"
+						key="textField-14"
+						stretchType="RelativeToBandHeight"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{APPROVER_NAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="361"
+						y="22"
+						width="205"
+						height="11"
+						key="textField-15"
+						stretchType="RelativeToBandHeight"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{CREATIONDATE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="304"
+						y="22"
+						width="57"
+						height="11"
+						key="staticText-21"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Creation Date]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="361"
+						y="33"
+						width="205"
+						height="11"
+						key="textField-16"
+						stretchType="RelativeToBandHeight"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{TEMPLATETYPE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="304"
+						y="33"
+						width="57"
+						height="11"
+						key="staticText-22"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Template Type]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="617"
+						y="0"
+						width="196"
+						height="11"
+						key="textField-17"
+						stretchType="RelativeToBandHeight"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{EXPERIMENTNAME}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="566"
+						y="0"
+						width="51"
+						height="11"
+						key="staticText-23"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Source]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="566"
+						y="11"
+						width="51"
+						height="11"
+						key="staticText-24"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Lab]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="617"
+						y="11"
+						width="196"
+						height="11"
+						key="textField-18"
+						stretchType="RelativeToBandHeight"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{LABORATORYNAME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="617"
+						y="22"
+						width="196"
+						height="11"
+						key="textField-19"
+						stretchType="RelativeToBandHeight"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{VALIDATED}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="566"
+						y="22"
+						width="51"
+						height="11"
+						key="staticText-25"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Validated]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Transparent"
+						x="617"
+						y="33"
+						width="196"
+						height="11"
+						key="textField-20"
+						stretchType="RelativeToBandHeight"
+						isPrintInFirstWholeBand="true"/>
+					<box leftPadding="5"></box>
+					<textElement>
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{PROTOCOLTYPE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="566"
+						y="33"
+						width="51"
+						height="11"
+						key="staticText-26"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Protocol Type]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						mode="Transparent"
+						x="29"
+						y="33"
+						width="46"
+						height="11"
+						key="staticText-29"
+						stretchType="RelativeToBandHeight"/>
+					<box leftPadding="2">					<pen lineWidth="0.0" lineColor="#000000"/>
+					<topPen lineWidth="0.0" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineColor="#000000"/>
+</box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" size="8" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Status]]></text>
+				</staticText>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="false" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="12"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="587"
+						y="1"
+						width="244"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[(new SimpleDateFormat("dd/MM/yyyy")).format(new Date())]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="99"
+						y="1"
+						width="31"
+						height="11"
+						key="textField-2"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+				</textField>
+				<line direction="BottomUp">
+					<reportElement
+						x="29"
+						y="0"
+						width="802"
+						height="1"
+						key="line-1"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<staticText>
+					<reportElement
+						x="29"
+						y="1"
+						width="30"
+						height="11"
+						key="staticText-9"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Page]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="86"
+						y="1"
+						width="13"
+						height="11"
+						key="staticText-10"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[of]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="59"
+						y="1"
+						width="27"
+						height="11"
+						key="textField"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</band>
+		</pageFooter>
+		<lastPageFooter>
+			<band height="12"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="587"
+						y="1"
+						width="244"
+						height="11"
+						key="textField-4"/>
+					<box></box>
+					<textElement textAlignment="Right">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[(new SimpleDateFormat("dd/MM/yyyy")).format(new Date())]]></textFieldExpression>
+				</textField>
+				<line direction="BottomUp">
+					<reportElement
+						x="29"
+						y="0"
+						width="802"
+						height="1"
+						key="line-2"/>
+					<graphicElement stretchType="NoStretch"/>
+				</line>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="99"
+						y="1"
+						width="31"
+						height="11"
+						key="textField-5"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica" size="8" isBold="false" isItalic="false" isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="29"
+						y="1"
+						width="30"
+						height="11"
+						key="staticText-11"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[Page]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="86"
+						y="1"
+						width="13"
+						height="11"
+						key="staticText-12"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+				<text><![CDATA[of]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="59"
+						y="1"
+						width="27"
+						height="11"
+						key="textField-6"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="8"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+			</band>
+		</lastPageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

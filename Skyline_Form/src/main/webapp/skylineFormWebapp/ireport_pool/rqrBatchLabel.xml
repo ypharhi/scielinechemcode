@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rqrBatchLabel"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="240"
+		 pageHeight="70"
+		 columnWidth="238"
+		 columnSpacing="0"
+		 leftMargin="1"
+		 rightMargin="1"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="pTempPath" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="pSession" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CURRENT_FORMNUMBERID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CURRENT_EXTERNALBATCHNUMBER" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CURRENT_PROJECT_ID_NAME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="MATERIALNAME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="PURITY" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CURRENT_QUANTITY" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CURRENT_PREPARATIONDATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="FORMID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="parameter_DIR_JASPER_XML" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PROJECT_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CREATOR_USER_NAME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CONFIG_PARAM_PRINT_ON_LOAD_PDF" isForPrompting="false" class="java.lang.String">
+		<parameterDescription><![CDATA[if this param exists the jasper tool (from version 9.6.4) will open the PDF on print screen]]></parameterDescription>
+	</parameter>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="70"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="44"
+						height="26"
+						key="textField-20"
+						isPrintRepeatedValues="false"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{CURRENT_FORMNUMBERID} == null ? "" : $P{CURRENT_FORMNUMBERID})]]></textFieldExpression>
+				</textField>
+				<image  scaleImage="FillFrame" hAlign="Center" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="26"
+						width="44"
+						height="44"
+						forecolor="#F0F0F0"
+						backcolor="#F0F0F0"
+						key="image-1"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA[(new com.skyline.customer.adama.ReportsHelper()).doQRcodeImgFileName(String.valueOf($P{FORMID}), String.valueOf($P{parameter_DIR_JASPER_XML}))]]></imageExpression>
+				</image>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="110"
+						y="34"
+						width="128"
+						height="18"
+						key="textField"
+						isPrintRepeatedValues="false"
+						isRemoveLineWhenBlank="true"/>
+					<box leftPadding="3"></box>
+					<textElement>
+						<font pdfFontName="Helvetica" size="13" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{CURRENT_EXTERNALBATCHNUMBER} == null ? "" : $P{CURRENT_EXTERNALBATCHNUMBER})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="44"
+						y="34"
+						width="66"
+						height="18"
+						key="textField"
+						isPrintRepeatedValues="false"
+						isRemoveLineWhenBlank="true"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica" size="13" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{PURITY} == null ? "" : $P{PURITY})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="44"
+						y="52"
+						width="66"
+						height="18"
+						key="textField"
+						isPrintRepeatedValues="false"
+						isRemoveLineWhenBlank="true"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica" size="13" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{CURRENT_QUANTITY} == null ? "" : $P{CURRENT_QUANTITY})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="44"
+						y="0"
+						width="66"
+						height="17"
+						key="textField"
+						isPrintRepeatedValues="false"
+						isRemoveLineWhenBlank="true"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica" size="13" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{CURRENT_PREPARATIONDATE} == null ? "" : $P{CURRENT_PREPARATIONDATE})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="110"
+						y="0"
+						width="128"
+						height="17"
+						key="textField-21"
+						isPrintRepeatedValues="false"
+						isRemoveLineWhenBlank="true"/>
+					<box leftPadding="3"></box>
+					<textElement>
+						<font pdfFontName="Helvetica" size="13" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{IREPORT_PRINT_PROJECT_ID} == null ? "" : $P{IREPORT_PRINT_PROJECT_ID})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="110"
+						y="17"
+						width="128"
+						height="17"
+						key="textField-22"
+						isPrintRepeatedValues="false"
+						isRemoveLineWhenBlank="true"/>
+					<box leftPadding="3"></box>
+					<textElement>
+						<font pdfFontName="Helvetica" size="13" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{MATERIALNAME} == null ? "" : $P{MATERIALNAME})]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="44"
+						y="17"
+						width="66"
+						height="17"
+						key="textField-23"
+						positionType="Float"
+						isPrintRepeatedValues="false"
+						isRemoveLineWhenBlank="true"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica" size="13" isBold="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{CREATOR_USER_NAME} == null ? "" : $P{CREATOR_USER_NAME})]]></textFieldExpression>
+				</textField>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

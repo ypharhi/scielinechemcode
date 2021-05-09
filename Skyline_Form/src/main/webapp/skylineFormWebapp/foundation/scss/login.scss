@@ -1,0 +1,137 @@
+@import 'defines';
+
+/****** LOGIN MODAL ******/
+.login_body {
+  background-image: url('../../images/login-background-3.jpg');
+  background-size: cover;
+}
+
+.loginmodal-container {
+  max-width: 280px;
+  width: 100% !important;
+  margin: 0 auto;
+  margin-top: 160px;
+  padding: 0px 110px 75px 110px;
+  overflow: hidden;
+  font-family: roboto;
+  border-radius: 3px;
+  background-color: $color-pale-grey;
+  box-shadow: 0px 3px 7px 0 rgba(0, 0, 0, 0.35);
+  
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  input:-webkit-autofill:active {
+    	transition: background-color 5000s ease-in-out 0s;
+  }
+
+  .login_top_section
+  {
+  	text-align : center;
+  	padding: 40px 0 50px 0px;
+  	
+  	img
+  	{
+  		width: 155px;
+    	height: 53px;
+  	}
+  	
+  	.title
+  	{
+  		font-family: Roboto;
+  		font-size: 14px;
+  		line-height: 15px;
+  		text-align: center;
+  		color: #363434;
+  		display: inline-block;
+  	}
+  }
+  
+  	input[type=text], input[type=password]
+  	{
+   		width: 252px;
+  		height: 14px;
+  		font-size: 14px;
+  		border-radius: 3px;
+  		background-color: #ffffff;
+  		border: solid 1px $color-pinkish-grey;
+  		margin-bottom: 16px;
+  		padding: 11px 14px;
+  		
+  		::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    		color:  #363434;
+		}
+		:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   			color:  #363434;
+		}
+		::-moz-placeholder { /* Mozilla Firefox 19+ */
+  		 	color:  #363434;
+		}
+		:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   			color:  #363434;
+		}
+		::-ms-input-placeholder { /* Microsoft Edge */
+   			color:  #363434;
+		}
+		
+  		
+  		&:hover
+		{
+  			border: 1px solid #b9b9b9;
+  			border-top: 1px solid #a0a0a0;
+  			-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  			-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+  			box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
+		}
+	}
+
+	.loginmodal-submit
+	{
+  		width: 280px;
+  		height: 36px;
+  		margin-bottom: 16px;
+  		border-radius: 3px;
+  		background-color: #1c91cd;
+  		position: relative;
+  		border: 0;
+  		font-size: 14px;
+  		font-weight: bold;
+  		text-align: center;
+  		color: #ffffff;
+	}
+	
+	input[type="checkbox"]
+	{
+    	height: 14px;
+    	width: 14px;
+	}
+
+	.checkbox_label
+	{
+	    vertical-align: top;
+	    width: 91px;
+  		height: 11px;
+  		font-size: 14px;
+  		text-align: left;
+  		color: $color-warm-grey;
+	}
+	
+	hr
+	{
+    	width: 278px;
+  		height: 0px;
+  		background-color: $color-pinkish-grey;
+  		border: solid 1px $color-pinkish-grey;
+  		margin-bottom: 14px;
+	}
+  
+  .forgot_label
+  {
+  	 width: 143px;
+  	 height: 14px;
+ 	 font-size: 14px;
+  	 text-align: left;
+  	 color: #1272a3;
+  }
+}
+

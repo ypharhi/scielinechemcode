@@ -1,0 +1,297 @@
+/* header.top-bar {
+			height: 46px;
+			width: 100%;
+			padding: 4px 27px;
+			background: linear-gradient(265deg, #1c91cd, #badbec);
+		} */
+/* .sub-header .main-navbar .project-management a:before{background-position:10px -70px}
+.sub-header .main-navbar .project-management a:hover:before{background-position:10px 6px}
+
+.sub-header .main-navbar .form-builder a:before{background-position:10px -70px}
+.sub-header .main-navbar .form-builder a:hover:before{background-position:10px 6px}
+
+.sub-header .main-navbar .systemlosg a:before{background-position:10px -70px}
+.sub-header .main-navbar .systemlosg a:hover:before{background-position:10px 6px}
+
+.sub-header .main-navbar .notifications a:before{background-position:10px -76px}
+.sub-header .main-navbar .notifications a:hover:before{background-position:10px 0px}
+
+.sub-header .main-navbar .inventory a:before{background-position:-37px -76px}
+.sub-header .main-navbar .inventory a:hover:before{background-position:-37px 0px}
+
+.sub-header .main-navbar .reports a:before{background-position:-97px -76px}
+.sub-header .main-navbar .reports a:hover:before{background-position:-97px 0px}
+
+.sub-header .main-navbar .maintenance a:before{background-position:-168px -73px}
+.sub-header .main-navbar .maintenance a:hover:before{background-position:-168px 3px}
+
+.sub-header .main-navbar .messages a:before{background-position:-225px -76px}
+.sub-header .main-navbar .messages a:hover:before{background-position:-225px 0px}
+
+.sub-header .main-navbar .search-report a:before{background-position:-285px -74px}
+.sub-header .main-navbar .search-report a:hover:before{background-position:-285px 2px}
+
+.sub-header .main-navbar .user-guide a:before{background-position:-340px -73px}
+.sub-header .main-navbar .user-guide a:hover:before{background-position:-340px 3px} */
+	
+.arrows-search{height:12px;width:14px;display:inline-flex;top:5px;left:6px; vertical-align: text-bottom;}
+
+input.editableSmartCell[type=number]::-webkit-inner-spin-button,
+input.editableSmartCell[type=number]::-webkit-outer-spin-button 
+{
+     -webkit-appearance: none;
+     margin: 0;
+}
+
+/* /* Always Show Up/Down Arrows */
+/* input[type=number]::-webkit-inner-spin-button,  */
+/* input[type=number]::-webkit-outer-spin-button {  */
+/*    opacity: 1; */
+/* } */
+
+/*start resizable for documents popup preview*/
+div[role=dialog][aria-describedby*='IframePopup']> .ui-resizable-handle {
+	position: absolute!important;
+}
+
+div[role=dialog][aria-describedby*='IframePopup']>  .ui-resizable-n {
+	cursor: n-resize;
+	height: 7px;
+	width: 100%;
+	top: -5px;
+	left: 0;
+}
+
+div[role=dialog][aria-describedby*='IframePopup']>  .ui-resizable-e {
+	cursor: e-resize;
+	width: 7px;
+	right: -5px;
+	top: 0;
+	height: 100%;
+}
+
+div[role=dialog][aria-describedby*='IframePopup']>   .ui-resizable-s {
+	cursor: s-resize;
+	height: 7px;
+	width: 100%;
+	bottom: -5px;
+	left: 0;
+}
+
+div[role=dialog][aria-describedby*='IframePopup']>  .ui-resizable-w {
+	cursor: w-resize;
+	width: 7px;
+	left: -5px;
+	top: 0;
+	height: 100%;
+}
+
+div[role=dialog][aria-describedby*='IframePopup']>  .ui-resizable-sw {
+	cursor: sw-resize;
+	width: 9px;
+	height: 9px;
+	left: -5px;
+	bottom: -5px;
+}
+
+div[role=dialog][aria-describedby*='IframePopup']>  .ui-resizable-ne {
+	cursor: ne-resize;
+	width: 9px;
+	height: 9px;
+	right: -5px;
+	top: -5px;
+}
+
+div[role=dialog][aria-describedby*='IframePopup']>  .ui-resizable-nw {
+	cursor: nw-resize;
+	width: 9px;
+	height: 9px;
+	left: -5px;
+	top: -5px;
+}
+
+div[role=dialog][aria-describedby*='IframePopup']> .ui-resizable-se {
+	width: 12px;
+	height: 12px;
+	right: -5px;
+	bottom: -5px;
+	background-position: 16px 16px;
+	cursor: se-resize;
+}
+
+div[role=dialog][aria-describedby*='IframePopup']>*,
+div[role=dialog][aria-describedby*='IframePopup']>*::before,
+div[role=dialog][aria-describedby*='IframePopup']>*::after
+	{
+	box-sizing: content-box !important;
+}
+
+div[role=dialog][aria-describedby*='IframePopup']> .ui-dialog-titlebar button {
+	width: auto !important;
+}
+/*end resizable for documents popup preview*/
+
+/* sticky menu start  */
+.body-container-wrapper {
+  overflow: scroll;
+  height: 100vh; 
+}
+
+
+.sticky-menu-header {
+  position: sticky;  
+  left: 0;
+  width: 100%;
+  z-index: 20;
+} 
+/* sticky menu end  */
+
+/* collapsible_iframes async iframe start  */
+.collapsible_iframes {
+	background-color: #2294ce;
+	color: white;
+	cursor: pointer;
+	padding: 10px;
+	width: 98%;
+	border: none;
+	text-align: left;
+	outline: none;
+	font-size: 13px;
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+	/* 	use this having the iframe above the floating buttons -> */
+	z-index: 20;
+	position: sticky;
+}
+
+.collapsible_iframes .fa-trash  {
+	color: black;
+	float: right;
+}
+
+.active, .collapsible_iframes:hover {
+	background-color: #2294ce;
+}
+
+.collapsible_iframes:after {
+	content: '\002B';
+	color: white;
+	font-weight: bold;
+	float: left;
+	margin-right: 5px;
+}
+
+.active:after {
+	content: "\2212";
+}
+
+.asyn_iframe_content {
+	/*   padding: 0 10px; */
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+	background-color: #f1f1f1;
+	border: 2px solid #2294ce; 
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	width: 98%;
+	margin: auto;
+/* 	use this having the iframe above the floating buttons -> */
+	z-index: 20;
+	position: sticky;
+}
+
+/* change opacity of the iframe on disablePage (ignoring the borders by using > * - css trick) */
+.asyn_iframe_content.disablePage > * { 
+	opacity: 0.7;
+}
+
+.asyn_iframe_CollapseExpandButtonsDiv {
+	width: 98%;
+	margin-left: 1%;
+}
+
+/* collapsible async iframe end  */
+
+/* fade message */
+.dynamic-savedisplay-alert-box {
+	padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 2px;  
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    margin-top: -70px;
+    margin-left: 20px;
+    width: 250px;
+    height: 50px;
+    display: none;
+
+}
+
+.dynamic-savedisplay-success {
+    color: white;
+    background-color: #2294CE;
+    border-color: #2294CE;
+    display: none;
+}
+/* fade message done! */
+
+
+/* if using opacity on disabled excelSheet - we need to exclude it on full screen ->  */
+/* /* excelSheet disablePage opacity */ * /
+	/* .excelSheet.disablePage{  */
+	/* 	opacity: 0.7; */
+	/* /* 	pointer-events:none; */ * /
+	/* } */
+	/* .excelSheet.authorizationDisabled{  */
+	/* 	opacity: 0.7; */
+	/* /* 	pointer-events:none; */ * /
+	/* } */
+
+/* *************** DEVELOP EXPERIMENT FROMULATIONN HTML MATRIX */
+.overview_container {
+	width: 100%;
+	height: 100%;
+}
+
+.overview_leftpane {
+	width: 47%;
+	height: 100%;
+	float: left;
+/* 	background-color: rosybrown; */
+	/*border-style:dotted;*/
+	/*border-color: rosybrown;*/
+}
+
+.overview_middlepane {
+	width: 3%;
+	height: 100%;
+	float: left;
+	margin-top:15%;
+	
+/* 	background-color: royalblue; */
+	/*border-style:dotted;*/
+	/*border-color: royalblue;*/
+}
+
+.overview_rightpane {
+	width: 50%;
+	height: 100%;
+	position: relative;
+	float: right;
+/* 	background-color: yellow; */
+	/*border-style:dotted;*/
+	/*border-color: yellow;*/
+}
+/* *************** DEVELOP EXPERIMENT FROMULATIONN HTML MATRIX done! */
+
+/* ****** minor change in add row dialog design (make it look disabled using opacity) **********/
+.dataTableApiAddMultiRows.disablePage {
+	opacity: 0.3;
+}
+
+.dataTableApiSelectAllNone {
+	margin-left:2px;
+}

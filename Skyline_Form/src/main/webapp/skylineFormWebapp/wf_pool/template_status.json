@@ -1,0 +1,20 @@
+{ 
+	"statusTableName":"TEMPLATESTATUS",
+	"firstState": "Planned",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"Planned", "text":"Planned"},
+  	{"id":"Approved", "text":"Approved" },
+  	{"id":"Obsolete", "text":"Obsolete" }
+ ],
+  "linkDataArray": 
+  [  
+	{"from":"Planned", "to":"Planned"},
+	{"from":"Planned", "to":"Approved"},
+	{"from":"Planned", "to":"Obsolete"},
+	{"from":"Approved", "to":"Approved"},
+	{"from":"Approved", "to":"Obsolete"},
+	{"from":"Obsolete", "to":"Obsolete"}
+   ]
+}

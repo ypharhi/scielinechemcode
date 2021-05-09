@@ -1,0 +1,355 @@
+BODY
+{
+    background-color : #F5F5F5;
+    font-family : 'Verdana, Tahoma, Sans-Serif';
+}
+
+.TDText
+{
+	font-size: 11pt;
+	font-family : 'Verdana, Tahoma, Sans-Serif';
+	color : #000080;
+	font-weight : bold;
+	cursor : default;
+}
+
+HR
+{
+	color: #D4D0C8;
+	height: 1;
+}
+
+.MainContentTable
+{
+	width: 100%;
+	height: 100%;
+}
+
+.TRMain1
+{
+	width: 100%;
+	height: 20px;
+}
+.TRMain2
+{
+	width: 100%;
+	height: 100%;
+}
+.TRMain3
+{
+	width: 100%;
+	height: 36px;
+}
+
+.TDMainSide
+{
+	width: 6mm;
+	background-color: #C1C9CB;
+}
+.TDMainCenter
+{
+	width: 100%;
+	background-color: #C1C9CB;
+	text-align : center;
+}
+.TDMainContent
+{
+	width: 100%;
+	border-top: 3px solid #3272A2;
+	border-left: 3px solid #3272A2;
+	border-bottom: 3px solid #3272A2;
+	border-right: 3px solid #3272A2;
+	text-align : center;
+}
+
+.TRContent
+{
+	width: 100%;
+	height: 100%;
+}
+.TDContent
+{
+	width: 100%;
+	height: 100%;
+	text-align : center;
+}
+.TRButtons
+{
+	width: 100%;
+	height: 36;
+}
+
+.OutSmallButton
+{
+   height: 24;
+   font-size : 12;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   letter-spacing : 1;
+   text-align : center;
+   color : #000000;
+   font-weight : bold;
+   cursor : default;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FFFFFF', EndColorStr='#D4D0C8');
+}
+
+.OnSmallButton
+{
+   height: 24;
+   font-size : 12;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   letter-spacing : 1;
+   text-align : center;
+   color : #000000;
+   font-weight : bold;
+   cursor : default;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#D4D0C8', EndColorStr='#FFFFFF');
+}
+
+.OutBigButton
+{
+   width : 115;
+   height: 24;
+   font-size : 12;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   text-align : center;
+   color : #000000;
+   font-weight : bold;
+
+   cursor : default;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FFFFFF', EndColorStr='#ADB6C6');
+}
+
+.OnBigButton
+{
+   width : 115;
+   height: 24;
+   font-size : 12;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   text-align : center;
+   color : #000000;
+   font-weight : bold;
+
+   cursor : default;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#ADB6C6', EndColorStr='#FFFFFF');
+}
+
+.ErrMsg
+{
+	font-size: 14pt;
+	font-family : 'Verdana, Tahoma, Sans-Serif';
+	font-weight : bold;
+	color: #FF0000;
+	cursor:default;
+}
+
+.ClientMsg
+{
+	font-size: 12pt;
+	font-family : 'Verdana, Tahoma, Sans-Serif';
+	color: #FF0000;
+	cursor:default;
+}
+
+.IconDiv
+{
+	position:absolute;
+	z-index:50;
+	top: 10px;
+	left: 5px;
+	border: 3px solid #3272A2;
+	background-color: #FFFFFF;
+	text-align : center;
+	cursor:default;
+}
+.IconImg
+{
+	margin-top : 1mm;
+	margin-left : 1mm;
+	margin-right : 1mm;
+	margin-bottom : 0mm;
+}
+
+.PageTitle
+{
+	height: 52;
+	width: 100%;
+	font-size : 12pt;
+	font-family : 'Verdana, Tahoma, Sans-Serif';
+	text-align : center;
+	color : #000080;
+	/*color : #940000;*/
+	filter: shadow(color=silver, direction=135, strength=2);
+	font-weight : bold;
+	/*text-decoration : underline;*/
+	cursor:default;
+}
+
+.InputStyle
+{
+   border:1 solid #C0C0C0;
+   background-color : #FFFFFF;
+}
+
+.InputDis
+{
+	border:1 solid #C0C0C0;
+	background-color : #F5F5F5;
+}
+
+.Columns3TD1
+{
+   width : "1%" ;
+   height : 30;
+   vertical-align : top;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   font-size : "13";
+   cursor : default;
+}
+
+.Columns3TD2
+{
+   width : "30%" ;
+   height : 30;
+   vertical-align : top;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   font-size : "13";
+   cursor : default;
+}
+
+.Columns3TD3
+{
+   width : "23" ;
+   height : 30;
+   vertical-align : top;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   text-align : center;
+   font-size : "13";
+   cursor : default;
+}
+
+.Columns3TD4
+{
+   width : "70%" ;
+   height : 30;
+   vertical-align : top;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   font-size : "13";
+   cursor : default;
+}
+
+.Columns3TD5
+{
+   width : "1%" ;
+   height : 30;
+   vertical-align : top;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   font-size : "13";
+   cursor : default;
+}
+
+.FieldsDesc
+{
+   font-family : "Tahoma, Verdana, Arial, Helvetica, sans-serif";
+   text-align : left;
+   font-size : "13";
+   cursor : default;
+}
+
+.OutButton
+{
+   width : 95;
+   height: 24;
+   font-size : 11px;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   text-align : center;
+   color : #000000;
+   font-weight : bold;
+   cursor : default;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FFFFFF', EndColorStr='#D4D0C8');
+}
+
+.OnButton
+{
+   width : 95;
+   height: 24;
+   font-size : 11px;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   text-align : center;
+   color : #000000;
+   font-weight : bold;
+   cursor : default;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#D4D0C8', EndColorStr='#FFFFFF');
+}
+
+.MenuItemOutDis
+{
+   font-size : 20px;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   color : gray;
+   font-weight : bold;
+   cursor : default;
+}
+
+.MenuItemOut
+{
+   font-size : 20px;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   color : #0000FF;
+   font-weight : bold;
+   cursor : default;
+}
+
+.MenuItemOn
+{
+   font-size : 20px;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   text-align : center;
+   color : #FF0000;
+   font-weight : bold;
+   text-decoration:underline;
+   cursor : hand;
+}
+
+.OutComtecLTD
+{
+  font-size: 10px;
+  font-family:'Verdana, Tahoma, Sans-Serif';
+  text-decoration:none;
+  color:#000000;
+  TEXT-ALIGN: center;
+  cursor:hand;
+}
+
+.OnComtecLTD
+{
+  font-size: 10px;
+  font-family:'Verdana, Tahoma, Sans-Serif';
+  text-decoration:underline;
+  color:#0000FF;
+  TEXT-ALIGN: center;
+  cursor:hand;
+}

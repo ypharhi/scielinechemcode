@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+    id="GreetingApp" version="3.0">
+ 
+	<description>Empty web.xml file for Web Application</description>	
+	<context-param> 
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/spring-beans.xml</param-value>
+	</context-param> 	
+	
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+<listener-class> com.skyline.form.service.SessionListener </listener-class>
+</listener>
+<!-- 	<listener> -->
+	<!-- <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class> -->
+	<!-- </listener> -->
+	
+	<filter>
+		<filter-name>FormFilter</filter-name>
+		<filter-class>com.skyline.form.filter.FormFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>FormFilter</filter-name>
+		<url-pattern>/skylineForm/*</url-pattern>
+	</filter-mapping>
+
+	<!-- servlets -->
+	<!-- form -->
+	<servlet>
+		<servlet-name>dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>	
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/mvc-beans.xml</param-value>
+		</init-param>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>dispatcher</servlet-name>
+		<url-pattern>*.request</url-pattern>
+	</servlet-mapping>
+	<!-- skyline core -->
+	
+	<!--general... -->
+	<session-config>
+		<session-timeout>1440</session-timeout>
+	</session-config>
+	<mime-mapping>
+		<extension>html</extension>
+		<mime-type>text/html</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>txt</extension>
+		<mime-type>text/plain</mime-type>
+	</mime-mapping>
+	<mime-mapping>
+		<extension>htc</extension>
+		<mime-type>text/x-component</mime-type><!--x-component -->
+	</mime-mapping>
+	
+	<welcome-file-list>
+<!-- 		<welcome-file>/skylineForm/login.request</welcome-file> -->
+		<welcome-file>skylineFormWebapp/jsp/Login.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<error-page>
+		<error-code>500</error-code>
+		<location>/skylineFormWebapp/jsp/error.jsp</location>
+	</error-page>
+</web-app>

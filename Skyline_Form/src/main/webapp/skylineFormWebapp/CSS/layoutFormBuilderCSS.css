@@ -1,0 +1,40 @@
+.mainDiv_8x8,
+.mainDiv_8x12,
+.mainDiv_8x16,
+.innerDiv_x1,
+.innerDiv_x2,
+.innerDiv_x3,
+.innerDiv_x4,
+.innerDiv_x1_50pct,
+.innerDiv_x6,
+.innerDiv_x8 {
+	border: 1px solid #dddddd;
+}
+.innerDiv_x1:hover,
+.rowDiv_x1 .innerDiv_x2:hover,
+.innerDiv_x3:hover,
+.innerDiv_x4:hover,
+.innerDiv_x1_50pct:hover,
+.innerDiv_x6:hover,
+.innerDiv_x8:hover {
+    background-color: azure;
+}
+.innerDiv_x1,
+.innerDiv_x2,
+.innerDiv_x3,
+.innerDiv_x1_50pct {
+	 overflow: hidden;
+}
+.mainDiv_8x8,.mainDiv_8x12,.mainDiv_8x16 { 
+    text-align: center;
+}
+
+.innerDiv_x8,.innerDiv_x4,.innerDiv_x6 {
+	line-height: 160px;
+}
+
+
+.rowDiv_x3 .innerDiv_x8 {
+	 overflow: hidden;
+	 line-height: 120px;
+}

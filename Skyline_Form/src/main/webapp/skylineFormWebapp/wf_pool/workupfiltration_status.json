@@ -1,0 +1,28 @@
+{ 
+	"statusTableName":"STAGESTATUS",
+	"firstState": "General Data Input",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"General Data Input", "text":"General Data Input" },
+  	{"id":"Feeding", "text":"Feeding" },
+  	{"id":"Squeezing", "text":"Squeezing" },
+  	{"id":"Washing", "text":"Washing" },
+  	{"id":"Last Squeezing", "text":"Last Squeezing" },
+  	{"id":"Wet Cake", "text":"Wet Cake" }
+ ],
+  "linkDataArray": 
+  [
+	{"from":"General Data Input", "to":"General Data Input"},
+	{"from":"General Data Input", "to":"Feeding"},
+	{"from":"Feeding", "to":"Feeding"},
+	{"from":"Feeding", "to":"Squeezing"},
+	{"from":"Squeezing", "to":"Squeezing"},
+	{"from":"Squeezing", "to":"Washing"},
+	{"from":"Washing", "to":"Washing"},
+	{"from":"Washing", "to":"Last Squeezing"},
+	{"from":"Last Squeezing", "to":"Last Squeezing"},
+	{"from":"Last Squeezing", "to":"Wet Cake"},
+	{"from":"Wet Cake", "to":"Wet Cake"}
+]
+}

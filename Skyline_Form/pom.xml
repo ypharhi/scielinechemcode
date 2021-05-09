@@ -1,0 +1,853 @@
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.skyline</groupId>
+	<artifactId>AdamaUX</artifactId>
+	<name>AdamaUX</name>
+	<packaging>war</packaging>
+	<version>1.000</version>
+	<properties>
+		<java-version>1.7</java-version>
+		<org.springframework-version>3.1.1.RELEASE</org.springframework-version>
+		<org.aspectj-version>1.6.10</org.aspectj-version>
+		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<hibernate.version>4.3.6.Final</hibernate.version>
+		<maven.test.skip>true</maven.test.skip>
+		<Env>1.096</Env>
+	</properties>
+	<dependencies>
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework-version}</version>
+			<exclusions>
+				<!-- Exclude Commons Logging in favor of SLF4j -->
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>4.3.1.Final</version>
+		</dependency>
+
+		<!-- file upload -->
+		<dependency>
+			<groupId>commons-fileupload</groupId>
+			<artifactId>commons-fileupload</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.4</version>
+		</dependency>
+
+		<!-- JDBC -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>3.2.1.RELEASE</version>
+		</dependency>
+
+		<!-- oracle --> 
+<!-- 		<dependency> -->
+<!-- 			<groupId>com.oracle</groupId> -->
+<!-- 			<artifactId>ojdbc8</artifactId> -->
+<!-- 			<version>12.2.0.1</version> -->
+<!-- 		</dependency> -->
+
+		<dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc6</artifactId>
+			<version>11.2.0.3</version>
+		</dependency>
+
+		<!-- DB Connection Pool -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20151123</version>
+		</dependency>
+
+		<!-- Hibernate -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.hibernate</groupId> -->
+		<!-- <artifactId>hibernate-core</artifactId> -->
+		<!-- <version>${hibernate.version}</version> -->
+		<!-- </dependency> -->
+
+		<!-- https://mvnrepository.com/artifact/javax.validation/validation-api -->
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>1.1.0.Final</version>
+		</dependency>
+
+		<!-- AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>${org.aspectj-version}</version>
+		</dependency>
+		<!-- Spring AOP + AspectJ -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.6.11</version>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${org.slf4j-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${org.slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${org.slf4j-version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>log4j</groupId> -->
+		<!-- <artifactId>log4j</artifactId> -->
+		<!-- <version>1.2.15</version> -->
+		<!-- <exclusions> -->
+		<!-- <exclusion> -->
+		<!-- <groupId>javax.mail</groupId> -->
+		<!-- <artifactId>mail</artifactId> -->
+		<!-- </exclusion> -->
+		<!-- <exclusion> -->
+		<!-- <groupId>javax.jms</groupId> -->
+		<!-- <artifactId>jms</artifactId> -->
+		<!-- </exclusion> -->
+		<!-- <exclusion> -->
+		<!-- <groupId>com.sun.jdmk</groupId> -->
+		<!-- <artifactId>jmxtools</artifactId> -->
+		<!-- </exclusion> -->
+		<!-- <exclusion> -->
+		<!-- <groupId>com.sun.jmx</groupId> -->
+		<!-- <artifactId>jmxri</artifactId> -->
+		<!-- </exclusion> -->
+		<!-- </exclusions> -->
+		<!-- <scope>runtime</scope> -->
+		<!-- </dependency> -->
+		<!-- LogBack dependencies -->
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.0.13</version>
+		</dependency>
+
+		<!-- @Inject -->
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+
+		<!-- Servlet -->
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<!---aop -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>3.0.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<!-- Comply Tool_Jasper -->
+		<dependency>
+			<groupId>Comply</groupId>
+			<artifactId>Tool_Jasper</artifactId>
+			<version>9.6.5</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/jasperreports/jasperreports -->
+		<dependency>
+		    <groupId>jasperreports</groupId>
+		    <artifactId>jasperreports</artifactId>
+		    <version>3.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.reflections</groupId>
+			<artifactId>reflections</artifactId>
+			<version>0.9.11</version>
+		</dependency>
+
+		<!-- weblogic need -->
+		<!-- JODA -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>1.6</version>
+		</dependency>
+		<!-- json json exception not found in weblogic -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.json</groupId> -->
+		<!-- <artifactId>json</artifactId> -->
+		<!-- <version>20080701</version> -->
+		<!-- </dependency> -->
+
+
+		<!-- Test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.7</version>
+			<scope>test</scope>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework</groupId> -->
+		<!-- <artifactId>spring-test</artifactId> -->
+		<!-- <version>4.1.7.RELEASE</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.springframework</groupId> -->
+		<!-- <artifactId>spring-context</artifactId> -->
+		<!-- <version>4.1.7.RELEASE</version> -->
+		<!-- </dependency> -->
+
+		<!-- Skyline -->
+		<!-- j2ee standart -->
+		<!-- <dependency> -->
+		<!-- <groupId>junit</groupId> -->
+		<!-- <artifactId>junit</artifactId> -->
+		<!-- <version>3.8.1</version> -->
+		<!-- <scope>test</scope> -->
+		<!-- </dependency> -->
+		<!--<dependency> <groupId>javax.servlet</groupId> <artifactId>servlet-api</artifactId> 
+			<version>2.5</version> <scope>provided</scope> </dependency> <dependency> 
+			<groupId>javax.servlet.jsp</groupId> <artifactId>jsp-api</artifactId> <version>2.1</version> 
+			<scope>provided</scope> </dependency> <dependency> <groupId>javax.servlet</groupId> 
+			<artifactId>jstl</artifactId> <version>1.2</version> </dependency> -->
+		<!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
+		<dependency>
+			<groupId>com.google.zxing</groupId>
+			<artifactId>core</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+
+		<!-- Comply -->
+		<dependency>
+			<groupId>Comply</groupId>
+			<artifactId>BL_Jason</artifactId>
+			<version>0.1</version>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>DAL_General</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_Comtec</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_Biz</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_General</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_Chartsreports</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_Dataentry</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>DAL_Chartsreports</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>DAL_Dataentry</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>DAL_Import</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_Import</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_Inventory</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_Maintenance</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_Runmanagement</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_Templates</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>DAL_Inventory</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>DAL_Maintenance</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>DAL_Runmanagement</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>DAL_Dashboard</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_Dashboard</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>DAL_Templates</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>BL_ExternalJars</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>Tool_Complyworkflow</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>Tool_Workflow</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!--<dependency> <groupId>Comply</groupId> <artifactId>Tool_Jasper</artifactId> 
+			<version>9.6</version> </dependency> -->
+
+		<!-- Comply Tool -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>Tool_Jasper</artifactId> -->
+		<!-- <version>9.6</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>Tool_Complyworkflow</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>Tool_Workflow</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+
+		<!-- 9.7 refactor bl/biz - need jars... -->
+		<!-- EXTERNAL JARS -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>bc4juixtags</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>chartfx</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>classes12</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>jai_codec</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>jai_core</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>jce1_2_2</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>jdbc2_0-stdext</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>local_policy</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>mail</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>nls_charset12</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>Comply</groupId> -->
+<!-- 			<artifactId>sunjce_provider</artifactId> -->
+<!-- 			<version>0.1</version> -->
+<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>Comply</groupId> -->
+		<!-- <artifactId>sunjce_provider</artifactId> -->
+		<!-- <version>0.1</version> -->
+		<!-- </dependency> -->
+		<!-- BIL BIZ -->
+		<dependency>
+			<groupId>jfree</groupId>
+			<artifactId>jcommon</artifactId>
+			<version>1.0.16</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jfree</groupId>
+			<artifactId>jfreechart</artifactId>
+			<version>1.0.19</version>
+		</dependency>
+		<!-- jasypt -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt-spring3</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		<!-- COMTEC -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.oracle</groupId> -->
+		<!-- <artifactId>ojdbc6</artifactId> -->
+		<!-- <version>11.2.0.3</version> -->
+		<!-- </dependency> -->
+		<!-- BL GENERAL -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<!-- jasypt password encryption -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>1.8</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-cod
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.codesnippets4all</groupId>
+			<artifactId>quick-json</artifactId>
+			<version>1.0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.openscience.cdk</groupId>
+			<artifactId>cdk-bundle</artifactId>
+			<version>1.5.15</version>
+		</dependency> -->
+		
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>foundation-sites</artifactId>
+			<version>6.2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>3.6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-firefox-driver</artifactId>
+			<version>3.6.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-chrome-driver -->
+<dependency>
+    <groupId>org.seleniumhq.selenium</groupId>
+    <artifactId>selenium-chrome-driver</artifactId>
+    <version>3.141.59</version>
+</dependency>
+		
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>htmlunit-driver</artifactId>
+			<version>2.27</version>
+		</dependency>
+		<dependency>
+	        <groupId>net.sf.jni-inchi</groupId>
+	        <artifactId>jni-inchi</artifactId>
+	        <version>0.8</version>
+	    </dependency>
+		
+		<dependency>
+			<groupId>org.eclipse.jgit</groupId>
+			<artifactId>org.eclipse.jgit</artifactId>
+			<version>3.5.0.201409260305-r</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.6</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/net.sourceforge.jexcelapi/jxl -->
+		<dependency>
+		    <groupId>net.sourceforge.jexcelapi</groupId>
+		    <artifactId>jxl</artifactId>
+		    <version>2.6.12</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.lowagie/itext -->
+		<dependency>
+		    <groupId>com.lowagie</groupId>
+		    <artifactId>itext</artifactId>
+		    <version>1.4.8</version>
+		</dependency>
+		
+<!-- 		<dependency> -->
+<!-- 		    <groupId>com.google.guava</groupId> -->
+<!-- 		    <artifactId>guava</artifactId> -->
+<!-- 		    <version>23.4-jre</version> -->
+<!-- 		</dependency> -->
+<!-- 
+<dependency>
+        <groupId>fr.opensagres.xdocreport</groupId>
+        <artifactId>fr.opensagres.xdocreport.converter.docx.xwpf</artifactId>
+        <version>2.0.1</version>
+    </dependency>
+    <dependency>
+        <groupId>fr.opensagres.xdocreport</groupId>
+        <artifactId>fr.opensagres.xdocreport.converter</artifactId>
+        <version>2.0.1</version>
+    </dependency>
+    <dependency>
+        <groupId>fr.opensagres.xdocreport</groupId>
+        <artifactId>fr.opensagres.poi.xwpf.converter.pdf</artifactId>
+        <version>2.0.1</version>
+    </dependency>
+    <dependency>
+        <groupId>fr.opensagres.xdocreport</groupId>
+        <artifactId>fr.opensagres.poi.xwpf.converter.xhtml</artifactId>
+        <version>2.0.1</version>
+    </dependency> -->
+	</dependencies>
+	<build>
+<!-- 	<resources> -->
+<!-- 		<resource> -->
+<!-- 			<directory>src/main/resources</directory> -->
+<!-- 			<includes> -->
+<!-- 				<include>app.properties</include> -->
+<!-- 			</includes> -->
+<!-- 			<filtering>true</filtering> -->
+<!-- 		</resource> -->
+<!-- 	</resources> -->
+		<finalName>Adama</finalName>
+		<!-- server in server: -->
+<!-- 		<finalName>AdamaUX##${Env}</finalName> -->
+		<plugins>
+
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<additionalProjectnatures>
+						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+					</additionalProjectnatures>
+					<additionalBuildcommands>
+						<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+					</additionalBuildcommands>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+<!-- in server: -->
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.maven.plugins</groupId> -->
+<!-- 				<artifactId>maven-war-plugin</artifactId> -->
+<!-- 				<configuration> -->
+<!-- 					<outputDirectory>\\skyline.comply.co.iL\webapps</outputDirectory> -->
+<!-- 				</configuration> -->
+<!-- 			</plugin> -->
+
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>2.20</version>
+				<configuration>
+					<skipTests>true</skipTests>
+				</configuration>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin> 
+			<plugin>
+				<groupId>org.aspectj</groupId>
+				<artifactId>aspectjrt</artifactId>
+				<version>1.8.10</version>
+			</plugin>
+			<plugin>
+		        <groupId>com.samaxes.maven</groupId>
+		        <artifactId>minify-maven-plugin</artifactId>
+		        <version>1.7.6</version>
+		        <executions>
+			          <execution>
+			            <id>generalFunc-minify</id>
+			            <phase>prepare-package</phase><!-- When omitted defaults to 'process-resources' -->
+			            <configuration>
+			              <charset>UTF-8</charset>
+			              <!-- <webappSourceDir>${basedir}/src/main/webapp</webappSourceDir> -->
+			              
+			              <!-- try to comment next row. It's because it should be default -->
+			              <webappSourceDir>${project.basedir}/src/main/webapp</webappSourceDir>
+			              <jsSourceDir>./skylineFormWebapp/js</jsSourceDir>
+			              <jsSourceFiles>
+			                <jsSourceFile>generalFunc.js</jsSourceFile>
+			                
+			                <!-- <jsSourceFile>file-n.js</jsSourceFile> --> 
+			              </jsSourceFiles>
+			              <jsFinalFile>generalFunc.js</jsFinalFile>
+			              <jsEngine>CLOSURE</jsEngine>
+			              <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
+			            </configuration>
+			            <goals>
+			              <goal>minify</goal>
+			            </goals>
+			          </execution>
+			          <execution>
+			            <id>generalBL-minify</id>
+			            <phase>prepare-package</phase><!-- When omitted defaults to 'process-resources' -->
+			            <configuration>
+			              <charset>UTF-8</charset>
+			              <webappSourceDir>${project.basedir}/src/main/webapp</webappSourceDir>
+			              <!-- <webappSourceDir>${basedir}/src/main/webapp</webappSourceDir> -->
+			              <!-- <cssSourceDir>css</cssSourceDir>
+			              <cssSourceFiles>
+			                <cssSourceFile>file-1.css</cssSourceFile>
+			                ...
+			                <cssSourceFile>file-n.css</cssSourceFile>
+			              </cssSourceFiles>
+			              <cssFinalFile>style.css</cssFinalFile> -->
+			              <jsSourceDir>./skylineFormWebapp/js/bl_Adama_js</jsSourceDir>
+			              <jsSourceFiles>
+			                <jsSourceFile>generalBL.js</jsSourceFile>
+			                
+			                <!-- <jsSourceFile>file-n.js</jsSourceFile> --> 
+			              </jsSourceFiles>
+			              <jsFinalFile>generalBL.js</jsFinalFile>
+			              <jsEngine>CLOSURE</jsEngine>
+			              <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
+			              <!-- <jsEngine>YUI</jsEngine> -->
+			            </configuration>
+			            <goals>
+			              <goal>minify</goal>
+			            </goals>
+			          </execution>
+			          <execution>
+			            <id>ElementButtonImpBL-minify</id>
+			            <phase>prepare-package</phase><!-- When omitted defaults to 'process-resources' -->
+			            <configuration>
+			              <charset>UTF-8</charset>
+			              <webappSourceDir>${project.basedir}/src/main/webapp</webappSourceDir>
+			              <jsSourceDir>./skylineFormWebapp/js/bl_Adama_js</jsSourceDir>
+			              <jsSourceFiles>
+			                <jsSourceFile>ElementButtonImpBL.js</jsSourceFile>
+			              </jsSourceFiles>
+			              <jsFinalFile>ElementButtonImpBL.js</jsFinalFile>
+			              <jsEngine>CLOSURE</jsEngine>
+			              <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
+			            </configuration>
+			            <goals>
+			              <goal>minify</goal>
+			            </goals>
+			          </execution>
+			          <execution>
+			            <id>ElementDataTableApiImp-minify</id>
+			            <phase>prepare-package</phase><!-- When omitted defaults to 'process-resources' -->
+			            <configuration>
+			              <charset>UTF-8</charset>
+			              <!-- <webappSourceDir>${project.basedir}/src/main/webapp</webappSourceDir> -->
+			              <jsSourceDir>./skylineFormWebapp/js/element_js</jsSourceDir>
+			              <jsSourceFiles>
+			                <jsSourceFile>ElementDataTableApiImp.js</jsSourceFile>
+			              </jsSourceFiles>
+			              <jsFinalFile>ElementDataTableApiImp.js</jsFinalFile>
+			              <jsEngine>CLOSURE</jsEngine>
+			              <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
+			            </configuration>
+			            <goals>
+			              <goal>minify</goal>
+			            </goals>
+			          </execution>
+			          <execution>
+			            <id>ElementWebixAnalytCalcImp-minify</id>
+			            <phase>prepare-package</phase><!-- When omitted defaults to 'process-resources' -->
+			            <configuration>
+			              <charset>UTF-8</charset>
+			              <!-- <webappSourceDir>${project.basedir}/src/main/webapp</webappSourceDir> -->
+			              <jsSourceDir>./skylineFormWebapp/js/element_js</jsSourceDir>
+			              <jsSourceFiles>
+			                <jsSourceFile>ElementWebixAnalytCalcImp.js</jsSourceFile>
+			              </jsSourceFiles>
+			              <jsFinalFile>ElementWebixAnalytCalcImp.js</jsFinalFile>
+			              <jsEngine>CLOSURE</jsEngine>
+			              <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
+			            </configuration>
+			            <goals>
+			              <goal>minify</goal>
+			            </goals>
+			          </execution>
+			          <execution>
+			            <id>jquery.dataTables-minify</id>
+			            <phase>prepare-package</phase><!-- When omitted defaults to 'process-resources' -->
+			            <configuration>
+			              <charset>UTF-8</charset>
+			              <jsSourceDir>./skylineFormWebapp/deps</jsSourceDir>
+			              <jsSourceFiles>
+			                <jsSourceFile>jquery.dataTables.js</jsSourceFile>
+			              </jsSourceFiles>
+			              <jsFinalFile>jquery.dataTables.js</jsFinalFile>
+			              <jsEngine>CLOSURE</jsEngine>
+			              <closureCompilationLevel>SIMPLE_OPTIMIZATIONS</closureCompilationLevel>
+			            </configuration>
+			            <goals>
+			              <goal>minify</goal>
+			            </goals>
+			          </execution>
+			    </executions>
+	        </plugin>
+		</plugins>
+
+	</build>
+</project>

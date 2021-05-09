@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"  
+	xmlns:p="http://www.springframework.org/schema/p"  xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:c="http://www.springframework.org/schema/c" xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<aop:aspectj-autoproxy />
+	<task:annotation-driven />
+	<context:annotation-config />
+	<context:component-scan 
+		base-package="com.skyline.form.service,com.skyline.form.dal,com.skyline.form.entity,com.skyline.form.entitypool,com.skyline.general.bean,com.skyline.notification.dal,com.skyline.form.bouncer,com.skyline.notification.service,com.skyline.customer.adama,com.skyline.customer.skyline"/>
+		 
+    <bean  id="dataSource"
+           class="org.apache.commons.dbcp.BasicDataSource"
+           destroy-method="close"
+           p:driverClassName="${jdbc.driverClassName}"
+           p:url="${jdbc.url}"
+           p:maxActive = "200"
+           p:maxWait="10000"
+           p:validationQuery="select * from dual"
+           p:username="${jdbc.username}"
+           p:password="${jdbc.password}" />
+ 
+    <bean  class="org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate"
+           c:dataSource-ref="dataSource"  />
+           
+    <bean  id="jdbcTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+            p:dataSource-ref="dataSource"/>
+    <tx:annotation-driven transaction-manager="jdbcTransactionManager"/>
+    
+   
+	<bean id="messageSource"
+		class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		 <property name="basenames">
+		  <list>        
+            <value>classpath:app</value>
+            <value>classpath:form</value>
+            <value>classpath:formBuilder</value>
+        </list>
+    </property>
+	</bean>	
+	
+<!-- 	upload file -->
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+<!-- 	one of the properties available; the maximum file size in bytes (10485760 = 10 MB = 1024*1024*10)-->
+		<property name="maxUploadSize" value="${file.maxUploadSize:10485760}" /> 
+	</bean>
+	
+<!-- 		<util:map id="formManagerMap" map-class="java.util.HashMap" -->
+<!-- 			key-type="java.lang.String" value-type="java.lang.Object"> -->
+<!-- 		</util:map>  -->
+
+<!-- 	<util:map id="formValueMap" map-class="java.util.HashMap" -->
+<!-- 	key-type="java.lang.String" value-type="java.lang.String"> -->
+<!-- 	</util:map>  -->
+
+<!-- 	<util:map id="formBeanMap" map-class="java.util.HashMap" -->
+<!-- 	key-type="java.lang.String" value-type="java.lang.Object"> -->
+<!-- 	</util:map>  -->
+
+<!-- 	<util:map id="catalogMap" map-class="java.util.HashMap" -->
+<!-- 	key-type="java.lang.String" value-type="java.lang.Object"> -->
+<!-- 	</util:map>  -->
+
+<!-- 	<util:map id="elementMapTree" map-class="java.util.TreeMap" -->
+<!-- 	key-type="java.lang.Integer" value-type="java.lang.Object"> -->
+<!-- 	</util:map>  -->
+
+<!-- 	<util:list id="elementList" value-type="java.lang.String"> -->
+<!-- 	</util:list>  -->
+
+<!-- 	<bean -->
+<!-- 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+<!-- 		<property name="location" value="classpath:app.properties" /> -->
+<!-- 	</bean> -->
+ <!-- change Encrypt password  -->
+	<bean id="propertyPlaceholderConfigurer"
+		class="org.jasypt.spring.properties.EncryptablePropertyPlaceholderConfigurer">
+		<constructor-arg ref="configurationEncryptor" />
+		<property name="location" value="classpath:app.properties" />
+	</bean>
+
+	<bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+		<property name="config" ref="environmentVariablesConfiguration" />
+	</bean>
+
+	 <!-- CAS_PBE_PASSWORD is a ENV parameter that should hold the key for the decryption -->
+	<bean id="environmentVariablesConfiguration"
+		class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+		<property name="algorithm" value="PBEWithMD5AndDES" />
+		<property name="passwordEnvName" value="CAS_PBE_PASSWORD" /> 
+	</bean>
+		 
+	<bean
+		class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
+		<property name="serviceLocatorInterface" value="com.skyline.form.service.FormStateFactory" />
+	</bean>
+	
+	<bean id="FormState" class="com.skyline.form.service.FormState"
+		scope="prototype">
+	</bean>
+
+
+	<!-- Definition for EntityFactory bean -->
+	<bean
+		class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
+		<property name="serviceLocatorInterface" value="com.skyline.form.entity.EntityFactory" />
+	</bean>
+	
+	
+	<!-- The Lead programmer will add the implementation to pull with empty 
+		function - after the programmer finish the Lead programmer should add it 
+		here... -->
+	<!-- AuthParam -->
+
+	<!-- Catalog -->
+
+	<bean id="CatalogDBTableImp" class="com.skyline.form.entitypool.CatalogDBTableImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="DB Table" />
+	</bean>
+	<!-- Layout -->
+	<bean id="LayoutJspSelectImp" class="com.skyline.form.entitypool.LayoutJspSelectImp"
+		scope="prototype">
+		<property name="active" value="false" />
+		<property name="impName" value="Select jsp" />
+	</bean>
+	<!-- Element -->
+	<bean id="ElementAutoCompleteDDLImp" class="com.skyline.form.entitypool.ElementAutoCompleteDDLImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Auto Complete DDL" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="none" />
+	</bean>
+	<bean id="ElementSelectDDLImp" class="com.skyline.form.entitypool.ElementSelectDDLImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Select DDL" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="none" />
+	</bean>
+	<bean id="ElementAutoCompleteIdValDDLImp" class="com.skyline.form.entitypool.ElementAutoCompleteIdValDDLImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Auto Complete ID Val DDL" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="none" />
+	</bean>
+	<bean id="ElementLinkImp" class="com.skyline.form.entitypool.ElementLinkImp"
+		scope="prototype">
+		<property name="active" value="false" />
+		<property name="impName" value="LINK" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="ElementIreportImp" class="com.skyline.form.entitypool.ElementIreportImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Ireport" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>
+	<bean id="LayoutDesignHtmlImp" class="com.skyline.form.entitypool.LayoutDesignHtmlImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Design Html" />
+	</bean>
+	<bean id="ElementDataTableImp" class="com.skyline.form.entitypool.ElementDataTableImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Data Table" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="none" />
+	</bean>
+	<bean id="ElementTreeImp" class="com.skyline.form.entitypool.ElementTreeImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Tree" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="ElementAccordionImp" class="com.skyline.form.entitypool.ElementAccordionImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Accordion" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="CatalogCSVListImp" class="com.skyline.form.entitypool.CatalogCSVListImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="CSV List" />
+	</bean>
+	<bean id="ElementInputImp" class="com.skyline.form.entitypool.ElementInputImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Input" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="ElementWebixGeneralImp" class="com.skyline.form.entitypool.ElementWebixGeneralImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Webix General" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="clobAndResult" />
+	</bean>	
+	<bean id="ElementWebixAnalytCalcImp" class="com.skyline.form.entitypool.ElementWebixAnalytCalcImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Webix Analyt Calc" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="clobAndResult" />
+	</bean>	
+	<bean id="ElementWebixFormulCalcImp" class="com.skyline.form.entitypool.ElementWebixFormulCalcImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Webix Formulation Calc" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="clobAndResult" />
+	</bean>	
+	<bean id="ElementWebixExperimentStepCalcImp" class="com.skyline.form.entitypool.ElementWebixExperimentStepCalcImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Webix Experiment Step Calc" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="clobAndResult" />
+	</bean>	
+	<bean id="ElementWebixMassBalanceCalcImp" class="com.skyline.form.entitypool.ElementWebixMassBalanceCalcImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Webix Mass Balance Calc" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="clobAndResult" />
+	</bean>	
+	<bean id="ElementDataTableApiImp" class="com.skyline.form.entitypool.ElementDataTableApiImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Data Table API" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="ElementLabelImp" class="com.skyline.form.entitypool.ElementLabelImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Label" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="ElementUploadFileImp" class="com.skyline.form.entitypool.ElementUploadFileImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Upload File" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="blob" />
+	</bean>	
+	<bean id="ElementTextareaImp" class="com.skyline.form.entitypool.ElementTextareaImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Textarea" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="ElementTextareaAsClobImp" class="com.skyline.form.entitypool.ElementTextareaAsClobImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Textarea Clob" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="clob" />
+	</bean>	
+	<bean id="ElementRichTextEditorImp" class="com.skyline.form.entitypool.ElementRichTextEditorImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="RichTextEditor" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="richText" />
+	</bean>	
+	<bean id="ElementRadioImp" class="com.skyline.form.entitypool.ElementRadioImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Radio" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="none" />
+	</bean>
+	<bean id="ElementExcelSheetImp" class="com.skyline.form.entitypool.ElementExcelSheetImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="ExcelSheet" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="excelSheet" />
+	</bean>	
+	<bean id="ElementChemDoodleImp" class="com.skyline.form.entitypool.ElementChemDoodleImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="ChemDoodle" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="chemdoodle" />
+	</bean>	
+	<bean id="ElementDiagramImp" class="com.skyline.form.entitypool.ElementDiagramImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Diagram" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="diagram" />
+	</bean>	
+	<bean id="ElementApiElementSetterImp" class="com.skyline.form.entitypool.ElementApiElementSetterImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="API Element Setter" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="ElementParamMonitoringImp" class="com.skyline.form.entitypool.ElementParamMonitoringImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Param Monitoring" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="paramMonitoring" />
+	</bean>	
+	<bean id="ElementSmartSearchImp" class="com.skyline.form.entitypool.ElementSmartSearchImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Smart Search" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="ElementAsyncIframeImp" class="com.skyline.form.entitypool.ElementAsyncIframeImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Async Iframe" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="ElementChemDoodleSearchImp" class="com.skyline.form.entitypool.ElementChemDoodleSearchImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="ChemDoodle Search" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>		
+	<bean id="ElementButtonImp" class="com.skyline.form.entitypool.ElementButtonImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Button" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>	
+	<bean id="ElementRangeFilterImp" class="com.skyline.form.entitypool.ElementRangeFilterImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Range Filter" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="none" />
+	</bean>
+	<bean id="ElementAuthorizationImp" class="com.skyline.form.entitypool.ElementAuthorizationImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Authorization" />
+		<property name="isAjaxDataFlowElement" value="true" />
+		<property name="saveType" value="none" />
+	</bean>
+	<bean id="ElementFormTestImp" class="com.skyline.form.entitypool.ElementFormTestImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Form Test" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>
+	<bean id="ElementUOMImp" class="com.skyline.form.entitypool.ElementUOMImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="UOM" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>
+	<bean id="ElementDynamicParamsImp" class="com.skyline.form.entitypool.ElementDynamicParamsImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Dynamic Params" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="DynamicParams" />
+	</bean>
+	<bean id="ElementGeneralCodeImp" class="com.skyline.form.entitypool.ElementGeneralCodeImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="General Code" />
+		<property name="isAjaxDataFlowElement" value="false" />
+		<property name="saveType" value="none" />
+	</bean>	
+	
+	<!-- Definition for EventFactory bean -->
+	<bean
+		class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
+		<property name="serviceLocatorInterface" value="com.skyline.customer.adama.SysHandlerFactory" />
+	</bean>
+	
+	
+	<!-- The Lead programmer will add the implementation to pull with empty 
+		function - after the programmer finish the Lead programmer should add it 
+		here... -->
+	<!-- AuthParam -->
+
+	<!-- Catalog -->
+<!--     scope="prototype" -->
+	<bean id="SysHSimpleCalc" lazy-init="true" class="com.skyline.customer.adama.SysHandlerSimpleCalc"/>
+	<bean id="SysHCodeCalcRate" lazy-init="true" class="com.skyline.customer.adama.SysHandlerCodeCalcRate" />
+	<bean id="SysHCodeCalcYieldLoss" lazy-init="true" class="com.skyline.customer.adama.SysHandlerCodeCalcYieldLoss"/>
+	<bean id="SysHCodeCalcSetRecord" lazy-init="true" class="com.skyline.customer.adama.SysHandlerCodeCalcSetRecord"/>
+	<bean id="SysHCodeCalcQuantity" lazy-init="true" class="com.skyline.customer.adama.SysHandlerCodeCalcQuantity"/>
+	<bean id="SysHSaveSelfTest" lazy-init="true" class="com.skyline.customer.adama.SysHandlerPostSaveSelfTest"/>
+	
+		
+	
+	
+	<!-- Aspect -->
+	<bean id="SqlProfiler" class="com.skyline.form.aspect.SqlProfiler" />
+	<bean id="logAspect" class="com.skyline.form.aspect.LoggingAspect" />
+	
+	<!-- Qualifier -->
+	<!--<alias name="${customerIntegrationCalcPropImp}" alias="integrationCalcService"/>-->
+	<!--<alias name="${customerIntegrationWFPropImp}" alias="integrationWFService"/>	-->
+	<!--<alias name="${customerIntegrationEventPropImp}" alias="integrationEventService"/>	-->
+	<!--<alias name="${customerIntegrationImpPropImp}" alias="integrationImpService"/>	-->
+	<!--<alias name="${customerIntegrationDTPropImp}" alias="integrationDTService"/>-->
+	<!--<alias name="${customerIntegrationInitFormPropImp}" alias="integrationInitFormService"/>-->
+	<!--<alias name="${customerIntegrationValidationPropImp}" alias="integrationValidationService"/>-->
+	
+	<!-- <bean id="transactionManager" -->
+	<!-- class="org.springframework.jdbc.datasource.DataSourceTransactionManager"> -->
+	<!-- <property name="dataSource" ref="dataSource" /> -->
+	<!-- </bean> -->
+
+	<!-- <bean -->
+	<!-- class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" -->
+	<!-- id="sessionFactory" p:dataSource-ref="dataSource"> -->
+	<!-- <property name="annotatedClasses"> -->
+	<!-- <list> -->
+	<!-- <value>com.intertech.domain.Contact</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- <property name="hibernateProperties"> -->
+	<!-- <value> -->
+	<!-- <![CDATA[ -->
+	<!-- hibernate.dialect=org.hibernate.dialect.OracleDialect -->
+	<!-- hibernate.show_sql=true -->
+	<!-- hibernate.hbm2ddl.auto=update -->
+	<!-- hibernate.format_sql=true]]> -->
+	<!-- </value> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+<bean id="FormSchedTaskService" class="com.skyline.form.service.FormSchedTaskService" />
+</beans>
+

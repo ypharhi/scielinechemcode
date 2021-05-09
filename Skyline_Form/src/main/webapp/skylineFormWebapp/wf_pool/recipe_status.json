@@ -1,0 +1,31 @@
+{ 
+	"statusTableName":"EXPERIMENTSTATUS",
+	"firstState": "Planned",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"Planned", "text":"Planned"},
+  	{"id":"Active", "text":"Active" },
+  	{"id":"Cancelled", "text":"Cancelled" },
+  	{"id":"Completed", "text":"Completed" },
+  	{"id":"Approved", "text":"Approved" }
+ ],
+  "linkDataArray": 
+  [
+  	{"from":"Planned", "to":"Planned"},
+	{"from":"Planned", "to":"Active"},
+	{"from":"Planned", "to":"Cancelled"},
+	{"from":"Active", "to":"Active"},
+	{"from":"Active", "to":"Completed"},
+	{"from":"Active", "to":"Cancelled"},
+	{"from":"Active", "to":"Approved"},
+	{"from":"Cancelled", "to":"Cancelled"},
+	{"from":"Completed", "to":"Completed"},
+	{"from":"Completed", "to":"Approved"},
+	{"from":"Completed", "to":"Active"},
+	{"from":"Completed", "to":"Cancelled"},
+	{"from":"Approved", "to":"Approved"},
+	{"from":"Approved", "to":"Cancelled"},
+	{"from":"Approved", "to":"Active"}
+	]
+}

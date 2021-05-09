@@ -1,0 +1,180 @@
+BODY
+{
+	background-color: #67999A;
+}
+
+.InputStyle
+{
+   border:1 solid #999999;
+   background-color : #FFFFFF;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+}
+
+.InputDis
+{
+	border:1 solid #999999;
+	background-color : #F5F5F5;
+	font-family : 'Verdana, Tahoma, Sans-Serif';
+}
+
+.cssUpBannerText
+{
+    position:absolute;
+    top: 94px;
+    left: 35px;
+    z-index: 1;
+    color:#FFFFFF;
+    font-family : 'Tahoma, Sans-Serif';
+    font-size : 12pt;
+    font-weight : bold;
+}
+
+.OutBigButton
+{
+   width : 115;
+   height: 24;
+   font-size : 12;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   text-align : center;
+   color : #000000;
+   font-weight : bold;
+
+   cursor : default;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#FFFFFF', EndColorStr='#82ADAD');
+}
+
+.OnBigButton
+{
+   width : 115;
+   height: 24;
+   font-size : 12;
+   font-family : 'Verdana, Tahoma, Sans-Serif';
+   text-align : center;
+   color : #000000;
+   font-weight : bold;
+
+   cursor : default;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   filter:progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#82ADAD', EndColorStr='#FFFFFF');
+}
+
+.cssUserPass
+{
+    width:259px;
+    height: 109px;
+    background: URL(../images/UserPassBackGrnd.gif);
+    text-align:left;
+}
+
+.cssUserDateMain
+{
+    margin-left:35px;
+    margin-top: 10px;
+}
+
+.cssUserDate
+{
+    width:175px;
+    height: 38px;
+    background: URL(../images/UserDateBckGrnd.gif);
+    text-align:left;
+}
+
+.cssUser
+{
+  font-size: 10pt;
+  font-family:'Verdana, Tahoma, Sans-Serif';
+  text-decoration:none;
+  color:blue;
+}
+
+.cssLabel
+{
+	text-align:left;
+	font-size : 8pt;
+	font-family : 'Tahoma, Sans-Serif';
+	line-height: 18px;
+	color : #000000;
+	font-weight : bold;
+	cursor: default;
+}
+
+.cssImgButton001
+{
+	width:75px;
+	height: 41px;
+	background: URL(../images/Button001.gif);
+	background-color: #9ACCCD;
+
+	font-size : 9pt;
+	line-height: 41px;
+	font-family : 'Verdana, Tahoma, Sans-Serif';
+	text-align : center;
+	color : #000000;
+	font-weight : bold;
+	cursor: hand;
+}
+
+.cssImgButton002
+{
+	width:132px;
+	height: 41px;
+	background: URL(../images/Button002.gif);
+	background-color: #9ACCCD;
+
+	font-size : 9pt;
+	line-height: 41px;
+	font-family : 'Verdana, Tahoma, Sans-Serif';
+	text-align : center;
+	color : #000000;
+	font-weight : bold;
+	cursor: hand;
+}
+
+.OutComtecLTD
+{
+  font-size: 10px;
+  font-family:'Verdana, Tahoma, Sans-Serif';
+  text-decoration:none;
+  color:#000000;
+  TEXT-ALIGN: center;
+  cursor:hand;
+}
+
+.OnComtecLTD
+{
+  font-size: 10px;
+  font-family:'Verdana, Tahoma, Sans-Serif';
+  text-decoration:underline;
+  color:#0000FF;
+  TEXT-ALIGN: center;
+  cursor:hand;
+}
+
+.OutLink
+{
+  font-size: 10px;
+  font-family:'Verdana, Tahoma, Sans-Serif';
+  text-decoration:none;
+  color:#FE9934;
+  TEXT-ALIGN: center;
+  cursor:hand;
+}
+
+.OnLink
+{
+  font-size: 10px;
+  font-family:'Verdana, Tahoma, Sans-Serif';
+  text-decoration:underline;
+  color:#0000FF;
+  TEXT-ALIGN: center;
+  cursor:hand;
+}
+

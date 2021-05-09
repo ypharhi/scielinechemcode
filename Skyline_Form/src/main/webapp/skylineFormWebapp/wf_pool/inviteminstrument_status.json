@@ -1,0 +1,24 @@
+{ 
+	"statusTableName":"INSTRUMENTSTATUS",
+	"firstState": "New",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"New", "text":"New"},
+  	{"id":"Active", "text":"Active" },
+  	{"id":"Malfunction", "text":"Malfunction" },
+  	{"id":"Disabled", "text":"Disabled" }
+ ],
+  "linkDataArray": 
+  [
+  	{"from":"New", "to":"New"},
+	{"from":"New", "to":"Active"},
+	{"from":"Active", "to":"Active"},
+	{"from":"Active", "to":"Malfunction"},
+	{"from":"Active", "to":"Disabled"},
+	{"from":"Malfunction", "to":"Malfunction"},
+	{"from":"Malfunction", "to":"Active"},
+	{"from":"Disabled", "to":"Disabled"}
+	
+	]
+}

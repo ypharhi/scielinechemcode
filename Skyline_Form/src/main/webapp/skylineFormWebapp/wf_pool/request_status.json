@@ -1,0 +1,30 @@
+{ 
+	"statusTableName":"REQUESTSTATUS",
+	"firstState": "Planned",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"Planned", "text":"Planned"},
+  	{"id":"Waiting", "text":"Waiting" },
+  	{"id":"Declined", "text":"Declined" },
+  	{"id":"Cancelled", "text":"Cancelled" },
+  	{"id":"In Progress", "text":"In Progress" },
+  	{"id":"Approved", "text":"Approved" }
+ ],
+  "linkDataArray": 
+  [
+  	{"from":"Planned", "to":"Planned"},
+  	{"from":"Planned", "to":"Cancelled"},
+  	{"from":"Planned", "to":"Waiting"},
+	{"from":"Waiting", "to":"Waiting"},
+	{"from":"Waiting", "to":"Cancelled"},
+	{"from":"Waiting", "to":"In Progress"},
+	{"from":"In Progress", "to":"Approved"},
+	{"from":"In Progress", "to":"In Progress"},
+	{"from":"In Progress", "to":"Cancelled"},
+	{"from":"Waiting", "to":"Declined"},
+	{"from":"Approved", "to":"Approved"},
+	{"from":"Cancelled", "to":"Cancelled"},
+	{"from":"Declined", "to":"Declined"}
+	]
+}

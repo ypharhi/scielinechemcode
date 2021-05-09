@@ -1,0 +1,48 @@
+{
+  "Project": {
+    "manager": "rul",
+    "creator": "rul",
+    "crew": "rl"
+  },
+  "subProject": {
+    "creator": "rul"
+  },
+  "subSubProject": {
+    "creator": "rul"
+  },
+  "experiment": {
+    "creator": "rul",
+    "owner": "rul",
+    "approver": "rul",
+    "crew": "rul"
+  },
+  "step": {
+    "creator": "rul"
+  },
+  "inviteminstrument": {
+    "regionalResponsible": "rul",
+    "crew": "rl"
+  },
+  "invitemcalibration": {
+    "calibrator": "rul"
+  },
+  "invitemmaintenance": {
+    "reporter": "rl",
+    "technician": "rul"
+  },
+  "request": {
+    "creator": "rul",
+    "assigner": "rul",
+    "crew": "rul"
+  },
+  "samples": {
+    "creator": "rul"
+  },
+  "experimentSeries": {
+    "creator": "rul"
+  },
+  "templates": {
+    "creator": "rul",
+    "approver": "rul"
+  }
+}

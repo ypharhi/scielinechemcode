@@ -1,0 +1,162 @@
+{ 
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+    {"id":"Project", "text":"Project"},
+  	{"id":"SubProject", "text":"SubProject" },
+	{"id":"SubSubProject", "text":"SubSubProject" },
+	
+    {"id":"Experiment", "text":"Experiment"},
+	{"id":"ExperimentPrGn", "text":"ExperimentPrGn"},
+  	{"id":"ExperimentPrBt", "text":"ExperimentPrBt"},
+  	{"id":"ExperimentPrCr", "text":"ExperimentPrCr"},
+  	{"id":"ExperimentPrGn", "text":"ExperimentPrGn"},
+  	{"id":"ExperimentPrTs", "text":"ExperimentPrTs"},
+  	{"id":"ExperimentPrVs", "text":"ExperimentPrVs"},
+	{"id":"ExperimentFor", "text":"ExperimentFor"},
+	{"id":"ExperimentAn", "text":"ExperimentAn"},
+	{"id":"ExperimentStb", "text":"ExperimentStb"},
+	{"id":"ExperimentCP", "text":"ExperimentCP"},
+	
+  	{"id":"Step", "text":"Step" },
+	{"id":"StepFr", "text":"StepFr" },
+	{"id":"Action", "text":"Action" },
+	{"id":"SelfTest", "text":"SelfTest" },
+	{"id":"Workup", "text":"Workup" },
+	
+  	{"id":"Sample", "text":"Sample" },
+  	{"id":"Request", "text":"Request" },
+  	{"id":"Template", "text":"Template" },
+  	{"id":"RecipeFormulation", "text":"RecipeFormulation"},
+  	
+	{"id":"InvItemMaterial", "text":"InvItemMaterial" },
+	{"id":"InvItemMaterialFr", "text":"InvItemMaterialFr" },
+	{"id":"InvItemMaterialPr", "text":"InvItemMaterialPr" },
+	{"id":"InvItemBatch", "text":"InvItemBatch"},
+	{"id":"InvItemCalibration", "text":"InvItemCalibration" },
+  	{"id":"InvItemMaintenance", "text":"InvItemMaintenance" },
+  	{"id":"InvItemInstrument", "text":"InvItemInstrument" },
+	{"id":"InvItemMaintenancePreventive", "text":"InvItemMaintenancePreventive" },
+  	{"id":"InvItemMaintenanceBreakdown", "text":"InvItemMaintenanceBreakdown" },
+  	
+	{"id":"ExperimentSeries", "text":"ExperimentSeries"},	
+  	{"id":"ExpSeriesCreation", "text":"ExpSeriesCreation" }
+  	],
+  "linkDataArray": 
+  [
+    {"from":"Project", "to":"SubProject"},
+    
+    {"from":"SubProject", "to":"Request"},
+	{"from":"SubProject", "to":"SubSubProject"},
+	{"from":"SubProject", "to":"Experiment"},	
+	{"from":"SubProject", "to":"ExperimentSeries"},
+	
+	{"from":"SubSubProject", "to":"Experiment"},
+	{"from":"SubSubProject", "to":"Request"},
+	{"from":"SubSubProject", "to":"ExperimentSeries"},
+    
+    {"from":"Experiment", "to":"Step"},
+	{"from":"Experiment", "to":"Sample"},
+	{"from":"Experiment", "to":"Request"},
+	{"from":"Experiment", "to":"Template"},
+	{"from":"Experiment", "to":"InvItemBatch"}, 
+	
+	{"from":"Step", "to":"Step"},
+	{"from":"Step", "to":"Action", "validation":"ALERT_NEW_STEPFR_ACTION"},
+	{"from":"Step", "to":"Request"},
+	{"from":"Step", "to":"Sample"},
+	{"from":"Step", "to":"InvItemBatch"},
+	
+    {"from":"Action", "to":"Action"},
+    {"from":"Action", "to":"SelfTest"},
+	{"from":"Action", "to":"Sample"},
+	{"from":"Action", "to":"Workup"},
+	{"from":"Action", "to":"InvItemBatch"},
+	{"from":"Action", "to":"Request"},
+	
+	{"from":"ExperimentAn", "to":"Sample"},
+	{"from":"ExperimentAn", "to":"Request"},
+	{"from":"ExperimentAn", "to":"Template"},
+	{"from":"ExperimentAn", "to":"InvItemBatch"},
+	
+	{"from":"ExperimentFor", "to":"StepFr"},
+	{"from":"ExperimentFor", "to":"Sample"},
+	{"from":"ExperimentFor", "to":"Request"},
+	{"from":"ExperimentFor", "to":"Template"},
+	{"from":"ExperimentFor", "to":"InvItemBatch"},
+	{"from":"ExperimentFor", "to":"RecipeFormulation"},
+	
+	{"from":"ExperimentPrGn", "to":"Sample"},
+	{"from":"ExperimentPrGn", "to":"Request"},
+	{"from":"ExperimentPrGn", "to":"Template"},
+	{"from":"ExperimentPrGn", "to":"InvItemBatch"},
+	
+	{"from":"ExperimentPrBt", "to":"Sample"},
+	{"from":"ExperimentPrBt", "to":"Request"},
+	{"from":"ExperimentPrBt", "to":"Template"},
+	{"from":"ExperimentPrBt", "to":"InvItemBatch"},
+	
+	{"from":"ExperimentPrCr", "to":"Sample"},
+	{"from":"ExperimentPrCr", "to":"Request"},
+	{"from":"ExperimentPrCr", "to":"Template"},
+	{"from":"ExperimentPrCr", "to":"InvItemBatch"},
+	
+	{"from":"ExperimentPrTs", "to":"Sample"},
+	{"from":"ExperimentPrTs", "to":"Request"},
+	{"from":"ExperimentPrTs", "to":"Template"},
+	{"from":"ExperimentPrTs", "to":"InvItemBatch"},
+	
+	{"from":"ExperimentPrVs", "to":"Sample"},
+	{"from":"ExperimentPrVs", "to":"Request"},
+	{"from":"ExperimentPrVs", "to":"Template"},
+	{"from":"ExperimentPrVs", "to":"InvItemBatch"},
+	
+	{"from":"ExperimentStb", "to":"Sample"},
+	{"from":"ExperimentStb", "to":"Request"},
+	
+	{"from":"ExperimentCP", "to":"Step"},
+	{"from":"ExperimentCP", "to":"Sample"},
+	{"from":"ExperimentCP", "to":"Request"},
+	{"from":"ExperimentCP", "to":"Template"},
+	{"from":"ExperimentCP", "to":"InvItemBatch"}, 
+	
+	{"from":"StepFr", "to":"StepFr"},
+	{"from":"StepFr", "to":"Action", "validation":"ALERT_NEW_STEPFR_ACTION"},
+	{"from":"StepFr", "to":"Request"},
+	{"from":"StepFr", "to":"Sample"},
+	{"from":"StepFr", "to":"InvItemBatch"},
+	
+	{"from":"StepMinFr", "to":"StepFr"},
+	{"from":"StepMinFr", "to":"Action", "validation":"ALERT_NEW_STEPFR_ACTION"},
+	{"from":"StepMinFr", "to":"Request"},
+	{"from":"StepMinFr", "to":"Sample"},
+	{"from":"StepMinFr", "to":"InvItemBatch"},
+	
+	{"from":"Request", "to":"Experiment", "validation":"CONFIRM_NEW_EXPERIMENT"},
+	
+	{"from":"ExperimentSeries", "to":"ExpSeriesCreation"},
+	
+	{"from":"Template", "to":"Request"},
+	
+	{"from":"Sample", "to":"Request"},
+	
+	{"from":"InvItemBatch", "to":"Sample"},
+	
+	{"from":"InvItemInstrument", "to":"InvItemMaintenancePreventive"},
+	{"from":"InvItemInstrument", "to":"InvItemMaintenanceBreakdown"},
+	{"from":"InvItemInstrument", "to":"InvItemCalibration"},
+	
+	{"from":"InvItemMaterial", "to":"InvItemBatch"},
+	{"from":"InvItemMaterialFr", "to":"InvItemBatch"},
+	{"from":"InvItemMaterialPr", "to":"InvItemBatch"},
+	
+	{"from":"SelfTest", "to":"Sample"},
+  	{"from":"SelfTest", "to":"Request"},
+  	{"from":"SelfTest", "to":"InvItemBatch"},
+  	
+  	{"from":"Workup", "to":"Sample"},
+	{"from":"Workup", "to":"InvItemBatch"},
+	{"from":"Workup", "to":"Request"},
+	{"from":"Workup", "to":"Workup"}
+	]
+}

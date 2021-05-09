@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--PLEASE DO NOT MODIFY THIS FILE AND BE AWARE THAT THE FILE CONTAINS CONFIDENTIAL INFORMATION.--><ChemAxon>
+    <License>
+        <Field Name="Software" Value="Marvin for JavaScript"/>
+        <Field Name="License Term" Value="VAR Developer License"/>
+        <Field Name="Licensee" Value="Comply"/>
+        <Field Name="Number of Users" Value="200"/>
+        <Field Name="Expiration Date" Value="2021-11-22"/>
+        <Field Name="Support Expiration Date" Value="2021-11-22"/>
+        <Field Name="Comment" Value="For the use within Skyline application at ADAMA. "/>
+        <Restriction Name="Server Use" Value="Allowed"/>
+        <Signature Value="MCwCFCcRFXgx2Z2ZKSLhS+ky4qpsWZekAhRxOANV/wOvh6wK3AUtNuttK2gekQ=="/>
+    </License>
+</ChemAxon>

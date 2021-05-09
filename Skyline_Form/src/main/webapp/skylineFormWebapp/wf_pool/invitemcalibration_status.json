@@ -1,0 +1,19 @@
+{ 
+	"statusTableName":"MAINTCALIBSTATUS",
+	"firstState": "Open",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"Open", "text":"Open"},
+  	{"id":"Done", "text":"Done" },
+  	{"id":"Cancelled", "text":"Cancelled" }
+ ],
+  "linkDataArray": 
+  [
+  	{"from":"Open", "to":"Open"},
+	{"from":"Open", "to":"Done"},
+	{"from":"Open", "to":"Cancelled"},
+	{"from":"Done", "to":"Done"},
+	{"from":"Cancelled", "to":"Cancelled"}
+	]
+}

@@ -1,0 +1,438 @@
+@charset "UTF-8";/* CSS Document */
+body {font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;}
+/* page header style */
+.cssUser
+{
+  font-size: 10pt;
+  text-decoration:none;
+  color: #1766ad ;
+}
+
+.Desc
+{
+  font-size: 13px;
+  font-weight:bold;
+  color: #0e5f35 ;
+  cursor:default;
+  white-space: noWrap;
+}
+
+.cssPageHeader
+{
+	font-size:30px;
+	text-align: center; 
+	color:grey;
+}
+
+.cssActivePath
+{
+	color: #0e5f35 ;
+}
+
+.cssCurrentPath
+{
+	FONT-SIZE: 10pt;
+	font-weight : bold;
+	TEXT-ALIGN: center;
+}
+
+.cssStaticData
+{
+    font-family: Tahoma, Sans-Serif, Verdana !important;
+	FONT-SIZE: 10pt;
+    font-weight : bold;
+    COLOR: #1766ad;
+    TEXT-ALIGN: right;		
+    padding-right: 10px;
+	white-space: noWrap;
+}
+
+.cssPrintPageHeader
+{
+    font-family: Tahoma, Sans-Serif, Verdana !important;
+	FONT-SIZE: 10pt;
+    font-weight : bold;
+    COLOR: black; 
+    TEXT-ALIGN: right;		
+    padding-right: 10px;
+	white-space: noWrap;
+}
+/***************************/
+
+.cssOverflow
+{
+	text-align: center;
+	width: 100%;
+	overflow: auto;
+	border: 1px solid #99A89E;
+	scrollbar-arrow-color: #006AAA;
+	scrollbar-base-color: #006AAA;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-shadow-color: #BEC6DA;
+	scrollbar-highlight-color: #FFFFFF;
+	scrollbar-3dlight-color: #BEC6DA;
+	scrollbar-darkshadow-color: #FFFFFF;
+	scrollbar-track-color: #FAFAFA;
+}
+
+.cssResultsTable
+{
+	text-align: center;
+	width: 98%;
+	overflow: auto;
+	border: 0px solid #99A89E;
+	scrollbar-arrow-color: #006AAA;
+	scrollbar-base-color: #006AAA;
+	scrollbar-face-color: #FFFFFF;
+	scrollbar-shadow-color: #BEC6DA;
+	scrollbar-highlight-color: #FFFFFF;
+	scrollbar-3dlight-color: #BEC6DA;
+	scrollbar-darkshadow-color: #FFFFFF;
+	scrollbar-track-color: #FAFAFA;
+	height: 470px;
+        float: left;
+	dir: ltr;
+}
+.cssReportTable
+{
+	margin-top: 2px;
+	margin-bottom: 2px;
+	margin-left: 2px;
+	margin-right: 2px;
+	border: 0;
+	width: 95%; 
+}
+
+.cssReportSumTable
+{
+	margin-top: 2px;
+	margin-bottom: 2px;
+	/*margin-left: 2px;
+	margin-right: 2px;*/
+	border: 0;	
+	white-space: nowrap;
+}
+
+.cssReportTableB
+{
+	/*font:14px;
+	font-weight:normal;*/
+}
+
+.centralText
+{
+	text-align:center;
+	word-wrap: break-word;
+}
+
+.bword{
+word-wrap: break-word;
+}
+
+.leftText
+{
+	text-align:left;
+	word-wrap: break-word;
+}
+
+
+.th {
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #6D929B;
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	border-top: 1px solid #C1DAD7;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	text-align: left;
+	padding: 6px 6px 6px 12px;
+	background: #CAE8EA;
+	}
+						
+.nobg {
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: none;
+	text-transform: uppercase;
+       }
+.legendHeader {
+	font: bold 15px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	border-top: 0;
+	border-left: 0;
+	background: none;
+       }
+.first {
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	padding: 3px 3px 3px 3px;
+	color: #000000;
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: #CADFE1;
+	text-transform: uppercase;
+	    }
+	   
+.firstNoWrap {
+	font: bold 12px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	padding: 3px 3px 3px 3px;
+	color: #000000;
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: #CADFE1;
+	text-transform: uppercase;
+	white-space: nowrap;
+	}
+/* used for RUN SUMMARY filtering of tests (columns), as additional class */
+.hiddenColumn 
+{
+	 display: none; /**/
+}
+.second {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	padding: 3px 3px 3px 6px;
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: #CAE8EA;
+	text-transform: uppercase;
+       }
+
+.third {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color:Blue;
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: #CADFE1;
+	text-transform: uppercase;
+       }
+
+.forth {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color:Blue;
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: #CADFE1;
+	text-transform: uppercase;
+       }
+.rule {
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: black;
+	border-top: 0;
+	border-left: 0;
+	border-right: 1px solid #C1DAD7;
+	background: #CADFE1;
+       }
+
+.spec {	
+        border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #fff ;
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+      }
+		    
+.specalt {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #f5fafa;
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #B4AA9D;
+    }
+.tr {	
+        border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #fff;
+	font: bold 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+      }
+
+.odd {	
+        border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #ffffff;
+	font: 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+      }
+	  
+.oddSecond {	
+        border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #f5fafa;
+	font: 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+      }
+		    
+.even {
+	border-left: 1px solid #C1DAD7;
+	border-top: 0;
+	background: #f5fafa;
+	font: 11px "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;
+	color: #B4AA9D;
+    }
+
+    
+.td {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #fff;
+	padding: 6px 6px 6px 12px;
+	color: #000000;
+	font: 11px "Trebuchet MS", Verdana, Arial, Helvetica,sans-serif;
+	}
+	
+.alt {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	background: #f5fafa;
+	padding: 3px 6px 6px 6px;
+	color: #000000;
+	font: 11px "Trebuchet MS", Verdana, Arial, Helvetica,sans-serif;
+	}
+
+.results {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	padding: 3px 2px 2px 3px;
+	color: #000000; 
+	font: 11px "Trebuchet MS", Verdana, Arial, Helvetica,sans-serif;
+	white-space: nowrap;
+	}
+	
+.results_bold {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	padding: 3px 2px 2px 3px;
+	color: #0000FF;
+	font: 11px "Trebuchet MS", Verdana, Arial, Helvetica,sans-serif;
+	font-weight:bold; 
+	white-space: nowrap;
+	}
+
+.filters {
+	border-right: 1px solid #C1DAD7;
+	border-bottom: 1px solid #C1DAD7;
+	padding: 3px 2px 2px 3px;
+	color: #000000;
+	font: 11px "Trebuchet MS", Verdana, Arial, Helvetica,sans-serif;
+	height: 30px;
+	}
+
+.legend {
+	padding: 3px 2px 2px 3px;
+	color: #000000;
+	font: 13px "Trebuchet MS", Verdana, Arial, Helvetica,sans-serif;
+	}
+
+.errorTable 
+{
+
+	font-weight:bold; 
+	font:20px;
+}
+.cssGridTable
+{
+	margin-top: 0px;
+	margin-left: 0px;
+	margin-right: 0px;
+	border: 1px solid menu;
+}
+.cssTableColumnFirstRow
+{
+	height:35px;
+	background: #d7ebf9 url(images/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
+	font-weight:bold;
+    font-size:12px;
+    font-family:Tahoma, Verdana, Sans-Serif;
+    color:#000000;
+    text-align:center;
+    cursor: default;
+    /*background-color: #B7C9E1;*/
+    direction: ltr;
+}
+.TDH
+{
+   font-size:10pt;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid silver;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   font-weight : bold;
+   text-align: center;
+   background-color: #D4D0C7;
+
+}
+.TDV
+{
+   font-size:10pt;
+   font-family:Verdana, Tahoma, Sans-Serif;
+   border-top: 1px solid #FFFFFF;
+   border-left: 1px solid #FFFFFF;
+   border-bottom: 1px solid gray;
+   border-right: 1px solid gray;
+   padding-left:2px;
+   padding-right:2px;
+   cursor: default;
+}
+ .blueText
+	    {
+		FONT-SIZE: 10pt;
+		font-family:Verdana, Tahoma, Sans-Serif;	
+		font-color:black;
+            } 
+	    
+	   .td11
+	    {
+		    text-align:left; 
+	    }
+	   
+	  .td22
+	    {
+		    text-align:center; 
+	    }
+
+	   .blueText .th
+	    {
+		    text-align:center; 
+	    }
+		
+.cssWaitMessage
+{
+	font-size: 10pt;
+	font-family : Verdana, Tahoma, Sans-Serif;
+	font-weight : bold;
+	color: #FF0000;
+	text-align: center;
+	cursor:default; 
+}
+
+.cssStatisticTable
+{
+	border-collapse:collapse; 
+} 
+.cssStatisticTH
+{
+   font-size:10pt;
+   border: 1px solid black; 
+   font-weight : bold;
+   text-align: center;
+   background-color: #D6E7EC;
+   padding: 10px;
+} 
+
+.cssStatisticTD
+{
+   font-size:10pt;
+   font-family:Verdana, Tahoma, Sans-Serif;
+   border: 1px solid black; 
+   text-align: left;
+   padding-left:2px;
+   padding-right:2px; 
+   padding: 10px;
+}
+
+.errorMessage
+{
+	list-style:square;
+	color: red;
+}

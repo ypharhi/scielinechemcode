@@ -1,0 +1,23 @@
+{ 
+	"statusTableName":"STEPSTATUS",
+	"firstState": "Planned",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"Planned", "text":"Planned"},
+  	{"id":"Active", "text":"Active" },
+  	{"id":"Finished", "text":"Finished" },
+  	{"id":"Cancelled", "text":"Cancelled" }
+ ],
+  "linkDataArray": 
+  [
+  	{"from":"Planned", "to":"Planned"},
+	{"from":"Planned", "to":"Active"},
+	{"from":"Planned", "to":"Cancelled"},
+	{"from":"Active", "to":"Active"},
+	{"from":"Active", "to":"Cancelled"},
+	{"from":"Active", "to":"Finished"},
+	{"from":"Finished", "to":"Finished"},
+	{"from":"Cancelled", "to":"Cancelled"}
+	]
+}

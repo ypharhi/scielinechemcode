@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<if condition='property("HOSTNAME").contains("DUMMY")'>
+		<then>
+			<appender name="STDOUT"
+				class="ch.qos.logback.core.ConsoleAppender">
+				<layout class="ch.qos.logback.classic.PatternLayout">
+					<Pattern>%d{dd/MM/yyyy HH:mm:ss} [%thread] %-5level %logger{36} -
+						%msg%n
+					</Pattern>
+				</layout>
+				<!-- <filter class="com.skyline.rest.controller" /> -->
+			</appender>
+		</then>
+	</if>
+	
+	<appender name="STDOUT_SQL" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%msg;%n
+			</Pattern>
+		</layout>
+		<!-- <filter class="com.skyline.rest.controller" /> -->
+	</appender>
+
+	<!-- <logger name="com.base22" level="TRACE"/> -->
+	<appender name="FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>c:\logs\AdamaUX.log</file>
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<Pattern>%d{dd/MM/yyyy HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</layout>
+
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>c:\logs\AdamaUX.%i.log.zip</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>3</maxIndex>
+		</rollingPolicy>
+
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>5MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<charset>utf-8</charset>
+			<Pattern>%d{dd/MM/yyyy HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+			</Pattern>
+		</encoder>
+	</appender>
+	
+	<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+              <appender-ref ref="FILE" />
+    </appender>
+    
+	<logger name="com.skyline.form.dal" level="TRACE">
+		 <appender-ref ref="STDOUT_SQL" />
+	</logger>
+	
+	<logger name="com.skyline.customer.adama.ReportsHelper" level="TRACE">
+		 <appender-ref ref="STDOUT_SQL" />
+	</logger>
+	
+	
+	<!-- INFO CONTROLLER CALLS -->
+	<logger name="com.skyline.form.controller" level="info">
+		 <appender-ref ref="STDOUT" />
+	</logger>
+     
+	<root level="ERROR">
+		<appender-ref ref="STDOUT" />
+<!-- 		<appender-ref ref="FILE" /> -->
+	</root>
+</configuration>
+ 
+ 
+       

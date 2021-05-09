@@ -1,0 +1,1 @@
+comply_theme and images folders belongs both to skyline and forms

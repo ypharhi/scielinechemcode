@@ -1,0 +1,20 @@
+{ 
+	"statusTableName":"STATUS",
+	"nodeKeyProperty": "id",
+  	"firstState": "Planned",
+  	"nodeDataArray":
+  	[
+  		{"id":"Planned", "text":"Planned"},
+  		{"id":"Active", "text":"Active" },
+  		{"id":"Completed", "text":"Completed" }
+ 	],
+  	"linkDataArray": 
+  	[
+  		{"from":"Planned", "to":"Planned"},
+		{"from":"Planned", "to":"Active"},
+		{"from":"Active", "to":"Active"},
+		{"from":"Active", "to":"Completed"},
+		{"from":"Completed", "to":"Completed"},
+		{"from":"Completed", "to":"Active"}
+	]
+}

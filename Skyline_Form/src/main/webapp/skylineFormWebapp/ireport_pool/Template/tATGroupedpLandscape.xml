@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="tATGroupedpPortrait"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="842"
+		 pageHeight="595"
+		 columnWidth="804"
+		 columnSpacing="0"
+		 leftMargin="19"
+		 rightMargin="19"
+		 topMargin="19"
+		 bottomMargin="19"
+		 whenNoDataType="AllSectionsNoDetail"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+  <property name="ireport.scriptlethandling" value="0" />
+  <property name="ireport.encoding" value="UTF-8" />
+  <import value="java.util.*" />
+  <import value="net.sf.jasperreports.engine.*" />
+  <import value="net.sf.jasperreports.engine.data.*" />
+  
+   <style
+      name="MarkFirstLine"
+      isDefault="false"
+	>
+    <conditionalStyle>
+      <conditionExpression><![CDATA[new Boolean($F{CHANGE_ID}.equals($F{MAX_CHANGE_ID}))]]></conditionExpression>
+      <style
+        name="MarkFirstLine"
+        isDefault="false"
+        mode="Opaque"
+        backcolor="@J!jasperSubHeaderColor@"
+			>
+      </style>
+    </conditionalStyle>
+  </style>
+  <style
+    name="Default"
+    isDefault="true"
+	>
+</style>
+  <parameter name="ReportParameterFilterDisplay" isForPrompting="false" class="java.lang.String"/>
+  <parameter name="ReportParameterTitle" isForPrompting="false" class="java.lang.String"/> 
+  <queryString>
+    <![CDATA[@sql@]]>
+  </queryString>
+
+  @fields@
+   
+  <background>
+    <band height="0"  isSplitAllowed="true" >
+    </band>
+  </background>
+  <title>
+    <band height="0"  isSplitAllowed="true" >
+    </band>
+  </title>
+  <pageHeader>
+    <band height="70"  isSplitAllowed="true" >
+      <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+        <reportElement
+          mode="Opaque"
+          x="0"
+          y="0"
+          width="804"
+          height="30"
+          forecolor="@J!jasperTitleColor@"
+          backcolor="#FFFFFF"
+          key="textField"/>
+        <box topPadding="2" bottomPadding="2"></box>
+        <textElement verticalAlignment="Bottom">
+          <font pdfFontName="@J!jasperTitleFont@" size="@J!jasperTitleSize@" isBold="true" isUnderline="true"/>
+        </textElement>
+        <textFieldExpression   class="java.lang.String"><![CDATA[$P{ReportParameterTitle}]]></textFieldExpression>
+      </textField>
+      <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+        <reportElement
+          x="0"
+          y="30"
+          width="804"
+          height="40"
+		  forecolor="@J!jasperSubTitleColor@"
+          backcolor="#FFFFFF"
+          key="textField"/>
+        <box topPadding="2" bottomPadding="2"></box>
+        <textElement verticalAlignment="Top">
+          <font pdfFontName="@J!jasperSubTitleFont@" size="@J!jasperSubTitleSize@" isBold="true"/>
+        </textElement>
+        <textFieldExpression   class="java.lang.String"><![CDATA[$P{ReportParameterFilterDisplay}]]></textFieldExpression>
+      </textField>
+    </band>
+  </pageHeader>
+  <columnHeader>
+    <band height="35"  isSplitAllowed="true" >
+      @headers@
+    </band>
+  </columnHeader>
+  <detail>
+    <band height="20"  isSplitAllowed="true" >
+      @details@
+    </band>
+  </detail>
+  <columnFooter>
+    <band height="0"  isSplitAllowed="true" >
+    </band>
+  </columnFooter>
+  <pageFooter>
+    <band height="25"  isSplitAllowed="true" >
+      <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+        <reportElement
+          x="562"
+          y="3"
+          width="241"
+          height="14"
+          key="textField"/>
+        <box></box>
+        <textElement textAlignment="Right">
+          <font/>
+        </textElement>
+        <textFieldExpression   class="java.lang.String"><![CDATA[(new SimpleDateFormat("dd/MM/yyyy")).format(new Date())]]></textFieldExpression>
+      </textField>
+      <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+        <reportElement
+          x="71"
+          y="3"
+          width="31"
+          height="14"
+          key="textField-2"/>
+        <box></box>
+        <textElement textAlignment="Center">
+          <font/>
+        </textElement>
+        <textFieldExpression   class="java.lang.String"><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+      </textField>
+      <line direction="BottomUp">
+        <reportElement
+          x="0"
+          y="1"
+          width="804"
+          height="2"
+          key="line-1"/>
+        <graphicElement stretchType="NoStretch"/>
+      </line>
+      <staticText>
+        <reportElement
+          x="1"
+          y="3"
+          width="30"
+          height="14"
+          key="staticText-9"/>
+        <box></box>
+        <textElement textAlignment="Center">
+          <font/>
+        </textElement>
+        <text><![CDATA[Page]]></text>
+      </staticText>
+      <staticText>
+        <reportElement
+          x="58"
+          y="3"
+          width="13"
+          height="14"
+          key="staticText-10"/>
+        <box></box>
+        <textElement textAlignment="Center">
+          <font/>
+        </textElement>
+        <text><![CDATA[of]]></text>
+      </staticText>
+      <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+        <reportElement
+          x="31"
+          y="3"
+          width="27"
+          height="14"
+          key="textField"/>
+        <box></box>
+        <textElement textAlignment="Center">
+          <font/>
+        </textElement>
+        <textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+      </textField>
+    </band>
+  </pageFooter>
+  <lastPageFooter>
+    <band height="19"  isSplitAllowed="true" >
+      <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+        <reportElement
+          x="562"
+          y="1"
+          width="241"
+          height="14"
+          key="textField-4"/>
+        <box></box>
+        <textElement textAlignment="Right">
+          <font/>
+        </textElement>
+        <textFieldExpression   class="java.lang.String"><![CDATA[(new SimpleDateFormat("dd/MM/yyyy")).format(new Date())]]></textFieldExpression>
+      </textField>
+      <line direction="BottomUp">
+        <reportElement
+          x="0"
+          y="1"
+          width="804"
+          height="1"
+          key="line-2"/>
+        <graphicElement stretchType="NoStretch"/>
+      </line>
+      <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Report" hyperlinkType="None"  hyperlinkTarget="Self" >
+        <reportElement
+          x="71"
+          y="3"
+          width="31"
+          height="14"
+          key="textField-5"/>
+        <box></box>
+        <textElement textAlignment="Center">
+          <font/>
+        </textElement>
+        <textFieldExpression   class="java.lang.String"><![CDATA[String.valueOf($V{PAGE_NUMBER})]]></textFieldExpression>
+      </textField>
+      <staticText>
+        <reportElement
+          x="1"
+          y="3"
+          width="30"
+          height="14"
+          key="staticText-11"/>
+        <box></box>
+        <textElement textAlignment="Center">
+          <font/>
+        </textElement>
+        <text><![CDATA[Page]]></text>
+      </staticText>
+      <staticText>
+        <reportElement
+          x="58"
+          y="3"
+          width="13"
+          height="14"
+          key="staticText-12"/>
+        <box></box>
+        <textElement textAlignment="Center">
+          <font/>
+        </textElement>
+        <text><![CDATA[of]]></text>
+      </staticText>
+      <textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+        <reportElement
+          x="31"
+          y="3"
+          width="27"
+          height="14"
+          key="textField-6"/>
+        <box></box>
+        <textElement textAlignment="Center">
+          <font/>
+        </textElement>
+        <textFieldExpression   class="java.lang.Integer"><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+      </textField>
+    </band>
+  </lastPageFooter>
+  <summary>
+    <band height="0"  isSplitAllowed="true" >
+    </band>
+  </summary>
+</jasperReport>

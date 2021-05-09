@@ -1,0 +1,4 @@
+@media all
+{
+   IE\:Date  { behavior: url('Calendar/DateWinControl.htc'); }
+}
