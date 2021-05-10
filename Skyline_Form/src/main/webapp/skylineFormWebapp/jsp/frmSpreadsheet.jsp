@@ -39,30 +39,168 @@
 	var isToolBarDisplay=[];
 	var isDisabled = [];//an array of all the excel objects when each cell mentions whether it's disabled or not
 
-	/* window.onload = function(e){
-			GC.Spread.Sheets.Designer.LicenseKey = "Designer-523526556479995#B0A4G8VkREd5RSp6dJllSiFlWSZENQxkcPBFaJ9WY4QUR6U4RCJnbrYXdvNlUzhHa0lVM78ETxxUboZnUHZTUlBDasFndadFbFtkQqFDNlVlQnRWU5V6UXFlc7R6UBNFbiFXUMZjbzsEW7ZzcUJ6a43mNyVUWnVkUulUWyFDWC34YhlDW4U7RMhUdQVFdURkTDZmS6lWNoBDNWx4aspkUCl4MvY5LYFGTYdjMKFHezYTaHh7Qml5Tz3kb8NHNa5GZTdDTttEbv9WbsBFMIVFWttWSORDRRxmdDNDdktSdnRGaIZVaSF4R8gmI0IyUiwiIFdTMDNzN9EjI0ICSiwiM5QTOxcjMzkTM0IicfJye&Qf35VfiUURJZlI0IyQiwiI4EjL6BCITpEIkFWZyB7UiojIOJyebpjIkJHUiwiI6AjNxcDMgQTMzATMyAjMiojI4J7QiwiIw8CMuAjLw2icl96ZpNXZkJiOiMXbEJCLikHbw56bDJiOiEmTDJCLiUTO9kzN4YTN5YjM5MjM5IiOiQWSiwSflVnc4pjIyNHZisnOiwmbBJye0ICRiwiI34TQ8t4bWVFMRdXWDpUVh5WMihmZzoVQLJUWr4UWvIzKp3SOOllcYd4VKxWWqJmSygTMoB5M4RUZjhTV63SZrZ7SJZXTS3Cewo7KGlVbyVmQG9EVDlzMrUTZ9UkSt3kS0pmYWNnWU5mUmFXOsyWTr";
-			var spread;
-			var jsonData = {};
-			var hideRibbonPanel = "0";//document.getElementById("hideRibbonPanel").value;
-			designer = new GC.Spread.Sheets.Designer.Designer(document.getElementById("gc-designer-container"));
-		}; */
-		function onLoadSpreadsheet(data,domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
+		function onLoadSpreadsheetElement(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey){
 			GC.Spread.Sheets.LicenseKey = SpreadSheetsLicenseKey;
 			GC.Spread.Sheets.Designer.LicenseKey = SpreadSheetsDesignerLicenseKey;
-			
+			var config = getConfig();
+			designer[domId] = new GC.Spread.Sheets.Designer.Designer(document.getElementById("gc-designer-container"),config);
+		}
+		
+		function onLoadSpreadsheet(data,domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
 			var jsonData = {};
 			var hideRibbonPanel = "0";
-			designer[domId] = new GC.Spread.Sheets.Designer.Designer(document.getElementById("gc-designer-container"));
 			this.isToolBarDisplay[domId] = isToolBarDisplay;
 			this.isDisabled[domId] = isDisabled;
 			var workBook = designer[domId].getWorkbook();
 			workBook.fromJSON(data);
-			defineSpreadsheet(domId);//important! this operation should be executed after the fromJson operation.
+			setTimeout(function(){//sorrounded with timeout in order to ensure that the customizations defined after the spreadJs finished loding
+				defineSpreadsheet(domId);//important! this operation should be executed after the fromJson operation.
+			},100);
 		}  
-
+		
+		function getConfig() {
+		  var config = GC.Spread.Sheets.Designer.DefaultConfig;
+		  updateDefaultConfig(config);
+		  return config;
+		}
+		
+		function updateDefaultConfig(config) {
+		  // remove fil menu
+		  removeFileMenu(config);
+		  updateHomeTab(config);
+		}
+		
+		function removeFileMenu(config) {
+		  config.fileMenu = null;
+		}
+	
+		function updateHomeTab(config) {
+		  var homeTab = config.ribbon.find(function(r){return r.id === 'home';});
+		  // add save option
+		  var customBtn = {
+		    label: 'Print',
+		    thumbnailClass: '',
+		    commandGroup: {
+		      children: [
+		        {
+		          direction: 'vertical',
+		          commands: ['print']
+		        }
+		      ]
+		    }
+		  };
+		  homeTab.buttonGroups = [customBtn, ...homeTab.buttonGroups];
+		
+		  // add custom command too
+		  var commandMap = config.commandMap;
+		  if (!config.commandMap) {
+		    commandMap = config.commandMap = {};
+		  }
+		
+		  commandMap['print'] = {
+		    title: 'Print',
+		    text: 'Print',
+		    iconClass: 'icon-pdf',
+		    bigButton: true,
+		    commandName: 'print',
+		    execute: function(context, propName) {
+		      alert('Print has  not been developed yet');
+		    }
+		  };
+		}
 
 		function onSpreadFocused(domId){
 			onSpreadsheetChange(domId);
+		}
+
+		function defineSpreadsheet(domId){
+			//define the visible tabs to 1 only and disable adding another tab
+			var workBook = designer[domId].getWorkbook();
+			workBook.setSheetCount(1);
+			workBook.options.newTabVisible = false;
+			/* var insertSheetIndex = null;
+			$.each(workBook.contextMenu.menuData, function (p, v) {
+			    if (v.name === 'gc.spread.contextMenu.insertSheet') { //disables adding tab by the right click
+			    	insertSheetIndex = p;//removing the element in the p index in the contextMennu array
+			    }
+			});
+			if(insertSheetIndex!=null){
+				workBook.contextMenu.menuData.splice(insertSheetIndex, 1);
+			} */
+			workBook.contextMenu.menuData = workBook.contextMenu.menuData.filter(function(item) {
+			    return item.name != 'gc.spread.contextMenu.insertSheet';
+		    });
+			
+			//fits the width and the height of the column and the row to the text.
+			workBook.bind(GC.Spread.Sheets.Events.CellChanged, function (e, args) {
+				/* var width = args.sheet.getColumnWidth(args.col, GC.Spread.Sheets.SheetArea.viewport);
+			    if(width == 62){
+			    	args.sheet.autoFitColumn(args.col);
+		    	} */
+			//    args.sheet.getCell(args.row,args.col).wordWrap(true);
+			    args.sheet.autoFitRow(args.row);
+		 	});
+		 	
+		 	var fileMenuTemplate = GC.Spread.Sheets.Designer.getTemplate(
+			  GC.Spread.Sheets.Designer.TemplateNames.FileMenuPanelTemplate
+			);
+			var listContainer =
+			    fileMenuTemplate["content"][0]["children"][0]["children"][0]["children"][0][
+			      "children"
+			    ][1];
+		    listContainer.items[2];
+		 	
+		 	//added a find command (ctrl+f). Register it to the showFindDialog function.
+		 	workBook
+		    .commandManager()
+		    .register("showFindDialog", showFindDialog, 70, true, false, false, false);
+					
+			/* //hide specific tabs in the toolbar
+			var hiddenTabs = getHiddenTabsBL();
+			for(var i=0;i<hiddenTabs.length;i++){
+				hideRibbonDesignTab(hiddenTabs[i]);//hide the 'file' tab
+			}
+			//hide the 'File' tab in the toolbar
+			$(".gc-ribbon-bar>>ul>.fileButton").css("display", "none");
+			 */
+			//hide the toolbar if the element is being defined so
+			if(isToolBarDisplay[domId]==false){
+				$('.header').css('display','none');
+				$('.vertical-splitter').css('display','none');
+				$('.fill-spread-content').css('position','inherit');
+			}
+			
+			//set the row & column count to the maximum(the column count is set according  to the data as long as the data contains more the 26 columns, else - define 26 cols)
+			var sheet = workBook.getActiveSheet();
+			var sheetCount = sheet.getColumnCount();
+			if(sheetCount && sheetCount>=26){
+				sheet.setColumnCount(sheet.getColumnCount());
+			} else {
+				sheet.setColumnCount(26);
+			}
+			sheet.setRowCount(3000);
+			
+			workBook.bind( GC.Spread.Sheets.Events.SelectionChanged , function (e, args) {
+					onSpreadsheetChange(domId);
+			});
+			
+			//set no cell as active and ready foe writing
+			workBook.focus(false); 
+			
+			//set the f4 key to switch the formula reference between relative, absolute, and mixed when editing formulas
+			workBook 
+			    .commandManager()
+			    .setShortcutKey("changeFormulaReference", 115, false, false, false, false);
+			
+			//add expand/compress
+			var expandCompressElem = '<span style="right:1%;position:absolute;" class="expand_compress_li">'
+									+'<a onclick="expandCompressSpreadIframe(this,\''+domId+'\');">'
+									+'<i class="fa fa-expand"></i></a></span>';
+			if($('.contentList.ribbon-navigation').has('.expand_compress_li').length ==0){
+				$('.contentList.ribbon-navigation').append(expandCompressElem);
+			}
+			
+		    disableSpreadsheet(domId);//disables the spreadsheet from being editable
 		}
 		
 		function expandCompressSpreadIframe(elem,domId){
@@ -86,66 +224,18 @@
 			 }
 
 		}
-
-		function defineSpreadsheet(domId){
-			//define the visible tabs to 1 only and disable adding another tab
-			var workBook = designer[domId].getWorkbook();
-			workBook.setSheetCount(1);
-			workBook.options.newTabVisible = false;
-			var insertSheetIndex = null;
-			$.each(workBook.contextMenu.menuData, function (p, v) {
-			    if (v.name === 'gc.spread.contextMenu.insertSheet') { //disables adding tab by the right click
-			    	insertSheetIndex = p;//removing the element in the p index in the contextMennu array
-			    }
-			});
-			if(insertSheetIndex!=null){
-				workBook.contextMenu.menuData.splice(insertSheetIndex, 1);
-			}
-			workBook.bind( GC.Spread.Sheets.Events.SelectionChanged , function (e, args) {
-					onSpreadsheetChange(domId);
-			});
-			
-			//hide specific tabs in the toolbar
-			var hiddenTabs = getHiddenTabsBL();
-			for(var i=0;i<hiddenTabs.length;i++){
-				hideRibbonDesignTab(hiddenTabs[i]);//hide the 'file' tab
-			}
-			//hide the 'File' tab in the toolbar
-			$(".gc-ribbon-bar>>ul>.fileButton").css("display", "none");
-			
-			//hide the toolbar if the element is being defined so
-			if(isToolBarDisplay[domId]==false){
-				$('.header').css('display','none');
-				$('.vertical-splitter').css('display','none');
-				$('.fill-spread-content').css('position','inherit');
-			}
-			
-			//set the row & column count to the maximum(the column count is set according  to the data as long as the data contains more the 26 columns, else - define 26 cols)
-			var sheet = workBook.getActiveSheet();
-			var sheetCount = sheet.getColumnCount();
-			if(sheetCount && sheetCount>=26){
-				sheet.setColumnCount(sheet.getColumnCount());
-			} else {
-				sheet.setColumnCount(26);
-			}
-			sheet.setRowCount(3000);
-			//set no cell as active and ready foe writing
-			workBook.focus(false); 
-			
-			//set the f4 key to switch the formula reference between relative, absolute, and mixed when editing formulas
-			workBook 
-			    .commandManager()
-			    .setShortcutKey("changeFormulaReference", 115, false, false, false, false);
-			
-			//add expand/compress
-			var expandCompressElem = '<span style="right:1%;position:absolute;" class="expand_compress_li">'
-									+'<a onclick="expandCompressSpreadIframe(this,\''+domId+'\');">'
-									+'<i class="fa fa-expand"></i></a></span>';
-			if($('.contentList.ribbon-navigation').has('.expand_compress_li').length ==0){
-				$('.contentList.ribbon-navigation').append(expandCompressElem);
-			}
-			
-		    disableSpreadsheet(domId);//disables the spreadsheet from being editable
+		
+		function showFindDialog() {
+		  document
+		    .querySelector(
+		      ".ribbon-button-thumbnail-group-icon.ribbon-thumbnail-editing"
+		    )
+		    .click();
+		  document.querySelector(".ribbon-button-item-icon.ribbon-button-find").click();
+		  document
+		    .querySelector(".ribbon-control-dropdown-find.gc-list-control-item-icon")
+		    .click();
+		  return true;
 		}
 
 		function disableSpreadsheet(domId,isDisabled){

@@ -69,6 +69,7 @@ function onLoadSpreadJS(data,domId,isToolBarDisplay,isDisabled) {
 }  
 
 function onLoadIframeSpreadsheet(domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
+	document.getElementById(domId+"_spreadIframe").contentWindow.onLoadSpreadsheetElement(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
 	setTimeout(function(){//added timeout in order to avoid the compressed toolbar and empty data (since onLoadIframeSpreadsheet was fired before onLoadSpreadJS)
 		$('#'+domId).find('iframe')[0].contentWindow.onLoadSpreadsheet(dataHolder[domId],domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
 	},100);
