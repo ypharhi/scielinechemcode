@@ -1071,9 +1071,11 @@ function addSummaryLine(domId) {
 									}
 									var newCell = $(newRow.insertCell());//insert new cell 
 									newCell.text(res);
+									newCell.css("background-color","#e5e5e5");
 									isFirstVisibleCol = true;
 								} else {
 									var ncell = $(newRow.insertCell());//insert new cell 
+									ncell.css("background-color","#e5e5e5");
 									if (table.column(idx).visible()
 											&& !isFirstVisibleCol) {//"Total" is displayed in the first column
 										isFirstVisibleCol = true;
