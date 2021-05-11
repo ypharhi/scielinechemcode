@@ -1101,7 +1101,7 @@ function calcColoumnByIndex(domId, columnInd,type) {
 	var table = $('#' + domId).DataTable();
 	if(type == "sum"){//summarize the column
 		var pageTotal = table
-	    .column( columnInd, { page: 'current'} )
+	    .column( columnInd, { search: 'applied'} )
 	    .data()
 	    .reduce( function (a, cdata) {
 	    	var value = 0;
