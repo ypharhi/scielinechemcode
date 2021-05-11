@@ -236,7 +236,7 @@ function getPlainTextForElementRichText($element)
 }
 
 function getAuditTrailValueForElementRichText($element){
-	getPlainTextForElementRichText($element);
+	return getPlainTextForElementRichText($element);
 }
 
 function focusRichtext($element){
