@@ -2497,9 +2497,12 @@ function generalBL_elementDataTableClickEvent(domId, customerFunction, params, $
 										}
 									}
 								}
+								//fixed bug 9150
+								$('#summaryLine').remove();
+								addSummaryLine(domId);
 								/* display warning message */
 								var warningToDisplay = "";
-								var fullObj = funcParseJSONData(obj.data[0].val); 
+								var fullObj = funcParseJSONData(obj.data[0].val);
 								if(Object.keys(fullObj).length > 0)
 								{
 									for(key in fullObj)

@@ -1054,6 +1054,7 @@ function addSummaryLine(domId) {
 				var isFirstVisibleCol = false;
 				
 				var newRow = $('[id="' + domId + '"] tbody')[0].insertRow();//insert summary row
+				newRow.id = "summaryLine";
 				
 				table.columns().iterator(
 						'column',
