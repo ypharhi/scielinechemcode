@@ -22,6 +22,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -1341,36 +1342,68 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 				/******** SMARTPATH handler *****************************************************************/
 				else if (!paramCol.isEmpty() && paramCol.endsWith("SMARTPATH")) {
 					String delimiter = ">";
+					ArrayList<Integer> al = new ArrayList<>();//kd 14042019 fixed bug-7395 Use this var for identify rows which has wrong path and shoild't be show in search result
 					for (int i = 0; i < rows.size(); i++) {
-						if (rows.get(i).get(paramCol) != null) {
-							String smartPath = rows.get(i).get(paramCol).toString();
-							JSONObject json = new JSONObject(smartPath);
-							//JSONArray jarr = new JSONArray();
-							JSONArray pathList = json.getJSONArray("path");
-							List<String> pathSmartLink = new ArrayList<String>();
-							for (int j = 0; j < pathList.length(); j++) {
-								String p = pathList.get(j).toString();
-								String id = generalUtil.getJsonValById(p, "id");
-								if (id.equals("")) {
-									continue;
+						try {
+							if (rows.get(i).get(paramCol) != null) {
+								String smartPath = rows.get(i).get(paramCol).toString();
+								boolean flag = true; // kd 12042019 This flag
+														// show if path not
+														// right
+								JSONObject json = new JSONObject(smartPath);
+								// JSONArray jarr = new JSONArray();
+								JSONArray pathList = json.getJSONArray("path");
+								/*
+								 * String formC =
+								 * generalUtil.getJsonValById(pathList.get(0).
+								 * toString(), "name").split(":")[0]; int j=0;
+								 * if (formC.equals("Project")){ j=1; }
+								 */
+								List<String> pathSmartLink = new ArrayList<String>();
+								for (int j = 0; j < pathList.length(); j++) {
+									String p = pathList.get(j).toString();
+									String id = generalUtil.getNull(generalUtil.getJsonValById(p, "id"));
+									if (id.equals("")) {
+										continue;
+									}
+									String checkName = generalUtil.getNull(generalUtil.getJsonValById(p, "name")
+											.substring(generalUtil.getJsonValById(p, "name").indexOf(":") + 1));
+									if (checkName.equals("")) {
+										flag = false;
+										continue;
+									}
+									String name = generalUtil.getJsonValById(p, "name").split(":")[1];
+									String formCode = generalUtil.getJsonValById(p, "name").split(":")[0];
+									pathSmartLink.add("{\"displayName\":\"" + name
+											+ "\",\"icon\":\"\",\"fileId\":\"\",\"formCode\":\"" + formCode
+											+ "\",\"formId\":\"" + id + "\",\"tab\":\"\" ,\"delimiter\":\"" + delimiter
+											+ "\"}");
 								}
-								String checkName = generalUtil.getNull(generalUtil.getJsonValById(p, "name")
-										.substring(generalUtil.getJsonValById(p, "name").indexOf(":") + 1));
-								if (checkName.equals("")) {
-									continue;
+								if (flag) {
+									rows.get(i).remove(paramCol);
+									rows.get(i).put(paramCol.replace("SMARTPATH", "SMARTLINK"),
+											pathSmartLink.isEmpty() ? "" : pathSmartLink.toString());
+								} else {
+									al.add(i);
 								}
-								String name = generalUtil.getJsonValById(p, "name").split(":")[1];
-								String formCode = generalUtil.getJsonValById(p, "name").split(":")[0];
-								pathSmartLink.add("{\"displayName\":\"" + name
-										+ "\",\"icon\":\"\",\"fileId\":\"\",\"formCode\":\"" + formCode
-										+ "\",\"formId\":\"" + id + "\",\"tab\":\"\" ,\"delimiter\":\"" + delimiter
-										+ "\"}");
 							}
-							rows.get(i).remove(paramCol);
-							rows.get(i).put(paramCol.replace("SMARTPATH", "SMARTLINK"), pathSmartLink.toString());
+
+						} catch (Exception e) {
+							System.out.println(e);
+							generalUtilLogger.logWrite(LevelType.ERROR,
+									"Error in search sql DataTable smartpath data perparation", "-1",
+									ActivitylogType.SQLError, null, e);
 						}
 					}
-
+					// kd 14042019 iterate rows and check if row has wrong path then it should be removed from result
+					int i = 0;
+					for (Iterator<Map<String, Object>> iter = rows.listIterator(); iter.hasNext();) {
+						iter.next();
+						if (al.contains(i)) { //It is checking current line (from rows) with array, which have wrong lines and shouldn't be in result 
+							iter.remove();
+						}
+						i++;
+					}
 				}
 				/******** SMARTACTIONS handler *****************************************************************/
 				else if (!paramCol.isEmpty() && paramCol.endsWith("SMARTACTIONS") 
