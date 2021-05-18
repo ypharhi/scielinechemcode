@@ -5400,7 +5400,7 @@ public class CalcMaterialTriplet extends CalcBasic {
 			String productCount= generalDao.selectSingleStringNoException("select count(*)\n"
 					+ "from fg_s_composition_v\n"
 					+ "where parentid = '"+originElementValueMap.get("parentId")+"'\n"
-					+ "and tableTyep = 'productComposition'\n"
+					+ "and tableType = 'productComposition'\n"
 					+ generalUtilFormState.getWherePartForTmpData("composition", originElementValueMap.get("parentId")));
 			if(generalUtil.getNull(originElementValueMap.get("tableType")).equals("stepComposition") 
 					&& (eventAction.equals("calcWwPOnChange") || eventAction.equals("calcWvOnChange")

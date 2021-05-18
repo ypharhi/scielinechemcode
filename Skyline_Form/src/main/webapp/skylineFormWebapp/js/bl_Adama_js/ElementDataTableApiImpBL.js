@@ -1377,6 +1377,15 @@ function cloneCompositionFromExpToStep(){
 					info : 'na'
 				};
 				allData = allData.concat(stringifyToPush);
+				
+				var stringifyToPush = {
+					code : "density",
+					val : parent.$('#density').val(),
+					type : "AJAX_BEAN",
+					info : 'na'
+				};
+				allData = allData.concat(stringifyToPush);
+					
 				var action = "checkBalance";
 				// url call
 				var urlParam = "?formId=" + $('#formId').val() + "&formCode="
