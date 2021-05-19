@@ -2,6 +2,7 @@
 var globalEditableTableEmptyRowHolder = {};
 var globalDataTableColumnWidthHolder = {};
 var globalDataTableColumnsOrderHolder = {};
+var globalDataTableFilterColumn = [];
 var columnReOrderDisabledClass = "column-reorder-disabled";
 
 var ElementDataTableApiImp = {
@@ -228,6 +229,7 @@ var ElementDataTableApiImp = {
 			var _sortArr = [];
 			var _colsWidthObj = {};
 			var _colsOrderArr = [];
+			var _colsFilterObj = {};
 			
 			if($('#' + domId).parent().hasClass('dt-colresizable-table-wrapper'))
 			{
@@ -236,6 +238,10 @@ var ElementDataTableApiImp = {
 			if(Object.keys(globalDataTableColumnsOrderHolder).length > 0 || globalDataTableColumnsOrderHolder.hasOwnProperty(domId))
 			{
 				_colsOrderArr = globalDataTableColumnsOrderHolder[domId];
+			}
+			if(Object.keys(globalDataTableFilterColumn).length > 0 || globalDataTableFilterColumn.hasOwnProperty(domId))
+			{
+				_colsFilterObj = globalDataTableFilterColumn[domId];
 			}
 			_table.columns().eq(0).each(function(colIdx) 
 			{				
@@ -267,7 +273,8 @@ var ElementDataTableApiImp = {
 				"sort" : _sortArr,
 				"columnSearch" : _colSearchArr,
 				"columnWidth" : _colsWidthObj,
-				"columnOrder" : _colsOrderArr
+				"columnOrder" : _colsOrderArr,
+				"columnFilter" : _colsFilterObj
 			});
 			console.log(domId, "tableConfig: "+ JSON.stringify(_tableConfig));
 		} 
@@ -847,7 +854,8 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
     	disallowRemoveColumns = false,
     	displayColumnsWhenNoRows = false,
     	isTableEditable = false,
-    	colSearchObj = {}; 
+    	colSearchObj = {}, 
+        colFilterObj = {};
     
     if (typeof dataTableOptions !== 'undefined') {
         dataTableOptionsFlag = true; // set flag if dataTableOptions exists
@@ -1160,7 +1168,10 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
         		var _allColumnsSearch = [];    		
         		var allColumnsNameIndexObj = {};// filled by column titles for COLUMN ORDER
         		
-        		if(colSearchObjLength > 0 || isTableReorderable)
+        		colFilterObj = (_savedObject.length > 0)?_savedObject[0].columnFilter:{};
+        		globalDataTableFilterColumn[domId] = (_savedObject.length > 0)?_savedObject[0].columnFilter:{};
+        		var colFilterObjLength = Object.keys(colFilterObj).length;
+        		if(colSearchObjLength > 0 || colFilterObjLength > 0 || isTableReorderable)
         		{
 	        		// loop through all columns
 	        		for(var j=0;j < objectColumnsLength;j++)
@@ -1169,11 +1180,15 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
 	        			var _title = _col.uniqueTitle;
 	        			allColumnsNameIndexObj[_title] = j; 
 	        			
-	        			if(colSearchObjLength > 0)
+	        			if(colSearchObjLength > 0 || colFilterObjLength > 0)
 	    				{
-	    					if(colSearchObj.hasOwnProperty(_title))
+	    					if(colSearchObjLength > 0&& colSearchObj.hasOwnProperty(_title))
 	    					{
 	    						_allColumnsSearch.push(colSearchObj[_title]);
+	    					}
+	    					else if(colFilterObjLength > 0&& colFilterObj.hasOwnProperty(_title)){
+	    						var val =  colFilterObj[_title].join("|");
+	    						_allColumnsSearch.push({"search":val,bRegex: true});
 	    					}
 	    					else
 	    					{
@@ -2017,7 +2032,7 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
     	//init remove columns option
         initRemoveColumnDatatable(domId);
     }
-    
+    initFilterColumnDatatable(domId);
 //  ab 16092020: function call relocated to initElementDataTableApi()
 //    //hide extras when hideExtras option is exists or when rols is Attachment
 //    if ((hideExtras) || (role == 'Attachment')) {
@@ -6798,3 +6813,40 @@ function getSavedColumnsOrderArray(domId, savedObj)
 	return colsNamesArr;
 }
 
+function setGlobalDataTableFilter( domId,colName, values,filterByEmptyVal )
+{
+	try {
+		var val = values.split("|");
+		if(!filterByEmptyVal && val==""){//clicking "OK" without checked values
+			delete globalDataTableFilterColumn[domId][colName];	
+			return;
+		}
+        var obj ={};
+        obj[colName] = val;
+		if(globalDataTableFilterColumn[domId]!= undefined){
+			globalDataTableFilterColumn[domId][colName]= val;
+		}else{
+			globalDataTableFilterColumn[domId]= obj;		
+		}
+	}
+	catch(e) {
+		console.error(e);
+	}
+}
+
+function initFilterColumnDatatable(tableID) {
+	if(bl_initFilterColumnDatatable()){
+	   var table = $('#' + tableID).DataTable();
+	    table.columns().iterator('column', function (ctx, idx) {
+	        if ($(table.column(idx).header()).html() != "") {
+	        	//var headerObj = table.column(idx).header();
+				//var _title = getColumnUniqueName($(headerObj));
+				var obj_ = $(table.column(idx).footer()).find('.firstString')
+				obj_.before('<i class="fa fa-filter" aria-hidden="true" id="filterIcon" style="position: absolute;z-index:1002;top:60%;left:2%;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+idx+'\')"></i>');
+                
+	        	//$(headerObj).find('div')
+	              //  obj_.before('<img id="filterIcon" border="0" src="../skylineFormWebapp/images/arrow_r.png" style="position: absolute;z-index:1002;" onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+idx+'\');">');//style="margin-right: 3px;float: right;"
+	        }
+	    });
+	}
+	}

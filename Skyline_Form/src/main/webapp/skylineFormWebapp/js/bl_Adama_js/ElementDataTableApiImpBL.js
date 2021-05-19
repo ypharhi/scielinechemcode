@@ -5655,6 +5655,14 @@ function enableCompositionDetailsButton(domId){//fixed bug 8953
 		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').removeClass('authorizationDisabled');
 	}
 }
+
+function bl_initFilterColumnDatatable(){
+	var toReturn = false;
+	if ($('#formCode').val() == "Main"){
+		toReturn = true;
+	}
+	return toReturn;
+}
 /*
  * 04012021 kdvoyashov commented this call because put to yes/no 
 	* 						to the favorite field inside the json on fly by using formid in the ..._dtm views and changing it in the map and put to the json
