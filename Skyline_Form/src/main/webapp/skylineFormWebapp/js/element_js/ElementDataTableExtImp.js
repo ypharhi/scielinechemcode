@@ -1152,7 +1152,7 @@ function filterColumn(domId,index){
              height: 300,
             // width: 250,
              position: {
-                 my: "left top-50",
+                 my: "left top",
                  at: "left bottom",
                  of:  $(selectedTable.column(index).footer()).find('#filterIcon')
              },
@@ -1175,7 +1175,12 @@ function filterColumn(domId,index){
 				    		 +"<ul id=\"checkList"+index+"\" style=\"list-style:none;padding-top:10px;\"></ul></div>";
 						 var _header = $(this.header())[0];
 					     var _title = getColumnUniqueName($(_header))
-					     var checkedArr = globalDataTableFilterColumn[domId][_title];
+					     var checkedArr = [];
+					     try{
+					    	 checkedArr = globalDataTableFilterColumn!=undefined?globalDataTableFilterColumn[domId][_title]:[];
+					     }catch(e){
+					    	 checkedArr =[];
+					     }
 				    		
 						 var column = this;
 				    	 $('#filterDialog').html(ulElem);
@@ -1256,6 +1261,7 @@ function filterColumn(domId,index){
 		 $dialog.dialog('option', 'dialogClass', 'noTitleStuff').dialog('open');
 		 
          }catch(e){
+        	 $("#mask").hide();
         	 console.log("open filter error",e);
          }
 }

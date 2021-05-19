@@ -1170,7 +1170,7 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
         		
         		colFilterObj = (_savedObject.length > 0)?_savedObject[0].columnFilter:{};
         		globalDataTableFilterColumn[domId] = (_savedObject.length > 0)?_savedObject[0].columnFilter:{};
-        		var colFilterObjLength = Object.keys(colFilterObj).length;
+        		var colFilterObjLength = colFilterObj!=undefined?Object.keys(colFilterObj).length:0;
         		if(colSearchObjLength > 0 || colFilterObjLength > 0 || isTableReorderable)
         		{
 	        		// loop through all columns
@@ -6818,7 +6818,9 @@ function setGlobalDataTableFilter( domId,colName, values,filterByEmptyVal )
 	try {
 		var val = values.split("|");
 		if(!filterByEmptyVal && val==""){//clicking "OK" without checked values
-			delete globalDataTableFilterColumn[domId][colName];	
+			if(globalDataTableFilterColumn!=undefined && globalDataTableFilterColumn[domId]!=undefined){
+				delete globalDataTableFilterColumn[domId][colName];	
+			}
 			return;
 		}
         var obj ={};
@@ -6842,7 +6844,7 @@ function initFilterColumnDatatable(tableID) {
 	        	//var headerObj = table.column(idx).header();
 				//var _title = getColumnUniqueName($(headerObj));
 				var obj_ = $(table.column(idx).footer()).find('.firstString')
-				obj_.before('<i class="fa fa-filter" aria-hidden="true" id="filterIcon" style="position: absolute;z-index:1002;top:60%;left:2%;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+idx+'\')"></i>');
+				obj_.before('<i class="fa fa-filter" aria-hidden="true" id="filterIcon" style="position: absolute;z-index:1002;top:60%;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+idx+'\')"></i>');
                 
 	        	//$(headerObj).find('div')
 	              //  obj_.before('<img id="filterIcon" border="0" src="../skylineFormWebapp/images/arrow_r.png" style="position: absolute;z-index:1002;" onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+idx+'\');">');//style="margin-right: 3px;float: right;"
