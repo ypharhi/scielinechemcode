@@ -908,8 +908,9 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				elementValueMap.put("recipeList", "");
 				elementValueMap.put("doClearConnection", "");
 				
-				String isSPEnableSpreadsheet = generalDao.selectSingleStringNoException("select isenablespreadsheet from fg_s_subproject_v where formid = '"+elementValueMap.get("SUBPROJECT_ID")+"'");
-				if (generalUtil.getNull(isSPEnableSpreadsheet).equals("No")) {
+				String enabledspreadsheet = generalUtil.getNull(elementValueMap.get("enableSpreadsheet"),"No");
+				//String isSPEnableSpreadsheet = generalDao.selectSingleStringNoException("select isenablespreadsheet from fg_s_subproject_v where formid = '"+elementValueMap.get("SUBPROJECT_ID")+"'");
+				if (generalUtil.getNull(enabledspreadsheet).equals("No")) {
 					String defaultSpreadsheet = generalDao.selectSingleStringNoException(
 							"select spreadsheet from fg_s_spreadsheettempla_v where formId in(select t.DEFAULTSPREADSHEETTEMP from FG_S_FORMULATIONTYPE_V t,fg_s_experiment_v ex where t.formulationtype_id = ex.FORMULATIONTYPE_ID and ex.formid = '"
 									+ formId + "')");
@@ -2477,6 +2478,47 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 						}
 					}
 				}
+			}else {
+				String parentId = elementValueMap.get("parentId");
+				String parentFormCodeEntity = formDao.getFormCodeEntityBySeqId("", parentId);
+				List<String> listOfAncestors = new ArrayList<String>();
+				
+				if (parentFormCodeEntity.equals("Sample")) {
+					String parent_sample_id = generalDao.selectSingleStringNoException("select t.parentid from fg_s_sample_v t where formid = '"+parentId+"'");
+					String parentSampleFormCodeEntity = formDao.getFormCodeEntityBySeqId("", parent_sample_id);
+					String parentSampleFormCode = formDao.getFormCodeBySeqId(parentId);
+					if (parentSampleFormCodeEntity.equals("Experiment")&& !parentSampleFormCode.equals("ExperimentAn") && !parentSampleFormCode.startsWith("ExperimentPr")) {
+						listOfAncestors.add(parent_sample_id);
+					} else if (parentSampleFormCodeEntity.equals("Step")) {
+						listOfAncestors.add(parent_sample_id);
+						listOfAncestors.add(formDao.getFromInfoLookup("Step", LookupType.ID, parent_sample_id, "EXPERIMENT_ID"));
+					} else if (parentSampleFormCodeEntity.endsWith("Action")) {
+						listOfAncestors.add(parent_sample_id);
+						listOfAncestors.add(formDao.getFromInfoLookup("Action", LookupType.ID, parent_sample_id, "STEP_ID"));
+						listOfAncestors.add(formDao.getFromInfoLookup("Action", LookupType.ID, parent_sample_id, "EXPERIMENT_ID"));
+					} else if (parentSampleFormCodeEntity.equals("SelfTest")) {
+						listOfAncestors.add(parent_sample_id);
+						listOfAncestors.add(formDao.getFromInfoLookup("SelfTest", LookupType.ID, parent_sample_id, "ACTION_ID"));
+						String step_id = formDao.getFromInfoLookup("SelfTest", LookupType.ID, parent_sample_id, "STEP_ID");
+						listOfAncestors.add(step_id);
+						listOfAncestors.add(formDao.getFromInfoLookup("Step", LookupType.ID, step_id, "EXPERIMENT_ID"));
+					} else if (parentSampleFormCodeEntity.equals("Workup")) {
+						listOfAncestors.add(parent_sample_id);
+						String action_id = formDao.getFromInfoLookup("Workup", LookupType.ID, parent_sample_id, "ACTION_ID");
+						listOfAncestors.add(action_id);
+						listOfAncestors.add(formDao.getFromInfoLookup("Action", LookupType.ID, action_id, "STEP_ID"));
+						listOfAncestors.add(formDao.getFromInfoLookup("Action", LookupType.ID, action_id, "EXPERIMENT_ID"));
+					}
+					//Update the request selection of the ancestors
+					String sessionId_ = "";
+					for (String ancestor : listOfAncestors) {
+						sessionId_ = generalUtilFormState.getSessionId(ancestor);
+						formDao.insertToSelectTable("REQUESTSELECT", ancestor, "REQUEST_ID", Arrays.asList(formId), false,
+								userId, sessionId_);
+					}
+				}
+
+				
 			}
 			}
 /*
