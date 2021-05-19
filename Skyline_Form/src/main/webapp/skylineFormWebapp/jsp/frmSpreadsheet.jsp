@@ -185,7 +185,8 @@
 			});
 			
 			//set no cell as active and ready foe writing
-			workBook.focus(false); 
+			//workBook.focus(false); 
+			sheet.setSelection([{row:-1,col:-1,rowCount:-1,colCount:-1}]);
 			
 			//set the f4 key to switch the formula reference between relative, absolute, and mixed when editing formulas
 			workBook 
@@ -246,22 +247,13 @@
 				$('.ribbon-panel').css('pointer-events','none').css('cursor','not-allowed');//toolbar
 				$('#vp_vp').css('pointer-events','none').css('cursor','not-allowed');//#ssvp_vp
 				$('.gc-formulaBar').css('pointer-events','none').css('cursor','not-allowed');//formula bar
-				/* var workBook = designer[domId].getWorkbook()
-				workBook.options.allowContextMenu = false;
-				var activeSheet = workBook.getActiveSheet();
-				activeSheet.endEdit(true); */
+
 			}else{
 				$('.ribbon-panel').css('pointer-events','auto').css('cursor','auto');//toolbar
 				$('#vp_vp').css('pointer-events','auto').css('cursor','auto');//#ssvp_vp
 				$('.gc-formulaBar').css('pointer-events','auto').css('cursor','auto');//formula bar
 				var workBook = designer[domId].getWorkbook()
 				var activeSheet = workBook.getActiveSheet();
-				// Set to be always in input mode.
-			 	workBook.bind(GC.Spread.Sheets.Events.EnterCell, function (event, data)
-			    {
-			      var sheet = data.sheet;
-			      activeSheet.startEdit(false);
-			    });
 			}
 		}
 		
