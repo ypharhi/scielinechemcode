@@ -1129,3 +1129,139 @@ function calcColoumnByIndex(domId, columnInd,type) {
 	return pageTotal;
 }
 
+function filterColumn(domId,index){
+	if ($('#filterDialog').dialog('isOpen')===true) {
+		$('#filterDialog iframe').attr('src', 'about:blank');
+		$('#filterDialog').remove();
+		$("#mask").hide();
+		
+		return;
+	}
+	 try{
+		 var selectedTable = $('#' + domId).DataTable();
+         var position_ = $(selectedTable.column(index).footer()).find('.firstString').offset();
+         var left = position_.left;
+	     var top = position_.top;
+	      
+		var selectEmptyValues = false;//The flag is added to check if the OK button is clicked without selecting values or if an empty value was selected
+		 var $dialog = $('<div id="filterDialog" class="ui-dialog-content ui-widget-content" style="padding:5px;"></div>')
+         .html('<iframe style="border: 0px;width:100%;height:100%;" ></iframe>')//position:fixed;
+         .dialog({
+             autoOpen: false,
+             modal: true,
+             height: 300,
+            // width: 250,
+             position: {
+                 my: "left top",
+                 at: "left bottom",
+                 of:  $(selectedTable.column(index).footer()).find('#filterIcon')
+             },
+             close: function () {
+            	 $('#filterDialog iframe').attr('src', 'about:blank');
+                 $('#filterDialog').remove();
+                 $("#mask").hide();
+                 },
+				open: function(event, ui) 
+				{
+					$('#mask').css('z-index', '1001');
+				    $("#mask").show();//lock screen
+					$('#filterDialog').siblings( ".ui-dialog-titlebar" ).css( "display", "none" );//remove the dialog title
+					$('.ui-dialog-buttonset').css( "padding", "10px" );
+					//$(this).parent().css({'top': top,'left':left});
+					
+					 selectedTable.columns(index).every( function () {
+						 //create multiple checkbox in ddl
+						 var ulElem = "<div id=\"listCB\" class=\"dropdown-check-list\"  style=\"max-height:100%;overflow:auto\">"
+				    		 +"<ul id=\"checkList"+index+"\" style=\"list-style:none;padding-top:10px;\"></ul></div>";
+						 var _header = $(this.header())[0];
+					     var _title = getColumnUniqueName($(_header))
+					     var checkedArr = [];
+					     try{
+					    	 checkedArr = globalDataTableFilterColumn!=undefined?globalDataTableFilterColumn[domId][_title]:[];
+					     }catch(e){
+					    	 checkedArr =[];
+					     }
+				    		
+						 var column = this;
+				    	 $('#filterDialog').html(ulElem);
+				    	 var emptyVal ="";
+				    	 column.data().unique().sort().each( function ( val, idx ) {
+				    		var checked = "";
+				    		if (checkedArr != undefined && checkedArr.indexOf(val) != '-1') {
+						    	checked = "checked";
+							}
+				    		 if(val==""){
+				    			 var label_ = "(Blanks)";
+				                var elem = "<li >";
+				                emptyVal += "<input type='checkbox' id='cb"+idx+"' value='"+val+"'"+checked+" ></>";
+				                emptyVal += "<label title='"+label_+"'>"+label_+"</label>";
+				                emptyVal += "</li>";
+				    		 }
+				    		 else if (val!= undefined && checkIfJSON(val)) // check if json or not
+				 			{
+				 				var value = getDisplayValueFromSmarts(val);
+				 				if(value!= undefined && value!=""){
+				 					var label_ = value.length>30?value.trim().slice(0,27)+"...":value;
+					                var elem = "<li >";
+					                elem += "<input type='checkbox' id='cb"+idx+"' value='"+value+"'"+checked+" ></>";
+					                elem += "<label title='"+value+"'>"+label_.replace(/\n/g, "")+"</label>";
+					                elem += "</li>";	
+					                $('#checkList'+index).append(elem);
+				 				}
+				 			}else{
+				 				val = $.trim(val.replace(/<\/?[^>]+(>|$)/g, ""));//remove special characters and html tags
+				 			    if (checkedArr != undefined && checkedArr.indexOf(val) != '-1') {
+				 			    	checked = "checked";
+				 			    	}
+				    		    var label_ = val.length>30?val.slice(0,27)+"...":val;
+			                	var elem = "<li >";
+			                	elem += "<input type='checkbox' id='cb"+idx+"' value='"+val+"'"+checked+" ></>";
+			                	elem += "<label title='"+val+"'>"+label_.replace(/\n/g, "")+"</label>";
+			                	elem += "</li>";	
+			                	$('#checkList'+index).append(elem);
+				 			}
+			                } );
+				    	 if(emptyVal!=""){//Empty values should be at the bottom of the list
+				    		 $('#checkList'+index).append(emptyVal);
+				    	 }
+			            } );
+					 
+				},
+				buttons: { "OK": function() {
+					$("#mask").hide();
+					var selectedTable = $('#' + domId).DataTable();
+					 selectedTable.columns(index).every( function () {
+						 var data = [];
+			    		 $('#checkList'+index+'  input[type="checkbox"]:checked').each(function(){//select all checked values
+			    			 if(this.value ==""){
+			    				 selectEmptyValues = true;//Blank value selected
+			    			 }
+			    			   data.push(this.value);
+			    			});
+			    		 var val = data.join('|');
+						 var _header = $(this.header())[0];
+						 var _title = getColumnUniqueName($(_header));
+						 var column = this;
+						 setGlobalDataTableFilter(domId,_title,val,selectEmptyValues);
+						 if(!selectEmptyValues){
+							 val = val.replace(/\n/g, " ");//remove html tags
+							 column
+							 .search( val ? '^'+val+'$' : '', true, false )
+							 .draw();
+						 }else{//search include blank value
+							 column
+							 .search( '^$', true, false )
+		                     .draw();
+						 }
+					 });
+					 
+					 $(this).dialog("close");} } 
+         });
+		 
+		 $dialog.dialog('option', 'dialogClass', 'noTitleStuff').dialog('open');
+		 
+         }catch(e){
+        	 $("#mask").hide();
+        	 console.log("open filter error",e);
+         }
+}
