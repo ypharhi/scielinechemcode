@@ -612,6 +612,13 @@ function initForm() {
         	$("#saveButton").removeAttr('onclick');
     		//$("#saveButton").attr("onclick", "doSaveWithConfirmManualResults('Reload');");
         	$("#saveButton").attr("onclick", "checkNonFamiliarAndSave(doSaveWithConfirmManualResults,'Reload');");
+        	
+        	//lower the spreadsheet tab flag so that when clicking it, the spreadsheet would be reloaded
+        	if(getActiveTabID() != "SpreadsheetTab") {
+        		checkTabClickFlag('SpreadsheetTab');
+        	}
+        	
+        	$('#SPREADSHEETTEMPLATE_ID').attr("onchange","onChangeTemplate(this,$(this).attr('lastvalue'))");
         }
         else if(_formCode == "ExperimentFor")
         {
@@ -2089,7 +2096,7 @@ function floatingTabsPanelToggleClick(elem)
 function initFloatingButtonsPanel()
 {
 	
-	var formsArr = ['Step','SelfTest','Request','ExperimentCP','SpreadsheetTempla','ExperimentFor','Sample'];
+	var formsArr = ['Step','SelfTest','Request','ExperimentCP','SpreadsheetTempla','ExperimentFor','Sample','Experiment','ExperimentAn'];
 	var _formCode = $('#formCode').val();
 	
 	if($.inArray(_formCode, formsArr) != -1)
@@ -2270,6 +2277,11 @@ function initFloatingButtonsPanel()
 						onElementDataTableApiChange('materials');
 					}
 				} else if (_formCode == 'Experiment'){
+					if(activeTabId == "SpreadsheetTab" && checkTabClickFlag("SpreadsheetTab",true)){//if click on the spreadsheetTab and flag is up(because the active tab in the init was not spreadsheet)-> then reload the iframe
+						//document.getElementById('spreadsheetExcel_spreadIframe').contentWindow.location.reload();
+						reloadExcelSheet('spreadsheetExcel');
+					}
+				} else if (_formCode == 'ExperimentAn'){
 					if(activeTabId == "SpreadsheetTab" && checkTabClickFlag("SpreadsheetTab",true)){//if click on the spreadsheetTab and flag is up(because the active tab in the init was not spreadsheet)-> then reload the iframe
 						//document.getElementById('spreadsheetExcel_spreadIframe').contentWindow.location.reload();
 						reloadExcelSheet('spreadsheetExcel');
