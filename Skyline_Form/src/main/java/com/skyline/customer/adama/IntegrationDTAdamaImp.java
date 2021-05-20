@@ -676,7 +676,8 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						}
 					}else{
 						String wherePart = "";
-						if(formCode.equals("ExperimentFor")&&display.toLowerCase().equals("dte")){
+						String formCodeEntity = formDao.getFormCodeEntityBySeqId(formCode,formId);
+						if(formCodeEntity.equals("Experiment")&&display.toLowerCase().equals("dte")){
 							wherePart = " and EXPERIMENT_ID = '"+formId+"'";
 						}
 						sql = "select * from " + table + " where 1=1"+wherePart;
@@ -2710,7 +2711,8 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					onChangeFormId, userId);
 		}
 		//**** ExperimentFor
-		if (parentFormCode.equals("ExperimentFor") && formCode.equals("Sample")) {
+		if ((parentFormCode.equals("ExperimentFor") || parentFormCode.equals("Experiment") || parentFormCode.equals("ExperimentCP"))
+				&& formCode.equals("Sample")) {
 			String sql = "update FG_S_" + formCode + "_PIVOT set " + onChangeColumnName + "='" + onChangeColumnVal + "'"
 					+ " where FORMID = '" + formNumberId + "'";
 			update = formSaveDao.updateStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT",

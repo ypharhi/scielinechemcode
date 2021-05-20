@@ -600,6 +600,7 @@ function initForm() {
         	{
         		$('.experimentDefaultMassBalanceClass:not(:checked)').prop('disabled',true);
         	}
+        	$('#SPREADSHEETTEMPLATE_ID').attr("onchange","onChangeTemplate(this,$(this).attr('lastvalue'))");
         } 
         else if(_formCode == "ExperimentAn"){
         	$("#saveButton").removeAttr('onclick');
