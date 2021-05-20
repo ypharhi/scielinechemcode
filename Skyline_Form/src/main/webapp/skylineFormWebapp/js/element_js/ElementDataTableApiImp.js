@@ -5900,6 +5900,9 @@ function removeColumnDatatable(domId, colTitle)
     var colIndex = getColumnIndexByColHeader(domId, colTitle);
     var input = $(table.column(colIndex).footer()).find('input[class="firstString"]');
     $(input).val('');
+    if(globalDataTableFilterColumn!=undefined && globalDataTableFilterColumn[domId]!=undefined){
+		delete globalDataTableFilterColumn[domId][colTitle];	
+	}
     $(input).siblings('select').val('co');
     input.trigger('keyup');    
 
@@ -6841,14 +6844,9 @@ function initFilterColumnDatatable(tableID) {
 	   var table = $('#' + tableID).DataTable();
 	    table.columns().iterator('column', function (ctx, idx) {
 	        if ($(table.column(idx).header()).html() != "") {
-	        	//var headerObj = table.column(idx).header();
-				//var _title = getColumnUniqueName($(headerObj));
-				var obj_ = $(table.column(idx).footer()).find('.firstString')
+	        	var obj_ = $(table.column(idx).footer()).find('.firstString')
 				obj_.before('<i class="fa fa-filter" aria-hidden="true" id="filterIcon" style="position: absolute;z-index:1002;top:60%;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+idx+'\')"></i>');
-                
-	        	//$(headerObj).find('div')
-	              //  obj_.before('<img id="filterIcon" border="0" src="../skylineFormWebapp/images/arrow_r.png" style="position: absolute;z-index:1002;" onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+idx+'\');">');//style="margin-right: 3px;float: right;"
-	        }
+                }
 	    });
 	}
 	}
