@@ -2242,7 +2242,10 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				}
 			} else if (protocolTypeName.equals("Continuous Process")) { //add ExperimentCP for "Continuous Process"
 				updateFormCode = "ExperimentCP";
-				commonFunc.createNewStepCPData(formId);
+				String isEnableSpread =  generalUtil.getNull(elementValueMap.get("ISENABLESPREADSHEET"));
+				if (isEnableSpread.equalsIgnoreCase("yes") && hideStepFromSpreadsheet == 1) {
+					commonFunc.createNewStepCPData(formId);
+				}
 			}
 
 			/*formSaveDao.updateSingleString(

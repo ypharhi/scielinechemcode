@@ -467,7 +467,7 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 							}
 						}
 					}
-					if(formCode.equals("Experiment")) {
+					if(formCode.equals("Experiment")||formCode.equals("ExperimentCP")) {
 						String isEnableSpread =  generalUtil.getNull(formParam.get("ISENABLESPREADSHEET"));
 						if(isEnableSpread.equalsIgnoreCase("yes") && hideStepFromSpreadsheet == 1) {
 							msg = generalUtil.getSpringMessagesByKey(
