@@ -45,6 +45,9 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 
 	@Value("${removeUnuseStates:1}")
 	private int removeUnuseStates_;
+	
+	@Value("${hideStepFromSpreadsheet:1}")
+	private int hideStepFromSpreadsheet;
 
 	public Map<String, String> getFormWFStateGeneral(String formCode, String userId, String formId, boolean isNewFormId,
 			Map<String, String> outParamMap) {
@@ -464,6 +467,19 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 							}
 						}
 					}
+					if(formCode.equals("Experiment")) {
+						String isEnableSpread =  generalUtil.getNull(formParam.get("ISENABLESPREADSHEET"));
+						if(isEnableSpread.equalsIgnoreCase("yes") && hideStepFromSpreadsheet == 1) {
+							msg = generalUtil.getSpringMessagesByKey(
+									statusLogOrder + "Enabled spread sheet in sub-Project - Step is removed.",
+									"");
+							generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowNew, msg, formId, msgBuilder);
+							generalUtilLogger.logWriter(LevelType.DEBUG,
+									" Enabled spread sheet in sub-Project - Step is removed.",
+									ActivitylogType.WorkFlowNew, formId);
+							wfNames.remove("Step");
+						}
+					}
 					removeNewEntitiesByExperimentStatus(entityFormCode, formId, formParam, wfNames, msgBuilder);
 				}
 				if (formCode.equals("Request")) {
@@ -839,6 +855,7 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 			case STATUS:
 				//**** formCode: Experiment 
 				if (formCode.equals("Experiment") || formCode.equals("ExperimentCP")) {
+					String isEnableSpread =  generalUtil.getNull(formParam.get("ISENABLESPREADSHEET"));
 					//get status_
 					String experimentstatus = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.ID,
 							generalUtil.getNull(formParam.get("STATUS_ID")), "name");
@@ -847,7 +864,7 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 							LookupType.NAME, "id");
 					//check case...
 					// -- empty or planned
-					if (experimentstatus.equals("") || experimentstatus.equals("Planned")) {
+					if ((experimentstatus.equals("") || experimentstatus.equals("Planned")) && isEnableSpread.equalsIgnoreCase("no")) {
 						msg = generalUtil.getSpringMessagesByKey(
 								statusLogOrder
 										+ "Active is removed from the list since it can be changed to by system only, and not by user.",

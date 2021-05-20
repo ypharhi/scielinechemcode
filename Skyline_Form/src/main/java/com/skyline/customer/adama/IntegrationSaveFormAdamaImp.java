@@ -119,6 +119,9 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 
 	@Value("${firstFromulationProjectNum:2500}")
 	private String firstFromulationProjectNum;
+	
+	@Value("${hideStepFromSpreadsheet:1}")
+	private int hideStepFromSpreadsheet;
 
 	// Note: the search type in the reaction can be and defined in chem.searchType prop (smiles[default]/inchi/mol[has a problem because of the location coordinates that effects the matrix - don't use it]) that are already exists in the tables we look at as columns
 	@Value("${chem.searchType:smiles}")
@@ -2204,7 +2207,8 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			//change formcode according to the protocolTypeName 
 			//and create the first step in Formulation ans Orgnic experiments
 			if(protocolTypeName.equals("Organic")) {
-				if (elementValueMap.get("TEMPLATE_ID").isEmpty()) {
+				String isEnableSpread =  generalUtil.getNull(elementValueMap.get("ISENABLESPREADSHEET"));
+				if (elementValueMap.get("TEMPLATE_ID").isEmpty() && isEnableSpread.equalsIgnoreCase("yes") && hideStepFromSpreadsheet == 1) {
 					commonFunc.createNewStepOrganicData(formId);
 				}
 			} else if(protocolTypeName.equals("Analytical")) {
