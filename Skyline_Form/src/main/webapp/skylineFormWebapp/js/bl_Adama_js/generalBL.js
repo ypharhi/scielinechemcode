@@ -600,6 +600,12 @@ function initForm() {
         	{
         		$('.experimentDefaultMassBalanceClass:not(:checked)').prop('disabled',true);
         	}
+        	
+        	//lower the spreadsheet tab flag so that when clicking it, the spreadsheet would be reloaded
+        	if(getActiveTabID() != "SpreadsheetTab") {
+        		checkTabClickFlag('SpreadsheetTab');
+        	}
+        	
         	$('#SPREADSHEETTEMPLATE_ID').attr("onchange","onChangeTemplate(this,$(this).attr('lastvalue'))");
         } 
         else if(_formCode == "ExperimentAn"){
@@ -2247,6 +2253,10 @@ function initFloatingButtonsPanel()
 		            {
 		            	$('#dataTableAddRowFloatingButton').css('visibility','hidden');
 		            }
+					if(activeTabId == "SpreadsheetTab" && checkTabClickFlag("SpreadsheetTab",true)){//if click on the spreadsheetTab and flag is up(because the active tab in the init was not spreadsheet)-> then reload the iframe
+						//document.getElementById('spreadsheetExcel_spreadIframe').contentWindow.location.reload();
+						reloadExcelSheet('spreadsheetExcel');
+					}
 				}
 				else if(_formCode == 'ExperimentFor') { 
 					if(activeTabId == "OverviewTab" && checkTabClickFlag("OverviewTab",true)) { //if click on OverviewTab and flag is up (becuse the init tab was not OverviewTab) -> checkTabClickFlag (isFlagUp = true) - will return true and remove the flag => for openCollapsibleIframes just in the first click.
@@ -2258,6 +2268,11 @@ function initFloatingButtonsPanel()
 					}
 					if(activeTabId == "SafetyTab" && checkTabClickFlag("SafetyTab",true)){
 						onElementDataTableApiChange('materials');
+					}
+				} else if (_formCode == 'Experiment'){
+					if(activeTabId == "SpreadsheetTab" && checkTabClickFlag("SpreadsheetTab",true)){//if click on the spreadsheetTab and flag is up(because the active tab in the init was not spreadsheet)-> then reload the iframe
+						//document.getElementById('spreadsheetExcel_spreadIframe').contentWindow.location.reload();
+						reloadExcelSheet('spreadsheetExcel');
 					}
 				}
 				
