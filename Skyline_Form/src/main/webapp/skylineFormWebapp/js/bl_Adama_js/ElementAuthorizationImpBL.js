@@ -961,7 +961,10 @@ function ExpAnMandatoryFieldsByStatus(isActual,status_) {
      
      /**current status*/
      if(currentStatus=='Active'){
-    	 elements.push('APPROVER_ID','description','instrumentsTable');
+    	 elements.push('APPROVER_ID','description');
+    	 if(isActual == "1"){//'$P{ISENABLESPREADSHEET}'=='No'
+    		 elements.push('instrumentsTable');
+    	 }
      }else{
     	 setRequiredByElementId('APPROVER_ID',false);
     	 setRequiredByElementId('description',false);
