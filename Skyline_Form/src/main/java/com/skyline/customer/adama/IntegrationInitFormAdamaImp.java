@@ -90,7 +90,9 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 	@Autowired
 	private GeneralUtilPermission generalUtilPermission;
 	
-	
+	@Value("${hideStepFromSpreadsheet:1}")
+	private int hideStepFromSpreadsheet; //indicating if the steps should be available when the spreadsheet is enabled- used in the orgnic&CP experiments
+
 	
 	@Value("${isTreeRoot:0}")
 	private int isTreeRoot; //indicating if the breadcrumb in the title would be opened as a tree
@@ -552,6 +554,9 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 								+ structId
 								+ "' and t.STATUS_ID = s.STEPSTATUS_ID(+) and s.STEPSTATUSNAME <> 'Planned'");
 				toReturn.put("DISABLED_STEPS", disabledStepstoDelete);
+				String enabledspreadsheet = generalUtil.getNull(toReturn.get("ISENABLESPREADSHEET"),"No");
+				boolean isStepAvailable = enabledspreadsheet.equals("No") || hideStepFromSpreadsheet == 0;
+				toReturn.put("IS_STEP_AVAILABLE", isStepAvailable?"True":"False");
 			}
 			//***************************************
 			//*************** getFormParam ExperimentAn 
@@ -640,6 +645,9 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 								+ structId
 								+ "' and t.STATUS_ID = s.STEPSTATUS_ID(+) and s.STEPSTATUSNAME <> 'Planned'");
 				toReturn.put("DISABLED_STEPS", disabledStepstoDelete);
+				String enabledspreadsheet = generalUtil.getNull(toReturn.get("ISENABLESPREADSHEET"),"No");
+				boolean isStepAvailable = enabledspreadsheet.equals("No") || hideStepFromSpreadsheet == 0;
+				toReturn.put("IS_STEP_AVAILABLE", isStepAvailable?"True":"False");
 			}
 			//***************************************
 			//***************************************
