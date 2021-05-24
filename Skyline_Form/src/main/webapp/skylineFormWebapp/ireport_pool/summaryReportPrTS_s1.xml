@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="summaryReportPrTS"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Portrait"
+		 pageWidth="595"
+		 pageHeight="842"
+		 columnWidth="595"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="AllSectionsNoDetail"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="ReportParameterFilterDisplay" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="ReportParameterTitle" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DATA_SOURCE_CCURRINVENTORYGMPITEMSDET" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_CURRINVENTORYGMPITEMSDET" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="INVENTORY_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INVENTORY_GROUP_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SITE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_STATUS_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_CREATIONDATETIME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_FORMNUMBERID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_ESTIMATEDSTARTDATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_EXPERIMENTVERSION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_ACTUALSTARTDATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PROJECT_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_COMPLETIONDATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_SUBPROJECT_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_APPROVALDATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_SUBSUBPROJECT_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PROTOCOLTYPE_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_CREATOR_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_OWNER_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_EXPERIMENTSERIES" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_APPROVER_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_EXPERIMENTGROUP" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PROCEDURE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_AIM" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_DESCRIPTION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_CONCLUSSION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_REASONFORCHANGE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_GROSSWEIGHT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_GROSS_W_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_HEATINGRATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_HEATING_R_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_TSMAXCONDITION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_C_TS_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_TAREWEIGHT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_TARE_W_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_TISO" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_T_ISO_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_TOMAXCONDITION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_TO_M_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_SAMPLEWEIGHT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_SAMPLE_W_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_ISOTIME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_ISI_T_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PMAXCONDITION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_C_P_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_NECK_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_CELLTYPE_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_HEATINGPROGRAM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_INSERTTYPE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_INSTRUMENTSTABLE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_ADDITIONALEQUIP" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_MATERIALS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_SAFETYCOMMENTS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_INSTRUMENTS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_EQUIPTPREPARATIONINSTRUCTION" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_REQUEST" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_SAMPLES" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_USERSCREW" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_GROUPSCREW" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_EXOTHERM" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_TSMAXACTUAL" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_TS_M_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_FINALWEIGHT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_FINAL_WEI_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PRESSUREPEAK" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PMAXACTUAL" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_P_MAX_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PAFTERCOOLING" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_P_AFTER_COOLING_UOM_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_RESFINALAPPEARANCE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_OBSERVATIONS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_ADDITIONALDATAANALYSIS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_DOCUMENTS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_LASTMODIFDATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_LABORATORY_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_LOSS" isForPrompting="false" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="50"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="0"
+						width="540"
+						height="21"
+						key="textField-1"
+						stretchType="RelativeToTallestObject"
+						isPrintWhenDetailOverflows="true"/>
+					<box>					<pen lineWidth="0.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid"/>
+</box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["AIM: " + $P{IREPORT_PRINT_AIM}]]></textFieldExpression>
+				</textField>
+			</band>
+		</summary>
+</jasperReport>

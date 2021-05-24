@@ -101,7 +101,113 @@
 	<parameter name="IREPORT_PRINT_LASTMODIFDATE" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="IREPORT_PRINT_LABORATORY_ID" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="IREPORT_PRINT_LOSS" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SUB_REPORT_SUMMARYREPORTPRTS_S1" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="SUB_REPORT_SUMMARYREPORTPRTS_S2" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="IREPORT_PRINT_SERIALNUMBER" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_SENDER" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="SUB_REPORT_SUMMARYREPORTPRTS_S3" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="IREPORT_PRINT_FREEVOLUME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PLANNEDWEIGHT" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PINITIAL" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_MAXTEMPRATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_GASPRODUCTIONESTIMATE" isForPrompting="false" class="java.lang.String"/>
 
+
+		<group  name="S2" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="50"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="0"
+						width="557"
+						height="24"
+						key="subreport-2"
+						isRemoveLineWhenBlank="true"/>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_SUMMARYREPORTPRTS_S2}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="S1" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="50"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="0"
+						width="557"
+						height="26"
+						key="subreport-1"
+						isRemoveLineWhenBlank="true"
+						isPrintWhenDetailOverflows="true"/>
+					<subreportParameter  name="IREPORT_PRINT_AIM">
+						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_AIM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_SUMMARYREPORTPRTS_S1}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="S3" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="50"  isSplitAllowed="true" >
+				<subreport  isUsingCache="true">
+					<reportElement
+						x="0"
+						y="0"
+						width="557"
+						height="27"
+						key="subreport-4"
+						isRemoveLineWhenBlank="true"
+						isPrintWhenDetailOverflows="true"/>
+					<subreportParameter  name="IREPORT_PRINT_AIM">
+						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_AIM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="IREPORT_PRINT_RESFINALAPPEARANCE">
+						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_RESFINALAPPEARANCE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="IREPORT_PRINT_OBSERVATIONS">
+						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_OBSERVATIONS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="IREPORT_PRINT_ADDITIONALDATAANALYSIS">
+						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_ADDITIONALDATAANALYSIS}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="IREPORT_PRINT_EXOTHERM">
+						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_EXOTHERM}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="IREPORT_PRINT_PRESSUREPEAK">
+						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_PRESSUREPEAK}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="IREPORT_PRINT_MAXTEMPRATE">
+						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_MAXTEMPRATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="IREPORT_PRINT_GASPRODUCTIONESTIMATE">
+						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_GASPRODUCTIONESTIMATE}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="IREPORT_PRINT_CONCLUSSION">
+						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_CONCLUSSION}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_SUMMARYREPORTPRTS_S3}]]></subreportExpression>
+				</subreport>
+			</band>
+			</groupFooter>
+		</group>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
@@ -135,11 +241,11 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="570"  isSplitAllowed="true" >
+			<band height="574"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
-						x="0"
-						y="27"
+						x="278"
+						y="111"
 						width="113"
 						height="15"
 						key="staticText-13"/>
@@ -151,8 +257,8 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
-						y="27"
+						x="391"
+						y="111"
 						width="165"
 						height="15"
 						key="textField-13"/>
@@ -173,7 +279,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<text><![CDATA[Creation Date:]]></text>
+				<text><![CDATA[Serial Number:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -186,12 +292,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_CREATIONDATETIME}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_SERIALNUMBER}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="48"
+						y="111"
 						width="113"
 						height="15"
 						key="staticText-15"/>
@@ -204,7 +310,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="48"
+						y="111"
 						width="165"
 						height="15"
 						key="textField-15"/>
@@ -225,7 +331,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<text><![CDATA[Estimated Start Date:]]></text>
+				<text><![CDATA[Sender:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -238,12 +344,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_ESTIMATEDSTARTDATE}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_SENDER}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="69"
+						y="132"
 						width="113"
 						height="15"
 						key="staticText-17"/>
@@ -256,7 +362,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="69"
+						y="132"
 						width="165"
 						height="15"
 						key="textField-17"/>
@@ -268,34 +374,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="278"
-						y="69"
-						width="110"
-						height="15"
-						key="staticText-18"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Actual Start Date:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="69"
-						width="169"
-						height="15"
-						key="textField-18"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_ACTUALSTARTDATE}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
 						x="0"
-						y="90"
+						y="48"
 						width="113"
 						height="15"
 						key="staticText-19"/>
@@ -308,7 +388,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="90"
+						y="48"
 						width="165"
 						height="15"
 						key="textField-19"/>
@@ -321,7 +401,7 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="90"
+						y="132"
 						width="110"
 						height="15"
 						key="staticText-20"/>
@@ -334,7 +414,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="388"
-						y="90"
+						y="132"
 						width="169"
 						height="15"
 						key="textField-20"/>
@@ -347,7 +427,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="111"
+						y="69"
 						width="113"
 						height="15"
 						key="staticText-21"/>
@@ -360,7 +440,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="111"
+						y="69"
 						width="165"
 						height="15"
 						key="textField-21"/>
@@ -372,34 +452,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="278"
-						y="111"
-						width="110"
-						height="15"
-						key="staticText-22"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Approval Date:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="111"
-						width="169"
-						height="15"
-						key="textField-22"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_APPROVALDATE}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="132"
+						x="1"
+						y="90"
 						width="113"
 						height="15"
 						key="staticText-23"/>
@@ -412,7 +466,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="132"
+						y="90"
 						width="165"
 						height="15"
 						key="textField-23"/>
@@ -424,73 +478,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="278"
-						y="132"
-						width="110"
-						height="15"
-						key="staticText-24"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Last Modification Date:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
 						x="0"
-						y="153"
-						width="113"
-						height="15"
-						key="staticText-24"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Protocol Type:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="153"
-						width="165"
-						height="15"
-						key="textField-24"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PROTOCOLTYPE_ID}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="278"
-						y="153"
-						width="110"
-						height="15"
-						key="staticText-25"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Creator:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="153"
-						width="169"
-						height="15"
-						key="textField-25"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_CREATOR_ID}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="174"
+						y="27"
 						width="113"
 						height="15"
 						key="staticText-26"/>
@@ -503,7 +492,7 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="174"
+						y="69"
 						width="110"
 						height="15"
 						key="staticText-26"/>
@@ -516,7 +505,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="388"
-						y="174"
+						y="69"
 						width="169"
 						height="15"
 						key="textField-26"/>
@@ -528,34 +517,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
-						y="195"
-						width="113"
-						height="15"
-						key="staticText-27"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Experiment Series:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="195"
-						width="165"
-						height="15"
-						key="textField-27"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_EXPERIMENTSERIES}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
 						x="278"
-						y="195"
+						y="90"
 						width="110"
 						height="15"
 						key="staticText-28"/>
@@ -568,7 +531,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="388"
-						y="195"
+						y="90"
 						width="169"
 						height="15"
 						key="textField-28"/>
@@ -581,86 +544,21 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="216"
+						y="183"
 						width="113"
-						height="15"
-						key="staticText-29"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Experiment Group:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="216"
-						width="165"
-						height="15"
-						key="textField-29"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_EXPERIMENTGROUP}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="278"
-						y="216"
-						width="110"
 						height="15"
 						key="staticText-30"/>
 					<box></box>
 					<textElement>
 						<font pdfFontName="Helvetica" isItalic="false"/>
 					</textElement>
-				<text><![CDATA[Procedure:]]></text>
+				<text><![CDATA[Sample Number:]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="216"
-						width="169"
-						height="15"
-						key="textField-30"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PROCEDURE}]]></textFieldExpression>
-				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="237"
+						y="206"
 						width="113"
-						height="15"
-						key="staticText-31"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Aim:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="237"
-						width="165"
-						height="15"
-						key="textField-31"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_AIM}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="278"
-						y="237"
-						width="110"
 						height="15"
 						key="staticText-32"/>
 					<box></box>
@@ -669,13 +567,14 @@
 					</textElement>
 				<text><![CDATA[Short Description:]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="388"
-						y="237"
-						width="169"
+						x="113"
+						y="206"
+						width="444"
 						height="15"
-						key="textField-32"/>
+						key="textField-32"
+						stretchType="RelativeToTallestObject"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -684,86 +583,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
-						y="258"
-						width="113"
-						height="15"
-						key="staticText-33"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Conclusion:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="258"
-						width="165"
-						height="15"
-						key="textField-33"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_CONCLUSSION}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
 						x="278"
-						y="258"
-						width="110"
-						height="15"
-						key="staticText-34"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Reason For Change:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="258"
-						width="169"
-						height="15"
-						key="textField-34"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_REASONFORCHANGE}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="299"
-						width="113"
-						height="15"
-						key="staticText-35"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Gross Weight:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="299"
-						width="165"
-						height="15"
-						key="textField-35"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_GROSSWEIGHT}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="278"
-						y="299"
+						y="328"
 						width="110"
 						height="15"
 						key="staticText-36"/>
@@ -776,7 +597,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="388"
-						y="299"
+						y="328"
 						width="169"
 						height="15"
 						key="textField-36"/>
@@ -789,7 +610,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="320"
+						y="371"
 						width="113"
 						height="15"
 						key="staticText-37"/>
@@ -797,12 +618,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<text><![CDATA[Ts max condition:]]></text>
+				<text><![CDATA[Ts Max Condition:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="320"
+						y="371"
 						width="165"
 						height="15"
 						key="textField-37"/>
@@ -814,34 +635,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="278"
-						y="320"
-						width="110"
-						height="15"
-						key="staticText-38"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Tare Weight:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="320"
-						width="169"
-						height="15"
-						key="textField-38"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_TAREWEIGHT}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
 						x="0"
-						y="341"
+						y="350"
 						width="113"
 						height="15"
 						key="staticText-39"/>
@@ -854,7 +649,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="341"
+						y="350"
 						width="165"
 						height="15"
 						key="textField-39"/>
@@ -866,22 +661,22 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="278"
-						y="341"
-						width="110"
+						x="0"
+						y="395"
+						width="113"
 						height="15"
 						key="staticText-40"/>
 					<box></box>
 					<textElement>
 						<font/>
 					</textElement>
-				<text><![CDATA[To max condition:]]></text>
+				<text><![CDATA[To Max Condition:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="388"
-						y="341"
-						width="169"
+						x="113"
+						y="395"
+						width="166"
 						height="15"
 						key="textField-40"/>
 					<box></box>
@@ -893,7 +688,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="362"
+						y="446"
 						width="113"
 						height="15"
 						key="staticText-41"/>
@@ -906,7 +701,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="362"
+						y="446"
 						width="165"
 						height="15"
 						key="textField-41"/>
@@ -919,7 +714,7 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="362"
+						y="350"
 						width="110"
 						height="15"
 						key="staticText-42"/>
@@ -932,7 +727,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="388"
-						y="362"
+						y="350"
 						width="169"
 						height="15"
 						key="textField-42"/>
@@ -944,8 +739,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
-						y="383"
+						x="278"
+						y="371"
 						width="113"
 						height="15"
 						key="staticText-43"/>
@@ -953,12 +748,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<text><![CDATA[P max condition:]]></text>
+				<text><![CDATA[P Max Condition:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
-						y="383"
+						x="391"
+						y="371"
 						width="165"
 						height="15"
 						key="textField-43"/>
@@ -971,7 +766,7 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="383"
+						y="446"
 						width="110"
 						height="15"
 						key="staticText-44"/>
@@ -979,12 +774,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<text><![CDATA[Neck:]]></text>
+				<text><![CDATA[P Initial:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="388"
-						y="383"
+						y="446"
 						width="169"
 						height="15"
 						key="textField-44"/>
@@ -992,12 +787,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_NECK_ID}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PINITIAL}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
 						x="0"
-						y="404"
+						y="281"
 						width="113"
 						height="15"
 						key="staticText-45"/>
@@ -1010,7 +805,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="404"
+						y="281"
 						width="165"
 						height="15"
 						key="textField-45"/>
@@ -1022,8 +817,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="278"
-						y="404"
+						x="0"
+						y="328"
 						width="110"
 						height="15"
 						key="staticText-46"/>
@@ -1035,9 +830,9 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="388"
-						y="404"
-						width="169"
+						x="113"
+						y="328"
+						width="165"
 						height="15"
 						key="textField-46"/>
 					<box></box>
@@ -1049,7 +844,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="425"
+						y="304"
 						width="113"
 						height="15"
 						key="staticText-47"/>
@@ -1062,7 +857,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="425"
+						y="304"
 						width="165"
 						height="15"
 						key="textField-47"/>
@@ -1075,33 +870,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="466"
-						width="113"
-						height="15"
-						key="staticText-50"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Exotherm:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="466"
-						width="165"
-						height="15"
-						key="textField-50"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_EXOTHERM}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="278"
-						y="466"
+						y="470"
 						width="110"
 						height="15"
 						key="staticText-51"/>
@@ -1109,12 +878,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<text><![CDATA[TS max actual:]]></text>
+				<text><![CDATA[TS Max Actual:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="388"
-						y="466"
+						x="110"
+						y="470"
 						width="169"
 						height="15"
 						key="textField-51"/>
@@ -1127,7 +896,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="487"
+						y="493"
 						width="113"
 						height="15"
 						key="staticText-52"/>
@@ -1140,7 +909,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="487"
+						y="493"
 						width="165"
 						height="15"
 						key="textField-52"/>
@@ -1153,33 +922,7 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="487"
-						width="110"
-						height="15"
-						key="staticText-53"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Pressure Peak:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="487"
-						width="169"
-						height="15"
-						key="textField-53"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PRESSUREPEAK}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="508"
+						y="470"
 						width="113"
 						height="15"
 						key="staticText-54"/>
@@ -1187,12 +930,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<text><![CDATA[P max actual:]]></text>
+				<text><![CDATA[P Max Actual:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
-						y="508"
+						x="391"
+						y="470"
 						width="165"
 						height="15"
 						key="textField-54"/>
@@ -1204,8 +947,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="278"
-						y="508"
+						x="0"
+						y="516"
 						width="110"
 						height="15"
 						key="staticText-55"/>
@@ -1217,8 +960,8 @@
 				</staticText>
 				<staticText>
 					<reportElement
-						x="0"
-						y="529"
+						x="278"
+						y="493"
 						width="113"
 						height="15"
 						key="staticText-55"/>
@@ -1226,12 +969,12 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<text><![CDATA[P after cooling:]]></text>
+				<text><![CDATA[P After Cooling:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
-						y="529"
+						x="391"
+						y="493"
 						width="165"
 						height="15"
 						key="textField-55"/>
@@ -1241,88 +984,10 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PAFTERCOOLING}]]></textFieldExpression>
 				</textField>
-				<staticText>
-					<reportElement
-						x="278"
-						y="529"
-						width="110"
-						height="15"
-						key="staticText-56"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Final Appearance:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="529"
-						width="169"
-						height="15"
-						key="textField-56"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_RESFINALAPPEARANCE}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="550"
-						width="113"
-						height="15"
-						key="staticText-57"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Observations:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="278"
-						y="550"
-						width="110"
-						height="15"
-						key="staticText-57"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<text><![CDATA[Additional Data Analysis:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="550"
-						width="169"
-						height="15"
-						key="textField-57"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_ADDITIONALDATAANALYSIS}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="132"
-						width="169"
-						height="15"
-						key="textField-58"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_LASTMODIFDATE}]]></textFieldExpression>
-				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="174"
+						y="27"
 						width="165"
 						height="15"
 						key="textField-59"/>
@@ -1348,7 +1013,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="277"
+						y="257"
 						width="113"
 						height="15"
 						key="staticText-59"/>
@@ -1361,7 +1026,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="446"
+						y="420"
 						width="113"
 						height="15"
 						key="staticText-60"/>
@@ -1373,8 +1038,8 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="388"
-						y="508"
+						x="110"
+						y="516"
 						width="169"
 						height="15"
 						key="textField-60"/>
@@ -1384,18 +1049,112 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_LOSS}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="159"
+						width="122"
+						height="15"
+						key="staticText-61"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Experiment Description:]]></text>
+				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="550"
-						width="165"
+						y="183"
+						width="169"
 						height="15"
-						key="textField-61"/>
+						key="textField-62"/>
 					<box></box>
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_OBSERVATIONS}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="228"
+						width="113"
+						height="15"
+						key="staticText-62"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Aim:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="278"
+						y="281"
+						width="110"
+						height="15"
+						key="staticText-63"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Free Volume (ml):]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="278"
+						y="395"
+						width="113"
+						height="15"
+						key="staticText-64"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Planned Weight:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="388"
+						y="281"
+						width="165"
+						height="15"
+						key="textField-63"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_FREEVOLUME}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="391"
+						y="395"
+						width="165"
+						height="15"
+						key="textField-64"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PLANNEDWEIGHT}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="228"
+						width="444"
+						height="15"
+						key="textField-65"
+						stretchType="RelativeToTallestObject"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_AIM}]]></textFieldExpression>
 				</textField>
 			</band>
 		</detail>
