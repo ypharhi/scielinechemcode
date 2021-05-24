@@ -114,6 +114,10 @@
 	<parameter name="EXPERIMENT_ID" isForPrompting="false" class="java.lang.String">
 		<defaultValueExpression ><![CDATA["999"]]></defaultValueExpression>
 	</parameter>
+	<parameter name="parameter_DIR_JASPER_XML" isForPrompting="false" class="java.lang.String"/>
+	<queryString><![CDATA[select t.* from FG_DEMO_IREPORT_FILES t where 1=2]]></queryString>
+
+	<field name="FILE_ID" class="java.lang.String"/>
 
 
 		<group  name="S2" >
@@ -1328,7 +1332,20 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="32"  isSplitAllowed="true" >
+			<band height="515"  isSplitAllowed="true" >
+				<image  scaleImage="RetainShape" onErrorType="Blank" isUsingCache="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="1"
+						y="7"
+						width="500"
+						height="500"
+						key="image-1"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA[(new com.skyline.customer.adama.ReportsHelper()).getBlobAsInputStream("na,na,na," + String.valueOf($F{FILE_ID}), String.valueOf($P{parameter_DIR_JASPER_XML})) ]]></imageExpression>
+				</image>
 			</band>
 		</detail>
 		<columnFooter>
