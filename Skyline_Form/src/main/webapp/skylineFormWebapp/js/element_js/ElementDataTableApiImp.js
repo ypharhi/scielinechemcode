@@ -6843,10 +6843,32 @@ function initFilterColumnDatatable(tableID) {
 	if(bl_initFilterColumnDatatable()){
 	   var table = $('#' + tableID).DataTable();
 	    table.columns().iterator('column', function (ctx, idx) {
-	        if ($(table.column(idx).header()).html() != "") {
-	        	var obj_ = $(table.column(idx).footer()).find('.firstString')
-				obj_.before('<i class="fa fa-filter" aria-hidden="true" id="filterIcon" style="position: absolute;z-index:1002;top:60%;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+idx+'\')"></i>');
-                }
+	    	var _title = getColTitleByColIndex(idx,tableID);
+        	
+	        if ($(table.column(idx).header()).html() != "" &&_title != 'Favorite' && _title != 'Report') {
+	        	var obj_ = $(table.column(idx).footer()).find('.firstString');
+				if(globalDataTableFilterColumn!=undefined && globalDataTableFilterColumn[tableID]!=undefined  && globalDataTableFilterColumn[tableID][_title]!=undefined){
+	        		obj_.before('<img src=\"../skylineFormWebapp/images/filter.png\" id="filterIcon" style="position: absolute;top:60%;max-width;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+_title+'\')">');
+	                
+	        	}else{
+	        		obj_.before('<img src=\"../skylineFormWebapp/images/filter_empty.png\" id="filterIcon" style="position: absolute;top:60%;max-width;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+_title+'\')">');
+	        	}
+				}
 	    });
 	}
 	}
+function deleteGlobalDataTableFilterColumn(domId,idx){
+	try{
+		if(bl_initFilterColumnDatatable()){
+			 var selectedTable = $('#' + domId).DataTable();
+			 $(selectedTable.column(idx).footer()).find('#filterIcon').attr("src", "../skylineFormWebapp/images/filter_empty.png");
+		     var _title = getColTitleByColIndex(idx,domId);
+		 if(globalDataTableFilterColumn!=undefined && globalDataTableFilterColumn[domId]!=undefined){
+				delete globalDataTableFilterColumn[domId][_title];	
+			}
+		}
+	}catch(e){
+		//todo
+	}
+	 
+}
