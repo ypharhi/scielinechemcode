@@ -514,7 +514,7 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="50"  isSplitAllowed="true" >
+			<band height="6"  isSplitAllowed="true" >
 			</band>
 			</groupFooter>
 		</group>
@@ -561,12 +561,12 @@
 		<group  name="S3" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="293"  isSplitAllowed="true" >
+			<band height="300"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="278"
 						y="82"
-						width="110"
+						width="113"
 						height="15"
 						key="staticText-36"/>
 					<box></box>
@@ -811,7 +811,7 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
+						x="110"
 						y="82"
 						width="165"
 						height="15"
@@ -903,7 +903,7 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="224"
+						y="247"
 						width="113"
 						height="15"
 						key="staticText-54"/>
@@ -942,7 +942,7 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="247"
+						y="224"
 						width="113"
 						height="15"
 						key="staticText-55"/>
@@ -1059,21 +1059,21 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="8"  isSplitAllowed="true" >
+			<band height="7"  isSplitAllowed="true" >
 			</band>
 			</groupFooter>
 		</group>
 		<group  name="S4" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="209"  isSplitAllowed="true" >
+			<band height="65"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
-						y="23"
+						y="22"
 						width="113"
 						height="15"
-						key="staticText-73"/>
+						key="staticText-81"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1083,10 +1083,10 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="23"
-						width="427"
+						y="22"
+						width="444"
 						height="15"
-						key="textField-73"/>
+						key="textField-81"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1096,10 +1096,10 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="45"
+						y="44"
 						width="126"
 						height="15"
-						key="staticText-74"/>
+						key="staticText-82"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1109,10 +1109,10 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="126"
-						y="45"
-						width="414"
+						y="44"
+						width="431"
 						height="15"
-						key="textField-74"/>
+						key="textField-82"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1122,10 +1122,10 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="1"
+						y="0"
 						width="110"
 						height="15"
-						key="staticText-75"/>
+						key="staticText-83"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1135,20 +1135,31 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="110"
-						y="1"
-						width="430"
+						y="0"
+						width="444"
 						height="15"
-						key="textField-75"/>
+						key="textField-83"/>
 					<box></box>
 					<textElement>
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_RESFINALAPPEARANCE}]]></textFieldExpression>
 				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="9"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="S5" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="126"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
-						x="0"
-						y="87"
+						x="1"
+						y="3"
 						width="113"
 						height="15"
 						key="staticText-76"/>
@@ -1160,9 +1171,9 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
-						y="87"
-						width="427"
+						x="114"
+						y="3"
+						width="443"
 						height="15"
 						key="textField-76"/>
 					<box></box>
@@ -1173,8 +1184,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
-						y="109"
+						x="1"
+						y="25"
 						width="113"
 						height="15"
 						key="staticText-77"/>
@@ -1186,9 +1197,9 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
-						y="110"
-						width="427"
+						x="114"
+						y="26"
+						width="443"
 						height="15"
 						key="textField-77"/>
 					<box></box>
@@ -1199,8 +1210,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
-						y="131"
+						x="1"
+						y="47"
 						width="113"
 						height="15"
 						key="staticText-78"/>
@@ -1212,8 +1223,8 @@
 				</staticText>
 				<staticText>
 					<reportElement
-						x="0"
-						y="152"
+						x="1"
+						y="68"
 						width="126"
 						height="15"
 						key="staticText-79"/>
@@ -1225,9 +1236,9 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
-						y="131"
-						width="427"
+						x="114"
+						y="47"
+						width="443"
 						height="15"
 						key="textField-78"/>
 					<box></box>
@@ -1238,9 +1249,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="126"
-						y="151"
-						width="414"
+						x="127"
+						y="67"
+						width="430"
 						height="15"
 						key="textField-79"/>
 					<box></box>
@@ -1251,8 +1262,8 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
-						y="185"
+						x="1"
+						y="101"
 						width="113"
 						height="15"
 						key="staticText-80"/>
@@ -1264,9 +1275,9 @@
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
-						y="185"
-						width="427"
+						x="114"
+						y="101"
+						width="443"
 						height="15"
 						key="textField-80"
 						stretchType="RelativeToTallestObject"
@@ -1280,7 +1291,7 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="17"  isSplitAllowed="true" >
+			<band height="9"  isSplitAllowed="true" >
 			</band>
 			</groupFooter>
 		</group>
@@ -1317,7 +1328,7 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="14"  isSplitAllowed="true" >
+			<band height="32"  isSplitAllowed="true" >
 			</band>
 		</detail>
 		<columnFooter>
@@ -1482,19 +1493,6 @@
 		</lastPageFooter>
 		<summary>
 			<band height="0"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="117"
-						y="-896"
-						width="414"
-						height="15"
-						key="textField-67"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_ADDITIONALDATAANALYSIS}]]></textFieldExpression>
-				</textField>
 			</band>
 		</summary>
 </jasperReport>
