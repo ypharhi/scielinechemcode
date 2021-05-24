@@ -118,6 +118,7 @@
 	<queryString><![CDATA[select t.* from FG_DEMO_IREPORT_FILES t where 1=2]]></queryString>
 
 	<field name="FILE_ID" class="java.lang.String"/>
+	<field name="FILE_NAME" class="java.lang.String"/>
 
 
 		<group  name="S2" >
@@ -1159,7 +1160,7 @@
 		<group  name="S5" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="126"  isSplitAllowed="true" >
+			<band height="189"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="1"
@@ -1292,6 +1293,19 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_CONCLUSSION}]]></textFieldExpression>
 				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="164"
+						width="180"
+						height="18"
+						key="staticText-84"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[Documents (images):]]></text>
+				</staticText>
 			</band>
 			</groupHeader>
 			<groupFooter>
@@ -1336,9 +1350,9 @@
 				<image  scaleImage="RetainShape" onErrorType="Blank" isUsingCache="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="1"
-						y="7"
+						y="37"
 						width="500"
-						height="500"
+						height="459"
 						key="image-1"
 						isPrintInFirstWholeBand="true"
 						isPrintWhenDetailOverflows="true"/>
@@ -1346,6 +1360,19 @@
 					<graphicElement stretchType="NoStretch"/>
 					<imageExpression class="java.lang.String"><![CDATA[(new com.skyline.customer.adama.ReportsHelper()).getBlobAsInputStream("na,na,na," + String.valueOf($F{FILE_ID}), String.valueOf($P{parameter_DIR_JASPER_XML})) ]]></imageExpression>
 				</image>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="14"
+						width="501"
+						height="18"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{FILE_NAME} + ":"]]></textFieldExpression>
+				</textField>
 			</band>
 		</detail>
 		<columnFooter>
