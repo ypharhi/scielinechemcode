@@ -242,6 +242,10 @@ public class ReportsHelper {
 			strForCheck = strForCheck.replaceAll("li>", "td>");
 			strForCheck = strForCheck.replaceAll("ol>", "tr>");}*/
 	}
+	
+	public String getExperimentSample(String experimentId) {
+		return "TODO get sample by experiment id " + experimentId + " (getExperimentSample)";
+	}
 
 	//	private String extractMethodNameToString(Throwable ex) {
 	//		String toReturn = "";
