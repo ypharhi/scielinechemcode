@@ -515,16 +515,6 @@
 			</groupHeader>
 			<groupFooter>
 			<band height="50"  isSplitAllowed="true" >
-				<subreport  isUsingCache="true">
-					<reportElement
-						x="0"
-						y="0"
-						width="557"
-						height="24"
-						key="subreport-2"
-						isRemoveLineWhenBlank="true"/>
-					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_SUMMARYREPORTPRTS_S2}]]></subreportExpression>
-				</subreport>
 			</band>
 			</groupFooter>
 		</group>
@@ -564,28 +554,14 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="50"  isSplitAllowed="true" >
-				<subreport  isUsingCache="true">
-					<reportElement
-						x="0"
-						y="0"
-						width="557"
-						height="26"
-						key="subreport-1"
-						isRemoveLineWhenBlank="true"
-						isPrintWhenDetailOverflows="true"/>
-					<subreportParameter  name="IREPORT_PRINT_AIM">
-						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_AIM}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_SUMMARYREPORTPRTS_S1}]]></subreportExpression>
-				</subreport>
+			<band height="6"  isSplitAllowed="true" >
 			</band>
 			</groupFooter>
 		</group>
 		<group  name="S3" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="302"  isSplitAllowed="true" >
+			<band height="293"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="278"
@@ -1083,45 +1059,228 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="50"  isSplitAllowed="true" >
-				<subreport  isUsingCache="true">
+			<band height="8"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="S4" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="209"  isSplitAllowed="true" >
+				<staticText>
 					<reportElement
 						x="0"
-						y="0"
-						width="557"
-						height="27"
-						key="subreport-4"
-						isRemoveLineWhenBlank="true"
+						y="23"
+						width="113"
+						height="15"
+						key="staticText-73"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Observations:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="23"
+						width="427"
+						height="15"
+						key="textField-73"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_OBSERVATIONS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="45"
+						width="126"
+						height="15"
+						key="staticText-74"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Additional Data Analysis:  Analysis:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="126"
+						y="45"
+						width="414"
+						height="15"
+						key="textField-74"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_ADDITIONALDATAANALYSIS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="1"
+						width="110"
+						height="15"
+						key="staticText-75"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Final Appearance:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="110"
+						y="1"
+						width="430"
+						height="15"
+						key="textField-75"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_RESFINALAPPEARANCE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="87"
+						width="113"
+						height="15"
+						key="staticText-76"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Exotherm:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="87"
+						width="427"
+						height="15"
+						key="textField-76"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_EXOTHERM}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="109"
+						width="113"
+						height="15"
+						key="staticText-77"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Pressure Peak:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="110"
+						width="427"
+						height="15"
+						key="textField-77"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PRESSUREPEAK}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="131"
+						width="113"
+						height="15"
+						key="staticText-78"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Max Temp Rate:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="152"
+						width="126"
+						height="15"
+						key="staticText-79"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Gas Production Estimate:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="131"
+						width="427"
+						height="15"
+						key="textField-78"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_MAXTEMPRATE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="126"
+						y="151"
+						width="414"
+						height="15"
+						key="textField-79"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_GASPRODUCTIONESTIMATE}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="185"
+						width="113"
+						height="15"
+						key="staticText-80"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<text><![CDATA[Conclusion:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="185"
+						width="427"
+						height="15"
+						key="textField-80"
+						stretchType="RelativeToTallestObject"
 						isPrintWhenDetailOverflows="true"/>
-					<subreportParameter  name="IREPORT_PRINT_AIM">
-						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_AIM}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="IREPORT_PRINT_RESFINALAPPEARANCE">
-						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_RESFINALAPPEARANCE}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="IREPORT_PRINT_OBSERVATIONS">
-						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_OBSERVATIONS}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="IREPORT_PRINT_ADDITIONALDATAANALYSIS">
-						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_ADDITIONALDATAANALYSIS}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="IREPORT_PRINT_EXOTHERM">
-						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_EXOTHERM}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="IREPORT_PRINT_PRESSUREPEAK">
-						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_PRESSUREPEAK}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="IREPORT_PRINT_MAXTEMPRATE">
-						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_MAXTEMPRATE}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="IREPORT_PRINT_GASPRODUCTIONESTIMATE">
-						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_GASPRODUCTIONESTIMATE}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportParameter  name="IREPORT_PRINT_CONCLUSSION">
-						<subreportParameterExpression><![CDATA[$P{IREPORT_PRINT_CONCLUSSION}]]></subreportParameterExpression>
-					</subreportParameter>
-					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_SUMMARYREPORTPRTS_S3}]]></subreportExpression>
-				</subreport>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_CONCLUSSION}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="17"  isSplitAllowed="true" >
 			</band>
 			</groupFooter>
 		</group>
@@ -1323,6 +1482,19 @@
 		</lastPageFooter>
 		<summary>
 			<band height="0"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="117"
+						y="-896"
+						width="414"
+						height="15"
+						key="textField-67"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_ADDITIONALDATAANALYSIS}]]></textFieldExpression>
+				</textField>
 			</band>
 		</summary>
 </jasperReport>
