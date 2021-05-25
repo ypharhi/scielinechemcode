@@ -1213,7 +1213,10 @@ function filterColumn(domId,_title){
 				    		 else if (val!= undefined && checkIfJSON(val)) // check if json or not
 				 			{
 				 				var value = getDisplayValueFromSmarts(val);
-				 				if (checkedArr != undefined && (checkedArr.indexOf(value) != '-1'/*|| checkedArr.indexOf(val.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&"))!='-1'*/)) {
+				 				if (checkedArr != undefined && (checkedArr.indexOf(value) != '-1'|| checkedArr.indexOf(value.replace(/\\/g, "\\").replace(/\n/g, "\\n")
+					        			.replace(/\r/g, "\\r")
+					        			.replace(/\t/g, "\\t") 
+					        			.replace(/\f/g, "\\f"))!='-1')) {
 							    	checked = "checked";
 								}
 				 				
@@ -1226,13 +1229,17 @@ function filterColumn(domId,_title){
 					                $('#checkList'+index).append(elem);
 				 				}
 				 			}else{
-				 				val = val.replace(/<\/?[^>]+(>|$)/g, "");//remove special characters and html tags
-				 			    if (checkedArr != undefined && (checkedArr.indexOf(val) != '-1'||checkedArr.indexOf(val.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")) != '-1')) {
+				 			//val = val.replace(/<\/?[^>]+(>|$)/g, "");//remove special characters and html tags
+				 			    if (checkedArr != undefined && (checkedArr.indexOf(val) != '-1'||checkedArr.indexOf(val.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")) != '-1'
+				 			    		||checkedArr.indexOf(val.replace(/\\/g, "\\").replace(/\n/g, "\\n")
+							        			.replace(/\r/g, "\\r")
+							        			.replace(/\t/g, "\\t") 
+							        			.replace(/\f/g, "\\f"))!='-1')) {
 				 			    	checked = "checked";
 				 			    	}
 				    		    var label_ = val.length>30?val.slice(0,27)+"...":val;
 				    		   var elem = "<li >";
-			                	elem += "<input type='checkbox' id='cb"+idx+"' value='"+val.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")+"'"+checked+" ></>";
+			                	elem += "<input type='checkbox' id='cb"+idx+"' value='"+val/*.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")*/+"'"+checked+" ></>";
 			                	elem += "<label title='"+val+"'>"+label_.replace(/\n/g, "")+"</label>";
 			                	elem += "</li>";	
 			                	$('#checkList'+index).append(elem);
@@ -1250,11 +1257,18 @@ function filterColumn(domId,_title){
 					var selectedTable = $('#' + domId).DataTable();
 					 selectedTable.columns(index).every( function () {
 						 var data = [];
+						 var arr = [];
 			    		 $('#checkList'+index+'  input[type="checkbox"]:checked').each(function(){//select all checked values
 			    			 if(this.value ==""){
 			    				 selectEmptyValues = true;//Blank value selected
 			    			 }
-			    			   data.push(this.value);
+			    			 parseVal = this.value.replace(/\\/g, "\\") // backslash
+								.replace(/\n/g, "\\n")   //new line
+			        			.replace(/\r/g, "\\r")  // carriage return
+			        			.replace(/\t/g, "\\t")  // tab
+			        			.replace(/\f/g, "\\f"); //form-feed char
+								data.push(parseVal);//save display
+			    			 arr.push(this.value.replace(/[*()?\[\]^\\$|_=+-]/g, "\\$&"));//search
 			    			});
 			    		
 			    		 var val = data.join('|');
@@ -1267,21 +1281,11 @@ function filterColumn(domId,_title){
 							 .search( val ? '^'+val+'$' : '', true, false )
 							 .draw();
 						}else{
-						 //if(!selectEmptyValues){
-							 val = val.replace(/\n/g, " ");//remove html tags
-							 /*column
-							// .search(val, true, false)
-							 .search( val ? '^'+val+'$' : '', true, false )
-							 .draw();*/
-							 var arr = data;///.replace(/[*()?\[\]^\\$|_=+]/g, "\\$&");
-				                //var pattern = ("\\b\^" + arr.join('\$\\b|\\b\^') + '\$\\b');                
-				                var pattern = ("\^" + arr.join('\$|\^') + '\$')
+						 val = val.replace(/\n/g, " ");//remove html tags
+							var pattern = ("\^" + arr.join('\$|\^') + '\$');
 				                column.search(pattern, true, false).draw();
-						 }/*else{//search include blank value
-							 column
-							 .search( '^$', true, false )
-		                     .draw();
-						 }*/
+						 }
+						
 						 if(val!="" || selectEmptyValues){
 							  $(selectedTable.column(index).footer()).find('#filterIcon').attr("src", "../skylineFormWebapp/images/filter.png");
 						 }else if(!selectEmptyValues){
@@ -1304,4 +1308,21 @@ function filterColumn(domId,_title){
         	 console.log("open filter error",e);
         	 console.error(e);
          }
+}
+
+function searchSaveDisplay(domId){
+	if (bl_initFilterColumnDatatable() && isSameStructTable(domId)) {
+		//var struct = $('#' + domId + '_structCatalogItem').val();
+		var colNames = globalDataTableFilterColumn[domId];
+		var selectedTable = $('#' + domId).DataTable();
+		$.each(colNames, function(_title, data) {
+			var index = getColumnIndexByColHeader(domId, _title);
+			var that = selectedTable.column(index);
+			data = data.map(function(item) {
+				return item.replace(/[*()?\[\]^\\$|_=+-]/g, "\\$&");
+			});
+			var pattern = ("\^" + data.join('\$|\^') + '\$');
+			that.search(pattern, true, false).draw();
+		});
+	}
 }
