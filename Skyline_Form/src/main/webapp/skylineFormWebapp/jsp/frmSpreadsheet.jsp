@@ -42,7 +42,7 @@
 		function onLoadSpreadsheetElement(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey){
 			GC.Spread.Sheets.LicenseKey = SpreadSheetsLicenseKey;
 			GC.Spread.Sheets.Designer.LicenseKey = SpreadSheetsDesignerLicenseKey;
-			var config = getConfig();
+			var config = getConfig(domId);
 			designer[domId] = new GC.Spread.Sheets.Designer.Designer(document.getElementById("gc-designer-container"),config);
 		}
 		
@@ -58,23 +58,23 @@
 			},100);
 		}  
 		
-		function getConfig() {
+		function getConfig(domId) {
 		  var config = GC.Spread.Sheets.Designer.DefaultConfig;
-		  updateDefaultConfig(config);
+		  updateDefaultConfig(config,domId);
 		  return config;
 		}
 		
-		function updateDefaultConfig(config) {
+		function updateDefaultConfig(config,domId) {
 		  // remove fil menu
 		  removeFileMenu(config);
-		  updateHomeTab(config);
+		  updateHomeTab(config,domId);
 		}
 		
 		function removeFileMenu(config) {
 		  config.fileMenu = null;
 		}
 	
-		function updateHomeTab(config) {
+		function updateHomeTab(config,domId) {
 		  var homeTab = config.ribbon.find(function(r){return r.id === 'home';});
 		  // add save option
 		  var customBtn = {
@@ -100,11 +100,57 @@
 		  commandMap['print'] = {
 		    title: 'Print',
 		    text: 'Print',
-		    iconClass: 'icon-pdf',
+		    iconClass: 'fa fa-print fa-3x',
 		    bigButton: true,
 		    commandName: 'print',
+		    subCommands: ['printActiveSheet','printSelection']
+		  };
+		  
+		  commandMap['printActiveSheet'] = {
+		    title: 'Only print the active sheet',
+		    text: 'Print Active Sheet',
+		    //iconClass: 'icon-pdf',
+		    bigButton: false,
+		    commandName: 'printActiveSheet',
 		    execute: function(context, propName) {
-		      alert('Print has  not been developed yet');
+		      	var workBook = designer[domId].getWorkbook();
+		      	var sheet = workBook.getActiveSheet();
+				var sheetColumnCount = sheet.getColumnCount();
+				var sheetRowCount = sheet.getRowCount();
+		      	var printInfo = new GC.Spread.Sheets.Print.PrintInfo();
+		      	//printInfo.rowStart(0);
+		        //printInfo.columnStart(0);
+		        //printInfo.rowEnd();
+		        //printInfo.columnEnd();
+		       // printInfo.showGridLine(true);
+		        //printInfo.showRowHeader(false);
+		        sheet.printInfo(printInfo);
+		      	workBook.print(workBook.getActiveSheetIndex());
+		      	
+		    }
+		  };
+		  
+		  commandMap['printSelection'] = {
+		    title: 'Only print the current selection',
+		    text: 'Print Selection',
+		    //iconClass: 'ribbon-thumbnail-cells',
+		    bigButton: false,
+		    commandName: 'printSelection',
+		    execute: function(context, propName) {
+		      	var workBook = designer[domId].getWorkbook();		      	
+		     	var sheet = workBook.getActiveSheet();
+		        var currSel = sheet.getSelections()[0];
+		        var printInfo = new GC.Spread.Sheets.Print.PrintInfo();
+
+		       // printInfo.bestFitColumns(true);
+
+		        printInfo.rowStart(currSel.row);
+		        printInfo.columnStart(currSel.col);
+		        printInfo.rowEnd(currSel.row + currSel.rowCount - 1);
+		        printInfo.columnEnd(currSel.col + currSel.colCount - 1);
+		        printInfo.useMax(false);//whether to print only rows and columns that contain data.
+		        sheet.printInfo(printInfo);
+		        workBook.print(workBook.getActiveSheetIndex());
 		    }
 		  };
 		}
