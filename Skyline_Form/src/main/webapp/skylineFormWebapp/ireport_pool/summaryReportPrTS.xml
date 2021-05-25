@@ -115,6 +115,7 @@
 		<defaultValueExpression ><![CDATA["999"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="parameter_DIR_JASPER_XML" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="REQUEST_SAMPLEID" isForPrompting="false" class="java.lang.String"/>
 	<queryString><![CDATA[select t.* from FG_DEMO_IREPORT_FILES t where 1=2]]></queryString>
 
 	<field name="FILE_ID" class="java.lang.String"/>
@@ -514,7 +515,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[(new com.skyline.customer.adama.ReportsHelper()).getExperimentSample(String.valueOf($P{EXPERIMENT_ID}))]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{REQUEST_SAMPLEID}]]></textFieldExpression>
 				</textField>
 			</band>
 			</groupHeader>
@@ -1358,7 +1359,7 @@
 						isPrintWhenDetailOverflows="true"/>
 					<box></box>
 					<graphicElement stretchType="NoStretch"/>
-					<imageExpression class="java.lang.String"><![CDATA[(new com.skyline.customer.adama.ReportsHelper()).getBlobAsInputStream("na,na,na," + String.valueOf($F{FILE_ID}), String.valueOf($P{parameter_DIR_JASPER_XML})) ]]></imageExpression>
+					<imageExpression class="java.lang.String"><![CDATA[(new com.skyline.customer.adama.ReportsHelper()).getBlobAsInputStream("na,na,na," + String.valueOf($F{FILE_ID}), String.valueOf($P{parameter_DIR_JASPER_XML}))]]></imageExpression>
 				</image>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
