@@ -506,8 +506,13 @@ public class ElementDataTableApiImp extends Element {
 //			lastDisplay = displayCatalogItemDefaulValue;
 //		} --> getSelectDisplayOptions will returned the selected value that will be set as lastDisplay ->
 		JSONObject displayObj = getSelectDisplayOptions(stateKey, lastStruct, displayCatalogItemDefaulValue, lastDisplay);
-		String displaySelectValue = (String)displayObj.get("selectHtml");
-		lastDisplay =  (String)displayObj.get("selectVal");
+		String displaySelectValue = "";
+		if(displayObj != null && displayObj.has("selectHtml")) {
+			displaySelectValue = (String)displayObj.get("selectHtml");
+		}
+		if(displayObj != null && displayObj.has("selectVal")) {
+			lastDisplay =  (String)displayObj.get("selectVal");
+		}
 		
 		String structItemHidden = (structCatalogItemIsHidden).equals("") ? "":"display:none;";
 		String addMargin = (structCatalogItemIsHidden).equals("") ? "":"";
