@@ -352,9 +352,9 @@ function setExpParametricMandatoryDisableFields(condition, status_) {
     var savedStatus = arr[1];// status - not current
     
     if (savedStatus == 'Approved') {
-    	generalBL_disablePage(['STATUS_ID','reasonForChange','steps','action','selfTests','workups','feedbackHistory','updateVersion'], true);
+    	generalBL_disablePage(['STATUS_ID','reasonForChange','steps','action','selfTests','workups','feedbackHistory','updateVersion','sender'], true);
     }else if (savedStatus == 'Completed'){
-    	generalBL_disablePage(['STATUS_ID','reasonForChange','steps','action','selfTests','workups','feedbackHistory','updateVersion','conclussion','EXPERIMENTGROUP_ID'], true);
+    	generalBL_disablePage(['STATUS_ID','reasonForChange','steps','action','selfTests','workups','feedbackHistory','updateVersion','conclussion','EXPERIMENTGROUP_ID','SerialNumber','sender'], true);
     	}
 	
 

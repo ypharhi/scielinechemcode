@@ -1169,7 +1169,10 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
         		var allColumnsNameIndexObj = {};// filled by column titles for COLUMN ORDER
         		
         		colFilterObj = (_savedObject.length > 0)?_savedObject[0].columnFilter:{};
-        		globalDataTableFilterColumn[domId] = (_savedObject.length > 0)?_savedObject[0].columnFilter:{};
+        		if(_savedObject.length > 0 && _savedObject[0].columnFilter!=undefined){
+        			globalDataTableFilterColumn[domId] = _savedObject[0].columnFilter;
+        		}
+        		
         		var colFilterObjLength = colFilterObj!=undefined?Object.keys(colFilterObj).length:0;
         		if(colSearchObjLength > 0 || colFilterObjLength > 0 || isTableReorderable)
         		{
@@ -1186,10 +1189,10 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
 	    					{
 	    						_allColumnsSearch.push(colSearchObj[_title]);
 	    					}
-	    					else if(colFilterObjLength > 0&& colFilterObj.hasOwnProperty(_title)){
-	    						var val =  colFilterObj[_title].join("|");
-	    						_allColumnsSearch.push({"search":val,bRegex: true});
-	    					}
+	    					/*else if(colFilterObjLength > 0&& colFilterObj.hasOwnProperty(_title)){
+	    						//var val =  colFilterObj[_title].join('\$|\^');//arr.join('\$|\^')
+	    						//_allColumnsSearch.push({"search":val,bRegex: true});//,
+	    					}*/
 	    					else
 	    					{
 	    						_allColumnsSearch.push({"search":""});	
@@ -1693,7 +1696,7 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
 		        {
 		        	_inputObjArr[i++] = input;
 		        }
-	        }
+	        } 
 	    });
     }
     
@@ -1705,6 +1708,9 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
 	{
 		_delayCounterForInputs += 100;
 		_inputObjArr[j].trigger('keyup');
+	}
+	if(globalDataTableFilterColumn!=undefined && globalDataTableFilterColumn[domId]!=undefined ){
+    	searchSaveDisplay(domId);
 	}
 
 //	if(domId == "action") console.time("------- ACTION ADDITIONAL RENDER");
@@ -6848,10 +6854,10 @@ function initFilterColumnDatatable(tableID) {
 	        if ($(table.column(idx).header()).html() != "" &&_title != 'Favorite' && _title != 'Report') {
 	        	var obj_ = $(table.column(idx).footer()).find('.firstString');
 				if(globalDataTableFilterColumn!=undefined && globalDataTableFilterColumn[tableID]!=undefined  && globalDataTableFilterColumn[tableID][_title]!=undefined){
-	        		obj_.before('<img src=\"../skylineFormWebapp/images/filter.png\" id="filterIcon" style="position: absolute;top:60%;max-width;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+_title+'\')">');
+	        		obj_.before('<img src=\"../skylineFormWebapp/images/filter.png\" id="filterIcon" style="position: absolute;top:60%;width:11px;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+_title+'\')">');
 	                
 	        	}else{
-	        		obj_.before('<img src=\"../skylineFormWebapp/images/filter_empty.png\" id="filterIcon" style="position: absolute;top:60%;max-width;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+_title+'\')">');
+	        		obj_.before('<img src=\"../skylineFormWebapp/images/filter_empty.png\" id="filterIcon" style="position: absolute;top:60%;width:11px;"  onclick="filterColumn($(this).closest(\'table\').attr(\'id\'),\''+_title+'\')">');
 	        	}
 				}
 	    });
