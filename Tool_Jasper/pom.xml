@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>Comply</groupId>
 	<artifactId>Tool_Jasper</artifactId>
-	<version>9.6.4</version>
+	<version>9.6.6</version>
 	<dependencies>
 		<!-- oracle --> 
 <dependency>

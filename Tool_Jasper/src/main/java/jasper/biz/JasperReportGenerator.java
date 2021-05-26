@@ -37,6 +37,7 @@ import net.sf.jasperreports.engine.export.JExcelApiExporterParameter;
 import net.sf.jasperreports.engine.export.JRCsvExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
+import net.sf.jasperreports.engine.export.JRRtfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.PdfFont;
 import net.sf.jasperreports.engine.fill.JRSwapFileVirtualizer;
@@ -184,6 +185,61 @@ public class JasperReportGenerator {
 
 					exporter.setParameter(JRPdfExporterParameter.JASPER_PRINT, print);
 					exporter.setParameter(JRPdfExporterParameter.OUTPUT_STREAM, toReturn);
+					exporter.exportReport();
+				}
+					break;
+
+				case DOC: {
+					// Add arial font for pdf
+					HashMap fontMap = new HashMap();
+					PdfFont font = new PdfFont(reportPath + "\\ARIAL.TTF", BaseFont.IDENTITY_H, true); // (String
+																										// pdfFontName,
+																										// String
+																										// pdfEncoding,
+																										// Boolean
+																										// isPdfEmbedded)
+					FontKey key = new FontKey("Arial", false, false); // (String fontName, Boolean bold, Boolean italic)
+					fontMap.put(key, font);
+					PdfFont font2 = new PdfFont(reportPath + "\\ARIALBD.TTF", BaseFont.IDENTITY_H, true);
+					FontKey key2 = new FontKey("Arial", true, false);
+					fontMap.put(key2, font2);
+					PdfFont font3 = new PdfFont(reportPath + "\\ARIALBI.TTF", BaseFont.IDENTITY_H, true);
+					FontKey key3 = new FontKey("Arial", true, true);
+					fontMap.put(key3, font3);
+					PdfFont font4 = new PdfFont(reportPath + "\\ARIALI.TTF", BaseFont.IDENTITY_H, true);
+					FontKey key4 = new FontKey("Arial", false, true);
+					fontMap.put(key4, font4);
+
+					JRRtfExporter exporter = new JRRtfExporter();
+					exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+					exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
+
+					input = new FileInputStream(new File(reportPath + "\\" + sReportName));
+					inputModified = generalBiz.InputStreamModified(reportPath, input, hmReportReplacerList, mLang,
+							sReportName);
+					design = JRXmlLoader.load(inputModified);
+					input.close();
+					inputModified.close();
+					report = JasperCompileManager.compileReport(design);
+
+//                                JRParameter[] jpr = report.getParameters();
+//                				for (JRParameter jrParameter : jpr) {
+//                					if(jrParameter.getName().startsWith("CONFIG_PARAM_PRINT_ON_LOAD_PDF")) {
+//                						exporter.setParameter(JRPdfExporterParameter.PDF_JAVASCRIPT, "this.print();");
+//                					}
+//                				}
+
+					if (jrDataSource == null) // DB connection
+					{
+						System.out.println("Jasper report query: " + report.getQuery().getText());
+						print = JasperFillManager.fillReport(report, hmReportParameterList, conn);
+					} else // JRDataSource object
+					{
+						print = JasperFillManager.fillReport(report, hmReportParameterList, jrDataSource);
+					}
+
+					exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
+					exporter.setParameter(JRExporterParameter.OUTPUT_STREAM, toReturn);
 					exporter.exportReport();
 				}
 					break;
@@ -543,6 +599,64 @@ public class JasperReportGenerator {
 				 * print = JasperFillManager.fillReport(report, hmReportParameterList, conn);
 				 * JasperExportManager.exportReportToPdfFile(print,toReturn);
 				 */
+			}
+				break;
+
+			case DOC: {
+				toReturn = toReturn + ".rtf";
+				HashMap fontMap = new HashMap();
+				PdfFont font = new PdfFont(reportPath + "\\ARIAL.TTF", BaseFont.IDENTITY_H, true); // (String
+																									// pdfFontName,
+																									// String
+																									// pdfEncoding,
+																									// Boolean
+																									// isPdfEmbedded)
+				FontKey key = new FontKey("Arial", false, false); // (String fontName, Boolean bold, Boolean italic)
+				fontMap.put(key, font);
+				PdfFont font2 = new PdfFont(reportPath + "\\ARIALBD.TTF", BaseFont.IDENTITY_H, true);
+				FontKey key2 = new FontKey("Arial", true, false);
+				fontMap.put(key2, font2);
+				PdfFont font3 = new PdfFont(reportPath + "\\ARIALBI.TTF", BaseFont.IDENTITY_H, true);
+				FontKey key3 = new FontKey("Arial", true, true);
+				fontMap.put(key3, font3);
+				PdfFont font4 = new PdfFont(reportPath + "\\ARIALI.TTF", BaseFont.IDENTITY_H, true);
+				FontKey key4 = new FontKey("Arial", false, true);
+				fontMap.put(key4, font4);
+
+				JRRtfExporter exporter = new JRRtfExporter();
+				exporter.setParameter(JRExporterParameter.CHARACTER_ENCODING, "UTF-8");
+				exporter.setParameter(JRExporterParameter.FONT_MAP, fontMap);
+
+				if (report == null) {
+
+					input = new FileInputStream(new File(reportPath + "\\" + sReportName));
+					inputModified = generalBiz.InputStreamModified(reportPath, input, hmReportReplacerList, mLang,
+							sReportName);
+					design = JRXmlLoader.load(inputModified);
+					input.close();
+					inputModified.close();
+					report = JasperCompileManager.compileReport(design);
+				}
+
+//				JRParameter[] jpr = report.getParameters();
+//				for (JRParameter jrParameter : jpr) {
+//					if(jrParameter.getName().startsWith("CONFIG_PARAM_PRINT_ON_LOAD_PDF")) {
+//						exporter.setParameter(JRPdfExporterParameter.PDF_JAVASCRIPT, "this.print();");
+//					}
+//				}
+
+				if (jrDataSource == null) // DB connection
+				{
+					System.out.println("Jasper report query: " + report.getQuery().getText());
+					print = JasperFillManager.fillReport(report, hmReportParameterList, conn);
+				} else // JRDataSource object
+				{
+					print = JasperFillManager.fillReport(report, hmReportParameterList, jrDataSource);
+				}
+
+				exporter.setParameter(JRExporterParameter.JASPER_PRINT, print);
+				exporter.setParameter(JRExporterParameter.OUTPUT_FILE_NAME, toReturn);
+				exporter.exportReport();
 			}
 				break;
 
