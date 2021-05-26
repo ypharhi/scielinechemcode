@@ -223,7 +223,7 @@ public class ElementIreportImp extends Element {
 				"	reportType:{  \r\n" + 
 				"		type:'string',\n" + 
 				"		title:'Report type',\n" + 
-				"		'enum':['PDF','EXCEL']\n" + 
+				"		'enum':['PDF','EXCEL','DOC']\n" + 
 				"   },\r\n" + 
 				"   catalog:{  \r\n" +
 				"      type:'string',\r\n" +

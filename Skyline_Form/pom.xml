@@ -214,7 +214,7 @@
 		<dependency>
 			<groupId>Comply</groupId>
 			<artifactId>Tool_Jasper</artifactId>
-			<version>9.6.5</version>
+			<version>9.6.6</version>
 		</dependency>
 		
 		<!-- https://mvnrepository.com/artifact/jasperreports/jasperreports -->

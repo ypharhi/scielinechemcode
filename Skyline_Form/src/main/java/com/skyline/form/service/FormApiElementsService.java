@@ -252,7 +252,7 @@ public class FormApiElementsService {
 			// the call
 			jrg = new JasperReportGenerator(myResultSetDS, mLang);
 			path_file = jrg.getPath(fileName + (new Date()).getTime(), fileName,
-					(reportType.equals("PDF") ? JasperReportType.PDF : JasperReportType.JXL_EXCEL), title, subTitle,
+					(reportType.equals("PDF") ? JasperReportType.PDF : ((reportType.equals("DOC") ? JasperReportType.DOC :JasperReportType.JXL_EXCEL))), title, subTitle,
 					hmReportReplacerList, hmReportParameterList, DIR_JASPER_XML, DIR_JASPER_XML + "/tmp");
 
 		} catch (Exception ex) {
@@ -411,12 +411,13 @@ public class FormApiElementsService {
 			// the call
 			jrg = new JasperReportGenerator(myResultSetDS, mLang);
 			ByteArrayOutputStream out = jrg.getByteArrayOutputStream(fileName + (new Date()).getTime(), fileName,
-					(reportType.equals("PDF") ? JasperReportType.PDF : JasperReportType.JXL_EXCEL), title, subTitle,
+					(reportType.equals("PDF") ? JasperReportType.PDF : ((reportType.equals("DOC") ? JasperReportType.DOC :JasperReportType.JXL_EXCEL))), 
+					title, subTitle,
 					hmReportReplacerList, hmReportParameterList, DIR_JASPER_XML, DIR_JASPER_XML + "/tmp");
 
 			response.setContentType("application/octet-stream");
 			response.setHeader("Content-Disposition",
-					"attachment; filename=\"" + title + (reportType.equals("PDF") ? ".pdf\";" : ".xls\";"));
+					"attachment; filename=\"" + title + (reportType.equals("PDF") ? ".pdf\";" : (reportType.equals("DOC") ? ".rtf\";": ".xls\";")));
 			// if(ComplyUtils.getNull(request.getParameter("fileDownloadFlag")).equals("1"))
 			// response.setHeader("Set-Cookie", "fileDownload=true; path=/"); //
 			// used with fileDownload.js (that must be implemented in each
@@ -511,12 +512,12 @@ public class FormApiElementsService {
 			// the call
 			jrg = new JasperReportGenerator(myResultSetDS, mLang);
 			ByteArrayOutputStream out = jrg.getByteArrayOutputStream(fileName + (new Date()).getTime(), fileName,
-					(reportType.equals("PDF") ? JasperReportType.PDF : JasperReportType.JXL_EXCEL), title, subTitle,
+					(reportType.equals("PDF") ? JasperReportType.PDF : ((reportType.equals("DOC") ? JasperReportType.DOC :JasperReportType.JXL_EXCEL))), title, subTitle,
 					hmReportReplacerList, hmReportParameterList, DIR_JASPER_XML, DIR_JASPER_XML + "/tmp");
 
 			response.setContentType("application/octet-stream");
 			response.setHeader("Content-Disposition",
-					"attachment; filename=\"" + title + (reportType.equals("PDF") ? ".pdf\";" : ".xls\";"));
+					"attachment; filename=\"" + title + (reportType.equals("PDF") ? ".pdf\";" : (reportType.equals("DOC") ? ".rtf\";": ".xls\";")));
 			
 			OutputStream stream = response.getOutputStream();
 			try {
