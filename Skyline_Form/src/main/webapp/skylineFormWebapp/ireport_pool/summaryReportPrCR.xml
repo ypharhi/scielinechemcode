@@ -107,6 +107,10 @@
 	<parameter name="SUB_REPORT_SUMMARYREPORTSOLUTIONREPLACEMENTSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
 	<parameter name="CORROSIONDESCRIPTION" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="SUB_REPORT_SUMMARYREPORTCORRDESCSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="parameter_DIR_JASPER_XML" isForPrompting="false" class="java.lang.String"/>
+
+	<field name="FILE_ID" class="java.lang.String"/>
+	<field name="FILE_NAME" class="java.lang.String"/>
 
 
 		<group  name="corrosionResults" >
@@ -1117,30 +1121,6 @@
 			</band>
 			</groupFooter>
 		</group>
-		<group  name="images" >
-			<groupExpression><![CDATA[]]></groupExpression>
-			<groupHeader>
-			<band height="50"  isSplitAllowed="true" >
-				<staticText>
-					<reportElement
-						x="0"
-						y="7"
-						width="263"
-						height="21"
-						key="staticText-99"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true" isUnderline="true"/>
-					</textElement>
-				<text><![CDATA[Images:]]></text>
-				</staticText>
-			</band>
-			</groupHeader>
-			<groupFooter>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-			</groupFooter>
-		</group>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
 			</band>
@@ -1174,7 +1154,46 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="96"  isSplitAllowed="true" >
+			<band height="314"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="13"
+						width="263"
+						height="21"
+						key="staticText-99"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true" isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Images:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="47"
+						width="501"
+						height="18"
+						key="textField-74"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{FILE_NAME} + ":"]]></textFieldExpression>
+				</textField>
+				<image  scaleImage="RetainShape" isUsingCache="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="72"
+						width="500"
+						height="173"
+						key="image-1"
+						isPrintInFirstWholeBand="true"
+						isPrintWhenDetailOverflows="true"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA[(new com.skyline.customer.adama.ReportsHelper()).getBlobAsInputStream("na,na,na," + String.valueOf($F{FILE_ID}), String.valueOf($P{parameter_DIR_JASPER_XML}))]]></imageExpression>
+				</image>
 			</band>
 		</detail>
 		<columnFooter>
