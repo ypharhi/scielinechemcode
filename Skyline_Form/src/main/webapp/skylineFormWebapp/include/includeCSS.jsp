@@ -5,3 +5,4 @@
 <link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/comply_theme/colReorder.dataTables.css?<spring:message code="Env" text="" />" />
 <link href="../skylineFormWebapp/CSS/comply_theme/app.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
 <link href="../skylineFormWebapp/CSS/comply_theme/tmpCSS.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
+<link href="../skylineFormWebapp/CSS/comply_theme/jquery-resizable-ui.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">

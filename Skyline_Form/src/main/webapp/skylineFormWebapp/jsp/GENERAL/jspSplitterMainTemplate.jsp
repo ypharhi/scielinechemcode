@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Skyline ${browserTitle}</title>
 <link rel="icon" href="../skylineFormWebapp/images/favicon.ico?<spring:message code="Env" text="" />" />
+
 <!--  <style type="text/css">
 /*!
  * jQuery UI CSS Framework 1.12.1
@@ -239,6 +240,8 @@
 <link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/comply_theme/colReorder.dataTables.css?<spring:message code="Env" text="" />" />
 <link href="../skylineFormWebapp/CSS/comply_theme/app.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
 <!-- 	<link href="../skylineFormWebapp/CSS/comply_theme/jquery-ui.custom.css" rel="stylesheet" type="text/css" media="all" />-->
+<link href="../skylineFormWebapp/CSS/comply_theme/jquery-resizable-ui.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
+
 	
 <script src="../skylineFormWebapp/deps/jquery-1.12.4.min.js"></script>
 <script src="../skylineFormWebapp/deps/jquery-ui.custom_new.min.js"></script>
