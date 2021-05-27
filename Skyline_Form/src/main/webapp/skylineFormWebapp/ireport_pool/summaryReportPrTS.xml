@@ -126,7 +126,7 @@
 		<group  name="S2" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="240"  isSplitAllowed="true" >
+			<band height="247"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="278"
@@ -136,7 +136,7 @@
 						key="staticText-13"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Status:]]></text>
 				</staticText>
@@ -162,7 +162,7 @@
 						key="staticText-14"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Serial Number:]]></text>
 				</staticText>
@@ -188,7 +188,7 @@
 						key="staticText-15"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Experiment Number:]]></text>
 				</staticText>
@@ -214,7 +214,7 @@
 						key="staticText-16"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Sender:]]></text>
 				</staticText>
@@ -240,7 +240,7 @@
 						key="staticText-17"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Experiment Version:]]></text>
 				</staticText>
@@ -266,7 +266,7 @@
 						key="staticText-19"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Project Name:]]></text>
 				</staticText>
@@ -292,7 +292,7 @@
 						key="staticText-20"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Completion Date:]]></text>
 				</staticText>
@@ -318,7 +318,7 @@
 						key="staticText-21"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Sub-Project Name:]]></text>
 				</staticText>
@@ -344,7 +344,7 @@
 						key="staticText-23"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Sub-Sub-Project Name:]]></text>
 				</staticText>
@@ -370,7 +370,7 @@
 						key="staticText-26"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Laboratory Name:]]></text>
 				</staticText>
@@ -383,7 +383,7 @@
 						key="staticText-26"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Owner:]]></text>
 				</staticText>
@@ -409,7 +409,7 @@
 						key="staticText-28"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
 				<text><![CDATA[Approver:]]></text>
 				</staticText>
@@ -429,33 +429,33 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="187"
+						y="197"
 						width="113"
 						height="15"
 						key="staticText-30"/>
 					<box></box>
 					<textElement>
-						<font pdfFontName="Helvetica" isItalic="false"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica" isBold="true" isItalic="false"/>
 					</textElement>
 				<text><![CDATA[Sample Number:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="212"
+						y="222"
 						width="113"
 						height="15"
 						key="staticText-32"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font fontName="SansSerif" isBold="true"/>
 					</textElement>
 				<text><![CDATA[Short Description:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="212"
+						y="222"
 						width="444"
 						height="15"
 						key="textField-32"
@@ -482,33 +482,33 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="6"
-						width="113"
-						height="15"
+						y="1"
+						width="119"
+						height="21"
 						key="staticText-58"/>
 					<box></box>
 					<textElement>
-						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
 					</textElement>
 				<text><![CDATA[General:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="159"
-						width="122"
-						height="15"
+						y="166"
+						width="119"
+						height="20"
 						key="staticText-61"/>
 					<box></box>
 					<textElement>
-						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Experiment Description:]]></text>
+				<text><![CDATA[Experiment: Description:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="187"
+						y="197"
 						width="169"
 						height="15"
 						key="textField-62"/>
@@ -528,17 +528,17 @@
 		<group  name="S1" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="20"  isSplitAllowed="true" >
+			<band height="35"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
-						y="0"
+						y="1"
 						width="113"
 						height="15"
 						key="staticText-62"/>
 					<box></box>
 					<textElement>
-						<font pdfFontName="Helvetica" isItalic="false"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica" isBold="true" isItalic="false"/>
 					</textElement>
 				<text><![CDATA[Aim:]]></text>
 				</staticText>
@@ -568,7 +568,7 @@
 		<group  name="S3" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="330"  isSplitAllowed="true" >
+			<band height="341"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="278"
@@ -578,15 +578,15 @@
 						key="staticText-36"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Heating Rate:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="388"
+						x="391"
 						y="82"
-						width="169"
+						width="165"
 						height="15"
 						key="textField-36"/>
 					<box></box>
@@ -597,14 +597,14 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
+						x="1"
 						y="125"
 						width="113"
 						height="15"
 						key="staticText-37"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Ts Max Condition:]]></text>
 				</staticText>
@@ -623,14 +623,14 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
+						x="1"
 						y="104"
 						width="113"
 						height="15"
 						key="staticText-39"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[T ISO:]]></text>
 				</staticText>
@@ -649,14 +649,14 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
+						x="1"
 						y="149"
 						width="113"
 						height="15"
 						key="staticText-40"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[To Max Condition:]]></text>
 				</staticText>
@@ -676,20 +676,20 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="200"
+						y="215"
 						width="113"
 						height="15"
 						key="staticText-41"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Sample Weight:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="200"
+						y="215"
 						width="165"
 						height="15"
 						key="textField-41"/>
@@ -703,20 +703,20 @@
 					<reportElement
 						x="278"
 						y="104"
-						width="110"
+						width="112"
 						height="15"
 						key="staticText-42"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[ISO Time:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="388"
+						x="391"
 						y="104"
-						width="169"
+						width="165"
 						height="15"
 						key="textField-42"/>
 					<box></box>
@@ -734,7 +734,7 @@
 						key="staticText-43"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[P Max Condition:]]></text>
 				</staticText>
@@ -754,21 +754,21 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="200"
+						y="215"
 						width="110"
 						height="15"
 						key="staticText-44"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[P Initial (bar):]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="388"
-						y="200"
-						width="169"
+						y="215"
+						width="142"
 						height="15"
 						key="textField-44"/>
 					<box></box>
@@ -779,14 +779,14 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
+						x="1"
 						y="35"
 						width="113"
 						height="15"
 						key="staticText-45"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Cell Type:]]></text>
 				</staticText>
@@ -805,22 +805,22 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
+						x="1"
 						y="82"
-						width="110"
+						width="113"
 						height="15"
 						key="staticText-46"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Heating Program:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="110"
+						x="113"
 						y="82"
-						width="168"
+						width="165"
 						height="15"
 						key="textField-46"/>
 					<box></box>
@@ -831,14 +831,14 @@
 				</textField>
 				<staticText>
 					<reportElement
-						x="0"
+						x="1"
 						y="58"
 						width="113"
 						height="15"
 						key="staticText-47"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Insert Type:]]></text>
 				</staticText>
@@ -858,21 +858,21 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="224"
-						width="110"
+						y="239"
+						width="113"
 						height="15"
 						key="staticText-51"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[TS Max Actual (oC):]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="110"
-						y="224"
-						width="169"
+						x="113"
+						y="239"
+						width="165"
 						height="15"
 						key="textField-51"/>
 					<box></box>
@@ -884,20 +884,20 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="247"
+						y="262"
 						width="113"
 						height="15"
 						key="staticText-52"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Final Weight:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="247"
+						y="262"
 						width="165"
 						height="15"
 						key="textField-52"/>
@@ -910,21 +910,21 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="224"
+						y="239"
 						width="113"
 						height="15"
 						key="staticText-54"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[P Max Actual (bar):]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="391"
-						y="247"
-						width="165"
+						y="262"
+						width="142"
 						height="15"
 						key="textField-54"/>
 					<box></box>
@@ -936,34 +936,34 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="270"
-						width="110"
+						y="285"
+						width="113"
 						height="15"
 						key="staticText-55"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[% Loss:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="278"
-						y="247"
+						y="262"
 						width="113"
 						height="15"
 						key="staticText-55"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[P After Cooling (bar):]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="391"
-						y="224"
-						width="165"
+						y="239"
+						width="142"
 						height="15"
 						key="textField-55"/>
 					<box></box>
@@ -975,34 +975,34 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="11"
-						width="113"
-						height="15"
+						y="8"
+						width="119"
+						height="21"
 						key="staticText-59"/>
 					<box></box>
 					<textElement>
-						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
 					</textElement>
 				<text><![CDATA[TSU Conditions:]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="174"
-						width="113"
-						height="15"
+						y="186"
+						width="119"
+						height="20"
 						key="staticText-60"/>
 					<box></box>
 					<textElement>
-						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
 					</textElement>
 				<text><![CDATA[TSU Results:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="110"
-						y="270"
-						width="168"
+						x="113"
+						y="285"
+						width="165"
 						height="15"
 						key="textField-60"/>
 					<box></box>
@@ -1015,18 +1015,18 @@
 					<reportElement
 						x="278"
 						y="35"
-						width="110"
+						width="113"
 						height="15"
 						key="staticText-63"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Free Volume (ml):]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="388"
+						x="391"
 						y="35"
 						width="165"
 						height="15"
@@ -1040,34 +1040,34 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="270"
+						y="285"
 						width="125"
 						height="15"
 						key="staticText-78"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Max Temp Rate (oC/min):]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						x="0"
-						y="295"
+						y="310"
 						width="126"
 						height="15"
 						key="staticText-79"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Gas Production (liter/kg):]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="403"
-						y="270"
-						width="153"
+						y="285"
+						width="142"
 						height="15"
 						key="textField-78"/>
 					<box></box>
@@ -1079,7 +1079,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="126"
-						y="295"
+						y="310"
 						width="152"
 						height="15"
 						key="textField-79"/>
@@ -1092,21 +1092,21 @@
 				<staticText>
 					<reportElement
 						x="278"
-						y="295"
-						width="137"
+						y="310"
+						width="142"
 						height="15"
 						key="staticText-85"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Max Pressure Rate (bar/min):]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="414"
-						y="294"
-						width="142"
+						x="421"
+						y="310"
+						width="136"
 						height="15"
 						key="textField-84"/>
 					<box></box>
@@ -1125,7 +1125,7 @@
 		<group  name="S4" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="65"  isSplitAllowed="true" >
+			<band height="69"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
@@ -1135,7 +1135,7 @@
 						key="staticText-81"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Observations:]]></text>
 				</staticText>
@@ -1161,7 +1161,7 @@
 						key="staticText-82"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Additional Data Analysis:  Analysis:]]></text>
 				</staticText>
@@ -1187,7 +1187,7 @@
 						key="staticText-83"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Final Appearance:]]></text>
 				</staticText>
@@ -1224,7 +1224,7 @@
 						key="staticText-76"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Exotherm:]]></text>
 				</staticText>
@@ -1250,7 +1250,7 @@
 						key="staticText-77"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Pressure Peak:]]></text>
 				</staticText>
@@ -1276,7 +1276,7 @@
 						key="staticText-80"/>
 					<box></box>
 					<textElement>
-						<font/>
+						<font isBold="true"/>
 					</textElement>
 				<text><![CDATA[Conclusion:]]></text>
 				</staticText>
@@ -1298,13 +1298,13 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="106"
-						width="180"
-						height="18"
+						y="103"
+						width="186"
+						height="22"
 						key="staticText-84"/>
 					<box></box>
 					<textElement>
-						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
 					</textElement>
 				<text><![CDATA[Documents (images):]]></text>
 				</staticText>
@@ -1320,7 +1320,7 @@
 			</band>
 		</background>
 		<title>
-			<band height="30"  isSplitAllowed="true" >
+			<band height="43"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
@@ -1333,7 +1333,7 @@
 						key="textField"/>
 					<box topPadding="2" bottomPadding="2"></box>
 					<textElement verticalAlignment="Bottom">
-						<font pdfFontName="Helvetica-Bold" size="12" isBold="true" isUnderline="true"/>
+						<font pdfFontName="Helvetica-Bold" size="18" isBold="true" isUnderline="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{ReportParameterTitle}]]></textFieldExpression>
 				</textField>
