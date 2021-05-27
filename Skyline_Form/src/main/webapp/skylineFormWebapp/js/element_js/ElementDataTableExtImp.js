@@ -1175,7 +1175,6 @@ function filterColumn(domId,_title){
 				    $("#mask").show();//lock screen
 					$('#filterDialog').siblings( ".ui-dialog-titlebar" ).css( "display", "none" );//remove the dialog title
 					$('.ui-dialog-buttonset').css( "padding", "10px" );
-					//$(this).parent().css({'top': top,'left':left});
 					
 					 selectedTable.columns(index, { search: 'applied'}).every( function () {
 						 if(filter_input_val!=""){
@@ -1198,17 +1197,19 @@ function filterColumn(domId,_title){
 						 var column = this;
 				    	 $('#filterDialog').html(ulElem);
 				    	 var emptyVal ="";
-				    	 column.data().unique().sort().each( function ( val, idx ) {
+				    	 column.data().unique().sort(function (a,b) {//userDateFormatClient=DD/MMM/YYYY
+				             return moment(a, prop.dateFormat.userDateFormatClient).unix() - moment(b, prop.dateFormat.userDateFormatClient).unix();
+				         }).each( function ( val, idx ) {
 				    		var checked = "";
-				    		if (checkedArr != undefined && checkedArr.indexOf(val) != '-1') {
-						    	checked = "checked";
-							}
 				    		 if(val==""){
+				    			 if (checkedArr != undefined && checkedArr.indexOf(val) != '-1') {
+				    				 checked = "checked";
+				    				 }
 				    			 var label_ = "(Blanks)";
-				                var elem = "<li >";
-				                emptyVal += "<input type='checkbox' id='cb"+idx+"' value='"+val+"'"+checked+" ></>";
-				                emptyVal += "<label title='"+label_+"'>"+label_+"</label>";
-				                emptyVal += "</li>";
+				                 var elem = "<li >";
+				                 emptyVal += "<input type='checkbox' id='cb"+idx+"' value='"+val+"'"+checked+" ></>";
+				                 emptyVal += "<label title='"+label_+"'>"+label_+"</label>";
+				                 emptyVal += "</li>";
 				    		 }
 				    		 else if (val!= undefined && checkIfJSON(val)) // check if json or not
 				 			{
@@ -1238,7 +1239,7 @@ function filterColumn(domId,_title){
 				 			    	checked = "checked";
 				 			    	}
 				    		    var label_ = val.length>30?val.slice(0,27)+"...":val;
-				    		   var elem = "<li >";
+				    		    var elem = "<li >";
 			                	elem += "<input type='checkbox' id='cb"+idx+"' value='"+val/*.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&")*/+"'"+checked+" ></>";
 			                	elem += "<label title='"+val+"'>"+label_.replace(/\n/g, "")+"</label>";
 			                	elem += "</li>";	
@@ -1267,8 +1268,8 @@ function filterColumn(domId,_title){
 			        			.replace(/\r/g, "\\r")  // carriage return
 			        			.replace(/\t/g, "\\t")  // tab
 			        			.replace(/\f/g, "\\f"); //form-feed char
-								data.push(parseVal);//save display
-			    			 arr.push(this.value.replace(/[*()?\[\]^\\$|_=+-]/g, "\\$&"));//search
+								data.push(parseVal);// data for save display
+			    			 arr.push(this.value.replace(/[*()?\[\]^\\$|_=+-]/g, "\\$&"));//data for search
 			    			});
 			    		
 			    		 var val = data.join('|');
@@ -1297,7 +1298,7 @@ function filterColumn(domId,_title){
 					}catch(e){
 						 $(this).dialog("close");
 						console.log("search filter error",e);
-						console.error(e);
+						//console.error(e);
 					}} } 
          });
 		 
@@ -1306,23 +1307,26 @@ function filterColumn(domId,_title){
          }catch(e){
      		$("#mask").hide();
         	 console.log("open filter error",e);
-        	 console.error(e);
+        	 //console.error(e);
          }
 }
 
 function searchSaveDisplay(domId){
-	if (bl_initFilterColumnDatatable() && isSameStructTable(domId)) {
-		//var struct = $('#' + domId + '_structCatalogItem').val();
-		var colNames = globalDataTableFilterColumn[domId];
-		var selectedTable = $('#' + domId).DataTable();
-		$.each(colNames, function(_title, data) {
-			var index = getColumnIndexByColHeader(domId, _title);
-			var that = selectedTable.column(index);
-			data = data.map(function(item) {
-				return item.replace(/[*()?\[\]^\\$|_=+-]/g, "\\$&");
+	try {
+		if (bl_initFilterColumnDatatable() && isSameStructTable(domId)) {
+			var colNames = globalDataTableFilterColumn[domId];
+			var selectedTable = $('#' + domId).DataTable();
+			$.each(colNames, function(_title, data) {
+				var index = getColumnIndexByColHeader(domId, _title);
+				var that = selectedTable.column(index);
+				data = data.map(function(item) {
+					return item.replace(/[*()?\[\]^\\$|_=+-]/g, "\\$&");
+				});
+				var pattern = ("\^" + data.join('\$|\^') + '\$');
+				that.search(pattern, true, false).draw();
 			});
-			var pattern = ("\^" + data.join('\$|\^') + '\$');
-			that.search(pattern, true, false).draw();
-		});
+		}}
+	catch(e){
+		console.log("searchSaveDisplay error",e);
 	}
 }
