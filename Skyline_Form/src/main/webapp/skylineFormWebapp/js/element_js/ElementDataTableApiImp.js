@@ -6874,7 +6874,7 @@ function deleteGlobalDataTableFilterColumn(domId,idx){
 			}
 		}
 	}catch(e){
-		//todo
+		console.log("deleteGlobalDataTableFilterColumn error",e);
 	}
 	 
 }
