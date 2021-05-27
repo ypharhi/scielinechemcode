@@ -95,7 +95,7 @@ var ElementRichTextEditorImp = {
 				_toolBar.push(['insert', ['link', 'picture']]);
 			}
 			if(_removeButtonList.indexOf('view')==-1){
-				_toolBar.push(['view', ['fullscreen', 'undo', 'redo', 'codeview']]);
+				_toolBar.push(['view', [, 'undo', 'redo', 'codeview']]);//'fullscreen'
 			}
 			if(_removeButtonList.indexOf('help')==-1){
 				_toolBar.push(['help', ['help']]);
