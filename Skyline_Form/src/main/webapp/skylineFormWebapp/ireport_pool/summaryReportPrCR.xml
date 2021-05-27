@@ -108,6 +108,8 @@
 	<parameter name="CORROSIONDESCRIPTION" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="SUB_REPORT_SUMMARYREPORTCORRDESCSUBREP" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
 	<parameter name="parameter_DIR_JASPER_XML" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PHINITINAL" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PHFINAL" isForPrompting="false" class="java.lang.String"/>
 
 	<field name="FILE_ID" class="java.lang.String"/>
 	<field name="FILE_NAME" class="java.lang.String"/>
@@ -903,7 +905,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PHFINAL}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -916,7 +918,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PHINITINAL}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
