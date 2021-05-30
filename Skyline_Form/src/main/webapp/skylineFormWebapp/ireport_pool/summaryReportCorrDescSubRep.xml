@@ -42,30 +42,17 @@
 			</band>
 		</pageHeader>
 		<columnHeader>
-			<band height="22"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="0"
-						y="0"
-						width="535"
-						height="22"
-						key="textField-2"/>
-					<box bottomPadding="2"></box>
-					<textElement verticalAlignment="Bottom">
-						<font pdfFontName="Helvetica" isItalic="false"/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{NAMEPARAM}]]></textFieldExpression>
-				</textField>
+			<band height="10"  isSplitAllowed="true" >
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="15"  isSplitAllowed="true" >
+			<band height="32"  isSplitAllowed="true" >
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="0"
+						y="7"
 						width="535"
-						height="15"
+						height="22"
 						key="textField-1"
 						stretchType="RelativeToTallestObject"
 						isPrintWhenDetailOverflows="true"/>
