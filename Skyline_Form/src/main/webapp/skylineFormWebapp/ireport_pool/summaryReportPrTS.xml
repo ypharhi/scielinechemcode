@@ -496,14 +496,14 @@
 					<reportElement
 						x="0"
 						y="166"
-						width="119"
+						width="193"
 						height="20"
 						key="staticText-61"/>
 					<box></box>
 					<textElement>
 						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Experiment: Description:]]></text>
+				<text><![CDATA[Experiment Description: Description:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -736,7 +736,7 @@
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
-				<text><![CDATA[P Max Condition:]]></text>
+				<text><![CDATA[P Max (bar) Condition:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -866,7 +866,7 @@
 					<textElement>
 						<font isBold="true"/>
 					</textElement>
-				<text><![CDATA[TS Max Actual (oC):]]></text>
+				<text><![CDATA[Ts Max Actual (oC):]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
