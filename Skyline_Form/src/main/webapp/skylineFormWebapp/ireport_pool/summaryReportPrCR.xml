@@ -980,69 +980,6 @@
 			</band>
 			</groupFooter>
 		</group>
-		<group  name="S4" >
-			<groupExpression><![CDATA[]]></groupExpression>
-			<groupHeader>
-			<band height="55"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="118"
-						y="34"
-						width="160"
-						height="15"
-						key="textField-67"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PHFINAL}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="12"
-						width="118"
-						height="15"
-						key="staticText-92"/>
-					<box></box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" isBold="true"/>
-					</textElement>
-				<text><![CDATA[pH Initial:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="34"
-						width="118"
-						height="15"
-						key="staticText-93"/>
-					<box></box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" isBold="true"/>
-					</textElement>
-				<text><![CDATA[pH Final:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="117"
-						y="11"
-						width="160"
-						height="15"
-						key="textField-79"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PHINITINAL}]]></textFieldExpression>
-				</textField>
-			</band>
-			</groupHeader>
-			<groupFooter>
-			<band height="0"  isSplitAllowed="true" >
-			</band>
-			</groupFooter>
-		</group>
 		<group  name="descReplacement" >
 			<groupExpression><![CDATA[$V{PAGE_NUMBER}]]></groupExpression>
 			<groupHeader>
