@@ -35,7 +35,7 @@ function setDisplayValuesForIreport(formIdToSubmit)
 
 function getImageSelectionAndRenderIreport(uid) {
 	var fileIdList = ['-1'];
-	$('#documents input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
+	$('#documents input:checked').each(function (index) {
 		fileIdList.push(($(this).val()));
     });
 	setFormParamMap($('#formCode').val(), $('#formId').val(),"FILTER_FILE_ID",fileIdList,setDisplayValuesForIreport,[uid]);
