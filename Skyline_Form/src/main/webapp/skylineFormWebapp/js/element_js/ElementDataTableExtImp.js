@@ -1138,7 +1138,7 @@ function filterColumn(domId,_title){
 	if ($('#filterDialog').dialog('isOpen')===true) {
 		$('#filterDialog iframe').attr('src', 'about:blank');
 		$('#filterDialog').remove();
-		$("#mask").hide();
+		//$("#mask").hide();
 		
 		return;
 	}
@@ -1167,12 +1167,10 @@ function filterColumn(domId,_title){
              close: function () {
             	 $('#filterDialog iframe').attr('src', 'about:blank');
                  $('#filterDialog').remove();
-                 $("#mask").hide();
+                 //$("#mask").hide();
                  },
 				open: function(event, ui) 
 				{
-					$('#mask').css('z-index', '1001');
-				    $("#mask").show();//lock screen
 					$('#filterDialog').siblings( ".ui-dialog-titlebar" ).css( "display", "none" );//remove the dialog title
 					$('.ui-dialog-buttonset').css( "padding", "10px" );
 					
@@ -1253,7 +1251,7 @@ function filterColumn(domId,_title){
 					
 				},
 				buttons: { "OK": function() {
-					$("#mask").hide();
+					//$("#mask").hide();
 					try{
 					var selectedTable = $('#' + domId).DataTable();
 					 selectedTable.columns(index).every( function () {
@@ -1305,7 +1303,7 @@ function filterColumn(domId,_title){
 		 $dialog.dialog('option', 'dialogClass', 'noTitleStuff').dialog('open');
 		 
          }catch(e){
-     		$("#mask").hide();
+     		//$("#mask").hide();
         	 console.log("open filter error",e);
         	 //console.error(e);
          }
