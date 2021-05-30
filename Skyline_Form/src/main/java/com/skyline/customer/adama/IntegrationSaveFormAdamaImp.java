@@ -323,7 +323,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			}
 			if (form.getFormCodeEntity().equals("InvItemMaterial")) {
 				
-				elementValueMap.put("alternativeGroup", elementValueMap.get("alternativeGroup").trim());
+				elementValueMap.put("alternativeGroup", elementValueMap.containsKey("alternativeGroup")? elementValueMap.get("alternativeGroup").trim():"");
 				
 				String statusName = formDao.getFromInfoLookup("materialStatus", LookupType.ID,
 						elementValueMap.get("STATUS_ID"), "name");
