@@ -110,6 +110,9 @@
 	<parameter name="parameter_DIR_JASPER_XML" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="IREPORT_PRINT_PHINITINAL" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="IREPORT_PRINT_PHFINAL" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_COPIEDTO" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_ORDERNO" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_NOTEBOOKPAGENO" isForPrompting="false" class="java.lang.String"/>
 
 	<field name="FILE_ID" class="java.lang.String"/>
 	<field name="FILE_NAME" class="java.lang.String"/>
@@ -141,31 +144,18 @@
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Copied To:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="45"
-						width="118"
-						height="15"
-						key="staticText-60"/>
-					<box></box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" isBold="true"/>
-					</textElement>
-				<text><![CDATA[Experiment Description:]]></text>
+				<text><![CDATA[Copies To:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="118"
-						y="45"
-						width="439"
-						height="15"
+						x="0"
+						y="37"
+						width="557"
+						height="23"
 						key="textField-60"/>
 					<box></box>
 					<textElement textAlignment="Center">
-						<font isUnderline="true"/>
+						<font size="12" isUnderline="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_DESCRIPTION}]]></textFieldExpression>
 				</textField>
@@ -352,6 +342,45 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_AIM}]]></textFieldExpression>
 				</textField>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="117"
+						y="9"
+						width="439"
+						height="15"
+						key="textField-75"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_COPIEDTO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="117"
+						y="178"
+						width="439"
+						height="15"
+						key="textField-76"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_NOTEBOOKPAGENO}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="117"
+						y="113"
+						width="439"
+						height="15"
+						key="textField-77"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font isUnderline="false"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_ORDERNO}]]></textFieldExpression>
+				</textField>
 			</band>
 			</groupHeader>
 			<groupFooter>
@@ -387,7 +416,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_DURATION}.equals("")?"":$P{IREPORT_PRINT_DURATION} + " " + $P{IREPORT_PRINT_DURATION_UOM_ID}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_DURATION}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -413,7 +442,8 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_WIDTH}.equals("")?"":$P{IREPORT_PRINT_WIDTH} + " " + $P{IREPORT_PRINT_WIDTH_UOM_ID}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? "" : $P{IREPORT_PRINT_WIDTH}
+]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -426,7 +456,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_INITIALWEIGHT}.equals("") ? "" : $P{IREPORT_PRINT_INITIALWEIGHT} + " " + $P{IREPORT_PRINT_INI_WEIGHT_UOM_ID}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_INITIALWEIGHT}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -443,8 +473,8 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="117"
-						y="187"
+						x="118"
+						y="186"
 						width="160"
 						height="15"
 						key="textField-41"/>
@@ -452,12 +482,13 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_HEIGHT}.equals("") ? "" : $P{IREPORT_PRINT_HEIGHT} + " " + $P{IREPORT_PRINT_HEIGHT_UOM_ID}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? "" : $P{IREPORT_PRINT_HEIGHT}
+]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="395"
-						y="187"
+						x="396"
+						y="186"
 						width="161"
 						height="15"
 						key="textField-42"/>
@@ -465,7 +496,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_INITIALVOLUME}.equals("")?"":$P{IREPORT_PRINT_INITIALVOLUME} + " " + $P{IREPORT_PRINT_INI_VOLUME_UOM_ID}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_INITIALVOLUME}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -491,20 +522,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_RADIUS}.equals("") ? "" : $P{IREPORT_PRINT_RADIUS} + " " + $P{IREPORT_PRINT_RADIUS_UOM_ID}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="395"
-						y="206"
-						width="160"
-						height="15"
-						key="textField-45"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_TEMP}.equals("") ? "" : $P{IREPORT_PRINT_TEMP} + " " + $P{IREPORT_PRINT_TEMP_UOM_ID}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? $P{IREPORT_PRINT_RADIUS} : ""]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -517,20 +535,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_AREA}.equals("")?"":$P{IREPORT_PRINT_AREA} + " " + $P{IREPORT_PRINT_AREA_UOM_ID}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="118"
-						y="144"
-						width="160"
-						height="15"
-						key="textField-58"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_LENGTH}.equals("")?"" : $P{IREPORT_PRINT_LENGTH} + " " + $P{IREPORT_PRINT_LENGTH_UOM_ID}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_AREA}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -597,123 +602,130 @@
 					</textElement>
 				<text><![CDATA[Weld:]]></text>
 				</staticText>
-				<staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="0"
+						x="-1"
 						y="144"
 						width="118"
 						height="15"
-						key="staticText-76"/>
+						key="textField-80"/>
 					<box></box>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Lenght:]]></text>
-				</staticText>
-				<staticText>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Length" + " (" + $P{IREPORT_PRINT_LENGTH_UOM_ID} + "):"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="117"
+						y="144"
+						width="160"
+						height="15"
+						key="textField-81"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_LENGTH}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
 						y="166"
 						width="118"
 						height="15"
-						key="staticText-77"/>
+						key="textField-82">
+							<printWhenExpression><![CDATA[new Boolean(($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? false : true)
+]]></printWhenExpression>
+						</reportElement>
 					<box></box>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Width:]]></text>
-				</staticText>
-				<staticText>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Width" + " (" + $P{IREPORT_PRINT_WIDTH_UOM_ID} + "):"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="-1"
-						y="187"
+						x="0"
+						y="186"
 						width="118"
 						height="15"
-						key="staticText-78"/>
+						key="textField-83">
+							<printWhenExpression><![CDATA[new Boolean(($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? false : true)]]></printWhenExpression>
+						</reportElement>
 					<box></box>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Thickness:]]></text>
-				</staticText>
-				<staticText>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Thickness" + " (" + $P{IREPORT_PRINT_HEIGHT_UOM_ID} + "):"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="-1"
 						y="206"
 						width="118"
 						height="15"
-						key="staticText-79"/>
+						key="textField-84">
+							<printWhenExpression><![CDATA[new Boolean(($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? true : false)]]></printWhenExpression>
+						</reportElement>
 					<box></box>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Diameter:]]></text>
-				</staticText>
-				<staticText>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Diameter" + " (" + $P{IREPORT_PRINT_RADIUS_UOM_ID} + "):"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="277"
-						y="206"
-						width="118"
-						height="15"
-						key="staticText-80"/>
-					<box></box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" isBold="true"/>
-					</textElement>
-				<text><![CDATA[Temperature:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="-1"
+						x="0"
 						y="227"
 						width="118"
 						height="15"
-						key="staticText-81"/>
+						key="textField-85"/>
 					<box></box>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Area:]]></text>
-				</staticText>
-				<staticText>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Area" + " (" + $P{IREPORT_PRINT_AREA_UOM_ID} + "):"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="277"
 						y="144"
 						width="118"
 						height="15"
-						key="staticText-83"/>
+						key="textField-86"/>
 					<box></box>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Duration:]]></text>
-				</staticText>
-				<staticText>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Duration" + " (" + $P{IREPORT_PRINT_DURATION_UOM_ID} + "):"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="278"
 						y="166"
 						width="118"
 						height="15"
-						key="staticText-84"/>
+						key="textField-87"/>
 					<box></box>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Initial Weight:]]></text>
-				</staticText>
-				<staticText>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Initial Weight" + " (" + $P{IREPORT_PRINT_INI_WEIGHT_UOM_ID} + "):"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="277"
-						y="187"
+						x="278"
+						y="186"
 						width="118"
 						height="15"
-						key="staticText-85"/>
+						key="textField-88"/>
 					<box></box>
 					<textElement>
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Initial Volume:]]></text>
-				</staticText>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Initial Volume" + " (" + $P{IREPORT_PRINT_INI_VOLUME_UOM_ID} + "):"]]></textFieldExpression>
+				</textField>
 			</band>
 			</groupHeader>
 			<groupFooter>
@@ -724,12 +736,25 @@
 		<group  name="testConditions" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="109"  isSplitAllowed="true" >
+			<band height="121"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="118"
+						y="48"
+						width="81"
+						height="15"
+						key="textField-45"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_TEMP}]]></textFieldExpression>
+				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="117"
-						y="50"
-						width="160"
+						y="70"
+						width="81"
 						height="15"
 						key="textField-48"/>
 					<box></box>
@@ -740,9 +765,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="395"
-						y="50"
-						width="160"
+						x="276"
+						y="70"
+						width="81"
 						height="15"
 						key="textField-49"/>
 					<box></box>
@@ -754,8 +779,8 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="117"
-						y="71"
-						width="160"
+						y="91"
+						width="81"
 						height="15"
 						key="textField-50"/>
 					<box></box>
@@ -766,9 +791,9 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="395"
-						y="71"
-						width="160"
+						x="276"
+						y="91"
+						width="81"
 						height="15"
 						key="textField-51"/>
 					<box></box>
@@ -793,7 +818,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="50"
+						y="70"
 						width="118"
 						height="15"
 						key="staticText-87"/>
@@ -806,7 +831,7 @@
 				<staticText>
 					<reportElement
 						x="0"
-						y="71"
+						y="91"
 						width="118"
 						height="15"
 						key="staticText-88"/>
@@ -818,9 +843,9 @@
 				</staticText>
 				<staticText>
 					<reportElement
-						x="277"
-						y="50"
-						width="118"
+						x="198"
+						y="70"
+						width="78"
 						height="15"
 						key="staticText-89"/>
 					<box></box>
@@ -831,9 +856,9 @@
 				</staticText>
 				<staticText>
 					<reportElement
-						x="278"
-						y="71"
-						width="118"
+						x="198"
+						y="91"
+						width="78"
 						height="15"
 						key="staticText-90"/>
 					<box></box>
@@ -842,6 +867,71 @@
 					</textElement>
 				<text><![CDATA[Immersion:]]></text>
 				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="277"
+						y="48"
+						width="84"
+						height="15"
+						key="textField-68"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PHINITINAL}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="199"
+						y="48"
+						width="78"
+						height="15"
+						key="staticText-101"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[pH Initial:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="361"
+						y="48"
+						width="78"
+						height="15"
+						key="staticText-102"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<text><![CDATA[pH Final:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="439"
+						y="48"
+						width="117"
+						height="15"
+						key="textField-78"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PHFINAL}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="48"
+						width="118"
+						height="15"
+						key="textField-89"/>
+					<box></box>
+					<textElement>
+						<font pdfFontName="Helvetica-Bold" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA["Temperature" + " (" + $P{IREPORT_PRINT_TEMP_UOM_ID} + "):"]]></textFieldExpression>
+				</textField>
 			</band>
 			</groupHeader>
 			<groupFooter>
@@ -907,19 +997,6 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PHFINAL}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="118"
-						y="12"
-						width="160"
-						height="15"
-						key="textField-68"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PHINITINAL}]]></textFieldExpression>
-				</textField>
 				<staticText>
 					<reportElement
 						x="0"
@@ -946,6 +1023,19 @@
 					</textElement>
 				<text><![CDATA[pH Final:]]></text>
 				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="117"
+						y="11"
+						width="160"
+						height="15"
+						key="textField-79"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PHINITINAL}]]></textFieldExpression>
+				</textField>
 			</band>
 			</groupHeader>
 			<groupFooter>
@@ -1128,23 +1218,31 @@
 			</band>
 		</background>
 		<title>
-			<band height="26"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+			<band height="108"  isSplitAllowed="true" >
+				<image  isUsingCache="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						mode="Opaque"
 						x="0"
-						y="0"
+						y="5"
+						width="253"
+						height="56"
+						key="image-2"/>
+					<box></box>
+					<graphicElement stretchType="NoStretch"/>
+					<imageExpression class="java.lang.String"><![CDATA[$P{parameter_DIR_JASPER_XML} + "/logo_adama1.png"]]></imageExpression>
+				</image>
+				<staticText>
+					<reportElement
+						x="0"
+						y="82"
 						width="557"
-						height="26"
-						forecolor="#0066CC"
-						backcolor="#FFFFFF"
-						key="textField"/>
-					<box topPadding="2" bottomPadding="2"></box>
-					<textElement verticalAlignment="Bottom">
-						<font pdfFontName="Helvetica-Bold" size="12" isBold="true" isUnderline="true"/>
+						height="21"
+						key="staticText-100"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true" isUnderline="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{ReportParameterTitle}]]></textFieldExpression>
-				</textField>
+				<text><![CDATA[Corrosion Test:]]></text>
+				</staticText>
 			</band>
 		</title>
 		<pageHeader>
