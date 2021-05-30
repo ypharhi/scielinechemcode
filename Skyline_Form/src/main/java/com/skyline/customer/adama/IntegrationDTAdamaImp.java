@@ -1357,7 +1357,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 														sourceElementImpCode, getFilterTableByStruct(struct))
 												: "");
 										if (!wherePart.equals("")) {
-											sql = sql + " and " + "\"_SMARTSELECT"
+											sql = sql + " and " + "\"_SMARTSELECTALLNONE"
 													+ "\" in (select sampleid from FG_I_CONN_REQUESTSELECT_SMPL_V where 1=1 "
 													+ wherePart + ")";
 										}
