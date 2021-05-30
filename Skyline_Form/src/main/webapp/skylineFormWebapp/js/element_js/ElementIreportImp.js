@@ -33,6 +33,14 @@ function setDisplayValuesForIreport(formIdToSubmit)
 	$('#' + formIdToSubmit).submit();
 }
 
+function getImageSelectionAndRenderIreport(uid) {
+	var fileIdList = ['-1'];
+	$('#documents input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
+		fileIdList.push(($(this).val()));
+    });
+	setFormParamMap($('#formCode').val(), $('#formId').val(),"FILTER_FILE_ID",fileIdList,setDisplayValuesForIreport,[uid]);
+}
+
 /**
 * kd 09062018
 * set var to Url 
