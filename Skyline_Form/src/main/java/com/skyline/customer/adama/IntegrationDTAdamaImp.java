@@ -2732,7 +2732,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				generalUtilLogger.logWrite(e);
 				return "-3";
 			}
-		}else if (parentFormCode.equals("ExperimentFor") && onChangeColumnName.equals("inviteminstrument_id")) {
+		}else if ((parentFormCode.equals("ExperimentFor")||parentFormCode.equals("ExperimentAn")) && onChangeColumnName.equals("inviteminstrument_id")) {
 			try {
 				formCode = "InstrumentRef";//TODO:a workaround for a change that should be done on the attribute formCode in the json-now refers to both "displayAsLink" and"autoSave"-
 				//should separate to another attribute such as  linkFormCode or saveFormCode
@@ -3229,6 +3229,17 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				}
 				if (!sql.equals("")) {
 					update = formSaveDao.updateSingleStringInfo(sql);
+				}
+			}
+		} else if (parentFormCode.equals("ExperimentAn")) {
+			if (formCode.equals("InvItemColumn") && onChangeColumnName.equalsIgnoreCase("invitemcolumn_id")) {
+				try {
+					onChangeEditTableSharedCellCore(stateKey, parentFormCode, formId, formCode, onChangeFormId, userId,
+							onChangeColumnName, onChangeColumnVal, saveType, formNumberId, oldVal, "columnselect_id",
+							"column_id", "ColumnSelect");
+				} catch (Exception e) {
+					generalUtilLogger.logWrite(e);
+					return "-3";
 				}
 			}
 		}
