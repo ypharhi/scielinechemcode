@@ -862,20 +862,36 @@ function elementDataTableApiImpBL(domId) {
 			select : function(event, ui) {
 				var $this = ui.target.parent();				
 //				console.log("row",$this);
-				
-				
-				var selectedTable = $('#' + domId).DataTable();
-	            var custid = selectedTable.row($this).data();
-				
-					var spread_id = custid[1];
+				if($this.parent()[0].tagName == 'A'){
+					try
+					{						
+						var data = $this.parent()[0].attributes.contextmenu_data.value
+						var dataArr = JSON.parse(data);
+						var formId = dataArr[0];
+						var formCode = dataArr[1];
+						var tab = dataArr[2];
+						console.log("Go to ->", formCode + " ->" + formId);
+						checkAndNavigate([''+formId+'',''+formCode+'',''+tab+'','false',true,'newTab']);
+					}catch(e){
+						console.log("open link in a new tab  error");
+					}
+				}else {		
+	//				console.log("row",$this);
 					
-	           
-	            	   var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode="
-			                    + "ViewSpreadsheet" + "&formId=-1" + "&userId="
-		                    	+ $('#userId').val() + '&PARENT_ID='
-		                    	+ spread_id;
-	            		openNewTab(page);
-				
+					
+					var selectedTable = $('#' + domId).DataTable();
+		            var custid = selectedTable.row($this).data();
+					
+						var spread_id = custid[1];
+						
+		           
+		            	   var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode="
+				                    + "ViewSpreadsheet" + "&formId=-1" + "&userId="
+			                    	+ $('#userId').val() + '&PARENT_ID='
+			                    	+ spread_id;
+		            		openNewTab(page);
+					
+				}
 			}
 		});
     }
