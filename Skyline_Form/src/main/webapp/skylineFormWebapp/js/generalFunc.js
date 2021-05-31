@@ -3878,7 +3878,20 @@ function checkIsEmpty(inval)
 			 $( "div.dynamic-savedisplay-success" ).remove();
 			 displayAlertDialog(getSpringMessage('updateSuccessfully'),'');
 		 } else {
-			 $( "div.dynamic-savedisplay-success" ).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
+			 var elems = document.body.getElementsByTagName("*");
+			  var highest = Number.MIN_SAFE_INTEGER || -(Math.pow(2, 53) - 1);
+			  for (var i = 0; i < elems.length; i++)
+			  {
+			    var zindex = Number.parseInt(
+			      document.defaultView.getComputedStyle(elems[i], null).getPropertyValue("z-index"),
+			      10
+			    );
+			    if (zindex > highest)
+			    {
+			      highest = zindex;
+			    }
+			  }
+			 $( "div.dynamic-savedisplay-success" ).css('z-index',highest).fadeIn( 300 ).delay( 1500 ).fadeOut( 400 );
 		 }
 	 } catch(e) {
 		 //do nothing

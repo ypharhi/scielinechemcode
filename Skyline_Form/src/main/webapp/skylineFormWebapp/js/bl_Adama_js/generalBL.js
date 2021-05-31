@@ -1580,6 +1580,7 @@ function saveSpreadsheet(element){
 		} else {
 			var elementId = obj.data[0].val;//the elementId of the new saved clob or the same one if no change has been done
 			$element.attr('elementId',elementId);
+			displayFadeMessage(getSpringMessage('updateSuccessfully'));
 		}
 	},
 	error : handleAjaxError
