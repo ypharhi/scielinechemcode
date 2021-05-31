@@ -3242,6 +3242,24 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					return "-3";
 				}
 			}
+			else if(formCode.equals("InvItemMaterial") && onChangeColumnName.equalsIgnoreCase("INVITEMMATERIAL_ID")) {
+				
+				formCode = "Component";
+				onChangeColumnName = "materialId";
+				String componentName = formDao.getFromInfoLookup("INVITEMMATERIAL", LookupType.ID, onChangeColumnVal, "name");
+				update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
+						onChangeColumnVal, onChangeFormId, userId);
+				update = onChangeEditTableCellCore(formCode, formId, saveType, "componentName",
+						componentName, onChangeFormId, userId);
+			}else if(formCode.equals("Component") && onChangeColumnName.equalsIgnoreCase("numOfStandardRows")){
+				int idx = onChangeColumnVal.indexOf(".");
+				onChangeColumnVal = onChangeColumnVal.substring(0 , idx);
+				update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
+						onChangeColumnVal, onChangeFormId, userId);
+			}else if(formCode.equals("Component")) {
+				update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
+						onChangeColumnVal, onChangeFormId, userId);
+			}
 		}
 		return update;
 	}

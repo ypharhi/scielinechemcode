@@ -201,8 +201,11 @@ function generalBL_generalClickEvent(customerFunction, action) { // customerClic
 	}else if(customerFunction == 'updateInstrumentTable'){
 		updateInstrumentTable();
 	}
-	else if(costumerFunction == 'saveAndCreateRequest'){
+	else if(customerFunction == 'saveAndCreateRequest'){
 		saveAndCreateRequest();
+	}
+	else if(customerFunction == 'updateTestedComponentTable'){
+		updateTestedComponentTable();
 	}
 }
 
@@ -5322,6 +5325,66 @@ function openCompositionDetails(){
 	});
 }
 
+function updateTestedComponentTable(){
+	var selectedId = "";// the row to be filled with the current material data
+	var selectedTable = $('#testedComponents').DataTable();
+	var custid = selectedTable.row('.selected').data();
+	if (typeof custid !== 'undefined') {
+		selectedId = custid[0];
+	}
+	
+	var search_material_id = $('#search_material_id').val();	
+	if(search_material_id == ''){
+		return;
+	}
+	
+	 var stringifyToPush1 = {
+			code : '_MATERIAL_ID',
+			val : search_material_id,
+			type : "AJAX_BEAN",
+			info : 'na'
+		};
+ 				
+	var allData = getformDataNoCallBack(1);
+	allData = allData.concat(stringifyToPush1);	
+	
+	// url call
+	var urlParam = "?formId="+ $('#formId').val()
+				+ "&formCode="+ $('#formCode').val()
+				+ "&userId="+ $('#userId').val()
+				+ "&eventAction=updateTestedComponentTable"
+				+ "&isNew=" + $('#isNew').val();
+
+	var data_ = JSON.stringify({
+		action : "updateTestedComponentTable",
+		data : allData,
+		errorMsg : ""
+	});
+
+	// call...
+	$.ajax({
+		type : 'POST',
+		data : data_,
+		url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+		contentType : 'application/json',
+		dataType : 'json',
+
+		success : function(obj) {
+			if (obj.errorMsg != null && obj.errorMsg != '') {
+				displayAlertDialog(obj.errorMsg);
+			} 
+			else
+			{
+				
+				onElementDataTableApiChange("testedComponents");
+			}
+
+			hideWaitMessage();
+		},
+		error : handleAjaxError
+	});
+	$('#search_material_id').val("");		
+}
 function updateInstrumentTable(){
 	var selectedId = "";// the row to be filled with the current material data
 	var selectedTable = $('#instrumentsTable').DataTable();
@@ -5382,4 +5445,3 @@ function updateInstrumentTable(){
 	});
 	$('#search_insrument_id').val("");		
 }
-
