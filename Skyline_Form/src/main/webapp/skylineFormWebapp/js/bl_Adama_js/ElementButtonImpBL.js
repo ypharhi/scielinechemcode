@@ -481,10 +481,15 @@ function openExperimentGroupPopUp(formId){
 function updateProductList(){
 	var productId = $('#productId').val();
 	var productName = $('#productName').val();
-	$('#PRODUCT_ID').append($('<option>', {
-	    value: productId,
-	    text: productName
-	}).attr("selected","selected")).trigger("chosen:updated");
+	var selectedOptionElem = $('#PRODUCT_ID option[value = "'+productId+'"]');
+	if(selectedOptionElem.length>0){
+		$('#PRODUCT_ID').val(productId).trigger("chosen:updated");
+	} else {
+		$('#PRODUCT_ID').append($('<option>', {
+		    value: productId,
+		    text: productName
+		}).attr("selected","selected")).trigger("chosen:updated");
+	}
 }
 
 function getHistoricalSpreadData(){
