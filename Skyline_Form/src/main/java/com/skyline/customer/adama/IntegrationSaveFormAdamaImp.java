@@ -1824,6 +1824,10 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				}
 			}
 
+			if(formCode.equals("ExperimentAn")) {
+				integrationValidation.validate(ValidationCode.CHECK_TESTED_COMPONENT_MANDATORY, formCode, formId, "",
+						new StringBuilder());
+			}
 			/*String protocolTypeName = formDao.getFromInfoLookup("Experiment", LookupType.ID, formId, "PROTOCOLTYPENAME");
 			if(protocolTypeName.equals("Analytical")||protocolTypeName.equals("Parametric")){
 				if ( !lastStatusName.equals("Active") && !currentStatusName.equals("Planned")

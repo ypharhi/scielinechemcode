@@ -3253,7 +3253,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						componentName, onChangeFormId, userId);
 			}else if(formCode.equals("Component") && onChangeColumnName.equalsIgnoreCase("numOfStandardRows")){
 				int idx = onChangeColumnVal.indexOf(".");
-				onChangeColumnVal = onChangeColumnVal.substring(0 , idx);
+				onChangeColumnVal = idx!=-1?onChangeColumnVal.substring(0 , idx):onChangeColumnVal;
 				update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
 						onChangeColumnVal, onChangeFormId, userId);
 			}else if(formCode.equals("Component")) {

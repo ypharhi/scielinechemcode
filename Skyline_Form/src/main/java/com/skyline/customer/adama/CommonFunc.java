@@ -2725,5 +2725,18 @@ private Map<String, String> getActivityMessage(String activity, String function_
 	}
 	return toRet;
 }
-
+public void checkTestedComponentMandatoryfields(String experiment_id,String userId) throws Exception {
+	String sql = "select distinct *"
+			+ " from fg_s_component_v\n"
+			+ " where parentid = '"+experiment_id+"'\n"
+			+ " and active = 1\n"
+			+" and sessionid is null";
+	List<Map<String,Object>> componentList = generalDao.getListOfMapsBySql(sql);
+	for(Map<String, Object> componentData:componentList){
+		if(componentData.get("TYPE_ID")==null || componentData.get("MATERIALID")==null ||
+				componentData.get("COEFFICIENT")==null || componentData.get("NUMOFSTANDARDROWS")==null ||
+				componentData.get("RT")==null ||componentData.get("OUM_ID")==null)
+		throw new Exception("Some mandatory fields in the Tested Component table are empty.<br> Please fill them in order to save the experiment.");
+	}
+}
 }
