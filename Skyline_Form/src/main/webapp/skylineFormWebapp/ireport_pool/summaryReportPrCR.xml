@@ -113,6 +113,8 @@
 	<parameter name="IREPORT_PRINT_COPIEDTO" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="IREPORT_PRINT_ORDERNO" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="IREPORT_PRINT_NOTEBOOKPAGENO" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DATA_SOURCE_CPRCRREPORTRESULT" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_SUMMARYREPORTPRCR_RESULT" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
 
 	<field name="FILE_ID" class="java.lang.String"/>
 	<field name="FILE_NAME" class="java.lang.String"/>
@@ -442,8 +444,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? "" : $P{IREPORT_PRINT_WIDTH}
-]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? "" : $P{IREPORT_PRINT_WIDTH}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -482,8 +483,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? "" : $P{IREPORT_PRINT_HEIGHT}
-]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? "" : $P{IREPORT_PRINT_HEIGHT}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -635,8 +635,7 @@
 						width="118"
 						height="15"
 						key="textField-82">
-							<printWhenExpression><![CDATA[new Boolean(($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? false : true)
-]]></printWhenExpression>
+							<printWhenExpression><![CDATA[new Boolean(($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? false : true)]]></printWhenExpression>
 						</reportElement>
 					<box></box>
 					<textElement>
@@ -1090,21 +1089,17 @@
 					</textElement>
 				<text><![CDATA[Calculated Density:]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<subreport  isUsingCache="true">
 					<reportElement
-						x="-1"
-						y="89"
-						width="558"
-						height="15"
-						key="textField-72"
-						isRemoveLineWhenBlank="true"
-						isPrintWhenDetailOverflows="true"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_RESULTSTABLE}]]></textFieldExpression>
-				</textField>
+						x="0"
+						y="84"
+						width="557"
+						height="26"
+						key="subreport-3"
+						isRemoveLineWhenBlank="true"/>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_CPRCRREPORTRESULT},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[$P{SUB_REPORT_SUMMARYREPORTPRCR_RESULT}]]></subreportExpression>
+				</subreport>
 			</band>
 			</groupHeader>
 			<groupFooter>
