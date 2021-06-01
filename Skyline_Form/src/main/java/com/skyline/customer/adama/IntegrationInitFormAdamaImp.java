@@ -345,7 +345,9 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 									+ structId + ",t.SUBSUBPROJECT_ID,null) as SUBSUBPROJECT_ID,"
 									+ userInfoMap.get("USER_INFO_LABORATORY_ID") + " as LAB,"
 									+ userInfoMap.get("USER_INFO_SITE_ID") + " as SITE,"
-									+ userInfoMap.get("USER_INFO_UNIT_ID") + " as UNIT"
+									+ userInfoMap.get("USER_INFO_UNIT_ID") + " as UNIT,"
+									+ " t.ISENABLESPREADSHEET,\n"
+									+ " t.PROJECTTYPENAME"
 									+ " from fg_authen_experimentmain_v t where t.subproject_id = " + structId
 									+ " or t.subsubproject_id = " + structId;
 							toReturn = generalDao.sqlToHashMap(sql);
@@ -357,7 +359,10 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 							sql = "  select distinct t.PROJECT_ID, t.SUBPROJECT_ID, t.SUBSUBPROJECT_ID,"
 									+ " t.DESTLAB_ID as LAB, t.DESTSITE_ID as SITE, t.DESTUNIT_ID as UNIT, t.ORIGIN_TEMPLATE_ID,"
 									+ " RE.EXPERIMENTVIEW_ID, RE.EXPERIMENTTYPE_ID, RE.PROTOCOLTYPE_ID,"
-									+ " t.TESTPURPOSE as AIM, RE.EXPERIMENTTYPE_ID_LIST from fg_s_request_all_v t, FG_I_REQUEST_EXPRIMENTTYPE_V RE"
+									+ " t.TESTPURPOSE as AIM, RE.EXPERIMENTTYPE_ID_LIST,\n"
+									+ " t.ISENABLESPREADSHEET,\n"
+									+ " t.PROJECTTYPENAME"
+									+ " from fg_s_request_all_v t, FG_I_REQUEST_EXPRIMENTTYPE_V RE"
 									+ " where t.REQUEST_ID = RE.REQUEST_ID(+) and t.formid = '" + structId
 									+ "' and rownum =1";
 							toReturn = generalDao.sqlToHashMap(sql);
