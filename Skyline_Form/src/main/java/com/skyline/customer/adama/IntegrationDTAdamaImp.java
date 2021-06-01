@@ -2590,6 +2590,14 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
 				}
 		  }
+		  else if(formCode.equals("Component")){
+				String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
+				String sql = "insert into FG_S_" + formCode + "_PIVOT "
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,OUM_ID)"
+						+ " values (sysdate,'" + userId + "'," + sessionId + ",'1'," + newformId + "," + formId + ",'"
+						+ formCode + "','" + formCode + "','" + userId + "',sysdate,fg_get_Uom_by_uomtype('time','min'))";
+				insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
+			}
 		else {
 			String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
 			String sql = "insert into FG_S_" + formCode + "_PIVOT "

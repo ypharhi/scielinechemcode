@@ -4552,9 +4552,9 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 				String newformId = formSaveDao.getStructFormId(formCode);
 				String sessionId = generalUtilFormState.checkAndReturnSessionId("Component", formId);
 				String sql = "insert into FG_S_" + formCode + "_PIVOT "
-						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,materialId,componentName)"
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,materialId,componentName,OUM_ID)"
 						+ " values (sysdate,'" + userId + "'," + sessionId + ",'1'," + newformId + "," + formId + ",'"
-						+ formCode + "','" + formCode + "','" + userId + "',sysdate,'" + material_id + "','"+componentName+"')";
+						+ formCode + "','" + formCode + "','" + userId + "',sysdate,'" + material_id + "','"+componentName+"',fg_get_Uom_by_uomtype('time','min'))";
 				String insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
 			}
 		}
