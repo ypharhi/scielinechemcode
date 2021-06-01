@@ -3805,6 +3805,34 @@ function bl_elementDatatableEditableCustomFuncHandler(domId, customerFunction, $
 			}
 		}
 	}
+	else if(formCode == "ExperimentAn"  && domId == "testedComponents"){
+		if(customerFunction == "onChangeImpurity"){
+
+			var rowId = $htmlObj.attr('rowId');
+			var name = $htmlObj.attr('name');
+			var currCellId = $htmlObj.attr('id');
+			var isChked = $htmlObj.prop('checked');
+			$("#"+domId+'_col_standardIncluded_row_'+rowId).prop('checked',true);
+			
+			//console.log("name: "+ name + " fieldId: " + currCellId + " isChked: " + isChked);
+			var table = $('#'+domId).DataTable();
+			var columnInd = getColumnIndexByColHeader(domId,"Basic Impurity");
+			
+			table.rows().eq(0).each( function ( index ) 
+			{
+				var row = table.row( index );	
+			    var cell = table.cell({row: index, column: columnInd}); 
+			    var node = cell.node();			    
+			    var $input = $(node).find('input');
+    			
+			    if($input.attr('id') != currCellId)
+				{
+    				$input.prop('disabled', isChked);				
+				}
+			});
+		
+		}
+	}
 }
 
 function doSingleCheck(domId,dbColumnName,currCellId,params,$htmlObj){

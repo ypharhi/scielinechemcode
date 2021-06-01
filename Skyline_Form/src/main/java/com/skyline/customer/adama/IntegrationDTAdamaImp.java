@@ -3259,6 +3259,10 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			}else if(formCode.equals("Component")) {
 				update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
 						onChangeColumnVal, onChangeFormId, userId);
+				if(onChangeColumnName.equals("impurity")&& onChangeColumnVal.equals("1")) {
+					onChangeEditTableCellCore(formCode, formId, saveType, "standardIncluded",
+							onChangeColumnVal, onChangeFormId, userId);
+				}
 			}
 		}
 		return update;
