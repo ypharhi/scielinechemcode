@@ -128,25 +128,35 @@ public class FormApiElementsService {
 		} catch(Exception e){
 			e.printStackTrace();
 		}
+		
+		String formcodeEntity = formDao.getFormCodeEntityBySeqId(formCode, formId);
+		String table = "fg_s_"+formcodeEntity+"_pivot";
+		
 		if(isChangedflag.equals("1") || isNew.equals("1") 
 				|| generalUtil.getNull(elementId).equals("")|| generalUtil.getNull(elementId).equals("-1")) { // changed / new (after cone)  / empty are condition to get a  new elementid. Note: if isNnew and isChangedflag = 0 with elementId (NOT EMPTY) then it is clone 
 			elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//always get new elementID
 			String value = generalUtil.getJsonValById(dataBean.getVal(), "value");
+			String elementImpCode_ = dataBean.getCode();
 			uploadFileDao.saveStringAsClob(elementId, value);
 		
-			String formcodeEntity = formDao.getFormCodeEntityBySeqId(formCode, formId);
-			String elementImpCode_ = dataBean.getCode();
-			String table = "fg_s_"+formcodeEntity+"_pivot";
 			String sql = "update "+table+"\n"
 					+ " set "+elementImpCode_+" = '"+elementId+"'\n"
 					+ " where formId = '"+formId+"'";
 			formSaveDao.updateStructTableByFormId(sql, table, Arrays.asList(elementImpCode_), formId);
+			
 		}
 		if (elementId.equals("-1")) {
 			throw new Exception(generalUtil.getSpringMessagesByKey("FAILED_SAVE_CLOB",
 					"Save failed. Please, try again or call your administrator."));
 		}
-		return elementId;
+		
+		JSONObject retObj = new JSONObject();
+		retObj.put("elementId", elementId);
+		String timeStamp = generalDao.selectSingleStringNoException("select to_char(TIMESTAMP,'dd/MM/yyyy  HH24:MI:SS')\n"
+				+ " from "+table+"\n"
+				+ " where formId = '"+formId+"'");
+		retObj.put("lastChangeDate", timeStamp);
+		return retObj.toString();
 	}
 
 	public String renderIreport(long stateKey, String formCode, String impCode, String fileName, String printTemplate,

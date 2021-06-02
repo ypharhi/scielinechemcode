@@ -588,9 +588,8 @@ function initForm() {
 		});
         if((_formCode == "Experiment") || (_formCode == "ExperimentCP")){// develop ExperimentCP "Continuous Process"
         	$("#saveButton").removeAttr('onclick');
-        	//$("#saveButton").attr("onclick", "doSaveWithConfirmCharSample('Reload');");
-        	$("#saveButton").attr("onclick", "checkNonFamiliarAndSave(doSaveWithConfirmCharSample,'Reload');");
-    		
+        	$("#saveButton").attr("onclick", "checkSpreadsheetFullScreen(doSaveWithConfirmCharSample,'Reload')");
+        	
     		initExperimentMassBalanceTab("webixMassBalanceTable","");
         	initExperimentMassBalanceTab("webixMassBalanceTable2","2");
         	initExperimentMassBalanceTab("webixMassBalanceTable3","3");
@@ -610,9 +609,7 @@ function initForm() {
         } 
         else if(_formCode == "ExperimentAn"){
         	$("#saveButton").removeAttr('onclick');
-    		//$("#saveButton").attr("onclick", "doSaveWithConfirmManualResults('Reload');");
-        	$("#saveButton").attr("onclick", "checkNonFamiliarAndSave(doSaveWithConfirmManualResults,'Reload');");
-        	
+        	$("#saveButton").attr("onclick", "checkSpreadsheetFullScreen(doSaveWithConfirmManualResults,'Reload')");
         	//lower the spreadsheet tab flag so that when clicking it, the spreadsheet would be reloaded
         	if(getActiveTabID() != "SpreadsheetTab") {
         		checkTabClickFlag('SpreadsheetTab');
@@ -623,9 +620,7 @@ function initForm() {
         else if(_formCode == "ExperimentFor")
         {
         	$("#saveButton").removeAttr('onclick');
-        	
-        	//$("#saveButton").attr("onclick", "doSaveExperimentFr('Reload');");
-        	$("#saveButton").attr("onclick", "checkSpreadsheetFullScreen()");
+        	$("#saveButton").attr("onclick", "checkSpreadsheetFullScreen(doSaveExperimentFr,'Reload')");
         	initEditableTableOnReadyScript();
         	
         	if(getActiveTabID() != "SpreadsheetTab") {
@@ -1529,7 +1524,7 @@ function initForm() {
     console.log("end initForm");
 }
 
-function checkSpreadsheetFullScreen(){
+function checkSpreadsheetFullScreen(callBackFunc,doAfterSave){
 	var excelElem = $('[element = "ElementExcelSheetImp"]');
 	var excelElemFullScreen = excelElem.filter(function(){return $(this).hasClass('full-screen')});
 	
@@ -1578,8 +1573,15 @@ function saveSpreadsheet(element){
 		if(obj.errorMsg != null && obj.errorMsg != ''){
 			displayAlertDialog(obj.errorMsg);
 		} else {
-			var elementId = obj.data[0].val;//the elementId of the new saved clob or the same one if no change has been done
-			$element.attr('elementId',elementId);
+			if(obj.data[0].val!=''){
+				var retVal =  JSON.parse(obj.data[0].val);
+				var elementId = retVal["elementId"];//the elementId of the new saved clob or the same one if no change has been done
+				var changeDate = retVal["lastChangeDate"];
+				$element.attr('elementId',elementId);
+				if(changeDate!= undefined){
+					$('#lastChangeDate').val(changeDate);
+				}
+			}
 			displayFadeMessage(getSpringMessage('updateSuccessfully'));
 		}
 	},
