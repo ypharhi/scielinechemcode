@@ -94,7 +94,7 @@ public class ReportsHelper {
 				Date date = new Date();
 				fileName = ireportPath + "\\tmp\\" + arr[3] + "_" + date.getTime();
 
-				String sql = "select t.file_content from FG_FILES t where t.file_id = " + arr[3];
+				String sql = "select t.file_content from FG_FILES t where t.file_id = '" + arr[3] + "'";
 				logger.info("/* SQL getBlobAsInputStream sql=*/ " + sql);
 				WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
 				generalDao = (GeneralDao) context.getBean("GeneralDao");

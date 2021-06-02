@@ -639,7 +639,7 @@ public class FormSchedTaskService {
 			sClob = "";
 			try {
 				sClob = generalDao.getSingleStringFromClob(
-						"select t.file_content from fg_clob_files t where t.file_id = " + arrOfElements[3]);
+						"select t.file_content from fg_clob_files t where t.file_id = '" + arrOfElements[3] + "'");
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -985,7 +985,7 @@ public class FormSchedTaskService {
 						sClob = "";
 						try {
 							sClob = generalDao.getSingleStringFromClob(
-									"select t.file_content from fg_clob_files t where t.file_id = " + arrOfElements[3]);
+									"select t.file_content from fg_clob_files t where t.file_id = '" + arrOfElements[3] + "'");
 						} catch (Exception e) {
 							e.printStackTrace();
 						}

@@ -669,10 +669,10 @@ public class ChemDaoMarvinImp implements ChemDao {
 				for (int i = 0; i < res.length; i++) {
 					b[i] = "\'" + res[i] + "\'";
 				}
-				String csv = StringUtils.arrayToDelimitedString(b, ",");
+				String csv = StringUtils.arrayToDelimitedString(b, "','");
 
-				result = generalDao.getCSVBySql("select file_id from fg_files_fast_v where FILE_CHEM_ID in ("
-						+ generalUtil.getEmpty(csv, "-1") + ")", false);
+				result = generalDao.getCSVBySql("select file_id from fg_files_fast_v where FILE_CHEM_ID in ('"
+						+ generalUtil.getEmpty(csv, "-1") + "')", false);
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -682,7 +682,7 @@ public class ChemDaoMarvinImp implements ChemDao {
 			}
 		} else {//search full structure by smiles
 			result = generalDao.getCSVBySql(
-					"select f.file_id from fg_files_fast_v f where f.FILE_CHEM_ID in (select t.cd_id from FG_CHEM_DOC_SEARCH t where t.CD_SMILES = '"
+					"select f.file_id from fg_files_fast_v f where f.FILE_CHEM_ID in (select to_char(t.cd_id) from FG_CHEM_DOC_SEARCH t where t.CD_SMILES = '"
 							+ smiles + "')",
 					false);
 		}
