@@ -6,9 +6,9 @@
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Portrait"
-		 pageWidth="595"
+		 pageWidth="600"
 		 pageHeight="842"
-		 columnWidth="595"
+		 columnWidth="600"
 		 columnSpacing="0"
 		 leftMargin="0"
 		 rightMargin="0"
@@ -23,13 +23,31 @@
 	<import value="net.sf.jasperreports.engine.*" />
 	<import value="net.sf.jasperreports.engine.data.*" />
 
+	<style 
+		name="bold result if rep_result is yes"
+		isDefault="false"
+	>
+
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($F{Representative Result}.equals("yes") ? true : false)]]></conditionExpression>
+			<style 
+				isDefault="false"
+				fontName="Arial"
+				fontSize="8"
+				isBold="true"
+				isUnderline="false"
+			>
+			</style>
+		</conditionalStyle>
+	</style>
+
 	<parameter name="ReportParameterFilterDisplay" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="ReportParameterTitle" isForPrompting="false" class="java.lang.String"/>
 	<queryString><![CDATA[select  t.* from FG_R_EXPPARAMSCR_V t where 1=2]]></queryString>
 
 	<field name="Time" class="java.lang.String"/>
-	<field name="Weight [gr]" class="java.lang.String"/>
-	<field name="Loss [gr]" class="java.lang.String"/>
+	<field name="Weight" class="java.lang.String"/>
+	<field name="Loss" class="java.lang.String"/>
 	<field name="% Loss" class="java.lang.String"/>
 	<field name="Mean Corrosion Rate [mm/yr]" class="java.lang.String"/>
 	<field name="Representative Result" class="java.lang.String"/>
@@ -47,14 +65,14 @@
 			</band>
 		</pageHeader>
 		<columnHeader>
-			<band height="35"  isSplitAllowed="true" >
+			<band height="20"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						mode="Opaque"
 						x="0"
 						y="0"
-						width="105"
-						height="35"
+						width="92"
+						height="20"
 						backcolor="#999999"
 						key="staticText-3"/>
 					<box leftPadding="2" rightPadding="2" topPadding="2" bottomPadding="2">					<pen lineWidth="0.25" lineColor="#000000"/>
@@ -63,18 +81,18 @@
 					<bottomPen lineWidth="0.25" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineColor="#000000"/>
 </box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<text><![CDATA[Time]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="105"
+						x="92"
 						y="0"
-						width="105"
-						height="35"
+						width="92"
+						height="20"
 						backcolor="#999999"
 						key="staticText-3"/>
 					<box leftPadding="2" rightPadding="2" topPadding="2" bottomPadding="2">					<pen lineWidth="0.25" lineColor="#000000"/>
@@ -83,18 +101,18 @@
 					<bottomPen lineWidth="0.25" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineColor="#000000"/>
 </box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Weight [gr]]]></text>
+				<text><![CDATA[Weight ]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="210"
+						x="184"
 						y="0"
-						width="105"
-						height="35"
+						width="92"
+						height="20"
 						backcolor="#999999"
 						key="staticText-3"/>
 					<box leftPadding="2" rightPadding="2" topPadding="2" bottomPadding="2">					<pen lineWidth="0.25" lineColor="#000000"/>
@@ -103,18 +121,18 @@
 					<bottomPen lineWidth="0.25" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineColor="#000000"/>
 </box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
-				<text><![CDATA[Loss [gr]]]></text>
+				<text><![CDATA[Loss]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="315"
+						x="276"
 						y="0"
-						width="105"
-						height="35"
+						width="92"
+						height="20"
 						backcolor="#999999"
 						key="staticText-3"/>
 					<box leftPadding="2" rightPadding="2" topPadding="2" bottomPadding="2">					<pen lineWidth="0.25" lineColor="#000000"/>
@@ -123,18 +141,18 @@
 					<bottomPen lineWidth="0.25" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineColor="#000000"/>
 </box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<text><![CDATA[% Loss]]></text>
 				</staticText>
 				<staticText>
 					<reportElement
 						mode="Opaque"
-						x="420"
+						x="368"
 						y="0"
-						width="105"
-						height="35"
+						width="147"
+						height="20"
 						backcolor="#999999"
 						key="staticText-3"/>
 					<box leftPadding="2" rightPadding="2" topPadding="2" bottomPadding="2">					<pen lineWidth="0.25" lineColor="#000000"/>
@@ -143,8 +161,8 @@
 					<bottomPen lineWidth="0.25" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineColor="#000000"/>
 </box>
-					<textElement>
-						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+					<textElement textAlignment="Center">
+						<font pdfFontName="Helvetica-Bold" size="10" isBold="true"/>
 					</textElement>
 				<text><![CDATA[Mean Corrosion Rate [mm/yr]]]></text>
 				</staticText>
@@ -156,7 +174,7 @@
 					<reportElement
 						x="0"
 						y="0"
-						width="105"
+						width="92"
 						height="20"
 						key="textField-8"
 						stretchType="RelativeToTallestObject"
@@ -167,16 +185,16 @@
 					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Center">
 						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="8" isPdfEmbedded ="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Time}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="105"
+						x="92"
 						y="0"
-						width="105"
+						width="92"
 						height="20"
 						key="textField-8"
 						stretchType="RelativeToTallestObject"
@@ -187,16 +205,16 @@
 					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Center">
 						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="8" isPdfEmbedded ="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Weight [gr]}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Weight}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="210"
+						x="184"
 						y="0"
-						width="105"
+						width="92"
 						height="20"
 						key="textField-8"
 						stretchType="RelativeToTallestObject"
@@ -207,16 +225,16 @@
 					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Center">
 						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="8" isPdfEmbedded ="true"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Loss [gr]}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Loss}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="315"
+						x="276"
 						y="0"
-						width="105"
+						width="92"
 						height="20"
 						key="textField-8"
 						stretchType="RelativeToTallestObject"
@@ -227,16 +245,17 @@
 					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Center">
 						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="8" isPdfEmbedded ="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{% Loss}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" pattern="" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="420"
+						style="bold result if rep_result is yes"
+						x="368"
 						y="0"
-						width="105"
+						width="147"
 						height="20"
 						key="textField-8"
 						stretchType="RelativeToTallestObject"
@@ -247,7 +266,7 @@
 					<bottomPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#000000"/>
 </box>
-					<textElement>
+					<textElement textAlignment="Center">
 						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="8" isPdfEmbedded ="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{Mean Corrosion Rate [mm/yr]}]]></textFieldExpression>
