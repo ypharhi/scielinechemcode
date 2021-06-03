@@ -463,7 +463,7 @@ function elementDataTableApiImpBL(domId) {
 	          .html('<iframe style="border: 0px;width:100%;height:100%" ></iframe>')
 	          .dialog({
 	              autoOpen: false,
-	              modal: true,
+	              //modal: true,
 	              height: 130,
 	              width: 250,
 	              //  title: title,
@@ -564,7 +564,7 @@ function elementDataTableApiImpBL(domId) {
   	          .html('<iframe style="border: 0px;width:100%;height:100%" ></iframe>')
   	          .dialog({
   	              autoOpen: false,
-  	              modal: true,
+  	              //modal: true,
   	              height: 150,
   	              width: 250,
   	              // title: title,
