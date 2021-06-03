@@ -94,7 +94,7 @@ public class ElementExcelSheetImp extends Element
 			}
 		}
 		
-		String spreadsheetObj = "onLoadSpreadJS("+(spreadsheetData.isEmpty()?"{}":spreadsheetData)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
+		String spreadsheetObj = "onLoadSpreadsheetElement("+(spreadsheetData.isEmpty()?"{}":spreadsheetData)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
 		String onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet('"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
 		html.put(layoutBookMark + "_ready", spreadsheetObj);
 		String iframeSpreadJS = "<div id=\"" + domId + "\"  elementID=\"" + value + "\" basicHeight=\""+height_+"\" basicWidth=\""+width_+"\" style=\"height: "+height_+"; width:"+width_+";border: 1px solid gray;" + hidden+"\" element=\"" + this.getClass().getSimpleName() + "\" " + inputAttribute + " class=\"excelSheet "+ disabled +"\">\n"

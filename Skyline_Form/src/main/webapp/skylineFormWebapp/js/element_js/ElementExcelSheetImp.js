@@ -63,16 +63,20 @@ function reloadExcelSheet(domId){
 	document.getElementById(domId+'_spreadIframe').contentWindow.location.reload();
 }
 
-function onLoadSpreadJS(data,domId,isToolBarDisplay,isDisabled) {
+function onLoadSpreadsheetElement(data,domId,isToolBarDisplay,isDisabled) {
+	console.log('---------1. ON LOAD SPREAD ELEMENT------------');
 	dataHolder[domId] = data;
 	document.getElementById(domId+"_spreadIframe").contentWindow.onclick  = function(){onSpreadFocused();};
 }  
 
 function onLoadIframeSpreadsheet(domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
-	document.getElementById(domId+"_spreadIframe").contentWindow.onLoadSpreadsheetElement(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
-	setTimeout(function(){//added timeout in order to avoid the compressed toolbar and empty data (since onLoadIframeSpreadsheet was fired before onLoadSpreadJS)
-		$('#'+domId).find('iframe')[0].contentWindow.onLoadSpreadsheet(dataHolder[domId],domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
-	},100);
+	$(document).ready(function(){//not initializing the designer until the document is ready,else there are some wrong UI and functionalities(such as transparent dropdown) 
+		document.getElementById(domId+"_spreadIframe").contentWindow.onLoadIframeSpreadsheet(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
+		setTimeout(function(){//added timeout in order to avoid the compressed toolbar and empty data (since onLoadIframeSpreadsheet was fired before onLoadSpreadJS)
+			console.log('---------2. ON LOAD SPREAD IFRAME------------');
+			$('#'+domId).find('iframe')[0].contentWindow.onLoadSpreadsheetData(dataHolder[domId],domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
+		},100);
+	});
 }  
 
 function isSpreadsheetEmpty(domId) {

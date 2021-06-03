@@ -39,20 +39,22 @@
 	var isToolBarDisplay=[];
 	var isDisabled = [];//an array of all the excel objects when each cell mentions whether it's disabled or not
 
-		function onLoadSpreadsheetElement(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey){
+		function onLoadIframeSpreadsheet(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey){
 			GC.Spread.Sheets.LicenseKey = SpreadSheetsLicenseKey;
 			GC.Spread.Sheets.Designer.LicenseKey = SpreadSheetsDesignerLicenseKey;
 			var config = getConfig(domId);
 			designer[domId] = new GC.Spread.Sheets.Designer.Designer(document.getElementById("gc-designer-container"),config);
 		}
 		
-		function onLoadSpreadsheet(data,domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
+		function onLoadSpreadsheetData(data,domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
+			parent.console.log("----------------ON LOAD SPREADSHEET--------------");
 			var jsonData = {};
 			var hideRibbonPanel = "0";
 			this.isToolBarDisplay[domId] = isToolBarDisplay;
 			this.isDisabled[domId] = isDisabled;
 			var workBook = designer[domId].getWorkbook();
 			workBook.fromJSON(data);
+			parent.console.log(data);
 			setTimeout(function(){//sorrounded with timeout in order to ensure that the customizations defined after the spreadJs finished loding
 				defineSpreadsheet(domId);//important! this operation should be executed after the fromJson operation.
 			},100);
