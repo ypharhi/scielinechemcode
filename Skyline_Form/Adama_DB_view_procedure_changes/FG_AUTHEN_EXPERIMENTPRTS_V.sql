@@ -1,0 +1,32 @@
+CREATE OR REPLACE VIEW FG_AUTHEN_EXPERIMENTPRTS_V AS
+select distinct t."EXPERIMENT_ID",t."FORM_TEMP_ID",t."EXPERIMENT_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."DOCUMENTS",t."EXPERIMENTVERSION",t."YIELDUOM_ID",t."INSTRUMENTS",t."EXPERIMENTMAINNAME",t."EXPERIMENTTYPE_ID",/*t."TEMPLATE",*/t."COMMENTS",t."WORKUPS",t."ACTUALSTARTDATE",t."COMPLETIONDATE",t."APPROVALDATE",t."EXPERIMENTNAME",t."YIELD",t."PERMOLEUOM_ID",t."COLUMNS",t."EXPERIMENTSERIES",t."SAFETYCOMMENTS",t."PLANNED_ACTUAL",t."PRODUCTNAME_ID",t."SAMPLES",t."COMMENTSHPLC",t."ORIGINREQUESTID",t."PARAMETERS",t."EXPERIMENTRESULTS",t."WEBIXFORMULCALC",t."OWNER_ID",t."SUBSUBPROJECT_ID",t."CHROMATOGRAMS",t."REACTIONSUMASYNCIMGPLN",t."STANDARDS",t."REACTIONSUMASYNCIMGACT",t."EQUIPTPREPARATIONINSTRUCTION",t."TESTEDCOMPONENTS",t."AUTH",t."SELFTESTS",t."SELFTESTRESULTS",t."TEMPERATUREGRADIENT",t."FORMNUMBERID",t."PROJECT_ID",t."PROTOCOLTYPE_ID",t."COLUMNSELECT",t."MOBILEPHASECOMPOSITION",t."CORROSIONDESCRIPTION",t."TEMPLATE_ID",t."EXPERIMENTGROUP",t."ESTIMATEDSTARTDATE",t."LASTMODIFDATE",t."APPROVER_ID",t."TOTALCHEMICALYIELD",t."CHEMICALYIELDUOM_ID",t."INSTRUMENTSTABLE",t."MATERIALS",t."MASSBALLANCETYPE_ID",t."ADDITIONALEQUIP",t."AIM",t."EXPERIMENTMAIN_ID",t."UNITS_ID",t."COMMENTSGC",t."AUTHZ",t."CORROSIONSOLUTION",t."RESULTS",t."RESULTSTABLE",t."TORETURN",t."LABORATORY_ID",t."CREATOR_ID",t."CONCLUSSION",t."GROUPSCREW",t."LIMITINGREACTANTMOLES",t."ACTION",t."WEBIXANALYTTABLE",t."PRODUCTMW",t."SUBPROJECT_ID",t."PRODUCTMWUOM_ID",t."REACTANTMOLESUOM_ID",t."REQUEST",t."DESCRIPTION",t."SITE_ID",t."STEPS",t."CREATIONDATETIME",t."STATUS_ID",t."EQUIVALENTPERMOLE",t."USERSCREW",t."LASTSTATUS_ID",t."REACTIONTABLE",t."FAMILIARITY",t."PROCEDURE",/*t."METHOD",*/
+        t.LAB_MANAGER_ID,
+        first_value(s.BATCHNAME) over (partition by con.EXPERIMENTDEST_ID) "BATCHNAME"
+        ,first_value(s.PRODUCTNAME) over (partition by con.EXPERIMENTDEST_ID)  as "MATERIALNAME"
+       ,decode(count(con.EXPERIMENTDEST_ID) over (partition by con.EXPERIMENTDEST_ID),0,'0','1') as "ISFROMREQUEST"
+       ,expt.INSTRUCTS,
+       t.EXPERIMENTSTATUSNAME,
+       /*first_value(s.SAMPLENAME) over (partition by con.EXPERIMENTDEST_ID) REQUEST_SAMPLEID,
+       CON.REQUEST_CREATORID,
+       u.UserName as REQUEST_CREATOR_NAME,*/
+       first_value(s.SAMPLENAME) over (partition by con.EXPERIMENTDEST_ID) REQUEST_SAMPLEID,
+      first_value( CON.REQUEST_CREATORID) over (partition by con.EXPERIMENTDEST_ID) REQUEST_CREATORID,
+      first_value( u.UserName) over (partition by con.EXPERIMENTDEST_ID)  as REQUEST_CREATOR_NAME,
+       --count(gc.GROUP_ID) over (partition by gc.GROUP_ID)  as "HASGROUP"
+       fg_is_crewgroup_exists(t.EXPERIMENT_ID)as "HASGROUP"
+       ,t."TEMPLATEFLAG",t.LASTSTATUSNAME,
+       t.PROJECTNAME, t.subprojectname, t.subsubprojectname,
+       t.PROJECTNUMBER, t.SUBPROJECTNUMBER, t.SubSubProjectNumber,expt.EXPERIMENTTYPENAME,
+'{"path":[{"id":"'||t.project_id||'","name":"Project:'||t.PROJECTNAME||'"},{"id":"'||t.subproject_id||'","name":"SubProject:'||t.subPROJECTNAME||'"}'||nvl2(t.SUBSUBPROJECT_ID,
+   ',{"id":"'||t.subsubproject_id||'","name":"SubSubProject:'||t.subsubPROJECTNAME||'"}','')||',{"id":"'||t.EXPERIMENT_ID||'","name":"'||t.FORMCODE||':'||t.EXPERIMENTNAME||nvl2(t.TEMPLATEFLAG,'(Template)','')||'"}]}' as formPath
+              from FG_S_EXPERIMENTPRTS_ALL_V t
+              ,fg_i_connection_reqsmpldexp_v con
+              ,fg_s_sample_all_v s,
+              fg_s_experimenttype_all_v expt,
+              fg_s_user_v u
+              --,fg_s_groupscrew_all_v gc
+              where t.EXPERIMENT_ID = con.EXPERIMENTDEST_ID(+)
+              and con.SAMPLE_ID = s.SAMPLE_ID(+)
+              and t.EXPERIMENTTYPE_ID=expt.EXPERIMENTTYPE_ID(+)
+              and con.REQUEST_CREATORID = u.user_id(+)
+              --and gc.PARENTID(+)= t.EXPERIMENT_ID /*and gc.SESSIONID is null;*/;
