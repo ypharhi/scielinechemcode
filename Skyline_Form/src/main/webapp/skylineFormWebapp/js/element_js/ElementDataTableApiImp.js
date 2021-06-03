@@ -2892,7 +2892,14 @@ function smartRender(object, followingHiddenCols, domId, savedObject, isTableRes
 				                                    	//rowId = obj.formId;
 				                                		cellId = cellId+"_"+row;
 				                                	}
-				                                }				                        		
+				                                }
+				                        		if( $('#' + domId + '_role').val()!="Shared" && $("table[id='"+domId+"']").attr("disableeditable")=="0"){
+				                                	if(domId =="columnSelect"){
+				                                		//var obj = JSON.parse(rowData[3]);
+				                                    	//rowId = obj.formId;
+				                                		cellId = cellId+"_"+row;
+				                                	}
+				                                }
 				                        		if(_currDisplayName =='')
 				                        		{
 				                        			selectedOptionArr = [];

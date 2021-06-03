@@ -1055,6 +1055,13 @@ function elementDataTableApiImpBL(domId) {
 	    $(cells).find('textarea,input').addClass('authorizationDisabled');
 	   }
    }
+   if($('#formCode').val() == 'ExperimentAn' && (domId == 'instrumentsTable'||domId == 'columnSelect')){
+	   $('#' + domId + '_dataTableStructButtons button.dataTableApiAdd').css('display','none');
+	   if(domId == 'columnSelect'){
+		   $('#' + domId + '_dataTableStructButtons button.dataTableApiRemove').off('click');
+     	   $('#' + domId + '_dataTableStructButtons button.dataTableApiRemove').attr("onclick","removeRowColumnSelect('"+domId+"')");
+	   } 
+   }
    if($('#formCode').val() == 'ExperimentFor' && domId == 'batches'){
 	   $('#' + domId + '_dataTableStructButtons button.dataTableApiNew').css('display','none');
    }
@@ -5706,6 +5713,53 @@ function bl_initFilterColumnDatatable(){
 		toReturn = true;
 	}
 	return toReturn;
+}
+
+function removeRowColumnSelect(domId){
+	selectedTable = $('#' + domId).DataTable();
+    custid = selectedTable.row('.selected').data();
+    if(custid != undefined ){
+    	rowId = custid[1];
+    	var allData = [{
+			code : "removedId",
+			val : rowId,
+			type : "AJAX_BEAN",
+			info : 'na'
+		}];
+	// url call
+	var urlParam = "?formId="+ $('#formId').val()
+				+ "&formCode="+ $('#formCode').val()
+				+ "&userId="+ $('#userId').val()
+				+ "&eventAction=removeRowColumnSelect"
+				+ "&isNew=" + $('#isNew').val();
+	var data_ = JSON.stringify({
+		action : "removeRowColumnSelect",
+		data : allData,
+		errorMsg : ""
+	});
+	
+	// call...
+	$.ajax({
+		type : 'POST',
+		data : data_,
+		url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+		contentType : 'application/json',
+		dataType : 'json',
+		success : function(obj) {
+			if (obj.errorMsg != null && obj.errorMsg != '') {
+				hideWaitMessage();
+				displayAlertDialog(obj.errorMsg);
+			} else if (obj.data[0].val == "-1") {
+                hideWaitMessage();
+                displayAlertDialog(getSpringMessage('remove failed'));
+            } else {
+				hideWaitMessage();
+				onElementDataTableApiChange('columnSelect');
+			}
+		},
+		error : handleAjaxError
+	});
+    }
 }
 /*
  * 04012021 kdvoyashov commented this call because put to yes/no 

@@ -4558,6 +4558,52 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 				String insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
 			}
 		}
+		else if(eventAction.equals("removeRowColumnSelect")) {
+			try {
+			String sessionId = generalUtilFormState.checkAndReturnSessionId("ColumnSelect", formId);
+			
+			String removedId = generalUtil.getNull(elementValueMap.get("removedId"));
+			/*
+			 * String sql = "update fg_s_columnselect_pivot set column_id = REGEXP_REPLACE(REPLACE(','||column_id||',',','||" + removedId + "||',',','),'^[,]|[,]$','')" + "where parentid = '" + formId + "' and active = 1 and sessionid='"+sessionId+"'"; String update = formSaveDao.updateStructTable(sql, "fg_s_batchselect_pivot", Arrays.asList("column_id"), "parentid", formId);
+			 */
+			String csvIds = generalDao.selectSingleStringNoException(
+					"select column_id from fg_s_columnselect_v t where PARENTID='"+formId+"' and sessionid ='"+sessionId+"'");
+			if(generalUtil.getNull(csvIds).isEmpty()) {
+				csvIds = generalDao.selectSingleStringNoException(
+						"select column_id from fg_s_columnselect_v t where PARENTID='"+formId+"' and sessionid is null");
+				String colList = generalDao.getTableColCsv("FG_S_COLUMNSELECT_PIVOT");						
+				String valList = colList
+						.replace("CHANGE_BY", userId)
+						.replace(",TIMESTAMP", ",sysdate").replace("CREATION_DATE", "sysdate")
+						.replace("CREATED_BY", userId).replace("SESSIONID", sessionId);
+
+				String sql = String.format(
+						"insert into FG_S_%1$s_PIVOT (%2$s) select %3$s from FG_S_columnselect_PIVOT t where parentid = %5$s and sessionid is null",
+						"COLUMNSELECT", colList, valList, "column_id", formId);
+				
+				String update = formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+				sql = String.format( "update FG_S_%1$s_PIVOT set %2$s = REGEXP_REPLACE(REPLACE(','||column_id||',',','||" + removedId + "||',',','),'^[,]|[,]$','') where  PARENTID='%5$s' and sessionid='%6$s'",
+						"columnselect", "column_id", csvIds, "", formId, sessionId);
+				update = formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+			}else {
+			String sql = String.format( "update FG_S_%1$s_PIVOT set %2$s = REGEXP_REPLACE(REPLACE(','||column_id||',',','||" + removedId + "||',',','),'^[,]|[,]$','') where  PARENTID='%5$s' and sessionid='%6$s'",
+					"columnselect", "column_id", csvIds, "", formId, sessionId);
+			String update = formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+			}
+			//delete the row of the select if no data exists  anymore
+			if(generalDao.selectSingleStringNoException("select count(*)\n"
+					+ " from fg_s_columnselect_v\n"
+					+ " where column_id is not null\n"
+					+ " and active =1 and nvl(sessionid,'"+sessionId+"')='"+sessionId+"'\n"
+					+ " and parentid = '"+formId+"'").equals("0")){
+				String sql = "delete from fg_s_columnselect_pivot where parentid = '"+formId+"'\n"
+						+ "and active =1 ";
+				formSaveDao.deleteStructTable(sql, "fg_s_columnselect_pivot", "parentid", formId);
+			}
+			}catch(Exception e) {
+				return "-1";
+			}
+		}
 		else if (eventAction.equals("cancelExperimentGroup")) {
 			String sql = "update FG_S_ExperimentGroup_PIVOT set Active = '0' where formid = '"
 					+ elementValueMap.get("cancelledId") + "'";
