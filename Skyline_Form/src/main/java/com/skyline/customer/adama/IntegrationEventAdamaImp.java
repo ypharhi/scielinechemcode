@@ -4624,6 +4624,13 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			String columns = integrationDTAdamaImp.customerDTDefaultHiddenColumns(formCodeMain, impCode, struct);
 			return columns;
 		}
+		else if (eventAction.equals("getExportToReport")) {
+			String sql = "select LISTAGG(DOCUMENTUPLOAD, ',') WITHIN GROUP (ORDER BY 1) from \r\n" + 
+					" fg_s_Document_v where PARENTID = '" + formId
+					+"' and exportToReport=1 and sessionid is null";
+			String defaultRows = generalUtil.getNull(generalDao.selectSingleStringNoException(sql));
+			return defaultRows.replace(",", "-");
+		}
 		
 		return null; 
 	}

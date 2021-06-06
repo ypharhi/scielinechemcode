@@ -3273,6 +3273,10 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				}
 			}
 		}
+		else if(formCode.equals("Document") && onChangeColumnName.equalsIgnoreCase("EXPORTTOREPORT")) {
+			update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
+					onChangeColumnVal, onChangeFormId, userId);
+		}
 		return update;
 	}
 

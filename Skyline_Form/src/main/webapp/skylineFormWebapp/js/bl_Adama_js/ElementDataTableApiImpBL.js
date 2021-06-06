@@ -1102,8 +1102,45 @@ function elementDataTableApiImpBL(domId) {
         	getExperimentsPerGroup(rowId);
         }
    });
-
 }
+   if(($('#formCode').val()=='ExperimentPrTS'|| $('#formCode').val()=='ExperimentPrCR') && domId == 'documents'){
+
+	   	var table_ = $('#documents').DataTable();
+ 		 
+ 		var allData = getformDataNoCallBack(1);
+ 		// url call
+ 		var urlParam = "?formId=" + $('#formId').val() + "&formCode=" + $('#formCode').val() + "&userId=" + $('#userId').val()
+ 				+ "&eventAction=getExportToReport&isNew=" + $('#isNew').val();
+
+ 		var data_ = JSON.stringify({
+ 			action : "getExportToReport",
+ 			data : allData,
+ 			errorMsg : ""
+ 		});
+ 		// call...
+ 		$.ajax({
+ 			type : 'POST',
+ 			data : data_,
+ 			url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+ 			contentType : 'application/json',
+ 			dataType : 'json',
+
+ 			success : function(obj) {
+ 				if (obj.errorMsg != null && obj.errorMsg != '') {
+ 					displayAlertDialog(obj.errorMsg);
+ 					hideWaitMessage();
+ 					} else if (obj.data[0].val.toString() != null && obj.data[0].val.toString()!=""){
+ 						var results = obj.data[0].val.toString();
+ 						var exportToReportArray = results.split("-");
+ 						for (var i = 0; i < exportToReportArray.length; i++) {
+ 							table_.$('input[type="checkbox"][value="'+exportToReportArray[i]+'"]').prop('checked', true);
+ 						}
+ 					}
+					},
+					error : handleAjaxError
+				});
+	   
+ }
    return true;
 }
 
