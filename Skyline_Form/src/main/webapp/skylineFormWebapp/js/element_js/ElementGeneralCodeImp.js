@@ -34,50 +34,50 @@ var ElementGeneralCodeImp = {
  * @returns
  */
 function upDateElementGeneralCode(obj) {
-    if (typeof obj.value_ !== 'undefined') {
-        $('[id="' + obj.domId + '"]').val(obj.value_);
-        //alert('experimenttype_id=' + obj.value_ );
-        $('#txtStageID').val("");
-        
-        showWaitMessage(getSpringMessage('pleaseWait'));
-        
-    	$.ajax
-		({ 
-			type: "POST",
-			//contentType: "application/json",
-			contentType: "application/x-www-form-urlencoded; charset=utf-8",
-			url: "./getStabValuesFromApi.request",
-			data: "&ajProduct=" +  obj.value_, 
-			dataType: "json",
-			success: function(data) 
-			{  
-				$('#tdStages').html(data.tdStage);
-				if ( $('#STAGE_ID').length )
-				{
-					$('#STAGE_ID').on('change', function () { 
-						if (isControlDown === true)
-						{	
-							selectionDone = true;
-							return false;
-						}
-							
-						stageChange();
-					});
-				}
-				
-				if (data.txtStageID && data.txtStageID != "")
-				{	// Stability stages for product template
-					$('#txtStageID').val(data.txtStageID);				
-					//toggleCopyAndRunNumber(false);
-					//comboChangeAjax('ddlSourceRun', passExtraParam(1));
-				}
-				hideWaitMessage();
-			 },
-			error: handleAjaxError
-		}); 
-        
-        
-    }
+//    if (typeof obj.value_ !== 'undefined') {
+//        $('[id="' + obj.domId + '"]').val(obj.value_);
+//        //alert('experimenttype_id=' + obj.value_ );
+//        $('#txtStageID').val("");
+//        
+//        showWaitMessage(getSpringMessage('pleaseWait'));
+//        
+//    	$.ajax
+//		({ 
+//			type: "POST",
+//			//contentType: "application/json",
+//			contentType: "application/x-www-form-urlencoded; charset=utf-8",
+//			url: "./getStabValuesFromApi.request",
+//			data: "&ajProduct=" +  obj.value_, 
+//			dataType: "json",
+//			success: function(data) 
+//			{  
+//				$('#tdStages').html(data.tdStage);
+//				if ( $('#STAGE_ID').length )
+//				{
+//					$('#STAGE_ID').on('change', function () { 
+//						if (isControlDown === true)
+//						{	
+//							selectionDone = true;
+//							return false;
+//						}
+//							
+//						stageChange();
+//					});
+//				}
+//				
+//				if (data.txtStageID && data.txtStageID != "")
+//				{	// Stability stages for product template
+//					$('#txtStageID').val(data.txtStageID);				
+//					//toggleCopyAndRunNumber(false);
+//					//comboChangeAjax('ddlSourceRun', passExtraParam(1));
+//				}
+//				hideWaitMessage();
+//			 },
+//			error: handleAjaxError
+//		}); 
+//        
+//        
+//    }
 }
 
 function stageChange()
