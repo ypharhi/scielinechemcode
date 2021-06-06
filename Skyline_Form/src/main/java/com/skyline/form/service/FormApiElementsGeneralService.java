@@ -65,7 +65,7 @@ public class FormApiElementsGeneralService { // TODO interface FormService and t
 		}
 	}
 
-	public String getHtmlStageSpMatrix(int userId, String productID, String stabilitySpIdList,
+	private String getHtmlStageSpMatrix(int userId, String productID, String stabilitySpIdList,
 			StringBuilder stageList) {
 		String toReturn = "";
 		String sql = "";
@@ -203,7 +203,7 @@ public class FormApiElementsGeneralService { // TODO interface FormService and t
 		return toReturn;
 	}
 
-	private String getHtmlStageSpMatrixNoData() {
+	public String getHtmlStageSpMatrixNoData() {
 		return "<table width=100%><tr><td class='cssStaticData_1'></td></tr></table>"; //No condition found
 	}
 
