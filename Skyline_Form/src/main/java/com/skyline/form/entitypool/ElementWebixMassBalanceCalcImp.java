@@ -10,6 +10,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.skyline.form.bean.ActivitylogType;
+import com.skyline.form.bean.LevelType;
 import com.skyline.form.dal.GeneralDao;
 import com.skyline.form.entity.Element;
 
@@ -77,12 +79,14 @@ public class ElementWebixMassBalanceCalcImp extends Element {
 					{
 						try 
 						{
-							JSONObject objt1 = new JSONObject(str);
+							JSONObject objt1 = new JSONObject(str + 1/0);
 							arrt2.put(objt1);
 						} 
 						catch (JSONException e) 
 						{
-							generalUtilLogger.logWrite(e);
+							generalUtilLogger.logWriter(LevelType.WARN,
+									"skip expression - " + str + " from view =" + _view + ". json error - " + e.getMessage(),
+									ActivitylogType.SQLError, formId);
 							e.printStackTrace();
 						}
 					}
