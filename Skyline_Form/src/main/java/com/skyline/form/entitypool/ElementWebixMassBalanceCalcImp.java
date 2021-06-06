@@ -79,7 +79,7 @@ public class ElementWebixMassBalanceCalcImp extends Element {
 					{
 						try 
 						{
-							JSONObject objt1 = new JSONObject(str + 1/0);
+							JSONObject objt1 = new JSONObject(str);
 							arrt2.put(objt1);
 						} 
 						catch (JSONException e) 
