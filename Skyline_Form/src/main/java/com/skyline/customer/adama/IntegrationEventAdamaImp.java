@@ -1101,8 +1101,8 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 					+ " order by formid");//generalUtilFormState.getWherePartForTmpData("composition", compositionParent_id));
         	for(String composition_id:compositionList){
         		String cloneCompositionFormId = formSaveDao.cloneStructTable(composition_id," and active = 1 and sessionid is null");
-        		List<String> colList = Arrays.asList("parentId", "ACTIVE","SESSIONID","BATCH_ID","TABLETYPE","plannedToBatch");
-				String sql = "update FG_S_composition_PIVOT set parentId = '" + formId + "',ACTIVE = 1, SESSIONID ='"+sessionId+"',TABLETYPE='expComposition',plannedToBatch=null,BATCH_ID = null where FORMID='"
+        		List<String> colList = Arrays.asList("parentId", "ACTIVE","SESSIONID","BATCH_ID","TABLETYPE","plannedToBatch","delta");
+				String sql = "update FG_S_composition_PIVOT set parentId = '" + formId + "',ACTIVE = 1, SESSIONID ='"+sessionId+"',TABLETYPE='expComposition',plannedToBatch=null,BATCH_ID = null,delta=null where FORMID='"
 						+ cloneCompositionFormId + "' ";
 				formSaveDao.updateStructTableByFormId(sql, "FG_S_composition_PIVOT", colList,
 						cloneCompositionFormId);
