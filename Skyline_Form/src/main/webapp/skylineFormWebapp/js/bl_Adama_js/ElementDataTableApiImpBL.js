@@ -2682,7 +2682,26 @@ function generalBL_elementDataTableClickEvent(domId, customerFunction, params, $
 							else if(customerFunction == "onChangeMaterial")
 							{
 								console.log("onChangeMaterial return data",obj.data[0].val);
-								onMaterialChangeUpdateRowEditTable(domId, $.parseJSON(obj.data[0].val));
+								if(domId=='plannedCompositions'){
+									var stepListHaveMaterials = getStepCopiedMaterialListAndChange($htmlObj.attr('oldvalue'),$htmlObj.val()).then(function(stepListHaveMaterials){
+										onMaterialChangeUpdateRowEditTable(domId, $.parseJSON(obj.data[0].val));
+										//refresh the material step tables
+										if(stepListHaveMaterials != ""){
+											displayAlertDialog('The material will update in the step/s and the new material will update in the Planned composition & materials (Step) tables');
+											var stepListArr = stepListHaveMaterials.split(',');
+											for(var i = 0;i<stepListArr.length;i++){
+												var stepId = stepListArr[i];
+												var iframe = document.getElementById('AsyncIframe_stepIframes_'+stepId);
+												if(iframe.length>0){
+													iframe.contentWindow.onElementDataTableApiChange("compositions");
+												}
+											}
+										}
+									});
+								}else{
+									onMaterialChangeUpdateRowEditTable(domId, $.parseJSON(obj.data[0].val));
+
+								}
 							}
 							else if(customerFunction == "onChangeBatch")
 							{
@@ -2877,6 +2896,49 @@ function generalBL_elementDataTableClickEvent(domId, customerFunction, params, $
 
 }
 
+function getStepCopiedMaterialListAndChange(materialOldValue,newVal)
+{
+	//get the steps that have the materialOldValue, and replace it with the new chosen material
+	var promise = new Promise(function(resolve,reject){
+		var urlParam = "?formId=" + $('#formId').val() + "&formCode="
+		+ $('#formCode').val() + "&userId=" + $('#userId').val()
+		+ "&eventAction=getStepCopiedMaterialListAndChange"+ "&stateKey=" + $('#stateKey').val();
+		var allData = [
+			{code:"oldVal",val:materialOldValue}, 
+			{code:"newVal",val:newVal}
+		];	
+		var data_ = JSON.stringify({
+			action : "getStepCopiedMaterialListAndChange",
+			data : allData,
+			errorMsg : ""
+		});	
+		var stepList;
+	
+		$.ajax({
+			type : 'POST',
+			data : data_,
+			url : "./generalEvent.request" + urlParam,
+			contentType : 'application/json',
+			dataType : 'json',
+			success : function(obj) {
+	
+				if (obj.errorMsg != null && obj.errorMsg != '') 
+				{
+					displayAlertDialog(obj.errorMsg);
+					console.log("---ERROR getStepCopiedMaterialListAndChange on SUCCESS :",obj.errorMsg);
+				} 
+				else
+				{
+					stepList = obj.data[0].val;
+					resolve(stepList);
+				}
+				hideWaitMessage();
+			},
+			error : handleAjaxError
+		});
+	});	
+	return promise;
+}
 
 function generalBL_DTRowClickEvent(domId, rowDataArr, paramsObj)
 {
@@ -4250,7 +4312,7 @@ function bl_elementDatatableEditableAfterSaveHandler(domId, isRenderTable, after
 					checkTabClickFlag("SafetyTab",false);
 				}
 				var rowId = $htmlObj.attr('rowId');
-				generalBL_elementDataTableClickEvent(domId, customFuncName, [rowId, 'Composition', $.trim($htmlObj.find('option:selected').val())]);
+				generalBL_elementDataTableClickEvent(domId, customFuncName, [rowId, 'Composition', $.trim($htmlObj.find('option:selected').val())],$htmlObj);
 			}
 		}
 	}

@@ -1082,6 +1082,36 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
         		formSaveDao.deleteStructTable(sql, "fg_s_composition_pivot", "formid", composition_id);
         	}
         }
+        else if(eventAction.equals("getStepCopiedMaterialListAndChange")) {
+        	String oldMaterialId = elementValueMap.get("oldVal");
+        	String newMaterialId = elementValueMap.get("newVal");
+        	String sql = "select step_id\n"
+        			+ "from fg_S_step_v\n"
+        			+ "where experiment_id = '"+formId+"'";
+        	List<String> stepList = generalDao.getListOfStringBySql(sql);
+        	List<String> stepListHaveOldMaterial = new ArrayList<String>();
+        	for(String stepId:stepList) {
+        		sql = "select composition_id\n"
+        				+ "from fg_s_composition_v\n"
+        				+ "where parentid = '"+stepId+"'\n"
+						+ "and active = 1\n"
+						+ "and invitemmaterial_id = '"+oldMaterialId+"'\n"
+						+ "and tableType = 'stepComposition'"
+						+ generalUtilFormState.getWherePartForTmpData("composition", stepId);
+        		List<String> compositionList = generalDao.getListOfStringBySql(sql);
+        		if(compositionList.isEmpty()) {
+        			continue;
+        		}
+        		stepListHaveOldMaterial.add(stepId);
+        		for(String composition_id:compositionList) {
+        			sql = "update fg_s_composition_pivot\n"
+    					+ "set invitemmaterial_id = '"+newMaterialId+"'\n"
+						+ "where formid = '"+composition_id+"'";
+        			formSaveDao.updateStructTableByFormId(sql, "fg_s_composition_pivot", Arrays.asList("INVITEMMATERIAL_ID"),composition_id);
+        		}
+        	}
+        	return generalUtil.listToCsv(stepListHaveOldMaterial);
+        }
         else if(eventAction.equals("cloneImportedToPlannedCompositions")){
         	//first,delete all the composition records,and steps
         	generalDao.updateSingleStringNoTryCatch("delete from fg_s_composition_pivot where parentid ='"+formId+"' and tableType = 'expComposition'");
