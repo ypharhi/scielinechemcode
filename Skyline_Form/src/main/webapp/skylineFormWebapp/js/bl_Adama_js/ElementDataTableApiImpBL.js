@@ -1055,12 +1055,15 @@ function elementDataTableApiImpBL(domId) {
 	    $(cells).find('textarea,input').addClass('authorizationDisabled');
 	   }
    }
-   if($('#formCode').val() == 'ExperimentAn' && (domId == 'instrumentsTable'||domId == 'columnSelect')){
+   if($('#formCode').val() == 'ExperimentAn' && (domId == 'instrumentsTable'||domId == 'columnSelect' ||domId == 'testedComponents')){
 	   $('#' + domId + '_dataTableStructButtons button.dataTableApiAdd').css('display','none');
 	   if(domId == 'columnSelect'){
 		   $('#' + domId + '_dataTableStructButtons button.dataTableApiRemove').off('click');
      	   $('#' + domId + '_dataTableStructButtons button.dataTableApiRemove').attr("onclick","removeRowColumnSelect('"+domId+"')");
 	   } 
+	   if(domId == 'testedComponents'){
+		   $('#testedComponents_dataTableStructButtons').append($('#material_search'));
+	   }
    }
    if($('#formCode').val() == 'ExperimentFor' && domId == 'batches'){
 	   $('#' + domId + '_dataTableStructButtons button.dataTableApiNew').css('display','none');

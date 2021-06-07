@@ -2726,17 +2726,39 @@ private Map<String, String> getActivityMessage(String activity, String function_
 	return toRet;
 }
 public void checkTestedComponentMandatoryfields(String experiment_id,String userId) throws Exception {
-	String sql = "select distinct *"
-			+ " from fg_s_component_v\n"
+	String sql = "select distinct case when TYPE_ID is null or t.MATERIALID is null or t.COEFFICIENT is null \n" + 
+			"  or NUMOFSTANDARDROWS is null or t.RT is null or t.OUM_ID is null then \n" + 
+			"   nvl2(TYPE_ID,null,'Type, ')|| nvl2(t.MATERIALID,null,'Component Name, ')|| nvl2(t.COEFFICIENT,null,'Coefficient, ')||\n" + 
+			"    nvl2(t.RT,null,'RT, ')|| nvl2(t.OUM_ID,null,'RT UOM, ')|| nvl2(t.NUMOFSTANDARDROWS,null,'Number of Rows, ') end  missingFields "
+			+ " from fg_s_component_v t\n"
 			+ " where parentid = '"+experiment_id+"'\n"
 			+ " and active = 1\n"
 			+" and sessionid is null";
-	List<Map<String,Object>> componentList = generalDao.getListOfMapsBySql(sql);
-	for(Map<String, Object> componentData:componentList){
-		if(componentData.get("TYPE_ID")==null || componentData.get("MATERIALID")==null ||
-				componentData.get("COEFFICIENT")==null || componentData.get("NUMOFSTANDARDROWS")==null ||
-				componentData.get("RT")==null ||componentData.get("OUM_ID")==null)
-		throw new Exception("Some mandatory fields in the Tested Component table are empty.<br> Please fill them in order to save the experiment.");
+	List<String> missingFields = generalDao.getListOfStringBySql(sql);
+	String data = "";
+	for(int i = 0;i<missingFields.size();i++) {
+		if(missingFields.get(i)!= null) {
+			data+= "</br>"+missingFields.get(i) ;
+		}
 	}
+	if(!data.isEmpty()) {
+		data = data.substring(0, data.length() - 2);
+		throw new Exception("Some mandatory fields in the Tested Component table are empty.</br>Missing fields are:"+data+"<br> Please fill them in order to save the experiment.");
+	}
+	/*for (String m : missingFields) {
+	if (!generalUtil.getNull(m).isEmpty()) {
+		throw new Exception("Some mandatory fields in the Tested Component table are empty.</br>Missing fields are:</br>"+missingFields+"<br> Please fill them in order to save the experiment.");
+	}*/
+		
+		/*List<Map<String, Object>> componentList = generalDao.getListOfMapsBySql(sql);
+		for (Map<String, Object> componentData : componentList) {
+			if (componentData.get("TYPE_ID") == null || componentData.get("MATERIALID") == null
+					|| componentData.get("COEFFICIENT") == null || componentData.get("NUMOFSTANDARDROWS") == null
+					|| componentData.get("RT") == null || componentData.get("OUM_ID") == null)
+				throw new Exception(
+						"Some mandatory fields in the Tested Component table are empty.</br>Missing fields are:</br>"
+								+ missingFields + "<br> Please fill them in order to save the experiment.");
+		}*/
+
 }
 }

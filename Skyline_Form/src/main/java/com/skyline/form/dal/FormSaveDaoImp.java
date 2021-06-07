@@ -77,33 +77,21 @@ public class FormSaveDaoImp extends BasicDao implements FormSaveDao {
 				false);
 
 		if (intUpdate > 0) {
-			// yp 06042019 -  move the formPathInfo and matchid to generaltask.doSaveInfoAndAuditTrail because the names in the formpathinfo can be change latter on in save process. we make this update of the formcode here because we need transaction failure in case of an error (in the task we out of transaction)
-			//			if(isNew.equals("1") || !generalUtil.getNull(sessionId).equals("")){//280319 fixed bug 7358
-			//				formPathInfo = "";
-			//			}
 
-			//			sql = "update FG_SEQUENCE SET CHANGEDATE = sysdate, FORMIDNAME = '"
-			//					+ generalUtil.getNull(formNameId).replace("'","''") + "' , FORMTABLETYPE = '" + formTableType + "' where id = '" + formId + "' ";
-			//			logger.info("update FG_SEQUENCE formidname sql=" + sql);
 			sql = "update FG_SEQUENCE SET CHANGEDATE = sysdate"
 					+ ((sessionId == null)
 							? ", FORMIDNAME = '" + generalUtil.getNull(formNameId).replace("'", "''") + "'" : "")
 					+ ", FORMTABLETYPE = '" + formTableType + "' where id = '" + formId + "' ";
 			logger.info("update FG_SEQUENCE formidname sql=" + sql);
-			//seqtUpdate = generalDao.updateSingleStringNoTryCatch(sql);
 			intUpdate = generalDao.updateSingleStringNoTryCatch(sql);
 
-			//insert into FG_FORMID_UNPIVOT_LIST_TMP (next version implementation)
-			//			sql = "insert into FG_FORMID_UNPIVOT_LIST_TMP (ID) values ('" + formId + "') ";
-			//			logger.info("insert id to FG_FORMID_UNPIVOT_LIST_TMP sql=" + sql);
-			//			intUpdate = generalDao.updateSingleStringNoTryCatch(sql);
-
 		}
-		if (intUpdate == 0) {
-			generalUtilLogger.logWriter(LevelType.ERROR,
-					"doSaveStruct() updated = " + intUpdate + " rows by next sql: " + sql, ActivitylogType.SaveEvent,
-					formId);
-		}
+		
+//		if (intUpdate == 0) {
+//			generalUtilLogger.logWriter(LevelType.ERROR,
+//					"doSaveStruct() updated = " + intUpdate + " rows by next sql: " + sql, ActivitylogType.SaveEvent,
+//					formId);
+//		}
 		return String.valueOf(intUpdate);
 	}
 

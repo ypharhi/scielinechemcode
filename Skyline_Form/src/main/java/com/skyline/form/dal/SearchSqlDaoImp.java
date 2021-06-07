@@ -543,11 +543,12 @@ public class SearchSqlDaoImp extends BasicDao implements SearchSqlDao {
 				/******** SMARTPATH handler *****************************************************************/
 				else if (!paramCol.isEmpty() && paramCol.endsWith("SMARTPATH")) {
 					String delimiter = ">";
+					String smartPath = "";
 					ArrayList<Integer> al = new ArrayList<>();//kd 14042019 fixed bug-7395 Use this var for identify rows which has wrong path and shoild't be show in search result
 					for (int i = 0; i < rows.size(); i++) {
 						try {
 							if (rows.get(i).get(paramCol) != null) {
-								String smartPath = rows.get(i).get(paramCol).toString();
+								smartPath = rows.get(i).get(paramCol).toString();
 								boolean flag = true; // kd 12042019 This flag
 														// show if path not
 														// right
@@ -591,8 +592,8 @@ public class SearchSqlDaoImp extends BasicDao implements SearchSqlDao {
 
 						} catch (Exception e) {
 							System.out.println(e);
-							generalUtilLogger.logWrite(LevelType.ERROR,
-									"Error in search sql DataTable smartpath data perparation", "-1",
+							generalUtilLogger.logWrite(LevelType.WARN,
+									"Error in search sql DataTable smartpath data perparation. smartPath=" + smartPath + ", sql=" + sql, "-1",
 									ActivitylogType.SQLError, null, e);
 						}
 					}

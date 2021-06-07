@@ -2322,7 +2322,9 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 			}
 		}
 		catch(Exception ex){
-			generalUtilLogger.logWrite(ex);
+			generalUtilLogger.logWriter(LevelType.WARN,
+					"Error in eval path =" + path,
+					ActivitylogType.GeneralError, "-1", ex, null);
 			ex.printStackTrace();
 			toReturn = "";
 		}

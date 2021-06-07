@@ -706,8 +706,9 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 					}
 				}
 			}
+
 			for(String step_id:stepIdList){
-				formSaveDao.updateStructTableByFormId("update fg_s_step_pivot set finishdate = sysdate,status_id = '"+finishedStatusId+"',CHANGE_BY='"+userId+"',TIMESTAMP=sysdate where formid = '"+step_id+"'"
+				formSaveDao.updateStructTableByFormId("update fg_s_step_pivot set finishdate = to_char(sysdate,'"+generalUtil.getConversionDateFormat()+"'),status_id = '"+finishedStatusId+"',CHANGE_BY='"+userId+"',TIMESTAMP=sysdate where formid = '"+step_id+"'"
 						, "fg_s_step_pivot", Arrays.asList("finishDate","STATUS_ID","CHANGE_BY","TIMESTAMP"), step_id);
 				//step not save on finished status if not all mandatory fields in self test under it were  filled
 				if (protocol.equals("Formulation")) {
