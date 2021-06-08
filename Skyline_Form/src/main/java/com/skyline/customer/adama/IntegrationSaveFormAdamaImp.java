@@ -2211,7 +2211,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			//change formcode according to the protocolTypeName 
 			//and create the first step in Formulation ans Orgnic experiments
 			if(protocolTypeName.equals("Organic")) {
-				String isEnableSpread =  generalUtil.getNull(elementValueMap.get("ISENABLESPREADSHEET"),"No");
+				String isEnableSpread =  generalUtil.getNull(elementValueMap.get("isEnableSpreadsheet"),"No");
 				if (elementValueMap.get("TEMPLATE_ID").isEmpty() && (isEnableSpread.equals("No") || hideStepFromSpreadsheet == 0)) {
 					commonFunc.createNewStepOrganicData(formId);
 				}
@@ -2246,7 +2246,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				}
 			} else if (protocolTypeName.equals("Continuous Process")) { //add ExperimentCP for "Continuous Process"
 				updateFormCode = "ExperimentCP";
-				String isEnableSpread =  generalUtil.getNull(elementValueMap.get("ISENABLESPREADSHEET"),"No");
+				String isEnableSpread =  generalUtil.getNull(elementValueMap.get("isEnableSpreadsheet"),"No");
 				if (isEnableSpread.equals("No") || hideStepFromSpreadsheet == 0) {
 					commonFunc.createNewStepCPData(formId);
 				}
