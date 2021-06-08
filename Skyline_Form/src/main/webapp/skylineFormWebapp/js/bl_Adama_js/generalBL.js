@@ -1532,7 +1532,7 @@ function checkSpreadsheetFullScreen(callBackFunc,doAfterSave){
 		saveSpreadsheet(excelElemFullScreen[0]);
 	}
 	else{
-		checkNonFamiliarAndSave(doSaveExperimentFr,'Reload');
+		checkNonFamiliarAndSave(callBackFunc,doAfterSave);
 	}
 }
 
