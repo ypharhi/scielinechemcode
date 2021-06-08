@@ -3989,109 +3989,96 @@ function doSaveStepFr(afterSave, saveAction)
 
 function doSaveExperimentFr(afterSave, saveAction)
 {
-	var allData = getformDataNoCallBack(1);
-	//var allData = allData.concat(stringifyToPush);
+	var isEnableSpreadsheet = $('#isEnableSpreadsheet').val();
+	//if the user works on the spreadsheet, then the validations that are executed on the overview tab are unnecessary
+	if(isEnableSpreadsheet == 'Yes'){
+		doSave(afterSave,saveAction);
+	} else {
+		var allData = getformDataNoCallBack(1);		
+		// url call
+		var urlParam = "?formId="+ $('#formId').val()
+					+ "&formCode="+ $('#formCode').val()
+					+ "&userId="+ $('#userId').val()
+					+ "&eventAction=buildLogAndValidateRecipeExperimentConnection"
+					+ "&isNew=" + $('#isNew').val();
 	
-	// url call
-	var urlParam = "?formId="+ $('#formId').val()
-				+ "&formCode="+ $('#formCode').val()
-				+ "&userId="+ $('#userId').val()
-				+ "&eventAction=buildLogAndValidateRecipeExperimentConnection"
-				+ "&isNew=" + $('#isNew').val();
-
-	var data_ = JSON.stringify({
-		action : "buildLogAndValidateRecipeExperimentConnection",
-		data : allData,
-		errorMsg : ""
-	});
-	showWaitMessage(getSpringMessage('pleaseWait'));
-
-	// call...
-	$.ajax({
-		type : 'POST',
-		data : data_,
-		url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
-		contentType : 'application/json',
-		dataType : 'json',
-
-		success : function(obj) {
-			if (obj.errorMsg != null && obj.errorMsg != '') {
-				hideWaitMessage();
-				displayAlertDialog(obj.errorMsg);
-			} 
-			else
-			{
-				hideWaitMessage();
-				var fullObj = funcParseJSONData(obj.data[0].val); 
-				if(fullObj!=null && Object.keys(fullObj).length > 0)
+		var data_ = JSON.stringify({
+			action : "buildLogAndValidateRecipeExperimentConnection",
+			data : allData,
+			errorMsg : ""
+		});
+		showWaitMessage(getSpringMessage('pleaseWait'));
+	
+		// call...
+		$.ajax({
+			type : 'POST',
+			data : data_,
+			url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+			contentType : 'application/json',
+			dataType : 'json',
+	
+			success : function(obj) {
+				if (obj.errorMsg != null && obj.errorMsg != '') {
+					hideWaitMessage();
+					displayAlertDialog(obj.errorMsg);
+				} 
+				else
 				{
-					
-					if(fullObj.hasOwnProperty("0")){
-						displayAlertDialog(fullObj["0"]);
-					}
-					else if(fullObj.hasOwnProperty("1")){//contains a confirmation of whether to continue the save and clear connection or not
-						openConfirmDialog({
-					        onConfirm: function(){//update an indicator to clear the connection
-					        	$('#doClearConnection').val('1');
-					        	doSaveStepFr(afterSave, saveAction);
-					        	if(fullObj.hasOwnProperty("recipeList")){
-					        		$('#recipeList').val(fullObj["recipeList"]);
-					        	}
-					        },
-					        title: 'Warning',
-					        message: getSpringMessage(fullObj["1"])
-					    });
-					} else if(fullObj.hasOwnProperty("2")){
-						openConfirmDialog({//todo:change the confirm button to Keep, and the cancel to Clear
-					        onConfirm: function(){//updatee an indicator to not clear the connection
-					        	if(fullObj.hasOwnProperty("recipeList")){
-					        		$('#recipeList').val(fullObj["recipeList"]);
-					        	}
-				        		$('#doClearConnection').val('0');
-					        	doSaveStepFr(afterSave, saveAction);
-					        },
-					        title: 'Warning',
-					        message: getSpringMessage(fullObj["2"]),
-					        onCancel: function(){//update an indicator not clear the connection
-					        	if(fullObj.hasOwnProperty("recipeList")){
-					        		$('#recipeList').val(fullObj["recipeList"]);
-					        	}
-					        	$('#doClearConnection').val('1');
-					        	doSaveStepFr(afterSave, saveAction);
-					        },
-					        confirmButtonHtml:'Keep',
-					        cancelButtonHtml: 'Clear',
-					        hideCloseIcon: true
-					    });
-					} else {
-						if(fullObj.hasOwnProperty("recipeList")){
-			        		$('#recipeList').val(fullObj["recipeList"]);
-			        	}
-						doSaveStepFr(afterSave, saveAction);
-					}
-					
-					/*for(key in fullObj)
+					hideWaitMessage();
+					var fullObj = funcParseJSONData(obj.data[0].val); 
+					if(fullObj!=null && Object.keys(fullObj).length > 0)
 					{
-						var _valObj = fullObj[key];
-						if(_valObj.hasOwnProperty("warningMsg"))
-						{
-							warningToDisplay = _valObj["warningMsg"];
+						if(fullObj.hasOwnProperty("0")){
+							displayAlertDialog(fullObj["0"]);
 						}
+						else if(fullObj.hasOwnProperty("1")){//contains a confirmation of whether to continue the save and clear connection or not
+							openConfirmDialog({
+						        onConfirm: function(){//update an indicator to clear the connection
+						        	$('#doClearConnection').val('1');
+						        	doSave(afterSave,saveAction);
+						        	if(fullObj.hasOwnProperty("recipeList")){
+						        		$('#recipeList').val(fullObj["recipeList"]);
+						        	}
+						        },
+						        title: 'Warning',
+						        message: getSpringMessage(fullObj["1"])
+						    });
+						} else if(fullObj.hasOwnProperty("2")){//confirmation of keep or clear the connection
+							openConfirmDialog({
+						        onConfirm: function(){//update an indicator to not clear the connection
+						        	if(fullObj.hasOwnProperty("recipeList")){
+						        		$('#recipeList').val(fullObj["recipeList"]);
+						        	}
+					        		$('#doClearConnection').val('0');
+					        		doSave(afterSave,saveAction);
+						        },
+						        title: 'Warning',
+						        message: getSpringMessage(fullObj["2"]),
+						        onCancel: function(){//update an indicator not clear the connection
+						        	if(fullObj.hasOwnProperty("recipeList")){
+						        		$('#recipeList').val(fullObj["recipeList"]);
+						        	}
+						        	$('#doClearConnection').val('1');
+						        	doSave(afterSave,saveAction);
+						        },
+						        confirmButtonHtml:'Keep',
+						        cancelButtonHtml: 'Clear',
+						        hideCloseIcon: true
+						    });
+						} else {
+							if(fullObj.hasOwnProperty("recipeList")){
+				        		$('#recipeList').val(fullObj["recipeList"]);
+				        	}
+							doSave(afterSave,saveAction);
+						}
+					} else {
+						doSave(afterSave,saveAction);
 					}
-					if(warningToDisplay.length > 0)
-					{
-						displayAlertDialog(warningToDisplay);
-						return false;
-					}*/
-				} else {
-					doSaveStepFr(afterSave, saveAction);
 				}
-			}
-		},
-		error : handleAjaxError
-	});
-
-	
+			},
+			error : handleAjaxError
+		});
+	}
 }
 
 
