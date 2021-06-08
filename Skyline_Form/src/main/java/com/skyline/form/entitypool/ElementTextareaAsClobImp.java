@@ -38,8 +38,13 @@ public class ElementTextareaAsClobImp extends Element {
 		if(renderEmpty) {
 			value="";
 		}
+		
+		String fullData = "";
+		
+		if(!generalUtil.getNull(value).equals("")) {
+			fullData = generalUtilFormState.getStringContent(value, formCode, domId, "-1");
+		}
 		 
-		String fullData = generalUtilFormState.getStringContent(value, formCode, domId, "-1");
 		
 		String width_ = (width.equals("")) ? "" : (width.indexOf("%") != -1) || (width.indexOf("px") != -1) ? "width:"+width+";" :  "width:"+width+"px;";
 		String height_ = (height.equals("")) ? "" : (height.indexOf("px") != -1) ? "height:"+height+";" : "height:"+height+"px;";
