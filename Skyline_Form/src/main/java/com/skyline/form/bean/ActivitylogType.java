@@ -16,11 +16,11 @@ public enum ActivitylogType {
 	Creation("Creation"),InstrumentEquipment("Instrument Equipment"),RemovedFomExperiment("Removed From Experiment"), PerformanceJava("PerformanceJava"),ChemMolSearchTask("ChemMolSearchTask"),ReactionDataUI("Reaction Data UI Before Save"),
 	/**
 	 * description:Cancelled Request - If an experiment was already created from the request, a message should be sent to
-	 *  the experiment owner “Request No. XXX has been canceled. Please cancel related experiments". 
+	 *  the experiment owner ï¿½Request No. XXX has been canceled. Please cancel related experiments". 
 	 * JsonObject contains: RequestNumber. experimentOwner_id,
 	 */
 	CancelledRequest("CancelledRequest"), 
-	Scheduler("Scheduler"), DuplicatedMaterials("Duplicated Materials"), ManualResultsUpdate("Update Manual Results"), GetTreeNodes("Get Tree Nodes"), SQLEvent("SQLEvent"), RequestStatusChanged("RequestStatusChanged"),StartRun("startRun"),ActivateStep("ActivateStep"),ChemMatrixMap("ChemMatrixMap");
+	Scheduler("Scheduler"), DuplicatedMaterials("Duplicated Materials"), ManualResultsUpdate("Update Manual Results"), GetTreeNodes("Get Tree Nodes"), SQLEvent("SQLEvent"), RequestStatusChanged("RequestStatusChanged"),StartRun("startRun"),ActivateStep("ActivateStep"),ChemMatrixMap("ChemMatrixMap"),Login("Login");
 
 	private String typeName;
 
