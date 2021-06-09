@@ -653,8 +653,11 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 								+ structId
 								+ "' and t.STATUS_ID = s.STEPSTATUS_ID(+) and s.STEPSTATUSNAME <> 'Planned'");
 				toReturn.put("DISABLED_STEPS", disabledStepstoDelete);
+				String isStepExist = generalDao.selectSingleStringNoException("select count(*)\n"
+						+ " from fg_s_step_v\n"
+						+ " where experiment_id = '"+structId+"'");
 				String enabledspreadsheet = generalUtil.getNull(toReturn.get("ISENABLESPREADSHEET"),"No");
-				boolean isStepAvailable = enabledspreadsheet.equals("No") || hideStepFromSpreadsheet == 0;
+				boolean isStepAvailable = !isStepExist.equals("0") || enabledspreadsheet.equals("No") || hideStepFromSpreadsheet == 0;
 				toReturn.put("IS_STEP_AVAILABLE", isStepAvailable?"True":"False");
 			}
 			//***************************************

@@ -2800,7 +2800,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				}
 			} else if (formCode.equals("ExperimentPrGn")) {
 				List<Map<String, Object>> manualResults = generalDao.getListOfMapsBySql(
-						"Select formid, SAMPLE_ID,MATERIAL_ID,UOM_ID,fg_get_RichText_display(COMMENTS) as \"COMMENTS\",RESULT,PRGNRESULTTYPENAME,REQUEST_ID from fg_s_prmanualResultRef_all_v where result is not null and parentid = '"
+						"Select formid, SAMPLE_ID,MATERIAL_ID,UOM_ID,COMMENTS as \"COMMENTS\",RESULT,PRGNRESULTTYPENAME,REQUEST_ID from fg_s_prmanualResultRef_all_v where result is not null and parentid = '"
 								+ formId + "'"
 								+ generalUtilFormState.getWherePartForTmpData("prmanualresultref", formId));
 
@@ -3415,7 +3415,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			List<Result> resultList = new ArrayList<>();
 
 			List<Map<String, Object>> manualResults = generalDao.getListOfMapsBySql(
-					"Select distinct formid, SAMPLE_ID,MATERIAL_ID,UOM_ID,fg_get_RichText_display(COMMENTS) as \"COMMENTS\",RESULT,ANALYTICRESULTTYPENAME,REQUEST_ID from fg_s_manualResultsRef_all_v where result is not null and parentid = '"
+					"Select distinct formid, SAMPLE_ID,MATERIAL_ID,UOM_ID,COMMENTS as \"COMMENTS\",RESULT,ANALYTICRESULTTYPENAME,REQUEST_ID from fg_s_manualResultsRef_all_v where result is not null and parentid = '"
 							+ formId + "'" + generalUtilFormState.getWherePartForTmpData("manualresultsref", formId));
 
 			for (Map<String, Object> resultInfo : manualResults) {
@@ -3498,7 +3498,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 
 			if (experimentTypeName.equals("Impurity Identification")) {
 				List<Map<String, Object>> manualResultsMS = generalDao.getListOfMapsBySql(
-						"Select distinct formid, SAMPLE_ID,materialname,fg_get_RichText_display(COMMENTS) as \"COMMENTS\",REQUEST_ID from fg_s_manualResultsMSRef_all_v where parentid = '"
+						"Select distinct formid, SAMPLE_ID,materialname,COMMENTS as \"COMMENTS\",REQUEST_ID from fg_s_manualResultsMSRef_all_v where parentid = '"
 								+ formId + "' and sessionid is null and nvl(active,'1')='1'");
 
 				for (Map<String, Object> resultInfo : manualResultsMS) {
