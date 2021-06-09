@@ -365,6 +365,10 @@ public class FormSchedTaskService {
 		if (("," + dataMigrationList + ",").contains(",deleteSysSchedLog,")) {
 			deleteSysSchedLog();
 		} 
+		
+		if (("," + dataMigrationList + ",").contains(",fixInfTableDisplayValues,")) {
+			schedTaskDao.fixInfTableDisplayValues("", false);
+		} 
 	}
 
 	private boolean isRunning(String schedName) {

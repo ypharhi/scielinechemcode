@@ -905,7 +905,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_FINALWEIGHT}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new BigDecimal($P{IREPORT_PRINT_FINALWEIGHT}).setScale(4, BigDecimal.ROUND_HALF_UP).toString()]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1009,7 +1009,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_LOSS}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new BigDecimal($P{IREPORT_PRINT_LOSS}).setScale(1, BigDecimal.ROUND_HALF_UP).toString()]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1087,7 +1087,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_GASPRODUCTIONESTIMATE}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new BigDecimal($P{IREPORT_PRINT_GASPRODUCTIONESTIMATE}).setScale(1, BigDecimal.ROUND_HALF_UP).toString()]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1122,62 +1122,10 @@
 			</band>
 			</groupFooter>
 		</group>
-		<group  name="S4" >
+		<group  name="S4.1" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="69"  isSplitAllowed="true" >
-				<staticText>
-					<reportElement
-						x="0"
-						y="22"
-						width="113"
-						height="15"
-						key="staticText-81"/>
-					<box></box>
-					<textElement>
-						<font isBold="true"/>
-					</textElement>
-				<text><![CDATA[Observations:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="22"
-						width="444"
-						height="15"
-						key="textField-81"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_OBSERVATIONS}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="44"
-						width="126"
-						height="15"
-						key="staticText-82"/>
-					<box></box>
-					<textElement>
-						<font isBold="true"/>
-					</textElement>
-				<text><![CDATA[Additional Data Analysis:  Analysis:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="126"
-						y="44"
-						width="431"
-						height="15"
-						key="textField-82"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_ADDITIONALDATAANALYSIS}]]></textFieldExpression>
-				</textField>
+			<band height="25"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
@@ -1191,13 +1139,14 @@
 					</textElement>
 				<text><![CDATA[Final Appearance:]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="110"
 						y="0"
 						width="444"
 						height="15"
-						key="textField-83"/>
+						key="textField-83"
+						stretchType="RelativeToTallestObject"/>
 					<box></box>
 					<textElement>
 						<font/>
@@ -1208,6 +1157,82 @@
 			</groupHeader>
 			<groupFooter>
 			<band height="9"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="S4.2" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="25"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="0"
+						width="113"
+						height="15"
+						key="staticText-81"/>
+					<box></box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[Observations:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="0"
+						width="444"
+						height="15"
+						key="textField-81"
+						stretchType="RelativeToBandHeight"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_OBSERVATIONS}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="S4.3" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="25"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="1"
+						width="126"
+						height="15"
+						key="staticText-82"/>
+					<box></box>
+					<textElement>
+						<font isBold="true"/>
+					</textElement>
+				<text><![CDATA[Additional Data Analysis:  Analysis:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="126"
+						y="1"
+						width="431"
+						height="15"
+						key="textField-82"
+						stretchType="RelativeToTallestObject"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_ADDITIONALDATAANALYSIS}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="0"  isSplitAllowed="true" >
 			</band>
 			</groupFooter>
 		</group>

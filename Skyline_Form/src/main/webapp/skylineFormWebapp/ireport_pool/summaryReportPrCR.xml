@@ -498,19 +498,6 @@
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="396"
-						y="186"
-						width="161"
-						height="15"
-						key="textField-42"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_INITIALVOLUME}]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
 						x="117"
 						y="100"
 						width="160"
@@ -534,19 +521,6 @@
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[($P{IREPORT_PRINT_SHAPE_ID}.equals("Cylinder")) ? $P{IREPORT_PRINT_RADIUS} : ""]]></textFieldExpression>
-				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="117"
-						y="227"
-						width="160"
-						height="15"
-						key="textField-46"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_AREA}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -735,6 +709,34 @@
 						<font pdfFontName="Helvetica-Bold" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA["Initial Volume" + " (" + $P{IREPORT_PRINT_INI_VOLUME_UOM_ID} + "):"]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="118"
+						y="227"
+						width="160"
+						height="15"
+						key="textField-90"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new BigDecimal($P{IREPORT_PRINT_AREA}).setScale(3, BigDecimal.ROUND_HALF_UP).toString()
+]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="395"
+						y="186"
+						width="160"
+						height="15"
+						key="textField-91"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new BigDecimal($P{IREPORT_PRINT_INITIALVOLUME}).setScale(3, BigDecimal.ROUND_HALF_UP).toString()
+]]></textFieldExpression>
 				</textField>
 			</band>
 			</groupHeader>

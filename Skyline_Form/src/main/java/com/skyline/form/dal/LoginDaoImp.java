@@ -40,8 +40,11 @@ public class LoginDaoImp extends BasicDao implements LoginDao {
 			//			System.out.println(parameters);
 			return generalDao.callPackageFunction("", "FG_AUTHENTICATE_USER", parameters);
 		} catch (Exception ex) {
-			logger.info("login failure (-1) username=" + userName + ", exception=" + extractMethodNameToString(ex));
-			generalUtilLogger.logWrite(ex);
+//			logger.info("login failure (-1) username=" + userName + ", exception=" + extractMethodNameToString(ex));
+//			generalUtilLogger.logWrite(ex);
+			generalUtilLogger.logWrite(LevelType.WARN,
+					"authenticateUser error userName=" + userName + ", isLogin=" + isLogin + ", stationIpAddress=" + stationIpAddress, "-1",
+					ActivitylogType.Login, null, ex);
 			return "-2";
 		}
 	}
@@ -91,8 +94,9 @@ public class LoginDaoImp extends BasicDao implements LoginDao {
 		try {
 			update = String.valueOf(jdbcTemplate.update(sql));
 		} catch (Exception e) {
-			logger.info("changePassword failure (-1) userId=" + userId);
-			generalUtilLogger.logWrite(e);
+			generalUtilLogger.logWrite(LevelType.WARN,
+					"changePassword error userId=" + userId, "-1",
+					ActivitylogType.Login, null, e);
 			update = "-1";
 		}
 		return update;
@@ -102,15 +106,14 @@ public class LoginDaoImp extends BasicDao implements LoginDao {
 	public void writeLDAPInfo(String info, Throwable ex) {
 		try {
 			String sql = "insert into fg_activity_log (timestamp,comments,activitylogtype,leveltype,stacktrace)\r\n"
-					+ "values (sysdate," + removeUpperComma(info, 4000) + ",'" + LevelType.ERROR.getTypeName() + "','"
-					+ ActivitylogType.GeneralError.getActLogTypeName() + "',"
+					+ "values (sysdate," + removeUpperComma(info, 4000) + ",'" + LevelType.WARN.getTypeName() + "','"
+					+ ActivitylogType.Login.getActLogTypeName() + "',"
 					+ removeUpperComma(extractMethodNameToString(ex), 4000) + ")";
 
 			jdbcTemplate.update(sql);
 		} catch (Exception e) {
 			// do nothing
 		}
-
 	}
 
 	private String removeUpperComma(String val, int maxLength) {
@@ -168,9 +171,9 @@ public class LoginDaoImp extends BasicDao implements LoginDao {
 			//			System.out.println(parameters);
 			generalDao.callPackageFunction("", "FG_AUTHENTICATE_ACCESS", parameters);
 		} catch (Exception ex) {
-			//logger.info("login failure (-1) username=" + userName + ", exception=" + extractMethodNameToString(ex));
-			generalUtilLogger.logWrite(ex);
-			
+			generalUtilLogger.logWrite(LevelType.WARN,
+					"writeToAccessLog error userName=" + userName + ", stationIpAddress=" +stationIpAddress + ", status = " + status, "-1",
+					ActivitylogType.Login, null, ex);
 		}
 	}
 
