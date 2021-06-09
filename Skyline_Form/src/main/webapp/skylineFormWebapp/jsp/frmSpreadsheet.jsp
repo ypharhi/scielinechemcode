@@ -409,6 +409,7 @@
 		// return output sheet (spread.getSheet(2)) as array of key and values
 		function getValueFromOutputSheet(domId) {
 			try {
+				console.log("start getValueFromOutputSheet func");
 				var ROW_MAX = 10;
 				var workBook = designer[domId].getWorkbook();//$('#ss').data('workbook');
 				workBook.getActiveSheet().endEdit(false);
@@ -429,6 +430,7 @@
 			    var currSpreadConfig = workBook.toJSON();
 			    fullObj["output"] = dataObj;
 			    fullObj["excelFullData"] = currSpreadConfig;
+			    console.log("end getValueFromOutputSheet func");
 			    return JSON.stringify(fullObj);
 			} catch(err) {
 				console.log(err);	
