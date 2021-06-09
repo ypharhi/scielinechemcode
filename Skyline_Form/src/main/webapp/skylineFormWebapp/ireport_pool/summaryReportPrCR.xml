@@ -1048,7 +1048,8 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_CALCULATEDDENSITY}.equals("")?"":$P{IREPORT_PRINT_CALCULATEDDENSITY} + " " + $P{IREPORT_PRINT_CAL_DENSITY_UOM_ID}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[new BigDecimal($P{IREPORT_PRINT_CALCULATEDDENSITY}).setScale(3, BigDecimal.ROUND_HALF_UP).toString() + " " + $P{IREPORT_PRINT_CAL_DENSITY_UOM_ID}
+]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1144,6 +1145,7 @@
 						width="557"
 						height="15"
 						key="textField-73"
+						stretchType="RelativeToTallestObject"
 						isPrintWhenDetailOverflows="true"/>
 					<box></box>
 					<textElement>
