@@ -223,7 +223,7 @@ public class ReportsHelper {
 		GeneralDao generalDao = (GeneralDao) context.getBean("GeneralDao");
 		//kd 20032019: after change richtext element try to change t.file_content instead t.file_content_text and check on ExperimentPrCR summary report
 		String sql = "select t.file_content from fg_richtext t where t.file_id = " + richTextId;
-		return generalDao.getSingleStringFromClob(sql);
+		return generalDao.getSingleStringFromClob(sql)+ "&nbsp;";
 	}
 
 	public String getClobAsTextOrRich(String richTextId, String type) {
