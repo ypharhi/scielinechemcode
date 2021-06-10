@@ -372,6 +372,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				// *** onElementDataTableApiChange struct InvItemColumn/ struct InvItemInstrument 
 				// ***************************dtexpts
 				else if (struct.equals("InvItemColumn")) {
+					String templateFlag = generalUtilFormState.getFormParam(stateKey, formCode, "$P{TEMPLATEFLAG}");
 					String extraWherePart = "";
 					String wherePart = (linkToLastSelection.equals("1") ? getWherePartByFilterForDataTableApi(stateKey,
 							formCode, sourceElementImpCode, getFilterTableByStruct(struct)) : "");
@@ -381,7 +382,11 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 									|| display.equalsIgnoreCase("dtpr") || display.equalsIgnoreCase("dtan"))))) {//table located in experiment form
 						extraWherePart += " and EXPERIMENT_ID = " + formId;
 					}
-					sql = "select t.*" + " from (select tt.* from " + table + " tt where 1=1 and " + struct
+					sql = "select t.*" 
+					+ (display.equalsIgnoreCase("dtexp")?", decode('" + generalUtil.getNull(templateFlag)
+					+ "','1','',decode(nvl(FG_ADAMA.IS_CREW_TRAINED(t." + struct
+					+ "_ID,t.EXPERIMENT_ID),1),1,'Yes','No')) as \"Familiarity\"": "")
+					+ " from (select tt.* from " + table + " tt where 1=1 and " + struct
 							+ "_ID in ( select " + struct + "_ID" + "  from FG_S_" + struct + "_ALL_V where 1=1  "
 							+ wherePart + " )" + extraWherePart + " ) t where 1=1";//+citeriaWherePart;
 				}
