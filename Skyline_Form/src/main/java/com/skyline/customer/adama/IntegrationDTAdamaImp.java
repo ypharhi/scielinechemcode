@@ -3272,6 +3272,18 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					onChangeEditTableCellCore(formCode, formId, saveType, "standardIncluded",
 							onChangeColumnVal, onChangeFormId, userId);
 				}
+				if(onChangeColumnName.equals("impurity") ||onChangeColumnName.equals("OUM_ID")||onChangeColumnName.equals("rt")) {
+					Map<String, String> elementValueMap = new HashMap<String, String>();
+					String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
+					
+					elementValueMap.put("sessionid", sessionId);
+					String rrt = integrationCalc.doCalc("doCalcEditableTable", "OnSave", "", elementValueMap, null, null, formCode, onChangeFormId,
+							userId);
+					if(!generalUtil.getNull(rrt).isEmpty()) {
+						onChangeEditTableCellCore(formCode, formId, saveType, "rrt",
+								rrt, onChangeFormId, userId);
+					}
+				}
 			}
 		}
 		else if(formCode.equals("Document") && onChangeColumnName.equalsIgnoreCase("EXPORTTOREPORT")) {

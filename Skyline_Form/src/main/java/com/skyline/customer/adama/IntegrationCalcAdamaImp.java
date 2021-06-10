@@ -75,6 +75,11 @@ public class IntegrationCalcAdamaImp extends CalcBasic implements IntegrationCal
 				sb.append(calcComponent.doCalc(api, mainArgCode, mainArgVal, elementValueMap, apiCodesArray,
 						elementsMatchArray, formCode, formId, userId));
 			}
+			// ************** ComponentCalc ************** 
+						else if (api.equals("doCalcEditableTable")) {
+							sb.append(calcComponent.doCalcEditableTable(api, mainArgCode, mainArgVal, elementValueMap, apiCodesArray,
+									elementsMatchArray, formCode, formId, userId));
+						}
 			// ************** MassBallanceCalc **************
 			else if (api.equals("MassBallanceCalc")) {
 				sb.append(calcMassBallance.doCalc(api, mainArgCode, mainArgVal, elementValueMap, apiCodesArray,
