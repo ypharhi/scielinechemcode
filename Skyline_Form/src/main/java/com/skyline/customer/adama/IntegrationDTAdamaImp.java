@@ -1514,13 +1514,14 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			sqlInfo.append(sqlAdditionalInfoSb==null?"":sqlAdditionalInfoSb);
 			
 		} catch (Exception e) {
-			generalUtilLogger.logWriter(LevelType.ERROR, "DT table error! e=" + e + " sql=" + sql,
+			generalUtilLogger.logWriter(LevelType.ERROR,
+					"DT table error! sourceElementImpCode=" + sourceElementImpCode + ", struct=" + struct + ", display=" + display + ", e=" + e + " sql=" + sql,
 					ActivitylogType.DataTable, formId, e, null);
 			e.printStackTrace();
 			String errMessage = "General error in data table";
-			//			toReturn.put("columns", getJSONArrayOfColumns(null));
+			// toReturn.put("columns", getJSONArrayOfColumns(null));
 
-			toReturn = generalDao.getJSONObjectOfDateTable(generalDao.jsonSqlErrorMsg(errMessage), "", "-1",null);
+			toReturn = generalDao.getJSONObjectOfDateTable(generalDao.jsonSqlErrorMsg(errMessage), "", "-1", null);
 		}
 		toReturn.put("formIdForShared", formIdForSharedTables);
 		toReturn.put("lastMultiValues", lastMultiValues);
