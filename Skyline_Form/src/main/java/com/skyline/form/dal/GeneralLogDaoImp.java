@@ -92,6 +92,7 @@ public class GeneralLogDaoImp extends BasicDao implements GeneralLog {
 		if (val != null) {
 			toReturn = (toReturn.equals("{}") ? "" : toReturn);
 			toReturn = toReturn.replace("'", "");
+			toReturn = toReturn.replaceAll("–", "-");
 			toReturn = maxLength!=-1 && (toReturn.length()) > maxLength ? toReturn.substring(0, maxLength - 4) + ".." : toReturn;
 		} else {
 			toReturn = "";
@@ -120,6 +121,7 @@ public class GeneralLogDaoImp extends BasicDao implements GeneralLog {
 		if (val != null) {
 			validVal = (validVal.equals("{}") ? "" : validVal);
 			validVal = validVal.replace("'", "");
+			validVal = validVal.replaceAll("–", "-");
 		}
 		
 		String toReturn = "to_clob('" + validVal + "')";

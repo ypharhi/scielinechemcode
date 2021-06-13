@@ -3994,8 +3994,8 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 						"update FG_S_SAMPLE_PIVOT set batchName = '" + elementValueMap.get("formNumberId")
 								+ "', BATCHDEFINITION = '" + batchdef + "', BATCH_ID = '" + formId
 								+ "', productName = '"
-								+ formDao.getFromInfoLookup("INVITEMMATERIAL", LookupType.ID,
-										elementValueMap.get("INVITEMMATERIAL_ID"), "name").replace("'", "''")
+								+ generalUtil.replaceDBUpdateVal(formDao.getFromInfoLookup("INVITEMMATERIAL", LookupType.ID,
+										elementValueMap.get("INVITEMMATERIAL_ID"), "name"))
 								+ "', productId ='" + elementValueMap.get("INVITEMMATERIAL_ID") + "' where FORMID = "
 								+ sampleId,
 						"FG_S_SAMPLE_PIVOT",

@@ -271,8 +271,8 @@ public class FormApiUIReportService { // TODO interface FormService and this sho
 				boolean isInsert = false;
 				generalUtilLogger.logWrite(LevelType.DEBUG, "SAVE_REPORT. receivedId id: '" + reportId + "'", "-1",
 						ActivitylogType.UiReport, null);
-				reportName = generalUtil.getJsonValById(data, "reportName").replaceAll("'", "''");
-				reportDescription = generalUtil.getJsonValById(data, "reportDescription").replaceAll("'", "''");
+				reportName = generalUtil.replaceDBUpdateVal(generalUtil.getJsonValById(data, "reportName"));
+				reportDescription = generalUtil.replaceDBUpdateVal(generalUtil.getJsonValById(data, "reportDescription"));
 				reportStyle = generalUtil.getJsonValById(data, "REPORT_STYLE");
 				reportScope = generalUtil.getJsonValById(data, "REPORT_SCOPE");
 				reportSQL = generalUtil.getJsonValById(data, "REPORT_SQL");

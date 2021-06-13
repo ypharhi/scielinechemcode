@@ -801,14 +801,14 @@ public class CommonFunc {
 			String materialId = ((String) result.get("RESULT_MATERIAL_ID"));
 			String materialName = generalUtil.getNull(generalDao.selectSingleStringNoException(
 					"select t.INVITEMMATERIALNAME from FG_S_INVITEMMATERIAL_ALL_V t where t.formId = '" + materialId
-							+ "'")).replace("'", "''");
+							+ "'"));
 			if (!materialName.isEmpty()) {
 				String sql_ = "insert into FG_S_" + tableName + "_PIVOT"
 						+ " (CREATION_DATE,CREATED_BY,TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,CREATEDBYUSER,TABLETYPE,RESULTID_HOLDER,MATERIAL_ID, MATERIALNAME, "
 						+ resultColumn + ", " + resultColumn + "_UOM"
 						+ ((tableName.equals("wufeedmaterialref")) ? "" : ",ACTIVEINGREDIENT") + ")"
 						+ " VALUES (SYSDATE,'" + userId + "',SYSDATE,'" + userId + "',null,1,'" + newFormId + "','"
-						+ formId + "','" + tableName + "', 1, '" + tableType + "','" + result.get("RESULT_ID") + "','" + materialId + "','" + materialName
+						+ formId + "','" + tableName + "', 1, '" + tableType + "','" + result.get("RESULT_ID") + "','" + materialId + "','" + generalUtil.replaceDBUpdateVal(materialName)
 						+ "', '" + result.get("RESULT_VALUE") + "', '" + result.get("RESULT_UOM_ID") + "'"
 						+ ((tableName.equals("wufeedmaterialref")) ? ""
 								: (result.get("RESULT_NAME").toString().contains("Assay")) ? ",1" : ",0")

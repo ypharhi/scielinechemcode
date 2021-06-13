@@ -2954,7 +2954,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					onChangeColumnName = "FORMNUMBERID";
 					oldVal = formNumberId;
 					sql = "update FG_S_" + formCode + "_PIVOT " + " set " + onChangeColumnName + " = '"
-							+ onChangeColumnVal.replace("'", "''") + "'" + " where formId = '" + onChangeFormId
+							+ generalUtil.replaceDBUpdateVal(onChangeColumnVal) + "'" + " where formId = '" + onChangeFormId
 							+ "'";
 					update = formSaveDao.updateStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT",
 							Arrays.asList(onChangeColumnName), onChangeFormId);
@@ -3054,7 +3054,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 
 					if (!nextFormNumberId.isEmpty()) {
 						sql = "update FG_S_" + formCode + "_PIVOT " + " set " + onChangeColumnName + " = '"
-								+ onChangeColumnVal.replace("'", "''") + "',formNumberId ='" + nextFormNumberId
+								+ generalUtil.replaceDBUpdateVal(onChangeColumnVal) + "',formNumberId ='" + nextFormNumberId
 								+ "' where formId = '" + onChangeFormId + "'";
 						update = formSaveDao.updateStructTableByFormId(sql, "FG_S_ACTION_PIVOT",
 								Arrays.asList(onChangeColumnName, "formNumberId"), onChangeFormId);
@@ -3116,7 +3116,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								+ generalUtil.getConversionDateFormat() + "') where formId = '" + onChangeFormId + "'";
 					} else {
 						sql = "update FG_S_" + formCode + "_PIVOT " + " set " + onChangeColumnName + " = '"
-								+ onChangeColumnVal.replace("'", "''") + "'" + " where formId = '" + onChangeFormId
+								+ generalUtil.replaceDBUpdateVal(onChangeColumnVal) + "'" + " where formId = '" + onChangeFormId
 								+ "'";
 					}
 					try {
@@ -3312,7 +3312,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 		//if (saveType.equals("text")) 
 		{
 			sql = "update FG_S_" + formCode + "_PIVOT " + " set "+ onChangeColumnName +"= '"
-					+ generalUtil.getNull(onChangeColumnVal).replaceAll("'","''") + "'" + " where formId = '" + onChangeFormId + "' "
+					+ generalUtil.replaceDBUpdateVal(onChangeColumnVal) + "'" + " where formId = '" + onChangeFormId + "' "
 					+ ((sessionId == null)?"and sessionid is null":"and sessionid='" + sessionId + "'") + " and active=1";
 			update = formSaveDao.updateSingleStringInfoNoTryCatch(sql);
 			if(update.equals("0")){
@@ -3321,7 +3321,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				valList = valList.replace(",CHANGE_BY,", ","+userId+",")
 						.replace(",TIMESTAMP,", ",sysdate,").replace(",CREATION_DATE,", ",sysdate,")
 						.replace(",CREATED_BY,", ","+userId+",").replace(",SESSIONID,", ","+sessionId+",")
-						.replace(","+onChangeColumnName.toUpperCase()+",", ",'"+ generalUtil.getNull(onChangeColumnVal).replaceAll("'","''")+"',");
+						.replace(","+onChangeColumnName.toUpperCase()+",", ",'"+ generalUtil.replaceDBUpdateVal(onChangeColumnVal) +"',");
 				valList = valList.substring(1, valList.length()-1);
 				sql = String.format(
 						"insert into FG_S_" + formCode + "_PIVOT (%1$s) select %2$s from FG_S_%3$s_PIVOT t where formid = %4$s and sessionid is null and active=1",
@@ -3747,7 +3747,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 		String formPathInfo = generalDao.selectSingleStringNoException(sql);
 
 		if (formPathInfo != null && !formPathInfo.isEmpty()) {
-			sql = "update FG_SEQUENCE SET FORMIDNAME = '" + name.replace("'", "''") + "', CHANGEDATE = sysdate, formpath='" + formPathInfo.replace("'", "''") + "' "
+			sql = "update FG_SEQUENCE SET FORMIDNAME = '" + generalUtil.replaceDBUpdateVal(name) + "', CHANGEDATE = sysdate, formpath='" + generalUtil.replaceDBUpdateVal(formPathInfo) + "' "
 					+ generalUtil.getEmpty(getSearchMatchSet(formPathInfo), ", SEARCH_MATCH_ID1 = -1") + " where id='"
 					+ formId + "'";
 			generalDao.selectSingleStringNoException(sql);

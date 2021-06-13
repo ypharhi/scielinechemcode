@@ -123,7 +123,7 @@ public class FormBuilderDaoDBImp extends BasicDao implements FormBuilderDao {
 		String sql = "merge into FG_FORMENTITY p using (" + "select '" + formEntity.getFormCode() + "' FORMCODE,'"
 				+ formEntity.getEntityImpCode() + "' ENTITYIMPCODE,'" + formEntity.getEntityType() + "' ENTITYTYPE,'"
 				+ String.valueOf(formEntity.getOrder()) + "' NUMBEROFORDER,'" + formEntity.getEntityImpClass()
-				+ "' ENTITYIMPCLASS,'" + formEntity.getEntityImpInit().replaceAll("'", "''") + "' ENTITYIMPINIT "
+				+ "' ENTITYIMPCLASS,'" + generalUtil.replaceDBUpdateVal(formEntity.getEntityImpInit()) + "' ENTITYIMPINIT "
 				+ "from dual ) t1"
 				+ " on( p.FORMCODE=t1.FORMCODE and p.ENTITYIMPCODE = t1.ENTITYIMPCODE and p.ENTITYTYPE = t1.ENTITYTYPE ) "
 				+ "when not matched then insert (FORMCODE,NUMBEROFORDER,ENTITYTYPE,ENTITYIMPCODE,ENTITYIMPCLASS,ENTITYIMPINIT) values (t1.FORMCODE,t1.NUMBEROFORDER,t1.ENTITYTYPE,t1.ENTITYIMPCODE,t1.ENTITYIMPCLASS,t1.ENTITYIMPINIT) "

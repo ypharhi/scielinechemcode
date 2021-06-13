@@ -5663,7 +5663,7 @@ public class CalcMaterialTriplet extends CalcBasic {
 		String sql = "";
 		String update = "";
 		sql = "update FG_S_" + formCode + "_PIVOT " + " set "+ onChangeColumnName +"= '"
-				+ generalUtil.getNull(onChangeColumnVal).replaceAll("'","''") + "'" 
+				+ generalUtil.replaceDBUpdateVal(onChangeColumnVal) + "'" 
 				+(generalUtil.getNull(mainArg).isEmpty()?"":", mainArg = '"+mainArg+"'")
 				+ " where formId = '" + formId + "' "
 				+ ((sessionId == null)?"and sessionid is null":"and sessionid='" + sessionId + "'") + " and active=1";
@@ -5675,7 +5675,7 @@ public class CalcMaterialTriplet extends CalcBasic {
 			valList = valList.replace(",CHANGE_BY,", ","+userId+",")
 					.replace(",TIMESTAMP,", ",sysdate,").replace(",CREATION_DATE,", ",sysdate,")
 					.replace(",CREATED_BY,", ","+userId+",").replace(",SESSIONID,", ","+sessionId+",")
-					.replace(","+onChangeColumnName.toUpperCase()+",", ",'"+ generalUtil.getNull(onChangeColumnVal).replaceAll("'","''")+"',");
+					.replace(","+onChangeColumnName.toUpperCase()+",", ",'"+ generalUtil.replaceDBUpdateVal(onChangeColumnVal) +"',");
 			if(!generalUtil.getNull(mainArg).isEmpty())	{
 				valList.replace(",MAINARG,", ","+ mainArg +",");
 			}

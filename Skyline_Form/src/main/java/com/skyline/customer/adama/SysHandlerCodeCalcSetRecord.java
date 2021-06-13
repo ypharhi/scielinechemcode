@@ -30,7 +30,7 @@ public class SysHandlerCodeCalcSetRecord extends SysHandler {
 					+ " (TIMESTAMP,CHANGE_BY,CREATION_DATE,CREATED_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE, FORMIDREF,"
 					+ "MATERIAL_ID, MATERIALNAME,ACTIVEINGREDIENT,INITIALQUANTITY,INITIALQUANTITY_UOM, QUANTITYINFRACTIONS_UOM ,YIELDLOSS_UOM)"				
 					+ " VALUES (SYSDATE,'" + userId + "',SYSDATE,'" + userId + "', null,1,'"+newFormId+"','"+formId+"','"+table+"','"+recordId+ "','"
-					+startMixMap.get("MATERIAL_ID")+ "','"+startMixMap.get("MATERIALNAME").replace("'", "''")+"','"+startMixMap.get("ACTIVEINGREDIENT") +"','"+startMixMap.get("QUANTITY")+"','"+startMixMap.get("QUANTITY_UOM")+"'"
+					+startMixMap.get("MATERIAL_ID")+ "','"+generalUtil.replaceDBUpdateVal(startMixMap.get("MATERIALNAME")) +"','"+startMixMap.get("ACTIVEINGREDIENT") +"','"+startMixMap.get("QUANTITY")+"','"+startMixMap.get("QUANTITY_UOM")+"'"
 							+ ",'"+startMixMap.get("QUANTITY_UOM")+"','"+YIELDLOSS_UOM+"')";
 						
 			formSaveDao.insertStructTableByFormId(sql_, "FG_S_"+table+"_PIVOT", formId);							

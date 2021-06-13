@@ -241,10 +241,10 @@ public class GeneralTaskDaoImp implements GeneralTaskDao {
 				//TODO ADD JOB FLAG
 				using.append("select '" + formId + "' formid,'" + formCodeEntity + "' formcode_entity,'"
 						+ entry.getKey() + "' entityimpcode,'"
-						+ generalUtil.getNull(entry.getValue()).replaceAll("'", "''") + "' entityimpvalue,'" + userId
+						+ generalUtil.replaceDBUpdateVal(entry.getValue()) + "' entityimpvalue,'" + userId
 						+ "' userid, null sessionid, null change_comment,null CHANGE_ID, '" + userId + "' change_by,'"
 						+ auditTrailChangeType + "' change_type, sysdate change_date,1 active, '"
-						+ generalUtil.getNull(displayValue).replace("'", "''") + "' displayvalue, '" + updateJobFlag
+						+ generalUtil.replaceDBUpdateVal(displayValue) + "' displayvalue, '" + updateJobFlag
 						+ "' as updateJobFlag,'" + generalUtil.getNull(displayLabel).replace("null", "")
 						+ "' as DISPLAYLABEL, '" + generalUtil.getNull(pathId).replace("null", "") + "' as PATH_ID,"
 						+ (isIdList ? "1" : "0") + " as IS_IDLIST "
@@ -395,7 +395,7 @@ public class GeneralTaskDaoImp implements GeneralTaskDao {
 		String formPathInfo = generalDao.selectSingleStringNoException(sql);
 
 		if (formPathInfo != null && !formPathInfo.isEmpty()) {
-			sql = "update FG_SEQUENCE SET CHANGEDATE = sysdate, formpath='" + formPathInfo.replace("'", "''") + "' "
+			sql = "update FG_SEQUENCE SET CHANGEDATE = sysdate, formpath='" + generalUtil.replaceDBUpdateVal(formPathInfo) + "' "
 					+ generalUtil.getEmpty(getSearchMatchSet(formPathInfo), ", SEARCH_MATCH_ID1 = -1") + " where id='"
 					+ formId + "'";
 			generalDao.selectSingleStringNoException(sql);

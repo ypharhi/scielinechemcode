@@ -138,7 +138,7 @@ public class GeneralUtilNotificationEvent {
 				Object[] argArray = csvVal.split(",",-1);
 				String message = generalUtil.getSpringMessagesByKey(messageCode, argArray, messageCode);
 				for (String userId : userIdList) {
-					insertMessageToActivityLog(formSaveDao.getStructFileId("AdHocNotification"),message.replaceAll("'", "''"),userId,null);
+					insertMessageToActivityLog(formSaveDao.getStructFileId("AdHocNotification"),generalUtil.replaceDBUpdateVal(message),userId,null);
 				}
 			}
 		}

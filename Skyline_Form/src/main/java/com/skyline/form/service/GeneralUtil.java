@@ -1529,5 +1529,11 @@ public class GeneralUtil {
 		}
 		return toReturn;
 	}
+
+
+	public String replaceDBUpdateVal(String value) {
+		// TODO Auto-generated method stub
+		return getNull(value).replaceAll("'", "''").replaceAll("–", "-");
+	}
     
 }

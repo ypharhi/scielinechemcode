@@ -121,6 +121,7 @@ public class LoginDaoImp extends BasicDao implements LoginDao {
 		if (val != null) {
 			toReturn = (toReturn.equals("{}") ? "" : toReturn);
 			toReturn = toReturn.replace("'", "");
+			toReturn = toReturn.replaceAll("–", "-");
 			toReturn = (toReturn.length()) > maxLength ? toReturn.substring(0, maxLength - 3) + ".." : toReturn;
 		} else {
 			toReturn = "";

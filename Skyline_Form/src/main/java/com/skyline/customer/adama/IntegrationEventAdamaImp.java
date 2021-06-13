@@ -2574,7 +2574,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			/*
 			 * kd 25112019 save cas log
 			 */
-			String objectId = uploadFileDao.saveStringAsClobRenderId("CASResultLogReport", generalUtil.mapToString("CAS RESULT", elementValueMap).replace("'", "''"));
+			String objectId = uploadFileDao.saveStringAsClobRenderId("CASResultLogReport", generalUtil.replaceDBUpdateVal(generalUtil.mapToString("CAS RESULT", elementValueMap)));
 			String sql = "insert into FG_CHEM_CAS_API_LOG (TIME_STAMP,user_id,material_form_id,resultid) VALUES (SYSDATE,'"
 //					+ userId + "','" + formId + "','" + (generalUtil.mapToString("CAS RESULT", elementValueMap).replace("'", "''")) + "')";
 					+ userId + "','" + formId + "','" + objectId + "')";

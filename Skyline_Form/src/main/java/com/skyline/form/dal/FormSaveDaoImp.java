@@ -80,7 +80,7 @@ public class FormSaveDaoImp extends BasicDao implements FormSaveDao {
 
 			sql = "update FG_SEQUENCE SET CHANGEDATE = sysdate"
 					+ ((sessionId == null)
-							? ", FORMIDNAME = '" + generalUtil.getNull(formNameId).replace("'", "''") + "'" : "")
+							? ", FORMIDNAME = '" + generalUtil.replaceDBUpdateVal(formNameId) + "'" : "")
 					+ ", FORMTABLETYPE = '" + formTableType + "' where id = '" + formId + "' ";
 			logger.info("update FG_SEQUENCE formidname sql=" + sql);
 			intUpdate = generalDao.updateSingleStringNoTryCatch(sql);
@@ -256,7 +256,7 @@ public class FormSaveDaoImp extends BasicDao implements FormSaveDao {
 			using.append("select '" + formId + "' formid,'" + formCode + "' as formcode_name, '" + saveNameId
 					+ "' as save_name_id, '" + formCodeEntity + "' formcode_entity,'" + entry.getKey()
 					+ "' entityimpcode,"
-					+ generalUtil.handleClob(generalUtil.getNull(entry.getValue()).replaceAll("'", "''"))
+					+ generalUtil.handleClob(generalUtil.replaceDBUpdateVal(entry.getValue()))
 					+ " entityimpvalue,'" + userId + "' USerID, " + generalUtil.surroundUpperCommaOnVal(sessionId)
 					+ " as sessionId, '1' as active, " + generalUtil.surroundUpperCommaOnVal(loginSessionId)
 					+ " as login_sessionid from dual union all\n");
@@ -283,7 +283,7 @@ public class FormSaveDaoImp extends BasicDao implements FormSaveDao {
 		updateValues.append("p.FORMCODE = t1.FORMCODE,p.TIMESTAMP = sysdate, p.CHANGE_BY = t1.CHANGED_BY");
 
 		for (Map.Entry<String, String> entry : elementValueMap.entrySet()) {
-			using.append(",'" + generalUtil.getNull(entry.getValue()).replaceAll("'", "''") + "' " + entry.getKey());
+			using.append(",'" + generalUtil.replaceDBUpdateVal(entry.getValue()) + "' " + entry.getKey());
 			insertCSV.append("," + entry.getKey());
 			insertValues.append(",t1." + entry.getKey());
 			if (!entry.getKey().equalsIgnoreCase("formId")) {
@@ -646,7 +646,7 @@ public class FormSaveDaoImp extends BasicDao implements FormSaveDao {
 			using.append("select '");
 			using.append(formId + "' PARENTID,'");
 			using.append(dataBean.getCode() + "' ENTITYIMPCODE,'");
-			using.append(generalUtil.getNull(elementValueMap.get(dataBean.getCode())) + "' VALUE,'");
+			using.append((generalUtil.replaceDBUpdateVal(elementValueMap.get(dataBean.getCode()))) + "' VALUE,'");
 			using.append(formCode + "' FORMCODE");
 			using.append(" from dual union all\n");
 		}

@@ -1061,7 +1061,7 @@ public class FormSchedTaskService {
 						String[] fieldValArr = fieldVal.split("\\s*" + customerSynDelim + "\\s*");
 						String fieldValAdapted = String.join(systemSynonymDelim, fieldValArr);
 						System.out.println("join:|" + fieldValAdapted + "|");
-						String fieldValAdaptedNoUpperCommas = fieldValAdapted.replaceAll("'", "''");
+						String fieldValAdaptedNoUpperCommas = generalUtil.replaceDBUpdateVal(fieldValAdapted);
 
 						String updateSql = "update fg_s_invitemmaterial_pivot pt \n" + " set pt.synonymsadapted = '"
 								+ fieldValAdaptedNoUpperCommas + "' \n" + " where pt.formid = " + mainMap.get("formid");
