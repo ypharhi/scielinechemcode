@@ -4522,7 +4522,8 @@ function bl_isTableMergeable(domId)
 {
 	var toReturn = false;
 	if((($('#formCode').val() == 'Experiment' || $('#formCode').val() == "ExperimentCP") && (domId == 'experimentResults' || domId == 'selfTestResults'))  // develop ExperimentCP "Continuous Process"
-    		||($('#formCode').val() == "Step" && (domId == 'results' || domId == 'selftestresults') ))
+    		||($('#formCode').val() == "Step" && (domId == 'results' || domId == 'selftestresults') )
+    		||($('#formCode').val() == "SampleResults" && domId == 'sampleResultsTable'))
 	{
 		toReturn = true;
 	}
