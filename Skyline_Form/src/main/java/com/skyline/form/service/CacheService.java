@@ -52,9 +52,14 @@ public class CacheService {
 //	private Map<String, String> formElementLabelMap = null;
 	private Map<String, Entity> formEntityClassSingleToneMap = null;
 	private Map<String, Form> formMap = null;
+	private Map<String, Form> formDBLookupMap = null;
  
 	public Map<String, Form> getFormMap() {
 		return formMap;
+	}
+	
+	public Map<String, Form> getFormDBLookupMap() {
+		return formDBLookupMap;
 	}
 
 	public CacheService() {
@@ -65,6 +70,7 @@ public class CacheService {
 //		formElementLabelMap = new HashMap<String, String>();
 		formEntityClassSingleToneMap = new HashMap<String, Entity>();
 		formMap = new HashMap<String, Form>();
+		formDBLookupMap = new HashMap<String, Form>();
 	}
 
 	/**
@@ -95,11 +101,13 @@ public class CacheService {
 //		formList.addAll(formBuilderDao.getForm("%", "%", true)); ->
 		if(formCode.equals("%")) {
 			formList.clear();
+			formDBLookupMap.clear();
 		} else {
 			Collection<Form> formToDelete = new ArrayList<Form>();
 			for (Form form : formList) {
 				if(form.getFormCode().equals(formCode)) {
 					formToDelete.add(form);
+					break;
 				}
 			}
 			formList.removeAll(formToDelete);
@@ -109,6 +117,7 @@ public class CacheService {
 		
 		for (Form form : formList) {
 			formMap.put(form.getFormCode(), form);
+			formDBLookupMap.put(form.getFormCode().toUpperCase(), form);
 		}
 	}
 

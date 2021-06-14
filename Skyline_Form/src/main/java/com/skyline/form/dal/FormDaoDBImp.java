@@ -196,11 +196,21 @@ public class FormDaoDBImp extends BasicDao implements FormDao {
 	@Override
 	public List<Form> getFormInfoLookup(String formCode, String formType, boolean includeInactiveForms) {
 		List<Form> formList = new ArrayList<Form>();
-		//		String sql = "select * from FG_FORM where UPPER(FORMCODE) like UPPER('" + formCode + "') and FORM_TYPE like '" + formType
-		//				+ "'" + ((includeInactiveForms) ? "" : " and active = 1 ")
-		//				+ " order by FORM_TYPE,NVL(NUMBEROFORDER,0), FORMCODE ";
+		
+		// 1) get by from code using cachService.getFormDBLookupMap() MAP
 		try {
-			//			formList = jdbcTemplate.query(sql, new FormMapper());
+			Form form = cachService.getFormDBLookupMap().get(generalUtil.getNull(formCode).toUpperCase());
+			if(form != null && (includeInactiveForms || generalUtil.getNull(form.getActive()).equals("1"))) {
+				formList.add(form);
+				return formList;
+			}
+		} catch(Exception e) {
+			generalUtilLogger.logWrite(e);
+			e.printStackTrace();
+		}
+		 
+		// 2) get by list (if not found by code (failure) or formCode is % (all) and the lookup by type)
+		try {
 			List<Form> formList_ = cachService.getFormList();
 			if (!formList_.isEmpty()) {
 				if (synchronizeFromData == 1) {
