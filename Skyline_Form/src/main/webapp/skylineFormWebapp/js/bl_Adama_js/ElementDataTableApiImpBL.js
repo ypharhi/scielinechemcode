@@ -1061,6 +1061,9 @@ function elementDataTableApiImpBL(domId) {
    }
    if($('#formCode').val() == 'ExperimentAn' && (domId == 'instrumentsTable'||domId == 'columnSelect' ||domId == 'testedComponents')){
 	   $('#' + domId + '_dataTableStructButtons button.dataTableApiAdd').css('display','none');
+	   if(domId == 'instrumentsTable'){
+		   $('#instrumentsTable_dataTableStructButtons').append($('#searchInstrument'));
+	   }
 	   if(domId == 'columnSelect'){
 		   $('#' + domId + '_dataTableStructButtons button.dataTableApiRemove').off('click');
      	   $('#' + domId + '_dataTableStructButtons button.dataTableApiRemove').attr("onclick","removeRowColumnSelect('"+domId+"')");
@@ -3955,6 +3958,7 @@ function bl_elementDatatableEditableCustomFuncHandler(domId, customerFunction, $
 			var currCellId = $htmlObj.attr('id');
 			var isChked = $htmlObj.prop('checked');
 			$("#"+domId+'_col_standardIncluded_row_'+rowId).prop('checked',true);
+			$("#"+domId+'_col_coefficient_row_'+rowId).val('1');
 			
 			//console.log("name: "+ name + " fieldId: " + currCellId + " isChked: " + isChked);
 			var table = $('#'+domId).DataTable();
@@ -3969,10 +3973,12 @@ function bl_elementDatatableEditableCustomFuncHandler(domId, customerFunction, $
     			
 			    if($input.attr('id') != currCellId)
 				{
-    				$input.prop('disabled', isChked);				
+    				$input.prop('disabled', isChked);
+    				
 				}
 			});
-		
+			$("#"+domId+'_col_coefficient_row_'+rowId).prop('disabled',isChked);
+			
 		}
 	}
 }
