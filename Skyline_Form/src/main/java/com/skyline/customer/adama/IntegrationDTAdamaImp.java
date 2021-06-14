@@ -803,7 +803,23 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					//where part -
 					String wherePart = (linkToLastSelection.equals("1") ? getWherePartByFilterForDataTableApi(stateKey,
 							formCode, sourceElementImpCode, table.toUpperCase()) : "");
-					if(generalUtil.getNull(table).equalsIgnoreCase("FG_I_RECIPEUSAGES_DT_V")){
+					if(generalUtil.getNull(table).equalsIgnoreCase("FG_I_SAMPLERESULTS_DT_V")){
+						sql = "select t.UNIQUEROW,\n" + 
+								"SAMPLE_EXPERIMENT_ID,\n" + 
+								"t.SAMPLE_ID,\n" + 
+								"t.\"Sample #_SMARTLINK\",\n" + 
+								"t.\"Comments\",\n" + 
+								"t.\"Sample Origin_SMARTLINK\",\n" + 
+								"t.\"Sample Type\",\n" + 
+								"t.\"Sample Amount\",\n" + 
+								"t.\"Batch_SMARTLINK\",\n" + 
+								"t.\"Experiment #_SMARTLINK\",\n" + 
+								"t.\"Protocol\",\n" + 
+								"t.\"Experiment Type\",\n" + 
+								"'SELECT result_SMARTPIVOT FROM FG_P_EXPERIMENTRESULTS_V where 1=1"+wherePart.replace("\'", "")+"' AS RESULT_SMARTPIVOTSQL"
+								+ " \nfrom " + table + " t where 1=1" + wherePart;
+					}
+					else if(generalUtil.getNull(table).equalsIgnoreCase("FG_I_RECIPEUSAGES_DT_V")){
 						sql = "select * from " + table + " where recipeformulation_id = '"+formId+"'";
 					}
 					else if (generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPANALYSIS_PIVOT_DT_V")) {

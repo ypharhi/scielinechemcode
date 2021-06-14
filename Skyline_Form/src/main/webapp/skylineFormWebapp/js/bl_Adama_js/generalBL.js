@@ -393,8 +393,6 @@ function initForm() {
     } else if (_formCode == "InvItemSamplesMain") {
     	// $('.elementrange input').find('input:first').prevObject.attr('style', 'width:10% !important;');
     	// $('.elementrange input').find('input:last').prevObject.attr('style', 'width:10% !important;');
-    } else if (_formCode == "SampleResults") {
-    	//onChangeAjax('SAMPLE_ID');
     } else if (_formCode == 'Split') {
         $('#save_').html('OK');
         $('#save_').attr('onclick', 'doSplit();');
