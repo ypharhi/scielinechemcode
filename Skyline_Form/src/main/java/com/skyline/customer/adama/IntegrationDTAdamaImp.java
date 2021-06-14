@@ -2599,9 +2599,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 		  else if(formCode.equals("Component")){
 				String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
 				String sql = "insert into FG_S_" + formCode + "_PIVOT "
-						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,OUM_ID)"
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,OUM_ID,coefficient)"
 						+ " values (sysdate,'" + userId + "'," + sessionId + ",'1'," + newformId + "," + formId + ",'"
-						+ formCode + "','" + formCode + "','" + userId + "',sysdate,fg_get_Uom_by_uomtype('time','min'))";
+						+ formCode + "','" + formCode + "','" + userId + "',sysdate,fg_get_Uom_by_uomtype('time','min'),'1')";
 				insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
 			}
 		else {
@@ -3275,6 +3275,8 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						onChangeColumnVal, onChangeFormId, userId);
 				if(onChangeColumnName.equals("impurity")&& onChangeColumnVal.equals("1")) {
 					onChangeEditTableCellCore(formCode, formId, saveType, "standardIncluded",
+							onChangeColumnVal, onChangeFormId, userId);
+					onChangeEditTableCellCore(formCode, formId, saveType, "coefficient",
 							onChangeColumnVal, onChangeFormId, userId);
 				}
 				if(onChangeColumnName.equals("impurity") ||onChangeColumnName.equals("OUM_ID")||onChangeColumnName.equals("rt")) {
