@@ -197,6 +197,10 @@ function elementDataTableApiImpBL(domId) {
 		   }
    } else if($('#formCode').val() == 'InvItemSamplesMain'){
 	   	  $('#lowerTable th:first').text("Main");
+	   	if(domId == 'upperTable'){
+	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').text('Show Results');
+	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').click(function(){openSampleResults();});
+	   	}
 	   	if (domId == 'lowerTable'){
 	   		
 	   		$('#upperTable_dataTableStructButtons button.dataTableApiNew').css('display', 'none'); // hide the 'new' button
@@ -1183,6 +1187,35 @@ function validateMandatoryFilledAndAddRow(formCode,domId){
 		return;
     }
     dataTableAddRow('operartinTypeTable');
+}
+
+function openSampleResults(){
+	var smartSelectList = "";
+	var toReturn = [];  
+	$('input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
+	    toReturn.push($(this).val());
+	});
+	smartSelectList = toReturn.toString();
+	var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=SampleResults&formId=-1" + "&userId="
+	+ $('#userId').val() + '&PARENT_ID='+ $('#formId').val()+'&smartSelectList='+smartSelectList;
+	var dialogWidth = $(window).width() - 100; 
+	var dialogHeight = $(window).height() - 100; 
+	var $dialog = $('<div id="prevDialog" style="overflow-y: hidden;""></div>')
+    .html('<iframe style="border: 0px;width:100%;height:100%" src="' + page + '"></iframe>')
+    .dialog({
+        autoOpen: false,
+        modal: true,
+        height: dialogHeight,
+        width: dialogWidth,
+        //  title: title,
+        close: function () {
+        	$('#prevDialog iframe').attr('src', 'about:blank');
+            $('#prevDialog').remove();
+        }
+    });
+
+	$dialog.dialog('option', 'dialogClass', 'noTitleStuff').dialog('open');
+
 }
 
 function checkBalanceAndRemoveRow(domId,$elem){
