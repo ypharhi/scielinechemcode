@@ -3790,7 +3790,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			} else if (protocolTypeName.equals("Parametric") && experimentTypeName.equals("Bottles")) {
 				updateFormCode = "ExperimentPrBT";
 			} else if (protocolTypeName.equals("Parametric")) {
-				updateFormCode = "ExperimentPr";
+				updateFormCode = "ExperimentPrGn";
 			} else if (protocolTypeName.equals("Stability")) { // add ExperimentStb for "Taro develop"
 				updateFormCode = "ExperimentStb";
 			} else if (protocolTypeName.equals("Continuous Process")) { //add ExperimentCP for "Continuous Process"

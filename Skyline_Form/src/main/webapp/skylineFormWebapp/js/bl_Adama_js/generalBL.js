@@ -3871,11 +3871,11 @@ function getForwardPage() {
         else if ($("#PROTOCOLTYPE_ID option:selected").text() == 'Parametric' && $("#EXPERIMENTTYPE_ID option:selected").text() == 'Bottles' )  {
             formCode = 'ExperimentPrBT';
         }
-        else if ($("#PROTOCOLTYPE_ID option:selected").text() == 'Parametric' && $("#EXPERIMENTTYPE_ID option:selected").text() == 'General' ) {
-            formCode = 'ExperimentPrGn';
-        }
+//        else if ($("#PROTOCOLTYPE_ID option:selected").text() == 'Parametric' && $("#EXPERIMENTTYPE_ID option:selected").text() == 'General' ) {
+//            formCode = 'ExperimentPrGn';
+//        } -> default parameteric experiment type is general! ->
         else if ($("#PROTOCOLTYPE_ID option:selected").text() == 'Parametric') {
-            formCode = 'ExperimentPr';
+        	formCode = 'ExperimentPrGn';
         }
         else if ($("#PROTOCOLTYPE_ID option:selected").text() == 'Continuous Process') { //add ExperimentCP for "Continuous Process"
             formCode = 'ExperimentCP';
