@@ -53,6 +53,7 @@ public class CacheService {
 	private Map<String, Entity> formEntityClassSingleToneMap = null;
 	private Map<String, Form> formMap = null;
 	private Map<String, Form> formDBLookupMap = null;
+	private Map<String, List<FormEntity>> formEntityDBLookupMap = null;
  
 	public Map<String, Form> getFormMap() {
 		return formMap;
@@ -60,6 +61,18 @@ public class CacheService {
 	
 	public Map<String, Form> getFormDBLookupMap() {
 		return formDBLookupMap;
+	}
+	
+	public Map<String, List<FormEntity>> getFormEntityDBLookupMap() {
+		return formEntityDBLookupMap;
+	}
+	
+	public List<Form> getFormList() {
+		return formList;
+	}
+
+	public List<FormEntity> getFormEntityList() {
+		return formEntityList;
 	}
 
 	public CacheService() {
@@ -71,6 +84,7 @@ public class CacheService {
 		formEntityClassSingleToneMap = new HashMap<String, Entity>();
 		formMap = new HashMap<String, Form>();
 		formDBLookupMap = new HashMap<String, Form>();
+		formEntityDBLookupMap = new HashMap<String, List<FormEntity>>();
 	}
 
 	/**
@@ -96,7 +110,7 @@ public class CacheService {
 		}
 	}
 
-	public void initFormList(String formCode) {
+	private void initFormList(String formCode) {
 //		formList.clear();
 //		formList.addAll(formBuilderDao.getForm("%", "%", true)); ->
 		if(formCode.equals("%")) {
@@ -117,16 +131,17 @@ public class CacheService {
 		
 		for (Form form : formList) {
 			formMap.put(form.getFormCode(), form);
-			formDBLookupMap.put(form.getFormCode().toUpperCase(), form);
+			formDBLookupMap.put(generalUtil.getNull(form.getFormCode()).toUpperCase(), form);
 		}
 	}
 
-	public void initFormEntityList(String formCode) {
+	private void initFormEntityList(String formCode) {
 		long emptyStateKey = 0l;
 //		formEntityList.clear();
 //		formEntityList.addAll(formBuilderDao.getFormEntity("%", "%")); ->
 		if(formCode.equals("%")) {
 			formEntityList.clear();
+			formEntityDBLookupMap.clear();
 		} else {
 			Collection<FormEntity> formEntityToDelete = new ArrayList<FormEntity>();
 			for (FormEntity formEntity : formEntityList) {
@@ -139,6 +154,15 @@ public class CacheService {
 		formEntityList.addAll(formBuilderDao.getFormEntity(formCode, "%"));
 		
 		for (FormEntity formEntity : formEntityList) {
+			//update formEntityDBLookupMap
+			String formCodeUpperCase = generalUtil.getNull(formEntity.getFormCode()).toUpperCase();
+			List<FormEntity> list_ = formEntityDBLookupMap.get(formCodeUpperCase);
+			if(list_ == null) {
+				list_ = new ArrayList<FormEntity>();
+			}
+			list_.add(formEntity);
+			formEntityDBLookupMap.put(formCodeUpperCase, list_);
+			
 			if (formCode.equals("%") || formEntity.getFormCode().equals(formCode)) {
 				@SuppressWarnings("unused")
 				JSONObject jsonObject = null;
@@ -436,14 +460,6 @@ public class CacheService {
 				|| class_.equals("ElementAuthorizationImp")
 				|| class_.equals("ElementLabelImp"))
 				&& !formEntity.getEntityImpInit().contains("$P{");
-	}
-
-	public List<Form> getFormList() {
-		return formList;
-	}
-
-	public List<FormEntity> getFormEntityList() {
-		return formEntityList;
 	}
 
 	/**

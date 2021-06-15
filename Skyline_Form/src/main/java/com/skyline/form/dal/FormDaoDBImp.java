@@ -32,8 +32,6 @@ import com.skyline.form.bean.LookupType;
 import com.skyline.form.bean.SqlPermissionListObj;
 import com.skyline.form.service.CacheService;
 import com.skyline.form.service.GeneralUtil;
-import com.skyline.form.service.GeneralUtilConfig;
-import com.skyline.form.service.GeneralUtilFormState;
 import com.skyline.form.service.GeneralUtilLogger;
 import com.skyline.form.service.GeneralUtilPermission;
 
@@ -67,12 +65,6 @@ public class FormDaoDBImp extends BasicDao implements FormDao {
 	
 	@Autowired
 	private GeneralUtilPermission generalUtilPermission;
-	
-	@Autowired
-	private GeneralUtilConfig generalUtilConfig;
-	
-	@Autowired
-	private GeneralUtilFormState generalUtilFormState;
 
 	//	@Autowired
 	//	private FormDao formDao;
@@ -122,6 +114,20 @@ public class FormDaoDBImp extends BasicDao implements FormDao {
 	@Override
 	public List<FormEntity> getFormEntityInfoLookup(String formCode, String type) {
 		List<FormEntity> formEntityList = new ArrayList<FormEntity>();
+		
+		// 1) get by from code using cachService.getFormEntityDBLookupMap() MAP
+		try {
+			List<FormEntity> formEntityList_ = cachService.getFormEntityDBLookupMap().get(generalUtil.getNull(formCode).toUpperCase());
+			if(formEntityList_ != null && !formEntityList_.isEmpty()) {
+				return formEntityList_;
+			}
+		} catch(Exception e) {
+			generalUtilLogger.logWrite(e);
+			e.printStackTrace();
+		}
+		
+		// ... if not found ->
+		// 2) get by list (if not found by code (failure) or formCode is % (all))
 		try {
 			List<FormEntity> formEntityList_ = cachService.getFormEntityList();
 			//			formEntityList = jdbcTemplate.query(
@@ -197,7 +203,7 @@ public class FormDaoDBImp extends BasicDao implements FormDao {
 	public List<Form> getFormInfoLookup(String formCode, String formType, boolean includeInactiveForms) {
 		List<Form> formList = new ArrayList<Form>();
 		
-		// 1) get by from code using cachService.getFormDBLookupMap() MAP
+		// 1) get by from code using cachService.getFormDBLookupMap()
 		try {
 			Form form = cachService.getFormDBLookupMap().get(generalUtil.getNull(formCode).toUpperCase());
 			if(form != null && (includeInactiveForms || generalUtil.getNull(form.getActive()).equals("1"))) {
@@ -209,6 +215,7 @@ public class FormDaoDBImp extends BasicDao implements FormDao {
 			e.printStackTrace();
 		}
 		 
+		// ... if not found ->
 		// 2) get by list (if not found by code (failure) or formCode is % (all) and the lookup by type)
 		try {
 			List<Form> formList_ = cachService.getFormList();
