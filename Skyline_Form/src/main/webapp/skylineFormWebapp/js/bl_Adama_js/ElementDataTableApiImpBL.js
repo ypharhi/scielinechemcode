@@ -1199,14 +1199,16 @@ function openSampleResults(){
 	    toReturn.push($(this).val());
 	});
 	smartSelectList = toReturn.toString();
-	var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=SampleResults&formId=-1" + "&userId="
-	+ $('#userId').val() + '&PARENT_ID='+ $('#formId').val()+'&smartSelectList='+smartSelectList;
+	
 	var dialogWidth = $(window).width() - 100; 
-	var dialogHeight = $(window).height() - 100; 
+	var dialogHeight = $(window).height();
+
+	var href = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=SampleResults&formId=-1&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val()+'&smartSelectList='+smartSelectList;;
 	var $dialog = $('<div id="prevDialog" style="overflow-y: hidden;""></div>')
-    .html('<iframe style="border: 0px;width:100%;height:100%" src="' + page + '"></iframe>')
-    .dialog({
-        autoOpen: false,
+		.html(
+				'<iframe style="border: 0px;width:100%;height:100%" src="'
+						+ href + '"></iframe>').dialog({
+		autoOpen : false,
         modal: true,
         height: dialogHeight,
         width: dialogWidth,
@@ -1214,6 +1216,7 @@ function openSampleResults(){
         close: function () {
         	$('#prevDialog iframe').attr('src', 'about:blank');
             $('#prevDialog').remove();
+           // $('#prevDialog').dialog('close');
         }
     });
 

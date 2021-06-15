@@ -860,7 +860,7 @@ public class FormDaoDBImp extends BasicDao implements FormDao {
 			formSaveDao.insertStructTableByFormId(sql, "FG_S_" + selectFormCode + "_PIVOT", selectId);
 		} else {//concatenates the current itemToSelect to the list of selected items in the referenced selection table of the entity
 			Map<String, String> selectionData = generalDao.getMetaDataRowValues("select " + selectColumn
-					+ ",DISABLED from " + table + " where formid = '" + selectionId.get(0) + "' and sessionid = '"+sessionId+"'");
+					+ ",DISABLED from " + table + " where formid = '" + selectionId.get(0) + "' "+(generalUtil.getNull(sessionId).isEmpty()?"and sessionid is null":"and sessionid = '"+sessionId+"'"));
 			List<String> similar = new ArrayList<String>();
 			if(!generalUtil.getNull(selectionData.get(selectColumn)).equals("")) { //yp 25032020 make this check to avoid insert empty string to similar (that cause leading comma in the csv)
 				similar.addAll(Arrays.asList(selectionData.get(selectColumn).split(",")));
@@ -897,7 +897,7 @@ public class FormDaoDBImp extends BasicDao implements FormDao {
 			 */
 			String sql = String.format(
 					"UPDATE %1$s t set %3$s = '" + itemsToSelectCsv + "',DISABLED = '" + disabledItemsToSelectCsv
-							+ "' where t.FORMID = %5$s and sessionid = '"+sessionId+"'",
+							+ "' where t.FORMID = %5$s "+(generalUtil.getNull(sessionId).isEmpty()?"and sessionid is null":"and sessionid = '"+sessionId+"'"),
 					table, selectParentId, selectColumn, itemsToSelect.toString().replaceAll("\\[|\\]|\\s*", ""),
 					selectionId.get(0), userId, selectFormCode);
 			formSaveDao.updateStructTableByFormId(sql, table, Arrays.asList(selectColumn, "DISABLED"),

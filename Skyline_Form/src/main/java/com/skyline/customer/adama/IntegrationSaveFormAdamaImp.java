@@ -1777,7 +1777,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			
 			String projectManager_id = elementValueMap.get("PROJECTMANAGER_ID");
 //			String sessionId_ = generalUtilFormState.getSessionId(formId);
-			String sessionId_ = "";
+			String sessionId_ = generalUtilFormState.getSessionId(formId);;
 			formDao.insertToSelectTable("USERSCREW", formId, "USER_ID", Arrays.asList(projectManager_id), false, userId, sessionId_);
 			
 			
@@ -2466,9 +2466,8 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				//Update the sample selection of the ancestors
 				String sessionId_ = "";
 				for (String ancestor : listOfAncestors) {
-					sessionId_ = generalUtilFormState.getSessionId(ancestor);
 					formDao.insertToSelectTable("REQUESTSELECT", ancestor, "REQUEST_ID", Arrays.asList(formId), false,
-							userId, sessionId_);
+							userId, null);
 				}
 
 				String experimentType = formDao.getFromInfoLookup("Experiment", LookupType.ID, originExperimentId,
@@ -2527,13 +2526,10 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					//Update the request selection of the ancestors
 					String sessionId_ = "";
 					for (String ancestor : listOfAncestors) {
-						sessionId_ = generalUtilFormState.getSessionId(ancestor);
 						formDao.insertToSelectTable("REQUESTSELECT", ancestor, "REQUEST_ID", Arrays.asList(formId), false,
-								userId, sessionId_);
+								userId, null);
 					}
 				}
-
-				
 			}
 			}
 /*
@@ -3081,17 +3077,17 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 //						"");
 //			}
 
+			String sessionId_ = generalUtilFormState.getSessionId(formId);
 			//if added a sample from sample search(not from the table) then add it to the sample table
 			if (elementValueMap.get("sampleId") != null
 					&& !generalUtil.getNull(elementValueMap.get("sampleId")).isEmpty()) {
 				if (generalUtil.getNull(elementValueMap.get("lastSampleId")).isEmpty()) {//it is the first save
-					String sessionId_ = generalUtilFormState.getSessionId(formId);
 					formDao.insertToSelectTable("SampleSelect", formId, "SAMPLETABLE",
 							Arrays.asList(elementValueMap.get("sampleId")), true, userId, sessionId_);
 				} else if (!elementValueMap.get("lastSampleId").equals(elementValueMap.get("sampleId"))) {
 					sql = "update fg_s_sampleselect_pivot set SAMPLETABLE = REGEXP_REPLACE(REPLACE(','||SAMPLETABLE||',',','||"
 							+ elementValueMap.get("lastSampleId") + "||',',','||" + elementValueMap.get("sampleId")
-							+ "||','),'^[,]|[,]$','')" + "where parentid = '" + formId + "'";
+							+ "||','),'^[,]|[,]$','')" + "where parentid = '" + formId + "' "+(generalUtil.getNull(sessionId_).isEmpty()?"and sessionid is null":"and sessionid = '"+sessionId_+"'");
 					formSaveDao.updateStructTable(sql, "fg_s_sampleselect_pivot", Arrays.asList("SAMPLETABLE"),
 							"parentid", formId);
 					formSaveDao.updateStructTableByFormId(
@@ -3103,7 +3099,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					&& !generalUtil.getNull(elementValueMap.get("lastSampleId")).isEmpty()) {//if sampleId was cleaned then should clean the lastsampleid value too
 				sql = "update fg_s_sampleselect_pivot set SAMPLETABLE = REGEXP_REPLACE(REPLACE(','||SAMPLETABLE||',',','||"
 						+ elementValueMap.get("lastSampleId") + "||',',','),'^[,]|[,]$','')" + "where parentid = '"
-						+ formId + "'";
+						+ formId + "' "+(generalUtil.getNull(sessionId_).isEmpty()?"and sessionid is null":"and sessionid = '"+sessionId_+"'");
 				formSaveDao.updateStructTable(sql, "fg_s_sampleselect_pivot", Arrays.asList("SAMPLETABLE"), "parentid",
 						formId);
 				formSaveDao.updateStructTableByFormId(
@@ -3594,15 +3590,13 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			//Update the sample selection of the ancestors
 			String sessionId_  = "";
 			for (String ancestor : listOfAncestors) {
-				sessionId_ = generalUtilFormState.getSessionId(elementValueMap.get(ancestor));
 				formDao.insertToSelectTable("SampleSelect", elementValueMap.get(ancestor), "SAMPLETABLE", listOfSamples,
-						true, userId, sessionId_);
+						true, userId, null);
 			}
 
 			if (!elementValueMap.get("BATCH_ID").isEmpty()) {
-				sessionId_ = generalUtilFormState.getSessionId(elementValueMap.get("BATCH_ID"));
 				formDao.insertToSelectTable("SAMPLESELECT", elementValueMap.get("BATCH_ID"), "SAMPLETABLE",
-						listOfSamples, true, userId, sessionId_);//add the sample to the selection in the referenced batch
+						listOfSamples, true, userId, null);//add the sample to the selection in the referenced batch
 			}
 
 		}
@@ -3911,7 +3905,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 
 					String sessionId_ = generalUtilFormState.getSessionId(updateFormId);
 					formDao.insertToSelectTable("SAMPLESELECT", updateFormId, "SAMPLETABLE", Arrays.asList(formId),
-							true, userId, sessionId_);
+							true, userId, null);
 					//}
 				}
 				//if it was unchecked or has been referenced to another batch, then removes the previous referenced/defined batch
@@ -4312,7 +4306,8 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 						+ "where formid = '"+experimentId+"'";
 				
 				formSaveDao.updateStructTableByFormId(sql, "fg_s_experiment_pivot", Arrays.asList("RECIPEFORMULATION_ID"), experimentId);
-				formDao.insertToSelectTable("experimentselect", formId, "EXPERIMENT_ID", Arrays.asList(experimentId), true, userId, null);
+				String sessionId_ = generalUtilFormState.getSessionId(formId);
+				formDao.insertToSelectTable("experimentselect", formId, "EXPERIMENT_ID", Arrays.asList(experimentId), true, userId, sessionId_);
 			}
 			
 			//insert the recipe to the selected batches
@@ -4344,7 +4339,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 		else if(formCode.equals("ExperimentGroup")) {
 			String sessionId_ = generalUtilFormState.getSessionId(formId);
 		    String projectId=generalDao.selectSingleString("select t.project_id from fg_s_experiment_pivot t where t.FORMID="+elementValueMap.get("parentId"));
-			formDao.insertToSelectTable("ExpGroupSelect", projectId, "GROUP_ID",Arrays.asList(formId) , false, userId, sessionId_);//task 17852
+			formDao.insertToSelectTable("ExpGroupSelect", projectId, "GROUP_ID",Arrays.asList(formId) , false, userId, null);//task 17852
 		}
 		//update active to be 1 in cloned material
 		String table = "FG_S_" + formCodeEntity + "_PIVOT";

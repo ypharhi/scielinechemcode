@@ -605,6 +605,7 @@ function initForm() {
         		checkTabClickFlag('SpreadsheetTab');
         	}
         	
+        	
         	$('#SPREADSHEETTEMPLATE_ID').attr("onchange","onChangeTemplate(this,$(this).attr('lastvalue'))");
         } 
         else if(_formCode == "ExperimentAn"){
@@ -613,6 +614,9 @@ function initForm() {
         	//lower the spreadsheet tab flag so that when clicking it, the spreadsheet would be reloaded
         	if(getActiveTabID() != "SpreadsheetTab") {
         		checkTabClickFlag('SpreadsheetTab');
+        	}
+        	if(getActiveTabID() != "SpreadsheetResultsTab") {
+        		checkTabClickFlag('SpreadsheetResultsTab');
         	}
         	
         	$('#SPREADSHEETTEMPLATE_ID').attr("onchange","onChangeTemplate(this,$(this).attr('lastvalue'))");
@@ -2288,6 +2292,11 @@ function initFloatingButtonsPanel()
 					if(activeTabId == "SpreadsheetTab" && checkTabClickFlag("SpreadsheetTab",true)){//if click on the spreadsheetTab and flag is up(because the active tab in the init was not spreadsheet)-> then reload the iframe
 						//document.getElementById('spreadsheetExcel_spreadIframe').contentWindow.location.reload();
 						reloadExcelSheet('spreadsheetExcel');
+					}
+					
+					if(activeTabId == "SpreadsheetResultsTab" && checkTabClickFlag("SpreadsheetResultsTab",true)){//if click on the spreadsheetTab and flag is up(because the active tab in the init was not spreadsheet)-> then reload the iframe
+						//document.getElementById('spreadsheetExcel_spreadIframe').contentWindow.location.reload();
+						reloadExcelSheet('spreadsheetResults');
 					}
 				}
 				

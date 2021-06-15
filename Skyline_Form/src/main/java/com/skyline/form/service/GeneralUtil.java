@@ -115,7 +115,7 @@ public class GeneralUtil {
 
 	
 	public String getNull(String str) {
-		if (str == null || str.equals("null")) {
+		if (str == null || str.trim().equalsIgnoreCase("null")) {
 			return "";
 		}
 
