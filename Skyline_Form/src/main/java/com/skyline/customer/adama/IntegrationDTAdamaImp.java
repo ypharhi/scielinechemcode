@@ -3106,7 +3106,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						if (toAdd.equals("1")) {
 							String sessionId_ = generalUtilFormState.getSessionId(onChangeFormId);
 							formDao.insertToSelectTable("SampleSelect", onChangeFormId, "SAMPLETABLE",
-									Arrays.asList(val), false, userId, sessionId_);
+									Arrays.asList(val), false, userId, null);
 						} else {
 							Map<String, String> selectionData = generalDao
 									.getMetaDataRowValues("select SAMPLETABLE,DISABLED,FORMID from "

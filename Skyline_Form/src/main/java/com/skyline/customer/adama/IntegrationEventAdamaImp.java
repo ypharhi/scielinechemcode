@@ -2266,9 +2266,8 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 								formId, userId);
 					}
 
-					String sessionId_ = generalUtilFormState.getSessionId(formId);
 					formDao.insertToSelectTable("SampleSelect", formId, "SAMPLETABLE", Arrays.asList(sampleId), true,
-							userId, sessionId_);
+							userId,null);
 				}
 			}
 
