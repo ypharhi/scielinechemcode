@@ -1459,6 +1459,7 @@ function changeProjectByType(isActual,projectType) {
 		$('[id="lsearchComponent"]').parent().css('visibility', 'hidden');
 		$('[id="components"]').parent().css('visibility', 'hidden');
 		$('[id="components_Parent"]').css('visibility', 'hidden'); //hide the border of the table
+		$('#components_Parent').parent().css('display', 'none');
 		
 		$('[id="lmcwCodeProject"]').parent().css('visibility', 'visible');
 		$('[id="mcwCodeProject"]').parent().css('visibility', 'visible');
@@ -1482,6 +1483,7 @@ function changeProjectByType(isActual,projectType) {
 		$('[id="lsearchComponent"]').parent().css('visibility', 'visible');
 		$('[id="components"]').parent().css('visibility', 'visible');//display without border
 		$('[id="components_Parent"]').css('visibility', 'visible'); //add the border to the table
+		$('#components_Parent').parent().css('display', '');
 		
 		$('[id="lmcwCodeProject"]').parent().css('visibility', 'hidden');
 		$('[id="mcwCodeProject"]').parent().css('visibility', 'hidden');

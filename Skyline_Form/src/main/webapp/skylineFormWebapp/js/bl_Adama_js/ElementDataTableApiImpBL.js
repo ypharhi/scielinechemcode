@@ -1080,10 +1080,12 @@ function elementDataTableApiImpBL(domId) {
 	   $('#' + domId + '_dataTableStructButtons button.dataTableApiAdd').attr('onclick','validateMandatoryFilledAndAddRow("'+$('#formCode').val()+'","'+domId+'")');
    }
    if(($('#formCode').val()=='InvItemMaterialFr'||$('#formCode').val()=='InvItemMaterialPr'||$('#formCode').val()=='InvItemBatch'||$('#formCode').val()=='Project') && domId == 'components'){
-	  if($('#formCode').val().indexOf('InvItemMaterial')>-1){
+	  if($('#formCode').val().indexOf('InvItemMaterial')>-1 && $('#components').is(":visible")){
 		  $('#components_Parent').css('min-width','550px');
 	  }
-	  else  $('#components_Parent').css('min-width','400px');
+	  else  if($('#components').is(":visible")){
+		  $('#components_Parent').css('min-width','400px');
+	  }
 	   $('#' + domId + '_dataTableStructButtons button.dataTableApiNew:not(.dataTableAddRowButton)').css('display','none');
 	   $('#' + domId + '_dataTableStructButtons button.dataTableApiView').css('display','none'); 
 	 
