@@ -1777,8 +1777,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			
 			String projectManager_id = elementValueMap.get("PROJECTMANAGER_ID");
 //			String sessionId_ = generalUtilFormState.getSessionId(formId);
-			String sessionId_ = "";
-			formDao.insertToSelectTable("USERSCREW", formId, "USER_ID", Arrays.asList(projectManager_id), false, userId, sessionId_);
+			formDao.insertToSelectTable("USERSCREW", formId, "USER_ID", Arrays.asList(projectManager_id), false, userId, null);
 			
 			
 		}
@@ -1929,6 +1928,15 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 								batch_id, formId, sbInfo);
 					}
 				}
+			}
+			
+			List<String> ownerList = Arrays.asList(elementValueMap.get("OWNER_ID"));
+		//	String lastOwnerId = generalUtil.getNull(elementValueMap.get("LAST_OWNER_ID"));
+			if (!generalUtil.getNull(elementValueMap.get("OWNER_ID")).isEmpty()
+					//&& !lastOwnerId.equals(elementValueMap.get("OWNER_ID"))
+					) {
+				//elementValueMap.put("LAST_OWNER_ID", elementValueMap.get("OWNER_ID"));
+				formDao.insertToSelectTable("UsersCrew", formId, "USER_ID", ownerList, false, userId, null);//task 17852
 			}
 			
 			/*
@@ -2326,7 +2334,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			}
 			//add creator as default in crew -> yp 31122017 -> igor request 
 			//			String usersCrewId = formSaveDao.getStructFormId("UsersCrew");
-			formDao.insertToSelectTable("USERSCREW", formId, "USER_ID", Arrays.asList(userId), false, userId, sessionId_);//change to inserttoselectTable->adib 111018
+			formDao.insertToSelectTable("USERSCREW", formId, "USER_ID", Arrays.asList(userId), false, userId, null);//change to inserttoselectTable->adib 111018
 			/*formSaveDao.insertStructTableByFormId(
 					"insert into FG_S_USERSCREW_PIVOT (FORMID,TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMCODE,PARENTID,USER_ID,CREATED_BY,CREATION_DATE) "
 							+ "values ('" + usersCrewId + "', sysdate, " + userId + ", null,1,'UsersCrew','" + formId
@@ -4644,14 +4652,6 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					+ "' where experiment_id='" + formId + "' ";
 			formSaveDao.updateStructTable(sql_, "fg_s_step_pivot", Arrays.asList("experimentversion"), "experiment_id",
 					formId);
-		}
-		List<String> ownerList = Arrays.asList(elementValueMap.get("OWNER_ID"));
-		String lastOwnerId = generalUtil.getNull(elementValueMap.get("LAST_OWNER_ID"));
-		if (!generalUtil.getNull(elementValueMap.get("OWNER_ID")).isEmpty()
-				&& !lastOwnerId.equals(elementValueMap.get("OWNER_ID"))) {
-			elementValueMap.put("LAST_OWNER_ID", elementValueMap.get("OWNER_ID"));
-			String sessionId_ = generalUtilFormState.getSessionId(formId);
-			formDao.insertToSelectTable("UsersCrew", formId, "USER_ID", ownerList, false, userId, sessionId_);//task 17852
 		}
 
 		//set formNumberId- Experiment number
