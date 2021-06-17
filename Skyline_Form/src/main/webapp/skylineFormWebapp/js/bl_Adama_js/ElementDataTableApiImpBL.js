@@ -199,6 +199,7 @@ function elementDataTableApiImpBL(domId) {
 	   	  $('#lowerTable th:first').text("Main");
 	   	if(domId == 'upperTable'){
 	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').text('Show Results');
+	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').off('click');
 	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').click(function(){openSampleResults();});
 	   	}
 	   	if (domId == 'lowerTable'){
