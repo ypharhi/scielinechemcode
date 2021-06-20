@@ -1524,6 +1524,11 @@ function initForm() {
     initFloatingButtonsPanel();
 //    initFloatingTabsPanel(); //ab 22122020: code for Demo floating tabs
     displayHeaderDdl();
+    $( window ).resize(function() {
+    	 if ($("#prevDialog").hasClass("ui-dialog-content ui-widget-content")) {
+    		 $("#prevDialog").css('width','100%');
+    	 }
+    });
     
     console.log("end initForm");
 }

@@ -2021,8 +2021,9 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
 		    	$('#' + domId + '_Parent').css('max-width', $('body')[0].clientWidth - width - 80 + 'px');
 		    } 
 		    else 
-		    {		    	
-		    	$('#' + domId + '_Parent').css('max-width', $('body')[0].clientWidth - width - 50 + 'px');
+		    {
+		    	if(window.self == window.top) {
+		    		$('#' + domId + '_Parent').css('max-width', $('body')[0].clientWidth - width - 50 + 'px');}
 		    }
     	}
     });
@@ -5150,8 +5151,8 @@ function ElementDataTableApiImpOnButtonClick(input) {
     var stateKey = $('#' + domId + '_selectDiv').attr('stateKey');
     var onActionButtons = $('[id="' + domId + '_onActionButtons"]').val();
     var popupSize = $('[id="' + domId + '_popupSize"]').val();
-    var dialogWidth = $(window).width() - 10;
-    var dialogHeight = $(window).height();
+    var dialogWidth = $(window).width() - 60;
+    var dialogHeight = $(window).height() - 60;
     var availableDataStructures, parentTable;
     var str;
     var isCloneAttrFlag = "";
