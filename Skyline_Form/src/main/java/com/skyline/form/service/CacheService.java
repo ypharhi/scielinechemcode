@@ -116,6 +116,7 @@ public class CacheService {
 		if(formCode.equals("%")) {
 			formList.clear();
 			formDBLookupMap.clear();
+			formMap.clear();
 		} else {
 			Collection<Form> formToDelete = new ArrayList<Form>();
 			for (Form form : formList) {
