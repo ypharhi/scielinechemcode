@@ -125,13 +125,17 @@ public class CacheService {
 				}
 			}
 			formList.removeAll(formToDelete);
+			formDBLookupMap.remove(generalUtil.getNull(formCode).toUpperCase());
+			formMap.remove(formCode);
 		}
 		formList.addAll(formBuilderDao.getForm(formCode, "%", true));
 
 		
 		for (Form form : formList) {
-			formMap.put(form.getFormCode(), form);
-			formDBLookupMap.put(generalUtil.getNull(form.getFormCode()).toUpperCase(), form);
+			if (formCode.equals("%") || form.getFormCode().equals(formCode)) {
+				formMap.put(form.getFormCode(), form);
+				formDBLookupMap.put(generalUtil.getNull(form.getFormCode()).toUpperCase(), form);
+			}
 		}
 	}
 
@@ -150,20 +154,21 @@ public class CacheService {
 				}
 			}
 			formEntityList.removeAll(formEntityToDelete);
+			formEntityDBLookupMap.remove(generalUtil.getNull(formCode).toUpperCase());
 		}
 		formEntityList.addAll(formBuilderDao.getFormEntity(formCode, "%"));
 		
 		for (FormEntity formEntity : formEntityList) {
-			//update formEntityDBLookupMap
-			String formCodeUpperCase = generalUtil.getNull(formEntity.getFormCode()).toUpperCase();
-			List<FormEntity> list_ = formEntityDBLookupMap.get(formCodeUpperCase);
-			if(list_ == null) {
-				list_ = new ArrayList<FormEntity>();
-			}
-			list_.add(formEntity);
-			formEntityDBLookupMap.put(formCodeUpperCase, list_);
-			
 			if (formCode.equals("%") || formEntity.getFormCode().equals(formCode)) {
+				//update formEntityDBLookupMap
+				String formCodeUpperCase = generalUtil.getNull(formEntity.getFormCode()).toUpperCase();
+				List<FormEntity> list_ = formEntityDBLookupMap.get(formCodeUpperCase);
+				if(list_ == null) {
+					list_ = new ArrayList<FormEntity>();
+				}
+				list_.add(formEntity);
+				formEntityDBLookupMap.put(formCodeUpperCase, list_);
+				
 				@SuppressWarnings("unused")
 				JSONObject jsonObject = null;
 				try {
