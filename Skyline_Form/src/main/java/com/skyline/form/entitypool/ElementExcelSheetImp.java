@@ -27,7 +27,7 @@ import com.skyline.form.entity.Element;
  * 			     getHtmlBody implement disable / hidden for cases that got by onchangeAjax(disabled on loading the form is implemented in the disableSpreadsheet_ func)
  * 			     prop.dataChanged is updated in GC.Spread.Sheets.Events.EditStarting event. When the toolbar is added-we should add more events that support the change
  * *** See DemoExcel for usage example
- * *** Note:   In very early develop (that was never in use)  we filled the excel from catalog with data from the ExcelTemplate that was suppose to be part of the maintenance
+ * *** Note:   add _SYSCONFEXCELDATA from and saveSysConfExcelAsClob function to config spreadsheet from scratch or by upload from file and make it default excel (by name) in the forms (if we need an excel with specific data / settings as default)
  */
 public class ElementExcelSheetImp extends Element 
 {

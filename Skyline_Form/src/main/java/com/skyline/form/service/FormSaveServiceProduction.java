@@ -174,6 +174,10 @@ public class FormSaveServiceProduction extends FormSaveBasic implements FormSave
 					}
 					throw new Exception(generalUtil.getSpringMessagesByKey("SAVE_FAILED", "Save failed"));
 				}
+				
+				//save system excel as clob
+			    saveSysConfExcelAsClob(formCode, formId);
+				
 
 				// post save
 				generalUtilLogger.logWriter(LevelType.DEBUG,"Start postFormSaveEvent formcode=" + formCode + ", formId=" + formId,
@@ -226,6 +230,31 @@ public class FormSaveServiceProduction extends FormSaveBasic implements FormSave
 		// return
 		dataBeanReturnList.add(0, new DataBean("", update, BeanType.SAVE_FORM, sbInfo.toString()));
 		return new ActionBean("no action needed", dataBeanReturnList, errMsg);
+	}
+
+	/**
+	 * upload excel spreadsheet json from file by saving the excel json as clob in the SYSCONFEXCELDATA form (delete the data from the upload file content)
+	 * @param formCode
+	 * @param formId
+	 */
+	private void saveSysConfExcelAsClob(String formCode, String formId) {
+		if (formCode != null && formCode.equalsIgnoreCase("SYSCONFEXCELDATA")) {
+			try {
+				String fileId = generalDao.selectSingleString(
+						"select EXCELFILE from FG_S_SYSCONFEXCELDATA_V WHERE FORMID = '" + formId + "'");
+				if (fileId != null && !fileId.isEmpty()) {
+					generalDao.updateSingleString(
+							"insert into fg_clob_files (file_id,file_name,file_content,content_type)\n"
+									+ "select t.file_id, t.file_name, CLOBFROMBLOB(t.file_content), t.content_type\n"
+									+ "from fg_files t \n" + "where t.file_id = '" + fileId + "'");
+					generalDao.updateSingleString(
+							"update FG_S_SYSCONFEXCELDATA_PIVOT SET EXCELFILE = NULL, EXCELDATA = '" + fileId + "'");
+					generalDao.updateSingleString("DELETE FROM fg_files where file_id = '" + fileId + "'");
+				}
+			} catch (Exception e) {
+				// do nothing
+			}
+		}
 	}
 
 	@Override
