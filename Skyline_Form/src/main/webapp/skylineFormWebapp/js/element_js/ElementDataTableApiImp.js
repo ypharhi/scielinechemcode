@@ -4676,7 +4676,7 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 	        	disabledListArray= $('#'+ domID + '_disabledList').val().split(',');
 			}
 			var $loopThrough;
-		    if($('#formCode').val() == 'ExpAnalysisReport')
+		    if($('#formCode').val() == 'ExpAnalysisReport' || $('#formCode').val() == 'ExperimentReport')
 		    {
 		    	var table = $('#'+domID).DataTable();			    	
 		    	var column = table.column(0,{search:'applied'}).nodes();
@@ -4696,7 +4696,7 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 		    
 		    if(role == 'MultipleAjax')
 		    {
-		    	if($('#formCode').val() == 'ExpAnalysisReport')
+		    	if($('#formCode').val() == 'ExpAnalysisReport' || $('#formCode').val() == 'ExperimentReport')
 			    {
 			    	var visibleRow = $('[id="' + domID + '"] tbody > tr')[0];
 		    		var table = $('#'+domID).DataTable();	
@@ -4759,7 +4759,7 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 	else if(!isParentChkbChanged)//if child/body checkbox clicked, also on table page change, sort, search
 	{
 	    var unchecked_counter = 0;
-	    if($('#formCode').val() == 'ExpAnalysisReport')
+	    if($('#formCode').val() == 'ExpAnalysisReport' || $('#formCode').val() == 'ExperimentReport')
 	    {
 	    	var table = $('#'+domID).DataTable();	
 	    	

@@ -382,7 +382,7 @@ public class CatalogDBTableImp extends Catalog implements CatalogDBInterface {
 		}
 		
 		try {
-			if(formCode.equalsIgnoreCase("ExpAnalysisReport")) { // patch for ExpAnalysisReport to make <= not in
+			if(formCode.equalsIgnoreCase("ExpAnalysisReport")||formCode.equalsIgnoreCase("ExperimentReport")) { // patch for ExpAnalysisReport to make <= not in
 				return where.toString().replaceAll("and \"NOSTEPSEQ\" in", "and to_number(\"NOSTEPSEQ\") <=");
 			}
 		} catch (Exception e) {

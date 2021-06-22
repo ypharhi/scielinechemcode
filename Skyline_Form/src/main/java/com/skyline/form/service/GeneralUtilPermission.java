@@ -654,7 +654,8 @@ public class GeneralUtilPermission {
 				|| formCode.equalsIgnoreCase("InvItemInstrumentsMain")
 				|| (formCode.equalsIgnoreCase("InvItemSamplesMain") && struct.equals("Sample"))
 				|| (formCode.endsWith("Project") && (struct.equalsIgnoreCase("SubProject") || struct.equalsIgnoreCase("subSubProject") || struct.equalsIgnoreCase("experiment")))
-				|| (formCode.equals("ExpAnalysisReport") && (struct.equalsIgnoreCase("Project") || struct.equalsIgnoreCase("SubProject") || struct.equalsIgnoreCase("experiment"))))) {
+				|| (formCode.equals("ExpAnalysisReport") && (struct.equalsIgnoreCase("Project") || struct.equalsIgnoreCase("SubProject") || struct.equalsIgnoreCase("experiment"))
+			    || (formCode.equals("ExperimentReport") && (struct.equalsIgnoreCase("Project") || struct.equalsIgnoreCase("SubProject") || struct.equalsIgnoreCase("experiment")))))) {
 			toReturn = true;
 		}
 		return toReturn;

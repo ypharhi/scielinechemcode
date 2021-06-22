@@ -742,9 +742,10 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 				String nameId = formId;
 				String reportName = validateValueObject.toString().split(",")[0];
 				String userId = validateValueObject.toString().split(",")[1];
+				String parentFormCode = validateValueObject.toString().split(",")[2];
 				String isOtherReportExist = generalDao
 						.selectSingleStringNoException("select distinct 1 from fg_formlastsavevalue_name t"
-								+ " where save_name = '" + reportName + "' and userid = '" + userId + "'"
+								+ " where save_name = '" + reportName + "' and userid = '" + userId + "' and formcode_name='"+parentFormCode+"'"
 								+ (!nameId.isEmpty() ? " and save_name_id != '" + nameId + "'" : ""));
 				if (!isOtherReportExist.isEmpty()) {
 					sbInfoMessage.append(getMessage(validationCode, validateValueObject));

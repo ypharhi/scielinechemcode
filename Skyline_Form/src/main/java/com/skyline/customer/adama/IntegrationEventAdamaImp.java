@@ -1882,7 +1882,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 		if (eventAction.equals("validateOtherReportSameNameExists")) {
 			StringBuilder sb = new StringBuilder();
 			integrationValidation.validate(ValidationCode.VALIDATE_REPORTNAME_EXIST, formCode,
-					elementValueMap.get("nameId"), new String(elementValueMap.get("reportName") + "," + userId), sb);
+					elementValueMap.get("nameId"), new String(elementValueMap.get("reportName") + "," + userId+ "," + elementValueMap.get("parentFormCode")), sb);
 			if (!sb.toString().isEmpty()) {
 				return sb.toString();
 			}
@@ -1916,7 +1916,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 		if (eventAction.equals("getReportList")) {
 			List<Map<String, Object>> reportList = generalDao
 					.getListOfMapsBySql("select save_name_id as id,save_name as name, to_char(creation_date,'"+generalUtil.getConversionDateFormat()+"') as creation_date"
-							+ " from fg_formlastsavevalue_name" + " where active=1" + " and userid='" + userId + "'");
+							+ " from fg_formlastsavevalue_name" + " where active=1" + " and userid='" + userId + "' and formCode_Name ='"+elementValueMap.get("formCodeElement")+"'");
 			JSONArray reportlistJson = new JSONArray();
 			for (Map<String, Object> reportData : reportList) {
 				JSONObject data = new JSONObject();
@@ -4582,9 +4582,9 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 				String newformId = formSaveDao.getStructFormId(formCode);
 				String sessionId = generalUtilFormState.checkAndReturnSessionId("Component", formId);
 				String sql = "insert into FG_S_" + formCode + "_PIVOT "
-						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,materialId,componentName,OUM_ID,coefficient)"
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,materialId,componentName,OUM_ID,coefficient,numOfStandardRows)"
 						+ " values (sysdate,'" + userId + "'," + sessionId + ",'1'," + newformId + "," + formId + ",'"
-						+ formCode + "','" + formCode + "','" + userId + "',sysdate,'" + material_id + "','"+componentName+"',fg_get_Uom_by_uomtype('time','min'),'1')";
+						+ formCode + "','" + formCode + "','" + userId + "',sysdate,'" + material_id + "','"+componentName+"',fg_get_Uom_by_uomtype('time','min'),'1','1')";
 				String insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
 			}
 		}

@@ -136,7 +136,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			// ***************************
 			// *** onElementDataTableApiChange formCode Main
 			// ***************************
-			if (formCode.equals("Main") || formCode.equals("ExpAnalysisReport")) {
+			if (formCode.equals("Main") || formCode.equals("ExpAnalysisReport") || formCode.equals("ExperimentReport")) {
 				if (generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPANALYSIS_PIVOT_DT_V")) {
 					String wherePart = (linkToLastSelection.equals("1")
 							? getWherePartByFilterForDataTableApi(stateKey, formCode, sourceElementImpCode, table)
@@ -2615,9 +2615,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 		  else if(formCode.equals("Component")){
 				String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
 				String sql = "insert into FG_S_" + formCode + "_PIVOT "
-						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,OUM_ID,coefficient)"
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,OUM_ID,coefficient,numOfStandardRows)"
 						+ " values (sysdate,'" + userId + "'," + sessionId + ",'1'," + newformId + "," + formId + ",'"
-						+ formCode + "','" + formCode + "','" + userId + "',sysdate,fg_get_Uom_by_uomtype('time','min'),'1')";
+						+ formCode + "','" + formCode + "','" + userId + "',sysdate,fg_get_Uom_by_uomtype('time','min'),'1','1')";
 				insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
 			}
 		else {

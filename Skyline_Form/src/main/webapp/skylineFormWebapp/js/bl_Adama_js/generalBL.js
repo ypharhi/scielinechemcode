@@ -109,15 +109,26 @@ function initFormSaveDisplayButtons() {
     		$('#pageTitle').parent().css('width', '100%');
     	},100);
     }
-    if($('#formCode').val() == 'ExpAnalysisReport') {
+    if($('#formCode').val() == 'ExpAnalysisReport' || $('#formCode').val() == 'ExperimentReport') {
     	if($('#nameId').val()!="-1" && $('#nameId').val()!=""){
     		$('.mainSaveFormAndDefinitionBtn').css('display', 'none');
     	}
     	$('.mainSaveDefinitionBtn').css('display', 'none');
     	$('#searchDesign').css('width', '152px');
     	$('#bSaveDesign').css('width', '152px');
-    	setReportTitle();
-    	
+    	if($('#formCode').val() == 'ExpAnalysisReport'){
+    		setReportTitle();
+    		}
+    	else{
+    		var repName = $('#reportName').val();
+       		if(repName != null && repName != ""){
+       			$('#pageTitle').html("Sample Comparison Name: "+$('#reportName').val());
+       		
+       		}
+       		else{
+       			$('#pageTitle').html("<b>Sample Comparison</b>");
+       		}
+    	}
     }
     if($('#formCode').val() == 'SearchReport') {
 	    $('.mainSaveFormAndDefinitionBtn').css('display', 'none');
@@ -1180,7 +1191,7 @@ function initForm() {
 	}
 
     //make no body x scroll for the following forms (the datatables in this forms should have overflow-x auto)
-    if(_formCode == 'ExpAnalysisReport') {
+    if(_formCode == 'ExpAnalysisReport' || _formCode == 'ExperimentReport') {
     	 $('.dataTableParent').css({"overflow-x": "auto", "overflow-y": "hidden", "padding-bottom":"95px", "max-width":$('body')[0].clientWidth - 50 + 'px'}); // padding-bottom because of ddl in edit tables
     	 $('.tab-container').css("padding-right", "0px"); // fix bug 7180 - if overflow-x is hidden the padding-right "hide" the y scroll of the tab content
     	 //$('body').css('overflow-x', 'hidden'); //YP 27122018 fix bug 14967 - open for step form (body scroll)

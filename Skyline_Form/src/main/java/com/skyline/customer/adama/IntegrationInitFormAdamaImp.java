@@ -1710,7 +1710,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 					toReturn.put("hplc_gc", (experimentType.contains("HPLC")) ? "HPLC" : "GC");
 				}
 
-			} else if (formCode.equals("ExpAnalysisReport")) {
+			} else if (formCode.equals("ExpAnalysisReport")||formCode.equals("ExperimentReport")) {
 				if (!generalUtil.getNull(requestMap.get("nameId")).isEmpty()) {
 					String sql = "select distinct * from fg_formlastsavevalue_name t where t.save_name_id = "
 							+ requestMap.get("nameId");
