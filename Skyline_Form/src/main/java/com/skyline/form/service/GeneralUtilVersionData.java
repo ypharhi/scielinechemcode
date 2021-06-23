@@ -409,6 +409,13 @@ public class GeneralUtilVersionData {
 					toReturn = "(select formid from fg_s_user_pivot where username ='system')";
 				}
 					break;
+				case "EXCELDATA": {
+					if(formCode_.equalsIgnoreCase("SysConfExcelData")) {
+						String excelData = generalDao.selectSingleString("select file_content from fg_clob_files where file_id = '" + val_ + "'");
+						toReturn = "FG_CLOB_FILES_CONFEXCEL_INSERT(" + generalUtil.handleClob(excelData) + ")" ;
+					}
+				}
+					break;
 				default:
 					toReturn = "'" + val_.replace("'", "''").replace("\n", "' || chr(10) || '") + "'";
 			}
