@@ -44,7 +44,9 @@ s.STEP_ID as SAMPLE_STEP_ID,
 decode(s.PARENTID,s.EXPERIMENT_ID,s.EXPERIMENT_ID) as SAMPLE_ORIGIN_EXPERIMENT_ID,
 s.EXPERIMENT_ID as SAMPLE_EXPERIMENT_ID,
 fg_get_uom_display(uom_id_in =>  s.UOM_ID) AMOUNT_UOM,
-s.COMMENTSFORCOA
+s.COMMENTSFORCOA,
+s.SAMPLEDESC,
+e.DESCRIPTION EXPERIMENTDESC
       from fg_i_result_all_v r,
       fg_s_invitemmaterial_all_v m,
       fg_s_uom_all_v u,

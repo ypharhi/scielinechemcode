@@ -809,6 +809,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								"t.SAMPLE_ID,\n" + 
 								"t.\"Sample #_SMARTLINK\",\n" + 
 								"t.\"Comments\",\n" + 
+								"t.\"Sample Description\",\n" +
 								"t.\"Sample Origin_SMARTLINK\",\n" + 
 								"t.\"Sample Type\",\n" + 
 								"t.\"Sample Amount\",\n" + 
@@ -816,6 +817,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								"t.\"Experiment #_SMARTLINK\",\n" + 
 								"t.\"Protocol\",\n" + 
 								"t.\"Experiment Type\",\n" + 
+								"t.\"Experiment Description\",\n" +
 								"'SELECT result_SMARTPIVOT FROM FG_P_EXPERIMENTRESULTS_V where 1=1"+wherePart.replace("\'", "")+"' AS RESULT_SMARTPIVOTSQL"
 								+ " \nfrom " + table + " t where 1=1" + wherePart;
 					}
