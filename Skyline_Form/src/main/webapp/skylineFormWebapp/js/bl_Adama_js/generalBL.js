@@ -2233,7 +2233,8 @@ function initFloatingButtonsPanel()
 				.attr('type','button')
 				.attr('class','button optionalFloatingButton')
 	    		.attr('id','newRequestFloatingButton')
-	    		.attr('onclick',"newRequestFloatingButton();")
+	    		//.attr('onclick',"newRequestFloatingButton();")
+	    		.attr('onclick',"$('#newButton')[0].click();")
 	    		.attr('title','New Request')
 	    		.text("New Request");
     		if( $("#STATUS_ID option:selected").text()!="Active"){

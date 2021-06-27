@@ -797,6 +797,7 @@ function clearDataTableWhenEmpty(domId,dataTableOptions)
 	// disable buttons (because the render empty)						 
 	$('#' + domId + '_dataTableStructButtons button:not([dataTableApiTypeNew],.dataTableApiLabel)').addClass('disabledclass');
 	elementDataTableApiImpBL(domId); // bl integration
+	 $('#' + domId + '_wrapper').addClass("section-toggle-content"); 
 	
 	//show data table select div sections (hidden during the loading process)
     $('.datatableapiselectloadinglabel').each(function(){

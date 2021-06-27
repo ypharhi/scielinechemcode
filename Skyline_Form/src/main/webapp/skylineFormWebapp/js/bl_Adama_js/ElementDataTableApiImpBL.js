@@ -469,6 +469,7 @@ function elementDataTableApiImpBL(domId) {
 	          .dialog({
 	              autoOpen: false,
 	              //modal: true,
+	              resizable: false,
 	              height: 130,
 	              width: 250,
 	              //  title: title,
@@ -570,6 +571,7 @@ function elementDataTableApiImpBL(domId) {
   	          .dialog({
   	              autoOpen: false,
   	              //modal: true,
+  	            resizable: false,
   	              height: 150,
   	              width: 250,
   	              // title: title,
