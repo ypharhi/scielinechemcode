@@ -107,7 +107,7 @@ public class ElementDataTableApiImp extends Element {
 	
 	private String displayColumnsWhenNoRows;
 	
-	private boolean isAttachmentPopupPreview, showDragAndDrop, showAddMultipleRowsIcon;
+	private boolean isAttachmentPopupPreview, showDragAndDrop, showAddMultipleRowsIcon, isExpandableTable;
 	
 	@Override
 	public String init(long stateKey, String formCode, String impCode, String initVal) {
@@ -185,6 +185,8 @@ public class ElementDataTableApiImp extends Element {
 				showDragAndDrop = generalUtil.getNullBoolean(generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "showDragAndDrop"),false);
 				
 				showAddMultipleRowsIcon = generalUtil.getNullBoolean(generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "showAddMultipleRowsIcon"),false);
+				
+				isExpandableTable =  generalUtil.getNullBoolean(generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "isExpandableTable"),false);
 				
 				return "";
 			}
@@ -450,7 +452,12 @@ public class ElementDataTableApiImp extends Element {
 		if(isSaveDisplay && userValueArray.length >= 9) {		
 			u_cols = userValueArray[8]; // for removeColumnDatatable...
 		}
-		
+		 String expandClass = "";
+		 String expandIcon = "";
+		if(isExpandableTable) {
+			expandClass = "section-parent";
+			expandIcon = "<span class=\"span-collapse-expand \"><i  onclick=\"toggleSectionCollapse(this)\" style=\"cursor: pointer;\" title=\"Collapse\" class=\"fa fa-angle-up collapse-icon\"></i></span>" +" ";
+		}
 		//default value usually passed in the URL parameters contains different definitions in each context
 		// in this case we keep the criteria filter (of not all) and the formid
 		String dval_ = getDefaultValue(stateKey, formId, formCode);
@@ -556,10 +563,10 @@ public class ElementDataTableApiImp extends Element {
 		
 		try {
 			html.put(layoutBookMark,
-			"<div id=\"" + domId + "_Parent\" " + chooseRequireAttr + " isfirstload=\"1\" parentElement=\"" +  getParentElement()  + "\" class=\"dataTableParent dataTableParentWidth\">"
+			"<div id=\"" + domId + "_Parent\" " + chooseRequireAttr + " isfirstload=\"1\" parentElement=\"" +  getParentElement()  + "\" class=\"dataTableParent dataTableParentWidth "+expandClass+"\">"
 				+ loadingDiv	
 				+ " <div id=\""+domId+"_tableFilterControls\" class=\"tableFilterControls\">"
-				+ " <h2 style=\"" + isLabel + "\">" + getLabel() + "</h2>"	
+				+ " <h2 style=\"" + isLabel + "\">"+expandIcon+ getLabel() + "</h2>"	
 				+ " <h2 id=\"" + domId + "_Caption\" style=\"" + isdynamicCaption + "\" ></h2>"					
 				+ " <div id=\"" + domId + "_selectDiv\" class=\"row small-collapse expanded cssSelectDiv\"  formCode=\"" + formCode + "\" stateKey=\"" + stateKey + "\" thisFormId=\"" + formId + "\">"
 					+ "<div class=\"data-select-controls\">"
@@ -1048,7 +1055,11 @@ public class ElementDataTableApiImp extends Element {
 				"location :{\n" + 
 				"     type:'string',\n" + 
 				"     title:'location (for sync toggle)',\n" + 			
-				" },\n" +			
+				" },\n" +	
+				" isExpandableTable : {\n" +
+				"	type : 'boolean',\n" +
+				"	title : 'Is Expandable Table',\n" +
+				"},\n" + 
 				"onerowonly : {\n" +
 				"	type : 'string',\n" +
 				"   title:'One Row Only',\n" + 		
@@ -1222,3 +1233,4 @@ public class ElementDataTableApiImp extends Element {
 		return additionalBtn;
 	}
 }
+

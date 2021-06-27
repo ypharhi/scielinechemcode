@@ -122,11 +122,11 @@ function initFormSaveDisplayButtons() {
     	else{
     		var repName = $('#reportName').val();
        		if(repName != null && repName != ""){
-       			$('#pageTitle').html("Sample Comparison Name: "+$('#reportName').val());
+       			$('#pageTitle').html("Reaction and Results Analysis: "+$('#reportName').val());
        		
        		}
        		else{
-       			$('#pageTitle').html("<b>Sample Comparison</b>");
+       			$('#pageTitle').html("Reaction and Results Analysis");
        		}
     	}
     }
@@ -1192,7 +1192,7 @@ function initForm() {
 
     //make no body x scroll for the following forms (the datatables in this forms should have overflow-x auto)
     if(_formCode == 'ExpAnalysisReport' || _formCode == 'ExperimentReport') {
-    	 $('.dataTableParent').css({"overflow-x": "auto", "overflow-y": "hidden", "padding-bottom":"95px", "max-width":$('body')[0].clientWidth - 50 + 'px'}); // padding-bottom because of ddl in edit tables
+    	 $('.dataTableParent').css({"overflow-x": "auto", "overflow-y": "hidden", "max-width":$('body')[0].clientWidth - 50 + 'px'}); //, "padding-bottom":"95px" padding-bottom because of ddl in edit tables
     	 $('.tab-container').css("padding-right", "0px"); // fix bug 7180 - if overflow-x is hidden the padding-right "hide" the y scroll of the tab content
     	 //$('body').css('overflow-x', 'hidden'); //YP 27122018 fix bug 14967 - open for step form (body scroll)
     }

@@ -785,7 +785,7 @@ function clearDataTableWhenEmpty(domId,dataTableOptions)
 		}
 	}
 
-    //move the DIV _dataTableStructButtons inside table wrapper
+	//move the DIV _dataTableStructButtons inside table wrapper
     $('#' + domId + '_wrapper').prepend($('#' + domId + '_dataTableStructButtons'));
     //add tools button
     $('#' + domId + '_wrapper').prepend(' <div class="dropdown dropdown-button">\
@@ -1758,6 +1758,8 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
     $('[id="' + domId + '"] tbody').off('click'); // unbind click event from the table tbody
     
 
+    $('#' + domId + '_wrapper').addClass("section-toggle-content");
+    
     //move the DIV _dataTableStructButtons inside table wrapper
     $('#' + domId + '_wrapper').prepend($('#' + domId + '_dataTableStructButtons'));
    
@@ -6885,4 +6887,15 @@ function deleteGlobalDataTableFilterColumn(domId,idx){
 		console.log("deleteGlobalDataTableFilterColumn error",e);
 	}
 	 
+}
+
+function toggleSectionCollapse(elem) {
+	var $span = $(elem);
+	var title = ($span.hasClass("collapse-icon"))?'Expand':'Collapse';
+	$span.toggleClass("collapse-icon expand-icon")
+	     .toggleClass("fa-angle-up fa-angle-down")
+			.attr('title', title)
+			.closest(".section-parent")
+			.find(".section-toggle-content")
+			.toggle();
 }

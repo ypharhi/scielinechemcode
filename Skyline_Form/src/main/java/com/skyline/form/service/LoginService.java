@@ -220,7 +220,7 @@ public class LoginService { // TODO interface FormService and this should be For
 						//href = "href='../skylineForm/uireportInit.request?formCode="+o.optString("formCode")+"&formId=-1&userId="+userId+"&stateKey=@@STATEKEY_HOLDER@@'";
 						href = "'../skylineForm/uireportInit.request?formCode="+o.optString("formCode")+"&formId=-1&userId="+userId+"&stateKey=@@STATEKEY_HOLDER@@'";
 					}
-					else if(o.optString("sub_category").equals("Multi Comparison Reports"))
+					else if(o.optString("sub_category").equals("Reaction and Results Analysis"))
 					{
 						href="'#'";
 						String reportSchemeHref = "'../skylineForm/init.request?formCode=ExperimentReport&formId=-1&userId="+userId+"&nameId=-1&stateKey=@@STATEKEY_HOLDER@@'";
