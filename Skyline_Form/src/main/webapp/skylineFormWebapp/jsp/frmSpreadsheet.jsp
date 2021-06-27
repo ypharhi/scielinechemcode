@@ -164,7 +164,13 @@
 		function defineSpreadsheet(domId){
 			//define the visible tabs to 1 only and disable adding another tab
 			var workBook = designer[domId].getWorkbook();
-			workBook.setSheetCount(1);
+			if(parent.isSingleSheetOnly(parent.$('#formCode').val(),domId)){
+				//workBook.setSheetCount(1);
+				var sheetCount = workBook.getSheetCount();
+				for(var i=1;i<sheetCount;i++){
+					workBook.sheets[i].visible(false);
+				}
+			}
 			workBook.options.newTabVisible = false;
 			/* var insertSheetIndex = null;
 			$.each(workBook.contextMenu.menuData, function (p, v) {
@@ -250,7 +256,7 @@
 			}
 			
 		    disableSpreadsheet(domId);//disables the spreadsheet from being editable
-// 		    spreadOnLoadBL(domId); // demo for spreadsheet develop
+ 		    parent.spreadOnLoadBL(parent.$('#formCode').val(),domId,designer); // demo for spreadsheet develop
 		}
 		
 		function expandCompressSpreadIframe(elem,domId){
@@ -450,55 +456,7 @@
 		}
 		
 		//************* example code for spreadsheet develop ********************
-		function spreadOnLoadBL(domId) {
-			
-			var workBook = designer[domId].getWorkbook();//$('#ss').data('workbook');
-			var sheet = workBook.getSheetFromName('Sheet1'); //spread.getActiveSheet();
-			
-			sheet.autoGenerateColumns = false;
-			
-			//**** set cells (better use binding) ->
-// 			for (var i = 1; i < 1000; i++) {
-// 				sheet.setValue(i,0,'num' + i);
-// 				sheet.setValue(i,1,i);
-// 		    }
-
-			//**** using binding (as an example of getting the material from the inventory into the A B columns in input sheet - that will be used for the list in the main sheet)->
-// 			var sampleTable =
-// 				   [
-// 				    {"ID":1, "Text":"num1"},
-// 				    {"ID":2, "Text":"num2"},
-// 				    {"ID":3, "Text":"num3"},
-// 				    {"ID":4, "Text":"num4"},
-// 				    {"ID":5, "Text":"num5"}
-// 				   ];
-			var sampleTable = [];
-			for (var i = 1; i < 1000; i++) {
-				sampleTable.push({"ID":i, "Text":"num" + i});
-		    }
-
-			sheet.setDataSource(sampleTable);
-			
-			sheet.bindColumn(0, "Text");
-			sheet.bindColumn(1, "ID");
-			// **** end binding
-			
-			
-			//this works  -> example for setting the lists with materials from the analytical experiment (num4,num44,num444) - in row 3 we have already made lists in the excel that using the above binding data.
-// 			alert("the id of the first material: " + sheet.getValue(2,7)); -- row 2 contains a lookup that map the name to the id
-			
-			sheet.setValue(3,7,'num4');
-			sheet.setValue(3,8,'num44');
-			sheet.setValue(3,9,'num444');
-			
-// 			alert("the id of the first material (after change): " + sheet.getValue(2,7));
-
-			// the excel json used in this example (with the lookup and the lists)
-// 			{"output":{},"excelFullData":{"version":"14.0.4","newTabVisible":false,"customList":[],"sheets":{"Sheet1":{"name":"Sheet1","isSelected":true,"rowCount":999,"columnCount":26,"activeRow":10,"activeCol":18,"theme":"Office","data":{"dataTable":{"2":{"7":{"value":{"_calcError":"#N/A","_code":42},"style":{"backColor":"#FFFF00","font":"11pt Calibri"},"formula":"VLOOKUP(H4,A1:B10000,2,FALSE)"},"8":{"value":{"_calcError":"#N/A","_code":42},"style":{"backColor":"#FFFF00","hAlign":3,"vAlign":0,"font":"11pt Calibri","themeFont":"Body","imeMode":1},"formula":"VLOOKUP(I4,A1:B10000,2,FALSE)"},"9":{"value":{"_calcError":"#N/A","_code":42},"style":{"backColor":"#FFFF00","hAlign":3,"vAlign":0,"font":"11pt Calibri","themeFont":"Body","imeMode":1},"formula":"VLOOKUP(J4,A1:B10000,2,FALSE)"},"10":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"11":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"12":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"13":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"14":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"15":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"16":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"17":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"18":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"19":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"20":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"21":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"22":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}}},"3":{"0":{"style":{"vAlign":0,"font":"14.6667px Calibri"}},"1":{"style":{"vAlign":0,"font":"14.6667px Calibri"}},"7":{"style":{"backColor":"#92D050","font":"11pt Calibri"}},"8":{"style":{"backColor":"#92D050","hAlign":3,"vAlign":0,"font":"11pt Calibri","themeFont":"Body","imeMode":1}},"9":{"style":{"backColor":"#92D050","hAlign":3,"vAlign":0,"font":"11pt Calibri","themeFont":"Body","imeMode":1}},"10":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"11":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"12":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"13":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"14":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"15":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"16":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"17":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"18":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"19":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"20":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"21":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"22":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"23":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"24":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"25":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}}},"4":{"0":{"style":{"vAlign":0,"font":"14.6667px Calibri"}},"1":{"style":{"vAlign":0,"font":"14.6667px Calibri"}},"7":{"value":1},"8":{"value":11},"9":{"value":4}},"5":{"7":{"value":2},"8":{"value":22},"9":{"value":5}},"6":{"7":{"value":3},"8":{"value":33},"9":{"value":3}}},"defaultDataNode":{"style":{"themeFont":"Body"}}},"rowHeaderData":{"defaultDataNode":{"style":{"themeFont":"Body"}}},"colHeaderData":{"defaultDataNode":{"style":{"themeFont":"Body"}}},"rows":[null,{"size":21},{"size":21},{"size":21},{"size":21},{"size":21},{"size":21}],"columns":[{"name":"Text"},{"name":"ID"},null,null,null,null,null,{"size":113}],"leftCellIndex":0,"topCellIndex":0,"selections":{"0":{"row":10,"rowCount":1,"col":18,"colCount":1},"length":1},"autoGenerateColumns":false,"rowOutlines":{"items":[]},"columnOutlines":{"items":[]},"validations":[{"type":3,"condition":{"conType":12,"ignoreBlank":true,"expected":"","formula":"Sheet1!$A$4:$B$6","ranges":[{"row":3,"rowCount":1,"col":21,"colCount":1},{"row":3,"rowCount":1,"col":22,"colCount":1},{"row":3,"rowCount":1,"col":23,"colCount":1},{"row":3,"rowCount":1,"col":24,"colCount":1},{"row":3,"rowCount":1,"col":25,"colCount":1}]},"ranges":"V4, W4, X4, Y4, Z4","highlightStyle":"{\"type\":0,\"color\":\"#FF0000\"}"},{"ignoreBlank":false,"type":3,"condition":{"conType":12,"expected":"","formula":"Sheet1!$A$1:$B$10000","ranges":[{"row":3,"rowCount":1,"col":7,"colCount":1},{"row":3,"rowCount":1,"col":8,"colCount":1},{"row":3,"rowCount":1,"col":10,"colCount":1},{"row":3,"rowCount":1,"col":11,"colCount":1},{"row":3,"rowCount":1,"col":12,"colCount":1},{"row":3,"rowCount":1,"col":13,"colCount":1},{"row":3,"rowCount":1,"col":14,"colCount":1},{"row":3,"rowCount":1,"col":15,"colCount":1},{"row":3,"rowCount":1,"col":16,"colCount":1},{"row":3,"rowCount":1,"col":17,"colCount":1},{"row":3,"rowCount":1,"col":18,"colCount":1},{"row":3,"rowCount":1,"col":19,"colCount":1},{"row":3,"rowCount":1,"col":20,"colCount":1}]},"ranges":"H4, I4, K4, L4, M4, N4, O4, P4, Q4, R4, S4, T4, U4","highlightStyle":"{\"type\":0,\"color\":\"#FF0000\"}"},{"ignoreBlank":false,"type":3,"condition":{"conType":12,"expected":"","formula":"Sheet1!$A$1:$A$10000","ranges":[{"row":3,"rowCount":1,"col":9,"colCount":1}]},"ranges":"J4","highlightStyle":"{\"type\":0,\"color\":\"#FF0000\"}"}],"cellStates":{},"outlineColumnOptions":{},"autoMergeRangeInfos":[],"printInfo":{"paperSize":{"width":850,"height":1100,"kind":1}},"index":0}},"pivotCaches":{}}}
-			
-		}
-		//**************** demo code END!
-
+		
 	</script>
 </head>
 <body unselectable="on" style="overflow: hidden">

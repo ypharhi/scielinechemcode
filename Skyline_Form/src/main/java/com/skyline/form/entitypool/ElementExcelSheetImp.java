@@ -1,11 +1,19 @@
 package com.skyline.form.entitypool;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.skyline.form.bean.ActivitylogType;
+import com.skyline.form.bean.LevelType;
+import com.skyline.form.dal.GeneralDao;
 import com.skyline.form.entity.Element;
 
 /**
@@ -43,6 +51,9 @@ public class ElementExcelSheetImp extends Element
 
 	@Value("${SpreadSheetsDesignerLicenseKey:192.168.10.72|82.166.142.156|skyline.comply.co.il,E645447126247673#B0WNLlEbvVmdhVDWlVnVuFGVkZDMHVHNV34VpdDS6tkZJx6QFZEcxtWbPh7VLFlb4l7KjlUd0pnZkRUONZ4URJlR0F4QKZWdihjZ6QjQB96cmZDSxMUY6knZVF7MyoXNHhjZvN6ailmQ8BlZvwkUGVDVGB5NntmN996dkFUbPZDSK5UUkhzMuNTW0hjY8ZUSkV7dMJzKip4TFlmaWZ7TNJEeEJkS8pmWTZ4c9dDcGF5KsdETOZ5c6Z4a9Qzar9ETVNWQUBzTjNjMBZEVDBXMtVEWvE7cF3GV6ljcwlTZs36cxgjczhzYyFWWOlFN9N4RrNzKrQkMYBFbEFncxkkcXhEd8k7YwUDZiojITJCLiMzN9cDR9kDNiojIIJCL5QDN6czMyMjN0IicfJye35XX3JSW6U4NiojIDJCLiQTMuYHIu3GZkFULyVmbnl6clRULTpEZhVmcwNlI0IiTis7W0ICZyBlIsISMxAjMxADIzATNwEjMwIjI0ICdyNkIsIyMwUDMyIDMyIiOiAHeFJCLiwWau26YukHbw56bj9SZulGb9t6csYTNx8iM4EjL6YTMuIDOsIzNuATMugjNx8iM9EjI0IyctRkIsIyZulGdzVGVg46bDJiOiEmTDJCLlVnc4pjIsZXRiwiIzcjN7QjM6ITM7QDN5QjNiojIklkI1pjIEJCLi4TPnRmNhZXUOBzK9E5clhlTl3UYv36dW34cOl6QYJFRtFmdGlXO4Z6Yp5GS4FEMrgzaC3UMq3EarIXOzZURlJTWYdTVEh6MDhUTsZVaGVVLZV}")
 	private String SpreadSheetsDesignerLicenseKey;
+
+	@Autowired
+	private GeneralDao generalDao;
 	
 
 	@Override
@@ -103,6 +114,25 @@ public class ElementExcelSheetImp extends Element
 		html.put(layoutBookMark,iframeSpreadJS);
 		return html;
 	}
+	
+	@Override
+	public String getDefaultValue(long stateKey, String formId, String formCode) {
+		String dv_ = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "defaultValue");
+		if(dv_.isEmpty()) {
+			return dv_;
+		} else if(dv_.contains("$P{")) {
+			generalUtilLogger.logWrite(LevelType.DEBUG, "default value not found for element[impCode]=" + impCode + "value=" + dv_, "", ActivitylogType.InfoLookUp, null);
+			dv_= "";
+		}
+		else if(!dv_.matches("-?\\d+(\\.\\d+)?")) {
+			String sql = "select ExcelData\n"
+					+ "from fg_s_SysConfExcelData_v\n"
+					+ "where SysConfExcelDataName = '"+dv_+"'";
+			dv_ = generalDao.selectSingleStringNoException(sql);
+		}
+		return dv_;
+	}
+
 
 	@Override
 	public String getHtmlBody(long stateKey, String formId, boolean renderEmpty, String value, String domId, String inputAttribute, String doOnChangeJSCall,

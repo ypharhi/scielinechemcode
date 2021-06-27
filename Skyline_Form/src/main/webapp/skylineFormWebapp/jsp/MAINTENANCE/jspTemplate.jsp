@@ -11,6 +11,7 @@
 <%@ include file="../include/includeBL_js.jsp"%>
 <%@ include file="../include/includeJS.jsp"%>
 <%@ include file="../include/includeExtendedJS.jsp"%>
+<%@ include file="../include/includeExcelSheet_js.jsp"%>
 
 <script>
 	$(document).ready(function() 

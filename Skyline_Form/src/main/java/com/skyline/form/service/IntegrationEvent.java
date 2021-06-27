@@ -28,4 +28,6 @@ public interface IntegrationEvent
 	String chemDoodleCanvasUpdateData(String ID);
 
 	void copyReactionFromPrevStep(String formId, String prevStepFormId, String userId) throws Exception;
+
+	String getExcelComponentList(String parentId);
 };

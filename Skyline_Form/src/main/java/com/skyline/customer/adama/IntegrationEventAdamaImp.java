@@ -7105,5 +7105,46 @@ public void preperReport(Map<String, String> elementValueMap) {
 		return sb;
 	}
 
+	@Override
+	public String getExcelComponentList(String parentId) {
+		String toReturn = "";
+		JSONObject componentsJson = new JSONObject();
+		
+		//Material list -> taken from all the materials in the system
+		String sql = "select ID,NAME\n"
+				+ "from fg_e_expangn_material_v";
+		List<Map<String,Object>> materialList = generalDao.getListOfMapsBySql(sql);
+		componentsJson.put("Materials", new JSONArray(materialList));
+		
+		//Sample list -> taken from the samp[les that selected in the current form
+		sql = "select distinct ID,NAME,Description,Comments\n"
+				+ "from fg_e_expangn_sample_v\n"
+				+ "where ID in (\n"
+					+ "Select SAMPLE_ID from FG_S_SAMPLESELECT_ALL_V\n"
+					+ " where PARENTID = '"+parentId+"'\n"
+					+ "and sessionid is null and active =1"
+				+ ")";
+		List<Map<String,Object>> sampleList = generalDao.getListOfMapsBySql(sql);
+		componentsJson.put("Samples", new JSONArray(sampleList));
+		
+		//Result types
+		sql = "select ID,NAME\n"
+				+ "from fg_e_expangn_resultType_v";
+		List<Map<String,Object>> resultTypeList = generalDao.getListOfMapsBySql(sql);
+		componentsJson.put("ResultTypes", new JSONArray(resultTypeList));
+		
+		//Tested Components -> taken from the tested components in the current form
+		sql = "select MATERIALID,COMPONENTNAME\n"
+				+ "from fg_s_component_v\n"
+				+ "where parentid = '"+parentId+"'\n"
+						+ "and sessionid is null\n"
+						+ "and active = 1";
+		List<Map<String,Object>> testedComponentList = generalDao.getListOfMapsBySql(sql);
+		componentsJson.put("TestedComponents", new JSONArray(testedComponentList));
+		
+		toReturn = componentsJson.toString();
+		return toReturn;
+	}
+
 }
 

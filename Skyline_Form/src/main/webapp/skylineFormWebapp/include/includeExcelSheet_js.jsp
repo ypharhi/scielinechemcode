@@ -18,3 +18,5 @@
 
 <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.designer.resource.en.14.0.4.min.js" type="text/javascript"></script>
 <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.designer.all.14.0.4.min.js" type="text/javascript"></script>  
+
+<script src="../skylineFormWebapp/js/bl_Adama_js/ElementExcelSheetBL<spring:message code="ElementExcelSheetBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
