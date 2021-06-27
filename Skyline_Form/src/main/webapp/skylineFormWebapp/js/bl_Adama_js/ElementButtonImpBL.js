@@ -207,6 +207,7 @@ function generalBL_generalClickEvent(customerFunction, action) { // customerClic
 	else if(customerFunction == 'updateTestedComponentTable'){
 		updateTestedComponentTable();
 	}
+	
 }
 
 function checkBalance(){
@@ -861,7 +862,8 @@ function saveReport(action){
 	var nameId = parent.$('#nameId').val();
 	reportName = $('#reportName').val();
 	reportDescription = $('#description').val();
-	validateOtherReportSameNameExists(nameId,reportName,reportDescription);
+	parentFormCode =  parent.$('#prevDialog').data('PARENT_FORMCODE');
+	validateOtherReportSameNameExists(nameId,reportName,reportDescription,parentFormCode);
 		
 		/*
 		 * parent.$('#prevDialog').data('reportName', reportName);
@@ -3083,8 +3085,8 @@ function deleteAction() {
 		 }
 	 });
 
-	 $dialog.dialog('option', 'dialogClass', 'noTitleStuff')
-	 .dialog('open');
+	 $dialog.dialog('option', 'dialogClass', 'noTitleStuff').data('PARENT_FORMCODE', $('#formCode').val())
+		.dialog('open');
 
 	  }
 
@@ -3098,7 +3100,7 @@ function deleteAction() {
  * @param reportdescription
  * @returns
  */
- function validateOtherReportSameNameExists(nameId,reportName,reportdescription){
+ function validateOtherReportSameNameExists(nameId,reportName,reportdescription,parentFormCode){
 	 var stringifyNameToPush = {
 				code : "nameId",
 				val : nameId,
@@ -3112,10 +3114,17 @@ function deleteAction() {
 				type : "AJAX_BEAN",
 				info : 'na'
 			};
+	 var stringifyToPush1 = {
+				code : "parentFormCode",
+				val : parentFormCode,
+				type : "AJAX_BEAN",
+				info : 'na'
+			}; 
 
 		// get all data and add removeNameId
 		var allData = getformDataNoCallBack(1);
 		var allData = allData.concat(stringifyToPush);
+		var allData = allData.concat(stringifyToPush1);
 		var allData = allData.concat(stringifyNameToPush);
 		// url call
 		var urlParam = "?formId="+ $('#formId').val()
@@ -3222,7 +3231,7 @@ function navigateToReport(args){
 			} 
 			else if(obj.data[0].val!=""){
 				var nameId = obj.data[0].val;
-				var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=ExpAnalysisReport&formId=-1" + "&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val() + "&nameId=" + nameId;
+				var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=" + $('#formCode').val() + "&formId=-1" + "&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val() + "&nameId=" + nameId;
 				if (window.self === window.top){   
 					window.location = page;
 				}
@@ -3234,7 +3243,8 @@ function navigateToReport(args){
 }
 
  
- function getReportList(elem,isRefresh){
+ function getReportList(elem,isRefresh,formCodeElement){
+	 formCodeElement = formCodeElement !=undefined?formCodeElement:"ExpAnalysisReport";
 	 	var $elem = $(elem);
 		var ulChild = $elem.find('ul');
 			
@@ -3251,7 +3261,7 @@ function navigateToReport(args){
 		if(reportMode=="scheme")
 			{
 			action="getReportList";
-			fromCodeElem="ExpAnalysisReport";
+			fromCodeElem=formCodeElement;
 			fromIdElem="-1";
 			}
 		else 
@@ -3263,9 +3273,16 @@ function navigateToReport(args){
 			
 		console.log(reportMode);
 		//TODO tamar: get appropriate report list by reportMode
-		
+		 var stringifyToPush = {
+					code : "formCodeElement",
+					val : formCodeElement,
+					type : "AJAX_BEAN",
+					info : 'na'
+				}; 
+
 		// get all data and add removeIndexId
 		var allData = getformDataNoCallBack(1);
+		var allData = allData.concat(stringifyToPush);
 		// url call
 		var urlParam = "?formId="+ $('#formId').val()
 					+ "&formCode="+ $('#formCode').val()

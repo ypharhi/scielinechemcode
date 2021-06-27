@@ -289,6 +289,13 @@ create or replace package body form_tool is
      
      dbms_output.put_line('dummy');
      
+     --session process info
+     /* SELECT  S.USERNAME, S.MACHINE, s.LOGON_TIME, s.LOCKWAIT
+      FROM V$SESSION_CONNECT_INFO SC , V$SESSION S--, v$process p
+      WHERE S.SID = SC.SID
+      --and S.MACHINE = 'COMPLYPC161'
+      --and s.paddr = p.addr
+     */
      --number of main objects per project - month
     /*select  distinct t1.PROJECT_ID, T1.PROJECTNAME, t1.ProjectTypeName, t1.CREATION_DATE AS PROJECT_CREATION_DATE, u.UserName as PROJECT_CREATED_BY,
             t1.formcodeentitylabel entity_name, t1.entity_month,
@@ -1428,8 +1435,8 @@ procedure unpivotFromUnitTestConf as
                 )
       )
       loop
-        collistAs_:= gettablecolumnlistnoid(r.TABLE_NAME,'FORMID,TIMESTAMP,CHANGE_BY,ACTIVE,FORMCODE_ENTITY,FORMCODE,CHANGE_BY,SESSIONID,CREATED_BY,CREATION_DATE',1);
-        collist_:= gettablecolumnlistnoid(r.TABLE_NAME,'FORMID,TIMESTAMP,CHANGE_BY,ACTIVE,FORMCODE_ENTITY,FORMCODE,CHANGE_BY,SESSIONID,CREATED_BY,CREATION_DATE');
+        collistAs_:= gettablecolumnlistnoid(r.TABLE_NAME,'FORMID,TIMESTAMP,CHANGE_BY,ACTIVE,FORMCODE_ENTITY,FORMCODE,CHANGE_BY,SESSIONID,CREATED_BY,CREATION_DATE,EXCELDATA',1);
+        collist_:= gettablecolumnlistnoid(r.TABLE_NAME,'FORMID,TIMESTAMP,CHANGE_BY,ACTIVE,FORMCODE_ENTITY,FORMCODE,CHANGE_BY,SESSIONID,CREATED_BY,CREATION_DATE,EXCELDATA');
         --tmpMinusQuery := ' select count(T1.formid) as formid_counter from ' || r.TABLE_NAME || ' T1 WHERE (' || collist_ || ') IN (' || chr(10) ||
          tmpMinusQuery := ' select count(*) from (' || chr(10) ||
                          ' select ' || collistAs_ || ' from ' || r.TABLE_NAME || chr(10) ||

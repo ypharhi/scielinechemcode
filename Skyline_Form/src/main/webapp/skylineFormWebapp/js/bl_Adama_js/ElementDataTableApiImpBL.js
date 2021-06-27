@@ -273,9 +273,9 @@ function elementDataTableApiImpBL(domId) {
 	   });
    } else if(domId == 'specificationTable' && $('#formCode').val() == 'ExpImpSpec'){
 	   renderElementAuthorizationImp();
-   } else if(domId == 'experimentTable' && $('#formCode').val() == 'ExpAnalysisReport'){
+   } else if(domId == 'experimentTable' && ($('#formCode').val() == 'ExpAnalysisReport'||$('#formCode').val() == 'ExperimentReport')){
 	   renderElementAuthorizationImp();
-   } else if(domId == 'reportTable' && $('#formCode').val() == 'ExpAnalysisReport'){
+   } else if(domId == 'reportTable' && ($('#formCode').val() == 'ExpAnalysisReport'||$('#formCode').val() == 'ExperimentReport')){
 	   //ab 20082020: removed nowrap because the table have the ability to column resize now
 	   $('#reportTable th').css('min-width','200px');
 	   //kd 29022020 fixed bug-7922: The option to export the report table to PDF should be removed 
@@ -4402,6 +4402,10 @@ function bl_isTableResizable(domId)
 	{
 		toReturn = true;
 	}
+	else if(formCode == "ExperimentReport" && domId == "reportTable") 
+	{
+		toReturn = true;
+	}
 	else if(formCode == "Main") 
 	{
 		toReturn = true;
@@ -4430,6 +4434,10 @@ function bl_getResizableTables()
 		return $('table.dataTable.editable');
 	}
 	else if(formCode == "ExpAnalysisReport") 
+	{
+		return $('table#reportTable');
+	}
+	else if(formCode == "ExperimentReport") 
 	{
 		return $('table#reportTable');
 	}
@@ -4469,7 +4477,7 @@ function bl_getColumnDefaultWidth(domId, colsCount, followingHdnColsCount)
 		
 	resizableColDefaultWidth = winWidth/actualDisplayedColsCount; 
 	
-	if( (formCode == 'ExpAnalysisReport' && domId == 'reportTable') ||
+	if( ((formCode == 'ExpAnalysisReport'||formCode == 'ExperimentReport') && domId == 'reportTable') ||
 		(formCode == 'Main') ||
 		(formCode.startsWith('Step') && (domId=='action' || domId=='stepSummary')) ) {
 			if(resizableColDefaultWidth < 100) {
@@ -4957,7 +4965,7 @@ function bl_setColVisibilityByColTitleArr(domId, isVisible, context) {
 	
 	//*********** set By formcode and domId *************
 	//----------- ExpAnalysisReport reportTable
-	if($('#formCode').val() == 'ExpAnalysisReport'&&domId == 'reportTable') {
+	if(($('#formCode').val() == 'ExpAnalysisReport'||$('#formCode').val() == 'ExperimentReport')&&domId == 'reportTable') {
 		if( context != 'load_last_save_columns') {
     		return isOverride;
     	}
@@ -5153,7 +5161,7 @@ function openFormInNewWindow (domId,formId)
 
 function customizeExcelDTReport(xlsx, domId)
 {
-	if($('#formCode').val() == "ExpAnalysisReport" && domId == "reportTable")
+	if(($('#formCode').val() == "ExpAnalysisReport" || $('#formCode').val() == "ExperimentReport")&& domId == "reportTable")
 	{
 		
     	var sheet = xlsx.xl.worksheets['sheet1.xml'];
