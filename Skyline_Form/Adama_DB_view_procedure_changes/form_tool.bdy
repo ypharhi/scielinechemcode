@@ -1431,12 +1431,12 @@ procedure unpivotFromUnitTestConf as
                   SELECT UPPER(F.FORMCODE_ENTITY)
                   FROM FG_FORM F
                   WHERE F.FORM_TYPE = 'MAINTENANCE'
-                  and f.group_name in ('_System Event Handler','_System Configuration Pool')
+                  and f.group_name in ('_System Event Handler','_System Configuration Pool','_System Configuration Report')
                 )
       )
       loop
-        collistAs_:= gettablecolumnlistnoid(r.TABLE_NAME,'FORMID,TIMESTAMP,CHANGE_BY,ACTIVE,FORMCODE_ENTITY,FORMCODE,CHANGE_BY,SESSIONID,CREATED_BY,CREATION_DATE,EXCELDATA',1);
-        collist_:= gettablecolumnlistnoid(r.TABLE_NAME,'FORMID,TIMESTAMP,CHANGE_BY,ACTIVE,FORMCODE_ENTITY,FORMCODE,CHANGE_BY,SESSIONID,CREATED_BY,CREATION_DATE,EXCELDATA');
+        collistAs_:= gettablecolumnlistnoid(r.TABLE_NAME,'FORMID,TIMESTAMP,CHANGE_BY,ACTIVE,FORMCODE_ENTITY,FORMCODE,CHANGE_BY,SESSIONID,CREATED_BY,CREATION_DATE,EXCELDATA,SQLTEXT',1);
+        collist_:= gettablecolumnlistnoid(r.TABLE_NAME,'FORMID,TIMESTAMP,CHANGE_BY,ACTIVE,FORMCODE_ENTITY,FORMCODE,CHANGE_BY,SESSIONID,CREATED_BY,CREATION_DATE,EXCELDATA,SQLTEXT');
         --tmpMinusQuery := ' select count(T1.formid) as formid_counter from ' || r.TABLE_NAME || ' T1 WHERE (' || collist_ || ') IN (' || chr(10) ||
          tmpMinusQuery := ' select count(*) from (' || chr(10) ||
                          ' select ' || collistAs_ || ' from ' || r.TABLE_NAME || chr(10) ||

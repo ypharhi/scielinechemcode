@@ -1357,7 +1357,7 @@
     }  */
     function onClickShowMessage() //kd 25092019 added alert message
     {
-    	alert('Group names that starts with _system \nwill be coppied in the installtion and the inner relations in this forms\nshould not depend on id numbers only on names');
+    	alert('Group names: _System Event Handler,_System Configuration Pool and _System Configuration Report \nwill be coppied in the installtion and the inner relations in this forms\nshould not depend on id numbers only on names');
     }
     
     
