@@ -5154,8 +5154,8 @@ function ElementDataTableApiImpOnButtonClick(input) {
     var stateKey = $('#' + domId + '_selectDiv').attr('stateKey');
     var onActionButtons = $('[id="' + domId + '_onActionButtons"]').val();
     var popupSize = $('[id="' + domId + '_popupSize"]').val();
-    var dialogWidth = $(window).width() - 60;
-    var dialogHeight = $(window).height() - 60;
+    var dialogWidth = $(window).width() - 200;
+    var dialogHeight = $(window).height() - 200;
     var availableDataStructures, parentTable;
     var str;
     var isCloneAttrFlag = "";

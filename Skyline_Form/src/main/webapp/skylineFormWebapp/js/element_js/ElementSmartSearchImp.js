@@ -12,8 +12,8 @@ function elementSmartSearchOnClick(domId) {
         return false;
     }
 
-    dialogWidth = $(window).width() - 8;
-    dialogHeight = $(window).height() - 10;
+    dialogWidth = $(window).width() - 180;
+    dialogHeight = $(window).height() - 180;
     parentId = $('#formId').val(); // maybe unnecessary
     urlCallParam = replaceSmartSearchUrlCallParamVal($('[id="' + domId + '_urlCallParam"]').val(), $('[id="' + domId + '_urlCallParamReplaceIDElement"]').val());
 
