@@ -1136,7 +1136,16 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 						throw new Exception("'Concentration %' value is missing");
 					}
 				break;
-			}case CHECK_TESTED_COMPONENT_MANDATORY:{
+			} case INVALID_MATERIAL_NAME:{
+				break;
+			} case INVALID_RESULT_TYPE:{
+				break;
+			} case INVALID_RESULT_SAMPLE:{
+				break;
+			} case INVALID_UNKNOWN_MATERIAL:{
+				break;
+			} 
+			case CHECK_TESTED_COMPONENT_MANDATORY:{
 				commonFunc.checkTestedComponentMandatoryfields(formId, generalUtil.getSessionUserId());
 				break;
 			}

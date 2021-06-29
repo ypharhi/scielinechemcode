@@ -95,6 +95,13 @@ public class ElementExcelSheetImp extends Element
 			JSONObject js = new JSONObject();
 			if(!generalUtil.getNull(elementData).isEmpty()){
 				js = new JSONObject(elementData);
+			} else {
+				value = getDefaultValue(stateKey,formId,formCode);
+				elementData = generalUtilFormState.getStringContent(value, formCode, domId, formId);
+				js = new JSONObject();
+				if(!generalUtil.getNull(elementData).isEmpty()){
+					js = new JSONObject(elementData);
+				}
 			}
 			try {
 				JSONObject jsspreadsheetData = (JSONObject)js.get("excelFullData");

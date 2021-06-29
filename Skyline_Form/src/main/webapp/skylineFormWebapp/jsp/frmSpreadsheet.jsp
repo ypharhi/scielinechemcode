@@ -422,7 +422,7 @@
 				workBook.getActiveSheet().endEdit(false);
 			    var dataObj = {};
 			    var fullObj = {};
-			    var sheet = workBook.getSheetFromName('output');
+			    /* var sheet = workBook.getSheetFromName('output');
 			    if(sheet != null) {
 			    	sheet.setRowCount(ROW_MAX, GC.Spread.Sheets.SheetArea.viewport);
 				    var rowCount = sheet.getRowCount();
@@ -433,10 +433,11 @@
 				            dataObj[currFieldID] = currFieldValue;
 				        }
 				    }
-			    }
+			    } */
 			    var currSpreadConfig = workBook.toJSON();
-			    fullObj["output"] = dataObj;
+			    fullObj["output"] = parent.getOutputValueBL(parent.$('#formCode').val(),domId,designer);
 			    fullObj["excelFullData"] = currSpreadConfig;
+			    fullObj["validationMessage"] = parent.getValidationMessage(parent.$('#formCode').val(),domId,designer);
 			    console.log("end getValueFromOutputSheet func");
 			    return JSON.stringify(fullObj);
 			} catch(err) {

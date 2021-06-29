@@ -14,11 +14,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
+import org.apache.xml.dtm.ref.DTMDefaultBaseIterators.ParentIterator;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.google.gson.JsonArray;
 import com.skyline.form.bean.ActionBean;
 import com.skyline.form.bean.ActivitylogType;
 import com.skyline.form.bean.BeanType;
@@ -2328,7 +2331,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 
 			if (!requestList.isEmpty()) {
 				if (protocolTypeName.equals("Analytical")) {
-					updateManualResultsTable(formId, userId, experimentTypeName);//addding manual results table to the experiment
+					updateManualResultsTable(formCode, formId, userId, experimentTypeName,elementValueMap);//addding manual results table to the experiment
 				}
 			}
 			//add creator as default in crew -> yp 31122017 -> igor request 
@@ -3406,7 +3409,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 		else if (formCode.equals("ExperimentAn")) {
 			String experimentTypeName = formDao.getFromInfoLookup("ExperimentType", LookupType.ID,
 					elementValueMap.get("EXPERIMENTTYPE_ID"), "name");
-			updateManualResultsTable(formId, userId, experimentTypeName);
+			updateManualResultsTable(formCode, formId, userId, experimentTypeName,elementValueMap);
 			//String isWebixDataExist = generalDao.selectSingleString("select max(RESULT_IS_WEBIX) from fg_results where RESULT_IS_ACTIVE = '1' and EXPERIMENT_ID = '"+formId+"'");
 			//if(generalUtil.getNull(isWebixDataExist).trim().equals("1")){//there are results taken from the webix table
 			//formSaveDao.updateSingleStringInfo("update FG_RESULTS set RESULT_IS_ACTIVE = '0' where EXPERIMENT_ID = '"+formId+"' and RESULT_IS_WEBIX = 0");//deplete the manual results
@@ -5022,8 +5025,10 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 	 * 
 	 * @param formId
 	 * @param userId
+	 * @param elementValueMap 
+	 * @throws Exception 
 	 */
-	private void updateManualResultsTable(String formId, String userId, String experimentTypeName) {
+	private void updateManualResultsTable(String formCode, String formId, String userId, String experimentTypeName, Map<String, String> elementValueMap) throws Exception {
 		//deletes the manual results that some of their building components were change (sample/material/request)
 		//		String sql = "select formid " + " from FG_S_MANUALRESULTSREF_V t" + " where t.PARENTID = '" + formId + "'"
 		//				+ " and  SAMPLE_ID||','||COMPONENT_ID||','||REQUEST_ID not in" + "("
@@ -5033,6 +5038,125 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 		//				+ " FG_S_COMPONENT_ALL_V c" + " where smpl.PARENTID = smplReq.EXPERIMENTDEST_ID(+)"
 		//				+ " and smpl.SAMPLE_ID = smplReq.SAMPLE_ID(+)" + " and smpl.PARENTID = '" + formId + "'"
 		//				+ " and c.PARENTID = '" + formId + "'" + ")" + ") ";
+		String experimentStatusName = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.ID, elementValueMap.get("STATUS_ID"), "name");
+		if(experimentTypeName.equals("General")
+				&& experimentStatusName.equals("Completed") || experimentStatusName.equals("Approved") ) {//in the general analytical experiment the manual results are deleted and re-built
+			//delete the manual results
+			String sql = "delete from FG_S_MANUALRESULTSREF_PIVOT\n"
+					+ "where parentid = '"+formId+"'";
+			generalUtilLogger.logWriter(LevelType.DEBUG,
+				"Delete the manual results in the general experiment. Sql Query=></br>" + sql,
+				ActivitylogType.ManualResultsUpdate, formId);
+			formSaveDao.deleteStructTable(sql, "FG_S_MANUALRESULTSREF_PIVOT", "parentid", formId);
+			
+			//insert into the manual results table all data from the spreadsheet results
+			String spreadsheetResultsData = generalUtilFormState.getStringContent(elementValueMap.get("spreadsheetResults"), "ExperimentAn", "spreadsheetResults", formId);
+			JSONObject js = new JSONObject();
+			if(!generalUtil.getNull(spreadsheetResultsData).isEmpty()){
+				js = new JSONObject(spreadsheetResultsData);
+			}
+			JSONObject jsspreadsheetData = (JSONObject)js.get("output");
+			//1. checks if there was an error that found on the client size
+			String validationMessage = (String) js.get("validationMessage");
+			if(!validationMessage.isEmpty()) {
+				throw new Exception(validationMessage);
+			}
+			
+			//collect the materials,manual materials and the samples
+			List<String> materialList = new ArrayList<String>();
+			List<String> manualMaterialList = new ArrayList<String>();
+			List<String> sampleList = new ArrayList<String>();
+			List<String> resultTypeList = new ArrayList<String>();
+			JSONArray arr = new JSONArray(jsspreadsheetData.get("0").toString());
+			for(int i = 0;i<arr.length();i++) {
+				JSONObject sampleMaterialPair = arr.getJSONObject(i);
+				String sample = generalUtil.getNull(sampleMaterialPair.getString("Sample"));
+				
+				String material = generalUtil.getNull(sampleMaterialPair.getString("Material"));
+				String manualMaterial = generalUtil.getNull(sampleMaterialPair.getString("Unknown Materials"));
+				String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value"));
+				String resultCommnent = generalUtil.getNull(sampleMaterialPair.getString("comment")) ;
+				String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
+				if(sample.isEmpty() || material.isEmpty() && manualMaterial.isEmpty() || resultValue.isEmpty()) {
+					continue;
+				}
+				if(!resultValue.isEmpty()) {
+					 materialList.add(material);
+					 manualMaterialList.add(manualMaterial);
+					 sampleList.add(sample);
+					 resultTypeList.add(resultType);
+				}
+			}
+			
+			/*
+			 * //2. checks that the materials are valid, ie. all of them exist in the
+			 * inventory
+			 * integrationValidation.validate(ValidationCode.INVALID_MATERIAL_NAME,
+			 * formCode, formId, materialList, new StringBuilder());
+			 * 
+			 * //3.checks that the result types are valid, ie. all of them exist in the
+			 * result type maintenance
+			 * integrationValidation.validate(ValidationCode.INVALID_RESULT_TYPE, formCode,
+			 * formId, resultTypeList, new StringBuilder());
+			 * 
+			 * //4.checks that the samples are valid, ie. all of them exist in the sample
+			 * select of the experiment
+			 * integrationValidation.validate(ValidationCode.INVALID_RESULT_SAMPLE,
+			 * formCode, formId, sampleList, new StringBuilder());
+			 * 
+			 * //5.checks whether any of the unknown materials already exists in the
+			 * inventory
+			 * integrationValidation.validate(ValidationCode.INVALID_UNKNOWN_MATERIAL,
+			 * formCode, formId, manualMaterialList, new StringBuilder());
+			 */
+			
+			//6. creates the temporary materials that has entered as unknown
+			//TODO
+			
+			List<String> sampleselectList = generalDao.getListOfStringBySql("select sample_id\n"
+					+ " from fg_s_sampleselect_all_v\n"
+					+ "where parentid = '"+formId+"'\n"
+					+ "and sessionid is null\n"
+					+ "and active=1");
+			
+			//7. insert the data to the manual results
+			for(int i = 0;i<arr.length();i++) {
+				JSONObject sampleMaterialPair = arr.getJSONObject(i);
+				String sample_id = formDao.getFromInfoLookup("sample", LookupType.NAME, sampleMaterialPair.getString("Sample") , "id");
+				if(!sampleselectList.contains(sample_id)) {//some samples may be removed by the user in the sampleselect but not removed from the excel
+					//however, those ones tha have removed from the sample select will not displayed in the excel anymore(handled on the load of the element)
+					continue;
+				}
+				String material_id = formDao.getFromInfoLookup("invitemmaterial", LookupType.NAME, sampleMaterialPair.getString("Material") , "id");
+				String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value") );
+				String resultCommnent = generalUtil.getNull(sampleMaterialPair.getString("comment"));
+				String resultType = sampleMaterialPair.getString("Results Type") ;
+				
+				String manualResId = formSaveDao.getStructFormId("MANUALRESULTSREF");
+				generalUtilLogger
+						.logWriter(LevelType.DEBUG,
+								"Add manual result formId = " + manualResId + ".</br>" 
+										+ ";</br>Sample_id:" + sample_id
+										+ ";</br>material_id:" + material_id
+										,
+								ActivitylogType.ManualResultsUpdate, formId);
+				String resultTypeId = formDao.getFromInfoLookup("ANALYTICRESULTTYPE", LookupType.NAME, resultType,
+						"ID");
+				sql = String.format(
+						"insert into fg_s_manualResultsRef_pivot t"
+								+ " (t.FORMID,t.TIMESTAMP,t.CHANGE_BY,t.CREATION_DATE,t.CREATED_BY,t.SESSIONID,t.ACTIVE,t.FORMCODE, t.FORMCODE_ENTITY, REQUEST_ID, SAMPLE_ID,PARENTID,MATERIAL_ID,RESULT_TYPE_ID,COMPONENT_ID,COMMENTS,RESULT,UOM_ID)"
+								+ " values(%1$s, sysdate, %2$s, sysdate, %2$s, NULL, 1, 'MANUALRESULTSREF', 'MANUALRESULTSREF', %3$s, %4$s, %5$s, %6$s,'%7$s','%8$s','"+resultCommnent+"','"+resultValue+"','"+formDao.getFromInfoLookup("UOM", LookupType.NAME, "%", "ID")+"')",
+						manualResId, userId,
+						"NULL",
+						sample_id, formId,
+						material_id,
+						resultTypeId, "NULL");
+				formSaveDao.insertStructTableByFormId(sql, "fg_s_manualresultsref_pivot", manualResId);
+			}
+			return;
+		}
+		
+		
 		String sql = "with FILT_IN AS (\r\n"
 				+ " select /*+ MATERIALIZE */ SAMPLE_ID||','||COMPONENT_ID||','||REQUEST_ID AS FILT_IN_DATA\r\n"
 				+ "    from (\r\n" + "      select DISTINCT  smpl.SAMPLE_ID,smplReq.REQUEST_ID,c.COMPONENT_ID \r\n"
