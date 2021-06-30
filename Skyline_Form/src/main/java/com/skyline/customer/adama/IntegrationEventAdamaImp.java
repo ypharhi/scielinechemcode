@@ -7134,8 +7134,8 @@ public void preperReport(Map<String, String> elementValueMap) {
 		componentsJson.put("ResultTypes", new JSONArray(resultTypeList));
 		
 		//Tested Components -> taken from the tested components in the current form
-		sql = "select MATERIALID,COMPONENTNAME\n"
-				+ "from fg_s_component_v\n"
+		sql = "select MATERIALID,COMPONENTNAME,RT,TESTEDCOMPTYPENAME\n"
+				+ "from fg_s_component_all_v\n"
 				+ "where parentid = '"+parentId+"'\n"
 						+ "and sessionid is null\n"
 						+ "and active = 1";

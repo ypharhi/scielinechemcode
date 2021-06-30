@@ -10,6 +10,10 @@ var _resultTypeLocation = {
 		x:4,
 		y:0
 };
+var _rtLocation = {
+		x:4,
+		y:3
+};
 var _resultCommentLocation = {
 		x:3,
 		y:5
@@ -82,11 +86,16 @@ function spreadOnLoadBL(formCode,domId,designer) {
 					break;
 				}
 			}
-			for(var item in componentList['TestedComponents']){
-				var name = componentList['TestedComponents'][item]['COMPONENTNAME'];
+			for(var index in componentList['TestedComponents']){
+				var name = componentList['TestedComponents'][index]['COMPONENTNAME'];
+				var rtName = componentList['TestedComponents'][index]['RT'];
+				var typeName = componentList['TestedComponents'][index]['TESTEDCOMPTYPENAME'];
 				if(currentMaterialList.indexOf(name)==-1){
 					//add the material to the materials in the result spreadsheet
-					sheet.setValue(_materialLocation.y,firstEmptyCol++,name);
+					sheet.setValue(_materialLocation.y,firstEmptyCol,name);
+					sheet.setValue(_rtLocation.y,firstEmptyCol,rtName);
+					sheet.setValue(_resultTypeLocation.y,firstEmptyCol,typeName);
+					firstEmptyCol++;
 				}
 			}
 			
@@ -98,8 +107,8 @@ function spreadOnLoadBL(formCode,domId,designer) {
 			}
 			
 			var sampleSelectList = [];
-			for(var item in componentList['Samples']){
-				var name = componentList['Samples'][item]['NAME'];
+			for(var index in componentList['Samples']){
+				var name = componentList['Samples'][index]['NAME'];
 				sampleSelectList.push(name);
 			}
 			
