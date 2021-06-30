@@ -141,6 +141,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					String wherePart = (linkToLastSelection.equals("1")
 							? getWherePartByFilterForDataTableApi(stateKey, formCode, sourceElementImpCode, table)
 							: "");
+					
 					sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Status\", \"Experiment Aim\""
 							+ ",\"Experiment Conclusions\",\"Experiment Description\","
 							+ "\"Final Product\",\"Quantity\",\"Quantity UOM\",\"Moles\",\"Moles UOM\","
@@ -148,6 +149,12 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 									"SELECT result_SMARTPIVOT FROM FG_P_EXPERIMENTANALYSIS_V where 1=1 " + wherePart)
 							+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
 							+ (wherePart.isEmpty() ? " and 1=2" : wherePart);//+ citeriaWherePart;
+				} else if(generalUtil.getNull(table).equalsIgnoreCase("fg_s_ReportFilterRef_DTE_v")) {
+//					String xxx = generalUtilFormState.getFormValue(stateKey,"ExperimentReport", "stepTable");
+//					Map<String,String> xxMap = generalUtilFormState.getFormParam(stateKey, "ExperimentReport");
+					String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_STEPTABLE}");
+					System.out.println("-----------stepidList=" + stepidList);
+					sql = "select * from " + table + " where 1=1 and nvl(ROWSTATEKEY,'" + stateKey + "') = '" + stateKey + "'";
 				} else {
 					String wherePart = "";
 					if(linkToLastSelection.equals("1")) {
@@ -2622,6 +2629,16 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						+ formCode + "','" + formCode + "','" + userId + "',sysdate,fg_get_Uom_by_uomtype('time','min'),'1','1')";
 				insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
 			}
+		  else if(formCode.equalsIgnoreCase("ReportFilterRef")){
+				String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
+//				String nameIdasParentId = generalUtilFormState.getFormParam(stateKey, "ExperimentReport", "$P{NAMEID}");
+			    String nameIdasParentId = "-1";
+			    String sql = "insert into FG_S_" + formCode + "_PIVOT "
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,ROWSTATEKEY)"
+						+ " values (sysdate,'" + userId + "'," + sessionId + ",'1'," + newformId + "," + nameIdasParentId + ",'"
+						+ formCode + "','" + formCode + "','" + userId + "',sysdate,'" + stateKey + "')";
+				insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
+			}
 		else {
 			String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
 			String sql = "insert into FG_S_" + formCode + "_PIVOT "
@@ -3312,6 +3329,10 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			}
 		}
 		else if(formCode.equals("Document") && onChangeColumnName.equalsIgnoreCase("EXPORTTOREPORT")) {
+			update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
+					onChangeColumnVal, onChangeFormId, userId);
+		}
+		else if(formCode.equals("ReportFilterRef") && onChangeColumnName.equalsIgnoreCase("RULENAME")) {
 			update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
 					onChangeColumnVal, onChangeFormId, userId);
 		}
