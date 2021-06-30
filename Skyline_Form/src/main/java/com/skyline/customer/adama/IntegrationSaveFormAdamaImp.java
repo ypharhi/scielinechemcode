@@ -5067,6 +5067,9 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				List<String> manualMaterialList = new ArrayList<String>();
 				List<String> sampleList = new ArrayList<String>();
 				List<String> resultTypeList = new ArrayList<String>();
+				if(!jsspreadsheetData.has("0")){
+					return;
+				}
 				JSONArray arr = new JSONArray(jsspreadsheetData.get("0").toString());
 				for(int i = 0;i<arr.length();i++) {
 					JSONObject sampleMaterialPair = arr.getJSONObject(i);
@@ -5077,7 +5080,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value"));
 					String resultCommnent = generalUtil.getNull(sampleMaterialPair.getString("comment")) ;
 					String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
-					if(sample.isEmpty() || material.isEmpty() && manualMaterial.isEmpty() || resultValue.isEmpty()) {
+					if(sample.isEmpty() || material.isEmpty() && manualMaterial.isEmpty() || resultValue.isEmpty() || resultType.isEmpty()) {
 						continue;
 					}
 					if(!resultValue.isEmpty()) {
@@ -5130,7 +5133,12 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					String material_id = formDao.getFromInfoLookup("invitemmaterial", LookupType.NAME, sampleMaterialPair.getString("Material") , "id");
 					String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value") );
 					String resultCommnent = generalUtil.getNull(sampleMaterialPair.getString("comment"));
-					String resultType = sampleMaterialPair.getString("Results Type") ;
+					String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
+					
+					//checks if one of the mandatory fiels is missing.
+					if(sample_id.isEmpty() || material_id.isEmpty() || resultValue.isEmpty() || resultType.isEmpty()) {
+						continue;
+					}
 					
 					String manualResId = formSaveDao.getStructFormId("MANUALRESULTSREF");
 					generalUtilLogger
