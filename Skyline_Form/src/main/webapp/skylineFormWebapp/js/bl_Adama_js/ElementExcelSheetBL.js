@@ -1,0 +1,274 @@
+var _materialLocation = {
+		x:4,
+		y:4
+};
+var _sampleLocation = {
+		x:0,
+		y:5
+};
+var _resultTypeLocation = {
+		x:4,
+		y:0
+};
+var _resultCommentLocation = {
+		x:3,
+		y:5
+}
+
+function spreadOnLoadBL(formCode,domId,designer) {
+	if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+		getComponentList().then(function(componentList){
+		    var workBook = designer[domId].getWorkbook();
+		    
+		    var sheet = workBook.getSheetFromName('Materials'); //spread.getActiveSheet();
+			sheet.autoGenerateColumns = false;
+			sheet.setDataSource(componentList['Materials']);
+			sheet.bindColumn(0, "NAME");
+			sheet.bindColumn(1, "ID");
+			
+			var sheet = workBook.getSheetFromName('Samples'); //spread.getActiveSheet();
+			sheet.autoGenerateColumns = false;
+			sheet.setDataSource(componentList['Samples']);
+			sheet.bindColumn(0, "NAME");
+			sheet.bindColumn(1, "ID");
+			sheet.bindColumn(2, "DESCRIPTION");
+			sheet.bindColumn(3, "COMMENTS");
+			
+			var sheet = workBook.getSheetFromName('ResultTypes'); //spread.getActiveSheet();
+			sheet.autoGenerateColumns = false;
+			sheet.setDataSource(componentList['ResultTypes']);
+			sheet.bindColumn(0, "NAME");
+			sheet.bindColumn(1, "ID");
+			
+			//Add the tested components to the spreadsheet results(if it was not selected manually in the excel)
+			var sheet = workBook.getSheet(0);
+			
+			sheet.getRange(0, -1, 21, -1).locked(false);
+			//protect the sheet from deleting rows
+			//sheet.options.isProtected = true;
+			sheet.options.protectionOptions.allowDragInsertRows = true;
+			sheet.options.protectionOptions.allowDragInsertColumns = true;
+			sheet.options.protectionOptions.allowInsertRows = true;
+			sheet.options.protectionOptions.allowInsertColumns = true;
+			sheet.options.protectionOptions.allowDeleteRows = false;
+			sheet.options.protectionOptions.allowDeleteColumns = true;
+			sheet.options.protectionOptions.allowSelectLockedCells = true;
+			sheet.options.protectionOptions.allowSelectUnlockedCells = true;
+			sheet.options.protectionOptions.allowSort = true;
+			sheet.options.protectionOptions.allowFilter = true;
+			sheet.options.protectionOptions.allowEditObjects = true;
+			sheet.options.protectionOptions.allowResizeRows = true;
+			sheet.options.protectionOptions.allowResizeColumns = true;
+			sheet.options.protectionOptions.allowOutlineRows = true;
+			sheet.options.protectionOptions.allowOutlineColumns = true;
+			
+			
+			var i=0;
+			var j=_materialLocation.x;
+			var currentMaterialList = [];
+			for(i=0;i<22;i++){
+				currentMaterialList[i] = sheet.getValue(_materialLocation.y,j+i);
+			}
+			var firstEmptyCol = _materialLocation.x;
+			for(;j<26;j++){
+				for(i=0;i<22;i++){
+					var val = sheet.getValue(i,j);
+					if(val != null){
+						break;
+					}
+				}
+				if(i==22){//checked all the lines and found them empty
+					firstEmptyCol = j;
+					break;
+				}
+			}
+			for(var item in componentList['TestedComponents']){
+				var name = componentList['TestedComponents'][item]['COMPONENTNAME'];
+				if(currentMaterialList.indexOf(name)==-1){
+					//add the material to the materials in the result spreadsheet
+					sheet.setValue(_materialLocation.y,firstEmptyCol++,name);
+				}
+			}
+			
+			//Add the samples from the sample select to the spreadsheet results
+			var j=_sampleLocation.y;
+			var currentSampleList = [];
+			for(var i=0;i<19;i++){
+				currentSampleList[i] = sheet.getValue(j+i,0);
+			}
+			
+			var sampleSelectList = [];
+			for(var item in componentList['Samples']){
+				var name = componentList['Samples'][item]['NAME'];
+				sampleSelectList.push(name);
+			}
+			
+			//delete the rows of the samples that are not in the sample select anymore
+			var commonSamples = currentSampleList.filter(function(val){
+				return sampleSelectList.indexOf(val)!==-1;
+			});
+			for(var i = _sampleLocation.y;i<22;i++){
+				var val = sheet.getValue(i,_sampleLocation.x);
+				if(val!=null && commonSamples.indexOf(val)==-1){//check whether the sample was deleted from the sample select
+					sheet.deleteRows(i,1);
+					--i;//decrease the index in order to check again the row that now contains the content of the original following row(before deleting this one)
+					currentSampleList = currentSampleList.slice(currentSampleList.indexOf(val)+1);
+				}
+			}
+			var firstEmptyRow = _sampleLocation.y;
+			for(var i=_sampleLocation.y;i<22;i++){
+				var val = sheet.getValue(i,_sampleLocation.x);
+				if(val == null){
+					firstEmptyRow = i;
+					break;
+				}
+			}
+			for(var item in componentList['Samples']){
+				var name = componentList['Samples'][item]['NAME'];
+				if(currentSampleList.indexOf(name)==-1){
+					//add the material to the materials in the result spreadsheet
+					sheet.setValue(firstEmptyRow++,_sampleLocation.x,name);
+				}
+			}
+		});
+	}
+	/* var workBook = designer[domId].getWorkbook();//$('#ss').data('workbook');
+			var sheet = workBook.getSheetFromName('Sheet1'); //spread.getActiveSheet();
+			
+			sheet.autoGenerateColumns = false;
+			
+			//**** set cells (better use binding) ->
+// 			for (var i = 1; i < 1000; i++) {
+// 				sheet.setValue(i,0,'num' + i);
+// 				sheet.setValue(i,1,i);
+// 		    }
+
+			//**** using binding (as an example of getting the material from the inventory into the A B columns in input sheet - that will be used for the list in the main sheet)->
+// 			var sampleTable =
+// 				   [
+// 				    {"ID":1, "Text":"num1"},
+// 				    {"ID":2, "Text":"num2"},
+// 				    {"ID":3, "Text":"num3"},
+// 				    {"ID":4, "Text":"num4"},
+// 				    {"ID":5, "Text":"num5"}
+// 				   ];
+			var sampleTable = [];
+			for (var i = 1; i < 1000; i++) {
+				sampleTable.push({"ID":i, "Text":"num" + i});
+		    }
+
+			sheet.setDataSource(sampleTable);
+			
+			sheet.bindColumn(0, "Text");
+			sheet.bindColumn(1, "ID");
+			// **** end binding
+			
+			
+			//this works  -> example for setting the lists with materials from the analytical experiment (num4,num44,num444) - in row 3 we have already made lists in the excel that using the above binding data.
+// 			alert("the id of the first material: " + sheet.getValue(2,7)); -- row 2 contains a lookup that map the name to the id
+			
+			sheet.setValue(3,7,'num4');
+			sheet.setValue(3,8,'num44');
+			sheet.setValue(3,9,'num444');
+			
+// 			alert("the id of the first material (after change): " + sheet.getValue(2,7));
+
+			// the excel json used in this example (with the lookup and the lists)
+// 			{"output":{},"excelFullData":{"version":"14.0.4","newTabVisible":false,"customList":[],"sheets":{"Sheet1":{"name":"Sheet1","isSelected":true,"rowCount":999,"columnCount":26,"activeRow":10,"activeCol":18,"theme":"Office","data":{"dataTable":{"2":{"7":{"value":{"_calcError":"#N/A","_code":42},"style":{"backColor":"#FFFF00","font":"11pt Calibri"},"formula":"VLOOKUP(H4,A1:B10000,2,FALSE)"},"8":{"value":{"_calcError":"#N/A","_code":42},"style":{"backColor":"#FFFF00","hAlign":3,"vAlign":0,"font":"11pt Calibri","themeFont":"Body","imeMode":1},"formula":"VLOOKUP(I4,A1:B10000,2,FALSE)"},"9":{"value":{"_calcError":"#N/A","_code":42},"style":{"backColor":"#FFFF00","hAlign":3,"vAlign":0,"font":"11pt Calibri","themeFont":"Body","imeMode":1},"formula":"VLOOKUP(J4,A1:B10000,2,FALSE)"},"10":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"11":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"12":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"13":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"14":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"15":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"16":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"17":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"18":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"19":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"20":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"21":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"22":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}}},"3":{"0":{"style":{"vAlign":0,"font":"14.6667px Calibri"}},"1":{"style":{"vAlign":0,"font":"14.6667px Calibri"}},"7":{"style":{"backColor":"#92D050","font":"11pt Calibri"}},"8":{"style":{"backColor":"#92D050","hAlign":3,"vAlign":0,"font":"11pt Calibri","themeFont":"Body","imeMode":1}},"9":{"style":{"backColor":"#92D050","hAlign":3,"vAlign":0,"font":"11pt Calibri","themeFont":"Body","imeMode":1}},"10":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"11":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"12":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"13":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"14":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"15":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"16":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"17":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"18":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"19":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"20":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"21":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"22":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"23":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"24":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}},"25":{"style":{"hAlign":3,"vAlign":0,"themeFont":"Body","imeMode":1}}},"4":{"0":{"style":{"vAlign":0,"font":"14.6667px Calibri"}},"1":{"style":{"vAlign":0,"font":"14.6667px Calibri"}},"7":{"value":1},"8":{"value":11},"9":{"value":4}},"5":{"7":{"value":2},"8":{"value":22},"9":{"value":5}},"6":{"7":{"value":3},"8":{"value":33},"9":{"value":3}}},"defaultDataNode":{"style":{"themeFont":"Body"}}},"rowHeaderData":{"defaultDataNode":{"style":{"themeFont":"Body"}}},"colHeaderData":{"defaultDataNode":{"style":{"themeFont":"Body"}}},"rows":[null,{"size":21},{"size":21},{"size":21},{"size":21},{"size":21},{"size":21}],"columns":[{"name":"Text"},{"name":"ID"},null,null,null,null,null,{"size":113}],"leftCellIndex":0,"topCellIndex":0,"selections":{"0":{"row":10,"rowCount":1,"col":18,"colCount":1},"length":1},"autoGenerateColumns":false,"rowOutlines":{"items":[]},"columnOutlines":{"items":[]},"validations":[{"type":3,"condition":{"conType":12,"ignoreBlank":true,"expected":"","formula":"Sheet1!$A$4:$B$6","ranges":[{"row":3,"rowCount":1,"col":21,"colCount":1},{"row":3,"rowCount":1,"col":22,"colCount":1},{"row":3,"rowCount":1,"col":23,"colCount":1},{"row":3,"rowCount":1,"col":24,"colCount":1},{"row":3,"rowCount":1,"col":25,"colCount":1}]},"ranges":"V4, W4, X4, Y4, Z4","highlightStyle":"{\"type\":0,\"color\":\"#FF0000\"}"},{"ignoreBlank":false,"type":3,"condition":{"conType":12,"expected":"","formula":"Sheet1!$A$1:$B$10000","ranges":[{"row":3,"rowCount":1,"col":7,"colCount":1},{"row":3,"rowCount":1,"col":8,"colCount":1},{"row":3,"rowCount":1,"col":10,"colCount":1},{"row":3,"rowCount":1,"col":11,"colCount":1},{"row":3,"rowCount":1,"col":12,"colCount":1},{"row":3,"rowCount":1,"col":13,"colCount":1},{"row":3,"rowCount":1,"col":14,"colCount":1},{"row":3,"rowCount":1,"col":15,"colCount":1},{"row":3,"rowCount":1,"col":16,"colCount":1},{"row":3,"rowCount":1,"col":17,"colCount":1},{"row":3,"rowCount":1,"col":18,"colCount":1},{"row":3,"rowCount":1,"col":19,"colCount":1},{"row":3,"rowCount":1,"col":20,"colCount":1}]},"ranges":"H4, I4, K4, L4, M4, N4, O4, P4, Q4, R4, S4, T4, U4","highlightStyle":"{\"type\":0,\"color\":\"#FF0000\"}"},{"ignoreBlank":false,"type":3,"condition":{"conType":12,"expected":"","formula":"Sheet1!$A$1:$A$10000","ranges":[{"row":3,"rowCount":1,"col":9,"colCount":1}]},"ranges":"J4","highlightStyle":"{\"type\":0,\"color\":\"#FF0000\"}"}],"cellStates":{},"outlineColumnOptions":{},"autoMergeRangeInfos":[],"printInfo":{"paperSize":{"width":850,"height":1100,"kind":1}},"index":0}},"pivotCaches":{}}}
+			 */
+}
+//**************** demo code END!
+
+function getComponentList(){
+	var promise = new Promise(function(resolve,reject){
+		var allData = [];// getformDataNoCallBack(1);
+
+		var urlParam = "?formId=" + parent.$('#formId').val() + "&formCode="
+				+ parent.$('#formCode').val() + "&userId=" + parent.$('#userId').val();
+
+		var data_ = JSON.stringify({
+			action : "getExcelComponentList",
+			data : allData,
+			errorMsg : ""
+		});
+
+		parent.$.ajax({
+			type : 'POST',
+			data : data_,
+			url : "./getExcelComponentList.request" + urlParam + "&stateKey=" + parent.$('#stateKey').val(),
+			contentType : 'application/json',
+			dataType : 'json',
+			success : function(obj) {
+				var componentList = JSON.parse(obj.data[0].val);
+				resolve(componentList);
+			},
+			error : parent.handleAjaxError
+		});
+	});
+	return promise;
+}
+
+function isSingleSheetOnly(formCode,domId){
+	if(/*formCode == 'ExperimentAn' && domId == 'spreadsheetResults'
+		||*/ formCode == 'SysConfExcelData' && domId == 'ExcelData'){
+		return false;
+	}
+	return true;
+}
+
+function getOutputValueBL(formCode,domId,designer){
+	
+	var returnVal = {};
+	/* var sheet = workBook.getSheetFromName('output');
+    if(sheet != null) {
+    	sheet.setRowCount(ROW_MAX, GC.Spread.Sheets.SheetArea.viewport);
+	    var rowCount = sheet.getRowCount();
+	    for (var i = 1; i < rowCount; i++) {
+	        var currFieldID = sheet.getValue(i, 0);
+	        var currFieldValue = sheet.getValue(i, 1);
+	        if (currFieldID != null) {
+	            dataObj[currFieldID] = currFieldValue;
+	        }
+	    }
+    } */
+    if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+	    var workBook = designer[domId].getWorkbook();
+	    var sheet = workBook.getSheet(0);
+	    var dataArray = [];
+	    //_resultTypeLocation
+	    var rowCount = sheet.getRowCount();
+	    var columnCount = sheet.getColumnCount();
+	    for (var j = _resultTypeLocation.x; j < columnCount; j++) {
+	    	var dataObj = {};
+	    	for(var i = 0; i < _sampleLocation.y; i++){
+		        var currFieldID = sheet.getValue(i, 0);
+		        var currFieldValue = sheet.getValue(i, j);
+		        if (currFieldID != null) {
+		        	if(currFieldID == 'Sample No/Materials'){
+		        		currFieldID = 'Material';
+		        	}
+		            dataObj[currFieldID] = currFieldValue;
+		        }
+	    	}
+	    	if(dataObj['Material'] == null || dataObj['Material'] == 'null'){
+	    		continue;
+	    	}
+	    	for(var i = _sampleLocation.y; i<rowCount; i++){
+	    		var fullDataObj = Object.assign({}, dataObj);
+	    		fullDataObj['Sample'] = sheet.getValue(i , _sampleLocation.x);
+	    		if(fullDataObj['Sample'] == null || fullDataObj['Sample'] == 'null'){
+	    			continue;
+	    		}
+	    		fullDataObj['value'] = sheet.getValue(i,j);
+	    		fullDataObj['comment'] = sheet.getValue(i,_resultCommentLocation.x);
+	    		dataArray.push(fullDataObj);
+	    	}
+	    }
+	    returnVal[0] = dataArray;
+    }
+    return returnVal;
+}
+
+function getValidationMessage(formCode,domId,designer){
+	return "";
+}
