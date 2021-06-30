@@ -150,11 +150,14 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 							+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
 							+ (wherePart.isEmpty() ? " and 1=2" : wherePart);//+ citeriaWherePart;
 				} else if(generalUtil.getNull(table).equalsIgnoreCase("fg_s_ReportFilterRef_DTE_v")) {
+					// on loading the form to insert the rows with parentid to this fg_s_ReportFilterRef_pivot with parentid null and state key to rowstatekey for having the saved data (in the save scheme we need to save as this concept) - maybe save display is -1 with userid and rowstatkey null (because we do not have name id)
+
 //					String xxx = generalUtilFormState.getFormValue(stateKey,"ExperimentReport", "stepTable");
 //					Map<String,String> xxMap = generalUtilFormState.getFormParam(stateKey, "ExperimentReport");
 					String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_STEPTABLE}");
 					System.out.println("-----------stepidList=" + stepidList);
 					sql = "select * from " + table + " where 1=1 and nvl(ROWSTATEKEY,'" + stateKey + "') = '" + stateKey + "'";
+					optionalAttributes = stepidList.replace("@", ",");
 				} else {
 					String wherePart = "";
 					if(linkToLastSelection.equals("1")) {
@@ -3332,7 +3335,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
 					onChangeColumnVal, onChangeFormId, userId);
 		}
-		else if(formCode.equals("ReportFilterRef") && onChangeColumnName.equalsIgnoreCase("RULENAME")) {
+		else if(formCode.equals("ReportFilterRef") && (onChangeColumnName.equalsIgnoreCase("RULENAME") || onChangeColumnName.equalsIgnoreCase("STEPNAME"))) {
 			update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
 					onChangeColumnVal, onChangeFormId, userId);
 		}

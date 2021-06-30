@@ -746,6 +746,8 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		JSONObject toReturn = new JSONObject();
 		List<String> listOfMetaData;
 		JSONArray jsonArrayOfColumns;
+		
+		boolean paramColFlag = false;
 		try {
 			StringBuilder internalQuery = new StringBuilder();
 			
@@ -754,6 +756,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 			Map <String,String>actionRequestIconMap = null;
 			Map<String, List<String>> actionSampleMap = null;
 			List<String> experimentSampleList = new ArrayList<>();
+			
 			if(sql.toLowerCase().contains("select * from fg_s_action_dte_v")
 					||sql.toLowerCase().contains("select * from fg_s_action_dtfe_v")
 					||sql.toLowerCase().contains("select * from fg_s_action_dten_v")) {
@@ -765,6 +768,19 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 				experimentSampleList = expSampleList(step_id, internalQuery);
 				actionSampleMap = actSampleList(step_id, internalQuery); 
 			}
+			
+			//***** Experiment report rules display table (fg_s_ReportFilterRef_DTE_v)
+			List<String> stepNameList = new ArrayList<>();
+			if(sql.toLowerCase().contains("fg_s_reportfilterref_dte_v")) {
+				paramColFlag = true;
+				if(args.length > 0){
+					String stepNameCSV = args[0];
+					if(stepNameCSV != null && !stepNameCSV.isEmpty()) {
+						stepNameList = getListOfStringBySql("select distinct stepname from fg_s_step_v where step_id in (" + stepNameCSV + ")");
+					}
+				}
+			}
+			
 			
 			List<Map<String, Object>> rows = getListOfMapsForDataTableBySql(sql);
 			
@@ -855,7 +871,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 			List<String> colAfterParm = new ArrayList<String>();//12122018 ab: used for "_SMARTMONPARAM" for now
 
 			//12122018 ab: paramCols changed to Map object, because there may be more than one special SMARTs in the table
-			Map<String, List<String>> paramColMap = getSmartsCol(rows);
+			Map<String, List<String>> paramColMap = getSmartsCol(rows, paramColFlag);
 
 			for (Map.Entry<String, List<String>> smartsEntry : paramColMap.entrySet()) {
 				String paramCol = smartsEntry.getKey();
@@ -1507,6 +1523,22 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 						}
 					}
 				}
+				/******** Favorite_SMARTEDIT handler *****************************************************************/
+				else if (!paramCol.isEmpty() && paramCol.equalsIgnoreCase("Step Name_SMARTEDIT")
+						&& sql.toLowerCase().contains("fg_s_reportfilterref_dte_v")) {
+					for (int i = 0; i < rows.size(); i++) {
+						Object colvalObj = rows.get(i).get(paramCol);
+						System.out.println("use stepNameList and maybe make function that get and the json now this is hard coded");
+						String stepObj = "{}";
+						if(colvalObj != null) {
+							stepObj = "{\"displayName\":[{\"ID\":\"" + colvalObj.toString() + "\",\"displayName\":\"" + colvalObj.toString() + "\"}],\"htmlType\":\"select\",\"dbColumnName\":\"STEPNAME\", \"colCalcId\":\"STEPNAME\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":[{\"ID\":\"Step 01\",\"VAL\":\"Step 01\"},{\"ID\":\"Step 02\",\"VAL\":\"Step 02\"}]}";
+						} else {
+							stepObj = "{\"displayName\":[],\"htmlType\":\"select\",\"dbColumnName\":\"STEPNAME\", \"colCalcId\":\"STEPNAME\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":[{\"ID\":\"Step 01\",\"VAL\":\"Step 01\"},{\"ID\":\"Step 02\",\"VAL\":\"Step 02\"}]}";
+						}
+						rows.get(i).put(paramCol, stepObj); // rows.get(i).get(paramCol);
+					 
+					}
+				}
 				/**************************************************************************************************/
 			}
 			if (hideEmptyColumns.equals("true")) {
@@ -1709,7 +1741,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		return toReturn;
 	}
 
-	private Map<String, List<String>> getSmartsCol(List<Map<String, Object>> rows) {
+	private Map<String, List<String>> getSmartsCol(List<Map<String, Object>> rows, boolean paramColFlag) {
 		Map<String, List<String>> returnMap = new LinkedHashMap<String, List<String>>();
 		List<String> colAfterParm = new ArrayList<String>();
 		List<String> smartsList = new ArrayList<String>();
@@ -1719,7 +1751,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		if ((!rows.isEmpty())) {
 			Set<String> rowKeySet = rows.get(0).keySet(); // get all column names
 			for (String k : rowKeySet) {
-				if (k.endsWith("_SMARTMONPARAM") || k.endsWith("_SMARTDYNPARAM") || k.endsWith("_SMARTPATH") || k.endsWith("SMARTACTIONS")|| k.endsWith("SMARTSAMPLELIST") || k.endsWith("SMARTSPLIT") || k.endsWith("Favorite_SMARTEDIT")) {
+				if (paramColFlag || k.endsWith("_SMARTMONPARAM") || k.endsWith("_SMARTDYNPARAM") || k.endsWith("_SMARTPATH") || k.endsWith("SMARTACTIONS")|| k.endsWith("SMARTSAMPLELIST") || k.endsWith("SMARTSPLIT") || k.endsWith("Favorite_SMARTEDIT")) {
 					smartsList.add(arrInx++, k);
 				} else if (k.endsWith("_SMARTPIVOT") || k.endsWith("_SMARTPIVOTSQL")) {
 					hasPivot = k;

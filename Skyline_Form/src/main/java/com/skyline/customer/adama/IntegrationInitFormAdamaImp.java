@@ -2250,7 +2250,14 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 					commonFunc.copyComponentTablefromMaterialToBatch(materialId,userId,formId);
 				}
 			}
+		} else if (formCode.equals("ExperimentReport")) {
+			String nameId = requestMap.get("nameId");
+			// on loading the form to insert the rows with parentid to this fg_s_ReportFilterRef_pivot with parentid null and state key to rowstatekey for having the saved data (in the save scheme we need to save as this concept) - maybe save display is -1 with userid and rowstatkey null (because we do not have name id)
+
+			System.out.println("insert data to fg_s_ReportFilterRef_DTE_v with save schem display values, nameId=" + nameId + ", userid=" + userId);
 		}
+		
+		
 		
 		return paramMapReturn;
 	}
