@@ -156,7 +156,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 //					Map<String,String> xxMap = generalUtilFormState.getFormParam(stateKey, "ExperimentReport");
 					String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_STEPTABLE}");
 					System.out.println("-----------stepidList=" + stepidList);
-					sql = "select * from " + table + " where 1=1 and nvl(ROWSTATEKEY,'" + stateKey + "') = '" + stateKey + "'";
+					sql = "select * from " + table + " where 1=1 and active = 1 and ROWSTATEKEY = '" + stateKey + "'";
 					optionalAttributes = stepidList.replace("@", ",");
 				} else {
 					String wherePart = "";
