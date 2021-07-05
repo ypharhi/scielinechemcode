@@ -1134,7 +1134,8 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 									? " and request_id in(select request_id from fg_i_conn_request_smpl_v where 1=1 "+subWherePart +")"
 									: "");
 							sql = "select * from " + table + " where 1=1 and experiment_id='"+formId+"' "+ wherePart;;
-					} else if (generalUtil.getNull(table).equalsIgnoreCase("fg_r_general_dummy_sql_v")) { //Query Generator dummy sql
+					} else if (generalUtil.getNull(table).equalsIgnoreCase("fg_r_general_dummy_sql_v")) { //Query Generator dummy sql - SQLGenerator screen
+						topRowsNum = "1000000";
 						sql = generalUtilFormState.getFormParam(stateKey, formCode)
 								.get("$P{QUERY_TEXT}");
 						if(sql == null) {
