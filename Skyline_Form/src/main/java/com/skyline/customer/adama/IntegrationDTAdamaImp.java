@@ -165,6 +165,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						
 						// set the SQL - DEVELOP!....
 						sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Description\","
+								+ getExpReportRulesFieldsSQL(stateKey)
 								+ generalUtil.handleClob(
 										"SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_V where 1=1 " + wherePart + stepWherePart)
 								+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
@@ -1582,7 +1583,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 		toReturn.put("formIdForShared", formIdForSharedTables);
 		toReturn.put("lastMultiValues", lastMultiValues);
 		return toReturn;
-	} 
+	}
 
 	/**
 	 * adds an sql script that filters the displayed data up to the criteria
@@ -3853,5 +3854,16 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 		}
 		return toReturn;
 
+	}
+	
+	/**
+	 * get the select SQL part from fg_s_ReportFilterRef_pivot, that holds the user select ion data in form the combine rules table.
+	 * @param stateKey - the number that defined the relevant rows (the fg_s_ReportFilterRef_pivot should be filtered by rowstatekey = stateKey, active = 1, and table type - TBD)
+	 * @return the SQL select part expression or empty (in case of exception or nothing to show) - the return value should end with comma in case there is at least one field
+	 */
+	private String getExpReportRulesFieldsSQL(long stateKey) {
+		// "/*1 as Dummy1, 2 as Dummy2,*/";
+		String toReturn  = "";
+		return toReturn;
 	}
 }
