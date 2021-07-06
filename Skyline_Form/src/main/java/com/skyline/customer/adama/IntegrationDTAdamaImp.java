@@ -159,9 +159,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								? getWherePartByFilterForDataTableApi(stateKey, formCode, sourceElementImpCode, table)
 								: "");
 						
-						sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Status\", \"Experiment Aim\""
-								+ ",\"Experiment Conclusions\",\"Experiment Description\","
-								+ "\"Final Product\",\"Quantity\",\"Quantity UOM\",\"Moles\",\"Moles UOM\","
+						sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Description\","
 								+ generalUtil.handleClob(
 										"SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_V where 1=1 " + wherePart)
 								+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
