@@ -137,18 +137,37 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			// *** onElementDataTableApiChange formCode Main
 			// ***************************
 			if (formCode.equals("Main") || formCode.equals("ExpAnalysisReport") || formCode.equals("ExperimentReport")) {
-				if (generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPANALYSIS_PIVOT_DT_V")) {
-					String wherePart = (linkToLastSelection.equals("1")
-							? getWherePartByFilterForDataTableApi(stateKey, formCode, sourceElementImpCode, table)
-							: "");
+				// reports FG_R_EXPANALYSIS_PIVOT_DT_V or FG_R_EXPREPORT_PIVOT_DT_V
+				if (generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPANALYSIS_PIVOT_DT_V") || generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPREPORT_PIVOT_DT_V")) {
+					// FG_R_EXPANALYSIS_PIVOT_DT_V report...
+					if(generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPANALYSIS_PIVOT_DT_V")) {
+						String wherePart = (linkToLastSelection.equals("1")
+								? getWherePartByFilterForDataTableApi(stateKey, formCode, sourceElementImpCode, table)
+								: "");
+						
+						sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Status\", \"Experiment Aim\""
+								+ ",\"Experiment Conclusions\",\"Experiment Description\","
+								+ "\"Final Product\",\"Quantity\",\"Quantity UOM\",\"Moles\",\"Moles UOM\","
+								+ generalUtil.handleClob(
+										"SELECT result_SMARTPIVOT FROM FG_P_EXPERIMENTANALYSIS_V where 1=1 " + wherePart)
+								+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
+								+ (wherePart.isEmpty() ? " and 1=2" : wherePart);//+ citeriaWherePart;
+					}
+					// FG_R_EXPREPORT_PIVOT_DT_V report...
+					if(generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPREPORT_PIVOT_DT_V")) {
+						String wherePart = (linkToLastSelection.equals("1")
+								? getWherePartByFilterForDataTableApi(stateKey, formCode, sourceElementImpCode, table)
+								: "");
+						
+						sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Status\", \"Experiment Aim\""
+								+ ",\"Experiment Conclusions\",\"Experiment Description\","
+								+ "\"Final Product\",\"Quantity\",\"Quantity UOM\",\"Moles\",\"Moles UOM\","
+								+ generalUtil.handleClob(
+										"SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_V where 1=1 " + wherePart)
+								+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
+								+ (wherePart.isEmpty() ? " and 1=2" : wherePart);//+ citeriaWherePart;
+					}
 					
-					sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Status\", \"Experiment Aim\""
-							+ ",\"Experiment Conclusions\",\"Experiment Description\","
-							+ "\"Final Product\",\"Quantity\",\"Quantity UOM\",\"Moles\",\"Moles UOM\","
-							+ generalUtil.handleClob(
-									"SELECT result_SMARTPIVOT FROM FG_P_EXPERIMENTANALYSIS_V where 1=1 " + wherePart)
-							+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
-							+ (wherePart.isEmpty() ? " and 1=2" : wherePart);//+ citeriaWherePart;
 				} else if(generalUtil.getNull(table).equalsIgnoreCase("fg_s_ReportFilterRef_DTE_v")) {
 					// on loading the form to insert the rows with parentid to this fg_s_ReportFilterRef_pivot with parentid null and state key to rowstatekey for having the saved data (in the save scheme we need to save as this concept) - maybe save display is -1 with userid and rowstatkey null (because we do not have name id)
 
