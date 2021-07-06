@@ -1535,5 +1535,18 @@ public class GeneralUtil {
 		// TODO Auto-generated method stub
 		return getNull(value).replaceAll("'", "''").replaceAll("–", "-");
 	}
+
+
+	public long generateStateKey(String userId) {
+		long stateKey = 0l;
+		try {
+			String userIdNum = (userId != null && userId.length() > 3)?  userId.substring(userId.length() - 3): "000";
+			stateKey = Long.valueOf(String.valueOf((new Date()).getTime()) + userIdNum);
+		} catch (NumberFormatException e) {
+			stateKey = (new Date()).getTime();
+		}
+		  
+		return stateKey;
+	}
     
 }

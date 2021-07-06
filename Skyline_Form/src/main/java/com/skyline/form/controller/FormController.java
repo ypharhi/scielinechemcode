@@ -228,11 +228,11 @@ public class FormController {
 		}
 		
 		if(stateKey == null || stateKey.equals("-1")) {
-			// handel copied URL ....
-			stateKey = String.valueOf((new Date()).getTime());
+			// handel copied URL .... 
 			String formcode = requestMap.get("formCode")[0];
 			String formId = requestMap.get("formId")[0];
 			String userId = requestMap.get("userId")[0];
+			stateKey = String.valueOf(generalUtil.generateStateKey(userId));
 			if(formcode != null && formId != null && userId != null) {
 				
 				String url = getFullURL(request).replace("initid.request", "init.request");

@@ -130,7 +130,7 @@ public class LoginService { // TODO interface FormService and this should be For
 				return null;
 			}
 			String userId = loginDao.getUserIdByUserName(username);
-			long stateKey = (new Date()).getTime();
+			long stateKey = generalUtil.generateStateKey(userId);
 			session.setAttribute("userId", userId);
 			session.setAttribute("userName", username);	
 			session.setAttribute("browserName", browserName);
