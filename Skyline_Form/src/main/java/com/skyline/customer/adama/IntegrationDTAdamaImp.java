@@ -159,9 +159,14 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								? getWherePartByFilterForDataTableApi(stateKey, formCode, sourceElementImpCode, table)
 								: "");
 						
+						// step list and where part for pivot table...
+						String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_STEPTABLE}");
+						String stepWherePart = (stepidList != null && !stepidList.isEmpty()?" and step_id in (" + stepidList.replace("@", ",") + ")" : " AND 1=2");
+						
+						// set the SQL - DEVELOP!....
 						sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Description\","
 								+ generalUtil.handleClob(
-										"SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_V where 1=1 " + wherePart)
+										"SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_V where 1=1 " + wherePart + stepWherePart)
 								+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
 								+ (wherePart.isEmpty() ? " and 1=2" : wherePart);//+ citeriaWherePart;
 					}
