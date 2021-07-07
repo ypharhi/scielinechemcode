@@ -776,7 +776,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 				if(args.length > 0){
 					String stepNameCSV = args[0];
 					if(stepNameCSV != null && !stepNameCSV.isEmpty()) {
-						stepNameList = getListOfStringBySql("select distinct stepname from fg_s_step_v where step_id in (" + stepNameCSV + ")");
+						stepNameList = getListOfStringBySql("select distinct stepname from fg_s_step_v where step_id in (" + stepNameCSV + ") order by stepname");
 					}
 				}
 			}
@@ -1523,18 +1523,42 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 						}
 					}
 				}
-				/******** Favorite_SMARTEDIT handler *****************************************************************/
+				/******** Step Name_SMARTEDIT handler *****************************************************************/
 				else if (!paramCol.isEmpty() && paramCol.equalsIgnoreCase("Step Name_SMARTEDIT")
 						&& sql.toLowerCase().contains("fg_s_reportfilterref_dte_v")) {
+					JSONObject json = new JSONObject();
+				    JSONArray jsonArray = new JSONArray();
+				   try {
+					for(String stepName : stepNameList)
+					{
+						json = new JSONObject();
+						json.put("ID", stepName);
+						json.put("VAL", stepName);
+						jsonArray.put(json);
+					}
+				    }
+				    catch(Exception e) {
+				    	jsonArray = new JSONArray();
+				    }
 					for (int i = 0; i < rows.size(); i++) {
 						Object colvalObj = rows.get(i).get(paramCol);
+                        List<String> dataList = new ArrayList<>();
+						if (colvalObj != null) {
+							String[] val = colvalObj.toString().split(",");
+							List<String> colVals = Arrays.asList(val);
+							for (String colVal : colVals) {
+								dataList.add("{\"ID\":\"" + colVal + "\",\"displayName\":\"" + colVal + "\"}");
+							}
+						}
+						
 						System.out.println("use stepNameList and maybe make function that get and the json now this is hard coded");
 						String stepObj = "{}";
-						if(colvalObj != null) {
-							stepObj = "{\"displayName\":[{\"ID\":\"" + colvalObj.toString() + "\",\"displayName\":\"" + colvalObj.toString() + "\"}],\"htmlType\":\"select\",\"dbColumnName\":\"STEPNAME\", \"colCalcId\":\"STEPNAME\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":[{\"ID\":\"Step 01\",\"VAL\":\"Step 01\"},{\"ID\":\"Step 02\",\"VAL\":\"Step 02\"}]}";
+						stepObj = getJsonDisplayObj(jsonArray.toString(),colvalObj!=null?dataList.toString():null, "STEPNAME","true");
+						/*if(colvalObj != null) {
+							stepObj = "{\"displayName\":[{\"ID\":\"" + colvalObj.toString() + "\",\"displayName\":\"" + colvalObj.toString() + "\"}],\"htmlType\":\"select\",\"dbColumnName\":\"STEPNAME\", \"colCalcId\":\"STEPNAME\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":[{\"ID\":\"Step 01\",\"VAL\":\"Step 01\"},{\"ID\":\"Step 02\",\"VAL\":\"Step 02\"}]}"
 						} else {
 							stepObj = "{\"displayName\":[],\"htmlType\":\"select\",\"dbColumnName\":\"STEPNAME\", \"colCalcId\":\"STEPNAME\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":[{\"ID\":\"Step 01\",\"VAL\":\"Step 01\"},{\"ID\":\"Step 02\",\"VAL\":\"Step 02\"}]}";
-						}
+						}*/
 						rows.get(i).put(paramCol, stepObj); // rows.get(i).get(paramCol);
 					 
 					}
@@ -2791,6 +2815,15 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		logger.info(msg);
 	}
 	
+	private String getJsonDisplayObj(String fullList,String colvalObj, String dbColName,String multiple) {
+		String stepObj = "{}";
+		if(colvalObj != null) {
+			stepObj = "{\"displayName\":"+colvalObj+",\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\", \"colCalcId\":\""+dbColName+"\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":"+fullList+"}";
+		} else {
+			stepObj = "{\"displayName\":[],\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\", \"colCalcId\":\""+dbColName+"\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":"+fullList+"}";
+		}
+		return stepObj;
+	}
 	//	@Override
 	//	public String updateSingleStringTask(String sql) {
 	//		// TODO Auto-generated method stub

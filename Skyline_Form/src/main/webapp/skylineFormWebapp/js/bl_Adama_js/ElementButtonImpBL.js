@@ -3048,6 +3048,7 @@ function deleteAction() {
 	 var reportName = $('#pageTitle').text();
 	 var reportDescription = $('#reportDescription').val();
 	 var nameId=$('#nameId').val();
+	 var parent_formCode = $('#formCode').val();
 	 var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=SaveReport&formId=-1&userId="
 	 + $('#userId').val()
 	 + '&tableType=&PARENT_ID=-1&PARENT_FORMCODE=' + $('#formCode').val()// &REPORT_NAME='ss
@@ -3074,11 +3075,12 @@ function deleteAction() {
 			 var reportDescription=$('#prevDialog').data('reportDescription');
 			 var currentReportName = $('#reportName').val();
 			 if(reportName !== undefined){
-				 if(reportName == currentReportName){
-					 doSave('','SAVE_FORM_AND_USER_SETTINGS_BY_NAME',reportName,reportDescription);
-				 } else {
-					 doSave(navigateToReport,'SAVE_FORM_AND_USER_SETTINGS_BY_NAME',reportName,reportDescription,[reportName]);
-				 }
+				if(reportName == currentReportName){
+						 doSave(saveRulesTable(nameId),'SAVE_FORM_AND_USER_SETTINGS_BY_NAME',reportName,reportDescription,[reportName]); 
+				     }
+					 else{
+						 doSave(navigateToReport,'SAVE_FORM_AND_USER_SETTINGS_BY_NAME',reportName,reportDescription,[reportName]);
+					}
 			 }
 		
 			 $('#prevDialog').remove();
@@ -3089,8 +3091,93 @@ function deleteAction() {
 		.dialog('open');
 
 	  }
+function saveRulesTable(nameId,isNavigateToReport,page){
 
+	 var stringifyNameToPush = {
+				code : "nameId",
+				val : nameId,
+				type : "AJAX_BEAN",
+				info : 'na'
+			};
+	 
 
+		// get all data and add removeNameId
+		var allData = getformDataNoCallBack(1);
+		var allData = allData.concat(stringifyNameToPush);
+		// url call
+		var urlParam = "?formId="+ $('#formId').val()
+					+ "&formCode="+ $('#formCode').val()
+					+ "&userId="+ $('#userId').val()
+					+ "&eventAction=saveRulesTable"
+					+ "&isNew=" + $('#isNew').val();
+
+		var data_ = JSON.stringify({
+			action : "getReportList",
+			data : allData,
+			errorMsg : ""
+		});
+
+		// call...
+		$.ajax({
+			type : 'POST',
+			data : data_,
+			
+			url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+			contentType : 'application/json',
+			dataType : 'json',
+
+			success : function(obj) {
+				if (obj.errorMsg != null && obj.errorMsg != '') {
+					displayAlertDialog(obj.errorMsg);
+				} 
+				if(isNavigateToReport){
+					if (window.self === window.top){   
+						window.location = page;
+					}
+				}
+				hideWaitMessage();
+			},
+			error : handleAjaxError
+		});
+
+}
+
+function saveRulesTableByUserId(){
+
+	// get all data and add removeNameId
+		var allData = getformDataNoCallBack(1);
+		// url call
+		var urlParam = "?formId="+ $('#formId').val()
+					+ "&formCode="+ $('#formCode').val()
+					+ "&userId="+ $('#userId').val()
+					+ "&eventAction=saveRulesTableByUserId"
+					+ "&isNew=" + $('#isNew').val();
+
+		var data_ = JSON.stringify({
+			action : "getReportList",
+			data : allData,
+			errorMsg : ""
+		});
+
+		// call...
+		$.ajax({
+			type : 'POST',
+			data : data_,
+			
+			url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+			contentType : 'application/json',
+			dataType : 'json',
+
+			success : function(obj) {
+				if (obj.errorMsg != null && obj.errorMsg != '') {
+					displayAlertDialog(obj.errorMsg);
+				}
+				hideWaitMessage();
+			},
+			error : handleAjaxError
+		});
+
+}
 /**
  * Check if the name of the saved report already exists in the user report list.
  * If so, a message displayed asking for the user confirmation.
@@ -3232,9 +3319,10 @@ function navigateToReport(args){
 			else if(obj.data[0].val!=""){
 				var nameId = obj.data[0].val;
 				var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=" + $('#formCode').val() + "&formId=-1" + "&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val() + "&nameId=" + nameId;
-				if (window.self === window.top){   
+				saveRulesTable(nameId,true,page)
+				/*if (window.self === window.top){   
 					window.location = page;
-				}
+				}*/
 			}
 			hideWaitMessage();
 		},

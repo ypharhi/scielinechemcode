@@ -113,6 +113,10 @@ function initFormSaveDisplayButtons() {
     	if($('#nameId').val()!="-1" && $('#nameId').val()!=""){
     		$('.mainSaveFormAndDefinitionBtn').css('display', 'none');
     	}
+    	else{
+    		$('.mainSaveFormAndDefinitionBtn').removeAttr('onclick');
+    		$(".mainSaveFormAndDefinitionBtn").attr("onclick", "doSave(saveRulesTableByUserId(),'SAVE_FORM_AND_USER_SETTINGS');");
+    	}
     	$('.mainSaveDefinitionBtn').css('display', 'none');
     	$('#searchDesign').css('width', '152px');
     	$('#bSaveDesign').css('width', '152px');
@@ -7323,11 +7327,7 @@ function restoreColumnsByDefault(level) {
         	
         },
         error: handleAjaxError
-    });
-	
-	
-	
-	
-	
-	
+    });	
 }
+
+	

@@ -2079,7 +2079,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 
 	@Override
 	public Map<String, String> onIntegrationEvent(String formCode, String userId, String formId, FormType formType,
-			boolean isNewFormId, Map<String, String> requestMap) {
+			boolean isNewFormId, Map<String, String> requestMap, long stateKey) {
 		Map<String,String> paramMapReturn = new HashMap<String,String>();
 		if (formCode.equals("Step")) {
 			// note: steps has DB functions (in fg_adama.INIT_STEP<>_DATA) that insert init step data and related table
@@ -2251,10 +2251,36 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 				}
 			}
 		} else if (formCode.equals("ExperimentReport")) {
-			String nameId = requestMap.get("nameId");
 			// on loading the form DELETE AND insert the rows with parentid to this fg_s_ReportFilterRef_pivot with parentid null and state key to rowstatekey for having the saved data (in the save scheme we need to save with this concept) - maybe in save display (with no nameid) parentid will be -1 with userid  (because we do not have name id)
 			// need to clean up fg_s_ReportFilterRef_pivot rows with t.timestamp < sysdate -1 and rowstatekey not null
-			System.out.println("delete and insert data to fg_s_ReportFilterRef_pivot with save schem display values, nameId=" + nameId + ", userid=" + userId);
+			String nameId = requestMap.get("nameId");
+			String del_sql = " delete from fg_s_reportfilterref_pivot\n"
+					+ "where rowstatekey = '"+stateKey+"'\n";
+				generalDao.updateSingleStringNoTryCatch(del_sql);
+			if(!generalUtil.getNull(nameId).isEmpty() && !nameId.equals("-1")) {
+				//String newformId = formSaveDao.getStructFormId(formCode);
+				String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
+                String nameIdasParentId = "-1";
+			    String sql = "insert into FG_S_ReportFilterRef_PIVOT "
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,ROWSTATEKEY,stepname,rulename)"
+						+ " select sysdate,'" + userId + "'," + sessionId + ",'1',fg_get_struct_form_id('ReportFilterRef')," + nameIdasParentId + ",'"
+						+ "ReportFilterRef" + "','" + "ReportFilterRef" + "','" + userId + "',sysdate,'" + stateKey + "',stepname,rulename "
+								+ " from fg_s_reportfilterref_pivot where parentid = '"+nameId+"'";
+				//String insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + "ReportFilterRef" + "_PIVOT", newformId);
+				formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+				
+			}else {
+				String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
+                String nameIdasParentId = "-1";
+			    String sql = "insert into FG_S_ReportFilterRef_PIVOT "
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,ROWSTATEKEY,stepname,rulename)"
+						+ " select sysdate,'" + userId + "'," + sessionId + ",'1',fg_get_struct_form_id('ReportFilterRef')," + nameIdasParentId + ",'"
+						+ "ReportFilterRef" + "','" + "ReportFilterRef" + "','" + userId + "',sysdate,'" + stateKey + "',stepname,rulename "
+								+ " from fg_s_reportfilterref_pivot where parentid = '"+userId+"'";
+				//String insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + "ReportFilterRef" + "_PIVOT", newformId);
+				formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+			}
+		    System.out.println("delete and insert data to fg_s_ReportFilterRef_pivot with save schem display values, nameId=" + nameId + ", userid=" + userId);
 		}
 		
 		

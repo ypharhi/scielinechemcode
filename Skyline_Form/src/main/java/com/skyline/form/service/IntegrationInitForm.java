@@ -11,7 +11,7 @@ public interface IntegrationInitForm {
 	String getFormPathInfo(long statKey, String formCode, String userId, String formId, FormType formType, boolean isNewFormId);
 
 	Map<String, String> onIntegrationEvent(String formCode, String userId, String formId, FormType formType, boolean isNewFormId,
-			Map<String, String> outParamMap);
+			Map<String, String> outParamMap, long stateKey);
 
 	String showFormPathDisplayHtml(String path);
 }

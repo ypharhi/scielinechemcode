@@ -217,7 +217,7 @@ public class FormState {
 		}
 		
 		//do some operations on creating new form
-		Map<String, String> integrationMap = integrationInitForm.onIntegrationEvent(formCode, userId, formId, formType, isNewFormId, outParamMap);
+		Map<String, String> integrationMap = integrationInitForm.onIntegrationEvent(formCode, userId, formId, formType, isNewFormId, outParamMap,stateKey);
 				 
 		//**** from Parameters integration from param (AUTHEN SQL)
 		paramTitle = "from Parameters integration from param (AUTHEN SQL)";
