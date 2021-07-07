@@ -137,24 +137,50 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			// *** onElementDataTableApiChange formCode Main
 			// ***************************
 			if (formCode.equals("Main") || formCode.equals("ExpAnalysisReport") || formCode.equals("ExperimentReport")) {
-				if (generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPANALYSIS_PIVOT_DT_V")) {
-					String wherePart = (linkToLastSelection.equals("1")
-							? getWherePartByFilterForDataTableApi(stateKey, formCode, sourceElementImpCode, table)
-							: "");
+				// reports FG_R_EXPANALYSIS_PIVOT_DT_V or FG_R_EXPREPORT_PIVOT_DT_V
+				if (generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPANALYSIS_PIVOT_DT_V") || generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPREPORT_PIVOT_DT_V")) {
+					// FG_R_EXPANALYSIS_PIVOT_DT_V report...
+					if(generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPANALYSIS_PIVOT_DT_V")) {
+						String wherePart = (linkToLastSelection.equals("1")
+								? getWherePartByFilterForDataTableApi(stateKey, formCode, sourceElementImpCode, table)
+								: "");
+						
+						sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Status\", \"Experiment Aim\""
+								+ ",\"Experiment Conclusions\",\"Experiment Description\","
+								+ "\"Final Product\",\"Quantity\",\"Quantity UOM\",\"Moles\",\"Moles UOM\","
+								+ generalUtil.handleClob(
+										"SELECT result_SMARTPIVOT FROM FG_P_EXPERIMENTANALYSIS_V where 1=1 " + wherePart)
+								+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
+								+ (wherePart.isEmpty() ? " and 1=2" : wherePart);//+ citeriaWherePart;
+					}
+					// FG_R_EXPREPORT_PIVOT_DT_V report...
+					if(generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPREPORT_PIVOT_DT_V")) {
+						String wherePart = (linkToLastSelection.equals("1")
+								? getWherePartByFilterForDataTableApi(stateKey, formCode, sourceElementImpCode, table)
+								: "");
+						
+						// step list and where part for pivot table...
+						String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_STEPTABLE}");
+						String stepWherePart = (stepidList != null && !stepidList.isEmpty()?" and step_id in (" + stepidList.replace("@", ",") + ")" : " AND 1=2");
+						
+						// set the SQL - DEVELOP!....
+						sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Description\","
+								+ getExpReportRulesFieldsSQL(stateKey)
+								+ generalUtil.handleClob(
+										"SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_V where 1=1 " + wherePart + stepWherePart)
+								+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
+								+ (wherePart.isEmpty() ? " and 1=2" : wherePart);//+ citeriaWherePart;
+					}
 					
-					sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Status\", \"Experiment Aim\""
-							+ ",\"Experiment Conclusions\",\"Experiment Description\","
-							+ "\"Final Product\",\"Quantity\",\"Quantity UOM\",\"Moles\",\"Moles UOM\","
-							+ generalUtil.handleClob(
-									"SELECT result_SMARTPIVOT FROM FG_P_EXPERIMENTANALYSIS_V where 1=1 " + wherePart)
-							+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
-							+ (wherePart.isEmpty() ? " and 1=2" : wherePart);//+ citeriaWherePart;
 				} else if(generalUtil.getNull(table).equalsIgnoreCase("fg_s_ReportFilterRef_DTE_v")) {
+					// on loading the form to insert the rows with parentid to this fg_s_ReportFilterRef_pivot with parentid null and state key to rowstatekey for having the saved data (in the save scheme we need to save as this concept) - maybe save display is -1 with userid and rowstatkey null (because we do not have name id)
+
 //					String xxx = generalUtilFormState.getFormValue(stateKey,"ExperimentReport", "stepTable");
 //					Map<String,String> xxMap = generalUtilFormState.getFormParam(stateKey, "ExperimentReport");
 					String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_STEPTABLE}");
 					System.out.println("-----------stepidList=" + stepidList);
-					sql = "select * from " + table + " where 1=1 and nvl(ROWSTATEKEY,'" + stateKey + "') = '" + stateKey + "'";
+					sql = "select * from " + table + " where 1=1 and active = 1 and ROWSTATEKEY = '" + stateKey + "'";
+					optionalAttributes = stepidList.replace("@", ",");
 				} else {
 					String wherePart = "";
 					if(linkToLastSelection.equals("1")) {
@@ -1131,7 +1157,8 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 									? " and request_id in(select request_id from fg_i_conn_request_smpl_v where 1=1 "+subWherePart +")"
 									: "");
 							sql = "select * from " + table + " where 1=1 and experiment_id='"+formId+"' "+ wherePart;;
-					} else if (generalUtil.getNull(table).equalsIgnoreCase("fg_r_general_dummy_sql_v")) { //Query Generator dummy sql
+					} else if (generalUtil.getNull(table).equalsIgnoreCase("fg_r_general_dummy_sql_v")) { //Query Generator dummy sql - SQLGenerator screen
+						topRowsNum = "1000000";
 						sql = generalUtilFormState.getFormParam(stateKey, formCode)
 								.get("$P{QUERY_TEXT}");
 						if(sql == null) {
@@ -1556,7 +1583,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 		toReturn.put("formIdForShared", formIdForSharedTables);
 		toReturn.put("lastMultiValues", lastMultiValues);
 		return toReturn;
-	} 
+	}
 
 	/**
 	 * adds an sql script that filters the displayed data up to the criteria
@@ -3332,9 +3359,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
 					onChangeColumnVal, onChangeFormId, userId);
 		}
-		else if(formCode.equals("ReportFilterRef") && onChangeColumnName.equalsIgnoreCase("RULENAME")) {
+		else if(formCode.equals("ReportFilterRef") && (onChangeColumnName.equalsIgnoreCase("RULENAME") || onChangeColumnName.equalsIgnoreCase("STEPNAME"))) {
 			update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
-					onChangeColumnVal, onChangeFormId, userId);
+					onChangeColumnVal.substring(0, onChangeColumnVal.length() - 3), onChangeFormId, userId);
 		}
 		return update;
 	}
@@ -3827,5 +3854,16 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 		}
 		return toReturn;
 
+	}
+	
+	/**
+	 * get the select SQL part from fg_s_ReportFilterRef_pivot, that holds the user select ion data in form the combine rules table.
+	 * @param stateKey - the number that defined the relevant rows (the fg_s_ReportFilterRef_pivot should be filtered by rowstatekey = stateKey, active = 1, and table type - TBD)
+	 * @return the SQL select part expression or empty (in case of exception or nothing to show) - the return value should end with comma in case there is at least one field
+	 */
+	private String getExpReportRulesFieldsSQL(long stateKey) {
+		// "/*1 as Dummy1, 2 as Dummy2,*/";
+		String toReturn  = "";
+		return toReturn;
 	}
 }

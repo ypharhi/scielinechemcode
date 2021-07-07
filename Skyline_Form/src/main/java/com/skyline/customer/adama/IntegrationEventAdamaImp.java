@@ -4661,6 +4661,22 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			String defaultRows = generalUtil.getNull(generalDao.selectSingleStringNoException(sql));
 			return defaultRows.replace(",", "-");
 		}
+		else if (eventAction.equals("saveRulesTable")) {
+			String del_sql = " delete from fg_s_reportfilterref_pivot\n"
+					+ "where parentid = '"+elementValueMap.get("nameId")+"'\n"
+					+ " and rowstatekey is null";
+				generalDao.updateSingleStringNoTryCatch(del_sql);
+			String sql = "update fg_s_reportfilterref_pivot set rowstatekey = null, parentid = '"+elementValueMap.get("nameId")+"' where rowstateKey = '"+stateKey+"'";
+		    formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+		}
+		else if (eventAction.equals("saveRulesTableByUserId")) {
+			String del_sql = " delete from fg_s_reportfilterref_pivot\n"
+					+ " where parentid = '"+userId+"'\n"
+					+ " and rowstatekey is null";
+				generalDao.updateSingleStringNoTryCatch(del_sql);
+			String sql = "update fg_s_reportfilterref_pivot set rowstatekey = null, parentid = '"+userId+"' where rowstateKey = '"+stateKey+"'";
+		    formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+		}
 		
 		return null; 
 	}

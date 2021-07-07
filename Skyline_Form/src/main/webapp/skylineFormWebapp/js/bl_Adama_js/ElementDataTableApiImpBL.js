@@ -282,6 +282,8 @@ function elementDataTableApiImpBL(domId) {
 	   $('#reportTable_wrapper').find('div.dropdown-content div.dt-buttons a').eq( 1 )  //remove PDF
 	   			.remove();
 	   			//.('<a class="" tabindex="0" aria-controls="reportTable" href="#"><span>PDF</span></a>');
+   }else if(domId == 'rulesTable' && $('#formCode').val() == 'ExperimentReport'){
+	   $('#rulesTable_Parent').css({"padding-bottom":"95px"});//padding-bottom because of ddl in edit tables
    } else if(domId == 'Batches' && ($('#formCode').val() == 'InvItemMaterial'||$('#formCode').val() == 'InvItemMaterialFr'||$('#formCode').val() == 'InvItemMaterialPr')){
 	   $('#Batches_dataTableStructButtons button.dataTableApiOptional1').text('Depleted');
 	   $('#Batches_dataTableStructButtons button.dataTableApiOptional1').off('click');
