@@ -51,9 +51,9 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 			sheet.bindColumn(1, "ID");
 			
 			
-			/*var sheet = workBook.getSheet(0);
+			var sheet = workBook.getSheet(0);
 			
-			sheet.getRange(0, -1, 21, -1).locked(false);
+			/*sheet.getRange(0, -1, 21, -1).locked(false);
 			//protect the sheet from deleting rows
 			//sheet.options.isProtected = true;
 			sheet.options.protectionOptions.allowDragInsertRows = true;

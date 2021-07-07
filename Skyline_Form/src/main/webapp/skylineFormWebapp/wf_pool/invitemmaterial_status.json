@@ -16,6 +16,6 @@
 	{"from":"Cancelled", "to":"Active"},
 	{"from":"Temporary", "to":"Temporary"},
 	{"from":"Temporary", "to":"Active"},
-	{"from":"Temporary", "to":"Cancelled"},
+	{"from":"Temporary", "to":"Cancelled"}
 	]
 }

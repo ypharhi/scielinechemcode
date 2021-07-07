@@ -15,9 +15,11 @@ import java.util.Deque;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.TreeSet;
 
@@ -7125,7 +7127,8 @@ public void preperReport(Map<String, String> elementValueMap) {
 	public String getExcelComponentList(String parentId) {
 		String toReturn = "";
 		JSONObject componentsJson = new JSONObject();
-		
+			
+		List<String> materialIdList = new ArrayList<String>();
 		String spreadsheetResultsId = generalDao.selectSingleStringNoException("select spreadsheetResults\n"
 				+ "from fg_s_experiment_v\n"
 				+ "where experiment_id = '"+parentId+"'\n");
@@ -7135,7 +7138,16 @@ public void preperReport(Map<String, String> elementValueMap) {
 			js = new JSONObject(spreadsheetResultsData);
 		}
 		JSONObject jsspreadsheetData = (JSONObject)js.get("output");
-		
+		if(jsspreadsheetData.has("0")){
+			JSONArray arr = new JSONArray(jsspreadsheetData.get("0").toString());
+			for(int i = 0;i<arr.length();i++) {
+				JSONObject sampleMaterialPair = arr.getJSONObject(i);
+				String material_id = generalUtil.getNull(sampleMaterialPair.getString("material_id"));
+				if(!material_id.isEmpty()) {
+					materialIdList.add(material_id);//when the material exists, then probably the material_id exists too
+				}
+			}
+		}
 		
 		//Material list -> taken from all the materials in the system
 		String project_id = formDao.getFromInfoLookup("experiment", LookupType.ID, parentId, "PROJECT_ID");
@@ -7147,7 +7159,11 @@ public void preperReport(Map<String, String> elementValueMap) {
 				+ "from fg_s_component_all_v\n"
 				+ "where parentid = '"+parentId+"'\n"
 				+ "and sessionid is null\n"
-				+ "and active = 1";
+				+ "and active = 1\n"
+				+ "union all\n"
+				+ "select ID,NAME\n"
+				+ "from fg_e_expangn_material_v\n"
+				+ "where ID in("+generalUtil.listToCsv(materialIdList)+")";
 		List<Map<String,Object>> materialList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("Materials", new JSONArray(materialList));
 		
