@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -1137,12 +1138,52 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 					}
 				break;
 			} case INVALID_MATERIAL_NAME:{
+				List<String> materialList = null;
+				if(validateValueObject instanceof LinkedHashSet<?>) {
+			       // materialList = Arrays.asList((String[])validateValueObject);
+					materialList = new ArrayList<String>((LinkedHashSet<String>) validateValueObject);
+				}
+				List<String> returnCsv= commonFunc.getListNotInTable(materialList,"invitemmaterial","invitemmaterialname",null,"");
+				if(!returnCsv.isEmpty()) {
+					throw new Exception(getMessage(validationCode, new Object[] { generalUtil.listToCsv(returnCsv) }, validateValueObject));
+				}
 				break;
 			} case INVALID_RESULT_TYPE:{
+				List<String> resultTypeList = null;
+				if(validateValueObject instanceof LinkedHashSet<?>) {
+			        resultTypeList = new ArrayList<String>((LinkedHashSet<String>) validateValueObject);
+				}
+				List<String> returnCsv= commonFunc.getListNotInTable(resultTypeList,"analyticresulttype","COMPONENTRESULTTYPENAME","fg_s_componentresulttype_v","");
+				if(!returnCsv.isEmpty()) {
+					throw new Exception(getMessage(validationCode, new Object[] { generalUtil.listToCsv(returnCsv) }, validateValueObject));
+				}
 				break;
 			} case INVALID_RESULT_SAMPLE:{
+				List<String> sampleList = null;
+				if(validateValueObject instanceof LinkedHashSet<?>) {
+			        sampleList = new ArrayList<String>((LinkedHashSet<String>) validateValueObject);
+				}
+				List<String> returnCsv= commonFunc.getListNotInTable(sampleList,"sampleselect","SAMPLENAME","fg_s_sampleselect_all_v","parentid = '"+formId+"' AND SESSIONID IS NULL AND ACTIVE =1");
+				if(!returnCsv.isEmpty()) {
+					throw new Exception(getMessage(validationCode, new Object[] { generalUtil.listToCsv(returnCsv) }, validateValueObject));
+				}
 				break;
 			} case INVALID_UNKNOWN_MATERIAL:{
+				List<String> unknownMaterialList = null;
+				if(validateValueObject instanceof LinkedHashSet<?>) {
+			        unknownMaterialList = new ArrayList<String>((LinkedHashSet<String>) validateValueObject);
+				}
+				String sql = "select trim(' ' from lower(invitemmaterialname))\n"
+						+ "from fg_s_invitemmaterial_v";
+				List<String> inventoryMaterial = generalDao.getListOfStringBySql(sql);
+				for(int i = 0;i<unknownMaterialList.size();i++) {
+					String itemVal = unknownMaterialList.get(i);
+					unknownMaterialList.set(i, itemVal.trim().toLowerCase());
+				}
+				unknownMaterialList.retainAll(inventoryMaterial);
+				if(unknownMaterialList.size() > 0) {//some unknown  materials already exist in the inventory
+					throw new Exception(getMessage(validationCode, new Object[] { generalUtil.listToCsv(unknownMaterialList) }, validateValueObject));
+				}
 				break;
 			} 
 			case CHECK_TESTED_COMPONENT_MANDATORY:{

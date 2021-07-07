@@ -7110,9 +7110,28 @@ public void preperReport(Map<String, String> elementValueMap) {
 		String toReturn = "";
 		JSONObject componentsJson = new JSONObject();
 		
+		String spreadsheetResultsId = generalDao.selectSingleStringNoException("select spreadsheetResults\n"
+				+ "from fg_s_experiment_v\n"
+				+ "where experiment_id = '"+parentId+"'\n");
+		String spreadsheetResultsData = generalUtilFormState.getStringContent(spreadsheetResultsId, "ExperimentAn", "spreadsheetResults", parentId);
+		JSONObject js = new JSONObject();
+		if(!generalUtil.getNull(spreadsheetResultsData).isEmpty()){
+			js = new JSONObject(spreadsheetResultsData);
+		}
+		JSONObject jsspreadsheetData = (JSONObject)js.get("output");
+		
+		
 		//Material list -> taken from all the materials in the system
+		String project_id = formDao.getFromInfoLookup("experiment", LookupType.ID, parentId, "PROJECT_ID");
 		String sql = "select ID,NAME\n"
-				+ "from fg_e_expangn_material_v";
+				+ "from fg_e_expangn_material_v\n"
+				+ "where instr(','||project_id||',',','||"+project_id+"||',')>0\n"
+				+ "union all\n"
+				+ "select MATERIALID,COMPONENTNAME\n"
+				+ "from fg_s_component_all_v\n"
+				+ "where parentid = '"+parentId+"'\n"
+				+ "and sessionid is null\n"
+				+ "and active = 1";
 		List<Map<String,Object>> materialList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("Materials", new JSONArray(materialList));
 		
@@ -7129,7 +7148,13 @@ public void preperReport(Map<String, String> elementValueMap) {
 		
 		//Result types
 		sql = "select ID,NAME\n"
-				+ "from fg_e_expangn_resultType_v";
+				+ "from fg_e_expangn_resultType_v\n"
+				+ "union all\n"
+				+ "select distinct TYPE_ID,TESTEDCOMPTYPENAME\n"
+				+ "from fg_s_component_all_v\n"
+				+ "where parentid = '"+parentId+"'\n"
+				+ "and sessionid is null\n"
+				+ "and active = 1";
 		List<Map<String,Object>> resultTypeList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("ResultTypes", new JSONArray(resultTypeList));
 		

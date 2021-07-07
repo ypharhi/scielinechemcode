@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.digester.RegexMatcher;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -2761,4 +2762,20 @@ public void checkTestedComponentMandatoryfields(String experiment_id,String user
 		}*/
 
 }
+
+	public List<String> getListNotInTable(List<String> list, String formCode, String columnNameToSearch, String view, String wherepart) {
+		view = generalUtil.getNull(view).isEmpty()?"fg_s_"+formCode+"_v":view;
+		String sql = "select trim(' ' from lower("+columnNameToSearch+"))\n"
+				+ "from "+view+"\n"
+				+ "where 1=1"+(!generalUtil.getNull(wherepart).isEmpty()?" and "+wherepart:"");
+		List<String> itemList = generalDao.getListOfStringBySql(sql);
+		for(int i = 0;i<list.size();i++) {
+			String itemVal = list.get(i);
+			list.set(i, itemVal.trim().toLowerCase());
+		}
+		List<String> copyList = new ArrayList<String>(list);
+		copyList.removeAll(itemList);
+		
+		return copyList;
+	}
 }

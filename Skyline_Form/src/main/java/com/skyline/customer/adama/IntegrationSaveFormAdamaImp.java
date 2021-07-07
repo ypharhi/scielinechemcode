@@ -9,9 +9,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.TreeSet;
 
 import org.apache.xml.dtm.ref.DTMDefaultBaseIterators.ParentIterator;
@@ -5063,10 +5065,10 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				}
 				
 				//collect the materials,manual materials and the samples
-				List<String> materialList = new ArrayList<String>();
-				List<String> manualMaterialList = new ArrayList<String>();
-				List<String> sampleList = new ArrayList<String>();
-				List<String> resultTypeList = new ArrayList<String>();
+				Set<String> materialList = new LinkedHashSet<String>();
+				Set<String> manualMaterialList = new LinkedHashSet<String>();
+				Set<String> sampleList = new LinkedHashSet<String>();
+				Set<String> resultTypeList = new LinkedHashSet<String>();
 				if(!jsspreadsheetData.has("0")){
 					return;
 				}
@@ -5074,68 +5076,98 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				for(int i = 0;i<arr.length();i++) {
 					JSONObject sampleMaterialPair = arr.getJSONObject(i);
 					String sample = generalUtil.getNull(sampleMaterialPair.getString("Sample"));
-					
 					String material = generalUtil.getNull(sampleMaterialPair.getString("Material"));
 					String manualMaterial = generalUtil.getNull(sampleMaterialPair.getString("Unknown Materials"));
 					String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value"));
-					String resultCommnent = generalUtil.getNull(sampleMaterialPair.getString("comment")) ;
 					String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
 					if(sample.isEmpty() || material.isEmpty() && manualMaterial.isEmpty() || resultValue.isEmpty() || resultType.isEmpty()) {
 						continue;
 					}
 					if(!resultValue.isEmpty()) {
-						 materialList.add(material);
-						 manualMaterialList.add(manualMaterial);
-						 sampleList.add(sample);
-						 resultTypeList.add(resultType);
+						if(!material.isEmpty()) {
+							materialList.add(material);
+						}
+						if(!manualMaterial.isEmpty()) {
+							manualMaterialList.add(manualMaterial);
+						}
+						sampleList.add(sample);
+						resultTypeList.add(resultType);
 					}
 				}
 				
-				/*
-				 * //2. checks that the materials are valid, ie. all of them exist in the
-				 * inventory
-				 * integrationValidation.validate(ValidationCode.INVALID_MATERIAL_NAME,
-				 * formCode, formId, materialList, new StringBuilder());
-				 * 
-				 * //3.checks that the result types are valid, ie. all of them exist in the
-				 * result type maintenance
-				 * integrationValidation.validate(ValidationCode.INVALID_RESULT_TYPE, formCode,
-				 * formId, resultTypeList, new StringBuilder());
-				 * 
-				 * //4.checks that the samples are valid, ie. all of them exist in the sample
-				 * select of the experiment
-				 * integrationValidation.validate(ValidationCode.INVALID_RESULT_SAMPLE,
-				 * formCode, formId, sampleList, new StringBuilder());
-				 * 
-				 * //5.checks whether any of the unknown materials already exists in the
-				 * inventory
-				 * integrationValidation.validate(ValidationCode.INVALID_UNKNOWN_MATERIAL,
-				 * formCode, formId, manualMaterialList, new StringBuilder());
-				 */
 				
-				//6. creates the temporary materials that has entered as unknown
-				//TODO
+				  //2. checks that the materials are valid, ie. all of them exist in the inventory
+				  integrationValidation.validate(ValidationCode.INVALID_MATERIAL_NAME,
+				  formCode, formId, materialList, new StringBuilder());
+				  
+				  //3.checks that the result types are valid, ie. all of them exist in the result type maintenance
+				  integrationValidation.validate(ValidationCode.INVALID_RESULT_TYPE, formCode,
+				  formId, resultTypeList, new StringBuilder());
+				  
+				 //4.checks that the samples are valid, ie. all of them exist in the sample select of the experiment
+				  integrationValidation.validate(ValidationCode.INVALID_RESULT_SAMPLE,
+				  formCode, formId, sampleList, new StringBuilder());
+				  
+				 //5.checks whether any of the unknown materials already exists in the inventory
+				 integrationValidation.validate(ValidationCode.INVALID_UNKNOWN_MATERIAL,
+				  formCode, formId, manualMaterialList, new StringBuilder());
 				
+				//6. creates the temporary materials that has entered as unknown 
+				String project_id = elementValueMap.get("PROJECT_ID");
+				for(String manualMaterial:manualMaterialList) {
+					if(!manualMaterial.isEmpty()) {
+						createTemporaryMaterials(manualMaterial,project_id,userId);
+					}
+				}
+				
+				//7. update the cells that represent the temporary materials and insert the new material_id
+				for(int i = 0;i<arr.length();i++) {
+					JSONObject sampleMaterialPair = arr.getJSONObject(i);
+					String sample = generalUtil.getNull(sampleMaterialPair.getString("Sample"));
+					String material = generalUtil.getNull(sampleMaterialPair.getString("Material"));
+					String manualMaterial = generalUtil.getNull(sampleMaterialPair.getString("Unknown Materials"));
+					String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value"));
+					String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
+					if(sample.isEmpty() || material.isEmpty() && manualMaterial.isEmpty() || resultValue.isEmpty() || resultType.isEmpty()) {
+						continue;
+					}
+					if(!resultValue.isEmpty()) {
+						if(!manualMaterial.isEmpty()) {
+							JSONObject currentNewCell = new JSONObject(sampleMaterialPair.toString());
+							String material_id = formDao.getFromInfoLookup("invitemmaterial", LookupType.NAME, manualMaterial, "id");
+							currentNewCell.put("material_id", material_id);
+							arr.remove(i);
+							arr.put(i, currentNewCell);
+						}
+					}
+				}
+			
+				//8. insert the data into the manual results 
 				List<String> sampleselectList = generalDao.getListOfStringBySql("select sample_id\n"
 						+ " from fg_s_sampleselect_all_v\n"
 						+ "where parentid = '"+formId+"'\n"
 						+ "and sessionid is null\n"
 						+ "and active=1");
 				
-				//7. insert the data to the manual results
+				
 				for(int i = 0;i<arr.length();i++) {
 					JSONObject sampleMaterialPair = arr.getJSONObject(i);
 					String sample_id = formDao.getFromInfoLookup("sample", LookupType.NAME, sampleMaterialPair.getString("Sample") , "id");
 					if(!sampleselectList.contains(sample_id)) {//some samples may be removed by the user in the sampleselect but not removed from the excel
-						//however, those ones tha have removed from the sample select will not displayed in the excel anymore(handled on the load of the element)
+						//however, those ones that have removed from the sample select will not displayed in the excel anymore(handled on the load of the element)
 						continue;
 					}
-					String material_id = formDao.getFromInfoLookup("invitemmaterial", LookupType.NAME, sampleMaterialPair.getString("Material") , "id");
+					String manualMaterial = generalUtil.getNull(sampleMaterialPair.getString("Unknown Materials"));
+					String selectedMaterial = generalUtil.getNull(sampleMaterialPair.getString("Material"));					
+					String materialName = manualMaterial.isEmpty()?selectedMaterial:manualMaterial;
+					String material_id = formDao.getFromInfoLookup("invitemmaterial", LookupType.NAME, materialName , "id");//in this part of code, the temporary material probably created, thus the id already exists
 					String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value") );
 					String resultCommnent = generalUtil.getNull(sampleMaterialPair.getString("comment"));
-					String resultType = generalUtil.getSpringMessagesByKey(generalUtil.getNull(sampleMaterialPair.getString("Results Type")),"");
+					String currentResultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type"));
+					String resultType = generalUtil.getSpringMessagesByKey(currentResultType.equals("AI Concentration")||currentResultType.equals("Active Ingredient")?"Assay"
+							:(currentResultType.equals("Impurity")?"Impurity Percent":currentResultType),"");
 					
-					//checks if one of the mandatory fiels is missing.
+					//checks if one of the mandatory fields is missing.
 					if(sample_id.isEmpty() || material_id.isEmpty() || resultValue.isEmpty() || resultType.isEmpty()) {
 						continue;
 					}
@@ -5161,6 +5193,10 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 							resultTypeId, "NULL");
 					formSaveDao.insertStructTableByFormId(sql, "fg_s_manualresultsref_pivot", manualResId);
 				}
+				jsspreadsheetData = new JSONObject();
+				jsspreadsheetData.put("0", new JSONArray(arr.toString()));
+				js.put("output", jsspreadsheetData);
+				uploadFileDao.saveStringAsClob(elementValueMap.get("spreadsheetResults"), js.toString());
 			}
 			return;
 		}
@@ -5287,6 +5323,19 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				}
 			}
 		}
+	}
+
+	private String createTemporaryMaterials(String manualMaterialName, String project_id,String userId) {
+			String materialtype_id=formDao.getFromInfoLookup("MaterialType",LookupType.NAME,"Impurity","id");
+			String materialTempStatus_id =formDao.getFromInfoLookup("MaterialStatus",LookupType.NAME,"Temporary","id");
+			String newFormId = formSaveDao.getStructFormId("InvItemMaterial");
+			String sql_ = "insert into FG_S_INVITEMMATERIAL_PIVOT"
+					+ " (FORMID,TIMESTAMP,CREATION_DATE,CLONEID,TEMPLATEFLAG,CHANGE_BY,CREATED_BY,SESSIONID,ACTIVE,FORMCODE_ENTITY,FORMCODE,"
+					+ "invitemmaterialname,project_id,materialprotocoltype,materialtype_id,sourceProjectId,status_id)" + " VALUES ('" + newFormId + "',SYSDATE,SYSDATE,null,null,'" + userId + "','" + userId
+					+ "',null,1,'InvItemMaterial','InvItemMaterial','"+manualMaterialName+"','"+project_id+"','Chemical Material','"+materialtype_id+"',NULL,'" + materialTempStatus_id + "')";
+
+			formSaveDao.insertStructTableByFormId(sql_, "FG_S_InvItemMaterial_PIVOT", newFormId);
+			return newFormId;
 	}
 
 	//kd 05032018 use this instead method for Map getOrDefault from Java 8 

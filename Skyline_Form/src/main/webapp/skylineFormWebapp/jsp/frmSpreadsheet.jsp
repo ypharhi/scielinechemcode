@@ -38,7 +38,8 @@
 	var designer = [];
 	var isToolBarDisplay=[];
 	var isDisabled = [];//an array of all the excel objects when each cell mentions whether it's disabled or not
-
+	var outputData = []; // contains the custom output fof the spreadsheet
+	
 		function onLoadIframeSpreadsheet(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey){
 			GC.Spread.Sheets.LicenseKey = SpreadSheetsLicenseKey;
 			GC.Spread.Sheets.Designer.LicenseKey = SpreadSheetsDesignerLicenseKey;
@@ -46,12 +47,13 @@
 			designer[domId] = new GC.Spread.Sheets.Designer.Designer(document.getElementById("gc-designer-container"),config);
 		}
 		
-		function onLoadSpreadsheetData(data,domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
+		function onLoadSpreadsheetData(data,outputData,domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
 			parent.console.log("----------------ON LOAD SPREADSHEET--------------");
 			var jsonData = {};
 			var hideRibbonPanel = "0";
 			this.isToolBarDisplay[domId] = isToolBarDisplay;
 			this.isDisabled[domId] = isDisabled;
+			this.outputData[domId] = outputData;
 			var workBook = designer[domId].getWorkbook();
 			workBook.fromJSON(data);
 			parent.console.log(data);
@@ -170,20 +172,25 @@
 				for(var i=1;i<sheetCount;i++){
 					workBook.sheets[i].visible(false);
 				}
+				workBook.options.newTabVisible = false;
+				/* var insertSheetIndex = null;
+				$.each(workBook.contextMenu.menuData, function (p, v) {
+				    if (v.name === 'gc.spread.contextMenu.insertSheet') { //disables adding tab by the right click
+				    	insertSheetIndex = p;//removing the element in the p index in the contextMennu array
+				    }
+				});
+				if(insertSheetIndex!=null){
+					workBook.contextMenu.menuData.splice(insertSheetIndex, 1);
+				} */
+				workBook.contextMenu.menuData = workBook.contextMenu.menuData.filter(function(item) {
+				    return item.name != 'gc.spread.contextMenu.insertSheet';
+			    });
+			} else {
+				var sheetCount = workBook.getSheetCount();
+				for(var i=1;i<sheetCount;i++){
+					workBook.sheets[i].visible(true);
+				}
 			}
-			workBook.options.newTabVisible = false;
-			/* var insertSheetIndex = null;
-			$.each(workBook.contextMenu.menuData, function (p, v) {
-			    if (v.name === 'gc.spread.contextMenu.insertSheet') { //disables adding tab by the right click
-			    	insertSheetIndex = p;//removing the element in the p index in the contextMennu array
-			    }
-			});
-			if(insertSheetIndex!=null){
-				workBook.contextMenu.menuData.splice(insertSheetIndex, 1);
-			} */
-			workBook.contextMenu.menuData = workBook.contextMenu.menuData.filter(function(item) {
-			    return item.name != 'gc.spread.contextMenu.insertSheet';
-		    });
 			
 			//fits the width and the height of the column and the row to the text.
 			workBook.bind(GC.Spread.Sheets.Events.CellChanged, function (e, args) {
@@ -256,7 +263,7 @@
 			}
 			
 		    disableSpreadsheet(domId);//disables the spreadsheet from being editable
- 		    parent.spreadOnLoadBL(parent.$('#formCode').val(),domId,designer); // demo for spreadsheet develop
+ 		    parent.spreadOnLoadBL(parent.$('#formCode').val(),domId,designer,outputData[domId]); // demo for spreadsheet develop
 		}
 		
 		function expandCompressSpreadIframe(elem,domId){
@@ -434,8 +441,8 @@
 				        }
 				    }
 			    } */
-			    var currSpreadConfig = workBook.toJSON();
 			    fullObj["output"] = parent.getOutputValueBL(parent.$('#formCode').val(),domId,designer);
+			    var currSpreadConfig = workBook.toJSON();
 			    fullObj["excelFullData"] = currSpreadConfig;
 			    fullObj["validationMessage"] = parent.getValidationMessage(parent.$('#formCode').val(),domId,designer);
 			    console.log("end getValueFromOutputSheet func");

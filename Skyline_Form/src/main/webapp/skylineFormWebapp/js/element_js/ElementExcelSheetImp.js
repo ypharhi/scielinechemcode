@@ -1,6 +1,7 @@
 //var spreadSheetObject = {};
 //var catalogItemDataObject = {};
 var dataHolder = [];
+var outputDataHolder = [];
 
 var ElementExcelSheetImp = {
     value_: function (val_) {
@@ -63,9 +64,10 @@ function reloadExcelSheet(domId){
 	document.getElementById(domId+'_spreadIframe').contentWindow.location.reload();
 }
 
-function onLoadSpreadsheetElement(data,domId,isToolBarDisplay,isDisabled) {
+function onLoadSpreadsheetElement(data,outputData,domId,isToolBarDisplay,isDisabled) {
 	console.log('---------1. ON LOAD SPREAD ELEMENT------------');
 	dataHolder[domId] = data;
+	outputDataHolder[domId] = outputData;
 	document.getElementById(domId+"_spreadIframe").contentWindow.onclick  = function(){onSpreadFocused();};
 }  
 
@@ -74,7 +76,7 @@ function onLoadIframeSpreadsheet(domId,isToolBarDisplay,isDisabled,SpreadSheetsL
 		document.getElementById(domId+"_spreadIframe").contentWindow.onLoadIframeSpreadsheet(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
 		setTimeout(function(){//added timeout in order to avoid the compressed toolbar and empty data (since onLoadIframeSpreadsheet was fired before onLoadSpreadJS)
 			console.log('---------2. ON LOAD SPREAD IFRAME------------');
-			$('#'+domId).find('iframe')[0].contentWindow.onLoadSpreadsheetData(dataHolder[domId],domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
+			$('#'+domId).find('iframe')[0].contentWindow.onLoadSpreadsheetData(dataHolder[domId],outputDataHolder[domId],domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
 		},100);
 	});
 }  

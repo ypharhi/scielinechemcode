@@ -89,6 +89,7 @@ public class ElementExcelSheetImp extends Element
 		String disabled = (isDisabled) ? " disabledclass " : "";
 		
 		String spreadsheetData = "";
+		String spreadsheetOutput = "";
 		value = generalUtil.getEmpty(value, "-1");
 		if (!value.equals("-1")) {
 			String elementData = generalUtilFormState.getStringContent(value, formCode, domId, formId);
@@ -106,13 +107,15 @@ public class ElementExcelSheetImp extends Element
 			try {
 				JSONObject jsspreadsheetData = (JSONObject)js.get("excelFullData");
 				spreadsheetData = jsspreadsheetData.toString();
+				JSONObject jsspreadsheetOutput = (JSONObject)js.get("output");
+				spreadsheetOutput = jsspreadsheetOutput.toString();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		
-		String spreadsheetObj = "onLoadSpreadsheetElement("+(spreadsheetData.isEmpty()?"{}":spreadsheetData)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
+		String spreadsheetObj = "onLoadSpreadsheetElement("+(spreadsheetData.isEmpty()?"{}":spreadsheetData)+","+(spreadsheetOutput.isEmpty()?"{}":spreadsheetOutput)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
 		String onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet('"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
 		html.put(layoutBookMark + "_ready", spreadsheetObj);
 		String iframeSpreadJS = "<div id=\"" + domId + "\"  elementID=\"" + value + "\" basicHeight=\""+height_+"\" basicWidth=\""+width_+"\" style=\"height: "+height_+"; width:"+width_+";border: 1px solid gray;" + hidden+"\" element=\"" + this.getClass().getSimpleName() + "\" " + inputAttribute + " class=\"excelSheet "+ disabled +"\">\n"
