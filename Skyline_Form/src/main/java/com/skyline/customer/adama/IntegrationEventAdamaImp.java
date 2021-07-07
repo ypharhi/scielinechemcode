@@ -7160,10 +7160,10 @@ public void preperReport(Map<String, String> elementValueMap) {
 				+ "where parentid = '"+parentId+"'\n"
 				+ "and sessionid is null\n"
 				+ "and active = 1\n"
-				+ "union all\n"
+				+ (!materialIdList.isEmpty()?"union all\n"
 				+ "select ID,NAME\n"
 				+ "from fg_e_expangn_material_v\n"
-				+ "where ID in("+generalUtil.listToCsv(materialIdList)+")";
+				+ "where ID in("+generalUtil.listToCsv(materialIdList)+")":"");
 		List<Map<String,Object>> materialList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("Materials", new JSONArray(materialList));
 		
