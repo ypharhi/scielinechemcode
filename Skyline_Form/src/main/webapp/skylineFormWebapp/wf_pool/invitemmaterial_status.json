@@ -1,0 +1,21 @@
+{ 
+	"statusTableName":"MATERIALSTATUS",
+	"firstState": "Active",
+  "nodeKeyProperty": "id",
+  "nodeDataArray":
+  [
+  	{"id":"Active", "text":"Active" },
+  	{"id":"Cancelled", "text":"Cancelled" },
+  	{"id":"Temporary", "text":"Temporary" }
+ ],
+  "linkDataArray": 
+  [
+	{"from":"Active", "to":"Active"},
+	{"from":"Active", "to":"Cancelled"},
+	{"from":"Cancelled", "to":"Cancelled"},
+	{"from":"Cancelled", "to":"Active"},
+	{"from":"Temporary", "to":"Temporary"},
+	{"from":"Temporary", "to":"Active"},
+	{"from":"Temporary", "to":"Cancelled"},
+	]
+}
