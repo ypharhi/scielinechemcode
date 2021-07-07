@@ -73,21 +73,23 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 			sheet.options.protectionOptions.allowOutlineColumns = true;*/
 			
 			//2. Add the tested components to the spreadsheet results(if it was not selected manually in the excel)i.e select the, in the main sheet
+			var rowCount = sheet.getRowCount();
+		    var columnCount = sheet.getColumnCount();
 			var i=0;
 			var j=_materialLocation.x;
 			var currentMaterialList = [];
-			for(i=0;i<22;i++){
+			for(i=0;i<-j;i++){
 				currentMaterialList[i] = sheet.getValue(_materialLocation.y,j+i);
 			}
 			var firstEmptyCol = _materialLocation.x;
-			for(;j<26;j++){
-				for(i=0;i<22;i++){
+			for(;j<columnCount;j++){
+				for(i=0;i<rowCount;i++){
 					var val = sheet.getValue(i,j);
 					if(val != null){
 						break;
 					}
 				}
-				if(i==22){//checked all the lines and found them empty
+				if(i==rowCount){//checked all the lines and found them empty
 					firstEmptyCol = j;
 					break;
 				}
@@ -108,7 +110,7 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 			//3. Add the samples from the sample select to the spreadsheet results
 			var j=_sampleLocation.y;
 			var currentSampleList = [];
-			for(var i=0;i<19;i++){
+			for(var i=0;i<rowCount-j;i++){
 				currentSampleList[i] = sheet.getValue(j+i,0);
 			}
 			
@@ -122,7 +124,7 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 			var commonSamples = currentSampleList.filter(function(val){
 				return sampleSelectList.indexOf(val)!==-1;
 			});
-			for(var i = _sampleLocation.y;i<22;i++){
+			for(var i = _sampleLocation.y;i<rowCount;i++){
 				var val = sheet.getValue(i,_sampleLocation.x);
 				if(val!=null && commonSamples.indexOf(val)==-1){//check whether the sample was deleted from the sample select
 					sheet.deleteRows(i,1);
@@ -131,7 +133,7 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				}
 			}
 			var firstEmptyRow = _sampleLocation.y;
-			for(var i=_sampleLocation.y;i<22;i++){
+			for(var i=_sampleLocation.y;i<rowCount;i++){
 				var val = sheet.getValue(i,_sampleLocation.x);
 				if(val == null){
 					firstEmptyRow = i;
