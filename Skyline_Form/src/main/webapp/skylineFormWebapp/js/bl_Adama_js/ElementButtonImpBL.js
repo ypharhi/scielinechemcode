@@ -66,6 +66,8 @@ function generalBL_generalClickEvent(customerFunction, action) { // customerClic
 		exp_imp_Specification(action);
 	} else if (customerFunction == "generateExpAnalysisReport") {
 		generateExpAnalysisReport(action);
+	} else if (customerFunction == "generateExpReport") {
+		generateExpReport(action);
 	} else if (customerFunction == "deleteAction") {
 		// ab 31032019 info: the function called from FormBuilder in StepFr. For
 		// deletion of action in Step(Organic) the func called from
@@ -2754,6 +2756,10 @@ function deleteAction() {
         },
         error: handleAjaxError
     });
+ }
+ 
+ function generateExpReport(action) {
+	 onElementDataTableApiChange('reportTable', null,null,true);
  }
  
  function generateHistoryReport(action) {
