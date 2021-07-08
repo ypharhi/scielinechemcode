@@ -7132,19 +7132,21 @@ public void preperReport(Map<String, String> elementValueMap) {
 		String spreadsheetResultsId = generalDao.selectSingleStringNoException("select spreadsheetResults\n"
 				+ "from fg_s_experiment_v\n"
 				+ "where experiment_id = '"+parentId+"'\n");
+		if(!generalUtil.getNull(spreadsheetResultsId).isEmpty()) {
 		String spreadsheetResultsData = generalUtilFormState.getStringContent(spreadsheetResultsId, "ExperimentAn", "spreadsheetResults", parentId);
-		JSONObject js = new JSONObject();
-		if(!generalUtil.getNull(spreadsheetResultsData).isEmpty()){
-			js = new JSONObject(spreadsheetResultsData);
-		}
-		JSONObject jsspreadsheetData = (JSONObject)js.get("output");
-		if(jsspreadsheetData.has("0")){
-			JSONArray arr = new JSONArray(jsspreadsheetData.get("0").toString());
-			for(int i = 0;i<arr.length();i++) {
-				JSONObject sampleMaterialPair = arr.getJSONObject(i);
-				String material_id = generalUtil.getNull(sampleMaterialPair.getString("material_id"));
-				if(!material_id.isEmpty()) {
-					materialIdList.add(material_id);//when the material exists, then probably the material_id exists too
+			JSONObject js = new JSONObject();
+			if(!generalUtil.getNull(spreadsheetResultsData).isEmpty()){
+				js = new JSONObject(spreadsheetResultsData);
+			}
+			JSONObject jsspreadsheetData = (JSONObject)js.get("output");
+			if(jsspreadsheetData.has("0")){
+				JSONArray arr = new JSONArray(jsspreadsheetData.get("0").toString());
+				for(int i = 0;i<arr.length();i++) {
+					JSONObject sampleMaterialPair = arr.getJSONObject(i);
+					String material_id = generalUtil.getNull(sampleMaterialPair.getString("material_id"));
+					if(!material_id.isEmpty()) {
+						materialIdList.add(material_id);//when the material exists, then probably the material_id exists too
+					}
 				}
 			}
 		}
