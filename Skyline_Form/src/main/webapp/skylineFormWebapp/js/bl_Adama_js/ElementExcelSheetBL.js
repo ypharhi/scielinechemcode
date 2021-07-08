@@ -1,3 +1,4 @@
+//default values are of version V1
 var _materialLocation = {
 		x:4,
 		y:4
@@ -18,9 +19,19 @@ var _rtLocation = {
 		x:4,
 		y:3
 };
+var _massLocation = {
+		x:4,
+		y:2
+};
 var _resultCommentLocation = {
 		x:3,
 		y:5
+}
+
+function initializeFields(version){
+	if(version == 'V1'){
+		return;
+	}
 }
 
 function spreadOnLoadBL(formCode,domId,designer,outputData) {
@@ -30,186 +41,194 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 			// When the data in the hidden sheets got filled, the lists in the main sheet should be ready with data too.
 			var workBook = designer[domId].getWorkbook();
 		    
-		    var sheet = workBook.getSheetFromName('Materials'); //spread.getActiveSheet();
-			sheet.autoGenerateColumns = false;
-			sheet.setDataSource(componentList['Materials']);
-			sheet.bindColumn(0, "NAME");
-			sheet.bindColumn(1, "ID");
-			
-			var sheet = workBook.getSheetFromName('Samples'); //spread.getActiveSheet();
-			sheet.autoGenerateColumns = false;
-			sheet.setDataSource(componentList['Samples']);
-			sheet.bindColumn(0, "NAME");
-			sheet.bindColumn(1, "ID");
-			sheet.bindColumn(2, "DESCRIPTION");
-			sheet.bindColumn(3, "COMMENTS");
-			
-			var sheet = workBook.getSheetFromName('ResultTypes'); //spread.getActiveSheet();
-			sheet.autoGenerateColumns = false;
-			sheet.setDataSource(componentList['ResultTypes']);
-			sheet.bindColumn(0, "NAME");
-			sheet.bindColumn(1, "ID");
-			
-			
-			var sheet = workBook.getSheet(0);
-			
-			/*sheet.getRange(0, -1, 21, -1).locked(false);
-			//protect the sheet from deleting rows
-			//sheet.options.isProtected = true;
-			sheet.options.protectionOptions.allowDragInsertRows = true;
-			sheet.options.protectionOptions.allowDragInsertColumns = true;
-			sheet.options.protectionOptions.allowInsertRows = true;
-			sheet.options.protectionOptions.allowInsertColumns = true;
-			sheet.options.protectionOptions.allowDeleteRows = false;
-			sheet.options.protectionOptions.allowDeleteColumns = true;
-			sheet.options.protectionOptions.allowSelectLockedCells = true;
-			sheet.options.protectionOptions.allowSelectUnlockedCells = true;
-			sheet.options.protectionOptions.allowSort = true;
-			sheet.options.protectionOptions.allowFilter = true;
-			sheet.options.protectionOptions.allowEditObjects = true;
-			sheet.options.protectionOptions.allowResizeRows = true;
-			sheet.options.protectionOptions.allowResizeColumns = true;
-			sheet.options.protectionOptions.allowOutlineRows = true;
-			sheet.options.protectionOptions.allowOutlineColumns = true;*/
-			
-			//2. Add the tested components to the spreadsheet results(if it was not selected manually in the excel)i.e select the, in the main sheet
-			var rowCount = sheet.getRowCount();
-		    var columnCount = sheet.getColumnCount();
-			var i=0;
-			var j=_materialLocation.x;
-			var currentMaterialList = [];
-			for(i=0;i<-j;i++){
-				currentMaterialList[i] = sheet.getValue(_materialLocation.y,j+i);
-			}
-			var firstEmptyCol = _materialLocation.x;
-			for(;j<columnCount;j++){
-				for(i=0;i<rowCount;i++){
-					var val = sheet.getValue(i,j);
-					if(val != null){
+			//gets the version of the spreadsheet results template and makes the relevant code
+			var sheet = workBook.getSheetFromName('Version');
+			var version = sheet == null ? 'V1': sheet.getValue(0,0);
+			initializeFields(version);
+			if(version == 'V1'){
+				
+			    var sheet = workBook.getSheetFromName('Materials'); //spread.getActiveSheet();
+				sheet.autoGenerateColumns = false;
+				sheet.setDataSource(componentList['Materials']);
+				sheet.bindColumn(0, "NAME");
+				sheet.bindColumn(1, "ID");
+				
+				var sheet = workBook.getSheetFromName('Samples'); //spread.getActiveSheet();
+				sheet.autoGenerateColumns = false;
+				sheet.setDataSource(componentList['Samples']);
+				sheet.bindColumn(0, "NAME");
+				sheet.bindColumn(1, "ID");
+				sheet.bindColumn(2, "DESCRIPTION");
+				sheet.bindColumn(3, "COMMENTS");
+				
+				var sheet = workBook.getSheetFromName('ResultTypes'); //spread.getActiveSheet();
+				sheet.autoGenerateColumns = false;
+				sheet.setDataSource(componentList['ResultTypes']);
+				sheet.bindColumn(0, "NAME");
+				sheet.bindColumn(1, "ID");
+				
+				
+				var sheet = workBook.getSheet(0);
+				
+				/*sheet.getRange(0, -1, 21, -1).locked(false);
+				//protect the sheet from deleting rows
+				//sheet.options.isProtected = true;
+				sheet.options.protectionOptions.allowDragInsertRows = true;
+				sheet.options.protectionOptions.allowDragInsertColumns = true;
+				sheet.options.protectionOptions.allowInsertRows = true;
+				sheet.options.protectionOptions.allowInsertColumns = true;
+				sheet.options.protectionOptions.allowDeleteRows = false;
+				sheet.options.protectionOptions.allowDeleteColumns = true;
+				sheet.options.protectionOptions.allowSelectLockedCells = true;
+				sheet.options.protectionOptions.allowSelectUnlockedCells = true;
+				sheet.options.protectionOptions.allowSort = true;
+				sheet.options.protectionOptions.allowFilter = true;
+				sheet.options.protectionOptions.allowEditObjects = true;
+				sheet.options.protectionOptions.allowResizeRows = true;
+				sheet.options.protectionOptions.allowResizeColumns = true;
+				sheet.options.protectionOptions.allowOutlineRows = true;
+				sheet.options.protectionOptions.allowOutlineColumns = true;*/
+				
+				//2. Add the tested components to the spreadsheet results(if it was not selected manually in the excel)i.e select the, in the main sheet
+				var rowCount = sheet.getRowCount();
+			    var columnCount = sheet.getColumnCount();
+				var i=0;
+				var j=_materialLocation.x;
+				var currentMaterialList = [];
+				for(i=0;i<columnCount-j;i++){
+					currentMaterialList[i] = sheet.getValue(_materialLocation.y,j+i);
+				}
+				var firstEmptyCol = _materialLocation.x;
+				for(;j<columnCount;j++){
+					for(i=0;i<rowCount;i++){
+						var val = sheet.getValue(i,j);
+						if(val != null){
+							break;
+						}
+					}
+					if(i==rowCount){//checked all the lines and found them empty
+						firstEmptyCol = j;
 						break;
 					}
 				}
-				if(i==rowCount){//checked all the lines and found them empty
-					firstEmptyCol = j;
-					break;
-				}
-			}
-			for(var index in componentList['TestedComponents']){
-				var name = componentList['TestedComponents'][index]['COMPONENTNAME'];
-				var rtName = componentList['TestedComponents'][index]['RT'];
-				var typeName = componentList['TestedComponents'][index]['TESTEDCOMPTYPENAME'];
-				if(currentMaterialList.indexOf(name)==-1){
-					//add the material to the materials in the result spreadsheet
-					sheet.setValue(_materialLocation.y,firstEmptyCol,name);
-					sheet.setValue(_rtLocation.y,firstEmptyCol,rtName);
-					sheet.setValue(_resultTypeLocation.y,firstEmptyCol,typeName);
-					firstEmptyCol++;
-				}
-			}
-			
-			//3. Add the samples from the sample select to the spreadsheet results
-			var j=_sampleLocation.y;
-			var currentSampleList = [];
-			for(var i=0;i<rowCount-j;i++){
-				currentSampleList[i] = sheet.getValue(j+i,0);
-			}
-			
-			var sampleSelectList = [];
-			for(var index in componentList['Samples']){
-				var name = componentList['Samples'][index]['NAME'];
-				sampleSelectList.push(name);
-			}
-			
-			//4. delete the rows of the samples that are not in the sample select anymore(were removed by the user)
-			var commonSamples = currentSampleList.filter(function(val){
-				return sampleSelectList.indexOf(val)!==-1;
-			});
-			for(var i = _sampleLocation.y;i<rowCount;i++){
-				var val = sheet.getValue(i,_sampleLocation.x);
-				if(val!=null && commonSamples.indexOf(val)==-1){//check whether the sample was deleted from the sample select
-					sheet.deleteRows(i,1);
-					--i;//decrease the index in order to check again the row that now contains the content of the original following row(before deleting this one)
-					currentSampleList = currentSampleList.slice(currentSampleList.indexOf(val)+1);
-				}
-			}
-			var firstEmptyRow = _sampleLocation.y;
-			for(var i=_sampleLocation.y;i<rowCount;i++){
-				var val = sheet.getValue(i,_sampleLocation.x);
-				if(val == null){
-					firstEmptyRow = i;
-					break;
-				}
-			}
-			for(var item in componentList['Samples']){
-				var name = componentList['Samples'][item]['NAME'];
-				if(currentSampleList.indexOf(name)==-1){
-					//add the material to the materials in the result spreadsheet
-					sheet.setValue(firstEmptyRow++,_sampleLocation.x,name);
-				}
-			}
-			
-			var statusName = parent.$('#STATUS_ID option:selected').text();
-			/*
-			//delete the manual materials and select them in the material list
-			
-			var columnCount = sheet.getColumnCount();
-			if(statusName == 'Completed' || statusName == 'Approved'){
-				for(var j = _unknownMaterialLocation.x; j < columnCount; j++){
-					var unknownMaterial = sheet.getValue(_unknownMaterialLocation.y,j);
-					if(unknownMaterial!=null){
-						sheet.setValue(_materialLocation.y,j,unknownMaterial);
-						sheet.setValue(_unknownMaterialLocation.y,j,'');
+				for(var index in componentList['TestedComponents']){
+					var name = componentList['TestedComponents'][index]['COMPONENTNAME'];
+					var rtName = componentList['TestedComponents'][index]['RT'];
+					var typeName = componentList['TestedComponents'][index]['TESTEDCOMPTYPENAME'];
+					if(currentMaterialList.indexOf(name)==-1){
+						//add the material to the materials in the result spreadsheet
+						sheet.setValue(_materialLocation.y,firstEmptyCol,name);
+						sheet.setValue(_rtLocation.y,firstEmptyCol,rtName);
+						sheet.setValue(_resultTypeLocation.y,firstEmptyCol,typeName);
+						firstEmptyCol++;
 					}
 				}
-			}*/
-			
-			//5. Update the selected materials in the results sheet with the actual name in case it was change in the system
-			var sheetMaterialId = workBook.getSheetFromName("IdLookup");
-		    var columnCount = sheetMaterialId.getColumnCount();
-		    for (var j = _materialLocation.x; j < columnCount; j++) {
-		    	var idValLookup = sheetMaterialId.getValue(_materialLocation.y,j);
-		    	var idValLastSave = sheetMaterialId.getValue(_materialLocation.y+1,j);
-		    	if(idValLookup != idValLastSave && idValLastSave!=-1 && idValLastSave!=""){//if the lookup is not identical to the last saved id, it means that the name was changed.
-		    		var sheetMaterial = workBook.getSheetFromName("Materials");
-		    		var rowCount = sheetMaterial.getRowCount();
-		    		for(var row = 0;row<rowCount; row++){
-		    			var materialId = sheetMaterial.getValue(row,1);
-		    			if(materialId == idValLastSave){
-		    				var actualMaterialName = sheetMaterial.getValue(row,0);
-		    				sheet.setValue(_materialLocation.y,j,actualMaterialName);
-		    				break;
-		    			}
-		    		}
-		    	} else if(idValLastSave == -1 && sheet.getValue(_unknownMaterialLocation.y,j)!=null){
-		    		//if the last saved material was an unknown-> then on completed status it gets an ID.
-		    		//Now, Onload of the page, the new material_id is already stored on the DB, and here we get from the output.
-		    		if(statusName == 'Completed' || statusName == 'Approved'){
-		    			var originUnknownMaterial = sheet.getValue(_unknownMaterialLocation.y,j);
-			    		var material_id = '-1';
-		    			if(outputData!='{}'){
-			    			var outputArray = outputData[0];
-			    			outputArray.forEach(function(element){
-			    				if(element["Unknown Materials"]==originUnknownMaterial){
-			    					material_id = element["material_id"];
-			    					return;
-			    				}
-			    			});
-			    		}
-		    			var sheetMaterial = workBook.getSheetFromName("Materials");
+				
+				//3. Add the samples from the sample select to the spreadsheet results
+				var j=_sampleLocation.y;
+				var currentSampleList = [];
+				for(var i=0;i<rowCount-j;i++){
+					currentSampleList[i] = sheet.getValue(j+i,0);
+				}
+				
+				var sampleSelectList = [];
+				for(var index in componentList['Samples']){
+					var name = componentList['Samples'][index]['NAME'];
+					sampleSelectList.push(name);
+				}
+				
+				//4. delete the rows of the samples that are not in the sample select anymore(were removed by the user)
+				var commonSamples = currentSampleList.filter(function(val){
+					return sampleSelectList.indexOf(val)!==-1;
+				});
+				for(var i = _sampleLocation.y;i<rowCount;i++){
+					var val = sheet.getValue(i,_sampleLocation.x);
+					if(val!=null && commonSamples.indexOf(val)==-1){//check whether the sample was deleted from the sample select
+						sheet.deleteRows(i,1);
+						--i;//decrease the index in order to check again the row that now contains the content of the original following row(before deleting this one)
+						currentSampleList = currentSampleList.slice(currentSampleList.indexOf(val)+1);
+					}
+				}
+				var firstEmptyRow = _sampleLocation.y;
+				for(var i=_sampleLocation.y;i<rowCount;i++){
+					var val = sheet.getValue(i,_sampleLocation.x);
+					if(val == null){
+						firstEmptyRow = i;
+						break;
+					}
+				}
+				for(var item in componentList['Samples']){
+					var name = componentList['Samples'][item]['NAME'];
+					if(currentSampleList.indexOf(name)==-1){
+						//add the material to the materials in the result spreadsheet
+						sheet.setValue(firstEmptyRow++,_sampleLocation.x,name);
+					}
+				}
+				
+				var statusName = parent.$('#STATUS_ID option:selected').text();
+				/*
+				//delete the manual materials and select them in the material list
+				
+				var columnCount = sheet.getColumnCount();
+				if(statusName == 'Completed' || statusName == 'Approved'){
+					for(var j = _unknownMaterialLocation.x; j < columnCount; j++){
+						var unknownMaterial = sheet.getValue(_unknownMaterialLocation.y,j);
+						if(unknownMaterial!=null){
+							sheet.setValue(_materialLocation.y,j,unknownMaterial);
+							sheet.setValue(_unknownMaterialLocation.y,j,'');
+						}
+					}
+				}*/
+				
+				//5. Update the selected materials in the results sheet with the actual name in case it was change in the system
+				var sheetMaterialId = workBook.getSheetFromName("IdLookup");
+			    var columnCount = sheetMaterialId.getColumnCount();
+			    for (var j = _materialLocation.x; j < columnCount; j++) {
+			    	var idValLookup = sheetMaterialId.getValue(_materialLocation.y,j);
+			    	var idValLastSave = sheetMaterialId.getValue(_materialLocation.y+1,j);
+			    	if(idValLookup != idValLastSave && idValLastSave!=-1 && idValLastSave!=""){//if the lookup is not identical to the last saved id, it means that the name was changed.
+			    		var sheetMaterial = workBook.getSheetFromName("Materials");
 			    		var rowCount = sheetMaterial.getRowCount();
-		    			for(var row = 0;row<rowCount; row++){
+			    		for(var row = 0;row<rowCount; row++){
 			    			var materialId = sheetMaterial.getValue(row,1);
-			    			if(materialId == material_id){
+			    			if(materialId == idValLastSave){
 			    				var actualMaterialName = sheetMaterial.getValue(row,0);
 			    				sheet.setValue(_materialLocation.y,j,actualMaterialName);
-			    				sheet.setValue(_unknownMaterialLocation.y,j,'');
 			    				break;
 			    			}
-		    			}
-		    		}
-		    	}
-		    }
+			    		}
+			    	} else if(idValLastSave == -1 && sheet.getValue(_unknownMaterialLocation.y,j)!=null){
+			    		//if the last saved material was an unknown-> then on completed status it gets an ID.
+			    		//Now, Onload of the page, the new material_id is already stored on the DB, and here we get from the output.
+			    		if(statusName == 'Completed' || statusName == 'Approved'){
+			    			var originUnknownMaterial = sheet.getValue(_unknownMaterialLocation.y,j);
+				    		var material_id = '-1';
+			    			if(outputData!='{}'){
+				    			var outputArray = outputData[0];
+				    			outputArray.forEach(function(element){
+				    				if(element["Unknown Materials"]==originUnknownMaterial){
+				    					material_id = element["material_id"];
+				    					return;
+				    				}
+				    			});
+				    		}
+			    			var sheetMaterial = workBook.getSheetFromName("Materials");
+				    		var rowCount = sheetMaterial.getRowCount();
+			    			for(var row = 0;row<rowCount; row++){
+				    			var materialId = sheetMaterial.getValue(row,1);
+				    			if(materialId == material_id){
+				    				var actualMaterialName = sheetMaterial.getValue(row,0);
+				    				sheet.setValue(_materialLocation.y,j,actualMaterialName);
+				    				sheet.setValue(_unknownMaterialLocation.y,j,'');
+				    				break;
+				    			}
+			    			}
+			    		}
+			    	}
+			    }
+			}//end of if version
 		});
+		onSpreadFocused(domId);
 	}
 	/* var workBook = designer[domId].getWorkbook();//$('#ss').data('workbook');
 			var sheet = workBook.getSheetFromName('Sheet1'); //spread.getActiveSheet();
@@ -311,49 +330,59 @@ function getOutputValueBL(formCode,domId,designer){
 	    }
     } */
     if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
-	    var workBook = designer[domId].getWorkbook();
-	    var sheetMaterialId = workBook.getSheetFromName("IdLookup");
-	    var columnCount = sheetMaterialId.getColumnCount();
-	    for (var j = _materialLocation.x; j < columnCount; j++) {
-	    	var idVal = sheetMaterialId.getValue(_materialLocation.y,j);
-	    	sheetMaterialId.setValue(_materialLocation.y+1,j,idVal);
-	    }
-	    
-	    var sheet = workBook.getSheet(0);
-	    var dataArray = [];
-	    //_resultTypeLocation
-	    var rowCount = sheet.getRowCount();
-	    var columnCount = sheet.getColumnCount();
-	    for (var j = _resultTypeLocation.x; j < columnCount; j++) {
-	    	var dataObj = {};
-	    	for(var i = 0; i < _sampleLocation.y; i++){
-		        var currFieldID = sheet.getValue(i, 0);
-		        var currFieldValue = sheet.getValue(i, j);
-		        if (currFieldID != null) {
-		        	if(currFieldID == 'Sample No/Materials'){
-		        		currFieldID = 'Material';
-		        	}
-		            dataObj[currFieldID] = currFieldValue;
-		        }
-	    	}
-	    	if((dataObj['Material'] == null || dataObj['Material'] == 'null') 
-	    			&& (dataObj['Unknown Materials'] == null || dataObj['Unknown Materials'] == 'null')){
-	    		continue;
-	    	}
-	    	var idVal = sheetMaterialId.getValue(_materialLocation.y,j);
-	    	dataObj['material_id'] = idVal;
-	    	for(var i = _sampleLocation.y; i<rowCount; i++){
-	    		var fullDataObj = Object.assign({}, dataObj);
-	    		fullDataObj['Sample'] = sheet.getValue(i , _sampleLocation.x);
-	    		if(fullDataObj['Sample'] == null || fullDataObj['Sample'] == 'null'){
-	    			continue;
-	    		}
-	    		fullDataObj['value'] = sheet.getValue(i,j);
-	    		fullDataObj['comment'] = sheet.getValue(i,_resultCommentLocation.x);
-	    		dataArray.push(fullDataObj);
-	    	}
-	    }
-	    returnVal[0] = dataArray;
+    	var sheet = workBook.getSheetFromName('Version');
+		var version = sheet == null ? 'V1': sheet.getValue(0,0);
+		initializeFields(version);
+		if(version == 'V1'){
+	    	var workBook = designer[domId].getWorkbook();
+		    var sheetMaterialId = workBook.getSheetFromName("IdLookup");
+		    var columnCount = sheetMaterialId.getColumnCount();
+		    for (var j = _materialLocation.x; j < columnCount; j++) {
+		    	var idVal = sheetMaterialId.getValue(_materialLocation.y,j);
+		    	sheetMaterialId.setValue(_materialLocation.y+1,j,idVal);
+		    }
+		    
+		    var sheet = workBook.getSheet(0);
+		    var dataArray = [];
+		    //_resultTypeLocation
+		    var rowCount = sheet.getRowCount();
+		    var columnCount = sheet.getColumnCount();
+		    for (var j = _resultTypeLocation.x; j < columnCount; j++) {
+		    	var dataObj = {};
+		    	var currFieldID = "Results Type";
+		        var currFieldValue = sheet.getValue(_resultTypeLocation.y, j);
+		        dataObj[currFieldID] = currFieldValue;
+		        var currFieldID = "Unknown Materials";
+		        var currFieldValue = sheet.getValue(_unknownMaterialLocation.y, j);
+		        dataObj[currFieldID] = currFieldValue;
+		        var currFieldID = "Mass";
+		        var currFieldValue = sheet.getValue(_massLocation.y, j);
+		        dataObj[currFieldID] = currFieldValue;
+		        var currFieldID = "RT";
+		        var currFieldValue = sheet.getValue(_rtLocation.y, j);
+		        dataObj[currFieldID] = currFieldValue;
+		        var currFieldID = "Material";
+		        var currFieldValue = sheet.getValue(_materialLocation.y, j);
+		        dataObj[currFieldID] = currFieldValue;
+		    	if((dataObj['Material'] == null || dataObj['Material'] == 'null') 
+		    			&& (dataObj['Unknown Materials'] == null || dataObj['Unknown Materials'] == 'null')){
+		    		continue;
+		    	}
+		    	var idVal = sheetMaterialId.getValue(_materialLocation.y,j);
+		    	dataObj['material_id'] = idVal;
+		    	for(var i = _sampleLocation.y; i<rowCount; i++){
+		    		var fullDataObj = Object.assign({}, dataObj);
+		    		fullDataObj['Sample'] = sheet.getValue(i , _sampleLocation.x);
+		    		if(fullDataObj['Sample'] == null || fullDataObj['Sample'] == 'null'){
+		    			continue;
+		    		}
+		    		fullDataObj['value'] = sheet.getValue(i,j);
+		    		fullDataObj['comment'] = sheet.getValue(i,_resultCommentLocation.x);
+		    		dataArray.push(fullDataObj);
+		    	}
+		    }
+		    returnVal[0] = dataArray;
+		}
     }
     return returnVal;
 }
