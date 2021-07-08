@@ -5136,7 +5136,6 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 							JSONObject currentNewCell = new JSONObject(sampleMaterialPair.toString());
 							String material_id = formDao.getFromInfoLookup("invitemmaterial", LookupType.NAME, manualMaterial, "id");
 							currentNewCell.put("material_id", material_id);
-							arr.remove(i);
 							arr.put(i, currentNewCell);
 						}
 					}
