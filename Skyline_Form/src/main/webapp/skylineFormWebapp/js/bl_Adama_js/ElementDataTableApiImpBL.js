@@ -4406,10 +4406,10 @@ function bl_isTableResizable(domId)
 	{
 		toReturn = true;
 	}
-	else if(formCode == "ExperimentReport" && domId == "reportTable") 
-	{
-		toReturn = true;
-	}
+//	else if(formCode == "ExperimentReport" && domId == "reportTable") 
+//	{
+//		toReturn = true;
+//	}
 	else if(formCode == "Main") 
 	{
 		toReturn = true;
@@ -4441,10 +4441,10 @@ function bl_getResizableTables()
 	{
 		return $('table#reportTable');
 	}
-	else if(formCode == "ExperimentReport") 
-	{
-		return $('table#reportTable');
-	}
+//	else if(formCode == "ExperimentReport") 
+//	{
+//		return $('table#reportTable');
+//	}
 	else if(formCode == "Main") 
 	{
 		return $('table.dataTable');
