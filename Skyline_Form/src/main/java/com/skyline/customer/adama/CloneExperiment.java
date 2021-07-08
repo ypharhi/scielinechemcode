@@ -1181,7 +1181,8 @@ public class CloneExperiment {
 		// columnData.put("Experiment.SAFETYCOMMENTS", "SAFETYCOMMENTS");
 		columnDataToTemplate_.put("Experiment.PLANNED_ACTUAL", (fromTemplate) ? "NULL" : "NULL");// adib changed from actual to
 		columnDataToTemplate_.put("Experiment.spreadsheetExcel", "(select spreadsheet from fg_s_spreadsheettempla_v where formid = SPREADSHEETTEMPLATE_ID)");
-
+		columnDataToTemplate_.put("Experiment.SPREADSHEETRESULTS", "NULL");
+		
 		
 		/*//calculation tab
 		columnDataToTemplate_.put("Experiment.compVolumeRate", "NULL");
@@ -1395,6 +1396,7 @@ public class CloneExperiment {
 		columnDataFromTemplate_.put("Experiment.CONCLUSSION", (fromTemplate) ? "CONCLUSSION" : "NULL");
 		// columnData.put("Experiment.SAFETYCOMMENTS", "SAFETYCOMMENTS");
 		columnDataFromTemplate_.put("Experiment.PLANNED_ACTUAL", (fromTemplate) ? "NULL" : "NULL");// adib changed from actual to
+		columnDataFromTemplate_.put("Experiment.SPREADSHEETRESULTS", "NULL");
 		
 		/*//calculation tab
 		columnDataFromTemplate_.put("Experiment.compVolumeRate", "NULL");
@@ -1513,6 +1515,7 @@ public class CloneExperiment {
 		columnDataFromExperiment_.put("Experiment.experimentVersion", "NULL");
 		columnDataFromExperiment_.put("Experiment.reasonForChange", "NULL");
 		columnDataFromExperiment_.put("Experiment.spreadsheetExcel", "(select spreadsheet from fg_s_spreadsheettempla_v where formid = SPREADSHEETTEMPLATE_ID)");
+		columnDataFromExperiment_.put("Experiment.SPREADSHEETRESULTS", "NULL");
 		
 		//calculation tab
 		columnDataFromExperiment_.put("Experiment.compVolumeRate", "NULL");
@@ -1714,6 +1717,7 @@ public class CloneExperiment {
 		columnDataFromRun_.put("Experiment.SUBSUBPROJECT_ID", "NULL");
 		columnDataFromRun_.put("Experiment.experimentVersion", "NULL");
 		columnDataFromRun_.put("Experiment.reasonForChange", "NULL");
+		columnDataFromRun_.put("Experiment.SPREADSHEETRESULTS", "NULL");
 		// Mass Balance Tab in Organic
 		columnDataFromRun_.put("Experiment.WEBIXMASSBALANCETABLE", "NULL");
 		columnDataFromRun_.put("Experiment.WEBIXMASSBALANCETABLE2", "NULL");
