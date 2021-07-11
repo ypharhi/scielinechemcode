@@ -93,10 +93,10 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 	@Value("${dataTableTopRowsNum:10000}")
 	private String dataTableTopRowsNumDefault;
 
-	@Value("${reactionAndResultsAnalysisRuleName}")
+	@Value("${reactionAndResultsAnalysisRuleName:Main Solvent,Limiting Agent,Material Type,Experiment Materials}")
     private String reactionAndResultsAnalysisRuleName_;
 	
-	@Value("${reactionAndResultsAnalysisColsSelection}")
+	@Value("${reactionAndResultsAnalysisColsSelection:All,Qty,Mole,Volume,Purity,Equivalent,Batch}")
     private String reactionAndResultsAnalysisColsSelection_;
 	
 	@Autowired
@@ -1592,8 +1592,25 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 							}else if(ruleName.equalsIgnoreCase("Material Type")) {
 								//If Material Type is selected, the rule condition is a dropdown list that contains list of all material types that exists in the selected steps .
 								//The user can select number of ‘Material Type’ in each row. 
-								if(materialTypes.isEmpty()) {
-									materialTypes = getListOfStringBySql("select distinct mt.MATERIALTYPENAME from \n" + 
+								/*if(materialData == null) {
+									materialData = getListOfMapsBySql("select distinct t.INVITEMMATERIAL_ID,t.INVITEMMATERIALNAME,m.MATERIALTYPE_ID,m.MATERIALTYPENAME from fg_s_materialref_all_v t,fg_s_invitemmaterial_all_v m where t.INVITEMMATERIAL_ID=m.INVITEMMATERIAL_ID and t.STEP_ID in (" + stepNameCSV + ") and t.active = 1 and t.sessionid is null");
+								}
+								if(materialData!= null && expMaterialData.isEmpty() ) {
+									for (int j = 0; j < materialData.size(); j++) {
+										if (materialData.get(j).get("INVITEMMATERIAL_ID")!= null && materialData.get(j).get("INVITEMMATERIALNAME")!= null) {
+											Map<String, String> materialMap = new HashMap<>();
+											materialMap.put("ID", materialData.get(j).get("INVITEMMATERIAL_ID").toString());
+											materialMap.put("VAL", materialData.get(j).get("INVITEMMATERIALNAME").toString());
+											expMaterialData.add(materialMap);
+										}
+									}
+								}
+								String obj = "{}";
+								Object colvalObj = rows.get(i).get(paramCol);
+								obj = getJsonDisplayObj(null,expMaterialData,colvalObj == null ? null : colvalObj.toString(), "RULECONDITION","false","");
+								rows.get(i).put(paramCol, obj);*/
+								/*if(materialTypes.isEmpty()) {
+									materialTypes = getListOfStringBySql("select distinct mt.MATERIALTYPE_ID,mt.MATERIALTYPENAME from \n" + 
 											"fg_s_materialtype_all_v mt,fg_s_materialref_v m,fg_s_invitemmaterial_v t\n" + 
 											"where instr(','||t.MATERIALTYPE_ID||',', ','||mt.MATERIALTYPE_ID||',')>0 and m.parentid in ("+stepNameCSV+") and m.active = 1 and m.sessionid is null\n" + 
 											"and m.INVITEMMATERIAL_ID = t.invitemmaterial_id");
@@ -1601,7 +1618,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								String obj = "{}";
 								Object colvalObj = rows.get(i).get(paramCol);
 								obj = getJsonDisplayObj(materialTypes,null,colvalObj == null ? null : colvalObj.toString(), "RULECONDITION","true","");
-								rows.get(i).put(paramCol, obj);
+								rows.get(i).put(paramCol, obj);*/
 							}
 							else if(ruleName.equalsIgnoreCase("Experiment Materials")) {
 								if(materialData == null) {
