@@ -3361,7 +3361,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					onChangeColumnVal, onChangeFormId, userId);
 		}
 		else if(formCode.equals("ReportFilterRef")) {
-			if( onChangeColumnName.equalsIgnoreCase("STEPNAME")||(onChangeColumnName.equalsIgnoreCase("RULECONDITION") && onChangeColumnVal.endsWith(";"))) {//isMultiple
+			if( (onChangeColumnName.equalsIgnoreCase("STEPNAME")||onChangeColumnName.equalsIgnoreCase("RULECONDITION") ||onChangeColumnName.equalsIgnoreCase("COLUMNSSELECTION")) && onChangeColumnVal.endsWith(";")){//isMultiple
 				update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
 						onChangeColumnVal.substring(0, onChangeColumnVal.length() - 3), onChangeFormId, userId);
 			}else {
