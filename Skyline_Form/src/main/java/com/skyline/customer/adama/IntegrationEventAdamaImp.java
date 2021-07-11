@@ -7138,14 +7138,16 @@ public void preperReport(Map<String, String> elementValueMap) {
 			if(!generalUtil.getNull(spreadsheetResultsData).isEmpty()){
 				js = new JSONObject(spreadsheetResultsData);
 			}
-			JSONObject jsspreadsheetData = (JSONObject)js.get("output");
-			if(jsspreadsheetData.has("0")){
-				JSONArray arr = new JSONArray(jsspreadsheetData.get("0").toString());
-				for(int i = 0;i<arr.length();i++) {
-					JSONObject sampleMaterialPair = arr.getJSONObject(i);
-					String material_id = generalUtil.getNull(sampleMaterialPair.getString("material_id"));
-					if(!material_id.isEmpty()) {
-						materialIdList.add(material_id);//when the material exists, then probably the material_id exists too
+			if(js.has("output")) {
+				JSONObject jsspreadsheetData = (JSONObject)js.get("output");
+				if(jsspreadsheetData.has("0")){
+					JSONArray arr = new JSONArray(jsspreadsheetData.get("0").toString());
+					for(int i = 0;i<arr.length();i++) {
+						JSONObject sampleMaterialPair = arr.getJSONObject(i);
+						String material_id = generalUtil.getNull(sampleMaterialPair.getString("material_id"));
+						if(!material_id.isEmpty()) {
+							materialIdList.add(material_id);//when the material exists, then probably the material_id exists too
+						}
 					}
 				}
 			}
