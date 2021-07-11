@@ -93,6 +93,12 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 	@Value("${dataTableTopRowsNum:10000}")
 	private String dataTableTopRowsNumDefault;
 
+	@Value("${reactionAndResultsAnalysisRuleName}")
+    private String reactionAndResultsAnalysisRuleName_;
+	
+	@Value("${reactionAndResultsAnalysisColsSelection}")
+    private String reactionAndResultsAnalysisColsSelection_;
+	
 	@Autowired
 	public GeneralUtilLogger generalUtilLogger;
 
@@ -1524,43 +1530,108 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 					}
 				}
 				/******** Step Name_SMARTEDIT handler *****************************************************************/
-				else if (!paramCol.isEmpty() && paramCol.equalsIgnoreCase("Step Name_SMARTEDIT")
+				else if (!paramCol.isEmpty()
 						&& sql.toLowerCase().contains("fg_s_reportfilterref_dte_v")) {
-					JSONObject json = new JSONObject();
-				    JSONArray jsonArray = new JSONArray();
-				   try {
-					for(String stepName : stepNameList)
-					{
-						json = new JSONObject();
-						json.put("ID", stepName);
-						json.put("VAL", stepName);
-						jsonArray.put(json);
+					if (paramCol.equalsIgnoreCase("Step Name_SMARTEDIT")) {
+						for (int i = 0; i < rows.size(); i++) {
+							Object colvalObj = rows.get(i).get(paramCol);
+
+							System.out.println(
+									"use stepNameList and maybe make function that get and the json now this is hard coded");
+							String stepObj = "{}";
+							stepObj = getJsonDisplayObj(stepNameList,null,
+									colvalObj == null ? null : colvalObj.toString(), "STEPNAME", "true","");
+							rows.get(i).put(paramCol, stepObj); // rows.get(i).get(paramCol);
+
+						}
 					}
-				    }
-				    catch(Exception e) {
-				    	jsonArray = new JSONArray();
-				    }
-					for (int i = 0; i < rows.size(); i++) {
-						Object colvalObj = rows.get(i).get(paramCol);
-                        List<String> dataList = new ArrayList<>();
-						if (colvalObj != null) {
-							String[] val = colvalObj.toString().split(",");
-							List<String> colVals = Arrays.asList(val);
-							for (String colVal : colVals) {
-								dataList.add("{\"ID\":\"" + colVal + "\",\"displayName\":\"" + colVal + "\"}");
+					else if(paramCol.equalsIgnoreCase("Rule Name_SMARTEDIT")) {
+						//init "RuleName" list from reactionAndResultsAnalysisRuleName property
+						String ruleName = reactionAndResultsAnalysisRuleName_;
+						List<String> ruleNameList = Arrays.asList(ruleName.split(","));
+						for (int i = 0; i < rows.size(); i++) {
+							Object colvalObj = rows.get(i).get(paramCol);
+							String ruleObj = "{}";
+							ruleObj = getJsonDisplayObj(ruleNameList,null,colvalObj == null ? null : colvalObj.toString(), "RULENAME","false",",\"renderTableAfterSave\":\"true\"");
+							rows.get(i).put(paramCol, ruleObj);
+						}
+					}
+					else if(paramCol.equalsIgnoreCase("Columns Selection_SMARTEDIT")) {
+						//init "Columns Selection" list from reactionAndResultsAnalysisRuleName property
+						String cols_s = reactionAndResultsAnalysisColsSelection_;
+						List<String> cols_sList = Arrays.asList(cols_s.split(","));
+						for (int i = 0; i < rows.size(); i++) {
+							Object colvalObj = rows.get(i).get(paramCol);
+							String ruleObj = "{}";
+							ruleObj = getJsonDisplayObj(cols_sList,null,colvalObj == null ? null : colvalObj.toString(), "COLUMNSSELECTION","true","");
+							rows.get(i).put(paramCol, ruleObj);
+						}
+					}
+					else if(paramCol.equalsIgnoreCase("Rule Condition_SMARTEDIT")) {
+						List<Map<String, Object>> materialData = null;
+						String stepNameCSV = args[0];
+						List<String> materialTypes = new ArrayList<>();
+						List<Map<String, String>> expMaterialData = new ArrayList<>();
+						
+						//If ‘Main Solvent’ or ‘Limiting Agent’ are selected, the Rule condition is disabled and display the ‘rule name’.
+						String ruleName_json ="",ruleName;
+						//{"displayName":[{"ID":"Limiting Agent","displayName":"Limiting Agent"}],"htmlType":"select", "multiple":"false","dbColumnName":"RULENAME", "colCalcId":"RULENAME", "allowSingleDeselect":"false", "autoSave":"true", "fullList":[{"VAL":"Main Solvent","ID":"Main Solvent"},{"VAL":"Limiting Agent","ID":"Limiting Agent"},{"VAL":"Material Type","ID":"Material Type"},{"VAL":"Experiment Materials","ID":"Experiment Materials"}]}
+						for (int i = 0; i < rows.size(); i++) {
+							ruleName_json = rows.get(i).get("Rule Name_SMARTEDIT")==null?"{}": rows.get(i).get("Rule Name_SMARTEDIT").toString();
+							JSONArray displayNameArr = new JSONArray(generalUtil.getJsonValById(ruleName_json, "displayName"));
+							if(displayNameArr== null || displayNameArr.length() == 0) {
+								ruleName ="";
+							}else {
+								ruleName = generalUtil.getJsonValById(displayNameArr.get(0).toString(), "displayName");
+							}
+							if(ruleName.equalsIgnoreCase("Main Solvent")) {
+								rows.get(i).put(paramCol, "Main Solvent");
+							}
+							else if(ruleName.equalsIgnoreCase("Limiting Agent")) {
+								rows.get(i).put(paramCol, "Limiting Agent");
+							}else if(ruleName.equalsIgnoreCase("Material Type")) {
+								//If Material Type is selected, the rule condition is a dropdown list that contains list of all material types that exists in the selected steps .
+								//The user can select number of ‘Material Type’ in each row. 
+								if(materialTypes.isEmpty()) {
+									materialTypes = getListOfStringBySql("select distinct mt.MATERIALTYPENAME from \n" + 
+											"fg_s_materialtype_all_v mt,fg_s_materialref_v m,fg_s_invitemmaterial_v t\n" + 
+											"where instr(','||t.MATERIALTYPE_ID||',', ','||mt.MATERIALTYPE_ID||',')>0 and m.parentid in ("+stepNameCSV+") and m.active = 1 and m.sessionid is null\n" + 
+											"and m.INVITEMMATERIAL_ID = t.invitemmaterial_id");
+								}
+								String obj = "{}";
+								Object colvalObj = rows.get(i).get(paramCol);
+								obj = getJsonDisplayObj(materialTypes,null,colvalObj == null ? null : colvalObj.toString(), "RULECONDITION","true","");
+								rows.get(i).put(paramCol, obj);
+							}
+							else if(ruleName.equalsIgnoreCase("Experiment Materials")) {
+								if(materialData == null) {
+									materialData = getListOfMapsBySql("select distinct t.INVITEMMATERIAL_ID,t.INVITEMMATERIALNAME,m.MATERIALTYPE_ID,m.MATERIALTYPENAME from fg_s_materialref_all_v t,fg_s_invitemmaterial_all_v m where t.INVITEMMATERIAL_ID=m.INVITEMMATERIAL_ID and t.STEP_ID in (" + stepNameCSV + ") and t.active = 1 and t.sessionid is null");
+								}
+								if(materialData!= null && expMaterialData.isEmpty() ) {
+									for (int j = 0; j < materialData.size(); j++) {
+										if (materialData.get(j).get("INVITEMMATERIAL_ID")!= null && materialData.get(j).get("INVITEMMATERIALNAME")!= null) {
+											Map<String, String> materialMap = new HashMap<>();
+											materialMap.put("ID", materialData.get(j).get("INVITEMMATERIAL_ID").toString());
+											materialMap.put("VAL", materialData.get(j).get("INVITEMMATERIALNAME").toString());
+											expMaterialData.add(materialMap);
+										}
+									}
+								}
+								String obj = "{}";
+								Object colvalObj = rows.get(i).get(paramCol);
+								obj = getJsonDisplayObj(null,expMaterialData,colvalObj == null ? null : colvalObj.toString(), "RULECONDITION","false","");
+								rows.get(i).put(paramCol, obj);
 							}
 						}
+					}
+					else if(paramCol.equalsIgnoreCase("Column Name_SMARTEDIT")) {
+						for (int i = 0; i < rows.size(); i++) {
+							Object colvalObj = rows.get(i).get(paramCol);
+							String displayName = colvalObj==null?"":colvalObj.toString();
+							String ruleObj = "{\"displayName\":\""+displayName+"\",\"saveType\":\"text\",\"htmlType\":\"editableDiv\",\"autoSave\":\"true\",\"dbColumnName\":\"COLUMNNAME\"}";
+							rows.get(i).put(paramCol, ruleObj);
+						}
 						
-						System.out.println("use stepNameList and maybe make function that get and the json now this is hard coded");
-						String stepObj = "{}";
-						stepObj = getJsonDisplayObj(jsonArray.toString(),colvalObj!=null?dataList.toString():null, "STEPNAME","true");
-						/*if(colvalObj != null) {
-							stepObj = "{\"displayName\":[{\"ID\":\"" + colvalObj.toString() + "\",\"displayName\":\"" + colvalObj.toString() + "\"}],\"htmlType\":\"select\",\"dbColumnName\":\"STEPNAME\", \"colCalcId\":\"STEPNAME\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":[{\"ID\":\"Step 01\",\"VAL\":\"Step 01\"},{\"ID\":\"Step 02\",\"VAL\":\"Step 02\"}]}"
-						} else {
-							stepObj = "{\"displayName\":[],\"htmlType\":\"select\",\"dbColumnName\":\"STEPNAME\", \"colCalcId\":\"STEPNAME\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":[{\"ID\":\"Step 01\",\"VAL\":\"Step 01\"},{\"ID\":\"Step 02\",\"VAL\":\"Step 02\"}]}";
-						}*/
-						rows.get(i).put(paramCol, stepObj); // rows.get(i).get(paramCol);
-					 
 					}
 				}
 				/**************************************************************************************************/
@@ -2815,14 +2886,43 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		logger.info(msg);
 	}
 	
-	private String getJsonDisplayObj(String fullList,String colvalObj, String dbColName,String multiple) {
-		String stepObj = "{}";
-		if(colvalObj != null) {
-			stepObj = "{\"displayName\":"+colvalObj+",\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\", \"colCalcId\":\""+dbColName+"\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":"+fullList+"}";
-		} else {
-			stepObj = "{\"displayName\":[],\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\", \"colCalcId\":\""+dbColName+"\", \"allowSingleDeselect\":\"false\", \"autoSave\":\"true\", \"fullList\":"+fullList+"}";
+	private String getJsonDisplayObj(List<String> fullListVal,List<Map<String, String>> fullListIDVal,String colvalObj, String dbColName,String multiple,String additional) {
+		JSONObject json = new JSONObject();
+		JSONArray jsonArray = new JSONArray();
+		try {
+			if (fullListVal != null) {
+				for (String arg : fullListVal) {
+					json = new JSONObject();
+					json.put("ID", arg);
+					json.put("VAL", arg);
+					jsonArray.put(json);
+				}
+			}
+			else if(fullListIDVal!= null) {
+				for (Map<String, String> arg : fullListIDVal) {
+					json = new JSONObject();
+					json.put("ID", arg.get("ID"));
+					json.put("VAL", arg.get("VAL"));
+					jsonArray.put(json);
+				}
+			}
+		} catch (Exception e) {
+			jsonArray = new JSONArray();
 		}
-		return stepObj;
+		String returnObj = "{}";
+		List<String> dataList = new ArrayList<>();
+		if (colvalObj != null) {
+			String[] val = colvalObj.toString().split(",");
+			List<String> colVals = Arrays.asList(val);
+			for (String colVal : colVals) {
+				dataList.add("{\"ID\":\"" + colVal + "\",\"displayName\":\"" + colVal + "\"}");
+			}
+			returnObj = "{\"displayName\":"+dataList.toString()+",\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\", \"colCalcId\":\""+dbColName+"\", \"allowSingleDeselect\":\"false\""+generalUtil.getNull(additional)+", \"autoSave\":\"true\", \"fullList\":"+jsonArray.toString()+"}";
+		}
+		 else {
+			 returnObj = "{\"displayName\":[],\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\", \"colCalcId\":\""+dbColName+"\", \"allowSingleDeselect\":\"false\""+generalUtil.getNull(additional)+", \"autoSave\":\"true\", \"fullList\":"+jsonArray.toString()+"}";
+		}
+		return returnObj;
 	}
 	//	@Override
 	//	public String updateSingleStringTask(String sql) {
