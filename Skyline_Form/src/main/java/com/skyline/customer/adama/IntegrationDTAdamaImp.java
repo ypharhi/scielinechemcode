@@ -100,6 +100,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 
 	@Autowired
 	private IntegrationCalc integrationCalc;
+	
+	@Autowired
+	private ExperimentReportSQLBuilder experimentReportSQLBuilder;
 
 	//	optimizer: Let the optimizer choose – the default mode
 	//	materialize: Always materialize
@@ -162,15 +165,22 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						// step list and where part for pivot table...
 						String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_STEPTABLE}");
 //						String stepWherePart = (stepidList != null && !stepidList.isEmpty()?" and step_id in (" + stepidList.replace("@", ",") + ")" : " AND 1=2");
+						String expidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_EXPERIMENTTABLE}");
+
 						
-						setExpReportPivotData(stateKey, stepidList.replace("@", ","));
+						experimentReportSQLBuilder.setExpReportPivotData(stateKey, stepidList.replace("@", ","));
+						SQLObj sqlObj= experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey, expidList.replace("@", ","));
+						
+						
 						// set the SQL - DEVELOP!....
-						sql = "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Description\","
-//								+ getExpReportRulesFieldsSQL(stateKey)
-								+ generalUtil.handleClob(
-										"SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where 1=1 " + wherePart ) //+ stepWherePart
-								+ " AS RESULT_SMARTPIVOTSQL" + " from " + table + " where 1=1 "
-								+ (wherePart.isEmpty() ? " and 1=2" : wherePart);//+ citeriaWherePart;
+						sql = "select * from ( " + sqlObj.getWith() + "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Description\""
+								+ sqlObj.getSelect()
+//								+ "," + generalUtil.handleClob(
+//										"SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where 1=1 " + wherePart ) //+ stepWherePart
+//								+ " AS RESULT_SMARTPIVOTSQL \n" 
+							    + " from " + table + sqlObj.getFrom() + " where 1=1 " + sqlObj.getWhere()
+								+ (wherePart.isEmpty() ? " and 1=2" : wherePart) + ")";//+ citeriaWherePart;
+					
 					}
 					
 				} else if(generalUtil.getNull(table).equalsIgnoreCase("fg_s_ReportFilterRef_DTE_v")) {
@@ -3860,133 +3870,6 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			toReturn = "";
 		}
 		return toReturn;
-
-	}
-	
-	/**
-	 * Insert the pivot data by stateKey for the report
-	 * @param stateKey - the number that defined the relevant rows 
-	 */
-	private void setExpReportPivotData(long stateKey, String stepIdCSV) {
-		
-		String sql = "select DISTINCT \"EXPERIMENT_ID\",\"ORDER_\",\"STEP_ID\",\"MATERIALREF_ID\",\"TABLETYPE\",\"RESULT_ID\",\"RESULT_SMARTPIVOT\",\"FORMNUMBERID\" from\n" + 
-				"( \n" + 
-				"       \n" + 
-				"  SELECT   t.EXPERIMENT_ID,\n" + 
-				"                  1  as order_,\n" + 
-				"                  '' as step_id,\n" + 
-				"                  '' as materialref_id,\n" + 
-				"                  '' as tabletype,\n" + 
-				"                  '' as result_id,\n" + 
-				"                  t.STEPFORMNUMBERID as formnumberid,\n" + 
-				"                  dbms_lob.substr(to_clob( \n" + 
-				"                 '{pivotkey:\"'|| EXPERIMENT_ID||'\",pivotkeyname:\"experiment_id\"'||\n" + 
-				"                 ',group:[\"Experiment\",\"Experiment\"]'||\n" + 
-				"                 ',column:[\"STEP ' || t.STEPFORMNUMBERID ||' - Main Solvent\",\"{' || t.STEPFORMNUMBERID || '} Main Solvent QTR\"]'||\n" + 
-				"                 ',val:[\"' || \n" + 
-				"                   (max(t.INVITEMMATERIALNAME) \n" + 
-				"                   keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) \n" + 
-				"                   over (partition by t.STEP_ID))\n" + 
-				"                   ||'\",\"'||\n" + 
-				"                   (max(fg_get_num_display(t.QUANTITY,0,3)) \n" + 
-				"                   keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) \n" + 
-				"                   over (partition by t.STEP_ID))\n" + 
-				"                  /* ||'\",\"'||\n" + 
-				"                   (max(fg_get_num_display(t.MOLE,0,3)) \n" + 
-				"                   keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) \n" + 
-				"                   over (partition by t.STEP_ID))*/\n" + 
-				"                   || '\"]}'\n" + 
-				"                   )  ) \n" + 
-				"                   as result_SMARTPIVOT\n" + 
-				"   FROM Fg_s_Materialref_all_v t\n" + 
-				"   WHERE t.STEP_ID in (336216,336179,336238,336237)\n" + 
-				"   --AND   t.STEPNAME in ('STEP 01')\n" + 
-				"   AND   t.ACTIVE = 1\n" + 
-				"   and   t.SESSIONID is null\n" + 
-				"   AND   t.TABLETYPE = 'Solvent' \n" + 
-				"      AND 1111111111111111111111=222222222222222222\n" + 
-				" \n" + 
-				"   UNION ALL\n" + 
-				"   --REACTION DATA\n" + 
-				"   SELECT   t.EXPERIMENT_ID,\n" + 
-				"                  2  as order_,\n" + 
-				"                  '' as step_id,\n" + 
-				"                  '' as materialref_id,\n" + 
-				"                  '' as tabletype,\n" + 
-				"                  '' as result_id,\n" + 
-				"                  t.STEPFORMNUMBERID as formnumberid,\n" + 
-				"                  dbms_lob.substr(to_clob( \n" + 
-				"                 '{pivotkey:\"'|| EXPERIMENT_ID||'\",pivotkeyname:\"experiment_id\"'||\n" + 
-				"                 ',group:[\"Experiment1\",\"Experiment1\",\"Experiment1\"]'||\n" + 
-				"                 ',column:[\"STEP ' || t.STEPFORMNUMBERID ||' - ' || t.INVITEMMATERIALNAME || '\",\"{' || t.STEPFORMNUMBERID || '}' || t.INVITEMMATERIALNAME || ' QTR\",\"{' || t.STEPFORMNUMBERID || '}' || t.INVITEMMATERIALNAME || ' MOL\"]' ||\n" + 
-				"                 ',val:[\"' || t.INVITEMMATERIALNAME  ||'\",\"'||  fg_get_num_display(t.QUANTITY,0,3)    ||'\",\"'||  fg_get_num_display(t.MOLE,0,3) || '\"]}'\n" + 
-				"                   )  ) \n" + 
-				"                   as result_SMARTPIVOT\n" + 
-				"   FROM Fg_s_Materialref_all_v t\n" + 
-				"   WHERE t.STEP_ID in (" + stepIdCSV + ")\n" + 
-				"   AND   t.STEPNAME in ('STEP 01','STEP 02')\n" + 
-				"   AND   t.ACTIVE = 1\n" + 
-				"   and   t.SESSIONID is null\n" + 
-				"   AND   t.INVITEMMATERIALNAME = 'Reactant A'  \n" + 
-				"   AND 1111111111111111111111=222222222222222222\n" + 
-				"   UNION ALL\n" + 
-				"   \n" + 
-				"     select experiment_id,\n" + 
-				"  400 as order_,\n" + 
-				"  step_id,\n" + 
-				"  materialref_id,\n" + 
-				"  tabletype,\n" + 
-				"  '',\n" + 
-				"  formnumberid,\n" + 
-				"  dbms_lob.substr('{pivotkey:\"'|| experiment_id||'\",pivotkeyname:\"experiment_id\"'||\n" + 
-				"                  /*',group:[\"'|| formnumberid ||'Reactant'||invitemmaterialname||'\",\"'|| formnumberid ||'Reactant'||invitemmaterialname||'\",\"'|| formnumberid ||'Reactant'||invitemmaterialname||'\"'||\n" + 
-				"                                ',\"'|| formnumberid ||'Reactant'||invitemmaterialname||'\",\"'|| formnumberid ||'Reactant'||invitemmaterialname||' Quantity\"'||\n" + 
-				"                                ',\"'|| formnumberid ||'Reactant'||invitemmaterialname||'\",\"'|| formnumberid ||'Reactant'||invitemmaterialname||' Volume\"'||\n" + 
-				"                                ',\"'|| formnumberid ||'Reactant'||invitemmaterialname||'\",\"'|| formnumberid ||'Reactant'||invitemmaterialname||' Moles\"'||\n" + 
-				"                                ',\"'|| formnumberid ||'Reactant'||invitemmaterialname||'\",\"'|| formnumberid ||'Reactant'||invitemmaterialname||'\",\"'|| formnumberid ||'Reactant'||invitemmaterialname||'\",\"'|| formnumberid ||'Reactant'||invitemmaterialname||'\"]'||\n" + 
-				"                  */',column:[\"{Reactant }Step '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||'\",\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||'}Batch\",\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||'}Purity %\"'||\n" + 
-				"                                       ',\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||'}Quantity\",\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||' Quantity}Uom\"'||\n" + 
-				"                                       ',\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||'}Volume\",\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||' Volume}Uom\"'||\n" + 
-				"                                       ',\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||'}Moles\",\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||' Moles}Uom\"'||\n" + 
-				"                                       ',\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||'}Equivalent\",\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||'}Water Content,%\",\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||'}Catalyst\",\"{ReactantStep '|| formnumberid ||'-'||tabletype||' '||invitemmaterialname||'}Comments\"]'||\n" + 
-				"                  ', val:[\"' || to_clob(invitemmaterialname) ||'\",\"'||batch||'\",\"'||purity||'\"'||\n" + 
-				"                             ',\"'||quantity||'\",\"'||nvl2(quantity,' '||quantityuomname,'')||'\"'||\n" + 
-				"                             ',\"'||volume||'\",\"'||nvl2(volume,' '||voluomname,'')||'\"'||\n" + 
-				"                             ',\"'||mole||'\",\"'||nvl2(mole,' '||moleuomname,'')||'\"'||\n" + 
-				"                             ',\"'||equivalent||'\",\"'||WaterContent||'\",\"'||CATALYST||'\",\"'||COMMENTS||'\"]}') as result_SMARTPIVOT\n" + 
-				"  from (select distinct\n" + 
-				"             t2.experiment_id,\n" + 
-				"             t2.step_id,\n" + 
-				"             t2.materialref_id,\n" + 
-				"             t2.tabletype,\n" + 
-				"             '' result_id,\n" + 
-				"             t2.invitemmaterialname,\n" + 
-				"             '' result_value,\n" + 
-				"             t2.batch,\n" + 
-				"             t2.formnumberid,\n" + 
-				"             t2.PURITY,\n" + 
-				"             t2.quantity,\n" + 
-				"             t2.quantityuomname,\n" + 
-				"             t2.volume,\n" + 
-				"             t2.voluomname,\n" + 
-				"             t2.mole,\n" + 
-				"             t2.Equivalent,\n" + 
-				"             t2.WaterContent,\n" + 
-				"             t2.catalyst,\n" + 
-				"             t2.comments,\n" + 
-				"             t2.moleuomname\n" + 
-				"        from fg_i_expanalysis_stepreact_v t2\n" + 
-				"        where nullif(t2.stepstatusname,'Planned') is not null) t\n" + 
-				"  where step_id is not null\n" + 
-				"  and tabletype = 'Reactant'\n" + 
-				"  and t.STEP_ID in (" + stepIdCSV + ")\n" + 
-				" \n" + 
-				") order by order_, TO_NUMBER(formnumberid),tabletype, result_id, materialref_id,experiment_id";
-		
-		String sql1 = "insert into FG_P_EXPREPORT_DATA_TMP (EXPERIMENT_ID,RESULT_SMARTPIVOT,STATEKEY) select tmp1.experiment_id , tmp1.result_smartpivot,'" + stateKey + "' from (" + sql + ") tmp1 where 1 = 1";
-		
-		generalDao.updateSingleString("delete from FG_P_EXPREPORT_DATA_TMP where statekey ='" + stateKey + "'");
-		generalDao.updateSingleString("insert into FG_P_EXPREPORT_DATA_TMP select tmp1.*,'" + stateKey + "' from (" + sql + ") tmp1 where 1 = 1");
 
 	}
 }
