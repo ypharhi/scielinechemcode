@@ -330,11 +330,11 @@ function getOutputValueBL(formCode,domId,designer){
 	    }
     } */
     if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+    	var workBook = designer[domId].getWorkbook();
     	var sheet = workBook.getSheetFromName('Version');
 		var version = sheet == null ? 'V1': sheet.getValue(0,0);
 		initializeFields(version);
 		if(version == 'V1'){
-	    	var workBook = designer[domId].getWorkbook();
 		    var sheetMaterialId = workBook.getSheetFromName("IdLookup");
 		    var columnCount = sheetMaterialId.getColumnCount();
 		    for (var j = _materialLocation.x; j < columnCount; j++) {

@@ -239,7 +239,12 @@
 			} else {
 				sheet.setColumnCount(26);
 			}
-			sheet.setRowCount(3000);
+			var sheetRowCount = sheet.getRowCount();
+			if(sheetRowCount && sheetRowCount>=300){
+				sheet.setRowCount(sheetRowCount);
+			} else {
+				sheet.setRowCount(300);
+			}
 			
 			workBook.bind( GC.Spread.Sheets.Events.SelectionChanged , function (e, args) {
 					onSpreadsheetChange(domId);

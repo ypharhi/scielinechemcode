@@ -68,7 +68,7 @@ function onLoadSpreadsheetElement(data,outputData,domId,isToolBarDisplay,isDisab
 	console.log('---------1. ON LOAD SPREAD ELEMENT------------');
 	dataHolder[domId] = data;
 	outputDataHolder[domId] = outputData;
-	document.getElementById(domId+"_spreadIframe").contentWindow.onclick  = function(){onSpreadFocused();};
+	document.getElementById(domId+"_spreadIframe").contentWindow.onclick  = function(){onSpreadFocused(domId);};
 }  
 
 function onLoadIframeSpreadsheet(domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
