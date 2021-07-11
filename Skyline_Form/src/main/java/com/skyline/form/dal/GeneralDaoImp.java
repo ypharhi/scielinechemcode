@@ -96,7 +96,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 	@Value("${reactionAndResultsAnalysisRuleName:Main Solvent,Limiting Agent,Material Type,Experiment Materials}")
     private String reactionAndResultsAnalysisRuleName_;
 	
-	@Value("${reactionAndResultsAnalysisColsSelection:All,Qty,Mole,Volume,Purity,Equivalent,Batch}")
+	@Value("${reactionAndResultsAnalysisColsSelection:ALL:All,QUANTITY:Qty,MOLE:Mole,VOLUME:Volume,PURITY:Purity,EQUIVALENT:Equivalent,INVITEMBATCHNAME:Batch}")
     private String reactionAndResultsAnalysisColsSelection_;
 	
 	@Autowired
@@ -777,12 +777,17 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 			
 			//***** Experiment report rules display table (fg_s_ReportFilterRef_DTE_v)
 			List<String> stepNameList = new ArrayList<>();
+			String maxStep = "";
 			if(sql.toLowerCase().contains("fg_s_reportfilterref_dte_v")) {
 				paramColFlag = true;
 				if(args.length > 0){
 					String stepNameCSV = args[0];
 					if(stepNameCSV != null && !stepNameCSV.isEmpty()) {
-						stepNameList = getListOfStringBySql("select distinct stepname from fg_s_step_v where step_id in (" + stepNameCSV + ") order by stepname");
+						maxStep = selectSingleStringNoException("select distinct max(FORMNUMBERID) from fg_s_step_v where step_id in (" + stepNameCSV + ")");
+						int maxStepNo = Integer.parseInt(maxStep);
+						for(int i=1;i<=maxStepNo;i++) {
+							stepNameList.add(String.format("%02d", i));
+						}
 					}
 				}
 			}
@@ -1560,10 +1565,21 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 						//init "Columns Selection" list from reactionAndResultsAnalysisRuleName property
 						String cols_s = reactionAndResultsAnalysisColsSelection_;
 						List<String> cols_sList = Arrays.asList(cols_s.split(","));
+						List<Map<String, String>> colsData = new ArrayList<>();
+						if (!cols_sList.isEmpty()) {
+							for (String c : cols_sList) {
+								String id = c.split(":")[0];
+								String val_ = c.split(":")[1];
+								Map<String, String> colsMap = new HashMap<>();
+								colsMap.put("ID", id);
+								colsMap.put("VAL", val_);
+								colsData.add(colsMap);
+							}
+						}
 						for (int i = 0; i < rows.size(); i++) {
 							Object colvalObj = rows.get(i).get(paramCol);
 							String ruleObj = "{}";
-							ruleObj = getJsonDisplayObj(cols_sList,null,colvalObj == null ? null : colvalObj.toString(), "COLUMNSSELECTION","true","");
+							ruleObj = getJsonDisplayObj(null,colsData,colvalObj == null ? null : colvalObj.toString(), "COLUMNSSELECTION","true","");
 							rows.get(i).put(paramCol, ruleObj);
 						}
 					}
@@ -1594,10 +1610,14 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								//If Material Type is selected, the rule condition is a dropdown list that contains list of all material types that exists in the selected steps .
 								//The user can select number of ‘Material Type’ in each row. 
 								if(materialTypes == null) {
-									materialTypes = getListOfMapsBySql("select distinct mt.MATERIALTYPE_ID,mt.MATERIALTYPENAME from \n" + 
-											"fg_s_materialtype_all_v mt,fg_s_materialref_v m,fg_s_invitemmaterial_v t\n" + 
-											"where instr(','||t.MATERIALTYPE_ID||',', ','||mt.MATERIALTYPE_ID||',')>0 and m.parentid in ("+stepNameCSV+") and m.active = 1 and m.sessionid is null\n" + 
-											"and m.INVITEMMATERIAL_ID = t.invitemmaterial_id");
+									if (stepNameCSV != null && !stepNameCSV.isEmpty()) {
+										materialTypes = getListOfMapsBySql(
+												"select distinct mt.MATERIALTYPE_ID,mt.MATERIALTYPENAME from \n"
+														+ "fg_s_materialtype_all_v mt,fg_s_materialref_v m,fg_s_invitemmaterial_v t\n"
+														+ "where instr(','||t.MATERIALTYPE_ID||',', ','||mt.MATERIALTYPE_ID||',')>0 and m.parentid in ("
+														+ stepNameCSV + ") and m.active = 1 and m.sessionid is null\n"
+														+ "and m.INVITEMMATERIAL_ID = t.invitemmaterial_id");
+									}
 								}
 								if(materialTypes!= null && materialTypeData.isEmpty() ) {
 									for (int j = 0; j < materialTypes.size(); j++) {
@@ -1616,7 +1636,9 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 							}
 							else if(ruleName.equalsIgnoreCase("Experiment Materials")) {
 								if(materialData == null) {
-									materialData = getListOfMapsBySql("select distinct t.INVITEMMATERIAL_ID,t.INVITEMMATERIALNAME,m.MATERIALTYPE_ID,m.MATERIALTYPENAME from fg_s_materialref_all_v t,fg_s_invitemmaterial_all_v m where t.INVITEMMATERIAL_ID=m.INVITEMMATERIAL_ID and t.STEP_ID in (" + stepNameCSV + ") and t.active = 1 and t.sessionid is null");
+									if(stepNameCSV != null && !stepNameCSV.isEmpty()) {
+										materialData = getListOfMapsBySql("select distinct t.INVITEMMATERIAL_ID,t.INVITEMMATERIALNAME,m.MATERIALTYPE_ID,m.MATERIALTYPENAME from fg_s_materialref_all_v t,fg_s_invitemmaterial_all_v m where t.INVITEMMATERIAL_ID=m.INVITEMMATERIAL_ID and t.STEP_ID in (" + stepNameCSV + ") and t.active = 1 and t.sessionid is null");
+									}
 								}
 								if(materialData!= null && expMaterialData.isEmpty() ) {
 									for (int j = 0; j < materialData.size(); j++) {
