@@ -2672,9 +2672,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 //				String nameIdasParentId = generalUtilFormState.getFormParam(stateKey, "ExperimentReport", "$P{NAMEID}");
 			    String nameIdasParentId = "-1";
 			    String sql = "insert into FG_S_" + formCode + "_PIVOT "
-						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,ROWSTATEKEY)"
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,ROWSTATEKEY,tabletype)"
 						+ " values (sysdate,'" + userId + "'," + sessionId + ",'1'," + newformId + "," + nameIdasParentId + ",'"
-						+ formCode + "','" + formCode + "','" + userId + "',sysdate,'" + stateKey + "')";
+						+ formCode + "','" + formCode + "','" + userId + "',sysdate,'" + stateKey + "','"+tableType+"')";
 				insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
 			}
 		else {
