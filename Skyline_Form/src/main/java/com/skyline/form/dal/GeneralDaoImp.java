@@ -99,6 +99,9 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 	@Value("${reactionAndResultsAnalysisColsSelection:ALL:All,QUANTITY:Qty,MOLE:Mole,VOLUME:Volume,PURITY:Purity,EQUIVALENT:Equivalent,INVITEMBATCHNAME:Batch}")
     private String reactionAndResultsAnalysisColsSelection_;
 	
+	@Value("${reactionAndResultsAnalysisType:Material,Parameter}")
+    private String reactionAndResultsAnalysisType_;
+	
 	@Autowired
 	public GeneralUtilLogger generalUtilLogger;
 
@@ -777,17 +780,16 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 			
 			//***** Experiment report rules display table (fg_s_ReportFilterRef_DTE_v)
 			List<String> stepNameList = new ArrayList<>();
-			String maxStep = "";
-			if(sql.toLowerCase().contains("fg_s_reportfilterref_dte_v")) {
+			//String maxStep = "";
+			if(sql.toLowerCase().contains("fg_s_reportfilterref_")) {
 				paramColFlag = true;
 				if(args.length > 0){
 					String stepNameCSV = args[0];
 					if(stepNameCSV != null && !stepNameCSV.isEmpty()) {
-						maxStep = selectSingleStringNoException("select distinct max(FORMNUMBERID) from fg_s_step_v where step_id in (" + stepNameCSV + ")");
-						int maxStepNo = Integer.parseInt(maxStep);
-						for(int i=1;i<=maxStepNo;i++) {
-							stepNameList.add("Step "+String.format("%02d", i));
-						}
+						stepNameList = getListOfStringBySql("select distinct stepname from fg_s_step_v where step_id in (" + stepNameCSV + ") order by stepname");
+						/*
+						 * maxStep = selectSingleStringNoException("select distinct max(FORMNUMBERID) from fg_s_step_v where step_id in (" + stepNameCSV + ")"); int maxStepNo = Integer.parseInt(maxStep); for(int i=1;i<=maxStepNo;i++) { stepNameList.add("Step "+String.format("%02d", i)); }
+						 */
 					}
 				}
 			}
@@ -1534,7 +1536,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 						}
 					}
 				}
-				/******** Step Name_SMARTEDIT handler *****************************************************************/
+				/******** fg_s_reportfilterref_dte_v handler *****************************************************************/
 				else if (!paramCol.isEmpty()
 						&& sql.toLowerCase().contains("fg_s_reportfilterref_dte_v")) {
 					if (paramCol.equalsIgnoreCase("Step Name_SMARTEDIT")) {
@@ -1637,7 +1639,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 							else if(ruleName.equalsIgnoreCase("Experiment Materials")) {
 								if(materialData == null) {
 									if(stepNameCSV != null && !stepNameCSV.isEmpty()) {
-										materialData = getListOfMapsBySql("select distinct t.INVITEMMATERIAL_ID,t.INVITEMMATERIALNAME,m.MATERIALTYPE_ID,m.MATERIALTYPENAME from fg_s_materialref_all_v t,fg_s_invitemmaterial_all_v m where t.INVITEMMATERIAL_ID=m.INVITEMMATERIAL_ID and t.STEP_ID in (" + stepNameCSV + ") and t.active = 1 and t.sessionid is null");
+										materialData = getListOfMapsBySql("select distinct t.INVITEMMATERIAL_ID,t.INVITEMMATERIALNAME from fg_s_materialref_all_v t where  t.STEP_ID in (" + stepNameCSV + ") and t.active = 1 and t.sessionid is null");
 									}
 								}
 								if(materialData!= null && expMaterialData.isEmpty() ) {
@@ -1653,6 +1655,105 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								String obj = "{}";
 								Object colvalObj = rows.get(i).get(paramCol);
 								obj = getJsonDisplayObj(null,expMaterialData,colvalObj == null ? null : colvalObj.toString(), "RULECONDITION","false","");
+								rows.get(i).put(paramCol, obj);
+							}
+						}
+					}
+					else if(paramCol.equalsIgnoreCase("Column Name_SMARTEDIT")) {
+						for (int i = 0; i < rows.size(); i++) {
+							Object colvalObj = rows.get(i).get(paramCol);
+							String displayName = colvalObj==null?"":colvalObj.toString();
+							String ruleObj = "{\"displayName\":\""+displayName+"\",\"saveType\":\"text\",\"htmlType\":\"editableDiv\",\"autoSave\":\"true\",\"dbColumnName\":\"COLUMNNAME\"}";
+							rows.get(i).put(paramCol, ruleObj);
+						}
+						
+					}
+				}
+				/******** fg_s_reportfilterref_dte_v handler *****************************************************************/
+				else if (!paramCol.isEmpty()
+						&& sql.toLowerCase().contains("fg_s_reportfilterref_dtedata_v")) {
+					if(paramCol.equalsIgnoreCase("Type_SMARTEDIT")) {
+						//init "typeName" list from reactionAndResultsAnalysisType property
+						String typeName = reactionAndResultsAnalysisType_;
+						List<String> typeNameList = Arrays.asList(typeName.split(","));
+						for (int i = 0; i < rows.size(); i++) {
+							Object colvalObj = rows.get(i).get(paramCol);
+							String ruleObj = "{}";
+							ruleObj = getJsonDisplayObj(typeNameList,null,colvalObj == null ? null : colvalObj.toString(), "TYPE_","false",",\"renderTableAfterSave\":\"true\"");
+							rows.get(i).put(paramCol, ruleObj);
+						}	
+					}
+					else if(paramCol.equalsIgnoreCase("Name_SMARTEDIT")) {
+						List<Map<String, Object>> materialData = null;
+						String stepNameCSV = args[0];
+						List<Map<String, Object>> parameters = null;
+						List<Map<String, String>> stepMaterialData = new ArrayList<>();
+						List<Map<String, String>> parametersData = new ArrayList<>();
+						String type,type_json;
+						for (int i = 0; i < rows.size(); i++) {
+							type_json = rows.get(i).get("Type_SMARTEDIT") == null ? "{}"
+									: rows.get(i).get("Type_SMARTEDIT").toString();
+							JSONArray displayNameArr = new JSONArray(
+									generalUtil.getJsonValById(type_json, "displayName"));
+							if (displayNameArr == null || displayNameArr.length() == 0) {
+								type = "";
+							} else {
+								type = generalUtil.getJsonValById(displayNameArr.get(0).toString(), "displayName");
+							}
+
+							if (type.equals("Material")) {
+								if (materialData == null) {
+									if (stepNameCSV != null && !stepNameCSV.isEmpty()) {
+										materialData = getListOfMapsBySql(
+												"select distinct t.INVITEMMATERIAL_ID,t.INVITEMMATERIALNAME from fg_s_materialref_all_v t  where  t.STEP_ID in ("
+														+ stepNameCSV + ") and t.active = 1 and t.sessionid is null");
+									}
+								}
+								if (materialData != null && stepMaterialData.isEmpty()) {
+									for (int j = 0; j < materialData.size(); j++) {
+										if (materialData.get(j).get("INVITEMMATERIAL_ID") != null
+												&& materialData.get(j).get("INVITEMMATERIALNAME") != null) {
+											Map<String, String> materialMap = new HashMap<>();
+											materialMap.put("ID",
+													materialData.get(j).get("INVITEMMATERIAL_ID").toString());
+											materialMap.put("VAL",
+													materialData.get(j).get("INVITEMMATERIALNAME").toString());
+											stepMaterialData.add(materialMap);
+										}
+									}
+								}
+								String obj = "{}";
+								Object colvalObj = rows.get(i).get(paramCol);
+								obj = getJsonDisplayObj(null, stepMaterialData,
+										colvalObj == null ? null : colvalObj.toString(), "REPORTFILTERREFNAME", "false", "");
+								rows.get(i).put(paramCol, obj);
+
+							} else if (type.equals("Parameter")) {
+
+								if (parameters == null) {
+									if (stepNameCSV != null && !stepNameCSV.isEmpty()) {
+										parameters = getListOfMapsBySql(
+												"select t.PARAMETER_ID,t.parametername from fg_s_paramref_all_v t where t.PARENTID in ("
+														+ stepNameCSV + ") and t.active = 1 and t.sessionid is null");
+									}
+								}
+								if (parameters != null && parametersData.isEmpty()) {
+									for (int j = 0; j < parameters.size(); j++) {
+										if (parameters.get(j).get("PARAMETER_ID") != null
+												&& parameters.get(j).get("PARAMETERNAME") != null) {
+											Map<String, String> parametersMap = new HashMap<>();
+											parametersMap.put("ID",
+													parameters.get(j).get("PARAMETER_ID").toString());
+											parametersMap.put("VAL",
+													parameters.get(j).get("PARAMETERNAME").toString());
+											parametersData.add(parametersMap);
+										}
+									}
+								}
+								String obj = "{}";
+								Object colvalObj = rows.get(i).get(paramCol);
+								obj = getJsonDisplayObj(null, parametersData,
+										colvalObj == null ? null : colvalObj.toString(), "REPORTFILTERREFNAME", "false", "");
 								rows.get(i).put(paramCol, obj);
 							}
 						}
