@@ -66,6 +66,56 @@ public class ExperimentReportSQLBuilder {
 			// ************* Limiting Agent *************
 			// ******************************************
 			if(ruleName.equalsIgnoreCase("Limiting Agent")) {
+				String colName_ = (columnName == null || columnName.isEmpty())? ruleName: columnName; 
+				String[] stepNameArray = stepName.split(",", -1);
+				
+				// for each step in the user selection row
+				for (String singleStepName : stepNameArray) {
+					String aliasName = "CR" + index; // Alias
+
+					if(!singleStepName.toLowerCase().startsWith("step")) {
+						singleStepName = "STEP " + singleStepName;
+					}
+					
+					//with
+					sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
+							" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
+							"   ,max(t.INVITEMMATERIALNAME) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as MAINNAME\r\n" + 
+							(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as QUANTITY\r\n":"") +
+							(colMap.containsKey("MOLE") ? "   ,max(fg_get_num_display(t.MOLE,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as MOLE\r\n":"") +
+							(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
+							(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(t.PURITY,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
+							(colMap.containsKey("EQUIVALENT") ? "   ,max(fg_get_num_display(t.EQUIVALENT,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as EQUIVALENT\r\n":"") +
+							(colMap.containsKey("INVITEMBATCHNAME") ? "   ,max(t.INVITEMBATCHNAME) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as INVITEMBATCHNAME\r\n":"") +
+
+							"  FROM Fg_s_Materialref_All_v t \r\n" + 
+							"  WHERE 1=1\r\n" + 
+							"  AND t.EXPERIMENT_ID in (" + expIds + ")\r\n" + 
+							"  AND lower(t.STEPNAME) = lower('"  + singleStepName + "')\r\n" + 
+							"  AND t.TABLETYPE = 'Reactant'\r\n" + //
+							"  AND t.LIMITINGAGENT = 1\r\n" + 
+							")"); // and experiment id where part (or on temp table we create in the beginning for performance)
+					
+					//select
+					sbSelectSql.append(
+							"," + aliasName + ".MAINNAME as \"" + getValidOracleColumnName("{" + index + "}" + singleStepName + " - " + colName_) + "\"" +
+							(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "} " + colMap.get("QUANTITY") + "\"":"") +
+							(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "} " + colMap.get("MOLE") + "\"":"") +
+							(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + colMap.get("VOLUME") + "\"":"") +
+							(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "} " + colMap.get("PURITY") + "\"":"") +
+							(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "} " + colMap.get("EQUIVALENT") + "\"":"") +
+							(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "} " + colMap.get("INVITEMBATCHNAME") + "\"":"")
+					);
+					
+					//from
+					sbFromSql.append("," + aliasName);
+					
+					//where
+					sbWhereSql.append(" AND EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
+					
+					index++;
+				}
+				
 			}
 			
 			// ****************************************
@@ -88,7 +138,12 @@ public class ExperimentReportSQLBuilder {
 							" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
 							"   ,max(t.INVITEMMATERIALNAME) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as MAINNAME\r\n" + 
 							(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) QUANTITY\r\n":"") +
+							(colMap.containsKey("MOLE") ? "   ,max(fg_get_num_display(t.MOLE,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as MOLE\r\n":"") +
 							(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
+							(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(t.PURITY,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
+							(colMap.containsKey("EQUIVALENT") ? "   ,max(fg_get_num_display(t.EQUIVALENT,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as EQUIVALENT\r\n":"") +
+							//(colMap.containsKey("INVITEMBATCHNAME") ? "   ,max(t.INVITEMBATCHNAME) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as INVITEMBATCHNAME\r\n":"") +
+
 							"  FROM Fg_s_Materialref_All_v t \r\n" + 
 							"  WHERE 1=1\r\n" + 
 							"  AND t.EXPERIMENT_ID in (" + expIds + ")\r\n" + 
@@ -100,18 +155,21 @@ public class ExperimentReportSQLBuilder {
 					sbSelectSql.append(
 							"," + aliasName + ".MAINNAME as \"" + getValidOracleColumnName("{" + index + "}" + singleStepName + " - " + colName_) + "\"" +
 							(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "} " + colMap.get("QUANTITY") + "\"":"") +
-							(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + colMap.get("VOLUME") + "\"":"")
+							(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "} " + colMap.get("MOLE") + "\"":"") +
+							(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + colMap.get("VOLUME") + "\"":"") +
+							(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "} " + colMap.get("PURITY") + "\"":"") +
+							(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "} " + colMap.get("EQUIVALENT") + "\"":"")
+							//(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "} " + colMap.get("INVITEMBATCHNAME") + "\"":"")
 					);
 					
 					//from
 					sbFromSql.append("," + aliasName);
 					
 					//where
-					sbWhereSql.append(" AND EXPERIMENT_ID = " + aliasName + ".EXPID ");
+					sbWhereSql.append(" AND EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
 					
 					index++;
 				}
-				
 			}
 			
 			// *****************************************
@@ -147,8 +205,10 @@ public class ExperimentReportSQLBuilder {
 
 	private Map<String, String> prepareColMap(String ruleName, String columnsSelection) {
 		Map<String, String> colsMap = new HashMap<>();
+		Map<String, String> colsSelectionMap = new HashMap<>();
 		//TODO get colProp from getReactionAndResultsAnalysisColsSelection (NEW FUNC IN DAO RETURN THE CLASS VAL)
 		String colProp = "ALL:All,QUANTITY:Qty,MOLE:Mole,VOLUME:Volume,PURITY:Purity,EQUIVALENT:Equivalent,INVITEMBATCHNAME:Batch";
+		
 		List<String> colList = Arrays.asList(colProp.split(","));
 		if (!colList.isEmpty()) {
 			for (String c : colList) {
@@ -157,6 +217,19 @@ public class ExperimentReportSQLBuilder {
 				colsMap.put(id,val_);
 			}
 		}
-		return colsMap;
+		
+		if(!columnsSelection.isEmpty() && !columnsSelection.toLowerCase().startsWith("all")) {
+			String[]columnsSelectionArray = columnsSelection.split(",",-1);
+			for (String colSelect : columnsSelectionArray) {
+				if(colsMap.containsKey(colSelect)) {
+					colsSelectionMap.put(colSelect, colsMap.get(colSelect));
+				}
+			}
+		} else {
+			return colsMap; // return the map with all the options
+		}
+		
+		
+		return colsSelectionMap;
 	}
 }

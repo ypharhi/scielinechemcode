@@ -2280,9 +2280,9 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 				String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
                 String nameIdasParentId = "-1";
 			    String sql = "insert into FG_S_ReportFilterRef_PIVOT "
-						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,ROWSTATEKEY,stepname,rulename,RULECONDITION,columnsSelection,ColumnName,tabletype)"
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,ROWSTATEKEY,stepname,rulename,RULECONDITION,columnsSelection,ColumnName,tabletype,TYPE_,REPORTFILTERREFNAME,LEVEL_)"
 						+ " select sysdate,'" + userId + "'," + sessionId + ",'1',fg_get_struct_form_id('ReportFilterRef')," + nameIdasParentId + ",'"
-						+ "ReportFilterRef" + "','" + "ReportFilterRef" + "','" + userId + "',sysdate,'" + stateKey + "',stepname,rulename,RULECONDITION,columnsSelection,ColumnName,tabletype "
+						+ "ReportFilterRef" + "','" + "ReportFilterRef" + "','" + userId + "',sysdate,'" + stateKey + "',stepname,rulename,RULECONDITION,columnsSelection,ColumnName,tabletype,TYPE_,REPORTFILTERREFNAME,LEVEL_ "
 								+ " from fg_s_reportfilterref_pivot where parentid = '"+nameId+"'";
 				//String insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + "ReportFilterRef" + "_PIVOT", newformId);
 				formSaveDao.updateSingleStringInfoNoTryCatch(sql);
@@ -2291,9 +2291,9 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 				String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
                 String nameIdasParentId = "-1";
 			    String sql = "insert into FG_S_ReportFilterRef_PIVOT "
-						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,ROWSTATEKEY,stepname,rulename,RULECONDITION,columnsSelection,ColumnName,tabletype)"
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,ROWSTATEKEY,stepname,rulename,RULECONDITION,columnsSelection,ColumnName,tabletype,TYPE_,REPORTFILTERREFNAME,LEVEL_)"
 						+ " select sysdate,'" + userId + "'," + sessionId + ",'1',fg_get_struct_form_id('ReportFilterRef')," + nameIdasParentId + ",'"
-						+ "ReportFilterRef" + "','" + "ReportFilterRef" + "','" + userId + "',sysdate,'" + stateKey + "',stepname,rulename,RULECONDITION,columnsSelection,ColumnName,tabletype "
+						+ "ReportFilterRef" + "','" + "ReportFilterRef" + "','" + userId + "',sysdate,'" + stateKey + "',stepname,rulename,RULECONDITION,columnsSelection,ColumnName,tabletype,TYPE_,REPORTFILTERREFNAME,LEVEL_ "
 								+ " from fg_s_reportfilterref_pivot where parentid = '"+userId+"'";
 				//String insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + "ReportFilterRef" + "_PIVOT", newformId);
 				formSaveDao.updateSingleStringInfoNoTryCatch(sql);
