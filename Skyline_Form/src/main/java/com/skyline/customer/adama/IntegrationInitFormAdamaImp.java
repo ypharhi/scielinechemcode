@@ -397,6 +397,24 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 								if(!subsubproject_count.equals("1") && !subsubproject_count.equals("0")){
 									toReturn.put("SUBSUBPROJECT_ID", "");
 								}
+								String protocolTypeName = formDao.getFromInfoLookup("PROTOCOLTYPE", LookupType.ID, toReturn.get("PROTOCOLTYPE_ID"), "name");
+								if(protocolTypeName.equals("Analytical")) {//if the experiment based on several operation types then the experiment type should be general
+									List<String> operationTypeId = generalDao.getListOfStringBySql("select distinct decode(t.EXPERIMENTTYPENAME,'Assay',(select distinct ex.EXPERIMENTTYPE_ID from fg_s_experimenttype_v ex where EXPERIMENTTYPENAME = 'Impurity Profile'),t.OperationTypeName) " 
+											+ " from fg_s_operationtype_all_v t," + " fg_s_request_v r" + " where t.PARENTID = r.request_id"
+											+ " and t.sessionId is null" + " and t.active = 1 " + " and r.request_id in ("
+											+ requestMap.get("smartSelectList") + ")");
+									if(operationTypeId == null || operationTypeId.size() != 1) {
+										List<String> generalTypeList = formDao.getFromInfoLookupElementData("EXPERIMENTTYPE", LookupType.NAME, "General",
+												"ID");
+										for (String generalTypeId : generalTypeList) {
+											Map<String, String> generaltypeData = formDao.getFromInfoLookupAll("EXPERIMENTTYPE", LookupType.ID, generalTypeId);
+											if (generaltypeData.get("PROTOCOLTYPENAME").equalsIgnoreCase("Analytical")) {
+												toReturn.put("EXPERIMENTTYPE_ID",generalTypeId);
+												break;
+											}
+										}
+									}
+								}
 							}
 							if(!generalUtil.getNull(requestMap.get("smartSelectList")).isEmpty()){
 								//only requests with the same type and operation type should be displayed. “Assay” and “Impurity profile” requests are the same type in this case
@@ -404,7 +422,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 							              + " from fg_s_operationtype_all_v t," + " fg_s_request_v r" + " where t.PARENTID = r.request_id"
 							              + " and t.sessionId is null" + " and t.active = 1 " + " and r.request_id in ("
 							              + requestMap.get("smartSelectList") + ")");
-								if (operationTypeId == null || operationTypeId.size() != 1) {
+								if (operationTypeId == null || operationTypeId.size() == 2 && operationTypeId.contains("Impurity Profile") && operationTypeId.contains("Assay")) {
 									String impurityProfile = formDao.getFromInfoLookup("EXPERIMENTTYPE", LookupType.NAME, "Impurity Profile",
 											"ID"); 
 									toReturn.put("EXPERIMENTTYPE_ID", impurityProfile);//impurityProfile should be the default(in case selected assay & impurity profile)
