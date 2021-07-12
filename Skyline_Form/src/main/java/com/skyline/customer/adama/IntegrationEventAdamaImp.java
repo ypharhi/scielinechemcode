@@ -4668,7 +4668,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 					+ "where parentid = '"+elementValueMap.get("nameId")+"'\n"
 					+ " and rowstatekey is null";
 				generalDao.updateSingleStringNoTryCatch(del_sql);
-			String sql = "update fg_s_reportfilterref_pivot set rowstatekey = null, parentid = '"+elementValueMap.get("nameId")+"' where rowstateKey = '"+stateKey+"'";
+			String sql = "update fg_s_reportfilterref_pivot set rowstatekey = null, parentid = '"+elementValueMap.get("nameId")+"' where rowstateKey = '"+stateKey+"' and active = 1";
 		    formSaveDao.updateSingleStringInfoNoTryCatch(sql);
 		}
 		else if (eventAction.equals("saveRulesTableByUserId")) {
@@ -4676,7 +4676,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 					+ " where parentid = '"+userId+"'\n"
 					+ " and rowstatekey is null";
 				generalDao.updateSingleStringNoTryCatch(del_sql);
-			String sql = "update fg_s_reportfilterref_pivot set rowstatekey = null, parentid = '"+userId+"' where rowstateKey = '"+stateKey+"'";
+			String sql = "update fg_s_reportfilterref_pivot set rowstatekey = null, parentid = '"+userId+"' where rowstateKey = '"+stateKey+"' and active = 1";
 		    formSaveDao.updateSingleStringInfoNoTryCatch(sql);
 		}
 		
