@@ -447,7 +447,7 @@
 				    }
 			    } */
 			    fullObj["output"] = parent.getOutputValueBL(parent.$('#formCode').val(),domId,designer);
-			    var currSpreadConfig = workBook.toJSON();
+			    var currSpreadConfig = workBook.toJSON({includeBindingSource:true});
 			    fullObj["excelFullData"] = currSpreadConfig;
 			    fullObj["validationMessage"] = parent.getValidationMessage(parent.$('#formCode').val(),domId,designer);
 			    console.log("end getValueFromOutputSheet func");

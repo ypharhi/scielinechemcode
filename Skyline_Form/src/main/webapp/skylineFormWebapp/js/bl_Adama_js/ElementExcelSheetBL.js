@@ -182,10 +182,11 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				
 				//5. Update the selected materials in the results sheet with the actual name in case it was change in the system
 				var sheetMaterialId = workBook.getSheetFromName("IdLookup");
+				var sheetActualMaterialId = workBook.getSheetFromName("ActualMaterialId");
 			    var columnCount = sheetMaterialId.getColumnCount();
 			    for (var j = _materialLocation.x; j < columnCount; j++) {
 			    	var idValLookup = sheetMaterialId.getValue(_materialLocation.y,j);
-			    	var idValLastSave = sheetMaterialId.getValue(_materialLocation.y+1,j);
+			    	var idValLastSave = sheetActualMaterialId.getValue(j,0);
 			    	if(idValLookup != idValLastSave && idValLastSave!=-1 && idValLastSave!=""){//if the lookup is not identical to the last saved id, it means that the name was changed.
 			    		var sheetMaterial = workBook.getSheetFromName("Materials");
 			    		var rowCount = sheetMaterial.getRowCount();
@@ -307,8 +308,8 @@ function getComponentList(){
 }
 
 function isSingleSheetOnly(formCode,domId){
-	if(/*formCode == 'ExperimentAn' && domId == 'spreadsheetResults'
-		||*/ formCode == 'SysConfExcelData' && domId == 'ExcelData'){
+	if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'
+		|| formCode == 'SysConfExcelData' && domId == 'ExcelData'){
 		return false;
 	}
 	return true;
@@ -330,18 +331,29 @@ function getOutputValueBL(formCode,domId,designer){
 	    }
     } */
     if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+    	console.log("START GET OUTPUT!!!!!!")
+    	console.time("SPREAD_OUTPUT");
     	var workBook = designer[domId].getWorkbook();
     	var sheet = workBook.getSheetFromName('Version');
 		var version = sheet == null ? 'V1': sheet.getValue(0,0);
 		initializeFields(version);
 		if(version == 'V1'){
+			console.time("SPREAD_IDLOOKUP");
 		    var sheetMaterialId = workBook.getSheetFromName("IdLookup");
+		    var sheetActualMaterialId = workBook.getSheetFromName("ActualMaterialId");
 		    var columnCount = sheetMaterialId.getColumnCount();
-		    for (var j = _materialLocation.x; j < columnCount; j++) {
+		    var array = [];
+		    for (var j = 0; j < columnCount-_materialLocation.x; j++) {
 		    	var idVal = sheetMaterialId.getValue(_materialLocation.y,j);
-		    	sheetMaterialId.setValue(_materialLocation.y+1,j,idVal);
+		    	array.push({"ID":idVal});
+		    //	sheetMaterialId.setValue(_materialLocation.y+1,j,idVal);
 		    }
-		    
+		    sheetActualMaterialId.autoGenerateColumns = false;
+		    sheetActualMaterialId.setDataSource(array);
+		    sheetActualMaterialId.bindColumn(0,"ID");
+		    console.timeEnd("SPREAD_IDLOOKUP");
+		   
+		    console.time("SPREAD_GETOUTPUT");
 		    var sheet = workBook.getSheet(0);
 		    var dataArray = [];
 		    //_resultTypeLocation
@@ -381,8 +393,10 @@ function getOutputValueBL(formCode,domId,designer){
 		    		dataArray.push(fullDataObj);
 		    	}
 		    }
+		    console.timeEnd("SPREAD_GETOUTPUT");
 		    returnVal[0] = dataArray;
 		}
+		console.timeEnd("SPREAD_OUTPUT");
     }
     return returnVal;
 }
