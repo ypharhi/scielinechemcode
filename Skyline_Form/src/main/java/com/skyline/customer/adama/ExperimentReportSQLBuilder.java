@@ -1,13 +1,10 @@
 package com.skyline.customer.adama;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,11 +41,11 @@ public class ExperimentReportSQLBuilder {
 				"        T.RULECONDITION, \n" + 
 				"        T.COLUMNSSELECTION,\n" + 
 				"        T.COLUMNNAME\n" + 
-				"from FG_S_REPORTFILTERREF_V T where 1=1 /*t.TABLETYPE in ('combineRules')*/ and t.ROWSTATEKEY='" + stateKey + "' order by to_number(t.formid) ");
+				"from FG_S_REPORTFILTERREF_V T where t.active = 1 and t.TABLETYPE in ('combineRules') and t.ROWSTATEKEY='" + stateKey + "' order by to_number(t.formid) ");
 		
 		// make SQL for each filter row (filter row represent the "combine rules" and "display data" selection table)
 		for (Map<String, Object> filterRefMap : filterRefList) { 
-			String tableType = generalUtil.getNull((String)filterRefMap.get("TABLETYPE")); // <combineRules/displayData>
+//			String tableType = generalUtil.getNull((String)filterRefMap.get("TABLETYPE")); // <combineRules/displayData>....  here we in combineRules tabletype
 			String stepName = generalUtil.getNull((String)filterRefMap.get("STEPNAME")); // List of step Names (for example STEP 01,STEP 02)
 			String ruleName = generalUtil.getNull((String)filterRefMap.get("RULENAME")); // <Main Solvent /Limiting Agent/Material Type>
 			String columnName = generalUtil.getNull((String)filterRefMap.get("COLUMNNAME"));
@@ -58,25 +55,33 @@ public class ExperimentReportSQLBuilder {
 			if(stepName == null || stepName.isEmpty()) {
 				continue;
 			}
+			
 			//prepare colnames_....
 			Map<String,String> colMap = prepareColMap(ruleName, columnsSelection);
 			if(colMap == null || colMap.isEmpty()) {
 				continue;
 			}
-			
-			
-			System.out.println("tableType=" + tableType + ", stepName=" + stepName + ", ruleName=" + ruleName + ", columnName=" + columnName + ", columnsSelection=" + columnsSelection );
-			//Limiting Agent
+						
+			// ******************************************
+			// ************* Limiting Agent *************
+			// ******************************************
 			if(ruleName.equalsIgnoreCase("Limiting Agent")) {
 			}
 			
-			//Main Solvent
+			// ****************************************
+			// ************* Main Solvent *************
+			// ****************************************
 			if(ruleName.equalsIgnoreCase("Main Solvent")) { 
-				String colName_ = (columnName == null || columnName.isEmpty())? ruleName: columnName; //TODO oracle limitation
+				String colName_ = (columnName == null || columnName.isEmpty())? ruleName: columnName; 
 				String[] stepNameArray = stepName.split(",", -1);
 				
+				// for each step in the user selection row
 				for (String singleStepName : stepNameArray) {
-					String aliasName = "CR" + index; // Alias 
+					String aliasName = "CR" + index; // Alias
+
+					if(!singleStepName.toLowerCase().startsWith("step")) {
+						singleStepName = "STEP " + singleStepName;
+					}
 					
 					//with
 					sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
@@ -86,14 +91,14 @@ public class ExperimentReportSQLBuilder {
 							(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
 							"  FROM Fg_s_Materialref_All_v t \r\n" + 
 							"  WHERE 1=1\r\n" + 
-							"  AND T.EXPERIMENT_ID in (" + expIds + ")\r\n" + 
-							"  AND   t.STEPNAME = '"  + singleStepName + "'\r\n" + 
-							"  AND   t.TABLETYPE = 'Solvent'\r\n" + 
+							"  AND t.EXPERIMENT_ID in (" + expIds + ")\r\n" + 
+							"  AND lower(t.STEPNAME) = lower('"  + singleStepName + "')\r\n" + 
+							"  AND t.TABLETYPE = 'Solvent'\r\n" + 
 							")"); // and experiment id where part (or on temp table we create in the beginning for performance)
 					
 					//select
 					sbSelectSql.append(
-							"," + aliasName + ".MAINNAME as \"{" + index + "}" + colName_ + " " + singleStepName + "\"" +
+							"," + aliasName + ".MAINNAME as \"" + getValidOracleColumnName("{" + index + "}" + singleStepName + " - " + colName_) + "\"" +
 							(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "} " + colMap.get("QUANTITY") + "\"":"") +
 							(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + colMap.get("VOLUME") + "\"":"")
 					);
@@ -109,30 +114,25 @@ public class ExperimentReportSQLBuilder {
 				
 			}
 			
-			//Material Type
+			// *****************************************
+			// ************* Material Type *************
+			// *****************************************
 			if(ruleName.equalsIgnoreCase("Material Type")) {
 				
 			}
-			
-			
 		}
 		
-		
+		// return the sql obj...
 		return new SQLObj(sbWithSql.toString(),sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString());
-		
 	}
 	
-//	+	
-//	+	/**
-//	+	 * get the select SQL part from fg_s_ReportFilterRef_pivot, that holds the user select ion data in form the combine rules table.
-//	+	 * @param stateKey - the number that defined the relevant rows (the fg_s_ReportFilterRef_pivot should be filtered by rowstatekey = stateKey, active = 1, and table type - TBD)
-//	+	 * @return the SQL select part expression or empty (in case of exception or nothing to show) - the return value should end with comma in case there is at least one field
-//	+	 */
-//	+	private String getExpReportRulesFieldsSQL(long stateKey) {
-//	+		// "/*1 as Dummy1, 2 as Dummy2,*/";
-//	+		String toReturn  = "";
-//	+		return toReturn;
-//	+	}
+	private String getValidOracleColumnName(String colname) { 
+		String col_ = colname.replace("\"","");
+		if(col_.length() > 30) {
+			col_= col_.substring(0, 27) + "...";
+		}
+		return col_;
+	}
 	
 	/**
 	 * Insert the pivot data by stateKey for the report
@@ -159,37 +159,4 @@ public class ExperimentReportSQLBuilder {
 		}
 		return colsMap;
 	}
-
-
-//	String getAllColumnsByType(String ruleName) {
-//		generalUtil.getPropByName("reactionAndResultsAnalysisColsSelection", "NA");
-//		// TODO Auto-generated method stub
-//		return "QUANTITY,MOLE,VOLUME,PURITY,EQUIVALENT,INVITEMBATCHNAME"; //TODO get from prop
-//	}
-	
-//	JSONObject getResultSamrtPivot(String ruleName, String columnsSelection) {
-//		JSONObject smartPivoObj = new JSONObject();
-//		//JSONObject groupObj = new JSONObject();
-//		JSONArray columnObj = new JSONArray();
-//		JSONArray valArray = new JSONArray();
-//		
-//		String colSelection_ = columnsSelection;
-//		
-//		// check if all (or empty)
-//		if(colSelection_.isEmpty() || colSelection_.toLowerCase().startsWith("all")) { // TODO change according to data in case of all
-//			colSelection_ = getAllColumnsByType(ruleName);
-//		}
-//		
-//		String[] colSelectionArray = colSelection_.split(",", -1);
-//		for (String col : colSelectionArray) {
-////			columnObj.put(value)
-//		}
-//		
-////		smartPivoObj.
-//		
-//		return null;
-//		
-//		
-//	}
-
 }
