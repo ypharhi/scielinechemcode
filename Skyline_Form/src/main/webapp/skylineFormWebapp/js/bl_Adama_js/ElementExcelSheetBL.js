@@ -308,8 +308,8 @@ function getComponentList(){
 }
 
 function isSingleSheetOnly(formCode,domId){
-	if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'
-		|| formCode == 'SysConfExcelData' && domId == 'ExcelData'){
+	if(/*formCode == 'ExperimentAn' && domId == 'spreadsheetResults'
+		||*/ formCode == 'SysConfExcelData' && domId == 'ExcelData'){
 		return false;
 	}
 	return true;
