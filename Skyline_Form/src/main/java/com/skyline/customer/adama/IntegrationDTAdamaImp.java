@@ -188,10 +188,25 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 
 //					String xxx = generalUtilFormState.getFormValue(stateKey,"ExperimentReport", "stepTable");
 //					Map<String,String> xxMap = generalUtilFormState.getFormParam(stateKey, "ExperimentReport");
-					String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_STEPTABLE}");
-					System.out.println("-----------stepidList=" + stepidList);
-					sql = "select * from " + table + " where 1=1 and active = 1 and ROWSTATEKEY = '" + stateKey + "'";
-					optionalAttributes = stepidList.replace("@", ",");
+					String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport",
+								"$P{CURRENT_ROW_STEPTABLE}");
+						System.out.println("-----------stepidList=" + stepidList);
+						sql = "select * from " + table + " where 1=1 and active = 1 and ROWSTATEKEY = '" + stateKey
+								+ "' and tabletype ='combineRules'";
+						optionalAttributes = stepidList.replace("@", ",");
+					
+				}else if(generalUtil.getNull(table).equalsIgnoreCase("fg_s_ReportFilterRef_DTEDATA_v")) {
+					// on loading the form to insert the rows with parentid to this fg_s_ReportFilterRef_pivot with parentid null and state key to rowstatekey for having the saved data (in the save scheme we need to save as this concept) - maybe save display is -1 with userid and rowstatkey null (because we do not have name id)
+
+//					String xxx = generalUtilFormState.getFormValue(stateKey,"ExperimentReport", "stepTable");
+//					Map<String,String> xxMap = generalUtilFormState.getFormParam(stateKey, "ExperimentReport");
+					
+						String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport",
+								"$P{CURRENT_ROW_STEPTABLE}");
+						System.out.println("-----------stepidList=" + stepidList);
+						sql = "select * from " + table + " where 1=1 and active = 1 and ROWSTATEKEY = '" + stateKey
+								+ "' and tabletype ='displayData'";
+						optionalAttributes = stepidList.replace("@", ",");
 				} else {
 					String wherePart = "";
 					if(linkToLastSelection.equals("1")) {

@@ -786,7 +786,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 						maxStep = selectSingleStringNoException("select distinct max(FORMNUMBERID) from fg_s_step_v where step_id in (" + stepNameCSV + ")");
 						int maxStepNo = Integer.parseInt(maxStep);
 						for(int i=1;i<=maxStepNo;i++) {
-							stepNameList.add(String.format("%02d", i));
+							stepNameList.add("Step "+String.format("%02d", i));
 						}
 					}
 				}
