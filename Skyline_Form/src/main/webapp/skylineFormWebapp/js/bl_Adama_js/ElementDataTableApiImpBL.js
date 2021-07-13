@@ -4969,7 +4969,7 @@ function bl_setColVisibilityByColTitleArr(domId, isVisible, context) {
 	
 	//*********** set By formcode and domId *************
 	//----------- ExpAnalysisReport reportTable
-	if(($('#formCode').val() == 'ExpAnalysisReport'||$('#formCode').val() == 'ExperimentReport')&&domId == 'reportTable') {
+	if($('#formCode').val() == 'ExpAnalysisReport' && domId == 'reportTable') {
 		if( context != 'load_last_save_columns') {
     		return isOverride;
     	}
