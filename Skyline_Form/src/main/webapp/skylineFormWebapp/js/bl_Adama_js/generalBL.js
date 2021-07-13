@@ -4793,55 +4793,60 @@ function onSaveStepCheckForCharacterMassBalance(afterSave,saveAction)
 
 
 function doSaveWithConfirmManualResults(afterSave,saveAction){
-	var urlParam = "?formId="+ $('#formId').val()
-					+ "&formCode="+ $('#formCode').val()
-					+ "&userId="+ $('#userId').val()
-					+ "&eventAction=checkManualResultsToDelete"
-					+ "&isNew=" + $('#isNew').val();
-		
-	var data_ = JSON.stringify({
-		action : "checkManualResultsToDelete",
-		data : [],
-		errorMsg : ""
-	});
-	showWaitMessage(getSpringMessage('pleaseWait'));
-	
-	// call...
-	$.ajax({
-		type : 'POST',
-		data : data_,
-		url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
-		contentType : 'application/json',
-		dataType : 'json',
-	
-		success : function(obj) {
-			if (obj.errorMsg != null && obj.errorMsg != '') {
-				displayAlertDialog(obj.errorMsg);
-			} 
-			else if(obj.data[0].val!='')//There is a confirmation message
-			{
-				openConfirmDialog({
-			        onConfirm: function(){
-			        	hideWaitMessage();
-			        	CheckSampleResult(afterSave,saveAction);
-			        	//doSave(afterSave, saveAction);
-			        },
-			        title: 'Warning',
-			        message: getSpringMessage("The following manual results are about to delete:</br> "+obj.data[0].val+"</br>Are you sure?"),
-			        onCancel: function(){
-		        		hideWaitMessage();
-			        }
-			    });
-				hideWaitMessage();
-			} else {
-				hideWaitMessage();
-				CheckSampleResult(afterSave,saveAction);
-	        	//doSave(afterSave, saveAction);
-			}
+	var experimentType = $('#EXPERIMENTTYPE_ID option:selected').text();
+	if(experimentType == 'General'){
+		CheckSampleResult(afterSave,saveAction);
+	} else {
+		var urlParam = "?formId="+ $('#formId').val()
+						+ "&formCode="+ $('#formCode').val()
+						+ "&userId="+ $('#userId').val()
+						+ "&eventAction=checkManualResultsToDelete"
+						+ "&isNew=" + $('#isNew').val();
 			
-		},
-		error : handleAjaxError
-	});
+		var data_ = JSON.stringify({
+			action : "checkManualResultsToDelete",
+			data : [],
+			errorMsg : ""
+		});
+		showWaitMessage(getSpringMessage('pleaseWait'));
+		
+		// call...
+		$.ajax({
+			type : 'POST',
+			data : data_,
+			url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+			contentType : 'application/json',
+			dataType : 'json',
+		
+			success : function(obj) {
+				if (obj.errorMsg != null && obj.errorMsg != '') {
+					displayAlertDialog(obj.errorMsg);
+				} 
+				else if(obj.data[0].val!='')//There is a confirmation message
+				{
+					openConfirmDialog({
+				        onConfirm: function(){
+				        	hideWaitMessage();
+				        	CheckSampleResult(afterSave,saveAction);
+				        	//doSave(afterSave, saveAction);
+				        },
+				        title: 'Warning',
+				        message: getSpringMessage("The following manual results are about to delete:</br> "+obj.data[0].val+"</br>Are you sure?"),
+				        onCancel: function(){
+			        		hideWaitMessage();
+				        }
+				    });
+					hideWaitMessage();
+				} else {
+					hideWaitMessage();
+					CheckSampleResult(afterSave,saveAction);
+		        	//doSave(afterSave, saveAction);
+				}
+				
+			},
+			error : handleAjaxError
+		});
+	}
 }
 
 function CheckSampleResult(afterSave,saveAction){
