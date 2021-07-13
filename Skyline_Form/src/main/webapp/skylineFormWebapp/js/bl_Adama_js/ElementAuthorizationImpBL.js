@@ -864,7 +864,7 @@ function experimentReturnToActive(isActual) {
 				'action','selfTests',
 				'webixAnalytTable', 'manualResultsTable', 'manualResultsMS',
 				'calculationButton','calculateButton','testedComponents',
-				'chromatograms', 'resultsTable','planned_actual','steps'], true); // yp add steps fix bug 7775
+				'chromatograms', 'resultsTable','planned_actual','steps','spreadsheetResults'], true); // yp add steps fix bug 7775
 		generalBL_enableTab('BottlesResultsTab');
 		generalBL_enableTab('CorrosionResultsTab');
 		generalBL_enableTab('TSUResultsTab');
