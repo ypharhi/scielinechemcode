@@ -506,12 +506,20 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 				String message ="";
 				//List<String> samples=new ArrayList<String>();
 				String parentIdListCsv = (String) validateValueObject;
-				if (!parentIdListCsv.isEmpty() //
-						&& !parentIdListCsv.contains(",")) { //the experiment is about to be created from several requests. No need to check the operation type, since when these are several then  the experient is created as general
+				if (!parentIdListCsv.isEmpty()) { //the experiment is about to be created from several requests. No need to check the operation type, since when these are several then  the experient is created as general
 					List<String> operationTypeId = generalDao.getListOfStringBySql("select distinct decode(t.EXPERIMENTTYPENAME,'Assay',(select distinct ex.EXPERIMENTTYPE_ID from fg_s_experimenttype_v ex where EXPERIMENTTYPENAME = 'Impurity Profile'),t.OperationTypeName) " 
-							+ " from fg_s_operationtype_all_v t," + " fg_s_request_v r" + " where t.PARENTID = r.request_id"
+							+ " from fg_s_operationtype_all_v t," + " fg_s_request_v r" 
+							+ " where t.PARENTID = r.request_id"
 							+ " and t.sessionId is null" + " and t.active = 1 " + " and r.request_id in ("
-							+ parentIdListCsv + ")");
+							+ parentIdListCsv + ")"
+							//checks if one of the requests is parametric,since when they all are analytical the validation is unnecessary
+							+ " and exists"
+							+ " (select request_id\n"
+							+ " from FG_I_REQUEST_EXPRIMENTTYPE_V r,\n"
+							+ " fg_s_protocoltype_v p\n"
+							+ "where r.protocoltype_id = p.protocoltype_id\n"
+							+ "and p.protocoltypename = 'Parametric'\n"
+							+ "and request_id in ("+parentIdListCsv+"))");
 
 					/*List<String> destUnitId = generalDao.getListOfStringBySql("select distinct t.DESTUNIT_ID"
 							+ " from fg_s_request_v t" + " where t.request_id in (" + parentIdListCsv + ")");*/
@@ -529,7 +537,7 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 								validateValueObject));
 					}*/
 
-					if (operationTypeId == null || operationTypeId.size() != 1) {
+					if (operationTypeId == null || operationTypeId.size() > 1) {
 						throw new Exception(getMessage(ValidationCode.INVALID_EXPERIMENT_FROM_SEVERAL_REQUESTS_OPT,
 								validateValueObject));
 					}

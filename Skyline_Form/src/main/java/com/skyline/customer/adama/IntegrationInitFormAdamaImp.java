@@ -398,7 +398,8 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 									toReturn.put("SUBSUBPROJECT_ID", "");
 								}
 								String protocolTypeName = formDao.getFromInfoLookup("PROTOCOLTYPE", LookupType.ID, toReturn.get("PROTOCOLTYPE_ID"), "name");
-								if(protocolTypeName.equals("Analytical")) {//if the experiment based on several operation types then the experiment type should be general
+								if(protocolTypeName.equals("Analytical")) {//if the experiment based on several operation types then the experiment type should be general.
+									//If the user tried to create an experiment based on analytical&parametric or parametric only requests with several operation type, then the process should have been stopped on the validation.
 									List<String> operationTypeId = generalDao.getListOfStringBySql("select distinct decode(t.EXPERIMENTTYPENAME,'Assay',(select distinct ex.EXPERIMENTTYPE_ID from fg_s_experimenttype_v ex where EXPERIMENTTYPENAME = 'Impurity Profile'),t.OperationTypeName) " 
 											+ " from fg_s_operationtype_all_v t," + " fg_s_request_v r" + " where t.PARENTID = r.request_id"
 											+ " and t.sessionId is null" + " and t.active = 1 " + " and r.request_id in ("
@@ -422,9 +423,11 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 							              + " from fg_s_operationtype_all_v t," + " fg_s_request_v r" + " where t.PARENTID = r.request_id"
 							              + " and t.sessionId is null" + " and t.active = 1 " + " and r.request_id in ("
 							              + requestMap.get("smartSelectList") + ")");
-								if (operationTypeId == null || operationTypeId.size() == 2 && operationTypeId.contains("Impurity Profile") && operationTypeId.contains("Assay")) {
-									String impurityProfile = formDao.getFromInfoLookup("EXPERIMENTTYPE", LookupType.NAME, "Impurity Profile",
+								String impurityProfile = formDao.getFromInfoLookup("EXPERIMENTTYPE", LookupType.NAME, "Impurity Profile",
+											"ID");
+								String assay = formDao.getFromInfoLookup("EXPERIMENTTYPE", LookupType.NAME, "Assay",
 											"ID"); 
+								if (operationTypeId == null || operationTypeId.size() == 2 && operationTypeId.contains(impurityProfile) && operationTypeId.contains(assay)) {
 									toReturn.put("EXPERIMENTTYPE_ID", impurityProfile);//impurityProfile should be the default(in case selected assay & impurity profile)
 								}
 							}
