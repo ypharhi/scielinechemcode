@@ -3,6 +3,10 @@ package com.skyline.form.entitypool;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Safelist;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.skyline.form.bean.ElementInfoAuditTrailDisplay;
@@ -11,9 +15,9 @@ import com.skyline.form.entity.Element;
 
 /**
  * 
- * ElementRichTextEditorImp: rich text(imp by ckeditor)
- * using https://ckeditor.com/docs/ckeditor4
- * saves data as CLOB
+ * ElementRichTextEditorImp: rich text
+ * using https://summernote.org/
+ * saves data as CLOB in fg_richtext table
  *
  */
 public class ElementRichTextEditorImp extends Element 
@@ -68,6 +72,7 @@ public class ElementRichTextEditorImp extends Element
 		}
 		String disbaled = (isDisabled) ? " disabledclass " : "";
 		String displayVal = value.equals("") ? "" : generalUtilFormState.getRichTextContent(value);
+		displayVal = validateData(displayVal, value);
 		/*String setData = " window.setTimeout(function(){"    //setTimeout should prevent "Permission denied" issue when calling setData very fast/if there are more then one richtext element on the page
 						//+ "CKEDITOR.instances."+domId+".setData(\""+displayVal.replace("\n", "").replace("\"", "'") +"\", {	\n"+	
 						+ "CKEDITOR.instances."+domId+".setData(\""+displayVal +"\", {	\n" +
@@ -126,6 +131,26 @@ public class ElementRichTextEditorImp extends Element
 				"} );");*/
 		
 		return html;
+	}
+
+	/**
+	 * 
+	 * @param displayVal last save content
+	 * @param value last save file_id (using in case of an error)
+	 * @return A validate content using Jsoup:
+	 * this code for example know how to fix the following input:  "<table><table>conc table with no td</table></table>tables<table>with<table>no<table>closer<table>and<p>more<tr>...:)"
+	 */
+	private String validateData(String displayVal, String value) {
+		try {
+			if(displayVal.contains("<")) {
+				Document doc = Jsoup.parse(displayVal);
+				displayVal = doc.body().html();
+			}
+		} catch (Exception e) {
+			displayVal = "[" + value + "] Error while validating this content please contact your administrator for help!";
+			e.printStackTrace();
+		}
+		return displayVal;
 	}
 
 	@Override
