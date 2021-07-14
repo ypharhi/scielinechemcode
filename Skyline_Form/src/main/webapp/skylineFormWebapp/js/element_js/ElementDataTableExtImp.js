@@ -441,6 +441,9 @@
 function searchDatatable(domId, dtTable) 
 {
 	 $('#'+domId+' thead input[class="firstString"]').on( 'keyup change', function () {
+		 if(! $('#'+domId+' thead input[class="firstString"]').is(":focus")){
+			return;
+		 }
 		var _this = this;
      	deleteGlobalDataTableFilterColumn(domId,$(_this).parent().index()+':visible');
 		var that = dtTable.column( $(_this).parent().index()+':visible' );
