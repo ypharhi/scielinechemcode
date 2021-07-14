@@ -4673,10 +4673,11 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 		}
 		else if (eventAction.equals("saveRulesTableByUserId")) {
 			String del_sql = " delete from fg_s_reportfilterref_pivot\n"
-					+ " where parentid = '"+userId+"'\n"
-					+ " and rowstatekey is null";
+					+ " where parentid = '-1'\n"
+					+ " and rowstatekey is null"
+					+ " and CREATED_BY= '"+userId+"'";
 				generalDao.updateSingleStringNoTryCatch(del_sql);
-			String sql = "update fg_s_reportfilterref_pivot set rowstatekey = null, parentid = '"+userId+"' where rowstateKey = '"+stateKey+"' and active = 1";
+			String sql = "update fg_s_reportfilterref_pivot set rowstatekey = null where rowstateKey = '"+stateKey+"' and active = 1 and parentid='-1' and CREATED_BY='"+userId+"'";
 		    formSaveDao.updateSingleStringInfoNoTryCatch(sql);
 		}
 		
