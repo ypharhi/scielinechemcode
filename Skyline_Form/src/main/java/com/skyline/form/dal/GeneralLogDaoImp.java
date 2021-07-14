@@ -116,7 +116,7 @@ public class GeneralLogDaoImp extends BasicDao implements GeneralLog {
 		return (new JSONObject(map)).toString();
 	}
 	
-	public String handleClob(String val) {
+	private String handleClob(String val) {
 		String validVal = val;
 		if (val != null) {
 			validVal = (validVal.equals("{}") ? "" : validVal);
@@ -125,7 +125,7 @@ public class GeneralLogDaoImp extends BasicDao implements GeneralLog {
 		}
 		
 		String toReturn = "to_clob('" + validVal + "')";
-		if(validVal != null && validVal.length() > 4000) {
+		if(validVal != null && validVal.length() > 3900) {
 			toReturn = breakClob(validVal);
 		} 
 		return toReturn;
@@ -135,8 +135,8 @@ public class GeneralLogDaoImp extends BasicDao implements GeneralLog {
 		String toReturn = "";
 		int index = 0;
 		while (index < val.length()) {
-			toReturn = "CONCAT_CLOB(" + getEmpty(toReturn, "EMPTY_CLOB()") + ",'" + val.substring(index, Math.min(index + 4000,val.length())) + "')";
-		    index += 4000;
+			toReturn = "CONCAT_CLOB(" + getEmpty(toReturn, "EMPTY_CLOB()") + ",'" + val.substring(index, Math.min(index + 3900,val.length())) + "')";
+		    index += 3900;
 		}
 		return toReturn;
 	}

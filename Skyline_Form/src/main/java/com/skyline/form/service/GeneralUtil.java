@@ -1323,7 +1323,7 @@ public class GeneralUtil {
 	
 	public String handleClob(String val) {
 		String toReturn = "to_clob('" + val + "')";
-		if(val != null && val.length() > 4000) {
+		if(val != null && val.length() > 3900) {
 			toReturn = breakClob(val);
 		} 
 		return toReturn;
@@ -1333,8 +1333,8 @@ public class GeneralUtil {
 		String toReturn = "";
 		int index = 0;
 		while (index < val.length()) {
-			toReturn = "CONCAT_CLOB(" + getEmpty(toReturn, "EMPTY_CLOB()") + ",'" + val.substring(index, Math.min(index + 4000,val.length())) + "')";
-		    index += 4000;
+			toReturn = "CONCAT_CLOB(" + getEmpty(toReturn, "EMPTY_CLOB()") + ",'" + val.substring(index, Math.min(index + 3900,val.length())) + "')";
+		    index += 3900;
 		}
 		return toReturn;
 	}
