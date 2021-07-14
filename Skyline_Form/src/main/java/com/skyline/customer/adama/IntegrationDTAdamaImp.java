@@ -190,10 +190,13 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 //					Map<String,String> xxMap = generalUtilFormState.getFormParam(stateKey, "ExperimentReport");
 					String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport",
 								"$P{CURRENT_ROW_STEPTABLE}");
+					String experimentidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport",
+							"$P{CURRENT_ROW_EXPERIMENTTABLE}");
 						System.out.println("-----------stepidList=" + stepidList);
 						sql = "select * from " + table + " where 1=1 and active = 1 and ROWSTATEKEY = '" + stateKey
 								+ "' and tabletype ='combineRules'";
 						optionalAttributes = stepidList.replace("@", ",");
+						optionalAttributes1 =  experimentidList.replace("@", ",");
 					
 				}else if(generalUtil.getNull(table).equalsIgnoreCase("fg_s_ReportFilterRef_DTEDATA_v")) {
 					// on loading the form to insert the rows with parentid to this fg_s_ReportFilterRef_pivot with parentid null and state key to rowstatekey for having the saved data (in the save scheme we need to save as this concept) - maybe save display is -1 with userid and rowstatkey null (because we do not have name id)
@@ -203,10 +206,13 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					
 						String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport",
 								"$P{CURRENT_ROW_STEPTABLE}");
+						String experimentidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport",
+								"$P{CURRENT_ROW_EXPERIMENTTABLE}");
 						System.out.println("-----------stepidList=" + stepidList);
 						sql = "select * from " + table + " where 1=1 and active = 1 and ROWSTATEKEY = '" + stateKey
 								+ "' and tabletype ='displayData'";
 						optionalAttributes = stepidList.replace("@", ",");
+						optionalAttributes1 =  experimentidList.replace("@", ",");
 				} else {
 					String wherePart = "";
 					if(linkToLastSelection.equals("1")) {
@@ -3382,7 +3388,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			}
 		}
 		else if(formCode.equals("ReportFilterRef")) {
-			if( (onChangeColumnName.equalsIgnoreCase("STEPNAME")||onChangeColumnName.equalsIgnoreCase("RULECONDITION") ||onChangeColumnName.equalsIgnoreCase("COLUMNSSELECTION")) && onChangeColumnVal.endsWith(";")){//isMultiple
+			if( (onChangeColumnName.equalsIgnoreCase("STEPNAME")||onChangeColumnName.equalsIgnoreCase("RULECONDITION") ||onChangeColumnName.equalsIgnoreCase("COLUMNSSELECTION") ||onChangeColumnName.equalsIgnoreCase("LEVEL_")) && onChangeColumnVal.endsWith(";")){//isMultiple
 				update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
 						onChangeColumnVal.substring(0, onChangeColumnVal.length() - 3), onChangeFormId, userId);
 			}else {
