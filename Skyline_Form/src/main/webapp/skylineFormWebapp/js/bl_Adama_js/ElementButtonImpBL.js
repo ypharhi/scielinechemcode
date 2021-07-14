@@ -3455,12 +3455,14 @@ function navigateToReport(args){
 					}
 						}
 					if(reportMode=="scheme"){
+						if(formCodeElement=="ExpAnalysisReport"){
 						var href = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=ExpAnalyReportMain&formId="+fromIdElem+ "&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val();
 						toReturn += '<li role="menuitem" class="is-submenu-item is-dropdown-submenu-item reportItem">'
 									+'<a style="float:left;width:100%" onclick="confirmWithOutSaveMainMenu(\''+href+'\')">'
 									+'Public'
 									+'</a>'
 									+'</li>';
+					}
 					}
 					else{
 						//var href = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=ReportDesignSearch&formId=-1&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val();

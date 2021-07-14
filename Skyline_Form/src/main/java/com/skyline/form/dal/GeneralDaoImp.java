@@ -1873,8 +1873,6 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 							if (type.equals("Material")) {
 								Object colvalObj = rows.get(i).get(paramCol);
 
-								System.out.println(
-										"use stepNameList and maybe make function that get and the json now this is hard coded");
 								String stepObj = "{}";
 								stepObj = getJsonDisplayObj(stepNameList,null,
 										colvalObj == null ? null : colvalObj.toString(), "LEVEL_", "true","");
@@ -1883,8 +1881,6 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 							else if(type.equals("Parameter")) {
 								Object colvalObj = rows.get(i).get(paramCol);
 
-								System.out.println(
-										"use stepNameList and maybe make function that get and the json now this is hard coded");
 								String stepObj = "{}";
 								stepObj = getJsonDisplayObj(nameList,null,
 										colvalObj == null ? null : colvalObj.toString(), "LEVEL_", "true","");
