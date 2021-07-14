@@ -3381,10 +3381,6 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				}
 			}
 		}
-		else if(formCode.equals("Document") && onChangeColumnName.equalsIgnoreCase("EXPORTTOREPORT")) {
-			update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
-					onChangeColumnVal, onChangeFormId, userId);
-		}
 		else if(formCode.equals("ReportFilterRef")) {
 			if( (onChangeColumnName.equalsIgnoreCase("STEPNAME")||onChangeColumnName.equalsIgnoreCase("RULECONDITION") ||onChangeColumnName.equalsIgnoreCase("COLUMNSSELECTION")) && onChangeColumnVal.endsWith(";")){//isMultiple
 				update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
@@ -3394,6 +3390,11 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						onChangeColumnVal, onChangeFormId, userId);
 			}
 					
+		}
+		if(formCode.equals("Document") 
+				&& (onChangeColumnName.equalsIgnoreCase("EXPORTTOREPORT")||onChangeColumnName.equalsIgnoreCase("ADDTOTEMPLATE"))) {
+			update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
+					onChangeColumnVal, onChangeFormId, userId);
 		}
 		return update;
 	}

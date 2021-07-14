@@ -5054,9 +5054,10 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				//insert into the manual results table all data from the spreadsheet results
 				String spreadsheetResultsData = generalUtilFormState.getStringContent(elementValueMap.get("spreadsheetResults"), "ExperimentAn", "spreadsheetResults", formId);
 				JSONObject js = new JSONObject();
-				if(!generalUtil.getNull(spreadsheetResultsData).isEmpty()){
-					js = new JSONObject(spreadsheetResultsData);
+				if(generalUtil.getNull(spreadsheetResultsData).isEmpty()){
+					return;
 				}
+				js = new JSONObject(spreadsheetResultsData);
 				JSONObject jsspreadsheetData = (JSONObject)js.get("output");
 				//1. checks if there was an error that found on the client size
 				String validationMessage = (String) js.get("validationMessage");

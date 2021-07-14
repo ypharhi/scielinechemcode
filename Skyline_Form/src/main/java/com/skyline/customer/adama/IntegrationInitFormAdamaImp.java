@@ -90,6 +90,9 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 	@Autowired
 	private GeneralUtilPermission generalUtilPermission;
 	
+	@Autowired
+	private CloneExperiment cloneExperiment;
+	
 	@Value("${hideStepFromSpreadsheet:1}")
 	private int hideStepFromSpreadsheet; //indicating if the steps should be available when the spreadsheet is enabled- used in the orgnic&CP experiments
 
@@ -2302,6 +2305,11 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 //				formSaveDao.updateSingleStringInfoNoTryCatch(sql);
 			}
 		    System.out.println("delete and insert data to fg_s_ReportFilterRef_pivot with save schem display values, nameId=" + nameId + ", userid=" + userId);
+		} else if(formCode.equals("Template")){
+			String sourceExp = generalDao.selectSingleStringNoException("select SOURCEEXPNO_ID\n"
+					+ "from fg_S_template_v\n"
+					+ "where formid = '"+formId+"'");
+			cloneExperiment.insertRef("document", sourceExp, userId, "experiment", formId, "TemplateDoc", null, "and tabletype = 'expDocumentsSample'");
 		}
 		
 		
