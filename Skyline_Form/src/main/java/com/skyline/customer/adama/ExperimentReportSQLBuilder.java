@@ -26,7 +26,7 @@ public class ExperimentReportSQLBuilder {
 	 * @param stateKey
 	 * @return
 	 */
-	SQLObj getExpReportRulesFieldsSQL(long stateKey, String expIds) {
+	SQLObj getExpReportRulesFieldsSQL(long stateKey, String expIds, String stepIds) {
 		
 		StringBuilder sbWithSql = new StringBuilder();
 		StringBuilder sbSelectSql = new StringBuilder();
@@ -50,9 +50,11 @@ public class ExperimentReportSQLBuilder {
 			String ruleName = generalUtil.getNull((String)filterRefMap.get("RULENAME")); // <Main Solvent /Limiting Agent/Material Type>
 			String columnName = generalUtil.getNull((String)filterRefMap.get("COLUMNNAME"));
 			String columnsSelection = generalUtil.getNull((String)filterRefMap.get("COLUMNSSELECTION"));
+			String ruleCondition = generalUtil.getNull((String)filterRefMap.get("RULECONDITION")); // <Main Solvent /Limiting Agent/Material Type>
+			String defaultColName = ruleCondition.isEmpty()?ruleName:ruleCondition;
 			
 			//check stepNames exists
-			if(stepName == null || stepName.isEmpty()) {
+			if(stepName.isEmpty()) {
 				continue;
 			}
 			
@@ -66,7 +68,7 @@ public class ExperimentReportSQLBuilder {
 			// ************* Limiting Agent *************
 			// ******************************************
 			if(ruleName.equalsIgnoreCase("Limiting Agent")) {
-				String colName_ = (columnName == null || columnName.isEmpty())? ruleName: columnName; 
+				String colName_ = (columnName == null || columnName.isEmpty())? defaultColName: columnName; 
 				String[] stepNameArray = stepName.split(",", -1);
 				
 				// for each step in the user selection row
@@ -90,7 +92,7 @@ public class ExperimentReportSQLBuilder {
 
 							"  FROM Fg_s_Materialref_All_v t \r\n" + 
 							"  WHERE 1=1\r\n" + 
-							"  AND t.EXPERIMENT_ID in (" + expIds + ")\r\n" + 
+							"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
 							"  AND lower(t.STEPNAME) = lower('"  + singleStepName + "')\r\n" + 
 							"  AND t.TABLETYPE = 'Reactant'\r\n" + //
 							"  AND t.LIMITINGAGENT = 1\r\n" + 
@@ -122,7 +124,7 @@ public class ExperimentReportSQLBuilder {
 			// ************* Main Solvent *************
 			// ****************************************
 			if(ruleName.equalsIgnoreCase("Main Solvent")) { 
-				String colName_ = (columnName == null || columnName.isEmpty())? ruleName: columnName; 
+				String colName_ = (columnName == null || columnName.isEmpty())? defaultColName: columnName; 
 				String[] stepNameArray = stepName.split(",", -1);
 				
 				// for each step in the user selection row
@@ -146,7 +148,7 @@ public class ExperimentReportSQLBuilder {
 
 							"  FROM Fg_s_Materialref_All_v t \r\n" + 
 							"  WHERE 1=1\r\n" + 
-							"  AND t.EXPERIMENT_ID in (" + expIds + ")\r\n" + 
+							"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
 							"  AND lower(t.STEPNAME) = lower('"  + singleStepName + "')\r\n" + 
 							"  AND t.TABLETYPE = 'Solvent'\r\n" + 
 							")"); // and experiment id where part (or on temp table we create in the beginning for performance)
@@ -177,30 +179,84 @@ public class ExperimentReportSQLBuilder {
 			// *****************************************
 			if(ruleName.equalsIgnoreCase("Material Type")) {
 				
+				String materialTypeNames = getMaterialTpeNames(defaultColName);
+				 
+				String colName_ = (columnName == null || columnName.isEmpty())? materialTypeNames: columnName; 
+				String[] stepNameArray = stepName.split(",", -1);
+				
+				// for each step in the user selection row
+				for (String singleStepName : stepNameArray) {
+					String aliasName = "CR" + index; // Alias
+
+					if(!singleStepName.toLowerCase().startsWith("step")) {
+						singleStepName = "STEP " + singleStepName;
+					}
+					
+					//with
+					sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
+							" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
+							"   ,t.INVITEMMATERIALNAME as MAINNAME\r\n" + 
+							(colMap.containsKey("QUANTITY") ? "   ,fg_get_num_display(t.QUANTITY,0,3) as QUANTITY\r\n":"") +
+							(colMap.containsKey("MOLE") ? "   ,fg_get_num_display(t.MOLE,0,3) as MOLE\r\n":"") +
+							(colMap.containsKey("VOLUME") ? "   ,fg_get_num_display(t.VOLUME,0,3) as VOLUME\r\n":"") +
+							(colMap.containsKey("PURITY") ? "   ,fg_get_num_display(t.PURITY,0,3) as PURITY\r\n":"") +
+							(colMap.containsKey("EQUIVALENT") ? "   ,fg_get_num_display(t.EQUIVALENT,0,3) as EQUIVALENT\r\n":"") +
+							(colMap.containsKey("INVITEMBATCHNAME") ? "   ,t.INVITEMBATCHNAME as INVITEMBATCHNAME\r\n":"") +
+
+							"  FROM Fg_s_Materialref_All_v t, FG_I_CONN_MATERIAL_TYPE_V mt \r\n" + 
+							"  WHERE 1=1\r\n" + 
+							"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
+							"  AND lower(t.STEPNAME) = lower('"  + singleStepName + "')\r\n" + 
+							"  AND t.INVITEMMATERIAL_ID = mt.INVITEMMATERIAL_ID\r\n" + 
+							"  AND instr(',' || '" + ruleCondition + "' || ',', mt.MATERIALTYPE_ID) > 0\r\n" +
+							")"); // and experiment id where part (or on temp table we create in the beginning for performance)
+					
+					//select
+					sbSelectSql.append(
+							"," + aliasName + ".MAINNAME as \"" + getValidOracleColumnName("{" + index + "}" + singleStepName + " - " + colName_) + "\"" +
+							(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "} " + colMap.get("QUANTITY") + "\"":"") +
+							(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "} " + colMap.get("MOLE") + "\"":"") +
+							(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + colMap.get("VOLUME") + "\"":"") +
+							(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "} " + colMap.get("PURITY") + "\"":"") +
+							(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "} " + colMap.get("EQUIVALENT") + "\"":"") +
+							(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "} " + colMap.get("INVITEMBATCHNAME") + "\"":"")
+					);
+					
+					//from
+					sbFromSql.append("," + aliasName);
+					
+					//where
+					sbWhereSql.append(" AND EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
+					
+					index++;
+				}
+				
 			}
 		}
+		
+		// *********** pivot data
+//		generalDao.updateSingleString("delete from FG_P_EXPREPORT_DATA_TMP where statekey ='" + stateKey + "'");
+//		generalDao.updateSingleString("insert into FG_P_EXPREPORT_DATA_TMP select tmp1.*,'" + stateKey + "' from fg_p_expreport_v tmp1 where experiment_id in (" + expIds + ")");
+		sbSelectSql.append("," + generalUtil.handleClob(
+				"SELECT result_SMARTPIVOT FROM fg_p_expreport_v where  experiment_id in (" + expIds + ")") //+ stepWherePart
+		+ " AS RESULT_SMARTPIVOTSQL \n" ); 
+		//TODO REMOVE IF IT NOT USED FG_P_EXPREPORT_DATA_TMP
 		
 		// return the sql obj...
 		return new SQLObj(sbWithSql.toString(),sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString());
 	}
 	
+	private String getMaterialTpeNames(String ruleCondition) {
+		// TODO Auto-generated method stub
+		return "Material Type"; //TODO names
+	}
+
 	private String getValidOracleColumnName(String colname) { 
 		String col_ = colname.replace("\"","");
 		if(col_.length() > 30) {
 			col_= col_.substring(0, 27) + "...";
 		}
 		return col_;
-	}
-	
-	/**
-	 * Insert the pivot data by stateKey for the report
-	 * @param stateKey - the number that defined the relevant rows 
-	 */
-	void setExpReportPivotData(long stateKey, String stepIdCSV) {
-		
-//		generalDao.updateSingleString("delete from FG_P_EXPREPORT_DATA_TMP where statekey ='" + stateKey + "'");
-//		generalDao.updateSingleString("insert into FG_P_EXPREPORT_DATA_TMP select tmp1.*,'" + stateKey + "' from (" + "sqlbuilder" + ") tmp1 where 1 = 1");
-
 	}
 
 	private Map<String, String> prepareColMap(String ruleName, String columnsSelection) {

@@ -168,8 +168,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						String expidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_EXPERIMENTTABLE}");
 
 						
-						experimentReportSQLBuilder.setExpReportPivotData(stateKey, stepidList.replace("@", ","));
-						SQLObj sqlObj= experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey, expidList.replace("@", ","));
+						SQLObj sqlObj= experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey, expidList.replace("@", ","), stepidList.replace("@", ","));
 						
 						
 						// set the SQL - DEVELOP!....
