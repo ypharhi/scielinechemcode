@@ -7172,14 +7172,26 @@ public void preperReport(Map<String, String> elementValueMap) {
 		List<Map<String,Object>> materialList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("Materials", new JSONArray(materialList));
 		
-		//Sample list -> taken from the samp[les that selected in the current form
-		sql = "select distinct ID,NAME,Description,Comments\n"
+		//Sample list -> taken from the samples that selected in the current form
+		sql =  "select count(*)\n"
 				+ "from fg_e_expangn_sample_v\n"
 				+ "where ID in (\n"
 					+ "Select SAMPLE_ID from FG_S_SAMPLESELECT_ALL_V\n"
 					+ " where PARENTID = '"+parentId+"'\n"
 					+ "and sessionid is null and active =1"
-				+ ")";
+				+ ")\n";
+		String sampleCount = generalDao.selectSingleStringNoException(sql);
+		sql =  "select distinct ID,NAME,Description,Comments\n"
+				+ "from fg_e_expangn_sample_v\n"
+				+ "where ID in (\n"
+					+ "Select SAMPLE_ID from FG_S_SAMPLESELECT_ALL_V\n"
+					+ " where PARENTID = '"+parentId+"'\n"
+					+ "and sessionid is null and active =1"
+				+ ")\n"
+		+(!sampleCount.equals("0")?
+				 "union all\n"
+				+"select '0' ID,'NA' NAME,null as Description,null as Comments\n"
+				+ "from dual":"");
 		List<Map<String,Object>> sampleList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("Samples", new JSONArray(sampleList));
 		
