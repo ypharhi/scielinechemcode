@@ -166,9 +166,11 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_STEPTABLE}");
 //						String stepWherePart = (stepidList != null && !stepidList.isEmpty()?" and step_id in (" + stepidList.replace("@", ",") + ")" : " AND 1=2");
 						String expidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_EXPERIMENTTABLE}");
+						Map<String,String> materialTypeTableMap = formDao.getFromInfoLookupAllElementData("MaterialType", LookupType.ID, "name");
+
 
 						
-						SQLObj sqlObj= experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey, expidList.replace("@", ","), stepidList.replace("@", ","));
+						SQLObj sqlObj= experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey, expidList.replace("@", ","), stepidList.replace("@", ","), materialTypeTableMap);
 						
 						
 						// set the SQL - DEVELOP!....

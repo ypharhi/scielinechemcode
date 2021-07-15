@@ -26,7 +26,7 @@ public class ExperimentReportSQLBuilder {
 	 * @param stateKey
 	 * @return
 	 */
-	SQLObj getExpReportRulesFieldsSQL(long stateKey, String expIds, String stepIds) {
+	SQLObj getExpReportRulesFieldsSQL(long stateKey, String expIds, String stepIds, Map<String,String> materialTypeTableMap) {
 		
 		StringBuilder sbWithSql = new StringBuilder();
 		StringBuilder sbSelectSql = new StringBuilder();
@@ -177,11 +177,9 @@ public class ExperimentReportSQLBuilder {
 			// *****************************************
 			// ************* Material Type *************
 			// *****************************************
-			if(ruleName.equalsIgnoreCase("Material Type")) {
-				
-				String materialTypeNames = getMaterialTpeNames(defaultColName);
+			if(ruleName.equalsIgnoreCase("Material Type")) { 
 				 
-				String colName_ = (columnName == null || columnName.isEmpty())? materialTypeNames: columnName; 
+				String colName_ = (columnName == null || columnName.isEmpty())? getMaterialTpeNames(defaultColName, materialTypeTableMap): columnName; 
 				String[] stepNameArray = stepName.split(",", -1);
 				
 				// for each step in the user selection row
@@ -246,9 +244,23 @@ public class ExperimentReportSQLBuilder {
 		return new SQLObj(sbWithSql.toString(),sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString());
 	}
 	
-	private String getMaterialTpeNames(String ruleCondition) {
+	private String getMaterialTpeNames(String ruleCondition, Map<String,String> materialTypeTableMap) {
 		// TODO Auto-generated method stub
-		return "Material Type"; //TODO names
+		String toReturn = ""; 
+		try {
+			String dlmtr = ",";
+			String[] ruleConditionArry = ruleCondition.split(",",-1);
+			
+			for (String materialTypeId : ruleConditionArry) {
+				toReturn += dlmtr + generalUtil.getNull(materialTypeTableMap.get(materialTypeId));
+			}
+			
+			toReturn = toReturn.replaceFirst(dlmtr, "");
+		} catch (Exception e) {
+			toReturn = "Material Type";
+		}
+		
+		return toReturn;
 	}
 
 	private String getValidOracleColumnName(String colname) { 
