@@ -3181,10 +3181,10 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 			for (String colVal : colVals) {
 				dataList.add("{\"ID\":\"" + colVal + "\",\"displayName\":\"" + colVal + "\"}");
 			}
-			returnObj = "{\"displayName\":"+dataList.toString()+",\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\", \"colCalcId\":\""+dbColName+"\", \"allowSingleDeselect\":\"false\""+generalUtil.getNull(additional)+", \"autoSave\":\"true\", \"fullList\":"+jsonArray.toString()+"}";
+			returnObj = "{\"displayName\":"+dataList.toString()+",\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\",\"insertIntoSelectTable\":\"false\", \"colCalcId\":\""+dbColName+"\", \"allowSingleDeselect\":\"false\""+generalUtil.getNull(additional)+", \"autoSave\":\"true\", \"fullList\":"+jsonArray.toString()+"}";
 		}
 		 else {
-			 returnObj = "{\"displayName\":[],\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\", \"colCalcId\":\""+dbColName+"\", \"allowSingleDeselect\":\"false\""+generalUtil.getNull(additional)+", \"autoSave\":\"true\", \"fullList\":"+jsonArray.toString()+"}";
+			 returnObj = "{\"displayName\":[],\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\", \"colCalcId\":\""+dbColName+"\",\"insertIntoSelectTable\":\"false\", \"allowSingleDeselect\":\"false\""+generalUtil.getNull(additional)+", \"autoSave\":\"true\", \"fullList\":"+jsonArray.toString()+"}";
 		}
 		return returnObj;
 	}

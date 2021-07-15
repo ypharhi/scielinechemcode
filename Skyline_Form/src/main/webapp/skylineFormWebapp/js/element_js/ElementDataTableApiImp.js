@@ -2610,7 +2610,8 @@ function smartRender(object, followingHiddenCols, domId, savedObject, isTableRes
                     							+'customFuncOnBeforeChange'+':'+"'"+cellCustomFuncOnBeforeChange+"'"+','
                     							+'rowMandatoryField'+':'+"'"+rowMandatoryField+"'"+','
                     							+'rowMandatoryFieldID'+':'+"'"+rowMandatoryFieldID+"'"+','
-                    							+'rowMandatoryFieldDisplayName'+':'+"'"+rowMandatoryFieldDisplayName+"'"
+                    							+'rowMandatoryFieldDisplayName'+':'+"'"+rowMandatoryFieldDisplayName+"'"+','
+                    							+'insertIntoSelectTable'+':'+"'"+((o.insertIntoSelectTable !== undefined)?o.insertIntoSelectTable:"")+"'"
                     							+'}';
 			                        		onChangeFunc = 'onChangeTableCell(this,\''+domId+'\', '+row+', '+col+', '+colParamsObj+')';
 			                        		/* **************************** */
@@ -3548,6 +3549,7 @@ function onChangeTableCell(htmlObj, domId, rowInx, origColInx, paramsObj)
 	var customFuncParams = paramsObj.customFuncParams;
 	var customFuncOnBeforeChange = paramsObj.customFuncOnBeforeChange;	
 	var $htmlObj = $(htmlObj);
+	var insertIntoSelectTable = paramsObj.insertIntoSelectTable;
 	
 	// Call function to do some manipulations before code below
 	if(customFuncOnBeforeChange != "")
@@ -3851,7 +3853,7 @@ function onChangeTableCell(htmlObj, domId, rowInx, origColInx, paramsObj)
 				newVal = JSON.stringify(_obj);
 				oldVal = ""; // not relevant
 			}
-			else if(htmlType == "select" && isMultiple)
+			else if(htmlType == "select" && isMultiple  && insertIntoSelectTable!=="false")
 			{
 				newVal = multipleSelectValToUpdate;
 			}
