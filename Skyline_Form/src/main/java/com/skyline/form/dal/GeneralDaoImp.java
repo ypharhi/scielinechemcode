@@ -1542,7 +1542,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 				/******** fg_s_reportfilterref_dte_v handler *****************************************************************/
 				else if (!paramCol.isEmpty()
 						&& sql.toLowerCase().contains("fg_s_reportfilterref_dte_v")) {
-					if (paramCol.equalsIgnoreCase("Step Name_SMARTEDIT")) {
+					if (paramCol.equalsIgnoreCase("Step No._SMARTEDIT")) {
 						for (int i = 0; i < rows.size(); i++) {
 							Object colvalObj = rows.get(i).get(paramCol);
 
@@ -1657,7 +1657,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								}
 								String obj = "{}";
 								Object colvalObj = rows.get(i).get(paramCol);
-								obj = getJsonDisplayObj(null,expMaterialData,colvalObj == null ? null : colvalObj.toString(), "RULECONDITION","false","");
+								obj = getJsonDisplayObj(null,expMaterialData,colvalObj == null ? null : colvalObj.toString(), "RULECONDITION","true","");
 								rows.get(i).put(paramCol, obj);
 							}
 						}
