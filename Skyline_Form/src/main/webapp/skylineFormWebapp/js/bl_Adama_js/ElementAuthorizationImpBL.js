@@ -958,17 +958,22 @@ function ExpAnMandatoryFieldsByStatus(isActual,status_) {
 	 var arr = status_.split(':');
 	 var status= arr[0];
      var currentStatus = arr[1];
+	 var experimentType = $('#EXPERIMENTTYPE_ID option:selected').text();
      
      /**current status*/
      if(currentStatus=='Active'){
     	 elements.push('APPROVER_ID','description');
     	 if(isActual == "1"){//'$P{ISENABLESPREADSHEET}'=='No'
-    		 elements.push('instrumentsTable');
+    		 if(experimentType!='General'){
+    			 elements.push('instrumentsTable');
+    		 }
     	 }
      }else{
     	 setRequiredByElementId('APPROVER_ID',false);
     	 setRequiredByElementId('description',false);
-    	 setRequiredByElementId('instrumentsTable',false);
+    	 if(experimentType!='General'){
+    		 setRequiredByElementId('instrumentsTable',false);
+    	 }
      }
      if(currentStatus=='Completed'){
     	 elements.push('conclussion');
