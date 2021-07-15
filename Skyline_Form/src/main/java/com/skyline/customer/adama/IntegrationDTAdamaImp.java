@@ -1411,6 +1411,14 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 										",t.\"Last Calibration Date\" from " + table + " t where " + tableTypeWherePart + " and PARENTID='" + formId
 										+ "' " + generalUtilFormState.getWherePartForTmpData(struct, formId);
 							}
+							else if(struct.equalsIgnoreCase("manualresultsref")) {
+								String experimenttype = generalUtilFormState.getFormParam(stateKey, formCode, "$P{EXPERIMENTTYPENAME}");
+								if(experimenttype.equals("General")){
+									table = "fg_s_manualresultsref_dtNaN_v";
+								}
+								sql = "select * from " + table + " where " + tableTypeWherePart + " and PARENTID='" + formId
+										+ "' " + generalUtilFormState.getWherePartForTmpData(struct, formId);				
+							}
 							else {
 								sql = "select * from " + table + " where " + tableTypeWherePart + " and PARENTID='" + formId
 										+ "' " + generalUtilFormState.getWherePartForTmpData(struct, formId);
