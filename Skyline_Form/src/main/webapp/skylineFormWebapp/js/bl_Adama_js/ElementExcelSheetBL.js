@@ -1,7 +1,7 @@
 //default values are of version V1
 var _materialLocation = {
 		x:4,
-		y:4
+		y:5
 };
 var _unknownMaterialLocation = {
 		x:4,
@@ -9,7 +9,7 @@ var _unknownMaterialLocation = {
 };
 var _sampleLocation = {
 		x:0,
-		y:5
+		y:6
 };
 var _resultTypeLocation = {
 		x:4,
@@ -26,6 +26,10 @@ var _massLocation = {
 var _resultCommentLocation = {
 		x:3,
 		y:5
+}
+var _uomLocation = {
+		x:4,
+		y:4
 }
 
 function initializeFields(version){
@@ -134,6 +138,9 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				var sampleSelectList = [];
 				for(var index in componentList['Samples']){
 					var name = componentList['Samples'][index]['NAME'];
+					if(name == 'NA'){
+						continue;
+					}
 					sampleSelectList.push(name);
 				}
 				
@@ -159,6 +166,9 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				}
 				for(var item in componentList['Samples']){
 					var name = componentList['Samples'][item]['NAME'];
+					if(name == 'NA'){
+						continue;
+					}
 					if(currentSampleList.indexOf(name)==-1){
 						//add the material to the materials in the result spreadsheet
 						sheet.setValue(firstEmptyRow++,_sampleLocation.x,name);
@@ -309,7 +319,9 @@ function getComponentList(){
 
 function isSingleSheetOnly(formCode,domId){
 	if(/*formCode == 'ExperimentAn' && domId == 'spreadsheetResults'
-		||*/ formCode == 'SysConfExcelData' && domId == 'ExcelData'){
+		|| formCode == 'ExperimentFor' && domId == 'spreadsheetExcel'
+		||*/ formCode == 'SysConfExcelData' && domId == 'ExcelData'
+			){
 		return false;
 	}
 	return true;
@@ -375,6 +387,9 @@ function getOutputValueBL(formCode,domId,designer){
 		        dataObj[currFieldID] = currFieldValue;
 		        var currFieldID = "Material";
 		        var currFieldValue = sheet.getValue(_materialLocation.y, j);
+		        dataObj[currFieldID] = currFieldValue;
+		        var currFieldID = "Uom";
+		        var currFieldValue = sheet.getValue(_uomLocation.y, j);
 		        dataObj[currFieldID] = currFieldValue;
 		    	if((dataObj['Material'] == null || dataObj['Material'] == 'null') 
 		    			&& (dataObj['Unknown Materials'] == null || dataObj['Unknown Materials'] == 'null')){

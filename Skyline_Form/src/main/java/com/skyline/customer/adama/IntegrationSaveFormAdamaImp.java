@@ -5162,6 +5162,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					String materialName = manualMaterial.isEmpty()?selectedMaterial:manualMaterial;
 					String material_id = formDao.getFromInfoLookup("invitemmaterial", LookupType.NAME, materialName , "id");//in this part of code, the temporary material probably created, thus the id already exists
 					String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value") );
+					String uom = generalUtil.getNull(sampleMaterialPair.getString("Uom"));
 					String resultCommnent = generalUtil.getNull(sampleMaterialPair.getString("comment"));
 					String currentResultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type"));
 					String resultType = generalUtil.getSpringMessagesByKey(currentResultType.equals("AI Concentration")||currentResultType.equals("Active Ingredient")?"Assay"
@@ -5182,10 +5183,12 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 									ActivitylogType.ManualResultsUpdate, formId);
 					String resultTypeId = formDao.getFromInfoLookup("ANALYTICRESULTTYPE", LookupType.NAME, resultType,
 							"ID");
+					String uomId = uom.isEmpty()?formDao.getFromInfoLookup("UOM", LookupType.NAME, "%", "ID"):formDao.getFromInfoLookup("UOM", LookupType.NAME, uom,
+							"ID");
 					sql = String.format(
 							"insert into fg_s_manualResultsRef_pivot t"
 									+ " (t.FORMID,t.TIMESTAMP,t.CHANGE_BY,t.CREATION_DATE,t.CREATED_BY,t.SESSIONID,t.ACTIVE,t.FORMCODE, t.FORMCODE_ENTITY, REQUEST_ID, SAMPLE_ID,PARENTID,MATERIAL_ID,RESULT_TYPE_ID,COMPONENT_ID,COMMENTS,RESULT,UOM_ID)"
-									+ " values(%1$s, sysdate, %2$s, sysdate, %2$s, NULL, 1, 'MANUALRESULTSREF', 'MANUALRESULTSREF', %3$s, %4$s, %5$s, %6$s,'%7$s','%8$s','"+resultCommnent+"','"+resultValue+"','"+formDao.getFromInfoLookup("UOM", LookupType.NAME, "%", "ID")+"')",
+									+ " values(%1$s, sysdate, %2$s, sysdate, %2$s, NULL, 1, 'MANUALRESULTSREF', 'MANUALRESULTSREF', %3$s, %4$s, %5$s, %6$s,'%7$s','%8$s','"+resultCommnent+"','"+resultValue+"','"+uomId+"')",
 							manualResId, userId,
 							"NULL",
 							sample_id, formId,
