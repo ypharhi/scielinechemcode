@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +21,11 @@ public class ExperimentReportSQLBuilder {
 	private GeneralUtil generalUtil;
 	
 	/**
-	 * for each row in the combine rules this function will create "with" sql part. 
-	 * this will cause multiple rows (in case case more then one value found for each rule) for each experiment
-	 * @param stateKey
+	 * for each row in the FG_S_REPORTFILTERREF_V (combineRules and displayData):
+	 * 1) combineRules: append "with" sql part - because multi rows is needed in case of duplication (multiple experiment rows)
+	 * 2) displayData: append SMARTPIVOT data into FG_P_EXPREPORT_DATA_TMP - because multi columns needed in case of duplication as the SMARTPIVOT mechanism provides
+	 * TODO - result
+	 * @param stateKey - to identify the data in FG_S_REPORTFILTERREF_V (the user selection)
 	 * @return
 	 */
 	SQLObj getExpReportRulesFieldsSQL(long stateKey, String expIds, String stepIds, Map<String,String> materialTypeTableMap) {
@@ -96,10 +97,6 @@ public class ExperimentReportSQLBuilder {
 					for (String singleStepName : stepNameArray) {
 						String aliasName = "CR" + index; // Alias
 						
-						if(!singleStepName.toLowerCase().startsWith("step")) {
-							singleStepName = "STEP " + singleStepName;
-						}
-						
 						//with
 						sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
 								" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
@@ -152,10 +149,6 @@ public class ExperimentReportSQLBuilder {
 					for (String singleStepName : stepNameArray) {
 						String aliasName = "CR" + index; // Alias
 						
-						if(!singleStepName.toLowerCase().startsWith("step")) {
-							singleStepName = "STEP " + singleStepName;
-						}
-						
 						//with
 						sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
 								" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
@@ -206,10 +199,6 @@ public class ExperimentReportSQLBuilder {
 					// for each step in the user selection row
 					for (String singleStepName : stepNameArray) {
 						String aliasName = "CR" + index; // Alias
-						
-						if(!singleStepName.toLowerCase().startsWith("step")) {
-							singleStepName = "STEP " + singleStepName;
-						}
 						
 						//with
 						sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
@@ -263,10 +252,6 @@ public class ExperimentReportSQLBuilder {
 					// for each step in the user selection row
 					for (String singleStepName : stepNameArray) {
 						String aliasName = "CR" + index; // Alias
-						
-						if(!singleStepName.toLowerCase().startsWith("step")) {
-							singleStepName = "STEP " + singleStepName;
-						}
 						
 						//with
 						sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
@@ -336,16 +321,9 @@ public class ExperimentReportSQLBuilder {
 				if(displayType.equalsIgnoreCase("Material")) {
 					String colName_ = (columnName == null || columnName.isEmpty())? getDisplayDataName(displayObjId, displayType): columnName;
 					String[] displayLevelArray = displayLevel.split(",", -1);
-
 					
 					// for each step in the user selection row
 					for (String singleDisplayName : displayLevelArray) {
-						
-						if(!singleDisplayName.toLowerCase().startsWith("step")) {
-							singleDisplayName = "STEP " + singleDisplayName;
-						}
-						
-						String pivotFormat = "'{pivotkey:\"'|| experiment_id||'\",pivotkeyname:\"experiment_id\",column:[@COL@],val:[@VAL@]}'";
 
 						String col_ = "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
 								(colMap.containsKey("QUANTITY") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("QUANTITY")) + "\"": "") +
@@ -368,7 +346,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("MW") ? ",\" ' || fg_get_num_display(t.MW,0,3) || '\"" : "");
 						
 						
-						pivotFormat = pivotFormat.replaceFirst("@VAL@", val_).replaceFirst("@COL@",col_);
+						String pivotFormat = "'{pivotkey:\"'|| experiment_id||'\",pivotkeyname:\"experiment_id\",column:[" + col_ + "],val:[" + val_ + "]}'";
 						
 						if(sbPivotSql.length() > 0) {
 							sbPivotSql.append("\n union all \n");
@@ -397,12 +375,6 @@ public class ExperimentReportSQLBuilder {
 					// for each step in the user selection row
 					for (String singleDisplayName : displayLevelArray) {
 						
-//						if(!singleDisplayName.toLowerCase().startsWith("step")) {
-//							singleDisplayName = "STEP " + singleDisplayName;
-//						}
-						
-						String pivotFormat = "'{pivotkey:\"'|| experiment_id||'\",pivotkeyname:\"experiment_id\",column:[@COL@],val:[@VAL@]}'";
-
 						String col_ = "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
 								(colMap.containsKey("VAL1") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("VAL1")) + "\"": "") +
 								(colMap.containsKey("VAL2") ? "," + "\"" + ("{" + displayObjId  + "-" + singleDisplayName + "}" + colMap.get("VAL2")) + "\"": "");
@@ -414,12 +386,11 @@ public class ExperimentReportSQLBuilder {
 //						(colMap.containsKey("VAL1") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL1 || '\"" : "") +
 //						(colMap.containsKey("VAL2") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL2 || '\"" : "");
 						
-						pivotFormat = pivotFormat.replaceFirst("@VAL@", val_).replaceFirst("@COL@",col_);
+						String pivotFormat = "'{pivotkey:\"'|| experiment_id||'\",pivotkeyname:\"experiment_id\",column:[" + col_ + "],val:[" + val_ + "]}'";
 						
 						if(sbPivotSql.length() > 0) {
 							sbPivotSql.append("\n union all \n");
 						}
-						
 						
 						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, " + pivotFormat + " as result_SMARTPIVOT\n" +
 								"  from FG_S_PARAMREF_ALL_V t\r\n" + 
