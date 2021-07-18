@@ -65,7 +65,7 @@ public class ExperimentReportSQLBuilder {
 			String columnName = generalUtil.getNull((String)filterRefMap.get("COLUMNNAME"));
 
 			//-----------------------------------------------------------------------------
-			//-------------------------- combineRules -------------------------------------
+			//-------------------------- combineRules: SQL - SHOULD DUPLICATE THE EXPERIMENT ROW IN CASE MORE THEN ONE VALUE FIT (=> implement as with)
 			//-----------------------------------------------------------------------------
 			if(tableType.equalsIgnoreCase("combineRules")) {
 				
@@ -310,7 +310,7 @@ public class ExperimentReportSQLBuilder {
 			}
 			
 			//-----------------------------------------------------------------------------
-			//-------------------------- displayData --------------------------------------
+			//-------------------------- displayData - SHOULD DUPLICATE THE COLUMNS IN CASE OF DUPLICATION (=> implement using the SMARTPIVOT mechanism)
 			//-----------------------------------------------------------------------------
 			if(tableType.equalsIgnoreCase("displayData")) {
 				
