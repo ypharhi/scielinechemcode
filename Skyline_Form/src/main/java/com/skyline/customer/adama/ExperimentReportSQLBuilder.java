@@ -316,8 +316,7 @@ public class ExperimentReportSQLBuilder {
 				
 				String displayType = generalUtil.getNull((String)filterRefMap.get("TYPE_")); // <Material/Parameter>
 				String displayObjId = generalUtil.getNull((String)filterRefMap.get("REPORTFILTERREFNAME")); //Material id or Parameter id
-				String displayLevel = generalUtil.getNull((String)filterRefMap.get("LEVEL_")); // List of step Names (for example STEP 01,STEP 02) or TODO ?? WHAT ELSE 
-				String defaultColName = displayType;
+				String displayLevel = generalUtil.getNull((String)filterRefMap.get("LEVEL_")); // Material => List of step Names (for example STEP 01,STEP 02) / Parameter => List of step Names and Experiment numbers
 				
 				//check stepNames exists
 				if(displayLevel.isEmpty() || displayObjId.isEmpty()) {
@@ -350,11 +349,24 @@ public class ExperimentReportSQLBuilder {
 
 						String col_ = "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
 								(colMap.containsKey("QUANTITY") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("QUANTITY")) + "\"": "") +
-								(colMap.containsKey("VOLUME") ? "," + "\"" + ("{" + displayObjId  + "-" + singleDisplayName + "}" + colMap.get("VOLUME")) + "\"": "");
+								(colMap.containsKey("MOLE") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("MOLE")) + "\"": "") +
+								(colMap.containsKey("VOLUME") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("VOLUME")) + "\"": "") +
+								(colMap.containsKey("PURITY") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("PURITY")) + "\"": "") +
+								(colMap.containsKey("EQUIVALENT") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("EQUIVALENT")) + "\"": "") +
+								(colMap.containsKey("INVITEMBATCHNAME") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("INVITEMBATCHNAME")) + "\"": "") +
+								(colMap.containsKey("MASS") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("MASS")) + "\"": "") +
+								(colMap.containsKey("MW") ? "," + "\"" + ("{" + displayObjId  + "-" + singleDisplayName + "}" + colMap.get("MW")) + "\"": "");
 						
 						String val_ = "\" ' || (invitemmaterialname) || '\"" +
 								(colMap.containsKey("QUANTITY") ? ",\" ' || fg_get_num_display(t.QUANTITY,0,3) || '\"" : "") +
-								(colMap.containsKey("VOLUME") ? ",\" ' || fg_get_num_display(t.VOLUME,0,3) || '\"" : "");
+								(colMap.containsKey("MOLE") ? ",\" ' || fg_get_num_display(t.MOLE,0,3) || '\"" : "") +
+								(colMap.containsKey("VOLUME") ? ",\" ' || fg_get_num_display(t.VOLUME,0,3) || '\"" : "") +
+								(colMap.containsKey("PURITY") ? ",\" ' || fg_get_num_display(t.PURITY,0,3) || '\"" : "") +
+								(colMap.containsKey("EQUIVALENT") ? ",\" ' || fg_get_num_display(t.EQUIVALENT,0,3) || '\"" : "") +
+								(colMap.containsKey("INVITEMBATCHNAME") ? ",\" ' || t.INVITEMBATCHNAME || '\"" : "") +
+								(colMap.containsKey("MASS") ? ",\" ' || fg_get_num_display(t.MASS,0,3) || '\"" : "") +
+								(colMap.containsKey("MW") ? ",\" ' || fg_get_num_display(t.MW,0,3) || '\"" : "");
+						
 						
 						pivotFormat = pivotFormat.replaceFirst("@VAL@", val_).replaceFirst("@COL@",col_);
 						
@@ -373,13 +385,63 @@ public class ExperimentReportSQLBuilder {
 						index++;
 					}
 				}
+				
+				// #####################################
+				// ############ Parameter ##############
+				// #####################################
+				if(displayType.equalsIgnoreCase("Parameter")) {
+					String colName_ = (columnName == null || columnName.isEmpty())? getDisplayDataName(displayObjId, displayType): columnName;
+					String[] displayLevelArray = displayLevel.split(",", -1);
+
+					
+					// for each step in the user selection row
+					for (String singleDisplayName : displayLevelArray) {
+						
+//						if(!singleDisplayName.toLowerCase().startsWith("step")) {
+//							singleDisplayName = "STEP " + singleDisplayName;
+//						}
+						
+						String pivotFormat = "'{pivotkey:\"'|| experiment_id||'\",pivotkeyname:\"experiment_id\",column:[@COL@],val:[@VAL@]}'";
+
+						String col_ = "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
+								(colMap.containsKey("VAL1") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("VAL1")) + "\"": "") +
+								(colMap.containsKey("VAL2") ? "," + "\"" + ("{" + displayObjId  + "-" + singleDisplayName + "}" + colMap.get("VAL2")) + "\"": "");
+						
+						
+						String val_ = "\" ' || (t.parametername) || '\"" +
+								(colMap.containsKey("VAL1") ? ",\" ' || t.PARAMETERSCRITERIANAME || t.VAL1 || '\"" : "") +
+								(colMap.containsKey("VAL2") ? ",\" ' || t.PARAMETERSCRITERIANAME || t.VAL2 || '\"" : "");
+//						(colMap.containsKey("VAL1") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL1 || '\"" : "") +
+//						(colMap.containsKey("VAL2") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL2 || '\"" : "");
+						
+						pivotFormat = pivotFormat.replaceFirst("@VAL@", val_).replaceFirst("@COL@",col_);
+						
+						if(sbPivotSql.length() > 0) {
+							sbPivotSql.append("\n union all \n");
+						}
+						
+						
+						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, " + pivotFormat + " as result_SMARTPIVOT\n" +
+								"  from FG_S_PARAMREF_ALL_V t\r\n" + 
+								"WHERE t.SESSIONID is null and t.ACTIVE = 1 AND T.VAL1 is not null\r\n" + 
+//								"WHERE t.SESSIONID is null and t.ACTIVE = 1 AND T.PLANNEDVAL1 is not null\r\n" + 
+								"AND instr(',' || '" + displayObjId + "' || ',', ','||t.PARAMETER_ID||',') > 0\r\n" +
+								"AND ((T.step_id IN (" + stepIds + ") AND T.STEPNAME ='" + singleDisplayName + "') OR (T.experiment_id IN (" + expIds + ") AND T.EXP_FORMNUMBERID = '" + singleDisplayName + "'))");
+						
+						index++;
+					}
+				}
 			}
 		}
 		
-		generalDao.updateSingleString("insert into FG_P_EXPREPORT_DATA_TMP (statekey, order_,result_SMARTPIVOT) " + sbPivotSql.toString() );
-		
 		// *********** pivot data
-		sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_' AS RESULT_SMARTPIVOTSQL\n" ); 
+		if(sbPivotSql.length() > 0) {
+			String numRows = generalDao.updateSingleString("insert into FG_P_EXPREPORT_DATA_TMP (statekey, order_,result_SMARTPIVOT) " + sbPivotSql.toString() );
+			if(numRows != null && !numRows.equals("0")) {
+				sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_' AS RESULT_SMARTPIVOTSQL\n" ); 
+			}
+		}
+		
 		
 		// return the sql obj...
 		return new SQLObj(sbWithSql.toString(),sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString());
@@ -397,7 +459,7 @@ public class ExperimentReportSQLBuilder {
 		}
 		else if(displayType.equalsIgnoreCase("Parameter")) {
 			try {
-				List <String> matList = generalDao.getListOfStringBySql("select t.ParamRefName from FG_S_PARAMREF_V t where t.paramref_id in (" + displayObjId + ")");
+				List <String> matList = generalDao.getListOfStringBySql("SELECT t.\"Name\" FROM FG_S_MP_DT_V t WHERE t.MP_ID in (" + displayObjId + ")");
 				toReturn = generalUtil.listToCsv(matList);
 			} catch (Exception e) {
 				toReturn = "Parameter";
@@ -448,9 +510,8 @@ public class ExperimentReportSQLBuilder {
 	private Map<String, String> prepareColMap(String ruleName, String columnsSelection) {
 		Map<String, String> colsMap = new HashMap<>();
 		Map<String, String> colsSelectionMap = new HashMap<>();
-		//TODO get colProp from getReactionAndResultsAnalysisColsSelection (NEW FUNC IN DAO RETURN THE CLASS VAL)
-		String colProp = "ALL:All,QUANTITY:Qty,MOLE:Mole,VOLUME:Volume,PURITY:Purity,EQUIVALENT:Equivalent,INVITEMBATCHNAME:Batch";
-		
+		String colProp = "ALL:All,QUANTITY:Qty,MOLE:Mole,VOLUME:Volume,PURITY:Purity,EQUIVALENT:Equivalent,INVITEMBATCHNAME:Batch,VAL1:Actual Value 1,VAL2:Actual Value 2,MASS:Mass,MW:Mw";
+		 
 		List<String> colList = Arrays.asList(colProp.split(","));
 		if (!colList.isEmpty()) {
 			for (String c : colList) {
