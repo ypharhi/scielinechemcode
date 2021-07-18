@@ -347,7 +347,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("MW") ? ",\" ' || fg_get_num_display(t.MW,0,3) || '\"" : "");
 						
 						
-						String pivotFormat = "'{pivotkey:\"'|| r.UNIQUEROW||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
+						String pivotFormat = "'{pivotkey:\"'|| nvl(r.UNIQUEROW,t.experiment_id) ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
 						
 						if(sbPivotSql.length() > 0) {
 							sbPivotSql.append("\n union all \n");
@@ -355,7 +355,7 @@ public class ExperimentReportSQLBuilder {
 						
 						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, " + pivotFormat + " as result_SMARTPIVOT\n" +
 								"  FROM Fg_s_Materialref_All_v t, fg_r_experimentresult_noreq_v r \r\n" + 
-								"  WHERE t.sessionid is null and t.active=1 and t.experiment_id = r.experiment_id\r\n" + 
+								"  WHERE t.sessionid is null and t.active=1 and t.experiment_id = r.experiment_id(+)\r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
 								//"  AND t.TABLETYPE = 'Reactant'\r\n" + 
 								"  AND instr(',' || '" + displayObjId + "' || ',', ','||t.INVITEMMATERIAL_ID||',') > 0\r\n" +

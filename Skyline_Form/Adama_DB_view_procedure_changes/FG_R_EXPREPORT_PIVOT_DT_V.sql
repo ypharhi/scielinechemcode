@@ -1,7 +1,8 @@
 CREATE OR REPLACE VIEW FG_R_EXPREPORT_PIVOT_DT_V AS
-select distinct t.experiment_id,--important: every change of the column names here or in the fg_p_experimentanalysis_v should be taken in account in the design development and in the js func' getWidthByNameForExpAnalysisReport
+select distinct e.experiment_id,--important: every change of the column names here or in the fg_p_experimentanalysis_v should be taken in account in the design development and in the js func' getWidthByNameForExpAnalysisReport
        t.SAMPLE_ID,
-       t.UNIQUEROW,
+       e.ExperimentName,
+       nvl(t.UNIQUEROW,e.experiment_id) as UNIQUEROW,
        --t.SAMPLE_ID || '_' || t.experiment_id as uniquerow,
        '{"displayName":"' || e.ExperimentName || '" ,"icon":"' || '' || '" ,"fileId":"' || '' || '","formCode":"' || t.FORMCODE || '"  ,"formId":"' || t.EXPERIMENT_ID || '","tab":"' || '' || '" }' as "Experiment Number_SMARTLINK",
        e.DESCRIPTION as "Experiment Description"
@@ -18,5 +19,5 @@ select distinct t.experiment_id,--important: every change of the column names he
 from /*fg_s_experiment_v t,
      FG_I_RESULT_ALL_V r*/
     fg_r_experimentresult_noreq_v t, fg_s_experiment_v e  
-where t.experiment_id = e.experiment_id 
-order by t.experiment_id, t.SAMPLE_ID
+where  e.experiment_id = t.experiment_id(+)
+order by e.ExperimentName, t.SAMPLE_ID
