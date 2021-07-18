@@ -347,15 +347,15 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("MW") ? ",\" ' || fg_get_num_display(t.MW,0,3) || '\"" : "");
 						
 						
-						String pivotFormat = "'{pivotkey:\"'|| experiment_id||'\",pivotkeyname:\"experiment_id\",column:[" + col_ + "],val:[" + val_ + "]}'";
+						String pivotFormat = "'{pivotkey:\"'|| r.UNIQUEROW||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
 						
 						if(sbPivotSql.length() > 0) {
 							sbPivotSql.append("\n union all \n");
 						}
 						
 						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, " + pivotFormat + " as result_SMARTPIVOT\n" +
-								"  FROM Fg_s_Materialref_All_v t \r\n" + 
-								"  WHERE t.sessionid is null and t.active=1\r\n" + 
+								"  FROM Fg_s_Materialref_All_v t, fg_r_experimentresult_noreq_v r \r\n" + 
+								"  WHERE t.sessionid is null and t.active=1 and t.experiment_id = r.experiment_id\r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
 								//"  AND t.TABLETYPE = 'Reactant'\r\n" + 
 								"  AND instr(',' || '" + displayObjId + "' || ',', ','||t.INVITEMMATERIAL_ID||',') > 0\r\n" +
@@ -368,57 +368,60 @@ public class ExperimentReportSQLBuilder {
 				// #####################################
 				// ############ Parameter ##############
 				// #####################################
-				if(displayType.equalsIgnoreCase("Parameter")) {
-					String colName_ = (columnName == null || columnName.isEmpty())? getDisplayDataName(displayObjId, displayType): columnName;
-					String[] displayLevelArray = displayLevel.split(",", -1);
-
-					
-					// for each step in the user selection row
-					for (String singleDisplayName : displayLevelArray) {
-						
-						String col_ = "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
-								(colMap.containsKey("VAL1") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("VAL1")) + "\"": "") +
-								(colMap.containsKey("VAL2") ? "," + "\"" + ("{" + displayObjId  + "-" + singleDisplayName + "}" + colMap.get("VAL2")) + "\"": "");
-						
-						
-						String val_ = "\" ' || (t.parametername) || '\"" +
-								(colMap.containsKey("VAL1") ? ",\" ' || t.PARAMETERSCRITERIANAME || t.VAL1 || '\"" : "") +
-								(colMap.containsKey("VAL2") ? ",\" ' || t.PARAMETERSCRITERIANAME || t.VAL2 || '\"" : "");
-//						(colMap.containsKey("VAL1") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL1 || '\"" : "") +
-//						(colMap.containsKey("VAL2") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL2 || '\"" : "");
-						
-						String pivotFormat = "'{pivotkey:\"'|| experiment_id||'\",pivotkeyname:\"experiment_id\",column:[" + col_ + "],val:[" + val_ + "]}'";
-						
-						if(sbPivotSql.length() > 0) {
-							sbPivotSql.append("\n union all \n");
-						}
-						
-						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, " + pivotFormat + " as result_SMARTPIVOT\n" +
-								"  from FG_S_PARAMREF_ALL_V t\r\n" + 
-								"WHERE t.SESSIONID is null and t.ACTIVE = 1 AND T.VAL1 is not null\r\n" + 
-//								"WHERE t.SESSIONID is null and t.ACTIVE = 1 AND T.PLANNEDVAL1 is not null\r\n" + 
-								"AND instr(',' || '" + displayObjId + "' || ',', ','||t.PARAMETER_ID||',') > 0\r\n" +
-								"AND ((T.step_id IN (" + stepIds + ") AND T.STEPNAME ='" + singleDisplayName + "') OR (T.experiment_id IN (" + expIds + ") AND T.EXP_FORMNUMBERID = '" + singleDisplayName + "'))");
-						
-						index++;
-					}
+				if(displayType.equalsIgnoreCase("Parameter")) { // TODO connect also to UNIQUEROW
+//					String colName_ = (columnName == null || columnName.isEmpty())? getDisplayDataName(displayObjId, displayType): columnName;
+//					String[] displayLevelArray = displayLevel.split(",", -1);
+//
+//					
+//					// for each step in the user selection row
+//					for (String singleDisplayName : displayLevelArray) {
+//						
+//						String col_ = "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
+//								(colMap.containsKey("VAL1") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("VAL1")) + "\"": "") +
+//								(colMap.containsKey("VAL2") ? "," + "\"" + ("{" + displayObjId  + "-" + singleDisplayName + "}" + colMap.get("VAL2")) + "\"": "");
+//						
+//						
+//						String val_ = "\" ' || (t.parametername) || '\"" +
+//								(colMap.containsKey("VAL1") ? ",\" ' || t.PARAMETERSCRITERIANAME || t.VAL1 || '\"" : "") +
+//								(colMap.containsKey("VAL2") ? ",\" ' || t.PARAMETERSCRITERIANAME || t.VAL2 || '\"" : "");
+////						(colMap.containsKey("VAL1") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL1 || '\"" : "") +
+////						(colMap.containsKey("VAL2") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL2 || '\"" : "");
+//						
+//						String pivotFormat = "'{pivotkey:\"'|| experiment_id||'\",pivotkeyname:\"experiment_id\",column:[" + col_ + "],val:[" + val_ + "]}'";
+//						
+//						if(sbPivotSql.length() > 0) {
+//							sbPivotSql.append("\n union all \n");
+//						}
+//						
+//						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, " + pivotFormat + " as result_SMARTPIVOT\n" +
+//								"  from FG_S_PARAMREF_ALL_V t\r\n" + 
+//								"WHERE t.SESSIONID is null and t.ACTIVE = 1 AND T.VAL1 is not null\r\n" + 
+////								"WHERE t.SESSIONID is null and t.ACTIVE = 1 AND T.PLANNEDVAL1 is not null\r\n" + 
+//								"AND instr(',' || '" + displayObjId + "' || ',', ','||t.PARAMETER_ID||',') > 0\r\n" +
+//								"AND ((T.step_id IN (" + stepIds + ") AND T.STEPNAME ='" + singleDisplayName + "') OR (T.experiment_id IN (" + expIds + ") AND T.EXP_FORMNUMBERID = '" + singleDisplayName + "'))");
+//						
+//						index++;
+//					}
 				}
 			}
 		}
 		
 		// results
-//		if(sbPivotSql.length() > 0) {
-//			sbPivotSql.append("\n union all \n");
-//		}
-//		sbPivotSql.append("SELECT distinct " + stateKey + " as stateKey ," + index + " as order_, result_SMARTPIVOT FROM FG_P_EXPERIMENTRESULTS_V where SAMPLE_EXPERIMENT_ID in (" + expIds + ")");
+		if(sbPivotSql.length() > 0) {
+			sbPivotSql.append("\n union all \n");
+		} 
+//		select * from FG_S_EXPERIMENTRES_DT_V t where t.SAMPLE_EXPERIMENT_ID = 336177 ;
+//		SELECT result_SMARTPIVOT FROM FG_P_EXPERIMENTRESULTS_V where SAMPLE_EXPERIMENT_ID=336177;
+		sbPivotSql.append("SELECT distinct " + stateKey + " as stateKey ," + index + " as order_, result_SMARTPIVOT FROM FG_P_EXPERIMENTRESULTS_V where SAMPLE_EXPERIMENT_ID in (" + expIds + ")");
 		
 		// *********** pivot data
 		if(sbPivotSql.length() > 0) {
 			String numRows = generalDao.updateSingleString("insert into FG_P_EXPREPORT_DATA_TMP (statekey, order_,result_SMARTPIVOT) " + sbPivotSql.toString() );
-//			if(numRows != null && !numRows.equals("0")) {
+			if(numRows != null && !numRows.equals("0")) {
+				sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_' AS RESULT_SMARTPIVOTSQL\n" ); 
 //				sbSelectSql.append(",CR" + index + ".\"Sample #_SMARTLINK\",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_' AS RESULT_SMARTPIVOTSQL\n" ); 
-//			}
-//			sbSelectHiddebSql.append("CR" + index  + ".uniquerow, CR" + index + ".SAMPLE_EXPERIMENT_ID");
+			}
+//			sbSelectHiddebSql.append("CR" + index + ".SAMPLE_EXPERIMENT_ID");
 ////			sbSelectSql.append(",CR" + index + ".\"Sample #_SMARTLINK\"");
 //			sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n select distinct ts.\"Sample #_SMARTLINK\", ts.uniquerow, ts.SAMPLE_EXPERIMENT_ID from FG_S_EXPERIMENTRES_DT_V ts where ts.SAMPLE_EXPERIMENT_ID in (" + expIds + ") )\n");
 //			sbFromSql.append(",CR" + index);

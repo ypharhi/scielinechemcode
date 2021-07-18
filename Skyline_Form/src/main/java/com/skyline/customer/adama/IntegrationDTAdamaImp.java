@@ -167,14 +167,11 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 //						String stepWherePart = (stepidList != null && !stepidList.isEmpty()?" and step_id in (" + stepidList.replace("@", ",") + ")" : " AND 1=2");
 						String expidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_EXPERIMENTTABLE}");
 						Map<String,String> materialTypeTableMap = formDao.getFromInfoLookupAllElementData("MaterialType", LookupType.ID, "name");
-
-
 						
 						SQLObj sqlObj= experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey, expidList.replace("@", ","), stepidList.replace("@", ","), materialTypeTableMap);
 						
-						
 						// set the SQL - DEVELOP!....
-						sql = "select * from ( " + sqlObj.getWith() + "select experiment_id,\"Experiment Number_SMARTLINK\",\"Experiment Description\""
+						sql = "select * from ( " + sqlObj.getWith() + "select experiment_id,uniquerow,\"Experiment Number_SMARTLINK\",\"Experiment Description\""
 								+ sqlObj.getSelect()
 //								+ "," + generalUtil.handleClob(
 //										"SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where 1=1 " + wherePart ) //+ stepWherePart
