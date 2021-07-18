@@ -32,6 +32,7 @@ public class ExperimentReportSQLBuilder {
 		
 		StringBuilder sbWithSql = new StringBuilder();
 		StringBuilder sbSelectSql = new StringBuilder();
+		StringBuilder sbSelectHiddebSql = new StringBuilder();
 		StringBuilder sbWhereSql = new StringBuilder();
 		StringBuilder sbFromSql = new StringBuilder();
 		StringBuilder sbPivotSql = new StringBuilder();
@@ -405,17 +406,29 @@ public class ExperimentReportSQLBuilder {
 			}
 		}
 		
+		// results
+//		if(sbPivotSql.length() > 0) {
+//			sbPivotSql.append("\n union all \n");
+//		}
+//		sbPivotSql.append("SELECT distinct " + stateKey + " as stateKey ," + index + " as order_, result_SMARTPIVOT FROM FG_P_EXPERIMENTRESULTS_V where SAMPLE_EXPERIMENT_ID in (" + expIds + ")");
+		
 		// *********** pivot data
 		if(sbPivotSql.length() > 0) {
 			String numRows = generalDao.updateSingleString("insert into FG_P_EXPREPORT_DATA_TMP (statekey, order_,result_SMARTPIVOT) " + sbPivotSql.toString() );
-			if(numRows != null && !numRows.equals("0")) {
-				sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_' AS RESULT_SMARTPIVOTSQL\n" ); 
-			}
+//			if(numRows != null && !numRows.equals("0")) {
+//				sbSelectSql.append(",CR" + index + ".\"Sample #_SMARTLINK\",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_' AS RESULT_SMARTPIVOTSQL\n" ); 
+//			}
+//			sbSelectHiddebSql.append("CR" + index  + ".uniquerow, CR" + index + ".SAMPLE_EXPERIMENT_ID");
+////			sbSelectSql.append(",CR" + index + ".\"Sample #_SMARTLINK\"");
+//			sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n select distinct ts.\"Sample #_SMARTLINK\", ts.uniquerow, ts.SAMPLE_EXPERIMENT_ID from FG_S_EXPERIMENTRES_DT_V ts where ts.SAMPLE_EXPERIMENT_ID in (" + expIds + ") )\n");
+//			sbFromSql.append(",CR" + index);
+//			sbWhereSql.append(" and EXPERIMENT_ID = CR" + index + ".SAMPLE_EXPERIMENT_ID(+)\n");
+			
 		}
 		
 		
 		// return the sql obj...
-		return new SQLObj(sbWithSql.toString(),sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString());
+		return new SQLObj(sbWithSql.toString(), sbSelectHiddebSql.toString(), sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString());
 	}
 	
 	private String getDisplayDataName(String displayObjId, String displayType) {

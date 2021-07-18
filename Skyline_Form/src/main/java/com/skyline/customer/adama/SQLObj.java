@@ -3,12 +3,14 @@ package com.skyline.customer.adama;
 public class SQLObj {
 	private String with = "";
 	private String select = "";
+	private String hiddenselect = "";
 	private String from = "";
 	private String where = "";
 
-	public SQLObj(String with, String select, String from, String where) {
+	public SQLObj(String with, String hiddenselect, String select, String from, String where) {
 		super();
 		this.with = with;
+		this.setHiddenselect(hiddenselect);
 		this.select = select;
 		this.from = from;
 		this.where = where;
@@ -45,13 +47,22 @@ public class SQLObj {
 	public void setWhere(String where) {
 		this.where = where;
 	}
-	
-	@Override
-	public String toString() {
-		return "SQLObj [with=" + with + ", select=" + select + ", from=" + from + ", where=" + where + "]";
+
+	public String getHiddenselect() {
+		return hiddenselect;
+	}
+
+	public void setHiddenselect(String hiddenselect) {
+		this.hiddenselect = hiddenselect;
 	}
 	
 	public boolean isEmpty() {
 		return with == null || with.isEmpty();
+	}
+
+	@Override
+	public String toString() {
+		return "SQLObj [with=" + with + ", select=" + select + ", hiddenselect=" + hiddenselect + ", from=" + from
+				+ ", where=" + where + "]";
 	}
 }
