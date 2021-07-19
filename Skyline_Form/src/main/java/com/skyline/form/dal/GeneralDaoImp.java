@@ -1787,7 +1787,6 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								type = generalUtil.getJsonValById(displayNameArr.get(0).toString(), "displayName");
 							}
 							String name_col;
-							Object colvalObj = rows.get(i).get(paramCol);
 							String name_col_json = "";
 							JSONArray name_colArr = new JSONArray();
 						   if( rows.get(i).get("Name_SMARTEDIT") != null) {
@@ -1833,6 +1832,9 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 									cols_sList = Arrays.asList(defaultColumnsJson.getString("PARAMETERS").split(","));
 								}
 							}
+							Object colvalObj = rows.get(i).get(paramCol);
+							
+							boolean isValExist = false;
 							List<Map<String, String>> colsData = new ArrayList<>();
 							if (!cols_sList.isEmpty()) {
 								for (String c : cols_sList) {
@@ -1842,10 +1844,14 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 									colsMap.put("ID", id);
 									colsMap.put("VAL", val_);
 									colsData.add(colsMap);
+									if(colvalObj!= null && colvalObj.equals(id)) {
+										isValExist = true;
+									}
 								}
+								
 								String ruleObj = "{}";
 								ruleObj = getJsonDisplayObj(null, colsData,
-										colvalObj == null ? null : colvalObj.toString(), "COLUMNSSELECTION", "true",
+										colvalObj == null || !isValExist ? null : colvalObj.toString(), "COLUMNSSELECTION", "true",
 										"");
 								rows.get(i).put(paramCol, ruleObj);
 							}
