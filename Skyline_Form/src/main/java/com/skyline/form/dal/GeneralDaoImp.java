@@ -789,7 +789,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 				if(args.length > 0){
 					String stepNameCSV = args[0];
 					if(stepNameCSV != null && !stepNameCSV.isEmpty()) {
-						stepNameList = getListOfStringBySql("select distinct stepname from fg_s_step_v where step_id in (" + stepNameCSV + ") order by stepname");
+						stepNameList = getListOfStringBySql("select distinct  'Step ' || FORMNUMBERID from fg_s_step_v where step_id in (" + stepNameCSV + ") order by 'Step ' ||FORMNUMBERID");
 						/*
 						 * maxStep = selectSingleStringNoException("select distinct max(FORMNUMBERID) from fg_s_step_v where step_id in (" + stepNameCSV + ")"); int maxStepNo = Integer.parseInt(maxStep); for(int i=1;i<=maxStepNo;i++) { stepNameList.add("Step "+String.format("%02d", i)); }
 						 */
@@ -1546,8 +1546,6 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 						for (int i = 0; i < rows.size(); i++) {
 							Object colvalObj = rows.get(i).get(paramCol);
 
-							System.out.println(
-									"use stepNameList and maybe make function that get and the json now this is hard coded");
 							String stepObj = "{}";
 							stepObj = getJsonDisplayObj(stepNameList,null,
 									colvalObj == null ? null : colvalObj.toString(), "STEPNAME", "true","");
@@ -1859,11 +1857,8 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 					}
 					else if(paramCol.equalsIgnoreCase("Level_SMARTEDIT")) {
 						String type,type_json;
-						String expIdCSV ="''";
-						if(args.length>1) {
-							expIdCSV = args[1].isEmpty()?"''":args[1];
-						}
-						List<String> nameList = getListOfStringBySql("select distinct stepname as name_ from fg_s_step_v where step_id in (" + stepNameCSV + ")  union all select distinct formnumberid as name_ from fg_s_experiment_v where formid in ("+expIdCSV+") order by name_");
+						
+						//List<String> nameList = getListOfStringBySql("select distinct stepname as name_ from fg_s_step_v where step_id in (" + stepNameCSV + ")  union all select distinct formnumberid as name_ from fg_s_experiment_v where formid in ("+expIdCSV+") order by name_");
 						
 						for (int i = 0; i < rows.size(); i++) {
 							type_json = rows.get(i).get("Type_SMARTEDIT") == null ? "{}"
@@ -1887,8 +1882,9 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 							else if(type.equals("Parameter")) {
 								Object colvalObj = rows.get(i).get(paramCol);
 
+								stepNameList.add("Experiments");
 								String stepObj = "{}";
-								stepObj = getJsonDisplayObj(nameList,null,
+								stepObj = getJsonDisplayObj(stepNameList,null,
 										colvalObj == null ? null : colvalObj.toString(), "LEVEL_", "true","");
 								rows.get(i).put(paramCol, stepObj);
 							}
