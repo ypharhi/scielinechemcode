@@ -1009,6 +1009,14 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					// do nothing
 				}
 			}
+			if(elementValueMap.get("description").isEmpty()) {
+				String aim = elementValueMap.get("aim");
+				String aimTxt = generalDao.selectSingleStringNoException("select fg_get_richtext_display('"+aim+"') from dual");//get the text only from fg_get richtext
+				if(aimTxt.length()>500) {
+					aimTxt = aimTxt.substring(0,497)+"...";
+				}
+				elementValueMap.put("description",aimTxt);
+			}
 			elementValueMap.put("OWNER_ID", userId);
 			elementValueMap.put("CREATOR_ID", userId);
 
