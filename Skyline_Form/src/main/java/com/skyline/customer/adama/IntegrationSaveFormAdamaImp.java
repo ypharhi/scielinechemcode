@@ -5136,7 +5136,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					String manualMaterial = generalUtil.getNull(sampleMaterialPair.getString("Unknown Materials"));
 					String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value"));
 					String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
-					if(sample.isEmpty() || material.isEmpty() && manualMaterial.isEmpty() || resultValue.isEmpty() || resultType.isEmpty()) {
+					if(material.isEmpty() && manualMaterial.isEmpty() || !material.isEmpty() && (sample.isEmpty() || resultValue.isEmpty() || resultType.isEmpty())) {
 						continue;
 					}
 					//if(!resultValue.isEmpty()) {
@@ -5155,7 +5155,6 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 						+ "where parentid = '"+formId+"'\n"
 						+ "and sessionid is null\n"
 						+ "and active=1");
-				
 				
 				for(int i = 0;i<arr.length();i++) {
 					JSONObject sampleMaterialPair = arr.getJSONObject(i);
