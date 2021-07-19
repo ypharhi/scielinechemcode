@@ -37,7 +37,6 @@ public class ExperimentReportSQLBuilder {
 		StringBuilder sbFromSql = new StringBuilder();
 		StringBuilder sbPivotSql = new StringBuilder();
 
-
 		int index = 0;
 		
 		//prepare...
@@ -105,7 +104,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as QUANTITY\r\n":"") +
 								(colMap.containsKey("MOLE") ? "   ,max(fg_get_num_display(t.MOLE,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as MOLE\r\n":"") +
 								(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
-								(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(t.PURITY,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
+								(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
 								(colMap.containsKey("EQUIVALENT") ? "   ,max(fg_get_num_display(t.EQUIVALENT,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as EQUIVALENT\r\n":"") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? "   ,max(t.INVITEMBATCHNAME) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as INVITEMBATCHNAME\r\n":"") +
 								
@@ -157,7 +156,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) QUANTITY\r\n":"") +
 								(colMap.containsKey("MOLE") ? "   ,max(fg_get_num_display(t.MOLE,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as MOLE\r\n":"") +
 								(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
-								(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(t.PURITY,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
+								(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
 								(colMap.containsKey("EQUIVALENT") ? "   ,max(fg_get_num_display(t.EQUIVALENT,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as EQUIVALENT\r\n":"") +
 								//(colMap.containsKey("INVITEMBATCHNAME") ? "   ,max(t.INVITEMBATCHNAME) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as INVITEMBATCHNAME\r\n":"") +
 								
@@ -208,7 +207,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("QUANTITY") ? "   ,fg_get_num_display(t.QUANTITY,0,3) as QUANTITY\r\n":"") +
 								(colMap.containsKey("MOLE") ? "   ,fg_get_num_display(t.MOLE,0,3) as MOLE\r\n":"") +
 								(colMap.containsKey("VOLUME") ? "   ,fg_get_num_display(t.VOLUME,0,3) as VOLUME\r\n":"") +
-								(colMap.containsKey("PURITY") ? "   ,fg_get_num_display(t.PURITY,0,3) as PURITY\r\n":"") +
+								(colMap.containsKey("PURITY") ? "   ,fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3) as PURITY\r\n":"") +
 								(colMap.containsKey("EQUIVALENT") ? "   ,fg_get_num_display(t.EQUIVALENT,0,3) as EQUIVALENT\r\n":"") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? "   ,t.INVITEMBATCHNAME as INVITEMBATCHNAME\r\n":"") +
 								
@@ -261,7 +260,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("QUANTITY") ? "   ,fg_get_num_display(t.QUANTITY,0,3) as QUANTITY\r\n":"") +
 								(colMap.containsKey("MOLE") ? "   ,fg_get_num_display(t.MOLE,0,3) as MOLE\r\n":"") +
 								(colMap.containsKey("VOLUME") ? "   ,fg_get_num_display(t.VOLUME,0,3) as VOLUME\r\n":"") +
-								(colMap.containsKey("PURITY") ? "   ,fg_get_num_display(t.PURITY,0,3) as PURITY\r\n":"") +
+								(colMap.containsKey("PURITY") ? "   ,fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3) as PURITY\r\n":"") +
 								(colMap.containsKey("EQUIVALENT") ? "   ,fg_get_num_display(t.EQUIVALENT,0,3) as EQUIVALENT\r\n":"") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? "   ,t.INVITEMBATCHNAME as INVITEMBATCHNAME\r\n":"") +
 								
@@ -340,24 +339,25 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("QUANTITY") ? ",\" ' || fg_get_num_display(t.QUANTITY,0,3) || '\"" : "") +
 								(colMap.containsKey("MOLE") ? ",\" ' || fg_get_num_display(t.MOLE,0,3) || '\"" : "") +
 								(colMap.containsKey("VOLUME") ? ",\" ' || fg_get_num_display(t.VOLUME,0,3) || '\"" : "") +
-								(colMap.containsKey("PURITY") ? ",\" ' || fg_get_num_display(t.PURITY,0,3) || '\"" : "") +
+								(colMap.containsKey("PURITY") ? ",\" ' || fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3) || '\"" : "") +
 								(colMap.containsKey("EQUIVALENT") ? ",\" ' || fg_get_num_display(t.EQUIVALENT,0,3) || '\"" : "") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? ",\" ' || t.INVITEMBATCHNAME || '\"" : "") +
 								(colMap.containsKey("MASS") ? ",\" ' || fg_get_num_display(t.MASS,0,3) || '\"" : "") +
 								(colMap.containsKey("MW") ? ",\" ' || fg_get_num_display(t.MW,0,3) || '\"" : "");
 						
 						
-						String pivotFormat = "'{pivotkey:\"'|| nvl(r.UNIQUEROW,t.experiment_id) ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
+						String pivotFormat = "'{pivotkey:\"'|| nvl(s.SAMPLE_ID || '_' || t.experiment_id,t.experiment_id) ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
 						
 						if(sbPivotSql.length() > 0) {
 							sbPivotSql.append("\n union all \n");
 						}
 						
 						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, " + pivotFormat + " as result_SMARTPIVOT\n" +
-								"  FROM Fg_s_Materialref_All_v t, fg_r_experimentresult_noreq_v r \r\n" + 
-								"  WHERE t.experiment_id = r.experiment_id(+) and t.sessionid is null and t.active=1\r\n" + 
+								"  FROM Fg_s_Materialref_All_v t, fg_s_sample_v s\r\n" + 
+								"  WHERE t.experiment_id = s.experiment_id(+) and t.sessionid is null and t.active=1\r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
 								//"  AND t.TABLETYPE = 'Reactant'\r\n" +  
+								"  AND s.sample_id(+) in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") \r\n" +
 								"  AND instr(',' || '" + displayObjId + "' || ',', ','||t.INVITEMMATERIAL_ID||',') > 0\r\n" +
 								"  AND lower(t.STEPNAME) = lower('"  + singleDisplayName + "')");
 						
@@ -386,17 +386,18 @@ public class ExperimentReportSQLBuilder {
 //						(colMap.containsKey("VAL1") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL1 || '\"" : "") +
 //						(colMap.containsKey("VAL2") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL2 || '\"" : "");
 						
-						String pivotFormat = "'{pivotkey:\"'|| nvl(r.UNIQUEROW,t.experiment_id) ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
+						String pivotFormat = "'{pivotkey:\"'|| nvl(s.SAMPLE_ID || '_' || t.experiment_id,t.experiment_id) ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
 						
 						if(sbPivotSql.length() > 0) {
 							sbPivotSql.append("\n union all \n");
 						}
 						
 						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, " + pivotFormat + " as result_SMARTPIVOT\n" +
-								"  from FG_S_PARAMREF_ALL_V t, fg_r_experimentresult_noreq_v r\r\n" + 
-								"WHERE t.experiment_id = r.experiment_id(+) and t.SESSIONID is null and t.ACTIVE = 1 AND T.VAL1 is not null\r\n" + 
+								"  from FG_S_PARAMREF_ALL_V t, fg_s_sample_v s\r\n" + 
+								"WHERE t.experiment_id = s.experiment_id(+) and t.SESSIONID is null and t.ACTIVE = 1 AND T.VAL1 is not null\r\n" + 
 //								"WHERE t.experiment_id = r.experiment_id(+) and  t.SESSIONID is null and t.ACTIVE = 1 AND T.PLANNEDVAL1 is not null\r\n" + 
 								"AND instr(',' || '" + displayObjId + "' || ',', ','||t.PARAMETER_ID||',') > 0\r\n" +
+								"AND s.sample_id(+) in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") \r\n" +
 								"AND ((T.step_id IN (" + stepIds + ") AND T.STEPNAME ='" + singleDisplayName + "') OR (T.experiment_id IN (" + expIds + ") AND T.EXP_FORMNUMBERID = '" + singleDisplayName + "'))");
 						
 						index++;
@@ -412,7 +413,7 @@ public class ExperimentReportSQLBuilder {
 			if(sbPivotSql.length() > 0) {
 				sbPivotSql.append("\n union all \n");
 			} 
-			sbPivotSql.append("SELECT distinct " + stateKey + " as stateKey ," + index + " as order_, result_SMARTPIVOT \n FROM FG_P_EXPREPORT_RESULT_V \n where SAMPLE_EXPERIMENT_ID in (" + expIds + ") and SAMPLE_ID in (" + sampleIds + ") ");
+			sbPivotSql.append("SELECT distinct " + stateKey + " as stateKey ," + index + " as order_, result_SMARTPIVOT \n FROM FG_P_EXPREPORT_RESULT_V \n where SAMPLE_ID in (" + sampleIds + ") ");
 		}
 		
 		// *********** pivot data
@@ -425,7 +426,7 @@ public class ExperimentReportSQLBuilder {
 		
 		
 		// return the sql obj...
-		return new SQLObj(sbWithSql.toString(), sbSelectHiddebSql.toString(), sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString());
+		return new SQLObj(sbWithSql.toString(), sbSelectHiddebSql.toString(), sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString(), "");
 	}
 	
 	private String getDisplayDataName(String displayObjId, String displayType) {

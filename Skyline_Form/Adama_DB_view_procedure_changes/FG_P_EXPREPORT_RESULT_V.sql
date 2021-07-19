@@ -1,59 +1,36 @@
 CREATE OR REPLACE VIEW FG_P_EXPREPORT_RESULT_V AS
-SELECT distinct "SAMPLE_STEP_ID","SAMPLE_EXPERIMENT_ID","SAMPLE_ID","EXPERIMENTDEST_ID","ORDER_","RESULTTYPE_ORDER","RESULT_SMARTPIVOT","BATCH_ID" from
+SELECT distinct "SAMPLE_ID","EXPERIMENT_ID","ORDER_","RESULTTYPE_ORDER","RESULT_SMARTPIVOT" from
 (
-  -- automatic and manual results
-  select t.SAMPLE_ID,t.EXPERIMENT_ID as SAMPLE_EXPERIMENT_ID,t.SAMPLE_STEP_ID,
-  t.BATCH_ID,
-  t.EXPERIMENTDEST_ID,
-  1 as order_,
-  decode(upper(t.RESULT_NAME),'ASSAY',1,2) as resulttype_order,-- assay results appear first
-  '{pivotkey:"'|| t.SAMPLE_ID||'_'||t.EXPERIMENTDEST_ID||'",pivotkeyname:"UNIQUEROW",'
-  ||'column:"'||t.MATERIALNAME_R||'('||t.RESULT_NAME||')_SMARTICON",'--_SMARTNUM
-  ||'val:'||nvl2(t.RESULT_COMMENT,
-                             '{"displayName":"'|| result_value||' '||t.RESULT_UOM || '" ,"htmlType":"span", "icon":"' || 'fa fa-comment' || '", "tooltip":"'||t.RESULT_COMMENT||'"}'
-                             ,'"'||result_value||' '||t.RESULT_UOM||'"')||'}' as result_SMARTPIVOT
-  from fg_r_experimentresult_noreq_v t
-  where t.EXPERIMENTSTATUSNAME = 'Approved'
-  and nvl(to_char(t.INVITEMMATERIAL_ID),nvl(t.RESULT_MATERIALNAME,t.RESULT_VALUE))is not null--all the results except for the chromatogram that is handled in the following section
-  and t.RESULT_NAME <> 'Impurity Identification'--all the results except for the MS results that is handled in the following section
-  union all
-  -- MS manual results
-  select t.SAMPLE_ID,t.EXPERIMENT_ID as SAMPLE_EXPERIMENT_ID,t.SAMPLE_STEP_ID,
-  t.BATCH_ID,
-  t.EXPERIMENTDEST_ID,
-  2 as order_,
-  decode(upper(t.RESULT_NAME),'ASSAY',1,2) as resulttype_order,-- assay results appear first
-  '{pivotkey:"'|| t.SAMPLE_ID||'_'||t.EXPERIMENTDEST_ID||'",pivotkeyname:"UNIQUEROW",'
-  ||'column:"MS_SMARTFILE",'--_SMARTNUM
-  ||'val:'||nvl(FG_GET_SMART_LINK_OBJECT(t.MATERIALNAME_R ,t.FORMCODE ,
-                                                          mref.STRUCTURE,
-                                                           '','chemdoodle',0,'','','',t.RESULT_COMMENT ),'""')
+  select distinct to_char(t.SAMPLE_ID) as SAMPLE_ID,
+  t.EXPERIMENT_ID,
+  0 as order_,
+  null as resulttype_order,-- assay results appear first
+  '{pivotkey:"'|| t.SAMPLE_ID||'_'||t.EXPERIMENT_ID||'",pivotkeyname:"UNIQUEROW",'
+  ||'column:"Sample #_SMARTLINK",'
+  ||'val:'|| '{"displayName":"' || t.SAMPLENAME || '" ,"icon":"' || '' || '" ,"fileId":"' || '' || '","formCode":"' || 'Sample' || '"  ,"formId":"' || t.SAMPLE_ID || '","tab":"' || '' || '" }'
   ||'}' as result_SMARTPIVOT
-  from fg_r_experimentresult_noreq_v t,
-  fg_s_manualresultsmsref_v mref
-  where t.EXPERIMENTSTATUSNAME = 'Approved'
-  and t.RESULT_NAME = 'Impurity Identification'
-  and mref.formid(+) = t.resultref_id
-  and mref.sessionId(+) is null
-  and mref.active = 1
-  and mref.SAMPLE_ID(+) = t.SAMPLE_ID
-  and nvl(mref.structure(+),t.MATERIALNAME_R) is not null
-  union all
-  -- Documents & Chromatograms
-  select t.SAMPLE_ID,t.EXPERIMENT_ID as SAMPLE_EXPERIMENT_ID,t.SAMPLE_STEP_ID,
-  t.BATCH_ID,
-  t.EXPERIMENTDEST_ID,
-  3 as order_,
-  3 as resulttype_order,--documents appear in the end of the table
-  '{pivotkey:"'|| t.SAMPLE_ID||'_'||t.EXPERIMENTDEST_ID||'",pivotkeyname:"UNIQUEROW",'
-   ||'column:"Doc/Chr_SMARTFILE",'
-   ||'val:'||nvl(decode(t.FORMCODE,'ExperimentAn',
-                                                FG_GET_SMART_LINK_OBJECT('' ,t.FORMCODE ,t.EXPERIMENTDEST_ID ,'Chromatograms','file',1,'','expChromatogramsSample',t.sample_id ),
-                                                FG_GET_SMART_LINK_OBJECT('' ,t.FORMCODE ,t.EXPERIMENTDEST_ID ,'Documents','file',1,'','expDocumentsSample',t.sample_id )
-                     ),'""'
-                 )||'}' as result_SMARTPIVOT
-    from fg_r_experimentresult_noreq_v t,
-    fg_s_document_v d
-    where t.EXPERIMENTSTATUSNAME = 'Approved'
-    and d.PARENTID = t.EXPERIMENTDEST_ID
-  ) order by order_,resulttype_order;
+from fg_s_sample_all_v t
+union all
+select t1.SAMPLE_ID,
+       t1.EXPERIMENT_ID,
+       1 as order_,
+       t1.name_ as resulttype_order,
+       '{pivotkey:"'|| t1.SAMPLE_ID||'_'||t1.EXPERIMENT_ID||'",pivotkeyname:"UNIQUEROW",'
+       ||'column:"'|| t1.name_ || '",'
+       ||'val:"'|| t1.val_ ||'"}' as result_SMARTPIVOT
+from (
+        select t.SAMPLE_ID,
+               s.EXPERIMENT_ID,
+               t.RESULT_TYPE,
+               nvl(t.RESULT_VALUE, t.RESULT_MATERIALNAME) as val_,
+               decode(m.InvItemMaterialName, null, t.RESULT_NAME, m.InvItemMaterialName || ' (' || t.RESULT_NAME || ')')
+               || decode(u.UOMName,null,'','[' ||u.UOMName || ']') as name_
+        from fg_i_result_all_v t, fg_s_invitemmaterial_v m, fg_s_sample_all_v s, fg_s_uom_v u
+        where 1=1
+        and t.SAMPLE_ID = s.SAMPLE_ID
+        and t.RESULT_UOM_ID = u.uom_id(+)
+        and t.RESULT_MATERIAL_ID = m.invitemmaterial_id(+)
+        and t.RESULT_IS_ACTIVE = 1
+ ) t1
+ where t1.val_ is not null
+) order by order_,resulttype_order;

@@ -173,9 +173,11 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						SQLObj sqlObj = experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey,
 								expidList.replace("@", ","), stepidList.replace("@", ","), sampleidList.replace("@", ","), materialTypeTableMap);
 						
+						String uniquerowExpression = sampleidList == null || sampleidList.isEmpty()?"UNIQUEROW_E":"UNIQUEROW_S_E"; // avoid duplication in case no samples
+
 						// set the SQL
-						sql = "select * from ( " + sqlObj.getWith() + "\n"
-								+ "select experiment_id,uniquerow,\"Experiment Number_SMARTLINK\",\"Experiment Description\""
+						sql = "select distinct * from ( " + sqlObj.getWith() + "\n"
+								+ "select experiment_id," + uniquerowExpression + " as uniquerow,\"Experiment Number_SMARTLINK\",\"Experiment Description\""
 								+ sqlObj.getSelect() 
 							    + " from FG_R_EXPREPORT_PIVOT_DT_V " + sqlObj.getFrom() + "\n"
 							    + " where 1=1 \n" 
