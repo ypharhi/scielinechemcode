@@ -72,6 +72,12 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				sheet.bindColumn(1, "ID");
 				
 				
+				var sheet = workBook.getSheetFromName('Uom'); //spread.getActiveSheet();
+				sheet.autoGenerateColumns = false;
+				sheet.setDataSource(componentList['Uom']);
+				sheet.bindColumn(0, "NAME");
+				sheet.bindColumn(1, "ID");
+				
 				var sheet = workBook.getSheet(0);
 				
 				/*sheet.getRange(0, -1, 21, -1).locked(false);

@@ -192,5 +192,5 @@ public enum ValidationCode {
 	     * check that a list  of materials contains valid inventory materials
 	     */
 	    , INVALID_MATERIAL_NAME
-	    , INVALID_RESULT_TYPE, INVALID_RESULT_SAMPLE, INVALID_UNKNOWN_MATERIAL,
+	    , INVALID_RESULT_TYPE, INVALID_RESULT_SAMPLE, INVALID_UNKNOWN_MATERIAL, INVALID_UOM,
 }

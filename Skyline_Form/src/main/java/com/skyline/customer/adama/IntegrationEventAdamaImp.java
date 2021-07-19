@@ -7217,6 +7217,12 @@ public void preperReport(Map<String, String> elementValueMap) {
 		List<Map<String,Object>> testedComponentList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("TestedComponents", new JSONArray(testedComponentList));
 		
+		//Tested Components -> taken from the tested components in the current form
+		sql = "select ID,NAME\n"
+				+ "from fg_e_expangn_uom_v\n";
+		List<Map<String,Object>> uomList = generalDao.getListOfMapsBySql(sql);
+		componentsJson.put("Uom", new JSONArray(uomList));
+		
 		toReturn = componentsJson.toString();
 		return toReturn;
 	}

@@ -5070,6 +5070,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				Set<String> manualMaterialList = new LinkedHashSet<String>();
 				Set<String> sampleList = new LinkedHashSet<String>();
 				Set<String> resultTypeList = new LinkedHashSet<String>();
+				Set<String> uomList = new LinkedHashSet<String>();
 				if(!jsspreadsheetData.has("0")){
 					return;
 				}
@@ -5081,18 +5082,20 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					String manualMaterial = generalUtil.getNull(sampleMaterialPair.getString("Unknown Materials"));
 					String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value"));
 					String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
-					if(sample.isEmpty() || material.isEmpty() && manualMaterial.isEmpty() || resultValue.isEmpty() || resultType.isEmpty()) {
+					String uom = generalUtil.getNull(sampleMaterialPair.getString("Uom")) ;
+					if(material.isEmpty() && manualMaterial.isEmpty() || !material.isEmpty() && (sample.isEmpty() || resultValue.isEmpty() || resultType.isEmpty())) {
 						continue;
 					}
 					if(!resultValue.isEmpty()) {
 						if(!material.isEmpty()) {
 							materialList.add(material);
 						}
-						if(!manualMaterial.isEmpty()) {
-							manualMaterialList.add(manualMaterial);
-						}
 						sampleList.add(sample);
 						resultTypeList.add(resultType);
+						uomList.add(uom);
+					}
+					if(material.isEmpty() && !manualMaterial.isEmpty()) {
+						manualMaterialList.add(manualMaterial);
 					}
 				}
 				
@@ -5112,8 +5115,12 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				 //5.checks whether any of the unknown materials already exists in the inventory
 				 integrationValidation.validate(ValidationCode.INVALID_UNKNOWN_MATERIAL,
 				  formCode, formId, manualMaterialList, new StringBuilder());
+				 
+				 //6.checks whether any of the unknown materials already exists in the inventory
+				 integrationValidation.validate(ValidationCode.INVALID_UOM,
+				  formCode, formId, uomList, new StringBuilder());
 				
-				//6. creates the temporary materials that has entered as unknown 
+				//7. creates the temporary materials that has entered as unknown 
 				String project_id = elementValueMap.get("PROJECT_ID");
 				for(String manualMaterial:manualMaterialList) {
 					if(!manualMaterial.isEmpty()) {
@@ -5121,7 +5128,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					}
 				}
 				
-				//7. update the cells that represent the temporary materials and insert the new material_id
+				//8. update the cells that represent the temporary materials and insert the new material_id
 				for(int i = 0;i<arr.length();i++) {
 					JSONObject sampleMaterialPair = arr.getJSONObject(i);
 					String sample = generalUtil.getNull(sampleMaterialPair.getString("Sample"));
@@ -5132,17 +5139,17 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					if(sample.isEmpty() || material.isEmpty() && manualMaterial.isEmpty() || resultValue.isEmpty() || resultType.isEmpty()) {
 						continue;
 					}
-					if(!resultValue.isEmpty()) {
+					//if(!resultValue.isEmpty()) {
 						if(!manualMaterial.isEmpty()) {
 							JSONObject currentNewCell = new JSONObject(sampleMaterialPair.toString());
 							String material_id = formDao.getFromInfoLookup("invitemmaterial", LookupType.NAME, manualMaterial, "id");
 							currentNewCell.put("material_id", material_id);
 							arr.put(i, currentNewCell);
 						}
-					}
+					//}
 				}
 			
-				//8. insert the data into the manual results 
+				//9. insert the data into the manual results 
 				List<String> sampleselectList = generalDao.getListOfStringBySql("select sample_id\n"
 						+ " from fg_s_sampleselect_all_v\n"
 						+ "where parentid = '"+formId+"'\n"
@@ -5183,8 +5190,20 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 									ActivitylogType.ManualResultsUpdate, formId);
 					String resultTypeId = formDao.getFromInfoLookup("ANALYTICRESULTTYPE", LookupType.NAME, resultType,
 							"ID");
-					String uomId = uom.isEmpty()?formDao.getFromInfoLookup("UOM", LookupType.NAME, "%", "ID"):formDao.getFromInfoLookup("UOM", LookupType.NAME, uom,
-							"ID");
+					String uomId = "";
+					if(uom.isEmpty()) {
+						uomId = formDao.getFromInfoLookup("UOM", LookupType.NAME, "%", "ID");
+					} else {
+						List<String> uomSelectedList = formDao.getFromInfoLookupElementData("UOM", LookupType.NAME, uom, "ID");
+						for (String uomSelectedId : uomSelectedList) {
+							Map<String, String> uomData = formDao.getFromInfoLookupAll("UOM", LookupType.ID, uomSelectedId);
+							if (uomData.get("UOMTYPENAME").equalsIgnoreCase("weight")||uomData.get("UOMTYPENAME").equalsIgnoreCase("percentage")) {
+								uomId = uomSelectedId;
+								break;
+							}
+						}
+					}
+					
 					sql = String.format(
 							"insert into fg_s_manualResultsRef_pivot t"
 									+ " (t.FORMID,t.TIMESTAMP,t.CHANGE_BY,t.CREATION_DATE,t.CREATED_BY,t.SESSIONID,t.ACTIVE,t.FORMCODE, t.FORMCODE_ENTITY, REQUEST_ID, SAMPLE_ID,PARENTID,MATERIAL_ID,RESULT_TYPE_ID,COMPONENT_ID,COMMENTS,RESULT,UOM_ID)"

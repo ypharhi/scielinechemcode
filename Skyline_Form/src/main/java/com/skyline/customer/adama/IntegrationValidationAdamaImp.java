@@ -1177,6 +1177,16 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 					throw new Exception(getMessage(validationCode, new Object[] { generalUtil.listToCsv(returnCsv) }, validateValueObject));
 				}
 				break;
+			} case INVALID_UOM:{
+				List<String> uomList = null;
+				if(validateValueObject instanceof LinkedHashSet<?>) {
+			        uomList = new ArrayList<String>((LinkedHashSet<String>) validateValueObject);
+				}
+				List<String> returnCsv= commonFunc.getListNotInTable(uomList,"uom","uomname","fg_s_uom_all_v","UOMTYPENAME in ('weight','percentage')");
+				if(!returnCsv.isEmpty()) {
+					throw new Exception(getMessage(validationCode, new Object[] { generalUtil.listToCsv(returnCsv) }, validateValueObject));
+				}
+				break;
 			} case INVALID_UNKNOWN_MATERIAL:{
 				List<String> unknownMaterialList = null;
 				if(validateValueObject instanceof LinkedHashSet<?>) {
