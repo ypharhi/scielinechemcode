@@ -166,17 +166,20 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_STEPTABLE}");
 //						String stepWherePart = (stepidList != null && !stepidList.isEmpty()?" and step_id in (" + stepidList.replace("@", ",") + ")" : " AND 1=2");
 						String expidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_EXPERIMENTTABLE}");
+						String sampleidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_SAMPLETABLE}");
+
 						Map<String,String> materialTypeTableMap = formDao.getFromInfoLookupAllElementData("MaterialType", LookupType.ID, "name");
 						
-						SQLObj sqlObj= experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey, expidList.replace("@", ","), stepidList.replace("@", ","), materialTypeTableMap);
+						SQLObj sqlObj = experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey,
+								expidList.replace("@", ","), stepidList.replace("@", ","), sampleidList.replace("@", ","), materialTypeTableMap);
 						
-						// set the SQL - DEVELOP!....
-						sql = "select * from ( " + sqlObj.getWith() + "select experiment_id,uniquerow,\"Experiment Number_SMARTLINK\",\"Experiment Description\""
-								+ sqlObj.getSelect()
-//								+ "," + generalUtil.handleClob(
-//										"SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where 1=1 " + wherePart ) //+ stepWherePart
-//								+ " AS RESULT_SMARTPIVOTSQL \n" 
-							    + " from " + table + sqlObj.getFrom() + " where 1=1 " + sqlObj.getWhere()
+						// set the SQL
+						sql = "select * from ( " + sqlObj.getWith() + "\n"
+								+ "select experiment_id,uniquerow,\"Experiment Number_SMARTLINK\",\"Experiment Description\""
+								+ sqlObj.getSelect() 
+							    + " from FG_R_EXPREPORT_PIVOT_DT_V " + sqlObj.getFrom() + "\n"
+							    + " where 1=1 \n" 
+							    + sqlObj.getWhere() + "\n"
 								+ (wherePart.isEmpty() ? " and 1=2" : wherePart) + ")";//+ citeriaWherePart;
 					
 					}
