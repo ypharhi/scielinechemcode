@@ -4681,7 +4681,7 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 	        	disabledListArray= $('#'+ domID + '_disabledList').val().split(',');
 			}
 			var $loopThrough;
-		    if($('#formCode').val() == 'ExpAnalysisReport' || $('#formCode').val() == 'ExperimentReport')
+		    if($('#formCode').val() == 'ExpAnalysisReport')
 		    {
 		    	var table = $('#'+domID).DataTable();			    	
 		    	var column = table.column(0,{search:'applied'}).nodes();
@@ -4764,7 +4764,7 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 	else if(!isParentChkbChanged)//if child/body checkbox clicked, also on table page change, sort, search
 	{
 	    var unchecked_counter = 0;
-	    if($('#formCode').val() == 'ExpAnalysisReport' || $('#formCode').val() == 'ExperimentReport')
+	    if($('#formCode').val() == 'ExpAnalysisReport')
 	    {
 	    	var table = $('#'+domID).DataTable();	
 	    	
@@ -4772,7 +4772,7 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 		    var column = table.column(0,{search:'applied'}).nodes();
 		    unchecked_counter = $(column).find("input[type='checkbox']:not(:checked)").length;
 //		    console.timeEnd("-- loopThrough column unchecked in domID - "+domID);
-	    }	
+	    }
 	    else
 	    {
 	    	unchecked_counter = $("#"+domID+" > tbody > tr input[type='checkbox']:not(:checked)").length;
