@@ -110,13 +110,19 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				}
 				var firstEmptyCol = _materialLocation.x;
 				for(;j<columnCount;j++){
-					for(i=0;i<rowCount;i++){
+					/*for(i=0;i<rowCount;i++){
 						var val = sheet.getValue(i,j);
 						if(val != null){
 							break;
 						}
 					}
 					if(i==rowCount){//checked all the lines and found them empty
+						firstEmptyCol = j;
+						break;
+					}*/
+					var material = sheet.getValue(_materialLocation.y,j);
+					var unknown_material = sheet.getValue(_unknownMaterialLocation.y,j);
+					if(material == null && unknown_material ==null){
 						firstEmptyCol = j;
 						break;
 					}
