@@ -29,6 +29,9 @@ public class GeneralUtilVersionData {
 
 	@Value("${scriptPath:C:/logs/DB_data_script.sql}")
 	private String scriptPath;
+	
+	@Value("${scriptPath:C:/logs/}")
+	private String excelDataPath;
 
 	@Value("${scriptPathMaterialized:na}") // C:/logs/DB_data_script_materialized.sql
 	private String scriptPathMaterialized;
@@ -410,12 +413,23 @@ public class GeneralUtilVersionData {
 				}
 					break;
 				case "EXCELDATA": { // clob file ref - need to be ignored in form_tool.tool_check_data DB check data procedure
-					if(formCode_.equalsIgnoreCase("SysConfExcelData")) {
-						String excelData = generalDao.selectSingleString("select file_content from fg_clob_files where file_id = '" + val_ + "'");
-						toReturn = "FG_CLOB_FILES_CONFEXCEL_INSERT(" + generalUtil.handleClob(excelData.replace("'", "''")) + ")" ;
-					} else {
-						toReturn = "'" + val_.replace("'", "''").replace("\n", "' || chr(10) || '") + "'";
+				if (formCode_.equalsIgnoreCase("SysConfExcelData")) {
+					String excelData = generalDao.selectSingleString(
+							"select file_content from fg_clob_files where file_id = '" + val_ + "'");
+					try {
+						PrintWriter writer = new PrintWriter(new FileOutputStream(excelDataPath + "EXCEL_DATA.json"),
+								false);
+						writer.println(excelData);
+						writer.close();
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
+//						toReturn = "FG_CLOB_FILES_CONFEXCEL_INSERT(" + generalUtil.handleClob(excelData.replace("'", "''")) + ")" ;
+					toReturn = "'" + val_.replace("'", "''").replace("\n", "' || chr(10) || '") + "'";
+				} else {
+					toReturn = "'" + val_.replace("'", "''").replace("\n", "' || chr(10) || '") + "'";
+				}
 				}
 					break;
 				case "SQLTEXT": { // clob file ref - need to be ignored in form_tool.tool_check_data DB check data procedure
