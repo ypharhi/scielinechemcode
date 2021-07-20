@@ -30,7 +30,7 @@ public class GeneralUtilVersionData {
 	@Value("${scriptPath:C:/logs/DB_data_script.sql}")
 	private String scriptPath;
 	
-	@Value("${scriptPath:C:/logs/}")
+	@Value("${excelDataPath:C:/logs/}")
 	private String excelDataPath;
 
 	@Value("${scriptPathMaterialized:na}") // C:/logs/DB_data_script_materialized.sql
