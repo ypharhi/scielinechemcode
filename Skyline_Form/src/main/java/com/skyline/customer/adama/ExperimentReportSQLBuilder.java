@@ -36,6 +36,8 @@ public class ExperimentReportSQLBuilder {
 		StringBuilder sbWhereSql = new StringBuilder();
 		StringBuilder sbFromSql = new StringBuilder();
 		StringBuilder sbPivotSql = new StringBuilder();
+		
+		String stepNumberNamesCsv = "";
 
 		int index = 0;
 		
@@ -86,6 +88,14 @@ public class ExperimentReportSQLBuilder {
 					continue;
 				}
 				
+				//get steps names from stepIds if contains all ..
+				if(stepName.toLowerCase().contains("all")) {
+					if(stepNumberNamesCsv.isEmpty()) {
+						stepNumberNamesCsv = getStepNumberNamesCsv(stepIds);
+					}
+					stepName = stepNumberNamesCsv;
+				}
+				
 				// ******************************************
 				// ************* Limiting Agent *************
 				// ******************************************
@@ -111,7 +121,7 @@ public class ExperimentReportSQLBuilder {
 								"  FROM Fg_s_Materialref_All_v t \r\n" + 
 								"  WHERE t.sessionid is null and t.active=1 \r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
-								"  AND lower(t.STEPNAME) = lower('"  + singleStepName + "')\r\n" + 
+								"  AND lower('Step '|| t.STEPFORMNUMBERID) = lower('"  + singleStepName + "')\r\n" + 
 								"  AND t.TABLETYPE = 'Reactant'\r\n" + //
 								"  AND t.LIMITINGAGENT = 1\r\n" + 
 								")"); // and experiment id where part (or on temp table we create in the beginning for performance)
@@ -163,7 +173,7 @@ public class ExperimentReportSQLBuilder {
 								"  FROM Fg_s_Materialref_All_v t \r\n" + 
 								"  WHERE t.sessionid is null and t.active=1\r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
-								"  AND lower(t.STEPNAME) = lower('"  + singleStepName + "')\r\n" + 
+								"  AND lower('Step '|| t.STEPFORMNUMBERID) = lower('"  + singleStepName + "')\r\n" + 
 								"  AND t.TABLETYPE = 'Solvent'\r\n" + 
 								")"); // and experiment id where part (or on temp table we create in the beginning for performance)
 						
@@ -214,7 +224,7 @@ public class ExperimentReportSQLBuilder {
 								"  FROM Fg_s_Materialref_All_v t, FG_I_CONN_MATERIAL_TYPE_V mt \r\n" + 
 								"  WHERE 1=1\r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
-								"  AND lower(t.STEPNAME) = lower('"  + singleStepName + "')\r\n" + 
+								"  AND lower('Step '|| t.STEPFORMNUMBERID) = lower('"  + singleStepName + "')\r\n" + 
 								"  AND t.INVITEMMATERIAL_ID = mt.INVITEMMATERIAL_ID\r\n" + 
 								"  AND instr(',' || '" + ruleCondition + "' || ',', ','||mt.MATERIALTYPE_ID||',') > 0\r\n" +
 								")"); // and experiment id where part (or on temp table we create in the beginning for performance)
@@ -267,7 +277,7 @@ public class ExperimentReportSQLBuilder {
 								"  FROM Fg_s_Materialref_All_v t\r\n" + 
 								"  WHERE t.sessionid is null and t.active=1\r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
-								"  AND lower(t.STEPNAME) = lower('"  + singleStepName + "')\r\n" +
+								"  AND lower('Step '|| t.STEPFORMNUMBERID) = lower('"  + singleStepName + "')\r\n" +
 								"  AND instr(',' || '" + ruleCondition + "' || ',', ','||t.INVITEMMATERIAL_ID||',') > 0\r\n" +
 								")"); // and experiment id where part (or on temp table we create in the beginning for performance)
 						
@@ -312,6 +322,14 @@ public class ExperimentReportSQLBuilder {
 				Map<String,String> colMap = prepareColMap(displayType, columnsSelection);
 				if(colMap == null || colMap.isEmpty()) {
 					continue;
+				}
+				
+				//get steps names from stepIds if contains all ..
+				if(displayLevel.toLowerCase().contains("all")) {
+					if(stepNumberNamesCsv.isEmpty()) {
+						stepNumberNamesCsv = getStepNumberNamesCsv(stepIds);
+					}
+					displayLevel = stepNumberNamesCsv;
 				}
 
 				
@@ -359,7 +377,7 @@ public class ExperimentReportSQLBuilder {
 								//"  AND t.TABLETYPE = 'Reactant'\r\n" +  
 								"  AND s.sample_id(+) in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") \r\n" +
 								"  AND instr(',' || '" + displayObjId + "' || ',', ','||t.INVITEMMATERIAL_ID||',') > 0\r\n" +
-								"  AND lower(t.STEPNAME) = lower('"  + singleDisplayName + "')");
+								"  AND lower('Step '|| t.STEPFORMNUMBERID) = lower('"  + singleDisplayName + "')");
 						
 						index++;
 					}
@@ -398,7 +416,7 @@ public class ExperimentReportSQLBuilder {
 //								"WHERE t.experiment_id = r.experiment_id(+) and  t.SESSIONID is null and t.ACTIVE = 1 AND T.PLANNEDVAL1 is not null\r\n" + 
 								"AND instr(',' || '" + displayObjId + "' || ',', ','||t.PARAMETER_ID||',') > 0\r\n" +
 								"AND s.sample_id(+) in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") \r\n" +
-								"AND ((T.step_id IN (" + stepIds + ") AND T.STEPNAME ='" + singleDisplayName + "') OR (T.experiment_id IN (" + expIds + ") AND T.EXP_FORMNUMBERID = '" + singleDisplayName + "'))");
+								(singleDisplayName.equalsIgnoreCase("experiments")?"and T.experiment_id IN (" + expIds + ")":"and T.step_id IN (" + stepIds + ") AND 'Step '|| t.STEPNUMBER ='" + singleDisplayName + "'"));
 						
 						index++;
 					}
@@ -430,6 +448,12 @@ public class ExperimentReportSQLBuilder {
 		return new SQLObj(sbWithSql.toString(), sbSelectHiddebSql.toString(), sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString(), "");
 	}
 	
+	private String getStepNumberNamesCsv(String stepIds) {
+		String toReturn = "";
+		toReturn = generalDao.getCSVBySql("select distinct  'Step ' || FORMNUMBERID from fg_s_step_v where step_id in (" + stepIds + ") order by 'Step ' ||FORMNUMBERID", false);
+		return toReturn;
+	}
+
 	private String getDisplayDataName(String displayObjId, String displayType) {
 		String toReturn = "[" + displayObjId + "]";
 		if(displayType.equalsIgnoreCase("Material")) {
