@@ -197,9 +197,10 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								+ sqlObj.getSelect() 
 //							    + " from FG_R_EXPREPORT_PIVOT_DT_V " + sqlObj.getFrom() + "\n"
 //							    + " where 1=1 \n" 
-							    + "from fg_s_experiment_v t,  fg_s_sample_all_v s\n" 
+							    + "from fg_s_experiment_v t, fg_s_sample_all_v s " + sqlObj.getFrom() + "\n" 
 							    + "where  t.experiment_id = s.experiment_id(+) \n"
 							    + "  AND s.sample_id(+) in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") \r\n"
+							    + sqlObj.getWhere() + "\n"
 							    + "  AND t.experiment_id in (" + (expIds.isEmpty()?"-1":expIds) + ") order by ExperimentName, samplename )\r\n";
 //						delete from FG_FORMLASTSAVEVALUE t where t.userid = 184007 and t.formcode_entity = 'ExperimentReport' and t.entityimpcode = 'reportTable' 
 					}

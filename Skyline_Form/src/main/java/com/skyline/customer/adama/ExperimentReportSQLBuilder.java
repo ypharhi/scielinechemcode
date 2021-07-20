@@ -131,7 +131,7 @@ public class ExperimentReportSQLBuilder {
 						sbFromSql.append("," + aliasName);
 						
 						//where
-						sbWhereSql.append(" AND EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
+						sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
 						
 						index++;
 					}
@@ -182,7 +182,7 @@ public class ExperimentReportSQLBuilder {
 						sbFromSql.append("," + aliasName);
 						
 						//where
-						sbWhereSql.append(" AND EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
+						sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
 						
 						index++;
 					}
@@ -234,7 +234,7 @@ public class ExperimentReportSQLBuilder {
 						sbFromSql.append("," + aliasName);
 						
 						//where
-						sbWhereSql.append(" AND EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
+						sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
 						
 						index++;
 					}
@@ -286,7 +286,7 @@ public class ExperimentReportSQLBuilder {
 						sbFromSql.append("," + aliasName);
 						
 						//where
-						sbWhereSql.append(" AND EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
+						sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
 						
 						index++;
 					}
