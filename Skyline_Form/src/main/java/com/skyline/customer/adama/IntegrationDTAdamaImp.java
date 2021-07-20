@@ -189,8 +189,8 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 
 						
 						// set the SQL
-						sql = "select distinct * from ( " + sqlObj.getWith() + "\n"
-								+ "select t.experiment_id, t.ExperimentName, s.samplename, nvl(s.SAMPLE_ID || '_' || t.experiment_id,t.experiment_id) as uniquerow,\n"
+						sql = "select * from ( " + sqlObj.getWith() + "\n"
+								+ "select distinct t.experiment_id, t.ExperimentName, s.samplename, nvl(s.SAMPLE_ID || '_' || t.experiment_id,t.experiment_id) as uniquerow,\n"
 								//+ "\"Experiment Number_SMARTLINK\",\n"
 								+ "'{\"displayName\":\"' || t.ExperimentName || '\" ,\"icon\":\"' || '' || '\" ,\"fileId\":\"' || '' || '\",\"formCode\":\"' || t.FORMCODE || '\"  ,\"formId\":\"' || t.EXPERIMENT_ID || '\",\"tab\":\"' || '' || '\" }' as \"Experiment Number_SMARTLINK\",\n"
 								+ "t.DESCRIPTION as \"Experiment Description\"\n"
@@ -201,7 +201,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 							    + "where  t.experiment_id = s.experiment_id(+) \n"
 							    + "  AND s.sample_id(+) in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") \r\n"
 							    + sqlObj.getWhere() + "\n"
-							    + "  AND t.experiment_id in (" + (expIds.isEmpty()?"-1":expIds) + ") order by ExperimentName, samplename )\r\n";
+							    + "  AND t.experiment_id in (" + (expIds.isEmpty()?"-1":expIds) + ")  ) order by ExperimentName, samplename\r\n";
 //						delete from FG_FORMLASTSAVEVALUE t where t.userid = 184007 and t.formcode_entity = 'ExperimentReport' and t.entityimpcode = 'reportTable' 
 					}
 					
