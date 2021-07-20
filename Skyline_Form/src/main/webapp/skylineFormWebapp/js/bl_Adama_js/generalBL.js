@@ -348,9 +348,10 @@ function initForm() {
     else if (_formCode == "InvItemMaterialsMain") 
     {
     	//hide lowerTable_Parent
-    	$('#upperTable_Parent').css('display', 'none');
+    	//$('#upperTable_Parent').css('display', 'none');
 //        $('#lowerTable_Parent').css('display', 'none');
         
+    	$('#upperFilters').css('display', 'none');
         //move upperFilters into upperTable_wfDiv
         $('#upperTable_wfDiv').append($('#upperFilters'));
         

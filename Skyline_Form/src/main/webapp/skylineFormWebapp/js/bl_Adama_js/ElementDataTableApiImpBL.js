@@ -520,7 +520,8 @@ function elementDataTableApiImpBL(domId) {
 	   //favoritCheckBoxHandle(domId); // kd 16122020 added Favorite field   
    	}
     if($('#formCode').val() == 'InvItemMaterialsMain'&&$('#' + domId + '_structCatalogItem').val() == 'InvItemMaterial'){
-  	   $('#'+domId+'_dataTableStructButtons button.dataTableApiNew').on('mouseover', function() {
+    	$('#upperFilters').css('display', '');
+    	$('#'+domId+'_dataTableStructButtons button.dataTableApiNew').on('mouseover', function() {
   		   if ( $('#newMaterialDialog').closest('.ui-dialog').is(':visible')) { 
   				return;
   		   }
