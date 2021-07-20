@@ -325,15 +325,15 @@ public class ExperimentReportSQLBuilder {
 					// for each step in the user selection row
 					for (String singleDisplayName : displayLevelArray) {
 
-						String col_ = "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
-								(colMap.containsKey("QUANTITY") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("QUANTITY")) + "\"": "") +
-								(colMap.containsKey("MOLE") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("MOLE")) + "\"": "") +
-								(colMap.containsKey("VOLUME") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("VOLUME")) + "\"": "") +
-								(colMap.containsKey("PURITY") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("PURITY")) + "\"": "") +
-								(colMap.containsKey("EQUIVALENT") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("EQUIVALENT")) + "\"": "") +
-								(colMap.containsKey("INVITEMBATCHNAME") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("INVITEMBATCHNAME")) + "\"": "") +
-								(colMap.containsKey("MASS") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("MASS")) + "\"": "") +
-								(colMap.containsKey("MW") ? "," + "\"" + ("{" + displayObjId  + "-" + singleDisplayName + "}" + colMap.get("MW")) + "\"": "");
+						String col_ =  "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
+								(colMap.containsKey("QUANTITY") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("QUANTITY")) + "\"": "") +
+								(colMap.containsKey("MOLE") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("MOLE")) + "\"": "") +
+								(colMap.containsKey("VOLUME") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("VOLUME")) + "\"": "") +
+								(colMap.containsKey("PURITY") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("PURITY")) + "\"": "") +
+								(colMap.containsKey("EQUIVALENT") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("EQUIVALENT")) + "\"": "") +
+								(colMap.containsKey("INVITEMBATCHNAME") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("INVITEMBATCHNAME")) + "\"": "") +
+								(colMap.containsKey("MASS") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" +  colMap.get("MASS")) + "\"": "") +
+								(colMap.containsKey("MW") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" +  colMap.get("MW")) + "\"": "");
 						
 						String val_ = "\" ' || (invitemmaterialname) || '\"" +
 								(colMap.containsKey("QUANTITY") ? ",\" ' || fg_get_num_display(t.QUANTITY,0,3) || '\"" : "") +
@@ -352,7 +352,7 @@ public class ExperimentReportSQLBuilder {
 							sbPivotSql.append("\n union all \n");
 						}
 						
-						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, " + pivotFormat + " as result_SMARTPIVOT\n" +
+						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, null as order2," + pivotFormat + " as result_SMARTPIVOT\n" +
 								"  FROM Fg_s_Materialref_All_v t, fg_s_sample_v s\r\n" + 
 								"  WHERE t.experiment_id = s.experiment_id(+) and t.sessionid is null and t.active=1\r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
@@ -392,7 +392,7 @@ public class ExperimentReportSQLBuilder {
 							sbPivotSql.append("\n union all \n");
 						}
 						
-						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, " + pivotFormat + " as result_SMARTPIVOT\n" +
+						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, null as order2," + pivotFormat + " as result_SMARTPIVOT\n" +
 								"  from FG_S_PARAMREF_ALL_V t, fg_s_sample_v s\r\n" + 
 								"WHERE t.experiment_id = s.experiment_id(+) and t.SESSIONID is null and t.ACTIVE = 1 AND T.VAL1 is not null\r\n" + 
 //								"WHERE t.experiment_id = r.experiment_id(+) and  t.SESSIONID is null and t.ACTIVE = 1 AND T.PLANNEDVAL1 is not null\r\n" + 
@@ -413,14 +413,15 @@ public class ExperimentReportSQLBuilder {
 			if(sbPivotSql.length() > 0) {
 				sbPivotSql.append("\n union all \n");
 			} 
-			sbPivotSql.append("SELECT distinct " + stateKey + " as stateKey ," + index + " as order_, result_SMARTPIVOT \n FROM FG_P_EXPREPORT_RESULT_V \n where SAMPLE_ID in (" + sampleIds + ") ");
+			sbPivotSql.append("SELECT distinct " + stateKey + " as stateKey , order_, order2,  result_SMARTPIVOT \n FROM FG_P_EXPREPORT_RESULT_V \n where SAMPLE_ID in (" + sampleIds + ") ");
 		}
 		
 		// *********** pivot data
 		if(sbPivotSql.length() > 0) {
-			String numRows = generalDao.updateSingleString("insert into FG_P_EXPREPORT_DATA_TMP (statekey, order_,result_SMARTPIVOT) " + sbPivotSql.toString() );
+			String inserSql = "insert into FG_P_EXPREPORT_DATA_TMP (statekey, order_, order2, result_SMARTPIVOT) " + sbPivotSql.toString();
+			String numRows = generalDao.updateSingleString(inserSql);
 			if(numRows != null && !numRows.equals("0")) {
-				sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_' AS RESULT_SMARTPIVOTSQL\n" ); 
+				sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_, order2' AS RESULT_SMARTPIVOTSQL\n" ); 
 			}
 		}
 		

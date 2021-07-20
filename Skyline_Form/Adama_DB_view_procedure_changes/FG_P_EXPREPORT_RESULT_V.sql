@@ -1,10 +1,10 @@
 CREATE OR REPLACE VIEW FG_P_EXPREPORT_RESULT_V AS
-SELECT distinct "SAMPLE_ID","EXPERIMENT_ID","ORDER_","RESULTTYPE_ORDER","RESULT_SMARTPIVOT" from
+SELECT distinct "SAMPLE_ID","EXPERIMENT_ID","ORDER_","ORDER2","RESULT_SMARTPIVOT" from
 (
   select distinct to_char(t.SAMPLE_ID) as SAMPLE_ID,
   t.EXPERIMENT_ID,
-  0 as order_,
-  null as resulttype_order,-- assay results appear first
+  10000 as order_,
+  CAST(NULL AS varchar2(500)) as order2,-- assay results appear first
   '{pivotkey:"'|| t.SAMPLE_ID||'_'||t.EXPERIMENT_ID||'",pivotkeyname:"UNIQUEROW",'
   ||'column:"Sample #_SMARTLINK",'
   ||'val:'|| '{"displayName":"' || t.SAMPLENAME || '" ,"icon":"' || '' || '" ,"fileId":"' || '' || '","formCode":"' || 'Sample' || '"  ,"formId":"' || t.SAMPLE_ID || '","tab":"' || '' || '" }'
@@ -13,8 +13,8 @@ from fg_s_sample_all_v t
 union all
 select t1.SAMPLE_ID,
        t1.EXPERIMENT_ID,
-       1 as order_,
-       t1.name_ as resulttype_order,
+       10001 as order_,
+       t1.name_ as order2,
        '{pivotkey:"'|| t1.SAMPLE_ID||'_'||t1.EXPERIMENT_ID||'",pivotkeyname:"UNIQUEROW",'
        ||'column:"'|| t1.name_ || '",'
        ||'val:"'|| t1.val_ ||'"}' as result_SMARTPIVOT
@@ -33,4 +33,4 @@ from (
         and t.RESULT_IS_ACTIVE = 1
  ) t1
  where t1.val_ is not null
-) order by order_,resulttype_order;
+) order by order_,ORDER2;
