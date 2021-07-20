@@ -283,7 +283,7 @@ function elementDataTableApiImpBL(domId) {
 	   			.remove();
 	   			//.('<a class="" tabindex="0" aria-controls="reportTable" href="#"><span>PDF</span></a>');
    }else if((domId == 'rulesTable' || domId == 'separateColumnsRulesTable') && $('#formCode').val() == 'ExperimentReport'){
-	   $('#'+domId+'_Parent').css({"padding-bottom":"95px"});//padding-bottom because of ddl in edit tables
+	   $('#'+domId+'_Parent').css({"padding-bottom":"100px"});//padding-bottom because of ddl in edit tables
    } else if(domId == 'Batches' && ($('#formCode').val() == 'InvItemMaterial'||$('#formCode').val() == 'InvItemMaterialFr'||$('#formCode').val() == 'InvItemMaterialPr')){
 	   $('#Batches_dataTableStructButtons button.dataTableApiOptional1').text('Depleted');
 	   $('#Batches_dataTableStructButtons button.dataTableApiOptional1').off('click');

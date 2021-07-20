@@ -1545,12 +1545,13 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 					if (paramCol.equalsIgnoreCase("Step No._SMARTEDIT")) {
 						for (int i = 0; i < rows.size(); i++) {
 							Object colvalObj = rows.get(i).get(paramCol);
+							List<String> nameList = stepNameList;
 
-							if(!stepNameList.isEmpty() && !stepNameList.contains("All")) {
-								stepNameList.add(0, "All");	
+							if(!nameList.isEmpty() && !nameList.contains("All")) {
+								nameList.add(0, "All");	
 							}
 							String stepObj = "{}";
-							stepObj = getJsonDisplayObj(stepNameList,null,
+							stepObj = getJsonDisplayObj(nameList,null,
 									colvalObj == null ? null : colvalObj.toString(), "STEPNAME", "true","");
 							rows.get(i).put(paramCol, stepObj); // rows.get(i).get(paramCol);
 
@@ -1861,9 +1862,10 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 					else if(paramCol.equalsIgnoreCase("Level_SMARTEDIT")) {
 						String type,type_json;
 						
-						//List<String> nameList = getListOfStringBySql("select distinct stepname as name_ from fg_s_step_v where step_id in (" + stepNameCSV + ")  union all select distinct formnumberid as name_ from fg_s_experiment_v where formid in ("+expIdCSV+") order by name_");
 						
 						for (int i = 0; i < rows.size(); i++) {
+							List<String> nameList = new ArrayList<String>(stepNameList);
+							
 							type_json = rows.get(i).get("Type_SMARTEDIT") == null ? "{}"
 									: rows.get(i).get("Type_SMARTEDIT").toString();
 							JSONArray displayNameArr = new JSONArray(
@@ -1874,23 +1876,25 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								type = generalUtil.getJsonValById(displayNameArr.get(0).toString(), "displayName");
 							}
 
-							if(!stepNameList.isEmpty() && !stepNameList.contains("All")) {
-								stepNameList.add(0, "All");		
+							if(!nameList.isEmpty() && !nameList.contains("All")) {
+								nameList.add(0, "All");		
 							}
 							if (type.equals("Material")) {
 								Object colvalObj = rows.get(i).get(paramCol);
 
 								String stepObj = "{}";
-								stepObj = getJsonDisplayObj(stepNameList,null,
+								stepObj = getJsonDisplayObj(nameList,null,
 										colvalObj == null ? null : colvalObj.toString(), "LEVEL_", "true","");
 								rows.get(i).put(paramCol, stepObj);
 							}
 							else if(type.equals("Parameter")) {
 								Object colvalObj = rows.get(i).get(paramCol);
 
-								stepNameList.add("Experiments");
+								if(!nameList.contains("Experiments")) {
+									nameList.add("Experiments");
+								}
 								String stepObj = "{}";
-								stepObj = getJsonDisplayObj(stepNameList,null,
+								stepObj = getJsonDisplayObj(nameList,null,
 										colvalObj == null ? null : colvalObj.toString(), "LEVEL_", "true","");
 								rows.get(i).put(paramCol, stepObj);
 							}
