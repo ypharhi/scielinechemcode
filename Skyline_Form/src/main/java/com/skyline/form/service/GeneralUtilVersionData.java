@@ -417,7 +417,7 @@ public class GeneralUtilVersionData {
 					String excelData = generalDao.selectSingleString(
 							"select file_content from fg_clob_files where file_id = '" + val_ + "'");
 					try {
-						PrintWriter writer = new PrintWriter(new FileOutputStream(excelDataPath + "EXCEL_DATA.json"),
+						PrintWriter writer = new PrintWriter(new FileOutputStream(excelDataPath + "excel_GENERAL_ANALYTICAL_INPUT.json"),
 								false);
 						writer.println(excelData);
 						writer.close();
