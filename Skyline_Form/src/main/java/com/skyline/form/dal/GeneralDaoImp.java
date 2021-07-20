@@ -1546,6 +1546,9 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 						for (int i = 0; i < rows.size(); i++) {
 							Object colvalObj = rows.get(i).get(paramCol);
 
+							if(!stepNameList.isEmpty() && !stepNameList.contains("All")) {
+								stepNameList.add(0, "All");	
+							}
 							String stepObj = "{}";
 							stepObj = getJsonDisplayObj(stepNameList,null,
 									colvalObj == null ? null : colvalObj.toString(), "STEPNAME", "true","");
@@ -1871,6 +1874,9 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								type = generalUtil.getJsonValById(displayNameArr.get(0).toString(), "displayName");
 							}
 
+							if(!stepNameList.isEmpty() && !stepNameList.contains("All")) {
+								stepNameList.add(0, "All");		
+							}
 							if (type.equals("Material")) {
 								Object colvalObj = rows.get(i).get(paramCol);
 
