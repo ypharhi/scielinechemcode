@@ -145,22 +145,23 @@ public class GeneralUtilVersionData {
 
 	private String updateSysConfExcelData() {
 		StringBuilder script = new StringBuilder();
-		 String sql = "select t.FORMID, t.SYSCONFEXCELDATANAME, f.file_content\n" + 
-		 		"from fg_s_sysconfexceldata_all_v t,\n" + 
-		 		"     fg_clob_files f\n" + 
-		 		"where t.EXCELDATA = f.file_id\n" + 
-		 		"and t.ACTIVE = 1";
-		 List<Map<String,Object>> listMapData = generalDao.getListOfMapsBySql(sql);
-		 for (Map<String, Object> map : listMapData) {
-			 String excelDataContent = (String)map.get("FILE_CONTENT");
-			 String sysconfexceldataId = (String)map.get("FORMID");
-			 script.append(
-			 		"  \n insert into fg_clob_files (file_id,file_name,file_content)\n" + 
-			 		"   values (FG_GET_STRUCT_FILE_ID('SysConfExcelData.excelFile'),''," + generalUtil.handleClob(excelDataContent.replace("'", "''")) + ");\n");
-			 script.append("update fg_s_sysconfexceldata_pivot t set t.EXCELDATA = (select max(t1.id) from FG_SEQUENCE_FILES t1 where t1.formcode = 'SysConfExcelData.excelFile') where formid = '" + sysconfexceldataId + "';\n");
-			  
-		 }
-		 return script.toString();
+		script.append("-----\n" + "-- SET SYSCONFEXCELDATA\n" + "----\n-");
+		String sql = "select t.FORMID, t.SYSCONFEXCELDATANAME, f.file_content\n"
+				+ "from fg_s_sysconfexceldata_all_v t,\n" + "     fg_clob_files f\n" + "where t.EXCELDATA = f.file_id\n"
+				+ "and t.ACTIVE = 1";
+		List<Map<String, Object>> listMapData = generalDao.getListOfMapsBySql(sql);
+		for (Map<String, Object> map : listMapData) {
+			String excelDataContent = (String) map.get("FILE_CONTENT");
+			String sysconfexceldataId = (String) map.get("FORMID");
+			script.append("  \n insert into fg_clob_files (file_id,file_name,file_content)\n"
+					+ "   values (FG_GET_STRUCT_FILE_ID('SysConfExcelData.excelFile'),'',"
+					+ generalUtil.handleClob(excelDataContent.replace("'", "''")) + ");\n");
+			script.append(
+					"update fg_s_sysconfexceldata_pivot t set t.EXCELDATA = (select max(t1.id) from FG_SEQUENCE_FILES t1 where t1.formcode = 'SysConfExcelData.excelFile') where formid = '"
+							+ sysconfexceldataId + "';\n");
+
+		}
+		return script.toString();
 	}
 
 	private void materializedViewsCreate() {
