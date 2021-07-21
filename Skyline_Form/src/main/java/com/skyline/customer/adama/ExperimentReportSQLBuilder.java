@@ -78,7 +78,7 @@ public class ExperimentReportSQLBuilder {
 				String defaultColName = ruleCondition.isEmpty()?ruleName:ruleCondition;
 				
 				//check stepNames exists
-				if(stepName.isEmpty() || stepIds.isEmpty()) {
+				if(stepIds.isEmpty()) {
 					continue;
 				}
 				
@@ -88,8 +88,8 @@ public class ExperimentReportSQLBuilder {
 					continue;
 				}
 				
-				//get steps names from stepIds if contains all ..
-				if(stepName.toLowerCase().contains("all")) {
+				//get steps names from stepIds if contains all .. or no selection
+				if(stepName.isEmpty() || stepName.toLowerCase().contains("all")) {
 					if(stepNumberNamesCsv.isEmpty()) {
 						stepNumberNamesCsv = getStepNumberNamesCsv(stepIds);
 					}
@@ -324,8 +324,8 @@ public class ExperimentReportSQLBuilder {
 					continue;
 				}
 				
-				//get steps names from stepIds if contains all ..
-				if(displayLevel.toLowerCase().contains("all")) {
+				//get steps names from stepIds if contains all .. or no selection 
+				if(!stepIds.isEmpty() && (displayLevel.toLowerCase().contains("all") || displayLevel.isEmpty())) {
 					if(stepNumberNamesCsv.isEmpty()) {
 						stepNumberNamesCsv = getStepNumberNamesCsv(stepIds);
 					}
@@ -343,17 +343,17 @@ public class ExperimentReportSQLBuilder {
 					// for each step in the user selection row
 					for (String singleDisplayName : displayLevelArray) {
 
-						String col_ =  "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
-								(colMap.containsKey("QUANTITY") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("QUANTITY")) + "\"": "") +
-								(colMap.containsKey("MOLE") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("MOLE")) + "\"": "") +
-								(colMap.containsKey("VOLUME") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("VOLUME")) + "\"": "") +
-								(colMap.containsKey("PURITY") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("PURITY")) + "\"": "") +
-								(colMap.containsKey("EQUIVALENT") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("EQUIVALENT")) + "\"": "") +
-								(colMap.containsKey("INVITEMBATCHNAME") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" + colMap.get("INVITEMBATCHNAME")) + "\"": "") +
-								(colMap.containsKey("MASS") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" +  colMap.get("MASS")) + "\"": "") +
-								(colMap.containsKey("MW") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + "-" +  colMap.get("MW")) + "\"": "");
+						String col_ =  //"\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
+								(colMap.containsKey("QUANTITY") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colName_ + " " + colMap.get("QUANTITY")) + "\"": "") +
+								(colMap.containsKey("MOLE") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colName_ + " " + colMap.get("MOLE")) + "\"": "") +
+								(colMap.containsKey("VOLUME") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colName_ + " " + colMap.get("VOLUME")) + "\"": "") +
+								(colMap.containsKey("PURITY") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colName_ + " " + colMap.get("PURITY")) + "\"": "") +
+								(colMap.containsKey("EQUIVALENT") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colName_ + " " + colMap.get("EQUIVALENT")) + "\"": "") +
+								(colMap.containsKey("INVITEMBATCHNAME") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colName_ + " " + colMap.get("INVITEMBATCHNAME")) + "\"": "") +
+								(colMap.containsKey("MASS") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colName_ + " " +  colMap.get("MASS")) + "\"": "") +
+								(colMap.containsKey("MW") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colName_ + " " + colMap.get("MW")) + "\"": "");
 						
-						String val_ = "\" ' || (invitemmaterialname) || '\"" +
+						String val_ = //"\" ' || (invitemmaterialname) || '\"" +
 								(colMap.containsKey("QUANTITY") ? ",\" ' || fg_get_num_display(t.QUANTITY,0,3) || '\"" : "") +
 								(colMap.containsKey("MOLE") ? ",\" ' || fg_get_num_display(t.MOLE,0,3) || '\"" : "") +
 								(colMap.containsKey("VOLUME") ? ",\" ' || fg_get_num_display(t.VOLUME,0,3) || '\"" : "") +
@@ -362,6 +362,14 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("INVITEMBATCHNAME") ? ",\" ' || t.INVITEMBATCHNAME || '\"" : "") +
 								(colMap.containsKey("MASS") ? ",\" ' || fg_get_num_display(t.MASS,0,3) || '\"" : "") +
 								(colMap.containsKey("MW") ? ",\" ' || fg_get_num_display(t.MW,0,3) || '\"" : "");
+						
+						if(col_ != null && col_.startsWith(",")) {
+							col_ = col_.substring(1);
+						}
+						
+						if(val_ != null && val_.startsWith(",")) {
+							val_ = val_.substring(1);
+						}
 						
 						
 						String pivotFormat = "'{pivotkey:\"'|| nvl(s.SAMPLE_ID || '_' || t.experiment_id,t.experiment_id) ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
@@ -393,16 +401,24 @@ public class ExperimentReportSQLBuilder {
 					// for each step in the user selection row
 					for (String singleDisplayName : displayLevelArray) {
 						
-						String col_ = "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
-								(colMap.containsKey("VAL1") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colMap.get("VAL1")) + "\"": "") +
-								(colMap.containsKey("VAL2") ? "," + "\"" + ("{" + displayObjId  + "-" + singleDisplayName + "}" + colMap.get("VAL2")) + "\"": "");
+						String col_ = //"\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + singleDisplayName + " - " + colName_) + "\"" +
+								(colMap.containsKey("VAL1") ? "," + "\"" + ("{" + displayObjId + "-" + singleDisplayName + "}" + colName_ + " " + colMap.get("VAL1")) + "\"": "") +
+								(colMap.containsKey("VAL2") ? "," + "\"" + ("{" + displayObjId  + "-" + singleDisplayName + "}" + colName_ + " " + colMap.get("VAL2")) + "\"": "");
 						
 						
-						String val_ = "\" ' || (t.parametername) || '\"" +
+						String val_ = //"\" ' || (t.parametername) || '\"" +
 								(colMap.containsKey("VAL1") ? ",\" ' || t.PARAMETERSCRITERIANAME || t.VAL1 || '\"" : "") +
 								(colMap.containsKey("VAL2") ? ",\" ' || t.PARAMETERSCRITERIANAME || t.VAL2 || '\"" : "");
 //						(colMap.containsKey("VAL1") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL1 || '\"" : "") +
 //						(colMap.containsKey("VAL2") ? ",\" ' || t.PLANNEDPARAMETERSCRITERIANAME || t.PLANNEDVAL2 || '\"" : "");
+						
+						if(col_ != null && col_.startsWith(",")) {
+							col_ = col_.substring(1);
+						}
+						
+						if(val_ != null && val_.startsWith(",")) {
+							val_ = val_.substring(1);
+						}
 						
 						String pivotFormat = "'{pivotkey:\"'|| nvl(s.SAMPLE_ID || '_' || t.experiment_id,t.experiment_id) ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
 						
