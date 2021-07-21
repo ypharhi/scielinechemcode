@@ -1806,7 +1806,8 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								if (materialData == null) {
 									if (stepNameCSV != null && !stepNameCSV.isEmpty()) {
 										materialData = getListOfMapsBySql(
-												"select distinct t.INVITEMMATERIAL_ID,t.INVITEMMATERIALNAME,tabletype from fg_s_materialref_all_v t  where  t.STEP_ID in ("
+												"select distinct t.INVITEMMATERIAL_ID,t.INVITEMMATERIALNAME,listagg(tabletype,',') WITHIN GROUP (ORDER BY INVITEMMATERIALNAME) OVER (PARTITION BY INVITEMMATERIAL_ID) as tabletype"
+												+ " from fg_s_materialref_all_v t  where  t.STEP_ID in ("
 														+ stepNameCSV + ") and t.active = 1 and t.sessionid is null");
 									}
 								}
@@ -1814,18 +1815,24 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 									for (int j = 0; j < materialData.size(); j++) {
 										if (materialData.get(j).get("INVITEMMATERIAL_ID") != null
 												&& materialData.get(j).get("INVITEMMATERIAL_ID").equals(name_col)) {
-											String type_ = materialData.get(j).get("TABLETYPE") != null
-													? materialData.get(j).get("TABLETYPE").toString()
-													: "";
-											if (type_.equalsIgnoreCase("Reactant")
-													|| type_.equalsIgnoreCase("Solvent")) {
+											List<String> type_ = materialData.get(j).get("TABLETYPE") != null
+													? Arrays.asList(materialData.get(j).get("TABLETYPE").toString().split(","))
+													:new ArrayList<String>();
+											if ((type_.contains("Reactant")|| type_.contains("Solvent"))&& type_.contains("Product")) {
+												List<String> list1 = new ArrayList<String>(Arrays.asList(defaultColumnsJson.getString("REACTANT").split(",")));
+										        List<String> list2 = new ArrayList<String>(Arrays.asList(defaultColumnsJson.getString("PRODUCT").split(",")));
+												cols_sList.addAll(list1);
+												cols_sList.addAll(list2);
+											}
+											else if (type_.contains("Reactant")
+													|| type_.contains("Solvent")) {
 												cols_sList = Arrays
 														.asList(defaultColumnsJson.getString("REACTANT").split(","));
-											} else if (type_.equalsIgnoreCase("Product")) {
+											} else if (type_.contains("Product")) {
 												cols_sList = Arrays
 														.asList(defaultColumnsJson.getString("PRODUCT").split(","));
 											}
-											continue;
+											//continue;
 										}
 									}
 								}
