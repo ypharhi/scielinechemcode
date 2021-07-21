@@ -167,11 +167,18 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 //						String stepWherePart = (stepidList != null && !stepidList.isEmpty()?" and step_id in (" + stepidList.replace("@", ",") + ")" : " AND 1=2");
 						String expidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_EXPERIMENTTABLE}");
 						String sampleidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport","$P{CURRENT_ROW_SAMPLETABLE}");
+						
+						String imputityMatIds = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "IMPURITY_MATERIAL_ID_VAL");
+						String resulttype = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "resulttype_ddl");
+						String characteristicMassBalan = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "characteristicMassBalan_ddl");
+						String sampleComments = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "sampleComments");
+						String sampleCreator  = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "sampleCreator"); 
 
 						Map<String,String> materialTypeTableMap = formDao.getFromInfoLookupAllElementData("MaterialType", LookupType.ID, "name");
 						
 						SQLObj sqlObj = experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey,
-								expidList.replace("@", ","), stepidList.replace("@", ","), sampleidList.replace("@", ","), materialTypeTableMap);
+								expidList.replace("@", ","), stepidList.replace("@", ","), sampleidList.replace("@", ","), materialTypeTableMap,
+								imputityMatIds, resulttype, characteristicMassBalan, sampleComments, sampleCreator);
 						
 //						String uniquerowExpression = sampleidList == null || sampleidList.isEmpty()?"UNIQUEROW_E":"UNIQUEROW_S_E"; // avoid duplication in case no samples
 //

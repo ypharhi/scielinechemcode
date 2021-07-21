@@ -2463,7 +2463,11 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 				.withSchemaName(username);
 		packageFunction = pack.equals("") ? packageFunction : packageFunction.withCatalogName(pack);
 		for (Map.Entry<String, String> entry : parameters.entrySet()) {
-			in.addValue(entry.getKey(), entry.getValue());
+			if(entry.getValue() != null && entry.getValue().startsWith("to_clob")) { // note : if it is varchar IN oracle PROCEDURE this casting is OK
+				in.addValue(entry.getKey(), entry.getValue(), OracleTypes.CLOB);
+			} else {
+				in.addValue(entry.getKey(), entry.getValue());
+			}
 		}
 		in.addValue("ts_in", String.valueOf(new Date().getTime()));
 		return String.valueOf(packageFunction.executeFunction(String.class, (SqlParameterSource) in));
