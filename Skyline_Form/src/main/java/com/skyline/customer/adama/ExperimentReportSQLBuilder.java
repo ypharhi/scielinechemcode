@@ -78,7 +78,7 @@ public class ExperimentReportSQLBuilder {
 				String defaultColName = ruleCondition.isEmpty()?ruleName:ruleCondition;
 				
 				//check stepNames exists
-				if(stepName.isEmpty()) {
+				if(stepName.isEmpty() || stepIds.isEmpty()) {
 					continue;
 				}
 				
@@ -314,7 +314,7 @@ public class ExperimentReportSQLBuilder {
 				String displayLevel = generalUtil.getNull((String)filterRefMap.get("LEVEL_")); // Material => List of step Names (for example STEP 01,STEP 02) / Parameter => List of step Names and Experiment numbers
 				
 				//check stepNames exists
-				if(displayLevel.isEmpty() || displayObjId.isEmpty()) {
+				if(displayLevel.isEmpty() || displayObjId.isEmpty()) { //  || stepIds.isEmpty() -> not use this condition because of parameters in experiment
 					continue;
 				}
 				
@@ -373,7 +373,7 @@ public class ExperimentReportSQLBuilder {
 						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, null as order2," + pivotFormat + " as result_SMARTPIVOT\n" +
 								"  FROM Fg_s_Materialref_All_v t, fg_s_sample_v s\r\n" + 
 								"  WHERE t.experiment_id = s.experiment_id(+) and t.sessionid is null and t.active=1\r\n" + 
-								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
+								"  AND t.STEP_ID in (" + (stepIds.isEmpty()?"-1":stepIds) + ")\r\n" + 
 								//"  AND t.TABLETYPE = 'Reactant'\r\n" +  
 								"  AND s.sample_id(+) in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") \r\n" +
 								"  AND instr(',' || '" + displayObjId + "' || ',', ','||t.INVITEMMATERIAL_ID||',') > 0\r\n" +
@@ -431,7 +431,7 @@ public class ExperimentReportSQLBuilder {
 			if(sbPivotSql.length() > 0) {
 				sbPivotSql.append("\n union all \n");
 			} 
-			sbPivotSql.append("SELECT distinct " + stateKey + " as stateKey , order_, order2,  result_SMARTPIVOT \n FROM FG_P_EXPREPORT_RESULT_V \n where SAMPLE_ID in (" + sampleIds + ") ");
+			sbPivotSql.append("SELECT distinct " + stateKey + " as stateKey , order_, order2,  result_SMARTPIVOT \n FROM FG_P_EXPREPORT_RESULT_V \n where SAMPLE_ID in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") ");
 		}
 		
 		// *********** pivot data
