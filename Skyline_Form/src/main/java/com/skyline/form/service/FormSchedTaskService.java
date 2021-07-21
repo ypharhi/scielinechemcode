@@ -244,7 +244,6 @@ public class FormSchedTaskService {
 		} else if (dropDownListValue.equals("2")) {
 			cacheService.setInfDataInCachMap();
 		} else if (dropDownListValue.equals("3")) {
-			generalUtilVersionData.makeVersionDataDiff();
 			generalUtilVersionData.makeVersionData();
 		} else if (dropDownListValue.equals("4")) {
 			String dataMigrationListPar = requestAction.getData().get(1).getVal();

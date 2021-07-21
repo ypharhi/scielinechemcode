@@ -29,9 +29,6 @@ public class GeneralUtilVersionData {
 
 	@Value("${scriptPath:C:/logs/DB_data_script.sql}")
 	private String scriptPath;
-	
-	@Value("${excelDataPath:C:/logs/}")
-	private String excelDataPath;
 
 	@Value("${scriptPathMaterialized:na}") // C:/logs/DB_data_script_materialized.sql
 	private String scriptPathMaterialized;
@@ -39,23 +36,17 @@ public class GeneralUtilVersionData {
 	@Value("${jdbc.username}")
 	private String dbUsername;
 	
-	@Value("${diffFormCodeEntityDB:SKYLINE_FORM_SERVER}")
-	private String diffFormCodeEntityDB;
-	
 	private final String DB_TIME_FORMAT = "yyyy-mm-dd hh24:mi:ss";
 
 	public void makeVersionData() {
 		try {
 			completeNotificationMetaData("NOTIF_SERVICE_TEST");
-			createInsertScript(null);
+			createInsertScript();
 		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	}
-	
-	public void makeVersionDataDiff() {
-		if(diffFormCodeEntityDB != null && !diffFormCodeEntityDB.isEmpty()) {
-			createInsertScript(diffFormCodeEntityDB);
-		}
+
 	}
 
 	private String createIndex() {
@@ -70,7 +61,7 @@ public class GeneralUtilVersionData {
 	/**
 	 * taken a list of tables from FG_FORMDATA_V and add it to insert sql script
 	 */
-	private void createInsertScript(String diffFormCodeEntityDB) {
+	private void createInsertScript() {
 		// TODO Auto-generated method stub
 		List<String> formCodeTableList = generalDao
 				.getListOfStringBySql("select t.formcode_table from FG_FORMDATA_V t");
@@ -108,13 +99,6 @@ public class GeneralUtilVersionData {
 				if (!viewName_.equals("NA")) { // kd 17042018 use viewName_ instead tableName_ for get data. This is made for get data from CLOB fields 
 					dataAll = generalDao.getListOfMapsBySql("select * from " + viewName_ + wherePart);
 				} else {
-					if(diffFormCodeEntityDB != null && tableName_.equalsIgnoreCase("fg_formentity")) {
-						String deleteDiffIds =  getFormEntityDiffInsertId(diffFormCodeEntityDB);
-						if(deleteDiffIds == null || deleteDiffIds.isEmpty()) {
-							deleteDiffIds = "-1";
-						}
-						wherePart += " and id in (" + deleteDiffIds  + ")";
-					}
 					dataAll = generalDao.getListOfMapsBySql("select * from " + tableName_ + wherePart);
 				}
 
@@ -124,12 +108,6 @@ public class GeneralUtilVersionData {
 					sbScript.append(deleteRowsNotification(tableName_, viewName_));
 				} else {
 					String deleteDiffIds = null;
-					if(diffFormCodeEntityDB != null && tableName_.equalsIgnoreCase("fg_formentity")) {
-						deleteDiffIds =  getFormEntityDiffDeleteId(diffFormCodeEntityDB);
-						if(deleteDiffIds == null || deleteDiffIds.isEmpty()) {
-							deleteDiffIds = "-1";
-						}
-					}
 					sbScript.append(deleteRows(tableName_, formCode_, deleteDiffIds));
 				}
 				for (Map<String, Object> dataRow : dataAll) {
@@ -144,6 +122,7 @@ public class GeneralUtilVersionData {
 			}
 
 		}
+		sbScript.append(updateSysConfExcelData()); //SysConfExcelData
 		sbScript.append(triggerScript(false));
 		sbScript.append(createIndex());
 		sbScript.append(createNotificationCompareTable());
@@ -154,7 +133,7 @@ public class GeneralUtilVersionData {
 		materializedViewsCreate();
 
 		try {
-			PrintWriter writer = new PrintWriter(new FileOutputStream((diffFormCodeEntityDB == null)?scriptPath:scriptPath.replace(".sql","_diff_from_" + diffFormCodeEntityDB + "_DB_(optional).sql"), false));
+			PrintWriter writer = new PrintWriter(new FileOutputStream(scriptPath, false));
 			writer.println(sbScript.toString());
 			writer.close();
 		} catch (FileNotFoundException e) {
@@ -164,38 +143,24 @@ public class GeneralUtilVersionData {
 
 	}
 
-	private String getFormEntityDiffDeleteId(String diffFormCodeEntityDB) {
-		String sql = "select id from fg_formentity where id in (\r\n" + 
-				"  with minus_ as (\r\n" + 
-				"   select formcode, numberoforder, entitytype, entityimpcode, entityimpclass, entityimpinit, comments, fs, fs_gap from fg_formentity \r\n" + 
-				"   minus  \r\n" + 
-				"   select formcode, numberoforder, entitytype, entityimpcode, entityimpclass, entityimpinit, comments, fs, fs_gap from " + diffFormCodeEntityDB + ".fg_formentity\r\n" + 
-				"  ) \r\n" + 
-				"  select t.id\r\n" + 
-				"  from fg_formentity t,\r\n" + 
-				"       minus_\r\n" + 
-				"  where minus_.formcode = t.formcode\r\n" + 
-				"  and   minus_.entityimpcode = t.entityimpcode\r\n" + 
-				")" + 
-				"";
-		
-		return generalDao.getCSVBySql(sql, false);
-	}
-
-	private String getFormEntityDiffInsertId(String diffFormCodeEntityDB) {
-		String sql = "select id from " + diffFormCodeEntityDB + ".fg_formentity where id in (\r\n" + 
-				"  with minus_ as (\r\n" + 
-				"   select formcode, numberoforder, entitytype, entityimpcode, entityimpclass, entityimpinit, comments, fs, fs_gap from " + diffFormCodeEntityDB + ".fg_formentity \r\n" + 
-				"   minus  \r\n" + 
-				"   select formcode, numberoforder, entitytype, entityimpcode, entityimpclass, entityimpinit, comments, fs, fs_gap from fg_formentity\r\n" + 
-				"  ) \r\n" + 
-				"  select t.id\r\n" + 
-				"  from " + diffFormCodeEntityDB + ".fg_formentity t,\r\n" + 
-				"       minus_\r\n" + 
-				"  where minus_.formcode = t.formcode\r\n" + 
-				"  and   minus_.entityimpcode = t.entityimpcode\r\n" + 
-				")";
-		return generalDao.getCSVBySql(sql, false);
+	private String updateSysConfExcelData() {
+		StringBuilder script = new StringBuilder();
+		 String sql = "select t.FORMID, t.SYSCONFEXCELDATANAME, f.file_content\n" + 
+		 		"from fg_s_sysconfexceldata_all_v t,\n" + 
+		 		"     fg_clob_files f\n" + 
+		 		"where t.EXCELDATA = f.file_id\n" + 
+		 		"and t.ACTIVE = 1";
+		 List<Map<String,Object>> listMapData = generalDao.getListOfMapsBySql(sql);
+		 for (Map<String, Object> map : listMapData) {
+			 String excelDataContent = (String)map.get("FILE_CONTENT");
+			 String sysconfexceldataId = (String)map.get("FORMID");
+			 script.append(
+			 		"  \n insert into fg_clob_files (file_id,file_name,file_content)\n" + 
+			 		"   values (FG_GET_STRUCT_FILE_ID('SysConfExcelData.excelFile'),''," + generalUtil.handleClob(excelDataContent.replace("'", "''")) + ");\n");
+			 script.append("update fg_s_sysconfexceldata_pivot t set t.EXCELDATA = (select max(t1.id) from FG_SEQUENCE_FILES t1 where t1.formcode = 'SysConfExcelData.excelFile') where formid = '" + sysconfexceldataId + "';\n");
+			  
+		 }
+		 return script.toString();
 	}
 
 	private void materializedViewsCreate() {
@@ -413,23 +378,12 @@ public class GeneralUtilVersionData {
 				}
 					break;
 				case "EXCELDATA": { // clob file ref - need to be ignored in form_tool.tool_check_data DB check data procedure
-				if (formCode_.equalsIgnoreCase("SysConfExcelData")) {
-					String excelData = generalDao.selectSingleString(
-							"select file_content from fg_clob_files where file_id = '" + val_ + "'");
-					try {
-						PrintWriter writer = new PrintWriter(new FileOutputStream(excelDataPath + "excel_GENERAL_ANALYTICAL_INPUT.json"),
-								false);
-						writer.println(excelData);
-						writer.close();
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+//					if(formCode_.equalsIgnoreCase("SysConfExcelData")) {
+//						String excelData = generalDao.selectSingleString("select file_content from fg_clob_files where file_id = '" + val_ + "'");
 //						toReturn = "FG_CLOB_FILES_CONFEXCEL_INSERT(" + generalUtil.handleClob(excelData.replace("'", "''")) + ")" ;
-					toReturn = "'" + val_.replace("'", "''").replace("\n", "' || chr(10) || '") + "'";
-				} else {
-					toReturn = "'" + val_.replace("'", "''").replace("\n", "' || chr(10) || '") + "'";
-				}
+//					} else {
+						toReturn = "'" + val_.replace("'", "''").replace("\n", "' || chr(10) || '") + "'";
+//					}
 				}
 					break;
 				case "SQLTEXT": { // clob file ref - need to be ignored in form_tool.tool_check_data DB check data procedure
