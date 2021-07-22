@@ -21,12 +21,16 @@ public class ExperimentReportSQLBuilder {
 	private GeneralUtil generalUtil;
 	
 	/**
-	 * for each row in the FG_S_REPORTFILTERREF_V (combineRules and displayData):
-	 * 1) combineRules: append "with" sql part - because multi rows is needed in case of duplication (multiple experiment rows)
-	 * 2) displayData: append SMARTPIVOT data into FG_P_EXPREPORT_DATA_TMP - because multi columns needed in case of duplication as the SMARTPIVOT mechanism provides
-	 * TODO - result
-	 * @param stateKey - to identify the data in FG_S_REPORTFILTERREF_V (the user selection)
-	 * @return
+	 * This function returns SQLObj object with all of the SQL parts (with,select,from and where) to have the following result:
+	 * 
+	 * The table shows (SQL - Cartesian product): 
+	 * 					experiment (number, description and masss balance data ONE ROW MAX!!! for each experiment) x 
+	 * 					combine rules data (usually it will be one row for each experiment but, it can be more) x 
+	 * 					displayData (ONE ROW MAX!!! for each experiment  - using SMARTPIVOT) x
+	 * 				    samples and result (could be more then one sample for an experiment the result data should be in one row - using SMARTPIVOT)
+	 * 
+	 * - The displayData SMARTPIVOT will be insert into the  FG_P_EXPREPORT_DATA_TMP table abd be defined by the stateKey
+	 * - The data of the result will also be insert into FG_P_EXPREPORT_DATA_TMP by FG_ADAMA.GET_UPDATE_P_EXPREPORT_DATA DB function.
 	 */
 	SQLObj getExpReportRulesFieldsSQL(long stateKey, String expIds, String stepIds, String sampleIds, Map<String,String> materialTypeTableMap,
 			String imputityMatIds, String resulttype, String characteristicMassBalan, String sampleComments, String sampleCreator) {
@@ -42,8 +46,48 @@ public class ExperimentReportSQLBuilder {
 
 		int index = 0;
 		
-		//prepare...
+		//prepare - (delete old data on the same stateKey) ...
 		generalDao.updateSingleString("delete from FG_P_EXPREPORT_DATA_TMP where statekey ='" + stateKey + "'");
+				
+		
+		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		// ^^^^ mass balance - show mass balance with selection (as in fg_p_experimentanalysis_v mass balance section) 
+		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+		if (characteristicMassBalan != null && !characteristicMassBalan.isEmpty()) {
+			String aliasName = "MASSBALANCE"; // Alias
+			String cMBl_ = characteristicMassBalan.toLowerCase();
+			
+			//with t.CHEMICALYIELD||'","'||t.ISOLATEDYIELD||'","'||t.SUMMARY
+			sbWithSql.append(((index == 0) ? "with ":", ") + aliasName + " as (\r\n" +
+					" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
+					(cMBl_.contains("conversion") ? "   ,t.CONVERSION \r\n":"") +
+					(cMBl_.contains("chemical yield") ? "   ,t.CHEMICALYIELD \r\n":"") +
+					(cMBl_.contains("isolated yield") ? "   ,t.ISOLATEDYIELD \r\n":"") +
+					(cMBl_.contains("summary") ? "   ,t.SUMMARY \r\n":"") +
+					
+					" from fg_s_step_v t \r\n" + 
+					" where t.CHKCHARACTERMASSBALANCE = 1 \r\n" +
+					" and t.EXPERIMENT_ID in (" + ((expIds == null || expIds.isEmpty())?"-1":expIds) + ") \r\n" +
+					")");  
+			
+			//select
+			sbSelectSql.append( 
+					(cMBl_.contains("conversion")  ? "," + aliasName + ".CONVERSION as \"Conversion%\" \r\n":"") +
+					(cMBl_.contains("chemical yield")  ? "," + aliasName + ".CHEMICALYIELD as \"Chemical Yield%\" \r\n":"") +
+					(cMBl_.contains("isolated yield")  ? "," + aliasName + ".ISOLATEDYIELD as \"Isolated Yield%\" \r\n":"") +
+					(cMBl_.contains("summary")  ? "," + aliasName + ".SUMMARY as \"Summary%\" \r\n":"")
+						
+			);
+			
+			//from
+			sbFromSql.append("," + aliasName);
+			
+			//where
+			sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
+			
+			index++;
+		}
+		// ^^^^ mass balance END!
 		
 		String sqlFilterRef = "select T.ROWSTATEKEY,\n" + 
 				"        T.TABLETYPE , \n" + 
@@ -61,7 +105,7 @@ public class ExperimentReportSQLBuilder {
 		
 		List<Map<String,Object>> filterRefList = generalDao.getListOfMapsBySql(sqlFilterRef);
 		
-		// make SQL for each filter row (filter row represent the "combine rules" and "display data" selection table)
+		// MAIN SQL - REPORT combineRules AND displayData table selection - for each filter row (filter row represent the "combine rules" and "display data" selection table)
 		for (Map<String, Object> filterRefMap : filterRefList) { 
 			
 			String tableType = generalUtil.getNull((String)filterRefMap.get("TABLETYPE")); // <combineRules / displayData>
@@ -69,7 +113,7 @@ public class ExperimentReportSQLBuilder {
 			String columnName = generalUtil.getNull((String)filterRefMap.get("COLUMNNAME"));
 
 			//-----------------------------------------------------------------------------
-			//-------------------------- combineRules: SQL - SHOULD DUPLICATE THE EXPERIMENT ROW IN CASE MORE THEN ONE VALUE FIT (=> implement as with)
+			//----- combineRules: SQL - SHOULD DUPLICATE THE EXPERIMENT ROW IN CASE MORE THEN ONE VALUE FIT (=> implement as with)
 			//-----------------------------------------------------------------------------
 			if(tableType.equalsIgnoreCase("combineRules")) {
 				
@@ -98,7 +142,7 @@ public class ExperimentReportSQLBuilder {
 				}
 				
 				// ******************************************
-				// ************* Limiting Agent *************
+				// **** Limiting Agent 
 				// ******************************************
 				if(ruleName.equalsIgnoreCase("Limiting Agent")) {
 					String colName_ = (columnName == null || columnName.isEmpty())? defaultColName: columnName; 
@@ -148,9 +192,10 @@ public class ExperimentReportSQLBuilder {
 					}
 					
 				}
+				// **** Limiting Agent END!
 				
 				// ****************************************
-				// ************* Main Solvent *************
+				// **** Main Solvent 
 				// ****************************************
 				if(ruleName.equalsIgnoreCase("Main Solvent")) { 
 					String colName_ = (columnName == null || columnName.isEmpty())? defaultColName: columnName; 
@@ -198,9 +243,10 @@ public class ExperimentReportSQLBuilder {
 						index++;
 					}
 				}
+				// **** Main Solvent END!
 				
 				// *****************************************
-				// ************* Material Type *************
+				// **** Material Type 
 				// *****************************************
 				if(ruleName.equalsIgnoreCase("Material Type")) { 
 					
@@ -251,9 +297,10 @@ public class ExperimentReportSQLBuilder {
 					}
 					
 				}
+				// **** Material Type END!
 				
 				// ******************************************
-				// ************* Experiment Materials *******
+				// **** Experiment Materials 
 				// ******************************************
 				if(ruleName.equalsIgnoreCase("Experiment Materials")) {
 					
@@ -303,10 +350,12 @@ public class ExperimentReportSQLBuilder {
 					}
 					
 				}
+				// **** Experiment Materials 
 			}
+			//----- combineRules END!
 			
 			//-----------------------------------------------------------------------------
-			//-------------------------- displayData - SHOULD DUPLICATE THE COLUMNS IN CASE OF DUPLICATION (=> implement using the SMARTPIVOT mechanism)
+			//----- displayData - SHOULD DUPLICATE THE COLUMNS IN CASE OF DUPLICATION (=> implement using the SMARTPIVOT mechanism)
 			//-----------------------------------------------------------------------------
 			if(tableType.equalsIgnoreCase("displayData")) {
 				
@@ -439,7 +488,9 @@ public class ExperimentReportSQLBuilder {
 					}
 				}
 			}
+			//----- displayData END!
 		}
+		// MAIN SQL - REPORT combineRules AND displayData table selection END!
 		
 		//+++++++++++++++++++++++++++++++++++++++++++++
 		// displayData into FG_P_EXPREPORT_DATA_TMP
@@ -458,7 +509,7 @@ public class ExperimentReportSQLBuilder {
 			Map<String, String> map = new HashMap<>();
 			map.put("statekey_in", String.valueOf(stateKey));
 			map.put("resulttype_in", resulttype);
-			map.put("characteristicMassBalan_in", characteristicMassBalan);
+			map.put("characteristicMassBalan_in", characteristicMassBalan); // characteristicMassBalan - NOT IN USE HERE we have this data as part of the with SQL - AND NOT AS RESULT
 			map.put("imputityMatIds_in", imputityMatIds);
 			map.put("sampleComments_in", sampleComments);
 			map.put("sampleCreator_in", sampleCreator);
