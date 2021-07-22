@@ -253,7 +253,7 @@ public class ExperimentReportSQLBuilder {
 				}
 				
 				// ******************************************
-				// ************* Limiting Agent *************
+				// ************* Experiment Materials *******
 				// ******************************************
 				if(ruleName.equalsIgnoreCase("Experiment Materials")) {
 					
@@ -470,16 +470,6 @@ public class ExperimentReportSQLBuilder {
 		if((numRowsResult != null && !numRowsResult.equals("0")) || (numRowsDisplayData != null && !numRowsDisplayData.equals("0"))) {
 			sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_, order2' AS RESULT_SMARTPIVOTSQL\n" ); 
 		}
-		
-//		// *********** pivot data
-//		if(sbPivotSql.length() > 0) {
-//			String inserSql = "insert into FG_P_EXPREPORT_DATA_TMP (statekey, order_, order2, result_SMARTPIVOT) " + sbPivotSql.toString();
-//			String numRows = generalDao.updateSingleString(inserSql);
-//			if(numRows != null && !numRows.equals("0")) {
-//				sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_, order2' AS RESULT_SMARTPIVOTSQL\n" ); 
-//			}
-//		}
-//		
 		
 		// return the sql obj...
 		return new SQLObj(sbWithSql.toString(), sbSelectHiddebSql.toString(), sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString(), "");
