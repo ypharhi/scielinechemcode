@@ -431,16 +431,24 @@ function getOutputValueBL(formCode,domId,designer){
 
 function onColumnChanging(formCode,domId,e,info){
 	 if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
-		 if(info.col>=0 && info.col<=_materialLocation.x){
-			 displayAlertDialog('Data may be disrupted.</br> Please redo the last operation');
+		 if(info.propertyName == 'addColumns'|| info.propertyName == 'deleteColumns'){
+			 if(info.col>=0 && info.col<=_materialLocation.x){
+				 displayAlertDialog('Data may be disrupted.</br> Please redo the last operation');
+			 }
 		 }
 	 }
 }
 
 function onRowChanging(formCode,domId,e,info){
 	 if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
-		 if(info.row>=0 && info.row<=_materialLocation.y){
-			 displayAlertDialog('Data may be disrupted.</br> Please redo the last operation');
+		 if(info.propertyName == 'addRows'|| info.propertyName == 'deleteRows'){
+			 if(info.row>=0 && info.row<=_materialLocation.y){
+				 displayAlertDialog('Data may be disrupted.</br> Please redo the last operation');
+			 } else {
+				 if(info.propertyName == 'addRows'){
+					 displayAlertDialog('Automatic Data may be missing.</br> Please redo the last operation');
+				 }
+			 }
 		 }
 	 }
 }
@@ -454,34 +462,36 @@ function getValidationMessage(formCode,domId,designer){
 	var version = sheet == null ? 'V1': sheet.getValue(0,0);
 	if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
 		sheet = workBook.getSheet(0);
-		var titleArr = [];
-		var expectedTitles = ['Results Type','Unknown Materials','Mass','RT','Uom','Sample No/Materials'];
-		for(var i = 0; i<_sampleLocation.y; i++){
-    		titleArr.push(sheet.getValue(i , _sampleLocation.x));
-		}
-		var missingTitles = expectedTitles.filter(function(val){
-			return titleArr.indexOf(val)==-1;
-		});
-		if(missingTitles.length!=0){
-			errMessage = 'The following lines are missing:</br>'+missingTitles.toString()+'</br>or Some unexpected rows were added.</br>Please re-arrange the data';
-		}
-		if(expectedTitles.length<titleArr.length){
-			errMessage = 'Some unexpected lines were added.</br>Please delete them.'
-		}
-		//check the columns
-		var titleArr = [];
-		var expectedTitles = ['Sample No/Materials','Sample description','Sample Comments','Results Comments'];
-		for(var i = 0; i<_materialLocation.x; i++){
-    		titleArr.push(sheet.getValue(_materialLocation.y,i));
-		}
-		var missingTitles = expectedTitles.filter(function(val){
-			return titleArr.indexOf(val)==-1;
-		});
-		if(missingTitles.length!=0){
-			errMessage = 'The following columns are missing:</br>'+missingTitles.toString()+'</br>or Some unexpected columns were added.</br>Please re-arrange the data';
-		}
-		if(expectedTitles.length<titleArr.length){
-			errMessage = 'Some unexpected columns were added.</br>Please delete them.'
+		if(version == 'V1'){
+			var titleArr = [];
+			var expectedTitles = ['Results Type','Unknown Materials','Mass','RT','Uom','Sample No/Materials'];
+			for(var i = 0; i<_sampleLocation.y; i++){
+	    		titleArr.push(sheet.getValue(i , _sampleLocation.x));
+			}
+			var missingTitles = expectedTitles.filter(function(val){
+				return titleArr.indexOf(val)==-1;
+			});
+			if(missingTitles.length!=0){
+				errMessage = 'The following lines are missing:</br>'+missingTitles.toString()+'</br>or Some unexpected rows were added.</br>Please re-arrange the data';
+			}
+			if(expectedTitles.length<titleArr.length){
+				errMessage = 'Some unexpected lines were added.</br>Please delete them.'
+			}
+			//check the columns
+			var titleArr = [];
+			var expectedTitles = ['Sample No/Materials','Sample description','Sample Comments','Results Comments'];
+			for(var i = 0; i<_materialLocation.x; i++){
+	    		titleArr.push(sheet.getValue(_materialLocation.y,i));
+			}
+			var missingTitles = expectedTitles.filter(function(val){
+				return titleArr.indexOf(val)==-1;
+			});
+			if(missingTitles.length!=0){
+				errMessage = 'The following columns are missing:</br>'+missingTitles.toString()+'</br>or Some unexpected columns were added.</br>Please re-arrange the data';
+			}
+			if(expectedTitles.length<titleArr.length){
+				errMessage = 'Some unexpected columns were added.</br>Please delete them.'
+			}
 		}
 	}
 	return errMessage;
