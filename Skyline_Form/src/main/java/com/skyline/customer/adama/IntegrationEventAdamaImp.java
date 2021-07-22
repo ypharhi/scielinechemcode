@@ -4668,8 +4668,15 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 					+ "where parentid = '"+elementValueMap.get("nameId")+"'\n"
 					+ " and rowstatekey is null";
 				generalDao.updateSingleStringNoTryCatch(del_sql);
-			String sql = "update fg_s_reportfilterref_pivot set rowstatekey = null, parentid = '"+elementValueMap.get("nameId")+"' where rowstateKey = '"+stateKey+"' and active = 1";
-		    formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+				 String sql = "insert into FG_S_ReportFilterRef_PIVOT "
+							+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,ROWSTATEKEY,stepname,rulename,RULECONDITION,columnsSelection,ColumnName,tabletype,TYPE_,REPORTFILTERREFNAME,LEVEL_)"
+							+ " select sysdate,CHANGE_BY,SESSIONID,ACTIVE,FORMID," +elementValueMap.get("nameId") + ",'"
+							+ "ReportFilterRef" + "','" + "ReportFilterRef" + "','" + userId + "',CREATION_DATE,'',stepname,rulename,RULECONDITION,columnsSelection,ColumnName,tabletype,TYPE_,REPORTFILTERREFNAME,LEVEL_ "
+									+ " from fg_s_reportfilterref_pivot  where rowstateKey = '"+stateKey+"' and active = 1";
+					//String insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + "ReportFilterRef" + "_PIVOT", newformId);
+					formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+			//String sql = "update fg_s_reportfilterref_pivot set rowstatekey = null, parentid = '"+elementValueMap.get("nameId")+"' where rowstateKey = '"+stateKey+"' and active = 1";
+		    //formSaveDao.updateSingleStringInfoNoTryCatch(sql);
 		}
 		else if (eventAction.equals("saveRulesTableByUserId")) {
 			String del_sql = " delete from fg_s_reportfilterref_pivot\n"

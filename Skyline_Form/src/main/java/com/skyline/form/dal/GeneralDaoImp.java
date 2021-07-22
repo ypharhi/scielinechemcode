@@ -1552,7 +1552,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 							}
 							String stepObj = "{}";
 							stepObj = getJsonDisplayObj(nameList,null,
-									colvalObj == null ? null : colvalObj.toString(), "STEPNAME", "true","");
+									colvalObj == null ? "All" : colvalObj.toString(), "STEPNAME", "true","");
 							rows.get(i).put(paramCol, stepObj); // rows.get(i).get(paramCol);
 
 						}
@@ -1586,7 +1586,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 						for (int i = 0; i < rows.size(); i++) {
 							Object colvalObj = rows.get(i).get(paramCol);
 							String ruleObj = "{}";
-							ruleObj = getJsonDisplayObj(null,colsData,colvalObj == null ? null : colvalObj.toString(), "COLUMNSSELECTION","true","");
+							ruleObj = getJsonDisplayObj(null,colsData,colvalObj == null ? "ALL" : colvalObj.toString(), "COLUMNSSELECTION","true","");
 							rows.get(i).put(paramCol, ruleObj);
 						}
 					}
@@ -1891,7 +1891,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 
 								String stepObj = "{}";
 								stepObj = getJsonDisplayObj(nameList,null,
-										colvalObj == null ? null : colvalObj.toString(), "LEVEL_", "true","");
+										colvalObj == null ? "All" : colvalObj.toString(), "LEVEL_", "true","");
 								rows.get(i).put(paramCol, stepObj);
 							}
 							else if(type.equals("Parameter")) {
@@ -1902,7 +1902,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								}
 								String stepObj = "{}";
 								stepObj = getJsonDisplayObj(nameList,null,
-										colvalObj == null ? null : colvalObj.toString(), "LEVEL_", "true","");
+										colvalObj == null ? "All" : colvalObj.toString(), "LEVEL_", "true","");
 								rows.get(i).put(paramCol, stepObj);
 							}
 						}
