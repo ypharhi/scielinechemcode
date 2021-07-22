@@ -62,7 +62,7 @@ public interface GeneralDao {
 	 * 
 	 * @param pack
 	 * @param function
-	 * @param parameters
+	 * @param parameters- if the value of the parameter starts with "to_clob" => it will be cast to clob type (if in the store procedure it declare as VARCHAR it will be OK)
 	 * @return result of the the DB function or "null" String if null
 	 */
 	String callPackageFunction(String pack, String function, Map<String, String> parameters);

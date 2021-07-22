@@ -28,7 +28,8 @@ public class ExperimentReportSQLBuilder {
 	 * @param stateKey - to identify the data in FG_S_REPORTFILTERREF_V (the user selection)
 	 * @return
 	 */
-	SQLObj getExpReportRulesFieldsSQL(long stateKey, String expIds, String stepIds, String sampleIds, Map<String,String> materialTypeTableMap) {
+	SQLObj getExpReportRulesFieldsSQL(long stateKey, String expIds, String stepIds, String sampleIds, Map<String,String> materialTypeTableMap,
+			String imputityMatIds, String resulttype, String characteristicMassBalan, String sampleComments, String sampleCreator) {
 		
 		StringBuilder sbWithSql = new StringBuilder();
 		StringBuilder sbSelectSql = new StringBuilder();
@@ -252,7 +253,7 @@ public class ExperimentReportSQLBuilder {
 				}
 				
 				// ******************************************
-				// ************* Limiting Agent *************
+				// ************* Experiment Materials *******
 				// ******************************************
 				if(ruleName.equalsIgnoreCase("Experiment Materials")) {
 					
@@ -440,25 +441,35 @@ public class ExperimentReportSQLBuilder {
 			}
 		}
 		
-		// #####################################
-		// results (pivot data) - using FG_P_EXPREPORT_RESULT_V (made from FG_P_EXPERIMENTRESULTS_V as in experiment organic result tab - with the changes relevant to this report)
-		// #####################################
-		if(sampleIds != null && !sampleIds.isEmpty()) {
-			if(sbPivotSql.length() > 0) {
-				sbPivotSql.append("\n union all \n");
-			} 
-			sbPivotSql.append("SELECT distinct " + stateKey + " as stateKey , order_, order2,  result_SMARTPIVOT \n FROM FG_P_EXPREPORT_RESULT_V \n where SAMPLE_ID in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") ");
-		}
-		
-		// *********** pivot data
+		//+++++++++++++++++++++++++++++++++++++++++++++
+		// displayData into FG_P_EXPREPORT_DATA_TMP
+		//+++++++++++++++++++++++++++++++++++++++++++++
+		String numRowsDisplayData = "";
 		if(sbPivotSql.length() > 0) {
 			String inserSql = "insert into FG_P_EXPREPORT_DATA_TMP (statekey, order_, order2, result_SMARTPIVOT) " + sbPivotSql.toString();
-			String numRows = generalDao.updateSingleString(inserSql);
-			if(numRows != null && !numRows.equals("0")) {
-				sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_, order2' AS RESULT_SMARTPIVOTSQL\n" ); 
-			}
+			numRowsDisplayData = generalDao.updateSingleString(inserSql);
 		}
 		
+		//+++++++++++++++++++++++++++++++++++++++++++++
+		// result into FG_P_EXPREPORT_DATA_TMP
+		//+++++++++++++++++++++++++++++++++++++++++++++
+		String numRowsResult = "";
+		if(sampleIds != null && !sampleIds.isEmpty()) {
+			Map<String, String> map = new HashMap<>();
+			map.put("statekey_in", String.valueOf(stateKey));
+			map.put("resulttype_in", resulttype);
+			map.put("characteristicMassBalan_in", characteristicMassBalan);
+			map.put("imputityMatIds_in", imputityMatIds);
+			map.put("sampleComments_in", sampleComments);
+			map.put("sampleCreator_in", sampleCreator);
+			map.put("sampleIds_in", generalUtil.handleClob( "," + sampleIds + ","));
+			numRowsResult = generalDao.callPackageFunction("FG_ADAMA", "GET_UPDATE_P_EXPREPORT_DATA", map);
+		}
+		
+		// +++++++ if we have data => add RESULT_SMARTPIVOTSQL to sbSelectSql 
+		if((numRowsResult != null && !numRowsResult.equals("0")) || (numRowsDisplayData != null && !numRowsDisplayData.equals("0"))) {
+			sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_, order2' AS RESULT_SMARTPIVOTSQL\n" ); 
+		}
 		
 		// return the sql obj...
 		return new SQLObj(sbWithSql.toString(), sbSelectHiddebSql.toString(), sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString(), "");
