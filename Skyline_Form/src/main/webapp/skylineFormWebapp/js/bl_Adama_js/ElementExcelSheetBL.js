@@ -80,10 +80,11 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				
 				var sheet = workBook.getSheet(0);
 				
-				/*sheet.getRange(0, -1, 21, -1).locked(false);
+				//sheet.getRange("F6").locked(false);
+				//sheet.getRange("E:KR").locked(false);
 				//protect the sheet from deleting rows
 				//sheet.options.isProtected = true;
-				sheet.options.protectionOptions.allowDragInsertRows = true;
+				/*sheet.options.protectionOptions.allowDragInsertRows = true;
 				sheet.options.protectionOptions.allowDragInsertColumns = true;
 				sheet.options.protectionOptions.allowInsertRows = true;
 				sheet.options.protectionOptions.allowInsertColumns = true;
@@ -428,6 +429,60 @@ function getOutputValueBL(formCode,domId,designer){
     return returnVal;
 }
 
+function onColumnChanging(formCode,domId,e,info){
+	 if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+		 if(info.col>=0 && info.col<=_materialLocation.x){
+			 displayAlertDialog('Data may be disrupted.</br> Please redo the last operation');
+		 }
+	 }
+}
+
+function onRowChanging(formCode,domId,e,info){
+	 if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+		 if(info.row>=0 && info.row<=_materialLocation.y){
+			 displayAlertDialog('Data may be disrupted.</br> Please redo the last operation');
+		 }
+	 }
+}
+
 function getValidationMessage(formCode,domId,designer){
-	return "";
+	var errMessage = "";
+	var workBook = designer[domId].getWorkbook();
+    
+	//gets the version of the spreadsheet results template and makes the relevant code
+	var sheet = workBook.getSheetFromName('Version');
+	var version = sheet == null ? 'V1': sheet.getValue(0,0);
+	if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+		sheet = workBook.getSheet(0);
+		var titleArr = [];
+		var expectedTitles = ['Results Type','Unknown Materials','Mass','RT','Uom','Sample No/Materials'];
+		for(var i = 0; i<_sampleLocation.y; i++){
+    		titleArr.push(sheet.getValue(i , _sampleLocation.x));
+		}
+		var missingTitles = expectedTitles.filter(function(val){
+			return titleArr.indexOf(val)==-1;
+		});
+		if(missingTitles.length!=0){
+			errMessage = 'The following lines are missing:</br>'+missingTitles.toString()+'</br>or Some unexpected rows were added.</br>Please re-arrange the data';
+		}
+		if(expectedTitles.length<titleArr.length){
+			errMessage = 'Some unexpected lines were added.</br>Please delete them.'
+		}
+		//check the columns
+		var titleArr = [];
+		var expectedTitles = ['Sample No/Materials','Sample description','Sample Comments','Results Comments'];
+		for(var i = 0; i<_materialLocation.x; i++){
+    		titleArr.push(sheet.getValue(_materialLocation.y,i));
+		}
+		var missingTitles = expectedTitles.filter(function(val){
+			return titleArr.indexOf(val)==-1;
+		});
+		if(missingTitles.length!=0){
+			errMessage = 'The following columns are missing:</br>'+missingTitles.toString()+'</br>or Some unexpected columns were added.</br>Please re-arrange the data';
+		}
+		if(expectedTitles.length<titleArr.length){
+			errMessage = 'Some unexpected columns were added.</br>Please delete them.'
+		}
+	}
+	return errMessage;
 }

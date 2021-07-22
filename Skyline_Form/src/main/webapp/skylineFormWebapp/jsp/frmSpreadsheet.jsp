@@ -250,6 +250,15 @@
 					onSpreadsheetChange(domId);
 			});
 			
+
+			sheet.bind(GC.Spread.Sheets.Events.ColumnChanging, function (e, info) {
+			    parent.onColumnChanging(parent.$('#formCode').val(),domId,e,info);
+			});
+			
+			sheet.bind(GC.Spread.Sheets.Events.RowChanging, function (e, info) {
+			    parent.onRowChanging(parent.$('#formCode').val(),domId,e,info);
+			});
+			
 			//set no active cell
 			//workBook.focus(false); 
 			sheet.setSelection([{row:-1,col:-1,rowCount:-1,colCount:-1}]);

@@ -5050,6 +5050,17 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 		//				+ " and c.PARENTID = '" + formId + "'" + ")" + ") ";
 		String experimentStatusName = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.ID, elementValueMap.get("STATUS_ID"), "name");
 		if(experimentTypeName.equals("General")) {
+			//1. checks if there was an error that found on the client size
+			String spreadsheetResultsData = generalUtilFormState.getStringContent(elementValueMap.get("spreadsheetResults"), "ExperimentAn", "spreadsheetResults", formId);
+			JSONObject js = new JSONObject();
+			if(generalUtil.getNull(spreadsheetResultsData).isEmpty()){
+				return;
+			}
+			js = new JSONObject(spreadsheetResultsData);
+			String validationMessage = (String) js.get("validationMessage");
+			if(!validationMessage.isEmpty()) {
+				throw new Exception(validationMessage);
+			}
 			if(experimentStatusName.equals("Completed") || experimentStatusName.equals("Approved") ) {//in the general analytical experiment the manual results are deleted and re-built
 				//delete the manual results
 				String sql = "delete from FG_S_MANUALRESULTSREF_PIVOT\n"
@@ -5060,18 +5071,9 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				formSaveDao.deleteStructTable(sql, "FG_S_MANUALRESULTSREF_PIVOT", "parentid", formId);
 				
 				//insert into the manual results table all data from the spreadsheet results
-				String spreadsheetResultsData = generalUtilFormState.getStringContent(elementValueMap.get("spreadsheetResults"), "ExperimentAn", "spreadsheetResults", formId);
-				JSONObject js = new JSONObject();
-				if(generalUtil.getNull(spreadsheetResultsData).isEmpty()){
-					return;
-				}
-				js = new JSONObject(spreadsheetResultsData);
+				
 				JSONObject jsspreadsheetData = (JSONObject)js.get("output");
-				//1. checks if there was an error that found on the client size
-				String validationMessage = (String) js.get("validationMessage");
-				if(!validationMessage.isEmpty()) {
-					throw new Exception(validationMessage);
-				}
+				
 				
 				//collect the materials,manual materials and the samples
 				Set<String> materialList = new LinkedHashSet<String>();

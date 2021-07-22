@@ -7199,14 +7199,15 @@ public void preperReport(Map<String, String> elementValueMap) {
 		componentsJson.put("Samples", new JSONArray(sampleList));
 		
 		//Result types
-		sql = "select ID,NAME\n"
+		sql = "select distinct * from\n"
+				+ "(select ID,NAME\n"
 				+ "from fg_e_expangn_resultType_v\n"
 				+ "union all\n"
 				+ "select distinct TYPE_ID,TESTEDCOMPTYPENAME\n"
 				+ "from fg_s_component_all_v\n"
 				+ "where parentid = '"+parentId+"'\n"
 				+ "and sessionid is null\n"
-				+ "and active = 1";
+				+ "and active = 1)";
 		List<Map<String,Object>> resultTypeList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("ResultTypes", new JSONArray(resultTypeList));
 		
