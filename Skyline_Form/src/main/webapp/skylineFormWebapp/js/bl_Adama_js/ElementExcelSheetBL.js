@@ -453,6 +453,27 @@ function onRowChanging(formCode,domId,e,info){
 	 }
 }
 
+function onKeyDown(formCode,domId,e,designer){
+	var workBook = designer[domId].getWorkbook();
+    
+	//gets the version of the spreadsheet results template and makes the relevant code
+	var sheet = workBook.getSheetFromName('Version');
+	var version = sheet == null ? 'V1': sheet.getValue(0,0);
+	if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+		sheet = workBook.getSheet(0);
+		var col = sheet.getActiveColumnIndex();
+		var row = sheet.getActiveRowIndex();
+		if(col >= _materialLocation.x && 
+				(row >= _sampleLocation.y
+				|| row == _rtLocation.y
+				|| row == _massLocation.y)){
+			if ([","].indexOf(e.key) !== -1) {
+				e.preventDefault();
+			}	
+		}
+	}
+}
+
 function getValidationMessage(formCode,domId,designer){
 	var errMessage = "";
 	var workBook = designer[domId].getWorkbook();

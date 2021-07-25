@@ -276,6 +276,17 @@
 				$('.contentList.ribbon-navigation').append(expandCompressElem);
 			}
 			
+			let oldEl = GC.Spread.Sheets.CellTypes.Text.prototype.createEditorElement;
+
+			GC.Spread.Sheets.CellTypes.Text.prototype.createEditorElement = function () {
+			  let el = oldEl.apply(this, arguments);
+
+			  el.addEventListener("keydown", function(e) {
+			    parent.onKeyDown(parent.$('#formCode').val(),domId,e,designer);
+			  });
+			  return el;
+			};
+			
 		    disableSpreadsheet(domId);//disables the spreadsheet from being editable
  		    parent.spreadOnLoadBL(parent.$('#formCode').val(),domId,designer,outputData[domId]); // demo for spreadsheet develop
 		}
