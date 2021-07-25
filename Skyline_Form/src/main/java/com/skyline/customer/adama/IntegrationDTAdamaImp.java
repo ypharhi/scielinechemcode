@@ -697,12 +697,14 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 										"and t.requesttype_id in\r\n" + 
 										"(select distinct t.REQUESTTYPE_ID from FG_S_EXPERIMENTTYPE_V t \r\n" + 
 										"where t.PROTOCOLTYPE_ID='"+generalUtil.getNull(experimentMap.get("PROTOCOLTYPE_ID"))+"' and (t.EXPERIMENTTYPENAME  = 'Assay' or t.EXPERIMENTTYPENAME  = 'Impurity Profile'))";
-							}else{
+							} else if(!experimentMap.get("EXPERIMENTTYPENAME").equals("General")){
 							//list of requests with operation type that is the same as the experiment type
-							sql_ = "select distinct t.REQUEST_ID from FG_I_CONN_REQUEST_OPTYPE_V t where t.EXPERIMENTTYPE_ID  = '"+generalUtil.getNull(experimentMap.get("EXPERIMENTTYPE_ID"))+"' \r\n" + 
-									"and t.requesttype_id in\r\n" + 
-									"(select distinct t.REQUESTTYPE_ID from FG_S_EXPERIMENTTYPE_V t \r\n" + 
-									"where t.PROTOCOLTYPE_ID='"+generalUtil.getNull(experimentMap.get("PROTOCOLTYPE_ID"))+"' and t.EXPERIMENTTYPE_ID ='"+generalUtil.getNull(experimentMap.get("EXPERIMENTTYPE_ID"))+"')";
+								sql_ = "select distinct t.REQUEST_ID from FG_I_CONN_REQUEST_OPTYPE_V t where t.EXPERIMENTTYPE_ID  = '"+generalUtil.getNull(experimentMap.get("EXPERIMENTTYPE_ID"))+"' \r\n" + 
+										"and t.requesttype_id in\r\n" + 
+										"(select distinct t.REQUESTTYPE_ID from FG_S_EXPERIMENTTYPE_V t \r\n" + 
+										"where t.PROTOCOLTYPE_ID='"+generalUtil.getNull(experimentMap.get("PROTOCOLTYPE_ID"))+"' and t.EXPERIMENTTYPE_ID ='"+generalUtil.getNull(experimentMap.get("EXPERIMENTTYPE_ID"))+"')";
+							} else {//in the General experiment all the request types are allowed
+								sql_ = "select request_id from fg_s_request_v";
 							}
 							//list of requests from 1.status "In Progress" or "waiting"  2.Requests from the same unit as the current experiment 3.requests with operation type that is the same as the experiment type
 							sql = " select request_id from fg_s_request_all_v\r\n" + 
