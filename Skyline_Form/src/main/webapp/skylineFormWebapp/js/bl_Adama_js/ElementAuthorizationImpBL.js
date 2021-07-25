@@ -858,13 +858,18 @@ function experimentReturnToActiveStep(isActual,protocolTypeName){
 function experimentReturnToActive(isActual) {
 	 if (isActual == '1') {
 		//'MASSBALLANCETYPE_ID', 'PRODUCTNAME_ID', 'equivalentPerMole','PERMOLEUOM_ID', 'massBalancet',
-		 generalBL_disablePage(['reasonForChange', 'APPROVER_ID',
+		 var  experimentTypeName = $('#EXPERIMENTTYPE_ID option:selected').text();
+		 var enableElemArr = ['reasonForChange', 'APPROVER_ID',
 				'experimentGroup', 'conclussion', 'description', 'STATUS_ID',
 				'documents',
 				'action','selfTests',
-				'webixAnalytTable', 'manualResultsTable', 'manualResultsMS',
+				'webixAnalytTable', 'manualResultsMS',
 				'calculationButton','calculateButton','testedComponents',
-				'chromatograms', 'resultsTable','planned_actual','steps','spreadsheetResults'], true); // yp add steps fix bug 7775
+				'chromatograms', 'resultsTable','planned_actual','steps','spreadsheetResults'];
+		 if(experimentTypeName != 'General'){
+			 enableElemArr.push('manualResultsTable');
+		 }
+		 generalBL_disablePage(enableElemArr, true); // yp add steps fix bug 7775
 		generalBL_enableTab('BottlesResultsTab');
 		generalBL_enableTab('CorrosionResultsTab');
 		generalBL_enableTab('TSUResultsTab');
