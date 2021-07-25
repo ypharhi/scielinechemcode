@@ -223,7 +223,13 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								+ "' and tabletype ='displayData'";
 						optionalAttributes = stepidList.replace("@", ",");
 						optionalAttributes1 =  experimentidList.replace("@", ",");
-				} else {
+				} else if(generalUtil.getNull(table).equalsIgnoreCase("fg_s_SAMPLE_dtreport_v")){
+					String stepidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport",
+							"$P{CURRENT_ROW_STEPTABLE}").replace("@", ",");
+					String experimentidList = generalUtilFormState.getFormParam(stateKey, "ExperimentReport",
+							"$P{CURRENT_ROW_EXPERIMENTTABLE}").replace("@", ",");
+					sql = "select * from " + table + " t where 1=1  and (t.experiment_id in("+experimentidList+") or t.step_id in("+stepidList+"))";
+				}else {
 					String wherePart = "";
 					if(linkToLastSelection.equals("1")) {
 						//yp 27022020 fix main screen filtering workaround - the filter is not performed in the lower table if the link to last selection is off and than on click the we do not have filter on the table  (because there is wrong value in the map (it didn't update yet in the map) so we remove the value from the map as a workaround) - this value effects isLinkedBetween function using for the main screen
