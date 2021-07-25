@@ -1204,7 +1204,9 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 					throw new Exception(getMessage(validationCode, new Object[] { generalUtil.listToCsv(unknownMaterialList) }, validateValueObject));
 				}
 				break;
-			} 
+			} case INVALID_SPREADSHEETRESULT_MISSING_DATA:{
+				throw new Exception(getMessage(validationCode, validateValueObject));
+			}
 			case CHECK_TESTED_COMPONENT_MANDATORY:{
 				commonFunc.checkTestedComponentMandatoryfields(formId, generalUtil.getSessionUserId());
 				break;

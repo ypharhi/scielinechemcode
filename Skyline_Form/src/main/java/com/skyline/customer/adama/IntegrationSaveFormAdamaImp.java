@@ -5061,6 +5061,31 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			if(!validationMessage.isEmpty()) {
 				throw new Exception(validationMessage);
 			}
+			
+			//2. checks if the result type or the RT is missing
+			JSONObject jsspreadsheetData = (JSONObject)js.get("output");
+			
+			if(!jsspreadsheetData.has("0")){
+				return;
+			}
+			JSONArray arr = new JSONArray(jsspreadsheetData.get("0").toString());
+			for(int i = 0;i<arr.length();i++) {
+				JSONObject sampleMaterialPair = arr.getJSONObject(i);
+				String sample = generalUtil.getNull(sampleMaterialPair.getString("Sample"));
+				String material = generalUtil.getNull(sampleMaterialPair.getString("Material"));
+				String manualMaterial = generalUtil.getNull(sampleMaterialPair.getString("Unknown Materials"));
+				String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value"));
+				String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
+				String rt = generalUtil.getNull(sampleMaterialPair.getString("RT")) ;
+				String uom = generalUtil.getNull(sampleMaterialPair.getString("Uom")) ;
+				if(material.isEmpty() && manualMaterial.isEmpty()) {
+					continue;
+				}
+				if(resultType.isEmpty() || rt.isEmpty()) {
+					integrationValidation.validate(ValidationCode.INVALID_SPREADSHEETRESULT_MISSING_DATA, formCode, formId, "", new StringBuilder());
+				}
+			}
+			
 			if(experimentStatusName.equals("Completed") || experimentStatusName.equals("Approved") ) {//in the general analytical experiment the manual results are deleted and re-built
 				//delete the manual results
 				String sql = "delete from FG_S_MANUALRESULTSREF_PIVOT\n"
@@ -5072,7 +5097,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				
 				//insert into the manual results table all data from the spreadsheet results
 				
-				JSONObject jsspreadsheetData = (JSONObject)js.get("output");
+				jsspreadsheetData = (JSONObject)js.get("output");
 				
 				
 				//collect the materials,manual materials and the samples
@@ -5084,7 +5109,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				if(!jsspreadsheetData.has("0")){
 					return;
 				}
-				JSONArray arr = new JSONArray(jsspreadsheetData.get("0").toString());
+				arr = new JSONArray(jsspreadsheetData.get("0").toString());
 				for(int i = 0;i<arr.length();i++) {
 					JSONObject sampleMaterialPair = arr.getJSONObject(i);
 					String sample = generalUtil.getNull(sampleMaterialPair.getString("Sample"));
