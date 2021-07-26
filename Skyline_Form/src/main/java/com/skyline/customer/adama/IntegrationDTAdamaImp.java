@@ -3414,7 +3414,27 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			}
 		}
 		else if(formCode.equals("ReportFilterRef")) {
-			if( (onChangeColumnName.equalsIgnoreCase("STEPNAME")||onChangeColumnName.equalsIgnoreCase("RULECONDITION") ||onChangeColumnName.equalsIgnoreCase("COLUMNSSELECTION") ||onChangeColumnName.equalsIgnoreCase("LEVEL_")) && onChangeColumnVal.endsWith(";")){//isMultiple
+			String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
+			if(onChangeColumnName.equalsIgnoreCase("RULENAME")) {
+				String sql = "update FG_S_" + formCode + "_PIVOT " + " set "+ onChangeColumnName +"= '"
+						+ generalUtil.replaceDBUpdateVal(onChangeColumnVal) + "',RULECONDITION='' " + " where formId = '" + onChangeFormId + "' "
+						+ ((sessionId == null)?"and sessionid is null":"and sessionid='" + sessionId + "'") + " and active=1";
+				update = formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+			}
+			else if(onChangeColumnName.equalsIgnoreCase("TYPE_")) {
+				onChangeColumnVal = onChangeColumnVal.endsWith(";")?onChangeColumnVal.substring(0, onChangeColumnVal.length() - 3):onChangeColumnVal;
+				String sql = "update FG_S_" + formCode + "_PIVOT " + " set "+ onChangeColumnName +"= '"
+						+ generalUtil.replaceDBUpdateVal(onChangeColumnVal) + "',REPORTFILTERREFNAME='',columnsSelection='' " + " where formId = '" + onChangeFormId + "' "
+						+ ((sessionId == null)?"and sessionid is null":"and sessionid='" + sessionId + "'") + " and active=1";
+				update = formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+			}
+			else if(onChangeColumnName.equalsIgnoreCase("REPORTFILTERREFNAME")) {
+				String sql = "update FG_S_" + formCode + "_PIVOT " + " set "+ onChangeColumnName +"= '"
+						+ generalUtil.replaceDBUpdateVal(onChangeColumnVal) + "',columnsSelection='' " + " where formId = '" + onChangeFormId + "' "
+						+ ((sessionId == null)?"and sessionid is null":"and sessionid='" + sessionId + "'") + " and active=1";
+				update = formSaveDao.updateSingleStringInfoNoTryCatch(sql);
+			}
+			else if( (onChangeColumnName.equalsIgnoreCase("STEPNAME")||onChangeColumnName.equalsIgnoreCase("RULECONDITION") ||onChangeColumnName.equalsIgnoreCase("COLUMNSSELECTION") ||onChangeColumnName.equalsIgnoreCase("LEVEL_")) && onChangeColumnVal.endsWith(";")){//isMultiple
 				update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName,
 						onChangeColumnVal.substring(0, onChangeColumnVal.length() - 3), onChangeFormId, userId);
 			}else {

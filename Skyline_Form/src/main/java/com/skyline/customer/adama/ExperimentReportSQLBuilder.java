@@ -1,5 +1,6 @@
 package com.skyline.customer.adama;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -133,6 +134,17 @@ public class ExperimentReportSQLBuilder {
 					continue;
 				}
 				
+				//removed steps from stepName  when step was selected in the rules tables but no longer exists in the list of checked steps (in the table above)
+				List<String> stepNamesList_select = new ArrayList<>(Arrays.asList(stepName.split(",")));// List of selected step Names (for example STEP 01,STEP 02)
+				List<String> stepNamesList_ =  new ArrayList<>(Arrays.asList(stepName.split(",")));
+				List<String> stepNameList_all = generalDao.getListOfStringBySql("select distinct  'Step ' || FORMNUMBERID from fg_s_step_v where step_id in (" + stepIds + ") order by 'Step ' ||FORMNUMBERID");//// List of checked steps (steps table)
+				for(String s : stepNamesList_select) {
+					if(!stepNameList_all.contains(s)) {
+						stepNamesList_.remove(s);
+					}
+				}
+				stepName = generalUtil.listToCsv(stepNamesList_);
+				
 				//get steps names from stepIds if contains all .. or no selection
 				if(stepName.isEmpty() || stepName.toLowerCase().contains("all")) {
 					if(stepNumberNamesCsv.isEmpty()) {
@@ -140,6 +152,7 @@ public class ExperimentReportSQLBuilder {
 					}
 					stepName = stepNumberNamesCsv;
 				}
+
 				
 				// ******************************************
 				// **** Limiting Agent 
