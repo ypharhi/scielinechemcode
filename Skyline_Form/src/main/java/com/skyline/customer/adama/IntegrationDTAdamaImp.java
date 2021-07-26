@@ -346,6 +346,11 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					if (!formId.equals("-1") && (display.equalsIgnoreCase("dtproj"))) {
 						extraWherePart += " and instr(','||PROJECT_ID||',', ','||" + formId + "||',')>0";
 					}
+					String parentId = generalUtilFormState.getFormParam(stateKey, formCode, "$P{PARENT_ID}");
+					parentFormCode = formDao.getFormCodeBySeqId(parentId);
+					if(parentFormCode.equals("BatchMain")) {
+						wherePart += " and exists(select 1 from fg_s_invitemmaterial_all_v t where t.invitemmaterial_id = tt.invitemmaterial_id and nvl(t.materialstatusname,'Active') <> 'Temporary')";
+					}
 					//String formId = generalUtilFormState.getFormId(formCode);
 					if (!formId.equals("-1") && (display.equalsIgnoreCase("dtexp")
 							|| display.equalsIgnoreCase("dtexpan") || display.equalsIgnoreCase("dtexpfr")

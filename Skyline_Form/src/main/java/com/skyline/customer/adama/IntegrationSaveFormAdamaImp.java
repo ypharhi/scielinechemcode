@@ -5071,13 +5071,10 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			JSONArray arr = new JSONArray(jsspreadsheetData.get("0").toString());
 			for(int i = 0;i<arr.length();i++) {
 				JSONObject sampleMaterialPair = arr.getJSONObject(i);
-				String sample = generalUtil.getNull(sampleMaterialPair.getString("Sample"));
 				String material = generalUtil.getNull(sampleMaterialPair.getString("Material"));
 				String manualMaterial = generalUtil.getNull(sampleMaterialPair.getString("Unknown Materials"));
-				String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value"));
 				String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
 				String rt = generalUtil.getNull(sampleMaterialPair.getString("RT")) ;
-				String uom = generalUtil.getNull(sampleMaterialPair.getString("Uom")) ;
 				if(material.isEmpty() && manualMaterial.isEmpty()) {
 					continue;
 				}
@@ -5135,27 +5132,27 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				}
 				
 				
-				  //2. checks that the materials are valid, ie. all of them exist in the inventory
+				  //3. checks that the materials are valid, ie. all of them exist in the inventory
 				  integrationValidation.validate(ValidationCode.INVALID_MATERIAL_NAME,
 				  formCode, formId, materialList, new StringBuilder());
 				  
-				  //3.checks that the result types are valid, ie. all of them exist in the result type maintenance
+				  //4.checks that the result types are valid, ie. all of them exist in the result type maintenance
 				  integrationValidation.validate(ValidationCode.INVALID_RESULT_TYPE, formCode,
 				  formId, resultTypeList, new StringBuilder());
 				  
-				 //4.checks that the samples are valid, ie. all of them exist in the sample select of the experiment
+				 //5.checks that the samples are valid, ie. all of them exist in the sample select of the experiment
 				  integrationValidation.validate(ValidationCode.INVALID_RESULT_SAMPLE,
 				  formCode, formId, sampleList, new StringBuilder());
 				  
-				 //5.checks whether any of the unknown materials already exists in the inventory
+				 //6.checks whether any of the unknown materials already exists in the inventory
 				 integrationValidation.validate(ValidationCode.INVALID_UNKNOWN_MATERIAL,
 				  formCode, formId, manualMaterialList, new StringBuilder());
 				 
-				 //6.checks whether any of the unknown materials already exists in the inventory
+				 //7.checks whether any of the unknown materials already exists in the inventory
 				 integrationValidation.validate(ValidationCode.INVALID_UOM,
 				  formCode, formId, uomList, new StringBuilder());
 				
-				//7. creates the temporary materials that has entered as unknown 
+				//8. creates the temporary materials that has entered as unknown 
 				String project_id = elementValueMap.get("PROJECT_ID");
 				for(String manualMaterial:manualMaterialList) {
 					if(!manualMaterial.isEmpty()) {
@@ -5163,7 +5160,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					}
 				}
 				
-				//8. update the cells that represent the temporary materials and insert the new material_id
+				//9. update the cells that represent the temporary materials and insert the new material_id
 				for(int i = 0;i<arr.length();i++) {
 					JSONObject sampleMaterialPair = arr.getJSONObject(i);
 					String sample = generalUtil.getNull(sampleMaterialPair.getString("Sample"));
@@ -5184,7 +5181,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					//}
 				}
 			
-				//9. insert the data into the manual results 
+				//10. insert the data into the manual results 
 				List<String> sampleselectList = generalDao.getListOfStringBySql("select sample_id\n"
 						+ " from fg_s_sampleselect_all_v\n"
 						+ "where parentid = '"+formId+"'\n"

@@ -812,6 +812,11 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 								ActivitylogType.WorkFlowNew, formId);
 						wfNames.remove("Sample");
 						wfNames.remove("InvItemBatch");
+					} else if(generalUtil.getNull(status_).equals("Temporary")) {
+						msg = generalUtil.getSpringMessagesByKey(statusLogOrder + "Status of Material is " + status_
+								+ ". Batch is removed from the list.", "");
+						generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowNew, msg, formId,
+								msgBuilder);
 					}
 				}
 				if(formCode.equals("Sample")) {
