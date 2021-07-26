@@ -7238,7 +7238,8 @@ public void preperReport(Map<String, String> elementValueMap) {
 				+ "from fg_s_component_all_v\n"
 				+ "where parentid = '"+parentId+"'\n"
 						+ "and sessionid is null\n"
-						+ "and active = 1";
+						+ "and active = 1\n"
+						+ "order by to_number(rt)";
 		List<Map<String,Object>> testedComponentList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("TestedComponents", new JSONArray(testedComponentList));
 		
