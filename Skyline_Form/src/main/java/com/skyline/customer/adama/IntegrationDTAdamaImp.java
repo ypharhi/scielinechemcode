@@ -1389,6 +1389,13 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
  										+ " union all  select * from " + table + " where " + tableTypeWherePart + " and PARENTID='" + formId 
  										+ "' "+ generalUtilFormState.getWherePartForTmpData(struct, formId);
  							}
+                             if(struct.equalsIgnoreCase("MaterialComponent") && display.equalsIgnoreCase("dtp")) {
+  								
+  								sql = "select * from " + table + " where " + tableTypeWherePart + " and PARENTID='" + formId
+  										+ "' and sessionid is null  "+generalUtilFormState.getWherePartForTmpDataByFormId(struct, formId)
+  										+ " union all  select * from " + table + " where " + tableTypeWherePart + " and PARENTID='" + formId 
+  										+ "' "+ generalUtilFormState.getWherePartForTmpData(struct, formId);
+  							}
                              if(struct.equalsIgnoreCase("MaterialComponent") && display.equalsIgnoreCase("dtb")) {
   								sql = "select * from " + table + " where " + tableTypeWherePart + " and PARENTID='" + formId
   										+ "' and sessionid is null  "+generalUtilFormState.getWherePartForTmpDataByFormId(struct, formId)

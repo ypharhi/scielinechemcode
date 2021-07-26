@@ -67,6 +67,7 @@ for r in (
                   
                   --This condition section is for the materials in the composition table(recipe/ExperimentFor)--
                   or(table_type_in = 'Active Ingredient' and lower(m.MaterialTypeName) in lower('Active Ingredient') and nvl(t.COFORMULANT,'0') = '0')
+                  or(table_type_in = 'Active Ingredient Product' and lower(m.MaterialTypeName) in ('active ingredient','product','final product') and nvl(t.COFORMULANT,'0') = '0')
                   or(table_type_in = 'Co-Formulants' and t.COFORMULANT = '1')
                   or(table_type_in = 'Chemicals' and MATERIALPROTOCOLTYPE = 'Chemical Material' and nvl(t.COFORMULANT,'0') = '0' and lower(m.MaterialTypeName) not in lower('Active Ingredient'))
                   or(table_type_in = 'Allowed Additive' and lower(m.MaterialTypeName) in lower('Wetting of WG'))
