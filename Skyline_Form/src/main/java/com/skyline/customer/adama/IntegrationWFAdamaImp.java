@@ -817,6 +817,7 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 								+ ". Batch is removed from the list.", "");
 						generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowNew, msg, formId,
 								msgBuilder);
+						wfNames.remove("InvItemBatch");
 					}
 				}
 				if(formCode.equals("Sample")) {
