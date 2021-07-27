@@ -5234,16 +5234,18 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 							}
 						}
 					}
-					
-					sql = String.format(
-							"insert into fg_s_manualResultsRef_pivot t"
+					/*
+					 * sql = String.format( "insert into fg_s_manualResultsRef_pivot t" +
+					 * " (t.FORMID,t.TIMESTAMP,t.CHANGE_BY,t.CREATION_DATE,t.CREATED_BY,t.SESSIONID,t.ACTIVE,t.FORMCODE, t.FORMCODE_ENTITY, REQUEST_ID, SAMPLE_ID,PARENTID,MATERIAL_ID,RESULT_TYPE_ID,COMPONENT_ID,COMMENTS,RESULT,UOM_ID)"
+					 * +
+					 * " values(%1$s, sysdate, %2$s, sysdate, %2$s, NULL, 1, 'MANUALRESULTSREF', 'MANUALRESULTSREF', %3$s, %4$s, %5$s, %6$s,'%7$s','%8$s','"
+					 * +resultCommnent+"','"+resultValue+"','"+uomId+"')", manualResId, userId,
+					 * "NULL", sample_id, formId, material_id, resultTypeId, "NULL");
+					 */
+
+					sql = "insert into fg_s_manualResultsRef_pivot t"
 									+ " (t.FORMID,t.TIMESTAMP,t.CHANGE_BY,t.CREATION_DATE,t.CREATED_BY,t.SESSIONID,t.ACTIVE,t.FORMCODE, t.FORMCODE_ENTITY, REQUEST_ID, SAMPLE_ID,PARENTID,MATERIAL_ID,RESULT_TYPE_ID,COMPONENT_ID,COMMENTS,RESULT,UOM_ID)"
-									+ " values(%1$s, sysdate, %2$s, sysdate, %2$s, NULL, 1, 'MANUALRESULTSREF', 'MANUALRESULTSREF', %3$s, %4$s, %5$s, %6$s,'%7$s','%8$s','"+resultCommnent+"','"+resultValue+"','"+uomId+"')",
-							manualResId, userId,
-							"NULL",
-							sample_id, formId,
-							material_id,
-							resultTypeId, "NULL");
+									+ " values('"+manualResId+"', sysdate, '"+userId+"', sysdate, '"+userId+"', NULL, 1, 'MANUALRESULTSREF', 'MANUALRESULTSREF', NULL , '"+sample_id+"', '"+formId+"', '"+material_id+"','"+resultTypeId+"',NULL,'"+resultCommnent+"','"+resultValue+"','"+uomId+"')";
 					formSaveDao.insertStructTableByFormId(sql, "fg_s_manualresultsref_pivot", manualResId);
 				}
 				jsspreadsheetData = new JSONObject();
