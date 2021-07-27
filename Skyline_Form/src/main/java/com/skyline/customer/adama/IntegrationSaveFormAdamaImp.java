@@ -5049,7 +5049,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 		//				+ " and smpl.SAMPLE_ID = smplReq.SAMPLE_ID(+)" + " and smpl.PARENTID = '" + formId + "'"
 		//				+ " and c.PARENTID = '" + formId + "'" + ")" + ") ";
 		String experimentStatusName = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.ID, elementValueMap.get("STATUS_ID"), "name");
-		if(experimentTypeName.equals("General")) {
+		if(experimentTypeName.equals("General") && !formCode.equals("ExperimentMain")) {
 			//1. checks if there was an error that found on the client size
 			String spreadsheetResultsData = generalUtilFormState.getStringContent(elementValueMap.get("spreadsheetResults"), "ExperimentAn", "spreadsheetResults", formId);
 			JSONObject js = new JSONObject();
