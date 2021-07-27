@@ -377,7 +377,7 @@ public class ExperimentReportSQLBuilder {
 				String displayLevel = generalUtil.getNull((String)filterRefMap.get("LEVEL_")); // Material => List of step Names (for example STEP 01,STEP 02) / Parameter => List of step Names and Experiment numbers
 				
 				//check stepNames exists
-				if(displayLevel.isEmpty() || displayObjId.isEmpty()) { //  || stepIds.isEmpty() -> not use this condition because of parameters in experiment
+				if (/* displayLevel.isEmpty() || */displayObjId.isEmpty()) { //  || stepIds.isEmpty() -> not use this condition because of parameters in experiment
 					continue;
 				}
 				
