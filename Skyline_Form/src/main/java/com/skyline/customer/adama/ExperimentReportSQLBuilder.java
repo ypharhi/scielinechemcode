@@ -34,7 +34,7 @@ public class ExperimentReportSQLBuilder {
 	 * - The data of the result will also be insert into FG_P_EXPREPORT_DATA_TMP by FG_ADAMA.GET_UPDATE_P_EXPREPORT_DATA DB function.
 	 */
 	SQLObj getExpReportRulesFieldsSQL(long stateKey, String expIds, String stepIds, String sampleIds, Map<String,String> materialTypeTableMap,
-			String imputityMatIds, String resulttype, String characteristicMassBalan, String sampleComments, String sampleCreator) {
+			String imputityMatIds, String resulttype, String characteristicMassBalan, String sampleComments, String sampleCreator,String sampleAmount) {
 		
 		StringBuilder sbWithSql = new StringBuilder();
 		StringBuilder sbSelectSql = new StringBuilder();
@@ -526,6 +526,7 @@ public class ExperimentReportSQLBuilder {
 			map.put("imputityMatIds_in", imputityMatIds);
 			map.put("sampleComments_in", sampleComments);
 			map.put("sampleCreator_in", sampleCreator);
+			map.put("sampleAmount_in", sampleAmount);
 			map.put("sampleIds_in", generalUtil.handleClob( "," + sampleIds + ","));
 			numRowsResult = generalDao.callPackageFunction("FG_ADAMA", "GET_UPDATE_P_EXPREPORT_DATA", map);
 		}

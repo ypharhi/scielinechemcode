@@ -1628,6 +1628,7 @@ END;*/
                                            imputityMatIds_in VARCHAR,
                                            sampleComments_in VARCHAR,
                                            sampleCreator_in VARCHAR,
+                                           sampleAmount_in VARCHAR,
                                            sampleIds_in clob) -- to_clob("," || sampleIdsCsv || ',')
                                            return varchar2 as
   begin
@@ -1653,12 +1654,28 @@ END;*/
     from fg_s_sample_v t
     where DBMS_LOB.INSTR( sampleIds_in, ',' || t.sample_id || ',' ) > 0
     union all
+     -----------------------
+    --sample description
+    -----------------------
+    select distinct to_char(t.SAMPLE_ID) as SAMPLE_ID,
+    t.EXPERIMENT_ID,
+    10001 as order_,
+    CAST(NULL AS varchar2(500)) as order2,-- assay results appear first
+    '{pivotkey:"'|| t.SAMPLE_ID||'_'||t.EXPERIMENT_ID||'",pivotkeyname:"UNIQUEROW",'
+    ||'column:"Sample Description",'
+    ||'val:'|| t.sampleDesc
+    ||'}' as result_SMARTPIVOT
+   from fg_s_sample_v t
+   where 1=1
+   and  t.sampleDesc is not null
+   and DBMS_LOB.INSTR( sampleIds_in, ',' || t.sample_id || ',' ) > 0
+   union all
     -----------------------
     --sample amount
     -----------------------
     select distinct to_char(t.SAMPLE_ID) as SAMPLE_ID,
     t.EXPERIMENT_ID,
-    10001 as order_,
+    10002 as order_,
     CAST(NULL AS varchar2(500)) as order2,-- assay results appear first
     '{pivotkey:"'|| t.SAMPLE_ID||'_'||t.EXPERIMENT_ID||'",pivotkeyname:"UNIQUEROW",'
     ||'column:"Sample amount",'
@@ -1667,7 +1684,7 @@ END;*/
    from fg_s_sample_v t
    where 1=1
    and  t.AMMOUNT is not null
-   --and sampleAmount_in = '1'
+   and sampleAmount_in = '1'
    and DBMS_LOB.INSTR( sampleIds_in, ',' || t.sample_id || ',' ) > 0
    union all
     -----------------------
@@ -1675,7 +1692,7 @@ END;*/
     -----------------------
     select distinct to_char(t.SAMPLE_ID) as SAMPLE_ID,
       t.EXPERIMENT_ID,
-      10002 as order_,
+      10003 as order_,
       CAST(NULL AS varchar2(500)) as order2,-- assay results appear first
       '{pivotkey:"'|| t.SAMPLE_ID||'_'||t.EXPERIMENT_ID||'",pivotkeyname:"UNIQUEROW",'
       ||'column:"Sample Comment",'
@@ -1692,7 +1709,7 @@ END;*/
     -----------------------
     select distinct to_char(t.SAMPLE_ID) as SAMPLE_ID,
     t.EXPERIMENT_ID,
-    10003 as order_,
+    10004 as order_,
     CAST(NULL AS varchar2(500)) as order2,-- assay results appear first
     '{pivotkey:"'|| t.SAMPLE_ID||'_'||t.EXPERIMENT_ID||'",pivotkeyname:"UNIQUEROW",'
     ||'column:"Sample Creator",'
@@ -1708,7 +1725,7 @@ END;*/
    -----------------------
    select t1.SAMPLE_ID,
          t1.EXPERIMENT_ID,
-         10004 as order_,
+         10005 as order_,
          t1.name_ as order2,
          '{pivotkey:"'|| t1.SAMPLE_ID||'_'||t1.EXPERIMENT_ID||'",pivotkeyname:"UNIQUEROW",'
          ||'column:"'|| t1.name_ || '",'

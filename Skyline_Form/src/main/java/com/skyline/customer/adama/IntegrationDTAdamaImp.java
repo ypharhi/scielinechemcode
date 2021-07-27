@@ -169,14 +169,15 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						String resulttype = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "resulttype_ddl");
 						String characteristicMassBalan = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "characteristicMassBalan_ddl");
 						String sampleComments = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "sampleComments");
-						String sampleCreator  = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "sampleCreator"); 
+						String sampleCreator  = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "sampleCreator");
+						String sampleAmount = generalUtilFormState.getFormValue(stateKey, "ExperimentReport", "sampleAmount"); 
 
 						Map<String,String> materialTypeTableMap = formDao.getFromInfoLookupAllElementData("MaterialType", LookupType.ID, "name");
 						
 						SQLObj sqlObj = experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey,
 								expidList.replace("@", ","), stepidList.replace("@", ","), sampleidList.replace("@", ","), materialTypeTableMap,
-								imputityMatIds, resulttype, characteristicMassBalan, sampleComments, sampleCreator);
-						
+								imputityMatIds, resulttype, characteristicMassBalan, sampleComments, sampleCreator, sampleAmount);
+						 
 						String sampleIds = sampleidList.replace("@", ",");
 						String expIds = expidList.replace("@", ",");
 
