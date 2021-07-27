@@ -1200,6 +1200,9 @@ function initForm() {
     	 $('.dataTableParent').css({"overflow-x": "auto", "overflow-y": "hidden", "max-width":$('body')[0].clientWidth - 50 + 'px'}); //, "padding-bottom":"95px" padding-bottom because of ddl in edit tables
     	 $('.tab-container').css("padding-right", "0px"); // fix bug 7180 - if overflow-x is hidden the padding-right "hide" the y scroll of the tab content
     	 //$('body').css('overflow-x', 'hidden'); //YP 27122018 fix bug 14967 - open for step form (body scroll)
+    	 $('#characteristicMassBalan_ddl_chosen .default').css("width","225px");
+    	 $('#resulttype_ddl_chosen .default').css("width","100%");
+    	 $('#IMPURITY_MATERIAL_ID_VAL_chosen .default').css("width","190px");
     }
     
     if(_formCode == 'MultiStep'){

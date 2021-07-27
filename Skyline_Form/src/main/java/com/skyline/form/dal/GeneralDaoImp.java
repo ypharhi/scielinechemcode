@@ -102,7 +102,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 	@Value("${reactionAndResultsAnalysisType:Material,Parameter}")
     private String reactionAndResultsAnalysisType_;
 	
-	@Value("${reactionAndResultsAnalysisCol:{'REACTANT':'QUANTITY;Qty,MOLE;Mole,VOLUME;Volume,PURITY;Purity,EQUIVALENT;Equivalent,INVITEMBATCHNAME;Batch','PRODUCT':'MASS;Mass,MW;Mw','PARAMETERS':'VAL1;Actual Value 1,VAL2;Actual Value 2'}}")
+	@Value("${reactionAndResultsAnalysisCol:{'REACTANT':'QUANTITY;Qty,MOLE;Mole,VOLUME;Volume,PURITY;Purity,EQUIVALENT;Equivalent,INVITEMBATCHNAME;Batch','PRODUCT':'MASS;Mass,MW;Mw','PARAMETERS':'ALL;All,VAL1;Actual Value 1,VAL2;Actual Value 2'}}")
     private String reactionAndResultsAnalysisCol_;
 	
 	@Autowired
