@@ -5156,8 +5156,8 @@ function ElementDataTableApiImpOnButtonClick(input) {
     var stateKey = $('#' + domId + '_selectDiv').attr('stateKey');
     var onActionButtons = $('[id="' + domId + '_onActionButtons"]').val();
     var popupSize = $('[id="' + domId + '_popupSize"]').val();
-    var dialogWidth = $(window).width() - 200;
-    var dialogHeight = $(window).height() - 200;
+    var dialogWidth = $(window).width()*0.85;
+    var dialogHeight = $(window).height()*0.85;
     var availableDataStructures, parentTable;
     var str;
     var isCloneAttrFlag = "";
@@ -5172,6 +5172,10 @@ function ElementDataTableApiImpOnButtonClick(input) {
     }
     if (formCode == "OperationType"){
     	dialogWidth = 850;
+    }
+    if (formCode =="ManualResultsRef"){
+    	var dialogWidth = $(window).width()-60;
+        var dialogHeight = $(window).height()-60;
     }
     // If edit or view
     if ((jqueryInput.hasClass('dataTableApiView')) || (jqueryInput.hasClass('dataTableApiEdit'))) {
