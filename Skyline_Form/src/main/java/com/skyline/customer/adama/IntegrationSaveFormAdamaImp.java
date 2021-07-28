@@ -5082,8 +5082,9 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					integrationValidation.validate(ValidationCode.INVALID_SPREADSHEETRESULT_MISSING_DATA, formCode, formId, "", new StringBuilder());
 				}
 			}
-			
-			if(experimentStatusName.equals("Completed") || experimentStatusName.equals("Approved") ) {//in the general analytical experiment the manual results are deleted and re-built
+			//IMPORTANT!! if the results would be updated also on the approved status->the query should be changed and instead of deleting all the results before re-updating them, we will have to find the resultsref_id of the combination of material&sample and just update the result value&comment.
+			// this should be done because the results are stored in the sample results and may be checked as main since the experiment was completed,and while it is implemented as it is now, the results_id may be changed if they would be updated on the approved status
+			if(experimentStatusName.equals("Completed")) {//in the general analytical experiment the manual results are deleted and re-built
 				//delete the manual results
 				String sql = "delete from FG_S_MANUALRESULTSREF_PIVOT\n"
 						+ "where parentid = '"+formId+"'";

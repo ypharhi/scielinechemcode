@@ -1684,7 +1684,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 				}
 				if(sampleResultsList!= null && !sampleResultsList.isEmpty()){
 					sql = "update fg_s_sample_pivot set sampleresults = '"+generalUtil.listToCsv(sampleResultsList)+"' where formid = "+sampleId;
-					formSaveDao.updateStructTableByFormId(sql, "fg_s_sample_pivot", Arrays.asList("sampleresults"), formId);
+					formSaveDao.updateStructTableByFormId(sql, "fg_s_sample_pivot", Arrays.asList("sampleresults"), sampleId);
 					sampleUpdatedForNotificationMessage.add(sampleId);
 					//send notification SAMPLE_RESULT_TO_UPDATE 
 					String experimentOwnerId = generalDao.selectSingleStringNoException("select t.OWNER_ID from FG_S_EXPERIMENT_V t,fg_s_sample_v s where s.EXPERIMENT_ID = t.experiment_id and s.sample_id = '" + sampleId + "'");
