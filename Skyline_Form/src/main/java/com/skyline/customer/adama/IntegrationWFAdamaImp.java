@@ -1496,7 +1496,7 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 				wfNames.remove("RecipeFormulation");
 			}
 		} else {
-			String recipeConnected = formParam.get("RECIPEFORMULATION_ID");
+			String recipeConnected = generalUtil.getNull(formParam.get("RECIPEFORMULATION_ID"));
 			String sp_EnableSpreadsheet = generalDao.selectSingleStringNoException("select sp.ISENABLESPREADSHEET from fg_s_experiment_v ex, fg_s_subproject_v sp where ex.SUBPROJECT_ID = sp.formid and ex.formid = '" +formId +"'");
 			if(!recipeConnected.isEmpty()){
 				msg = generalUtil.getSpringMessagesByKey(statusLogOrder + "The experiment is already connected to a recipe. Creating another recipe is not allowed"
