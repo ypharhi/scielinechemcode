@@ -283,7 +283,7 @@ function elementDataTableApiImpBL(domId) {
 	   			.remove();
 	   			//.('<a class="" tabindex="0" aria-controls="reportTable" href="#"><span>PDF</span></a>');
    }else if((domId == 'rulesTable' || domId == 'separateColumnsRulesTable') && $('#formCode').val() == 'ExperimentReport'){
-	   $('#'+domId+'_Parent').css({"padding-bottom":"100px"});//padding-bottom because of ddl in edit tables
+	   $('#'+domId+'_Parent').css({"padding-bottom":"105px"});//padding-bottom because of ddl in edit tables
 	   $('#'+domId+'_dataTableStructButtons button.dataTableApiNew:not(.dataTableAddRowButton)').css('display', 'none');
    } else if(domId == 'Batches' && ($('#formCode').val() == 'InvItemMaterial'||$('#formCode').val() == 'InvItemMaterialFr'||$('#formCode').val() == 'InvItemMaterialPr')){
 	   $('#Batches_dataTableStructButtons button.dataTableApiOptional1').text('Depleted');
@@ -4554,7 +4554,7 @@ function bl_isTableMergeable(domId)
 
 function bl_isTableHasContextMenu(domId, tableRole)
 {
-	var toReturn = true;	
+	var toReturn = false;	
 	var formCode = $('#formCode').val();
 //	var formCodeArr = ["Main","SearchReport","InvItemMaterialsMain","InvItemInstrumentsMain","Step","Experiment","SpreadsheetMain","ExpAnalysisReport","ExperimentFor","ExperimentCP"];	
 //	if($.inArray(formCode, formCodeArr) > -1)
