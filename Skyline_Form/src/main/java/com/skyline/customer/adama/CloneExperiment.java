@@ -151,7 +151,7 @@ public class CloneExperiment {
 
 		// Documents clone
 		if (cloneType.equals(CloneType.TO_TEMPLATE)||cloneType.equals(CloneType.FROM_TEMPLATE)) {
-			insertRef("document", sourceExperimentId, userId, "EXPERIMENT", experimentCloneId, null, null, " and decode(tabletype,'expDocumentsSample',decode(nvl(addToTemplate,1),1,1,0),1)=1 ",//copy  the documents of the experiments that selected as 'add to template'. the other documents(such as chromatograms,and selftests) -all of them are copied
+			insertRef("document", sourceExperimentId, userId, "EXPERIMENT", experimentCloneId, null, null, " and decode(tabletype,'expDocumentsSample',decode(nvl(addToTemplate,1),1,1,0),decode(tabletype,'documents',decode(nvl(addToTemplate,1),1,1,0),1))=1 ",//copy  the documents of the experiments that selected as 'add to template'. the other documents(such as chromatograms,and selftests) -all of them are copied
 					cloneType);
 		}
 

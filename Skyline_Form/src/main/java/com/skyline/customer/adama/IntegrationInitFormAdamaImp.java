@@ -2309,7 +2309,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 			String sourceExp = generalDao.selectSingleStringNoException("select SOURCEEXPNO_ID\n"
 					+ "from fg_S_template_v\n"
 					+ "where formid = '"+formId+"'");
-			cloneExperiment.insertRef("document", sourceExp, userId, "experiment", formId, "TemplateDoc", null, "and tabletype = 'expDocumentsSample'");
+			cloneExperiment.insertRef("document", sourceExp, userId, "experiment", formId, "TemplateDoc", null, "and tabletype in ('expDocumentsSample','documents')");
 		}
 		
 		
