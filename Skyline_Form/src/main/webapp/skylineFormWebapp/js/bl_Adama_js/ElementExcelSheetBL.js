@@ -243,13 +243,28 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				    			if(materialId == material_id){
 				    				var actualMaterialName = sheetMaterial.getValue(row,0);
 				    				sheet.setValue(_materialLocation.y,j,actualMaterialName);
-				    				sheet.setValue(_unknownMaterialLocation.y,j,'');
+				    				sheet.setValue(c.y,j,'');
 				    				break;
 				    			}
 			    			}
 			    		}
 			    	}
 			    }
+			    sheet.sortRange(0,_rtLocation.x,300,300,false,[
+			    	{index:_rtLocation.y, 
+			    		ascending:true,
+			    		/*compareFunction: function (value1, value2) {
+		                   var num1 = Number(value1);
+		                   var num2 = Number(value2);
+			    			if( num1 > num2){
+		                    	return 1;
+		                    } else if(num1 < num2){
+		                    	return -1;
+		                    } else {
+		                    	return 0;
+		                    }
+		                }*/
+			    	}]);
 			}//end of if version
 		});
 		onSpreadFocused(domId);
