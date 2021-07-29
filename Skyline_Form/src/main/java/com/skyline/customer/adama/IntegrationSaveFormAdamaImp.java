@@ -5078,7 +5078,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				if(material.isEmpty() && manualMaterial.isEmpty()) {
 					continue;
 				}
-				if(resultType.isEmpty() || rt.isEmpty()) {
+				if(resultType.isEmpty()) {
 					integrationValidation.validate(ValidationCode.INVALID_SPREADSHEETRESULT_MISSING_DATA, formCode, formId, "", new StringBuilder());
 				}
 			}

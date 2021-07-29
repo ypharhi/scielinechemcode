@@ -31,6 +31,10 @@
 		#gc-designer-container {
 			min-height: 96vh;
 		}
+		
+		.insert-text-box {
+			background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD4AAAAzCAYAAADPX7uaAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAALmSURBVGhD7ZpfSFNRHMe/jhk6y00tsbLagw3RB3NQSEl/noxRRMSe+kPv0UMQ9RQIPRVBT71L1EsREcVICPJBhyRMfVDGWmVLUyzdpjYNh2u/47kYsdzdw/nd6NwPXM7vnN+543y5d/f7O7srC4fDOWhIWS6PjLXCIVvtsIXrhi1cN2zhumHaxx8Of5MR4K504kxzjexZw4toEunlrOwBl9p3yMgcpoXvuxeREdC8vQK9l1tkzxq6esYR/b4ie8Dn634ZmaMk4d3Hd2FkJoP+6CQqnt+UGWtYOXsHnc2NONDgQnffV7XCG6vLsZzNwe1cw62meZmxhtvxWqSzDlQ6yzC5sKpO+LXQBAYHB+HxeNDpb8WNIw0yYw13B2bQHxlDKpVCR0cH7ge8MmMO0091+uC22bcIlMcsF03QGmgttKZSRRO2j+uGJcKDTz7g1OP3smcN7MIfvJvF8HRGeDDFVsEufGgqgzqXE65yB/omFuUoP6zCPyV/oj+xCP9OV/6oEleexqyAVfjT8aRoAz4PzrWu1/o9I3Oi5YZVeCiWEtXfaZ9bHHTLv46nZZYXNuEvY2lRWh7zVssR4GSTG3OZrMhxwyacrjbR1bQh3Iifja1/BThhEz6QWEJ7/qF2eM9WOQIR0xY3Mv1DjvDBIpz8OrO6hoO7q+TIBke920SONh2csAgnvybfLrS5CbbUiNzQFO9VVy6cfJr8mqAy9c/jaighcjQn/GVJxBwoF2749F73FtEWwsj1xhdEy4Fy4eTT5Nevzu/f9OD2dKXCyZ/Jp6lELQbNobmPRnkqOaXCDX++2FYn2s0w5rz5yLNxUSqc/JlK1N+9+2/QHJpL53BsXJQJp1uWHlq0ITFLsLVWnEPFjmqUCb+Qv3XpoVXKD5NXDtWLc+hc1Si91f9lbOHFoBcKo/UnEFr1sdfVhaA10FpoTbS2UrFfIRVD65eGBlq9Jtb2jwH/G7ad6YYtXDds4bqhqXDgFyNKW4+1hn87AAAAAElFTkSuQmCC')
+		}
 	</style>
 	
 	<script type="text/javascript">
@@ -57,10 +61,42 @@
 			var workBook = designer[domId].getWorkbook();
 			workBook.fromJSON(data);
 			parent.console.log(data);
+			customizeCommandMap(domId);
 			setTimeout(function(){//sorrounded with timeout in order to ensure that the customizations defined after the spreadJs finished loding
 				defineSpreadsheet(domId);//important! this operation should be executed after the fromJson operation.
 			},100);
 		}  
+		
+		function customizeCommandMap(domId){
+			var workbook = designer[domId].getWorkbook();
+			workbook.commandManager().register('insertTextBox', {
+				canUndo: true,
+				execute: function (workbook, options, isUndo) {
+					var Commands = GC.Spread.Sheets.Commands;
+					var sheet = workbook.getSheetFromName(options.sheetName);
+					var x = options.x || 0, y = options.y || 0, w = options.w || 120, h = options.h || 50;
+					if (isUndo) {
+						Commands.undoTransaction(workbook, options);
+						return true;
+					} else {
+						Commands.startTransaction(workbook, options);
+						workbook.suspendPaint();
+						var shape = sheet.shapes.add(
+							'textBox' + new Date().valueOf(),
+							GC.Spread.Sheets.Shapes.AutoShapeType.rectangle, x, y, w, h);
+						var style = shape.style();
+						style.fill.color = 'white';
+						style.line.color = 'rgb(212, 212, 212)';
+						style.textEffect.color = 'black';
+						shape.style(style);
+						shape.isSelected(true);
+						workbook.resumePaint();
+						Commands.endTransaction(workbook, options);
+						return true;
+					}
+				}
+			});
+		}
 		
 		function getConfig(domId) {
 		  var config = GC.Spread.Sheets.Designer.DefaultConfig;
@@ -71,6 +107,7 @@
 		function updateDefaultConfig(config,domId) {
 		  // remove fil menu
 		  removeFileMenu(config);
+		  updateInsertTab(config,domId);
 		  updateHomeTab(config,domId);
 		}
 		
@@ -78,6 +115,26 @@
 		  config.fileMenu = null;
 		}
 	
+		function updateInsertTab(config,domId){
+			config.commandMap = {
+					insertTextShape: {
+						title: "Text Box",
+						text: "Text Box",
+						iconClass: "insert-text-box",
+						bigButton: "true",
+						commandName: "insertTextShape",
+						execute: function (context, propertyName) {
+							var workbook = context.getWorkbook();
+							var sheet = workbook.getActiveSheet();
+							var sel = sheet.getSelections()[0];
+							var rect = sheet.getCellRect(sel.row, sel.col);
+							workbook.commandManager().execute({ cmd: 'insertTextBox', sheetName: sheet.name(), x: rect.x, y: rect.y, w: 150, h: 50 });
+						}
+					}
+				};
+				config.ribbon[1].buttonGroups[4].commandGroup.commands.push("insertTextShape");
+		}
+		
 		function updateHomeTab(config,domId) {
 		  var homeTab = config.ribbon.find(function(r){return r.id === 'home';});
 		  // add save option
