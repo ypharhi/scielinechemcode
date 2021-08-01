@@ -250,20 +250,25 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 			    		}
 			    	}
 			    }
-			    sheet.sortRange(0,_rtLocation.x,300,300,false,[
+			    var materialCount = 0;
+			    var columnCount = sheet.getColumnCount();
+			    for(var columnIndex = _materialLocation.x; columnIndex<columnCount; columnIndex++){
+	    			var materialName = sheet.getValue(_materialLocation.y,columnIndex);
+	    			var manualMaterial = sheet.getValue(_unknownMaterialLocation.y,columnIndex);
+	    			if(materialName == null && manualMaterial == null){
+	    				break;
+	    			}
+	    			materialCount++;
+    			}
+			    sheet.sortRange(0,_rtLocation.x,306-_rtLocation.y,materialCount,false,[
 			    	{index:_rtLocation.y, 
 			    		ascending:true,
-			    		/*compareFunction: function (value1, value2) {
-		                   var num1 = Number(value1);
-		                   var num2 = Number(value2);
-			    			if( num1 > num2){
-		                    	return 1;
-		                    } else if(num1 < num2){
-		                    	return -1;
-		                    } else {
-		                    	return 0;
-		                    }
-		                }*/
+			    		compareFunction:function compare(value1, value2) {
+			    		    //console.log("value =>", value1, value2);
+			    		    if(value1 == null) return 1;
+			    		    else if(value2 == null) return -1;
+			    		    return Number(value1) > Number(value2) ? 1 : -1;
+			    		  }
 			    	}]);
 			}//end of if version
 		});
