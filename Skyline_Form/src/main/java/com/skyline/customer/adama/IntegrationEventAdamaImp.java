@@ -7212,7 +7212,7 @@ public void preperReport(Map<String, String> elementValueMap) {
 					+ "Select SAMPLE_ID from FG_S_SAMPLESELECT_ALL_V\n"
 					+ " where PARENTID = '"+parentId+"'\n"
 					+ "and sessionid is null and active =1"
-				+ ") order by name\n"
+				+ ")\n"
 		+(!sampleCount.equals("0")?
 				 "union all\n"
 				+"select '0' ID,'NA' NAME,null as Description,null as Comments\n"
