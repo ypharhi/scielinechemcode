@@ -1678,7 +1678,7 @@ END;*/
     10002 as order_,
     CAST(NULL AS varchar2(500)) as order2,-- assay results appear first
     '{pivotkey:"'|| t.SAMPLE_ID||'_'||t.EXPERIMENT_ID||'",pivotkeyname:"UNIQUEROW",'
-    ||'column:"Sample amount",'
+    ||'column:"Sample Amount",'
     ||'val:'|| t.AMMOUNT
     ||'}' as result_SMARTPIVOT
    from fg_s_sample_v t
@@ -1764,8 +1764,9 @@ END;*/
           and t.RESULT_MATERIAL_ID = m.invitemmaterial_id(+)
           and t.RESULT_IS_ACTIVE = 1
           and DBMS_LOB.INSTR( sampleIds_in, ',' || t.sample_id || ',' ) > 0
-          and upper(t.RESULT_NAME) = 'IMPURITY PERCENT'
-          and instr(nvl(imputityMatIds_in,'-1') ,t.RESULT_MATERIAL_ID) > 0
+          and upper(t.RESULT_NAME) like '%IMPURITY%'
+          --and instr(nvl(imputityMatIds_in,'-1') ,t.RESULT_MATERIAL_ID) > 0
+          and instr(decode(imputityMatIds_in,'ALL',t.RESULT_MATERIAL_ID,null,'-1',imputityMatIds_in) ,t.RESULT_MATERIAL_ID) > 0
           union all
           --************ 
           -- reult type (not IMPURITY)
@@ -1783,8 +1784,8 @@ END;*/
           and t.RESULT_MATERIAL_ID = m.invitemmaterial_id(+)
           and t.RESULT_IS_ACTIVE = 1
           and DBMS_LOB.INSTR( sampleIds_in, ',' || t.sample_id || ',' ) > 0
-          and upper(t.RESULT_NAME) <> 'IMPURITY PERCENT'
-          and instr(nvl(resulttype_in,'-1') ,t.RESULT_NAME) > 0
+          and upper(t.RESULT_NAME) not like '%IMPURITY%'
+          and instr(decode(resulttype_in,'ALL',t.RESULT_NAME,null,'-1',resulttype_in) ,t.RESULT_NAME) > 0
               ) t1 where t1.val_ is not null
   );
   return '1';

@@ -61,10 +61,10 @@ public class ExperimentReportSQLBuilder {
 			//with t.CHEMICALYIELD||'","'||t.ISOLATEDYIELD||'","'||t.SUMMARY
 			sbWithSql.append(((index == 0) ? "with ":", ") + aliasName + " as (\r\n" +
 					" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
-					(cMBl_.contains("conversion") ? "   ,t.CONVERSION \r\n":"") +
-					(cMBl_.contains("chemical yield") ? "   ,t.CHEMICALYIELD \r\n":"") +
-					(cMBl_.contains("isolated yield") ? "   ,t.ISOLATEDYIELD \r\n":"") +
-					(cMBl_.contains("summary") ? "   ,t.SUMMARY \r\n":"") +
+					(cMBl_.contains("conversion") || cMBl_.contains("all") ? "   ,t.CONVERSION \r\n":"") +
+					(cMBl_.contains("chemical yield") || cMBl_.contains("all") ? "   ,t.CHEMICALYIELD \r\n":"") +
+					(cMBl_.contains("isolated yield") || cMBl_.contains("all") ? "   ,t.ISOLATEDYIELD \r\n":"") +
+					(cMBl_.contains("summary") || cMBl_.contains("all") ? "   ,t.SUMMARY \r\n":"") +
 					
 					" from fg_s_step_v t \r\n" + 
 					" where t.CHKCHARACTERMASSBALANCE = 1 \r\n" +
@@ -73,10 +73,10 @@ public class ExperimentReportSQLBuilder {
 			
 			//select
 			sbSelectSql.append( 
-					(cMBl_.contains("conversion")  ? "," + aliasName + ".CONVERSION as \"Conversion%\" \r\n":"") +
-					(cMBl_.contains("chemical yield")  ? "," + aliasName + ".CHEMICALYIELD as \"Chemical Yield%\" \r\n":"") +
-					(cMBl_.contains("isolated yield")  ? "," + aliasName + ".ISOLATEDYIELD as \"Isolated Yield%\" \r\n":"") +
-					(cMBl_.contains("summary")  ? "," + aliasName + ".SUMMARY as \"Summary%\" \r\n":"")
+					(cMBl_.contains("conversion") || cMBl_.contains("all")  ? "," + aliasName + ".CONVERSION as \"Conversion%\" \r\n":"") +
+					(cMBl_.contains("chemical yield") || cMBl_.contains("all")  ? "," + aliasName + ".CHEMICALYIELD as \"Chemical Yield%\" \r\n":"") +
+					(cMBl_.contains("isolated yield") || cMBl_.contains("all")  ? "," + aliasName + ".ISOLATEDYIELD as \"Isolated Yield%\" \r\n":"") +
+					(cMBl_.contains("summary") || cMBl_.contains("all") ? "," + aliasName + ".SUMMARY as \"Summary%\" \r\n":"")
 						
 			);
 			
