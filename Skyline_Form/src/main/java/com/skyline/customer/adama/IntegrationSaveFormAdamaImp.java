@@ -5050,6 +5050,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 		//				+ " and c.PARENTID = '" + formId + "'" + ")" + ") ";
 		String experimentStatusName = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.ID, elementValueMap.get("STATUS_ID"), "name");
 		if(experimentTypeName.equals("General") && !formCode.equals("ExperimentMain")) {
+			//IMPORTANT: if some validation is added then it should be added in the FormApiExcelService.saveSpreadsheet. it should also be considered in case that the excel would be editable in the completed status(the validations should also be added or change the private save of full screen to the general save)
 			//1. checks if there was an error that found on the client size
 			String spreadsheetResultsData = generalUtilFormState.getStringContent(elementValueMap.get("spreadsheetResults"), "ExperimentAn", "spreadsheetResults", formId);
 			JSONObject js = new JSONObject();

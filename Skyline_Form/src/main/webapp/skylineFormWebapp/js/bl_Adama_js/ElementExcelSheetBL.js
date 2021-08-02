@@ -243,7 +243,7 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				    			if(materialId == material_id){
 				    				var actualMaterialName = sheetMaterial.getValue(row,0);
 				    				sheet.setValue(_materialLocation.y,j,actualMaterialName);
-				    				sheet.setValue(c.y,j,'');
+				    				sheet.setValue(_unknownMaterialLocation.y,j,'');
 				    				break;
 				    			}
 			    			}
@@ -494,6 +494,38 @@ function onKeyDown(formCode,domId,e,designer){
 	}
 }
 
+function onCellChanged(formCode,domId,args,designer){
+	/*var workBook = designer[domId].getWorkbook();
+    
+	//gets the version of the spreadsheet results template and makes the relevant code
+	var sheet = workBook.getSheetFromName('Version');
+	var version = sheet == null ? 'V1': sheet.getValue(0,0);
+	if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+		sheet = workBook.getSheet(0);
+		var col = args.col;
+		var row = args.row;
+		if(col == _sampleLocation.x && row >= _sampleLocation.y){
+			
+		}
+	}*/
+}
+
+function onComboBoxChanged(formCode,domId,args,designer){
+	/*var workBook = designer[domId].getWorkbook();
+    
+	//gets the version of the spreadsheet results template and makes the relevant code
+	var sheet = workBook.getSheetFromName('Version');
+	var version = sheet == null ? 'V1': sheet.getValue(0,0);
+	if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+		sheet = workBook.getSheet(0);
+		var col = args.col;
+		var row = args.row;
+		if(col == _sampleLocation.x && row >= _sampleLocation.y){
+			
+		}
+	}*/
+}
+
 function getValidationMessage(formCode,domId,designer){
 	var errMessage = "";
 	var workBook = designer[domId].getWorkbook();
@@ -532,6 +564,20 @@ function getValidationMessage(formCode,domId,designer){
 			}
 			if(expectedTitles.length<titleArr.length){
 				errMessage = 'Some unexpected columns were added.</br>Please delete them.'
+			}
+			
+			//check if there were entered duplicate samples
+			var sampleArr = [];
+			var rowCount = sheet.getRowCount();
+			for(var i = _sampleLocation.y; i<rowCount; i++){
+	    		var sampleName = sheet.getValue(i , _sampleLocation.x);
+	    		if(sampleName != null && sampleName !='NA'){
+	    			if(sampleArr.indexOf(sampleName)){
+	    				errMessage = 'Some duplucate samples were selected in the spreadsheet results.</br>Please remove the duplication.';
+	    				break;
+	    			}
+	    			sampleArr.push(sampleName);
+	    		}
 			}
 		}
 	}
