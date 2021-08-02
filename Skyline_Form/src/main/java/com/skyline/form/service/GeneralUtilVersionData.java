@@ -122,10 +122,11 @@ public class GeneralUtilVersionData {
 			}
 
 		}
-		sbScript.append(updateSysConfExcelData()); //SysConfExcelData
 		sbScript.append(triggerScript(false));
 		sbScript.append(createIndex());
 		sbScript.append(createNotificationCompareTable());
+		sbScript.append("\ncommit;\n");
+		sbScript.append(updateSysConfExcelData()); //SysConfExcelData
 		sbScript.append("\ncommit;\n");
 		sbScript.append(
 				"prompt RUN FORM_TOOL.tool_check_data from " + dbUsername + " DB [The output include difference in the version data between " + dbUsername + " and target DB (use as parameter)] \n");
@@ -383,7 +384,7 @@ public class GeneralUtilVersionData {
 //						String excelData = generalDao.selectSingleString("select file_content from fg_clob_files where file_id = '" + val_ + "'");
 //						toReturn = "FG_CLOB_FILES_CONFEXCEL_INSERT(" + generalUtil.handleClob(excelData.replace("'", "''")) + ")" ;
 //					} else {
-						toReturn = "'" + val_.replace("'", "''").replace("\n", "' || chr(10) || '") + "'";
+						toReturn = "''";
 //					}
 				}
 					break;
