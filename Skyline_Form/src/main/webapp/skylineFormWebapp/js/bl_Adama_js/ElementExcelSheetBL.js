@@ -576,7 +576,7 @@ function getValidationMessage(formCode,domId,designer){
 			for(var i = _sampleLocation.y; i<rowCount; i++){
 	    		var sampleName = sheet.getValue(i , _sampleLocation.x);
 	    		if(sampleName != null && sampleName !='NA'){
-	    			if(sampleArr.indexOf(sampleName)){
+	    			if(sampleArr.indexOf(sampleName) >= 0){
 	    				errMessage = 'Some duplucate samples were selected in the spreadsheet results.</br>Please remove the duplication.';
 	    				break;
 	    			}
