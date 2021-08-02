@@ -93,11 +93,20 @@ public class ElementExcelSheetImp extends Element
 		String spreadsheetObj = "";
 		String onLoadIframeSpreadsheet = ""; 
 		
-		if(isAjaxExcelLoad == 1) {
+		//remove this code only for testing the performance!!!!!!!!!!!!!!
+		String sUserName = "";
+		try {
+			sUserName = generalUtil.getSessionUserName();
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		if(isAjaxExcelLoad == 1 || sUserName.toLowerCase().startsWith("yaron")) { // || sUserName.toLowerCase().startsWith("yaron") -> remove this code - only for testing the perfomance !!!!!!!!!!!!!!
 			value = generalUtil.getEmpty(value, "-1");
 			String defaultvalue = generalUtil.getEmpty(getDefaultValue(stateKey,formId,formCode),"-1");
-			spreadsheetObj = "onLoadSpreadsheetElement(" + isAjaxExcelLoad + "," + value + ", " + defaultvalue + ",null,null,'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
-			onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet(" + isAjaxExcelLoad + ",'"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
+			spreadsheetObj = "onLoadSpreadsheetElement(1," + value + ", " + defaultvalue + ",null,null,'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
+			onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet(1,'"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
 		} else {
 			String spreadsheetData = "";
 			String spreadsheetOutput = "";
@@ -126,8 +135,8 @@ public class ElementExcelSheetImp extends Element
 				}
 			}
 			
-			spreadsheetObj = "onLoadSpreadsheetElement(" + isAjaxExcelLoad + ",null,null," +(spreadsheetData.isEmpty()?"{}":spreadsheetData)+","+(spreadsheetOutput.isEmpty()?"{}":spreadsheetOutput)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
-			onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet("+ isAjaxExcelLoad + ",'"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
+			spreadsheetObj = "onLoadSpreadsheetElement(0,null,null," +(spreadsheetData.isEmpty()?"{}":spreadsheetData)+","+(spreadsheetOutput.isEmpty()?"{}":spreadsheetOutput)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
+			onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet(0,'"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
 
 		}
 		html.put(layoutBookMark + "_ready", spreadsheetObj);
