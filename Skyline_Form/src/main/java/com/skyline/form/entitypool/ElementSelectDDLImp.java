@@ -74,7 +74,7 @@ public class ElementSelectDDLImp extends Element {
 						+ ">" + getFirstOption() + getCatalogItemAsOption(stateKey, formId, formCode, catalogItemData, inputVal) + " </select>" + isLabelEnd());
 		html.put(layoutBookMark + "_ready",
 				"$('[id=\"" + domId + "\"]').on('change', function(){"
-						+ doOnChangeJSCall + "});" + ((isHidden) ? " $('[id=\"" + domId + "\"]').css('visibility','hidden')":""));
+						+ doOnChangeJSCall + "});" + ((isHidden) ? " $('[id=\"" + domId + "\"]').css('visibility','hidden');":""));
 		return html;
 	}
 	

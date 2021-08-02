@@ -222,7 +222,7 @@ public class ReportsHelper {
 		WebApplicationContext context = ContextLoader.getCurrentWebApplicationContext();
 		GeneralDao generalDao = (GeneralDao) context.getBean("GeneralDao");
 		//kd 20032019: after change richtext element try to change t.file_content instead t.file_content_text and check on ExperimentPrCR summary report
-		String sql = "select t.file_content from fg_richtext t where t.file_id = " + richTextId;
+		String sql = "select t.file_content from fg_richtext t where t.file_id = '" + richTextId + "'";
 		return generalDao.getSingleStringFromClob(sql)+ "&nbsp;";
 	}
 
@@ -232,10 +232,10 @@ public class ReportsHelper {
 		//kd 20032019: after change richtext element try to change t.file_content instead t.file_content_text and check on ExperimentPrCR summary report
 		String sql;
 		if (type.equals("html")) {
-			sql = "select t.file_content from fg_richtext t where t.file_id = " + richTextId;
+			sql = "select t.file_content from fg_richtext t where t.file_id = '" + richTextId + "'";
 			return generalDao.getSingleStringFromClob(sql) + "&nbsp;";
 		} else {
-			sql = "select t.file_content_text from fg_richtext t where t.file_id = " + richTextId;
+			sql = "select t.file_content_text from fg_richtext t where t.file_id = '" + richTextId + "'";
 			return generalDao.getSingleStringFromClob(sql);
 		}
 		/*if (strForCheck.contains("li") || strForCheck.contains("ol")) {

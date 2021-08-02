@@ -72,7 +72,7 @@ public class ElementUOMImp extends Element {
 		html.put(layoutBookMark + "_ready",
 				"$('[id=\"" + domId + "\"]').chosen({allow_single_deselect:"+ (isMandatory?"false":"true") + ",search_contains:true, width: '" + width + "'}).on('change', function(){"
 				+ doOnChangeJSCall + "});"
-				+ ((isHidden) ? " $('[id=\"" + domId + "_chosen\"]').css('visibility','hidden')":""));
+				+ ((isHidden) ? " $('[id=\"" + domId + "_chosen\"]').css('visibility','hidden');":""));
 		return html;
 	}	
 
