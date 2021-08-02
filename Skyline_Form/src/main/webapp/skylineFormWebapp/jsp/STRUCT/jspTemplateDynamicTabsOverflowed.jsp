@@ -12,6 +12,7 @@
 <%@ include file="../include/includeExtendedJS.jsp"%>
 <%@ include file="../include/includeElement_js.jsp"%>
 <%@ include file="../include/includeBL_js.jsp"%>
+<%@ include file="../include/includeExcelSheet_js.jsp"%>
 
 <script>
 	@bm_list_function@

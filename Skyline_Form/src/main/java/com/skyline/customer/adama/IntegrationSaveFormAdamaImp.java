@@ -5062,7 +5062,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				throw new Exception(validationMessage);
 			}
 			
-			//2. checks if the result type or the RT is missing
+			//2. checks if the result type is missing
 			JSONObject jsspreadsheetData = (JSONObject)js.get("output");
 			
 			if(!jsspreadsheetData.has("0")){
