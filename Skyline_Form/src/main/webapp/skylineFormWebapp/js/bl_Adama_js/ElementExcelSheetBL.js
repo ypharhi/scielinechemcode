@@ -1,7 +1,7 @@
 //default values are of version V1
 var _materialLocation = {
 		x:4,
-		y:5
+		y:6
 };
 var _unknownMaterialLocation = {
 		x:4,
@@ -9,7 +9,7 @@ var _unknownMaterialLocation = {
 };
 var _sampleLocation = {
 		x:0,
-		y:6
+		y:7
 };
 var _resultTypeLocation = {
 		x:4,
@@ -25,9 +25,13 @@ var _massLocation = {
 };
 var _resultCommentLocation = {
 		x:3,
-		y:5
+		y:7
 }
 var _uomLocation = {
+		x:4,
+		y:5
+}
+var _sopLocation = {
 		x:4,
 		y:4
 }
@@ -130,7 +134,7 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				}
 				for(var index in componentList['TestedComponents']){
 					var name = componentList['TestedComponents'][index]['COMPONENTNAME'];
-					var rtName = componentList['TestedComponents'][index]['RT'];
+					var rtName = componentList['TestedComponents'][index]['RRT'];
 					var typeName = componentList['TestedComponents'][index]['TESTEDCOMPTYPENAME'];
 					if(currentMaterialList.indexOf(name)==-1){
 						//add the material to the materials in the result spreadsheet
@@ -537,7 +541,7 @@ function getValidationMessage(formCode,domId,designer){
 		sheet = workBook.getSheet(0);
 		if(version == 'V1'){
 			var titleArr = [];
-			var expectedTitles = ['Results Type','Unknown Materials','Mass','RT','Uom','Sample No/Materials'];
+			var expectedTitles = ['Results Type','Unknown Materials','Mass','RRT','SOP','Uom','Sample No/Materials'];
 			for(var i = 0; i<_sampleLocation.y; i++){
 	    		titleArr.push(sheet.getValue(i , _sampleLocation.x));
 			}
