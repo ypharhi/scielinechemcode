@@ -1,6 +1,7 @@
 package com.skyline.form.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.parsers.ParserConfigurationException;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.xml.sax.SAXException;
 
 import com.skyline.form.bean.ActionBean;
+import com.skyline.form.bean.DataBean;
 import com.skyline.form.service.FormApiExcelService;
+import com.skyline.form.service.GeneralUtil;
 import com.skyline.form.service.GeneralUtilLogger;
 
 @Controller
@@ -32,10 +35,34 @@ public class FormApiExcel {
 	@Autowired
 	public GeneralUtilLogger generalUtilLogger;
 
+	@Autowired
+	private GeneralUtil generalUtil;
+
 	@RequestMapping(value = "/getExcelComponentList.request", method = { RequestMethod.GET, RequestMethod.POST })
 	public @ResponseBody ActionBean getExcelComponentList(@RequestBody ActionBean actionBean, HttpServletRequest request) {
 		logger.info("getExcelComponentList call: /actionBean=" + actionBean);
 		String formId = request.getParameter("formId");
 		return formApiExcelService.getExcelComponentList(formId,actionBean);
+	}
+	
+
+	@RequestMapping(value = "/saveSpreadsheet.request", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody ActionBean saveSpreadsheet(@RequestBody ActionBean actionBean, HttpServletRequest request) {
+
+		logger.info("saveSpreadsheet call");
+		String formId = request.getParameter("formId");
+		String formCode = request.getParameter("formCode");
+		String userId = request.getParameter("userId");
+		String isNew = generalUtil.getNull(request.getParameter("isNew"));
+		 
+		List<DataBean> dataBeanList = actionBean.getData();
+
+		try{
+			String elementIdReturnVal =  formApiExcelService.saveSpreadsheet(dataBeanList.get(0), isNew, formCode, formId);
+			return new ActionBean("no action needed", generalUtil.StringToList(elementIdReturnVal),"");
+		} catch (Exception ex){
+			String errMsg = ex.getMessage();
+			return new ActionBean("no action needed", generalUtil.StringToList("-1"), errMsg);
+		}
 	}
 }

@@ -40,27 +40,6 @@ public class FormApiElements {
 	@Autowired
 	public GeneralUtilLogger generalUtilLogger;
 	
-	@RequestMapping(value = "/saveSpreadsheet.request", method = { RequestMethod.GET, RequestMethod.POST })
-	public @ResponseBody ActionBean saveSpreadsheet(@RequestBody ActionBean actionBean, HttpServletRequest request) {
-
-		logger.info("saveSpreadsheet call");
-		String formId = request.getParameter("formId");
-		String formCode = request.getParameter("formCode");
-		String userId = request.getParameter("userId");
-		String isNew = generalUtil.getNull(request.getParameter("isNew"));
-		 
-		List<DataBean> dataBeanList = actionBean.getData();
-
-		try{
-			String elementIdReturnVal =  formApiElementsService.saveSpreadsheet(dataBeanList.get(0), isNew, formCode, formId);
-			return new ActionBean("no action needed", generalUtil.StringToList(elementIdReturnVal),"");
-		} catch (Exception ex){
-			String errMsg = ex.getMessage();
-			return new ActionBean("no action needed", generalUtil.StringToList("-1"), errMsg);
-		}
-	}
-	
-	
 	@RequestMapping(value = "/ireport.request", method = { RequestMethod.GET, RequestMethod.POST })
 	public void doRenderIreport(@RequestParam("irFormCode") String formCode, @RequestParam("irImpCode") String impCode,
 			@RequestParam("irFileName") String fileName, @RequestParam("irPrintTemplate") String printTemplate,
