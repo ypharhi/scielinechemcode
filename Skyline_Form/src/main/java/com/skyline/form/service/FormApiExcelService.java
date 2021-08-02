@@ -140,4 +140,17 @@ public class FormApiExcelService {
 		}
 		return action;
 	}
+
+	public ActionBean getExcelDataById(long stateKey, String formId, String formCode, String domId, String fileId) {
+		fileId = generalUtil.getEmpty(fileId, "-1");
+		JSONObject js = new JSONObject();
+		if (!fileId.equals("-1")) {
+			String sql = "select t.file_content from fg_clob_files t where t.file_id = '" + fileId + "'";
+			String elementData = generalDao.getSingleStringFromClob(sql);			
+			if(!generalUtil.getNull(elementData).isEmpty()){
+				js = new JSONObject(elementData);
+			}
+		}
+		return new ActionBean("no action needed", generalUtil.StringToList(js.toString()), "");
+	}
 }

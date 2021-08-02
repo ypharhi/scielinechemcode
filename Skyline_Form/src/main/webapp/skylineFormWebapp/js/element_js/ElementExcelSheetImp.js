@@ -2,6 +2,7 @@
 //var catalogItemDataObject = {};
 var dataHolder = [];
 var outputDataHolder = [];
+var iddataHolder = [];
 
 var ElementExcelSheetImp = {
     value_: function (val_) {
@@ -64,6 +65,41 @@ function reloadExcelSheet(domId){
 	document.getElementById(domId+'_spreadIframe').contentWindow.location.reload();
 }
 
+///***** Load DATA By AJAX (using build-in compress data from the tomcat server)
+function onLoadSpreadsheetElementAjax(dataId,domId,isToolBarDisplay,isDisabled) {
+	console.log('---------1. Ajax - update ID in iddataHolder------------');
+	iddataHolder[domId] = dataId;
+}  
+
+function onLoadIframeSpreadsheetAjax(domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
+	$(document).ready(function(){//not initializing the designer until the document is ready,else there are some wrong UI and functionalities(such as transparent dropdown) 
+		document.getElementById(domId+"_spreadIframe").contentWindow.onLoadIframeSpreadsheet(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
+		setTimeout(function(){//added timeout in order to avoid the compressed toolbar and empty data (since onLoadIframeSpreadsheet was fired before onLoadSpreadJS)
+			console.log('---------2. Ajax - ON LOAD SPREAD IFRAME------------');
+			
+			var urlParam = "?formId=" + $('#formId').val() + "&formCode="
+			+ $('#formCode').val() + "&userId=" + $('#userId').val() +
+			"&stateKey=" + $('#stateKey').val() + "&fileId=" + iddataHolder[domId] + "&domId=" + domId;
+			
+			$.ajax({
+				type : 'POST',
+			    url : "./getExcelDataById.request" + urlParam,
+				contentType : 'application/json',
+				dataType : 'json',
+//				async: false,
+				success : function(obj) {
+					var edata_ = JSON.parse(obj.data[0].val);
+					console.log('---------2.1 .Ajax - LOAD SPREAD ELEMENT------------');
+					document.getElementById(domId+"_spreadIframe").contentWindow.onclick = function(){onSpreadFocused(domId);};
+					$('#'+domId).find('iframe')[0].contentWindow.onLoadSpreadsheetData(edata_.excelFullData, edata_.outputData,domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
+				},
+				error : handleAjaxError
+			});
+		},100);
+	});
+}  
+
+// ***** Load DATA in the data param
 function onLoadSpreadsheetElement(data,outputData,domId,isToolBarDisplay,isDisabled) {
 	console.log('---------1. ON LOAD SPREAD ELEMENT------------');
 	dataHolder[domId] = data;

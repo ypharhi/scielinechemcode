@@ -55,6 +55,9 @@ public class ElementExcelSheetImp extends Element
 	@Autowired
 	private GeneralDao generalDao;
 	
+	@Value("${isAjaxExcelLoad:0}")
+	private int isAjaxExcelLoad;
+	
 
 	@Override
 	public String init(long stateKey, String formCode, String impCode, String initVal) {
@@ -87,35 +90,56 @@ public class ElementExcelSheetImp extends Element
 		height_ = (height.equals("")) ? "600px" : (height.indexOf("px") != -1) ? height+";" : height+"px;";
 		String hidden = (isHidden)? "visibility:hidden;":"";
 		String disabled = (isDisabled) ? " disabledclass " : "";
+		String spreadsheetObj = "";
 		
-		String spreadsheetData = "";
-		String spreadsheetOutput = "";
-		value = generalUtil.getEmpty(value, "-1");
-		if (!value.equals("-1")) {
-			String elementData = generalUtilFormState.getStringContent(value, formCode, domId, formId);
-			JSONObject js = new JSONObject();
-			if(!generalUtil.getNull(elementData).isEmpty()){
-				js = new JSONObject(elementData);
-			} else {
-				value = getDefaultValue(stateKey,formId,formCode);
-				elementData = generalUtilFormState.getStringContent(value, formCode, domId, formId);
-				js = new JSONObject();
+		if(isAjaxExcelLoad == 1) {
+			value = generalUtil.getEmpty(value, "-1");
+			if (!value.equals("-1")) {
+				String elementData = generalUtilFormState.getStringContent(value, formCode, domId, formId);
+				JSONObject js = new JSONObject();
 				if(!generalUtil.getNull(elementData).isEmpty()){
 					js = new JSONObject(elementData);
+				} else {
+					value = generalUtil.getEmpty(getDefaultValue(stateKey,formId,formCode),value);
+					elementData = generalUtilFormState.getStringContent(value, formCode, domId, formId);
+					js = new JSONObject();
+					if(!generalUtil.getNull(elementData).isEmpty()){
+						js = new JSONObject(elementData);
+					}
 				}
 			}
-			try {
-				JSONObject jsspreadsheetData = (JSONObject)js.get("excelFullData");
-				spreadsheetData = jsspreadsheetData.toString();
-				JSONObject jsspreadsheetOutput = (JSONObject)js.get("output");
-				spreadsheetOutput = jsspreadsheetOutput.toString();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			spreadsheetObj = "onLoadSpreadsheetElementAjax("+ value + ",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
+		} else {
+			String spreadsheetData = "";
+			String spreadsheetOutput = "";
+			value = generalUtil.getEmpty(value, "-1");
+			if (!value.equals("-1")) {
+				String elementData = generalUtilFormState.getStringContent(value, formCode, domId, formId);
+				JSONObject js = new JSONObject();
+				if(!generalUtil.getNull(elementData).isEmpty()){
+					js = new JSONObject(elementData);
+				} else {
+					value = getDefaultValue(stateKey,formId,formCode);
+					elementData = generalUtilFormState.getStringContent(value, formCode, domId, formId);
+					js = new JSONObject();
+					if(!generalUtil.getNull(elementData).isEmpty()){
+						js = new JSONObject(elementData);
+					}
+				}
+				try {
+					JSONObject jsspreadsheetData = (JSONObject)js.get("excelFullData");
+					spreadsheetData = jsspreadsheetData.toString();
+					JSONObject jsspreadsheetOutput = (JSONObject)js.get("output");
+					spreadsheetOutput = jsspreadsheetOutput.toString();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
+			
+			spreadsheetObj = "onLoadSpreadsheetElement("+(spreadsheetData.isEmpty()?"{}":spreadsheetData)+","+(spreadsheetOutput.isEmpty()?"{}":spreadsheetOutput)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
+			
 		}
-		
-		String spreadsheetObj = "onLoadSpreadsheetElement("+(spreadsheetData.isEmpty()?"{}":spreadsheetData)+","+(spreadsheetOutput.isEmpty()?"{}":spreadsheetOutput)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
 		String onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet('"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
 		html.put(layoutBookMark + "_ready", spreadsheetObj);
 		String iframeSpreadJS = "<div id=\"" + domId + "\"  elementID=\"" + value + "\" basicHeight=\""+height_+"\" basicWidth=\""+width_+"\" style=\"height: "+height_+"; width:"+width_+";border: 1px solid gray;" + hidden+"\" element=\"" + this.getClass().getSimpleName() + "\" " + inputAttribute + " class=\"excelSheet "+ disabled +"\">\n"

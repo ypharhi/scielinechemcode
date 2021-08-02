@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpHeaders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
@@ -89,8 +90,49 @@ public class FormFilter implements Filter {
 				return;
 			}
 		}
-		chain.doFilter(request, response);
+		
+		//GZip code BU - we first try to check performance by using the tomcat compress=on prop
+//		try {
+//			HttpServletRequest req = (HttpServletRequest) request;
+//			HttpServletResponse res = (HttpServletResponse) response;
+//
+//			if (isGZipEncoding(req)) {
+//				GZipResponse zipResponse = new GZipResponse(res);
+//				res.setHeader("Content-Encoding", "gzip");
+//				chain.doFilter(request, zipResponse);
+//				zipResponse.flush();
+//			} else {
+//				chain.doFilter(request, response);
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//			chain.doFilter(request, response);
+//		} catch (ServletException e) {
+//			e.printStackTrace();
+//			chain.doFilter(request, response);
+//		}
 	}
+	
+//	/**
+//	   * Determine if the browser supports GZIP
+//	   * @param request
+//	   * @return
+//	   */
+//	private boolean isGZipEncoding(HttpServletRequest request) {
+//	    StringBuilder requestURL = new StringBuilder(request.getRequestURL().toString());
+//		String queryString = request.getQueryString();
+//		if (queryString != null && !queryString.contains("Experiment") && !queryString.contains("init.request")) {
+//			return false;
+//		}
+//		
+//		String encoding = request.getHeader("Accept-Encoding");
+//		if (encoding.indexOf("gzip") != -1) {
+//			if(requestURL.toString().contains("onElementDataTableApiChange") || requestURL.toString().contains("init.request")) {
+//		    	return true;
+//		    }
+//		}
+//		return false;
+//	}
 
 	public void init(FilterConfig fConfig) throws ServletException {
 		//Support Autowiring on Filter Class

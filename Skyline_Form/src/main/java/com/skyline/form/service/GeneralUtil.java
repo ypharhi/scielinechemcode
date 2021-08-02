@@ -3,8 +3,10 @@ package com.skyline.form.service;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -22,6 +24,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.GZIPOutputStream;
 
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -1548,5 +1551,30 @@ public class GeneralUtil {
 		  
 		return stateKey;
 	}
+
+
+//	public String compressGzip(String str) {
+//		if (str == null || str.length() == 0) {
+//            return str;
+//        }
+//        System.out.println("String length : " + str.length());
+//        ByteArrayOutputStream obj=new ByteArrayOutputStream();
+//        GZIPOutputStream gzip = null;
+//        String outStr = str;
+//		try {
+//			gzip = new GZIPOutputStream(obj);
+//			gzip.write(str.getBytes("UTF-8"));
+//			gzip.close();
+//			outStr = obj.toString("UTF-8");
+//		} catch (UnsupportedEncodingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//        System.out.println("Output String length : " + outStr.length());
+//        return outStr;
+//	}
     
 }

@@ -94,18 +94,18 @@ public class LayoutDesignHtmlImp extends Layout {
 			List<DataBean> listOfBookMarks = getImpResourceForFormBuilderWithSourceJSP(formCode, impCode, initVal, sourceJSP);
 			for (int i = 1; i < listOfBookMarks.size(); i++) 
 			{
-				sb_before_ready.append("\t\t\\${");
+				sb_before_ready.append(" \\${");
 				sb_before_ready.append(listOfBookMarks.get(i).getCode() + "_before_ready");
-				sb_before_ready.append("}\n");				
-				sb_ready.append("\t\t\\${");
+				sb_before_ready.append("} ");				
+				sb_ready.append(" \\${");
 				sb_ready.append(listOfBookMarks.get(i).getCode() + "_ready");
-				sb_ready.append("}\n");
+				sb_ready.append("} ");
 				sb_function.append("\t\\${");
 				sb_function.append(listOfBookMarks.get(i).getCode() + "_function");
-				sb_function.append("}\n");
-				sb_html.append("\t\t\\${");
+				sb_function.append("} ");
+				sb_html.append(" \\${");
 				sb_html.append(listOfBookMarks.get(i).getCode() + "_html");
-				sb_html.append("}\n");
+				sb_html.append("} ");
 			}
 			String[] tabs = tabsCSV.split(",");
 			StringBuilder tabsSB = new StringBuilder();
@@ -122,8 +122,8 @@ public class LayoutDesignHtmlImp extends Layout {
 						+ "</a></li>\n");
 			}
 			sourceJSP = sourceJSP.replaceAll("@bm_list_before_ready@", sb_before_ready.toString())
-					.replaceAll("@bm_list_ready@", sb_ready.toString())
-					.replaceAll("@bm_list_function@", sb_function.toString())
+					.replaceAll("@bm_list_ready@", sb_ready.toString() + "\n")
+					.replaceAll("@bm_list_function@", sb_function.toString()+ "\n")
 					.replaceAll("@bm_list_html@", sb_html.toString())
 					.replaceAll("@afterSave@", (afterSave.equals("") ? "doNothing" : afterSave))
 					.replaceAll("@tempalteTabs@	",tabsSB.toString());
