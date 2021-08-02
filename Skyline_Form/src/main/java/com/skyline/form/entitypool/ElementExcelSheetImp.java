@@ -91,24 +91,13 @@ public class ElementExcelSheetImp extends Element
 		String hidden = (isHidden)? "visibility:hidden;":"";
 		String disabled = (isDisabled) ? " disabledclass " : "";
 		String spreadsheetObj = "";
+		String onLoadIframeSpreadsheet = ""; 
 		
 		if(isAjaxExcelLoad == 1) {
 			value = generalUtil.getEmpty(value, "-1");
-			if (!value.equals("-1")) {
-				String elementData = generalUtilFormState.getStringContent(value, formCode, domId, formId);
-				JSONObject js = new JSONObject();
-				if(!generalUtil.getNull(elementData).isEmpty()){
-					js = new JSONObject(elementData);
-				} else {
-					value = generalUtil.getEmpty(getDefaultValue(stateKey,formId,formCode),value);
-					elementData = generalUtilFormState.getStringContent(value, formCode, domId, formId);
-					js = new JSONObject();
-					if(!generalUtil.getNull(elementData).isEmpty()){
-						js = new JSONObject(elementData);
-					}
-				}
-			}
-			spreadsheetObj = "onLoadSpreadsheetElementAjax("+ value + ",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
+			String defaultvalue = generalUtil.getEmpty(getDefaultValue(stateKey,formId,formCode),"-1");
+			spreadsheetObj = "onLoadSpreadsheetElement(" + isAjaxExcelLoad + "," + value + ", " + defaultvalue + ",null,null,'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
+			onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet(" + isAjaxExcelLoad + ",'"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
 		} else {
 			String spreadsheetData = "";
 			String spreadsheetOutput = "";
@@ -137,10 +126,10 @@ public class ElementExcelSheetImp extends Element
 				}
 			}
 			
-			spreadsheetObj = "onLoadSpreadsheetElement("+(spreadsheetData.isEmpty()?"{}":spreadsheetData)+","+(spreadsheetOutput.isEmpty()?"{}":spreadsheetOutput)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
-			
+			spreadsheetObj = "onLoadSpreadsheetElement(" + isAjaxExcelLoad + ",null,null," +(spreadsheetData.isEmpty()?"{}":spreadsheetData)+","+(spreadsheetOutput.isEmpty()?"{}":spreadsheetOutput)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
+			onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet("+ isAjaxExcelLoad + ",'"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
+
 		}
-		String onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet('"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
 		html.put(layoutBookMark + "_ready", spreadsheetObj);
 		String iframeSpreadJS = "<div id=\"" + domId + "\"  elementID=\"" + value + "\" basicHeight=\""+height_+"\" basicWidth=\""+width_+"\" style=\"height: "+height_+"; width:"+width_+";border: 1px solid gray;" + hidden+"\" element=\"" + this.getClass().getSimpleName() + "\" " + inputAttribute + " class=\"excelSheet "+ disabled +"\">\n"
 				+ "<iframe id = \""+domId+"_spreadIframe\" name = \""+domId+"_spreadIframe\" width=\"100%\" height = \"100%\" src=\"../skylineFormWebapp/jsp/frmSpreadsheet.jsp\" onload = "+onLoadIframeSpreadsheet+"></iframe>"

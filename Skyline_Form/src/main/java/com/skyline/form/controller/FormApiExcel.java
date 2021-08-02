@@ -64,9 +64,11 @@ public class FormApiExcel {
 	}
 	
 	@RequestMapping(value = "/getExcelDataById.request", method = { RequestMethod.GET, RequestMethod.POST })
-	public @ResponseBody ActionBean getExcelDataById(@RequestParam("fileId") String fileId,@RequestParam("domId") String domId, @RequestParam("stateKey") Long stateKey,
-			@RequestParam("formId") String formId, @RequestParam("formCode") String formCode) {
-		
-		return formApiExcelService.getExcelDataById(stateKey, formId, formCode, domId, fileId);
+	public @ResponseBody ActionBean getExcelDataById(@RequestParam("fileId") String fileId,
+			@RequestParam("defaultfileId") String defaultfileId, @RequestParam("domId") String domId,
+			@RequestParam("stateKey") Long stateKey, @RequestParam("formId") String formId,
+			@RequestParam("formCode") String formCode) {
+
+		return formApiExcelService.getExcelDataById(stateKey, formId, formCode, domId, fileId, defaultfileId);
 	}
 }
