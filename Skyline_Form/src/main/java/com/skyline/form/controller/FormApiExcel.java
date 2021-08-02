@@ -1,11 +1,8 @@
 package com.skyline.form.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.xml.sax.SAXException;
 
 import com.skyline.form.bean.ActionBean;
 import com.skyline.form.bean.DataBean;
@@ -64,5 +61,12 @@ public class FormApiExcel {
 			String errMsg = ex.getMessage();
 			return new ActionBean("no action needed", generalUtil.StringToList("-1"), errMsg);
 		}
+	}
+	
+	@RequestMapping(value = "/getExcelDataById.request", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody ActionBean getExcelDataById(@RequestParam("fileId") String fileId,@RequestParam("domId") String domId, @RequestParam("stateKey") Long stateKey,
+			@RequestParam("formId") String formId, @RequestParam("formCode") String formCode) {
+		
+		return formApiExcelService.getExcelDataById(stateKey, formId, formCode, domId, fileId);
 	}
 }
