@@ -83,6 +83,9 @@ public class ElementExcelSheetImp extends Element
 			String doOnChangeJSCall, boolean isHidden, boolean isDisabled, boolean isMandatory) {
 		Map<String, String> html = new HashMap<String, String>();
 
+		if(isHidden) {
+			return html;
+		}
 		
 		String width_ = width;
 		String height_ = height;
@@ -132,7 +135,7 @@ public class ElementExcelSheetImp extends Element
 		}
 		html.put(layoutBookMark + "_ready", spreadsheetObj);
 		String iframeSpreadJS = "<div id=\"" + domId + "\"  elementID=\"" + value + "\" basicHeight=\""+height_+"\" basicWidth=\""+width_+"\" style=\"height: "+height_+"; width:"+width_+";border: 1px solid gray;" + hidden+"\" element=\"" + this.getClass().getSimpleName() + "\" " + inputAttribute + " class=\"excelSheet "+ disabled +"\">\n"
-				+ "<iframe id = \""+domId+"_spreadIframe\" name = \""+domId+"_spreadIframe\" width=\"100%\" height = \"100%\" src=\"../skylineFormWebapp/jsp/frmSpreadsheet.jsp\" onload = "+onLoadIframeSpreadsheet+"></iframe>"
+				+ "<iframe id = \""+domId+"_spreadIframe\" loading=\"lazy\" name = \""+domId+"_spreadIframe\" width=\"100%\" height = \"100%\" src=\"../skylineFormWebapp/jsp/frmSpreadsheet.jsp\" onload = "+onLoadIframeSpreadsheet+"></iframe>"
 				+ "</div>";
 		html.put(layoutBookMark,iframeSpreadJS);
 		return html;
