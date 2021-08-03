@@ -3223,8 +3223,7 @@ function initPage() {
     $("button").button();
     //getTitleAndSubtitleForm();   
     var startTime = new Date().getTime();
-    
-    initDatePickerWithOptionsByClass('date-picker');
+    setTimeout(function() { initDatePickerWithOptionsByClass('date-picker'); }, 50);
     initConfirmDialogDiv();
     initAlphaNumForm();
     initMandatory();
