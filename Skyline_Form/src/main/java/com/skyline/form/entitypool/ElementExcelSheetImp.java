@@ -93,16 +93,7 @@ public class ElementExcelSheetImp extends Element
 		String spreadsheetObj = "";
 		String onLoadIframeSpreadsheet = ""; 
 		
-		//remove this code only for testing the performance!!!!!!!!!!!!!!
-		String sUserName = "";
-		try {
-			sUserName = generalUtil.getSessionUserName();
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		if(isAjaxExcelLoad == 1 || sUserName.toLowerCase().startsWith("yaron")) { // || sUserName.toLowerCase().startsWith("yaron") -> remove this code - only for testing the perfomance !!!!!!!!!!!!!!
+		if(isAjaxExcelLoad == 1) {
 			value = generalUtil.getEmpty(value, "-1");
 			String defaultvalue = generalUtil.getEmpty(getDefaultValue(stateKey,formId,formCode),"-1");
 			spreadsheetObj = "onLoadSpreadsheetElement(1," + value + ", " + defaultvalue + ",null,null,'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
