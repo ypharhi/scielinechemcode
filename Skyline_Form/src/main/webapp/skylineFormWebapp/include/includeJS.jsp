@@ -2,7 +2,7 @@
 <script src="../skylineFormWebapp/js/generalFunc<spring:message code="generalFuncMin" text="." />js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/jquery.cookie.js" ></script>
 <script src="../skylineFormWebapp/js/properties.js" ></script>
-<script src="../skylineFormWebapp/js/chosen.jquery.min.js"></script>
+<script defer src="../skylineFormWebapp/js/chosen.jquery.min.js"></script>
 
 <!-- IMPORTANT note for jquery.dataTables v1.10.20.js library: there are custom compatibility changes in the library code, be careful on upgrade library -->
 <script	src="../skylineFormWebapp/deps/jquery.dataTables<spring:message code="jqueryDataTablesMin" text="." />js?<spring:message code="Env" text="" />"></script>
@@ -11,19 +11,19 @@
 <script src="../skylineFormWebapp/deps/dataTables.buttons.min.js"></script>
 <!-- <script src="../skylineFormWebapp/deps/buttons.flash.min.js"></script> -->
 <script src="../skylineFormWebapp/deps/jszip.min.js"></script>
-<script src="../skylineFormWebapp/deps/pdfmake.min.js"></script>
-<script src="../skylineFormWebapp/deps/vfs_fonts.js"></script>
-<script src="../skylineFormWebapp/deps/arialFontPDF.js"></script>
-<script src="../skylineFormWebapp/deps/buttons.html5.min.js"></script>
+<script defer src="../skylineFormWebapp/deps/pdfmake.min.js"></script>
+<script defer src="../skylineFormWebapp/deps/vfs_fonts.js"></script>
+<script defer src="../skylineFormWebapp/deps/arialFontPDF.js"></script>
+<script defer src="../skylineFormWebapp/deps/buttons.html5.min.js"></script>
 <script src="../skylineFormWebapp/deps/buttons.print.min.js"></script>
 <script src="../skylineFormWebapp/deps/datetime-moment.js"></script>
 <script src="../skylineFormWebapp/deps/jquery.alphanum.js"></script>
-<script src="../skylineFormWebapp/deps/bignumber.min.js"></script>
-<script src="../skylineFormWebapp/js/foundation.min.js" ></script>
-<script src="../skylineFormWebapp/deps/url.min.js"></script>
-<script src="../skylineFormWebapp/js/history_navigation.js?<spring:message code="Env" text="" />"></script>
+<script defer src="../skylineFormWebapp/deps/bignumber.min.js"></script>
+<script defer src="../skylineFormWebapp/js/foundation.min.js" ></script>
+<script defer src="../skylineFormWebapp/deps/url.min.js"></script>
+<script defer src="../skylineFormWebapp/js/history_navigation.js?<spring:message code="Env" text="" />"></script>
 <!-- <script src="../skylineFormWebapp/deps/toastr.js"></script> --> 
-<script src="../skylineFormWebapp/deps/jquery.ui-contextmenu.min.js"></script>
+<script defer src="../skylineFormWebapp/deps/jquery.ui-contextmenu.min.js"></script>
 <!-- IMPORTANT note for dataTables.colResize.js library: there are custom compatibility changes in the library code, be careful on upgrade library -->
 <script type="text/javascript" src="../skylineFormWebapp/deps/dataTables.colResize.js?<spring:message code="Env" text="" />"></script>
 <script type="text/javascript" src="../skylineFormWebapp/deps/dataTables.colReorder.js?<spring:message code="Env" text="" />"></script> 

@@ -1,13 +1,13 @@
 <script src="../skylineFormWebapp/deps/traits.js"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementChemDoodleImp.js?<spring:message code="Env" text="" />"></script>
-<script src="../skylineFormWebapp/js/element_js/ElementExcelSheetImp.js?<spring:message code="Env" text="" />"></script>
+<script defer src="../skylineFormWebapp/js/element_js/ElementExcelSheetImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementDiagramImp.js?<spring:message code="Env" text="" />"></script>
 <%-- <script src="../skylineFormWebapp/js/element_js/ElementRichTextEditorImp.js?<spring:message code="Env" text="" />"></script>
  --%> <script src="../skylineFormWebapp/js/element_js/ElementRichTextEditorImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementAutoCompleteDDLImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementInputImp.js?<spring:message code="Env" text="" />"></script>
 <%-- <script src="../skylineFormWebapp/js/element_js/ElementDataTableImp.js?<spring:message code="Env" text="" />"></script> --%>
-<script src="../skylineFormWebapp/js/element_js/ElementTreeImp.js?<spring:message code="Env" text="" />"></script>
+<script defer src="../skylineFormWebapp/js/element_js/ElementTreeImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementDataTableApiImp<spring:message code="ElementDataTableApiImpMin" text="." />js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementDataTableExtImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementUploadFileImp.js?<spring:message code="Env" text="" />"></script>
@@ -21,7 +21,7 @@
 <script src="../skylineFormWebapp/js/element_js/ElementRangeFilterImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementAuthorizationImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementFormTestImp.js?<spring:message code="Env" text="" />"></script>
-<script src="../skylineFormWebapp/js/element_js/ElementDynamicParamsImp.js?<spring:message code="Env" text="" />"></script>
+<script defer src="../skylineFormWebapp/js/element_js/ElementDynamicParamsImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementUOMImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementButtonImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementWebixAnalytCalcImp<spring:message code="ElementWebixAnalytCalcImpMin" text="." />js?<spring:message code="Env" text="" />"></script>

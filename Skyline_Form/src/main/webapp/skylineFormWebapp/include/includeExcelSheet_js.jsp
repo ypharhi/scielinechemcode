@@ -21,19 +21,19 @@
 <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.designer.all.14.1.3.min.js" type="text/javascript"></script>
 <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.designer.resource.en.14.1.3.min.js" type="text/javascript"></script> -->
 
-<link href="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.excel2013white.14.0.4.css" rel="stylesheet" type="text/css" />
-<link href="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.designer.14.0.4.min.css" rel="stylesheet" type="text/css" media="all" />
+<!-- <link href="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.excel2013white.14.0.4.css" rel="stylesheet" type="text/css" /> -->
+<!-- <link href="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.designer.14.0.4.min.css" rel="stylesheet" type="text/css" media="all" /> -->
 
-<script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.all.14.0.4.min.js" type="text/javascript"></script>      
-<script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.charts.14.0.4.min.js"></script>
-<script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.shapes.14.0.4.min.js" type="text/javascript"></script>
-<script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.print.14.0.4.min.js" type="text/javascript"></script>
-<script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.barcode.14.0.4.min.js" type="text/javascript"></script>
-<script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.pdf.14.0.4.min.js" type="text/javascript"></script>
-<script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.pivot.pivottables.14.0.4.min.js"></script>
-<script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.excelio.14.0.4.min.js" type="text/javascript"></script>
+<!-- <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.all.14.0.4.min.js" type="text/javascript"></script>       -->
+<!-- <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.charts.14.0.4.min.js"></script> -->
+<!-- <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.shapes.14.0.4.min.js" type="text/javascript"></script> -->
+<!-- <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.print.14.0.4.min.js" type="text/javascript"></script> -->
+<!-- <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.barcode.14.0.4.min.js" type="text/javascript"></script> -->
+<!-- <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.pdf.14.0.4.min.js" type="text/javascript"></script> -->
+<!-- <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.pivot.pivottables.14.0.4.min.js"></script> -->
+<!-- <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.excelio.14.0.4.min.js" type="text/javascript"></script> -->
 
-<script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.designer.resource.en.14.0.4.min.js" type="text/javascript"></script>
-<script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.designer.all.14.0.4.min.js" type="text/javascript"></script>  
+<!-- <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.designer.resource.en.14.0.4.min.js" type="text/javascript"></script> -->
+<!-- <script src="../skylineFormWebapp/gc.spread.sheets/gc.spread.sheets.designer.all.14.0.4.min.js" type="text/javascript"></script>   -->
 
-<script src="../skylineFormWebapp/js/bl_Adama_js/ElementExcelSheetBL<spring:message code="ElementExcelSheetBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
+<script defer src="../skylineFormWebapp/js/bl_Adama_js/ElementExcelSheetBL<spring:message code="ElementExcelSheetBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
