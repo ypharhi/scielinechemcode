@@ -1,7 +1,7 @@
 <script src="../skylineFormWebapp/deps/moment.min.js"></script>
+<script src="../skylineFormWebapp/js/properties.js" ></script>
 <script src="../skylineFormWebapp/js/generalFunc<spring:message code="generalFuncMin" text="." />js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/jquery.cookie.js" ></script>
-<script src="../skylineFormWebapp/js/properties.js" ></script>
 <script defer src="../skylineFormWebapp/js/chosen.jquery.min.js"></script>
 
 <!-- IMPORTANT note for jquery.dataTables v1.10.20.js library: there are custom compatibility changes in the library code, be careful on upgrade library -->

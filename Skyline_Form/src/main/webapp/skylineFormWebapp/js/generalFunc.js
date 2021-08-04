@@ -2616,6 +2616,14 @@ function hideLastTableDiv(button) {
 	}
 }
 
+function initProp_() {
+    var dataArray = ("DD/MMM/YYYY;DD/MM/YYYY;dd/M/yy").split(';');
+	prop.dateFormat = {};
+	prop.dateFormat.userDateFormatClient = dataArray[0];
+	prop.dateFormat.savedConventionDbDateFormat = dataArray[1];
+	prop.dateFormat.datepickerFormat = dataArray[2];
+}
+
 
 // Data picker code (from skyline)
 function initDatePickerWithOptionsByClass(cssClass, opt) {
@@ -2632,13 +2640,7 @@ function initDatePickerWithOptionsByClass(cssClass, opt) {
 //                obj.userDateFormatClient = "DD/MM/YYYY";
 //            } else {
 				// because of performance issues - avoid this call to the server and make it hard coded:
-                var dataArray = ("DD/MMM/YYYY;DD/MM/YYYY;dd/M/yy").split(';');
-
-                //init prop.dateFormat
-                prop.dateFormat = {};
-                prop.dateFormat.userDateFormatClient = dataArray[0];
-                prop.dateFormat.savedConventionDbDateFormat = dataArray[1];
-                prop.dateFormat.datepickerFormat = dataArray[2];
+				initProp_()
                 
                 //var _min  =($("." + cssClass + ":not(.elementrange)").attr('min') != null && $("." + cssClass + ":not(.elementrange)").attr('min') !="") ? moment($("." + cssClass + ":not(.elementrange)").attr('min'), 'DD/MM/YYYY').format('dd-mm-yy') : null;
                 //var _max  =($("." + cssClass + ":not(.elementrange)").attr('max') != null && $("." + cssClass + ":not(.elementrange)").attr('max') !="") ? moment($("." + cssClass + ":not(.elementrange)").attr('max'), 'DD/MM/YYYY').format('dd-mm-yy') : null;
@@ -3223,6 +3225,7 @@ function initPage() {
     $("button").button();
     //getTitleAndSubtitleForm();   
     var startTime = new Date().getTime();
+    initProp_();
     setTimeout(function() { initDatePickerWithOptionsByClass('date-picker'); }, 50);
     initConfirmDialogDiv();
     initAlphaNumForm();
