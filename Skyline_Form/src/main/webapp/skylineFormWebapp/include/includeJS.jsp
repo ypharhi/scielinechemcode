@@ -3,14 +3,26 @@
 <script src="../skylineFormWebapp/js/jquery.cookie.js" ></script>
 <script defer src="../skylineFormWebapp/js/chosen.jquery.min.js"></script>
 
+<!--  generalFunc and init tab (as in step form) -->
 <script src="../skylineFormWebapp/js/generalFunc<spring:message code="generalFuncMin" text="." />js?<spring:message code="Env" text="" />"></script>
-
+<script>
+		console.log("!!!!script init TABS");
+    	$("#tempalteTabs").tabs({
+    		    /* active : $.cookie($('#formCode').val() + '_' + $('#formId').val()  + '_activetab'),
+    		    activate : function( event, ui ){
+    		        $.cookie($('#formCode').val() + '_' + $('#formId').val()  + '_activetab', ui.newTab.index(),{
+    		            expires : 1
+    		        });
+    		    } */
+    		    
+         }); // init tabs
+		$('.displayOnLoad').css('display','');
+</script>
+		
 <!-- IMPORTANT note for jquery.dataTables v1.10.20.js library: there are custom compatibility changes in the library code, be careful on upgrade library -->
 <script	src="../skylineFormWebapp/deps/jquery.dataTables<spring:message code="jqueryDataTablesMin" text="." />js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/deps/dataTables.jqueryui.js"></script>
-
 <script src="../skylineFormWebapp/deps/dataTables.buttons.min.js"></script>
-<!-- <script src="../skylineFormWebapp/deps/buttons.flash.min.js"></script> -->
 <script src="../skylineFormWebapp/deps/jszip.min.js"></script>
 <script defer src="../skylineFormWebapp/deps/pdfmake.min.js"></script>
 <script defer src="../skylineFormWebapp/deps/vfs_fonts.js"></script>
@@ -23,9 +35,7 @@
 <script defer src="../skylineFormWebapp/js/foundation.min.js" ></script>
 <script defer src="../skylineFormWebapp/deps/url.min.js"></script>
 <script defer src="../skylineFormWebapp/js/history_navigation.js?<spring:message code="Env" text="" />"></script>
-<!-- <script src="../skylineFormWebapp/deps/toastr.js"></script> --> 
 <script defer src="../skylineFormWebapp/deps/jquery.ui-contextmenu.min.js"></script>
-<!-- IMPORTANT note for dataTables.colResize.js library: there are custom compatibility changes in the library code, be careful on upgrade library -->
 <script type="text/javascript" src="../skylineFormWebapp/deps/dataTables.colResize.js?<spring:message code="Env" text="" />"></script>
 <script type="text/javascript" src="../skylineFormWebapp/deps/dataTables.colReorder.js?<spring:message code="Env" text="" />"></script> 
 <script src="../skylineFormWebapp/deps/dataTables.rowsGroup.js"></script>
