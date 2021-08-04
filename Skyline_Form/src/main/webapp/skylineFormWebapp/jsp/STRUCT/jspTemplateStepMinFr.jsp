@@ -10,9 +10,6 @@
 <%@ include file="../include/includeElement_js.jsp"%>
 <%@ include file="../include/includeBL_js.jsp"%>
 <%@ include file="../include/includeJS.jsp"%>
-<%-- <%@ include file="../include/includeExtendedJS.jsp"%> --%>
-<link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/webix.min.css">
-<%@ include file="../include/includeRichtextFiles.jsp"%>
 <script>
 
 	$(document).ready(function() { 

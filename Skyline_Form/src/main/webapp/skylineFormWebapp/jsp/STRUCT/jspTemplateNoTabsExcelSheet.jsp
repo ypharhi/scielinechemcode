@@ -12,7 +12,6 @@
 <%@ include file="../include/includeBL_js.jsp"%>
 <%@ include file="../include/includeJS.jsp"%>
 <%@ include file="../include/includeExtendedJS.jsp"%>
-<%@ include file="../include/includeExcelSheet_js.jsp"%>
 
 <!-- <script src="../skylineFormWebapp/designer_source_en/src/index/comply_spreadjs_helper.13.2.0.0.js"></script>
  -->

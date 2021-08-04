@@ -4,15 +4,40 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Skyline ${browserTitle}</title>
-<link rel="icon" href="../skylineFormWebapp/images/favicon.ico?<spring:message code="Env" text="" />" />
-<link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/webix.min.css">
-<link href="../skylineFormWebapp/js/chosen.min.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/comply_theme/dataTables.colResize.css?<spring:message code="Env" text="" />" />
-<link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/comply_theme/colReorder.dataTables.css?<spring:message code="Env" text="" />" />
-<link href="../skylineFormWebapp/CSS/comply_theme/jquery-resizable-ui.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
-<link href="../skylineFormWebapp/CSS/comply_theme/app.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
-<link href="../skylineFormWebapp/CSS/comply_theme/tmpCSS.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
-<!-- -------------------------------------------------------------------- -->
+
+<!-- ******************************** -->
+<!-- ******** from incldeCSS ******** -->
+<!-- ******************************** -->
+	<link rel="icon" href="../skylineFormWebapp/images/favicon.ico?<spring:message code="Env" text="" />" />
+<!-- ******** webix css ******** -->
+	<link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/webix.min.css">
+<!-- ******** general css ******** -->
+	<link href="../skylineFormWebapp/js/chosen.min.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
+	    	<%-- <link href="../skylineFormWebapp/dist/themes/default/style.min.css?<spring:message code="Env" text="" />" rel="stylesheet"> --%>
+	<link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/comply_theme/dataTables.colResize.css?<spring:message code="Env" text="" />" />
+	<link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/comply_theme/colReorder.dataTables.css?<spring:message code="Env" text="" />" />
+	<link href="../skylineFormWebapp/CSS/comply_theme/jquery-resizable-ui.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
+	<link href="../skylineFormWebapp/CSS/comply_theme/app.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
+	<link href="../skylineFormWebapp/CSS/comply_theme/tmpCSS.css?<spring:message code="Env" text="" />" rel="stylesheet" type="text/css">
+<!-- ******** richtext css and files ******** -->
+	<link href="../skylineFormWebapp/CSS/comply_theme/summernote/summernote-lite.css" rel="stylesheet" type="text/css" media="all" />
+	<style type="text/css">
+		/* for summernote editor */ 
+		.note-editor .note-editing-area {
+		    background-color: white;
+		}
+		.close {
+			line-height: 2;
+		}
+		.note-modal-footer {
+			padding: 0;
+			padding-right: 30px;
+		}
+	</style>
+	<script defer src="../skylineFormWebapp/js/summernote/summernote-lite.min.js" type="text/javascript"></script> 
+<!-- ******************************** -->
+<!-- ******************************** -->
+<!-- ******************************** -->
 
 <script src="../skylineFormWebapp/deps/jquery-1.12.4.min.js"></script>
 <script src="../skylineFormWebapp/deps/jquery-ui.custom_new.min.js"></script>
@@ -22,7 +47,6 @@
 <script src="../skylineFormWebapp/js/properties.js"></script>
 <script src="../skylineFormWebapp/js/jquery.cookie.js"></script>
 <script src="../skylineFormWebapp/js/generalFunc<spring:message code="generalFuncMin" text="." />js?<spring:message code="Env" text="" />"></script>
-
 
 <script>
 	//$(document).ready(function()
@@ -49,7 +73,6 @@
 <script type="text/javascript" src="../skylineFormWebapp/deps/dataTables.colResize.js?<spring:message code="Env" text="" />"></script>
 <script type="text/javascript" src="../skylineFormWebapp/deps/dataTables.colReorder.js?<spring:message code="Env" text="" />"></script> 
 <script src="../skylineFormWebapp/deps/dataTables.rowsGroup.js"></script>
-
 <script src="../skylineFormWebapp/js/chosen.jquery.min.js"></script>
 <script src="../skylineFormWebapp/deps/jquery.ui-contextmenu.min.js"></script>
 <script src="../skylineFormWebapp/deps/jquery.alphanum.js"></script>
@@ -60,24 +83,18 @@
 <script src="../skylineFormWebapp/deps/arialFontPDF.js" defer></script>
 <script src="../skylineFormWebapp/deps/buttons.html5.min.js"></script>
 <script src="../skylineFormWebapp/deps/buttons.print.min.js"></script>
-
 <script src="../skylineFormWebapp/deps/datetime-moment.js"></script>
 <script src="../skylineFormWebapp/deps/bignumber.min.js"  defer></script>
 <script src="../skylineFormWebapp/deps/url.min.js"  defer></script>
 <script src="../skylineFormWebapp/js/history_navigation.js?<spring:message code="Env" text="" />"  defer></script>
-
 <script src="../skylineFormWebapp/deps/traits.js"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementDataTableApiImp<spring:message code="ElementDataTableApiImpMin" text="." />js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementDataTableExtImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementChemDoodleImp.js?<spring:message code="Env" text="" />"></script>
-
-<%@ include file="../include/includeRichtextFiles.jsp"%>
 <script src="../skylineFormWebapp/js/element_js/ElementRichTextEditorImp.js?<spring:message code="Env" text="" />"></script>
-
 <script src="../skylineFormWebapp/js/element_js/ElementAutoCompleteDDLImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementInputImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementTreeImp.js?<spring:message code="Env" text="" />" defer></script>
-
 <script src="../skylineFormWebapp/js/element_js/ElementUploadFileImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementGeneral.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementRadioImp.js?<spring:message code="Env" text="" />"></script>
@@ -88,25 +105,16 @@
 <script src="../skylineFormWebapp/js/element_js/ElementChemDoodleSearchImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementRangeFilterImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementAuthorizationImp.js?<spring:message code="Env" text="" />"></script>
-<%-- <script src="../skylineFormWebapp/js/element_js/ElementFormTestImp.js?<spring:message code="Env" text="" />"></script> --%>
 <script src="../skylineFormWebapp/js/element_js/ElementDynamicParamsImp.js?<spring:message code="Env" text="" />" defer></script>
 <script src="../skylineFormWebapp/js/element_js/ElementUOMImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementButtonImp.js?<spring:message code="Env" text="" />"></script>
-
 <script src="../skylineFormWebapp/js/element_js/ElementDiagramImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/DiagramMindfusionWeb/MindFusion.Common.js" defer></script>
 <script src="../skylineFormWebapp/js/DiagramMindfusionWeb/MindFusion.Diagramming.js" defer></script>
-
-
 <script src="../skylineFormWebapp/deps/webix.js" defer></script>
 <script src="../skylineFormWebapp/js/element_js/ElementWebixMassBalanceCalcImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementWebixMassBalanceInfoImp.js?<spring:message code="Env" text="" />"></script>
-<%-- <script src="../skylineFormWebapp/js/element_js/ElementWebixGeneralImp.js?<spring:message code="Env" text="" />"></script> --%>
 <script src="../skylineFormWebapp/js/element_js/ElementWebixCommonFuncImp.js?<spring:message code="Env" text="" />"></script>
-<%-- <script src="../skylineFormWebapp/js/element_js/ElementGeneralCodeImp.js?<spring:message code="Env" text="" />"></script> --%>
-
-
-<%-- <script src="../skylineFormWebapp/js/bl_Adama_js/reportDesignBL<spring:message code="reportDesignBLMin" text="." />js?<spring:message code="Env" text="" />"></script> --%>
 <script src="../skylineFormWebapp/js/bl_Adama_js/generalBL<spring:message code="generalBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/bl_Adama_js/ElementAuthorizationImpBL.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/bl_Adama_js/ElementButtonImpBL<spring:message code="ElementButtonImpBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
@@ -115,7 +123,6 @@
 <script src="../skylineFormWebapp/marvin/gui/lib/promise-1.0.0.min.js" defer></script>
 <script src="../skylineFormWebapp/marvin/js/marvinjslauncher.js" defer></script>
 <script src="../skylineFormWebapp/js/bl_Adama_js/ElementAdditionalInfo.js"></script>
-<%-- <script src="../skylineFormWebapp/js/bl_Adama_js/ElementIreportImpBL.js?<spring:message code="Env" text="" />"></script>--%>
 <script src="../skylineFormWebapp/js/bl_Adama_unittest_js/unittestFunc.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementIreportImp.js?<spring:message code="Env" text="" />"></script>
  <!-- ---------------------------- -->

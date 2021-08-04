@@ -24,8 +24,7 @@ import com.skyline.form.entity.Element;
  * 			*** This product need additional license for displaying the excel tool bar  
  * 			*** This product also have desktop application like excel that can be used to open excel file and export them to a json format (as the js code does)
  * 			The jsp must include (for using the spreadsheet):
- * 			<%@ include file="../include/includeExcelSheet_js.jsp"%> 
- *          !!! For now is defined only in jspTemplateDynamicTabsExcelSheet.jsp and jspTemplateNoTabsExcelSheet.jsp !!!!
+ * 			ElementExcelSheetBL<version> - that is part of the includeExtendedJS.jsp
  * Save element: 
  * 			The data is saved to fg_clob_files as json contain:
  * 				- excelFullData - the excel json object

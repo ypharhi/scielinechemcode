@@ -1,12 +1,5 @@
-<%@ include file="../include/includeRichtextFiles.jsp"%>
-<!-- <link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/webix.css"> -->
-<link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/webix.min.css">
 <script defer src="../skylineFormWebapp/deps/webix.js"></script>
-<!-- <script src="../skylineFormWebapp/dist/jstree.js"></script> -->
 <script src="../skylineFormWebapp/dist/jstree.min.js"></script>
 <script defer src="../skylineFormWebapp/js/DiagramMindfusionWeb/MindFusion.Common.js"></script>
 <script defer src="../skylineFormWebapp/js/DiagramMindfusionWeb/MindFusion.Diagramming.js"></script>
-<!-- <script src="../skylineFormWebapp/js/DiagramMindfusionWeb/jspack-vsdoc.js"></script>
-<script src="../skylineFormWebapp/js/DiagramMindfusionWeb/MindFusion.Charting.js"></script>
-<script src="../skylineFormWebapp/js/DiagramMindfusionWeb/FlowcharterJson.js"></script>
-<script src="../skylineFormWebapp/js/DiagramMindfusionWeb/Flowcharter.js"></script> -->
+<script defer src="../skylineFormWebapp/js/bl_Adama_js/ElementExcelSheetBL<spring:message code="ElementExcelSheetBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
