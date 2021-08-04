@@ -15,6 +15,7 @@ import com.skyline.form.bean.ActivitylogType;
 import com.skyline.form.bean.LevelType;
 import com.skyline.form.dal.GeneralDao;
 import com.skyline.form.entity.Element;
+import com.skyline.form.service.GeneralUtilFormState;
 
 /**
  * 
@@ -57,6 +58,9 @@ public class ElementExcelSheetImp extends Element
 	@Value("${isAjaxExcelLoad:0}")
 	private int isAjaxExcelLoad;
 	
+	@Autowired
+	private GeneralUtilFormState generalUtilFormState;	
+	
 
 	@Override
 	public String init(long stateKey, String formCode, String impCode, String initVal) {
@@ -95,7 +99,24 @@ public class ElementExcelSheetImp extends Element
 		String spreadsheetObj = "";
 		String onLoadIframeSpreadsheet = ""; 
 		
-		if(isAjaxExcelLoad == 1) {
+		//overrideExcelLoadState is passed as URL parameter 
+		//used to check performance for developers
+		//if 1 - use Ajax load (override the default isAjaxExcelLoad=0)
+		//if noexcel - the excel will not be loaded at all
+		String overrideExcelLoadState = "";
+		try {
+			overrideExcelLoadState = generalUtilFormState.getFormParam(stateKey, formCode, "$P{OVERRIDEEXCELLOADSTATE}");
+			if(overrideExcelLoadState != null && !overrideExcelLoadState.isEmpty()) {
+				if(overrideExcelLoadState.equals("noexcel")) {
+					return html;
+				}
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		if(isAjaxExcelLoad == 1 || generalUtil.getNull(overrideExcelLoadState).equals("1")) {
 			value = generalUtil.getEmpty(value, "-1");
 			String defaultvalue = generalUtil.getEmpty(getDefaultValue(stateKey,formId,formCode),"-1");
 			spreadsheetObj = "onLoadSpreadsheetElement(1," + value + ", " + defaultvalue + ",null,null,'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
