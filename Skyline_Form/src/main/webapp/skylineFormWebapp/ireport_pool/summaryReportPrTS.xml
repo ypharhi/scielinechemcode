@@ -905,7 +905,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new BigDecimal($P{IREPORT_PRINT_FINALWEIGHT}).setScale(4, BigDecimal.ROUND_HALF_UP).toString()]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{IREPORT_PRINT_FINALWEIGHT} == null || $P{IREPORT_PRINT_FINALWEIGHT}.isEmpty() ? null :new BigDecimal($P{IREPORT_PRINT_FINALWEIGHT}).setScale(4, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1009,7 +1009,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new BigDecimal($P{IREPORT_PRINT_LOSS}).setScale(1, BigDecimal.ROUND_HALF_UP).toString()]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{IREPORT_PRINT_LOSS} == null || $P{IREPORT_PRINT_LOSS}.isEmpty() ? null :new BigDecimal($P{IREPORT_PRINT_LOSS}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1076,7 +1076,7 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_MAXTEMPRATE}]]></textFieldExpression>
 				</textField>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+				<textField isStretchWithOverflow="false" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="126"
 						y="310"
@@ -1087,7 +1087,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[new BigDecimal($P{IREPORT_PRINT_GASPRODUCTIONESTIMATE}).setScale(1, BigDecimal.ROUND_HALF_UP).toString()]]></textFieldExpression>
+				<textFieldExpression   class="java.math.BigDecimal"><![CDATA[$P{IREPORT_PRINT_GASPRODUCTIONESTIMATE} == null || $P{IREPORT_PRINT_GASPRODUCTIONESTIMATE}.isEmpty() ? null :new BigDecimal($P{IREPORT_PRINT_GASPRODUCTIONESTIMATE}).setScale(1, BigDecimal.ROUND_HALF_UP)]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
