@@ -174,12 +174,14 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 
 						Map<String,String> materialTypeTableMap = formDao.getFromInfoLookupAllElementData("MaterialType", LookupType.ID, "name");
 						
+						String expIds = expidList.replace("@", ",");
+						String stepIds = stepidList.replace("@", ",");
+						String sampleIds = sampleidList.replace("@", ",");
+						
 						SQLObj sqlObj = experimentReportSQLBuilder.getExpReportRulesFieldsSQL(stateKey,
-								expidList.replace("@", ","), stepidList.replace("@", ","), sampleidList.replace("@", ","), materialTypeTableMap,
+								expIds, stepIds, sampleIds, materialTypeTableMap,
 								imputityMatIds, resulttype, characteristicMassBalan, sampleComments, sampleCreator, sampleAmount);
 						 
-						String sampleIds = sampleidList.replace("@", ",");
-						String expIds = expidList.replace("@", ",");
 
 						// set the SQL
 						sql = "select * from ( " + sqlObj.getWith() + "\n"
@@ -191,7 +193,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 							    + "where  t.experiment_id = s.experiment_id(+) \n"
 							    + "  AND s.sample_id(+) in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") \r\n"
 							    + sqlObj.getWhere() + "\n"
-							    + "  AND t.experiment_id in (" + (expIds.isEmpty()?"-1":expIds) + ")  ) order by ExperimentName, samplename\r\n";
+//							    + "  AND t.experiment_id in (" + (expIds.isEmpty()?"-1":expIds) + ")  ) \r\n" 
+								+ "  AND exists (select 1 from fg_s_step_v st where st.experiment_id = t.experiment_id and st.step_id in (" + (stepIds.isEmpty()?"-999":stepIds) + ")  ) \r\n" 
+							    + " ) order by ExperimentName, samplename\r\n";
 					}
 					
 				} else if(generalUtil.getNull(table).equalsIgnoreCase("fg_s_ReportFilterRef_DTE_v")) {
