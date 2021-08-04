@@ -193,7 +193,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 							    + "where  t.experiment_id = s.experiment_id(+) \n"
 							    + "  AND s.sample_id(+) in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ") \r\n"
 							    + sqlObj.getWhere() + "\n"
-//							    + "  AND t.experiment_id in (" + (expIds.isEmpty()?"-1":expIds) + ")  ) \r\n" 
+//							    + "  AND t.experiment_id in (" + (expIds.isEmpty()?"-1":expIds) + ") \r\n" 
 								+ "  AND exists (select 1 from fg_s_step_v st where st.experiment_id = t.experiment_id and st.step_id in (" + (stepIds.isEmpty()?"-999":stepIds) + ")  ) \r\n" 
 							    + " ) order by ExperimentName, samplename\r\n";
 					}
