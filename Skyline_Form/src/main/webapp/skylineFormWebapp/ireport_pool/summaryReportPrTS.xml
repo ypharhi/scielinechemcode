@@ -923,7 +923,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="391"
-						y="262"
+						y="239"
 						width="142"
 						height="15"
 						key="textField-54"/>
@@ -959,19 +959,6 @@
 					</textElement>
 				<text><![CDATA[P After Cooling (bar):]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="391"
-						y="239"
-						width="142"
-						height="15"
-						key="textField-55"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PAFTERCOOLING}]]></textFieldExpression>
-				</textField>
 				<staticText>
 					<reportElement
 						x="0"
@@ -1114,6 +1101,19 @@
 						<font/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_MAXPRESSURERATE}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="391"
+						y="262"
+						width="142"
+						height="15"
+						key="textField-85"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PAFTERCOOLING}]]></textFieldExpression>
 				</textField>
 			</band>
 			</groupHeader>
