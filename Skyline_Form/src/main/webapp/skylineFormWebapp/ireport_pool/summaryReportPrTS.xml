@@ -452,20 +452,6 @@
 					</textElement>
 				<text><![CDATA[Short Description:]]></text>
 				</staticText>
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="222"
-						width="444"
-						height="15"
-						key="textField-32"
-						stretchType="RelativeToTallestObject"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_DESCRIPTION}]]></textFieldExpression>
-				</textField>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
@@ -1332,7 +1318,21 @@
 			</band>
 		</background>
 		<title>
-			<band height="100"  isSplitAllowed="true" >
+			<band height="147"  isSplitAllowed="true" >
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="0"
+						y="106"
+						width="556"
+						height="19"
+						key="textField-32"
+						stretchType="RelativeToTallestObject"/>
+					<box></box>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_DESCRIPTION}]]></textFieldExpression>
+				</textField>
 				<staticText>
 					<reportElement
 						x="0"
@@ -1342,7 +1342,7 @@
 						key="staticText-86"/>
 					<box></box>
 					<textElement textAlignment="Center">
-						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true" isUnderline="true"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="15" isBold="true" isUnderline="true"/>
 					</textElement>
 				<text><![CDATA[TSU Test:]]></text>
 				</staticText>
