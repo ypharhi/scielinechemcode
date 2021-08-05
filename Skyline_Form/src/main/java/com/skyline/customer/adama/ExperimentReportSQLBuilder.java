@@ -54,40 +54,40 @@ public class ExperimentReportSQLBuilder {
 		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 		// ^^^^ mass balance - show mass balance with selection (as in fg_p_experimentanalysis_v mass balance section) 
 		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-		if (characteristicMassBalan != null && !characteristicMassBalan.isEmpty()) {
-			String aliasName = "MASSBALANCE"; // Alias
-			String cMBl_ = characteristicMassBalan.toLowerCase();
-			
-			//with t.CHEMICALYIELD||'","'||t.ISOLATEDYIELD||'","'||t.SUMMARY
-			sbWithSql.append(((index == 0) ? "with ":", ") + aliasName + " as (\r\n" +
-					" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
-					(cMBl_.contains("conversion") || cMBl_.contains("all") ? "   ,t.CONVERSION \r\n":"") +
-					(cMBl_.contains("chemical yield") || cMBl_.contains("all") ? "   ,t.CHEMICALYIELD \r\n":"") +
-					(cMBl_.contains("isolated yield") || cMBl_.contains("all") ? "   ,t.ISOLATEDYIELD \r\n":"") +
-					(cMBl_.contains("summary") || cMBl_.contains("all") ? "   ,t.SUMMARY \r\n":"") +
-					
-					" from fg_s_step_v t \r\n" + 
-					" where t.CHKCHARACTERMASSBALANCE = 1 \r\n" +
-					" and t.EXPERIMENT_ID in (" + ((expIds == null || expIds.isEmpty())?"-1":expIds) + ") \r\n" +
-					")");  
-			
-			//select
-			sbSelectSql.append( 
-					(cMBl_.contains("conversion") || cMBl_.contains("all")  ? "," + aliasName + ".CONVERSION as \"Conversion%\" \r\n":"") +
-					(cMBl_.contains("chemical yield") || cMBl_.contains("all")  ? "," + aliasName + ".CHEMICALYIELD as \"Chemical Yield%\" \r\n":"") +
-					(cMBl_.contains("isolated yield") || cMBl_.contains("all")  ? "," + aliasName + ".ISOLATEDYIELD as \"Isolated Yield%\" \r\n":"") +
-					(cMBl_.contains("summary") || cMBl_.contains("all") ? "," + aliasName + ".SUMMARY as \"Summary%\" \r\n":"")
-						
-			);
-			
-			//from
-			sbFromSql.append("," + aliasName);
-			
-			//where
-			sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
-			
-			index++;
-		}
+//		if (characteristicMassBalan != null && !characteristicMassBalan.isEmpty()) {
+//			String aliasName = "MASSBALANCE"; // Alias
+//			String cMBl_ = characteristicMassBalan.toLowerCase();
+//			
+//			//with t.CHEMICALYIELD||'","'||t.ISOLATEDYIELD||'","'||t.SUMMARY
+//			sbWithSql.append(((index == 0) ? "with ":", ") + aliasName + " as (\r\n" +
+//					" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
+//					(cMBl_.contains("conversion") || cMBl_.contains("all") ? "   ,t.CONVERSION \r\n":"") +
+//					(cMBl_.contains("chemical yield") || cMBl_.contains("all") ? "   ,t.CHEMICALYIELD \r\n":"") +
+//					(cMBl_.contains("isolated yield") || cMBl_.contains("all") ? "   ,t.ISOLATEDYIELD \r\n":"") +
+//					(cMBl_.contains("summary") || cMBl_.contains("all") ? "   ,t.SUMMARY \r\n":"") +
+//					
+//					" from fg_s_step_v t \r\n" + 
+//					" where t.CHKCHARACTERMASSBALANCE = 1 \r\n" +
+//					" and t.EXPERIMENT_ID in (" + ((expIds == null || expIds.isEmpty())?"-1":expIds) + ") \r\n" +
+//					")");  
+//			
+//			//select
+//			sbSelectSql.append( 
+//					(cMBl_.contains("conversion") || cMBl_.contains("all")  ? "," + aliasName + ".CONVERSION as \"Conversion%\" \r\n":"") +
+//					(cMBl_.contains("chemical yield") || cMBl_.contains("all")  ? "," + aliasName + ".CHEMICALYIELD as \"Chemical Yield%\" \r\n":"") +
+//					(cMBl_.contains("isolated yield") || cMBl_.contains("all")  ? "," + aliasName + ".ISOLATEDYIELD as \"Isolated Yield%\" \r\n":"") +
+//					(cMBl_.contains("summary") || cMBl_.contains("all") ? "," + aliasName + ".SUMMARY as \"Summary%\" \r\n":"")
+//						
+//			);
+//			
+//			//from
+//			sbFromSql.append("," + aliasName);
+//			
+//			//where
+//			sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
+//			
+//			index++;
+//		}
 		// ^^^^ mass balance END!
 		
 		String sqlFilterRef = "select T.ROWSTATEKEY,\n" + 
