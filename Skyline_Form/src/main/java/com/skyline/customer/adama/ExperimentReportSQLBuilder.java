@@ -25,7 +25,7 @@ public class ExperimentReportSQLBuilder {
 	 * This function returns SQLObj object with all of the SQL parts (with,select,from and where) to have the following result:
 	 * 
 	 * The table shows (SQL - Cartesian product): 
-	 * 					experiment (number, description and masss balance data ONE ROW MAX!!! for each experiment) x 
+	 * 					experiment (number, description ONE ROW MAX!!! for each experiment) x 
 	 * 					combine rules data (usually it will be one row for each experiment but, it can be more) x 
 	 * 					displayData (ONE ROW MAX!!! for each experiment  - using SMARTPIVOT) x
 	 * 				    samples and result (could be more then one sample for an experiment the result data should be in one row - using SMARTPIVOT)
@@ -49,46 +49,17 @@ public class ExperimentReportSQLBuilder {
 		
 		//prepare - (delete old data on the same stateKey) ...
 		generalDao.updateSingleString("delete from FG_P_EXPREPORT_DATA_TMP where statekey ='" + stateKey + "'");
-				
-		
-		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-		// ^^^^ mass balance - show mass balance with selection (as in fg_p_experimentanalysis_v mass balance section) 
-		// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-//		if (characteristicMassBalan != null && !characteristicMassBalan.isEmpty()) {
-//			String aliasName = "MASSBALANCE"; // Alias
-//			String cMBl_ = characteristicMassBalan.toLowerCase();
-//			
-//			//with t.CHEMICALYIELD||'","'||t.ISOLATEDYIELD||'","'||t.SUMMARY
-//			sbWithSql.append(((index == 0) ? "with ":", ") + aliasName + " as (\r\n" +
-//					" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
-//					(cMBl_.contains("conversion") || cMBl_.contains("all") ? "   ,t.CONVERSION \r\n":"") +
-//					(cMBl_.contains("chemical yield") || cMBl_.contains("all") ? "   ,t.CHEMICALYIELD \r\n":"") +
-//					(cMBl_.contains("isolated yield") || cMBl_.contains("all") ? "   ,t.ISOLATEDYIELD \r\n":"") +
-//					(cMBl_.contains("summary") || cMBl_.contains("all") ? "   ,t.SUMMARY \r\n":"") +
-//					
-//					" from fg_s_step_v t \r\n" + 
-//					" where t.CHKCHARACTERMASSBALANCE = 1 \r\n" +
-//					" and t.EXPERIMENT_ID in (" + ((expIds == null || expIds.isEmpty())?"-1":expIds) + ") \r\n" +
-//					")");  
-//			
-//			//select
-//			sbSelectSql.append( 
-//					(cMBl_.contains("conversion") || cMBl_.contains("all")  ? "," + aliasName + ".CONVERSION as \"Conversion%\" \r\n":"") +
-//					(cMBl_.contains("chemical yield") || cMBl_.contains("all")  ? "," + aliasName + ".CHEMICALYIELD as \"Chemical Yield%\" \r\n":"") +
-//					(cMBl_.contains("isolated yield") || cMBl_.contains("all")  ? "," + aliasName + ".ISOLATEDYIELD as \"Isolated Yield%\" \r\n":"") +
-//					(cMBl_.contains("summary") || cMBl_.contains("all") ? "," + aliasName + ".SUMMARY as \"Summary%\" \r\n":"")
-//						
-//			);
-//			
-//			//from
-//			sbFromSql.append("," + aliasName);
-//			
-//			//where
-//			sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
-//			
-//			index++;
-//		}
-		// ^^^^ mass balance END!
+		generalDao.updateSingleString("delete from FG_P_EXPREPORT_SAMPLE_TMP where statekey ='" + stateKey + "'");
+		String sqlSampleTmp =
+				"INSERT INTO FG_P_EXPREPORT_SAMPLE_TMP(STATEKEY,SAMPLE_ID,SAMPLENAME,SAMPLEDESC,COMMENTSFORCOA,EXPERIMENT_ID,CREATOR_ID,AMMOUNT)\r\n" + 
+				"SELECT '" + stateKey + "' AS STATEKEY, T.SAMPLE_ID, T.SAMPLENAME, T.SAMPLEDESC, T.COMMENTSFORCOA, T.EXPERIMENT_ID, T.CREATOR_ID, T.AMMOUNT\r\n" + 
+				"FROM FG_S_SAMPLE_ALL_V T \r\n" + 
+				"WHERE T.sample_id(+) in (" + (sampleIds.isEmpty()?"-1":sampleIds) + ")\r\n" + 
+				"union all\r\n" + 
+				"SELECT '" + stateKey + "' AS STATEKEY, -1 as SAMPLE_ID, null SAMPLENAME, null SAMPLEDESC, null COMMENTSFORCOA, null EXPERIMENT_ID, null CREATOR_ID, null AMMOUNT\r\n" + 
+				"FROM dual";
+		generalDao.updateSingleString(sqlSampleTmp);
+
 		
 		String sqlFilterRef = "select T.ROWSTATEKEY,\n" + 
 				"        T.TABLETYPE , \n" + 
@@ -435,14 +406,14 @@ public class ExperimentReportSQLBuilder {
 						}
 						
 						
-						String pivotFormat = "'{pivotkey:\"'|| nvl(s.SAMPLE_ID || '_' || t.experiment_id,t.experiment_id) ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
+						String pivotFormat = "'{pivotkey:\"'|| decode(s.SAMPLE_ID, null,'',s.SAMPLE_ID || '_') || t.experiment_id ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
 						
 						if(sbPivotSql.length() > 0) {
 							sbPivotSql.append("\n union all \n");
 						}
 						
 						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, null as order2," + pivotFormat + " as result_SMARTPIVOT\n" +
-								"  FROM Fg_s_Materialref_All_v t, fg_s_sample_v s\r\n" + 
+								"  FROM Fg_s_Materialref_All_v t, FG_P_EXPREPORT_SAMPLE_TMP s\r\n" + 
 								"  WHERE t.experiment_id = s.experiment_id(+) and t.sessionid is null and t.active=1\r\n" + 
 								"  AND t.STEP_ID in (" + (stepIds.isEmpty()?"-1":stepIds) + ")\r\n" + 
 								//"  AND t.TABLETYPE = 'Reactant'\r\n" +  
@@ -483,14 +454,14 @@ public class ExperimentReportSQLBuilder {
 							val_ = val_.substring(1);
 						}
 						
-						String pivotFormat = "'{pivotkey:\"'|| nvl(s.SAMPLE_ID || '_' || t.experiment_id,t.experiment_id) ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
+						String pivotFormat = "'{pivotkey:\"'|| decode(s.SAMPLE_ID, null,'',s.SAMPLE_ID || '_') || t.experiment_id ||'\",pivotkeyname:\"UNIQUEROW\",column:[" + col_ + "],val:[" + val_ + "]}'";
 						
 						if(sbPivotSql.length() > 0) {
 							sbPivotSql.append("\n union all \n");
 						}
 						
 						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, null as order2," + pivotFormat + " as result_SMARTPIVOT\n" +
-								"  from FG_S_PARAMREF_ALL_V t, fg_s_sample_v s\r\n" + 
+								"  from FG_S_PARAMREF_ALL_V t, FG_P_EXPREPORT_SAMPLE_TMP s\r\n" + 
 								"WHERE t.experiment_id = s.experiment_id(+) and t.SESSIONID is null and t.ACTIVE = 1 AND T.VAL1 is not null\r\n" + 
 //								"WHERE t.experiment_id = r.experiment_id(+) and  t.SESSIONID is null and t.ACTIVE = 1 AND T.PLANNEDVAL1 is not null\r\n" + 
 								"AND instr(',' || '" + displayObjId + "' || ',', ','||t.PARAMETER_ID||',') > 0\r\n" +
@@ -518,19 +489,17 @@ public class ExperimentReportSQLBuilder {
 		// result into FG_P_EXPREPORT_DATA_TMP
 		//+++++++++++++++++++++++++++++++++++++++++++++
 		String numRowsResult = "";
-		if(sampleIds != null && !sampleIds.isEmpty()) {
-			Map<String, String> map = new HashMap<>();
-			map.put("statekey_in", String.valueOf(stateKey));
-			map.put("resulttype_in", resulttype);
-			map.put("characteristicMassBalan_in", characteristicMassBalan); // characteristicMassBalan - NOT IN USE HERE we have this data as part of the with SQL - AND NOT AS RESULT
-			map.put("imputityMatIds_in", imputityMatIds);
-			map.put("sampleComments_in", sampleComments);
-			map.put("sampleCreator_in", sampleCreator);
-			map.put("sampleAmount_in", sampleAmount);
-			map.put("sampleIds_in", generalUtil.handleClob( "," + sampleIds + ","));
-			numRowsResult = generalDao.callPackageFunction("FG_ADAMA", "GET_UPDATE_P_EXPREPORT_DATA", map);
-		}
-		
+		Map<String, String> map = new HashMap<>();
+		map.put("statekey_in", String.valueOf(stateKey));
+		map.put("resulttype_in", resulttype);
+		map.put("characteristicMassBalan_in", characteristicMassBalan);
+		map.put("imputityMatIds_in", imputityMatIds);
+		map.put("sampleComments_in", sampleComments);
+		map.put("sampleCreator_in", sampleCreator);
+		map.put("sampleAmount_in", sampleAmount);
+		map.put("expdIds_in", generalUtil.handleClob("," + expIds + ","));
+		numRowsResult = generalDao.callPackageFunction("FG_ADAMA_EXP_REPORT", "GET_UPDATE_P_EXPREPORT_DATA", map);
+
 		// +++++++ if we have data => add RESULT_SMARTPIVOTSQL to sbSelectSql 
 		if((numRowsResult != null && !numRowsResult.equals("0")) || (numRowsDisplayData != null && !numRowsDisplayData.equals("0"))) {
 			sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_, order2' AS RESULT_SMARTPIVOTSQL\n" ); 

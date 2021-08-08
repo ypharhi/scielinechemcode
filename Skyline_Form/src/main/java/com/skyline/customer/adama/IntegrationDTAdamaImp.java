@@ -185,7 +185,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 
 						// set the SQL
 						sql = "select * from ( " + sqlObj.getWith() + "\n"
-								+ "select distinct t.experiment_id, t.ExperimentName, s.samplename, nvl(s.SAMPLE_ID || '_' || t.experiment_id,t.experiment_id) as uniquerow,\n"
+								+ "select distinct t.experiment_id, t.ExperimentName, s.samplename, decode(s.SAMPLE_ID, null,'',s.SAMPLE_ID || '_') || t.experiment_id as uniquerow,\n"
 								+ "'{\"displayName\":\"' || t.ExperimentName || '\" ,\"icon\":\"' || '' || '\" ,\"fileId\":\"' || '' || '\",\"formCode\":\"' || t.FORMCODE || '\"  ,\"formId\":\"' || t.EXPERIMENT_ID || '\",\"tab\":\"' || '' || '\" }' as \"Experiment Number_SMARTLINK\",\n"
 								+ "t.DESCRIPTION as \"Experiment Description\"\n"
 								+ sqlObj.getSelect() 

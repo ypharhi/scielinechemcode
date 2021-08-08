@@ -79,6 +79,7 @@ l.LaboratoryName as "Lab",
 '{"displayName":"' || lastbatch.batchname || '" ,"icon":"' || '' || '" ,"fileId":"' || '' || '","formCode":"' || 'InvItemBatch' || '"  ,"formId":"' || lastbatch.batchid || '","tab":"' || '' || '","smartType":"SMARTLINK", "title":"Batch #" }' as "Last Batch Created_SMARTLINK",
 t.EXTERNALCODE as "External Code",
 fg_get_richtext_display(t.CONCLUSSION) as "Conclusion",
+--t.ISENABLESPREADSHEET as "Spreadsheet Enabled",
 --t.EXPERIMENTSERIESNAME as "Series Name"
 --17012018 ta column change
 case
