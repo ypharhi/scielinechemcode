@@ -69,7 +69,7 @@
 							<table class="displayOnLoad" width="100%" style="display:none;">
 								<tr>
 									<td class="innerTD">
-									 <!--begin --><div style="height: calc(100vh - 275px);overflow-y: auto;">
+									 <!--begin --><div style="height: calc(100vh - 180px);overflow-y: auto;">
 									@body@
 									<!--end --></div>
 									</td>
