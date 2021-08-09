@@ -253,7 +253,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("INVITEMBATCHNAME") ? "   ,t.INVITEMBATCHNAME as INVITEMBATCHNAME\r\n":"") +
 								
 								"  FROM Fg_s_Materialref_All_v t, FG_I_CONN_MATERIAL_TYPE_V mt \r\n" + 
-								"  WHERE 1=1\r\n" + 
+								"  WHERE t.sessionid is null and t.active=1 \r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
 								"  AND lower('Step '|| t.STEPFORMNUMBERID) = lower('"  + singleStepName + "')\r\n" + 
 								"  AND t.INVITEMMATERIAL_ID = mt.INVITEMMATERIAL_ID\r\n" + 
