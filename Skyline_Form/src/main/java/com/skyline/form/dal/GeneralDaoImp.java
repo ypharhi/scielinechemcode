@@ -1744,7 +1744,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 									if (stepNameCSV != null && !stepNameCSV.isEmpty()) {
 										parameters = getListOfMapsBySql(
 												"select distinct t.PARAMETER_ID,t.parametername from fg_s_paramref_all_v t where t.PARENTID in ("
-														+ stepNameCSV + ")  and t.active = 1 and t.sessionid is null");//or t.parentid in("+expIdCSV+")) fixed bug 9328
+														+ stepNameCSV + ")  and t.active = 1 and t.sessionid is null");//or t.parentid in("+expIdCSV+"))
 									}
 								}
 								if (parameters != null && parametersData.isEmpty()) {
@@ -3202,7 +3202,19 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 			String[] val = colvalObj.toString().split(",");
 			List<String> colVals = Arrays.asList(val);
 			for (String colVal : colVals) {
-				dataList.add("{\"ID\":\"" + colVal + "\",\"displayName\":\"" + colVal + "\"}");
+				String colDisplayName = colVal;
+				try {
+				if(fullListIDVal!= null) {//fixed bug 9329
+					String formCode = formDao.getFormCodeEntityBySeqId("",colVal);
+					colDisplayName = formDao.getFromInfoLookup(formCode, LookupType.ID, colVal, "name");
+		        	if(generalUtil.getNull(colDisplayName).isEmpty()) {
+		        		 colDisplayName = colVal;
+		        	}
+				}
+				}catch(Exception e) {
+					 colDisplayName = colVal;
+				}
+				dataList.add("{\"ID\":\"" + colVal + "\",\"displayName\":\"" + colDisplayName + "\"}");
 			}
 			returnObj = "{\"displayName\":"+dataList.toString()+",\"htmlType\":\"select\", \"multiple\":\""+multiple+"\",\"dbColumnName\":\""+dbColName+"\",\"insertIntoSelectTable\":\"false\", \"colCalcId\":\""+dbColName+"\", \"allowSingleDeselect\":\"false\""+generalUtil.getNull(additional)+", \"autoSave\":\"true\", \"fullList\":"+jsonArray.toString()+"}";
 		}
