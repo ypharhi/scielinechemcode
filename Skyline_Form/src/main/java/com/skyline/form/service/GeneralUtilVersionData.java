@@ -36,6 +36,9 @@ public class GeneralUtilVersionData {
 	@Value("${jdbc.username}")
 	private String dbUsername;
 	
+	@Value("${excelDataInComment:0}")
+	private int excelDataInComment;
+	
 	private final String DB_TIME_FORMAT = "yyyy-mm-dd hh24:mi:ss";
 
 	public void makeVersionData() {
@@ -91,6 +94,11 @@ public class GeneralUtilVersionData {
 			}
 
 			if (!tableName_.equals("NA")) {
+				
+				if(excelDataInComment == 1 && tableName_.equalsIgnoreCase("FG_S_SYSCONFEXCELDATA_PIVOT")) {
+					sbScript.append("\n/*\n");
+				}
+						
 				if (!formCode_.equals("NA")) {
 					wherePart += " and formcode = '" + formCode_ + "'";
 				}
@@ -119,6 +127,10 @@ public class GeneralUtilVersionData {
 					}
 					sbScript.append(getScriptByMap(tableName_, scriptMap));
 				}
+				
+				if(excelDataInComment == 1 && tableName_.equalsIgnoreCase("FG_S_SYSCONFEXCELDATA_PIVOT")) {
+					sbScript.append("\n*/\n");
+				}
 			}
 
 		}
@@ -145,6 +157,11 @@ public class GeneralUtilVersionData {
 
 	private String updateSysConfExcelData() {
 		StringBuilder script = new StringBuilder();
+		
+		if(excelDataInComment == 1) {
+			script.append("\n/*\n");
+		}
+		
 		script.append("-----\n" + "-- SET SYSCONFEXCELDATA\n" + "----\n");
 		String sql = "select t.FORMID, t.SYSCONFEXCELDATANAME, f.file_content\n"
 				+ "from fg_s_sysconfexceldata_all_v t,\n" + "     fg_clob_files f\n" + "where t.EXCELDATA = f.file_id\n"
@@ -161,6 +178,11 @@ public class GeneralUtilVersionData {
 							+ excelName + "';\n");
 
 		}
+		
+		if(excelDataInComment == 1) {
+			script.append("\n*/\n");
+		}
+		
 		return script.toString();
 	}
 
