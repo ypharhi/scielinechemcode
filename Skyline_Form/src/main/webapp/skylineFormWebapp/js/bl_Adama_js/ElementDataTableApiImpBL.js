@@ -282,6 +282,9 @@ function elementDataTableApiImpBL(domId) {
 	   $('#reportTable_wrapper').find('div.dropdown-content div.dt-buttons a').eq( 1 )  //remove PDF
 	   			.remove();
 	   			//.('<a class="" tabindex="0" aria-controls="reportTable" href="#"><span>PDF</span></a>');
+//	   if($('#formCode').val() == 'ExperimentReport') {
+//		   yaronUOMtest();
+//	   }
    }else if((domId == 'rulesTable' || domId == 'separateColumnsRulesTable') && $('#formCode').val() == 'ExperimentReport'){
 	   $('#'+domId+'_Parent').css({"padding-bottom":"105px"});//padding-bottom because of ddl in edit tables
 	   $('#'+domId+'_dataTableStructButtons button.dataTableApiNew:not(.dataTableAddRowButton)').css('display', 'none');
@@ -5925,112 +5928,33 @@ function removeRowColumnSelect(domId){
 	});
     }
 }
-/*
- * 04012021 kdvoyashov commented this call because put to yes/no 
-	* 						to the favorite field inside the json on fly by using formid in the ..._dtm views and changing it in the map and put to the json
- */
-//function favoritCheckBoxHandle(domId) {
-//	/*
-//	 * kd 14122020 check if formCode equals SpreadsheetMain or if formCode equals Main then check if there is a cell editableSmartCellParent class checkBox
-//	 */
-//	
-//	if ($('#formCode').val() == "SpreadsheetMain" || $('[id="' + domId + '"] tbody tr').find('td.editableSmartCellParent').length > 0 ||
-//			$('[id="' + domId + '"] tbody tr').find('i.fa').length > 0) {
-//    	var allData = getformDataNoCallBack(1);
-//		// url call
-//		var urlParam = "?formId=" + $('#formId').val() + "&formCode=" + $('#formCode').val() + "&userId=" + $('#userId').val()
-//				+ "&eventAction=getFavoriteSpreadsheet&isNew=" + $('#isNew').val();
-//
-//		var data_ = JSON.stringify({
-//			action : "doSave",
-//			data : allData,
-//			errorMsg : ""
-//		});
-//		// call...
-//		$.ajax({
-//			type : 'POST',
-//			data : data_,
-//			url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
-//			contentType : 'application/json',
-//			dataType : 'json',
-//
-//			success : function(obj) {
-//				if (obj.errorMsg != null && obj.errorMsg != '') {
-//					displayAlertDialog(obj.errorMsg);
-//					hideWaitMessage();
-//					} else if (obj.data[0].val.toString() != null && obj.data[0].val.toString()!=""){
-//						var results = obj.data[0].val.toString();
-//						selectedTable = $('#' + domId).DataTable();
-//						var columnInd = getColumnIndexByColHeader(domId,"Favorite");
-//						var favRows = results.split("-");
-////						for (var i = 0; i < rows.length; i++) {
-//							//selectedTable.$('input[type="checkbox"][value="'+resultsArray[i]+'"]').prop('checked', true);
-//							//$('#'+domId+'_col_favorite_row_'+rows[i]).prop('checked',true);
-//							
-//						selectedTable.rows().eq(0).each( function ( index ) 
-//						{
-//							var row = selectedTable.row( index );	
-//						    var rowData = row.data();
-//						    var rowID = rowData[0];
-//						    for (var i = 0; i < favRows.length; i++) 
-//						    {
-//							    if(favRows[i] == rowID)
-//								{
-//									    var cell = selectedTable.cell({row: index, column: columnInd}); 
-//								    var cdata = cell.data();
-//								    var cnode = cell.node();
-//								    if ($('[id="' + domId + '"] tbody tr').find('i.fa').length > 0){
-//								    	var $input = $(cnode).find('i');
-//									    
-//									    if($input.length > 0)
-//										{
-////						    				$input.prop('checked',true);
-////						    				$input.prop('checked',false);
-//									    	$(cnode).find('i').removeClass('fa fa-star-o');
-//									    	$(cnode).find('i').addClass('fa fa-star');
-//									    	$(cnode).find('i').css("color","yellow");
-//									    	$(cnode).find('i').attr('value','yes');
-//									    	dtExt_updateCellFilterData(domId, index, columnInd, "yes");
-//										}
-//									    else // node is undefined when deferRender prop used by table, then we need to update data inside json object 
-//									    {	    				    	
-//										    var cellObj = {};
-//										    if (checkIfJSON(cdata)) // check if json or not
-//										    {
-//										    	cellObj = funcParseJSONData(cdata,true);
-//										    	cellObj["displayName"] = "yes";
-//										    	cell.context[0].aoData[index]._aData[columnInd] = JSON.stringify(cellObj);
-//										    	dtExt_updateCellFilterData(domId, index, columnInd, "yes");
-//									    	}
-//									    }
-//								    } else {
-//								    	var $input = $(cnode).find('input');
-//								    
-//									    if($input.length > 0)
-//										{
-//						    				$input.prop('checked',true);
-//	//					    				$input.prop('checked',false);
-//									    	dtExt_updateCellFilterData(domId, index, columnInd, "1");
-//										}
-//									    else // node is undefined when deferRender prop used by table, then we need to update data inside json object 
-//									    {	    				    	
-//										    var cellObj = {};
-//										    if (checkIfJSON(cdata)) // check if json or not
-//										    {
-//										    	cellObj = funcParseJSONData(cdata,true);
-//										    	cellObj["displayName"] = "1";
-//										    	cell.context[0].aoData[index]._aData[columnInd] = JSON.stringify(cellObj);
-//										    	dtExt_updateCellFilterData(domId, index, columnInd, "1");
-//									    	}
-//									    }
-//								    }
-//								    break;
-//							    }
-//							}
-//						});
-//					}
-//				},
-//				error : handleAjaxError
-//			});
-//	}
-//}
+
+function yaronUOMtest() {
+   var domId = 'reportTable';
+   var _table = $('#'+domId).DataTable(); 
+   for(var i=0; i < _table.columns().header().length; i++) {
+		var col_ = _table.column(i);
+		col_ = _table.column(i);
+		var _$header = $(col_.header());
+		if(_$header.text().indexOf("[]") == 0) { 
+			var uomData = [];
+			_table.rows().eq(0).each( function ( index ) {
+				var cell = _table.cell({row: index, column: 9});	 
+				var cdata = cell.data();
+				var cnode = cell.node();
+				
+				var uom_=cdata.match( /\[([^)]+)\]/)[1];
+				var wrap_uom_=cdata.match( /\[([^)]+)\]/)[0]; 
+				
+				if(uomData.indexOf(uom_) == -1) {
+					uomData.push(uom_);
+				}
+				var newCellVal = cdata.replace(wrap_uom_,'');
+				cell.data(newCellVal).draw(false);
+				$(cnode).text(newCellVal);
+//				dtExt_updateCellFilterData(domId, index, i, newCellVal);
+			});
+			$(_table.column(col_).header()).text(_$header.text().replace("[]","") + " [" + uomData.join() + "]");
+	    }
+   }
+}
