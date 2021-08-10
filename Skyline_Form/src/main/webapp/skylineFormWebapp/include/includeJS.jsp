@@ -5,19 +5,6 @@
 
 <!--  generalFunc and init tab (as in step form) -->
 <script src="../skylineFormWebapp/js/generalFunc<spring:message code="generalFuncMin" text="." />js?<spring:message code="Env" text="" />"></script>
-<script>
-		console.log("!!!!script init TABS");
-    	$("#tempalteTabs").tabs({
-    		    /* active : $.cookie($('#formCode').val() + '_' + $('#formId').val()  + '_activetab'),
-    		    activate : function( event, ui ){
-    		        $.cookie($('#formCode').val() + '_' + $('#formId').val()  + '_activetab', ui.newTab.index(),{
-    		            expires : 1
-    		        });
-    		    } */
-    		    
-         }); // init tabs
-		$('.displayOnLoad').css('display','');
-</script>
 		
 <!-- IMPORTANT note for jquery.dataTables v1.10.20.js library: there are custom compatibility changes in the library code, be careful on upgrade library -->
 <script	src="../skylineFormWebapp/deps/jquery.dataTables<spring:message code="jqueryDataTablesMin" text="." />js?<spring:message code="Env" text="" />"></script>
