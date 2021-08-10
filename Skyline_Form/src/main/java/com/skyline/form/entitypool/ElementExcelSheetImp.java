@@ -1,10 +1,6 @@
 package com.skyline.form.entitypool;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import org.json.JSONObject;
@@ -115,12 +111,11 @@ public class ElementExcelSheetImp extends Element
 			e1.printStackTrace();
 		}
 		
-		
+		String defaultvalue = generalUtil.getEmpty(getDefaultValue(stateKey,formId,formCode),"-1");
 		if(isAjaxExcelLoad == 1 || generalUtil.getNull(overrideExcelLoadState).equals("1")) {
 			value = generalUtil.getEmpty(value, "-1");
-			String defaultvalue = generalUtil.getEmpty(getDefaultValue(stateKey,formId,formCode),"-1");
-			spreadsheetObj = "onLoadSpreadsheetElement(1," + value + ", " + defaultvalue + ",null,null,'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
-			onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet(1,'"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
+			defaultvalue = generalUtil.getEmpty(getDefaultValue(stateKey,formId,formCode),"-1");
+			onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet_(1," + value +"," + defaultvalue + ",'"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
 		} else {
 			String spreadsheetData = "";
 			String spreadsheetOutput = "";
@@ -149,8 +144,8 @@ public class ElementExcelSheetImp extends Element
 				}
 			}
 			
-			spreadsheetObj = "onLoadSpreadsheetElement(0,null,null," +(spreadsheetData.isEmpty()?"{}":spreadsheetData)+","+(spreadsheetOutput.isEmpty()?"{}":spreadsheetOutput)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
-			onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet(0,'"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
+			spreadsheetObj = "onLoadSpreadsheetElement(" +(spreadsheetData.isEmpty()?"{}":spreadsheetData)+","+(spreadsheetOutput.isEmpty()?"{}":spreadsheetOutput)+",'"+domId+"',"+isToolBarDisplay+","+isDisabled+");";
+			onLoadIframeSpreadsheet = "onLoadIframeSpreadsheet_(0," + value + "," + defaultvalue + ",'"+domId+"',"+isToolBarDisplay+","+isDisabled+",'" + SpreadSheetsLicenseKey + "','" + SpreadSheetsDesignerLicenseKey + "');";
 
 		}
 		html.put(layoutBookMark + "_ready", spreadsheetObj);

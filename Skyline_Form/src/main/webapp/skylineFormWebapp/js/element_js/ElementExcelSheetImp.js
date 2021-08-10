@@ -2,8 +2,6 @@
 //var catalogItemDataObject = {};
 var dataHolder = [];
 var outputDataHolder = [];
-var iddataHolder = [];
-var iddataHolder_default = [];
 
 var ElementExcelSheetImp = {
     value_: function (val_) {
@@ -66,20 +64,14 @@ function reloadExcelSheet(domId){
 	document.getElementById(domId+'_spreadIframe').contentWindow.location.reload();
 }
 
-function onLoadSpreadsheetElement(isAjaxExcelLoad,fileId,defaultfileId,data,outputData,domId,isToolBarDisplay,isDisabled) {
-	if(isAjaxExcelLoad == 1) { //isAjaxExcelLoad (defined in app prop and pass as parameter) will use the build in compress in ajax call data (if define in the tomcat server.xml compress=on)
-		console.log('---------1. ON LOAD SPREAD ELEMENT (ajax)------------');
-		iddataHolder[domId] = fileId;
-		iddataHolder_default[domId] = defaultfileId;
-	} else {
+function onLoadSpreadsheetElement(data,outputData,domId,isToolBarDisplay,isDisabled) {
 		console.log('---------1. ON LOAD SPREAD ELEMENT------------');
 		dataHolder[domId] = data;
 		outputDataHolder[domId] = outputData;
 		document.getElementById(domId+"_spreadIframe").contentWindow.onclick  = function(){onSpreadFocused(domId);};
-	}
-}  
+}   
 
-function onLoadIframeSpreadsheet(isAjaxExcelLoad, domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
+function onLoadIframeSpreadsheet_(isAjaxExcelLoad, fileId, defaultfileId, domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
 	if(isAjaxExcelLoad == 1) { //isAjaxExcelLoad (defined in app prop and pass as parameter) will use the build in compress in ajax call data (if define in the tomcat server.xml compress=on)
 		$(document).ready(function(){//not initializing the designer until the document is ready,else there are some wrong UI and functionalities(such as transparent dropdown) 
 			document.getElementById(domId+"_spreadIframe").contentWindow.onLoadIframeSpreadsheet(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
@@ -88,7 +80,7 @@ function onLoadIframeSpreadsheet(isAjaxExcelLoad, domId,isToolBarDisplay,isDisab
 				
 				var urlParam = "?formId=" + $('#formId').val() + "&formCode="
 				+ $('#formCode').val() + "&userId=" + $('#userId').val() +
-				"&stateKey=" + $('#stateKey').val() + "&fileId=" + iddataHolder[domId] + "&defaultfileId=" + iddataHolder_default[domId] + "&domId=" + domId;
+				"&stateKey=" + $('#stateKey').val() + "&fileId=" + fileId + "&defaultfileId=" + defaultfileId + "&domId=" + domId;
 				
 				$.ajax({
 					type : 'POST',
@@ -108,11 +100,16 @@ function onLoadIframeSpreadsheet(isAjaxExcelLoad, domId,isToolBarDisplay,isDisab
 		});
 	} else {
 		$(document).ready(function(){//not initializing the designer until the document is ready,else there are some wrong UI and functionalities(such as transparent dropdown) 
-			document.getElementById(domId+"_spreadIframe").contentWindow.onLoadIframeSpreadsheet(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
-			setTimeout(function(){//added timeout in order to avoid the compressed toolbar and empty data (since onLoadIframeSpreadsheet was fired before onLoadSpreadJS)
-				console.log('---------2. ON LOAD SPREAD IFRAME------------');
-				$('#'+domId).find('iframe')[0].contentWindow.onLoadSpreadsheetData(dataHolder[domId],outputDataHolder[domId],domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
-			},100);
+			if (dataHolder[domId] == null || dataHolder[domId] == 'null') { //when the func onLoadIframeSpreadsheet fired before onLoadSpreadsheetElement -> then the data should be taken by from the server
+				onLoadIframeSpreadsheet_(1, fileId, defaultfileId, domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey)
+			} else {
+            	document.getElementById(domId+"_spreadIframe").contentWindow.onLoadIframeSpreadsheet(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
+    			setTimeout(function(){//added timeout in order to avoid the compressed toolbar and empty data (since onLoadIframeSpreadsheet was fired before onLoadSpreadJS)
+    				console.log('---------2. ON LOAD SPREAD IFRAME------------');
+    				$('#'+domId).find('iframe')[0].contentWindow.onLoadSpreadsheetData(dataHolder[domId],outputDataHolder[domId],domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey);
+    			},100);
+            }
+			
 		});
 	}
 } 
