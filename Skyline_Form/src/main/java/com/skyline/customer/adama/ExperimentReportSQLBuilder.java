@@ -21,6 +21,8 @@ public class ExperimentReportSQLBuilder {
 	@Autowired
 	private GeneralUtil generalUtil;
 	
+	private String uomPlaceHolder = "$U";
+	
 	/**
 	 * This function returns SQLObj object with all of the SQL parts (with,select,from and where) to have the following result:
 	 * 
@@ -140,7 +142,7 @@ public class ExperimentReportSQLBuilder {
 						sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
 								" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
 								"   ,max(t.INVITEMMATERIALNAME) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as MAINNAME\r\n" + 
-								(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as QUANTITY\r\n":"") +
+								(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,0,3) || '[' || t.QUANTITYUOMNAME || ']') keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as QUANTITY\r\n":"") +
 								(colMap.containsKey("MOLE") ? "   ,max(fg_get_num_display(t.MOLE,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as MOLE\r\n":"") +
 								(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
 								(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
@@ -158,7 +160,7 @@ public class ExperimentReportSQLBuilder {
 						//select
 						sbSelectSql.append(
 								"," + aliasName + ".MAINNAME as \"" + getValidOracleColumnName("{" + index + "}" + singleStepName + " - " + colName_) + "\"" +
-										(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "} " + colMap.get("QUANTITY") + "\"":"") +
+										(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "}" + colMap.get("QUANTITY") + uomPlaceHolder + "\"":"") +
 										(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "} " + colMap.get("MOLE") + "\"":"") +
 										(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + colMap.get("VOLUME") + "\"":"") +
 										(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "} " + colMap.get("PURITY") + "\"":"") +
@@ -193,7 +195,7 @@ public class ExperimentReportSQLBuilder {
 						sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
 								" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
 								"   ,max(t.INVITEMMATERIALNAME) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as MAINNAME\r\n" + 
-								(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) QUANTITY\r\n":"") +
+								(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,0,3) || '[' || t.QUANTITYUOMNAME || ']') keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) QUANTITY\r\n":"") +
 								(colMap.containsKey("MOLE") ? "   ,max(fg_get_num_display(t.MOLE,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as MOLE\r\n":"") +
 								(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
 								(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
@@ -210,7 +212,7 @@ public class ExperimentReportSQLBuilder {
 						//select
 						sbSelectSql.append(
 								"," + aliasName + ".MAINNAME as \"" + getValidOracleColumnName("{" + index + "}" + singleStepName + " - " + colName_) + "\"" +
-										(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "} " + colMap.get("QUANTITY") + "\"":"") +
+										(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "}" + colMap.get("QUANTITY") + uomPlaceHolder + "\"":"") +
 										(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "} " + colMap.get("MOLE") + "\"":"") +
 										(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + colMap.get("VOLUME") + "\"":"") +
 										(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "} " + colMap.get("PURITY") + "\"":"") +

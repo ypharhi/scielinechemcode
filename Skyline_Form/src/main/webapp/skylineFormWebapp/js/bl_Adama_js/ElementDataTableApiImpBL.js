@@ -282,9 +282,9 @@ function elementDataTableApiImpBL(domId) {
 	   $('#reportTable_wrapper').find('div.dropdown-content div.dt-buttons a').eq( 1 )  //remove PDF
 	   			.remove();
 	   			//.('<a class="" tabindex="0" aria-controls="reportTable" href="#"><span>PDF</span></a>');
-//	   if($('#formCode').val() == 'ExperimentReport') {
-//		   yaronUOMtest();
-//	   }
+	   if($('#formCode').val() == 'ExperimentReport') {
+		   yaronUOMtest();
+	   }
    }else if((domId == 'rulesTable' || domId == 'separateColumnsRulesTable') && $('#formCode').val() == 'ExperimentReport'){
 	   $('#'+domId+'_Parent').css({"padding-bottom":"105px"});//padding-bottom because of ddl in edit tables
 	   $('#'+domId+'_dataTableStructButtons button.dataTableApiNew:not(.dataTableAddRowButton)').css('display', 'none');
@@ -5931,30 +5931,35 @@ function removeRowColumnSelect(domId){
 
 function yaronUOMtest() {
    var domId = 'reportTable';
+   var uomPlaceHolder = '$U';
    var _table = $('#'+domId).DataTable(); 
    for(var i=0; i < _table.columns().header().length; i++) {
 		var col_ = _table.column(i);
 		col_ = _table.column(i);
 		var _$header = $(col_.header());
-		if(_$header.text().indexOf("[]") == 0) { 
+		if(_$header.text().indexOf(uomPlaceHolder) >= 0) { 
 			var uomData = [];
 			_table.rows().eq(0).each( function ( index ) {
-				var cell = _table.cell({row: index, column: 9});	 
+				var cell = _table.cell({row: index, column: i});	 
 				var cdata = cell.data();
 				var cnode = cell.node();
-				
-				var uom_=cdata.match( /\[([^)]+)\]/)[1];
-				var wrap_uom_=cdata.match( /\[([^)]+)\]/)[0]; 
-				
-				if(uomData.indexOf(uom_) == -1) {
-					uomData.push(uom_);
+				if(cdata != null) {
+					var uom_match_=cdata.match( /\[([^)]+)\]/); 
+					if(uom_match_ != null) {
+						var uom_= uom_match_[1];
+						if(uomData.indexOf(uom_) == -1) {
+							uomData.push(uom_);
+						}
+						var newCellVal = cdata.replace('[' + uom_ + ']','');
+						cell.data(newCellVal).draw(false);
+						$(cnode).text(newCellVal);
+//						dtExt_updateCellFilterData(domId, index, i, newCellVal);
+					}
 				}
-				var newCellVal = cdata.replace(wrap_uom_,'');
-				cell.data(newCellVal).draw(false);
-				$(cnode).text(newCellVal);
-//				dtExt_updateCellFilterData(domId, index, i, newCellVal);
-			});
-			$(_table.column(col_).header()).text(_$header.text().replace("[]","") + " [" + uomData.join() + "]");
+			}); 
+			var originHtml = _$header.html();
+			var newHtml = originHtml.replace(uomPlaceHolder," [" + uomData.join() + "]");
+			$(_table.column(col_).header()).html(newHtml);
 	    }
    }
 }
