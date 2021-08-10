@@ -106,7 +106,7 @@
 			beforeOpen: function(event, ui) {
 				var formCode = encodeURIComponent($('[id="' + _tid + '_structCatalogItem"]').val());
 				
-				if (formCode == 'Experiment' && $('#formCode').val() == 'Main' && (event.toElement.tagName == 'TD' || event.toElement.tagName == 'I')) { //tagName == 'I' - favorite column
+				if (formCode == 'Experiment' && $('#formCode').val() == 'Main' && (event.toElement == null || event.toElement.tagName == 'TD' || event.toElement.tagName == 'I')) { //tagName == 'I' - favorite column
 					$('.ui-helper-hidden.ui-contextmenu.'+this.id+'-contextmenu').children('li').eq(1).show();
 				} else {
 					$('.ui-helper-hidden.ui-contextmenu.'+this.id+'-contextmenu').children('li').eq(1).hide();

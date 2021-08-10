@@ -4554,7 +4554,7 @@ function bl_isTableMergeable(domId)
 
 function bl_isTableHasContextMenu(domId, tableRole)
 {
-	var toReturn = false;	
+	var toReturn = true;	
 	var formCode = $('#formCode').val();
 //	var formCodeArr = ["Main","SearchReport","InvItemMaterialsMain","InvItemInstrumentsMain","Step","Experiment","SpreadsheetMain","ExpAnalysisReport","ExperimentFor","ExperimentCP"];	
 //	if($.inArray(formCode, formCodeArr) > -1)
