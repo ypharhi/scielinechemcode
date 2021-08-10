@@ -2735,11 +2735,16 @@ public void checkTestedComponentMandatoryfields(String experiment_id,String user
 			+ " where parentid = '"+experiment_id+"'\n"
 			+ " and active = 1\n"
 			+" and sessionid is null";
+	String experimentType = formDao.getFromInfoLookup("EXPERIMENT", LookupType.ID, experiment_id, "EXPERIMENTTYPENAME");
 	List<String> missingFields = generalDao.getListOfStringBySql(sql);
 	String data = "";
 	for(int i = 0;i<missingFields.size();i++) {
-		if(missingFields.get(i)!= null) {
-			data+= "</br>"+missingFields.get(i) ;
+		String missingFieldsStr = missingFields.get(i);
+		if(experimentType.equalsIgnoreCase("GENERAL") && missingFields.get(i)!= null && missingFields.get(i).contains("RT")) {//fixed bug 9323
+			missingFieldsStr = missingFields.get(i).replace("RT, ", "");
+		}
+		if(!generalUtil.getNull(missingFieldsStr).isEmpty()) {
+			data+= "</br>"+missingFieldsStr;
 		}
 	}
 	if(!data.isEmpty()) {
