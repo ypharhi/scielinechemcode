@@ -3421,6 +3421,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					String sessionId = generalUtilFormState.checkAndReturnSessionId(formCode, formId);
 					
 					elementValueMap.put("sessionid", sessionId);
+					elementValueMap.put("PARENTID",formId);
 					String rrt = integrationCalc.doCalc("doCalcEditableTable", "OnSave", "", elementValueMap, null, null, formCode, onChangeFormId,
 							userId);
 					if(!generalUtil.getNull(rrt).isEmpty()) {

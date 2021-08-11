@@ -67,7 +67,10 @@ public class CalcComponent extends CalcBasic {
 
 		String rrt ="";
 		try {
-			String isImpurity = generalUtil.getNull(generalDao.selectSingleStringNoException("select decode(t.IMPURITY,1,1,(select decode((select distinct count(tt.IMPURITY)over(partition by tt.parentid) c from fg_s_component_v tt where t.parentid = tt.parentid and tt.IMPURITY = 1 and tt.sessionid is null and nvl(tt.active,'1')='1'),'',0,1,1,0) from dual)) from fg_s_component_v t where formId = '"+formId+"' and sessionid = '"+elementValueMap.get("sessionid")+"'"),"0");
+			//String isImpurity = generalUtil.getNull(generalDao.selectSingleStringNoException("select decode(t.IMPURITY,1,1,(select decode((select distinct count(tt.IMPURITY)over(partition by tt.parentid) c from fg_s_component_v tt where t.parentid = tt.parentid and tt.IMPURITY = 1 and tt.sessionid is null and nvl(tt.active,'1')='1'),'',0,1,1,0) from dual)) from fg_s_component_v t where formId = '"+formId+"' and sessionid = '"+elementValueMap.get("sessionid")+"'"),"0");
+			String isImpurity = generalUtil.getNull(generalDao.selectSingleStringNoException("select distinct 1 from fg_s_component_v t where t.PARENTID = '"
+					+ elementValueMap.get("PARENTID") + "' and t.impurity = 1" + generalUtilFormState
+					.getWherePartForTmpData("component", elementValueMap.get("PARENTID"))),"0");
 			String sql = "select * from fg_s_component_all_v where formid = '"+formId+"' and sessionid ='"+elementValueMap.get("sessionid")+"'";
 			elementValueMap = generalDao.sqlToHashMap(sql);
 			elementValueMap.put("isImpurity",isImpurity);
