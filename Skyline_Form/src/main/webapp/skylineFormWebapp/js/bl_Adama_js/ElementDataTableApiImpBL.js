@@ -4565,7 +4565,8 @@ function bl_isTableHasContextMenu(domId, tableRole)
 //		toReturn = true;
 //	}
 	if((formCode == "Step" && (domId == "action"||domId == "reactants" ||domId == "solvents" ||domId == "products" ))
-			||((formCode == "StepFr" || $('#formCode').val() == 'StepMinFr') && domId == "action"))
+			||((formCode == "StepFr" || $('#formCode').val() == 'StepMinFr') && domId == "action")
+			|| (formCode == "ExperimentReport" && (domId == "rulesTable" || domId == "separateColumnsRulesTable")))
 	{
 		toReturn = false;
 	}
