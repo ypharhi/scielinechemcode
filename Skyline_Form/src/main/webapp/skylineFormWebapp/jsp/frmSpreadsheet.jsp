@@ -7,19 +7,19 @@
 	
 	<!-- <link href="../CSS/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" /> -->
 
-   	<link href="../gc.spread.sheets/gc.spread.sheets.excel2013white.14.0.4.css" rel="stylesheet" type="text/css" />
-	<link href="../gc.spread.sheets/gc.spread.sheets.designer.14.0.4.min.css" rel="stylesheet" type="text/css" media="all" />
+   	<link href="../gc.spread.sheets/gc.spread.sheets.excel2013white.14.1.4.css" rel="stylesheet" type="text/css" />
+	<link href="../gc.spread.sheets/gc.spread.sheets.designer.14.1.4.min.css" rel="stylesheet" type="text/css" media="all" />
 	
-	<script src="../gc.spread.sheets/gc.spread.sheets.all.14.0.4.min.js" type="text/javascript"></script>      
-	<script src="../gc.spread.sheets/gc.spread.sheets.charts.14.0.4.min.js"></script>
-	<script src="../gc.spread.sheets/gc.spread.sheets.shapes.14.0.4.min.js" type="text/javascript"></script>
-	<script src="../gc.spread.sheets/gc.spread.sheets.print.14.0.4.min.js" type="text/javascript"></script>
-	<script src="../gc.spread.sheets/gc.spread.sheets.barcode.14.0.4.min.js" type="text/javascript"></script>
-	<script src="../gc.spread.sheets/gc.spread.sheets.pdf.14.0.4.min.js" type="text/javascript"></script>
-	<script src="../gc.spread.sheets/gc.spread.pivot.pivottables.14.0.4.min.js"></script>
-	<script src="../gc.spread.sheets/gc.spread.excelio.14.0.4.min.js" type="text/javascript"></script>	
-	<script src="../gc.spread.sheets/gc.spread.sheets.designer.resource.en.14.0.4.min.js" type="text/javascript"></script>
-	<script src="../gc.spread.sheets/gc.spread.sheets.designer.all.14.0.4.min.js" type="text/javascript"></script>  
+	<script src="../gc.spread.sheets/gc.spread.sheets.all.14.1.4.min.js" type="text/javascript"></script>      
+	<script src="../gc.spread.sheets/gc.spread.sheets.charts.14.1.4.min.js"></script>
+	<script src="../gc.spread.sheets/gc.spread.sheets.shapes.14.1.4.min.js" type="text/javascript"></script>
+	<script src="../gc.spread.sheets/gc.spread.sheets.print.14.1.4.min.js" type="text/javascript"></script>
+	<script src="../gc.spread.sheets/gc.spread.sheets.barcode.14.1.4.min.js" type="text/javascript"></script>
+	<script src="../gc.spread.sheets/gc.spread.sheets.pdf.14.1.4.min.js" type="text/javascript"></script>
+	<script src="../gc.spread.sheets/gc.spread.pivot.pivottables.14.1.4.min.js"></script>
+	<script src="../gc.spread.sheets/gc.spread.excelio.14.1.4.min.js" type="text/javascript"></script>	
+	<script src="../gc.spread.sheets/gc.spread.sheets.designer.resource.en.14.1.4.min.js" type="text/javascript"></script>
+	<script src="../gc.spread.sheets/gc.spread.sheets.designer.all.14.1.4.min.js" type="text/javascript"></script>  
 	
 	<script src="../deps/jquery-1.12.4.min.js"></script>
 	<script src="../deps/jquery-ui.custom_new.min.js"></script>
