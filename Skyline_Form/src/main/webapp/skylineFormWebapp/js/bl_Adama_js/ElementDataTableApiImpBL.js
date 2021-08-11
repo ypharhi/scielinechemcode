@@ -283,7 +283,7 @@ function elementDataTableApiImpBL(domId) {
 	   			.remove();
 	   			//.('<a class="" tabindex="0" aria-controls="reportTable" href="#"><span>PDF</span></a>');
 	   if($('#formCode').val() == 'ExperimentReport') {
-		   yaronUOMtest();
+		   collectUOMtoColumnTitle(domId,'$U');
 	   }
    }else if((domId == 'rulesTable' || domId == 'separateColumnsRulesTable') && $('#formCode').val() == 'ExperimentReport'){
 	   $('#'+domId+'_Parent').css({"padding-bottom":"105px"});//padding-bottom because of ddl in edit tables
@@ -5930,37 +5930,51 @@ function removeRowColumnSelect(domId){
     }
 }
 
-function yaronUOMtest() {
-   var domId = 'reportTable';
-   var uomPlaceHolder = '$U';
+/**
+ * replace uomPlaceHolder (prop) in the table columns with the UOM of all the rows (as csv). 
+ * in each row the UOM is taken from the [] expression and remove the UOM data from the cell value.
+ * for example for uomPlaceHolder <$U>:
+ * 
+ * Col1 $U ... will become ->  Col1 [gr,kg] 
+ * 1 [gr]					   1
+ * 2 [kg]					   2
+ * 						
+ * @param domId
+ * @returns
+ */
+function collectUOMtoColumnTitle(domId, uomPlaceHolder) {
    var _table = $('#'+domId).DataTable(); 
-   for(var i=0; i < _table.columns().header().length; i++) {
-		var col_ = _table.column(i);
-		col_ = _table.column(i);
-		var _$header = $(col_.header());
-		if(_$header.text().indexOf(uomPlaceHolder) >= 0) { 
-			var uomData = [];
-			_table.rows().eq(0).each( function ( index ) {
-				var cell = _table.cell({row: index, column: i});	 
-				var cdata = cell.data();
-				var cnode = cell.node();
-				if(cdata != null) {
-					var uom_match_=cdata.match( /\[([^)]+)\]/); 
-					if(uom_match_ != null) {
-						var uom_= uom_match_[1];
-						if(uomData.indexOf(uom_) == -1) {
-							uomData.push(uom_);
+   for (var i=0; i < _table.columns().header().length; i++) {
+	   try {
+		   var col_ = _table.column(i);
+			col_ = _table.column(i);
+			var _$header = $(col_.header());
+			if(_$header.text().indexOf(uomPlaceHolder) >= 0) { 
+				var uomData = [];
+				_table.rows().eq(0).each( function ( index ) {
+					var cell = _table.cell({row: index, column: i});	 
+					var cdata = cell.data();
+					var cnode = cell.node();
+					if(cdata != null) {
+						var uom_match_=cdata.match(/\[([^)]+)\]/); 
+						if(uom_match_ != null) {
+							var uom_= uom_match_[1];
+							if(uomData.indexOf(uom_) == -1) {
+								uomData.push(uom_);
+							}
+							var newCellVal = cdata.replace('[' + uom_ + ']','');
+							cell.data(newCellVal).draw(false);
+							$(cnode).text(newCellVal);
+//							dtExt_updateCellFilterData(domId, index, i, newCellVal); // if calling from elementDataTableApiImpBL it is not needed
 						}
-						var newCellVal = cdata.replace('[' + uom_ + ']','');
-						cell.data(newCellVal).draw(false);
-						$(cnode).text(newCellVal);
-//						dtExt_updateCellFilterData(domId, index, i, newCellVal);
 					}
-				}
-			}); 
-			var originHtml = _$header.html();
-			var newHtml = originHtml.replace(uomPlaceHolder," [" + uomData.join() + "]");
-			$(_table.column(col_).header()).html(newHtml);
-	    }
+				}); 
+				var originHtml = _$header.html();
+				var newHtml = originHtml.replace(uomPlaceHolder,uomData.length > 0?" [" + uomData.join() + "]":"");
+				$(_table.column(col_).header()).html(newHtml); // replace the title in the column html (if using set text we will not have the sort and close icons)
+		    }
+	   } catch(e) {
+			console.log("collectUOMtoColumnTitlefailed in column index=" + i);
+	   }
    }
 }
