@@ -6,16 +6,16 @@ public class SQLObj {
 	private String hiddenselect = "";
 	private String from = "";
 	private String where = "";
-	private String flag = "";
+	private String jsonColNames = "";
 
-	public SQLObj(String with, String hiddenselect, String select, String from, String where, String flag) {
+	public SQLObj(String with, String hiddenselect, String select, String from, String where, String jsonColNames) {
 		super();
 		this.with = with;
 		this.setHiddenselect(hiddenselect);
 		this.select = select;
 		this.from = from;
 		this.where = where;
-		this.flag = flag;
+		this.jsonColNames = jsonColNames;
 	}
 
 	public String getWith() {
@@ -62,18 +62,18 @@ public class SQLObj {
 		return with == null || with.isEmpty();
 	}
 
-	public String getFlag() {
-		return flag;
+	public String getJsonColNames() {
+		return jsonColNames;
 	}
 
-	public void setFlag(String flag) {
-		this.flag = flag;
+	public void setJsonColNames(String jsonColNames) {
+		this.jsonColNames = jsonColNames;
 	}
 
 	@Override
 	public String toString() {
 		return "SQLObj [with=" + with + ", select=" + select + ", hiddenselect=" + hiddenselect + ", from=" + from
-				+ ", where=" + where + ", flag=" + flag + "]";
+				+ ", where=" + where + ", jsonColNames=" + jsonColNames + "]";
 	}
 	
 }
