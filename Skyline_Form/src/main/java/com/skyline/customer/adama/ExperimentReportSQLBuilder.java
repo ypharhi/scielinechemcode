@@ -52,6 +52,15 @@ public class ExperimentReportSQLBuilder {
 		//prepare - (delete old data on the same stateKey) ...
 		generalDao.updateSingleString("delete from FG_P_EXPREPORT_DATA_TMP where statekey ='" + stateKey + "'");
 		generalDao.updateSingleString("delete from FG_P_EXPREPORT_SAMPLE_TMP where statekey ='" + stateKey + "'");
+		generalDao.updateSingleString("delete from FG_EXPREPORT_MATERIALREF_TMP where statekey ='" + stateKey + "'");
+		
+		String sqlMaterialRefInsert = "insert into FG_EXPREPORT_MATERIALREF_TMP (MATERIALREF_ID,FORM_TEMP_ID,MATERIALREF_OBJIDVAL,FORMID,TIMESTAMP,CREATION_DATE,CLONEID,TEMPLATEFLAG,CHANGE_BY,CREATED_BY,SESSIONID,ACTIVE,FORMCODE_ENTITY,FORMCODE,YIELDUOM_ID,MASS,MOLE,LIMITINGAGENT,QUANTITYUOM_ID,COMMENTS,ACTUALPURITY,CONCINREACTIONMASS,VOLUMERATE,MASSRATEPPUOM_ID,YIELD,VOLUME,MATERIALREFNAME,BATCH_ID,CATALYST,CHEMDOODLE,MATERIALNAMEINF,DENSITYUOM_ID_INF,REACTANTMATERIAL_ID,AUTH,INVITEMMATERIAL_ID,EQUIVALENT,QUANTRATIOTOTAL,VOLUOM_ID,FORMULAINF,PARENTID,BATCHINF,MWINF,WATERCONTENT,RESULTID_HOLDER,QUANTITYRATE,MOLERATE,ALIAS_,CONCENTRATIONMOLE,PURITYUOM_ID_INF,TOTALVOLUME,SMILESINF,CASNAMBERINF,RATIO,PRODUCTDENSITY,QUANTITYRATE_UOM,RATIOTYPE_ID,IUPACNAMEINF,ACTPURITYUOM_ID,SAMPLE_ID,MASSRATEFORPP,MWUOM_ID_INF,DENSITYINF,WATERCONTUOM_ID,MOLEUOM_ID,MOLERATEUOM_ID,VOLRATEUOM_ID,QUANTITY,PURITYINF,TABLETYPE,MASSUOM_ID,ISLIMITED,TOTALQUANTITY,VOLRATIOTOTAL,CASNAMEINF,SYNONYMSINF,ORIGINFORMID,WATERCONUOMNAME,MWUOMNAME,DENSITYUOMNAME,ACTPURITYUOMNAME,MOLEUOMNAME,PURITYUOMNAME,VOLUOMNAME,QUANTITYUOMNAME,MASSUOMNAME,YIELDUOMNAME,INVITEMMATERIALNAME,STRUCTURE,CASNUMBER,CASNAME,SYNONYMS,DENSITY,IUPACNAME,MW,MW_UOM_ID,DENSITY_UOM_ID,CHEMICALFORMULA,SMILES,INVITEMBATCHNAME,PURITY,PURITYUOM_ID,ISSTANDART,EXPERIMENT_ID,STEP_ID,EXPERIMENTSTATUSNAME,STEPSTATUSNAME,ISPLANNEDSNAPSHOUT,INCHI,MOL,PROJECT_ID,MATERIAL_OBJIDVAL,STEP_OBJIDVAL,STEPNUMBER,STEPNAME,PROTOCOLTYPENAME,PREPARATION_RUN,RUNNUMBERDISPLAY,STEPFORMNUMBERID,RUNNUMBER,EXPFORMCODE,STATEKEY)\r\n" + 
+				"SELECT \"MATERIALREF_ID\",\"FORM_TEMP_ID\",\"MATERIALREF_OBJIDVAL\",\"FORMID\",\"TIMESTAMP\",\"CREATION_DATE\",\"CLONEID\",\"TEMPLATEFLAG\",\"CHANGE_BY\",\"CREATED_BY\",\"SESSIONID\",\"ACTIVE\",\"FORMCODE_ENTITY\",\"FORMCODE\",\"YIELDUOM_ID\",\"MASS\",\"MOLE\",\"LIMITINGAGENT\",\"QUANTITYUOM_ID\",\"COMMENTS\",\"ACTUALPURITY\",\"CONCINREACTIONMASS\",\"VOLUMERATE\",\"MASSRATEPPUOM_ID\",\"YIELD\",\"VOLUME\",\"MATERIALREFNAME\",\"BATCH_ID\",\"CATALYST\",\"CHEMDOODLE\",\"MATERIALNAMEINF\",\"DENSITYUOM_ID_INF\",\"REACTANTMATERIAL_ID\",\"AUTH\",\"INVITEMMATERIAL_ID\",\"EQUIVALENT\",\"QUANTRATIOTOTAL\",\"VOLUOM_ID\",\"FORMULAINF\",\"PARENTID\",\"BATCHINF\",\"MWINF\",\"WATERCONTENT\",\"RESULTID_HOLDER\",\"QUANTITYRATE\",\"MOLERATE\",\"ALIAS_\",\"CONCENTRATIONMOLE\",\"PURITYUOM_ID_INF\",\"TOTALVOLUME\",\"SMILESINF\",\"CASNAMBERINF\",\"RATIO\",\"PRODUCTDENSITY\",\"QUANTITYRATE_UOM\",\"RATIOTYPE_ID\",\"IUPACNAMEINF\",\"ACTPURITYUOM_ID\",\"SAMPLE_ID\",\"MASSRATEFORPP\",\"MWUOM_ID_INF\",\"DENSITYINF\",\"WATERCONTUOM_ID\",\"MOLEUOM_ID\",\"MOLERATEUOM_ID\",\"VOLRATEUOM_ID\",\"QUANTITY\",\"PURITYINF\",\"TABLETYPE\",\"MASSUOM_ID\",\"ISLIMITED\",\"TOTALQUANTITY\",\"VOLRATIOTOTAL\",\"CASNAMEINF\",\"SYNONYMSINF\",\"ORIGINFORMID\",\"WATERCONUOMNAME\",\"MWUOMNAME\",\"DENSITYUOMNAME\",\"ACTPURITYUOMNAME\",\"MOLEUOMNAME\",\"PURITYUOMNAME\",\"VOLUOMNAME\",\"QUANTITYUOMNAME\",\"MASSUOMNAME\",\"YIELDUOMNAME\",\"INVITEMMATERIALNAME\",\"STRUCTURE\",\"CASNUMBER\",\"CASNAME\",\"SYNONYMS\",\"DENSITY\",\"IUPACNAME\",\"MW\",\"MW_UOM_ID\",\"DENSITY_UOM_ID\",\"CHEMICALFORMULA\",\"SMILES\",\"INVITEMBATCHNAME\",\"PURITY\",\"PURITYUOM_ID\",\"ISSTANDART\",\"EXPERIMENT_ID\",\"STEP_ID\",\"EXPERIMENTSTATUSNAME\",\"STEPSTATUSNAME\",\"ISPLANNEDSNAPSHOUT\",\"INCHI\",\"MOL\",\"PROJECT_ID\",\"MATERIAL_OBJIDVAL\",\"STEP_OBJIDVAL\",\"STEPNUMBER\",\"STEPNAME\",\"PROTOCOLTYPENAME\",\"PREPARATION_RUN\",\"RUNNUMBERDISPLAY\",\"STEPFORMNUMBERID\",\"RUNNUMBER\",\"EXPFORMCODE\", \r\n" + 
+				"'" + stateKey + "' AS STATAKEY\r\n" + 
+				"from fg_s_materialref_all_v \r\n" + 
+				"WHERE STEP_ID in (" + (stepIds.isEmpty()?"-1":stepIds) + ")";
+		generalDao.updateSingleString(sqlMaterialRefInsert);
+		
 		String sqlSampleTmp =
 				"INSERT INTO FG_P_EXPREPORT_SAMPLE_TMP(STATEKEY,SAMPLE_ID,SAMPLENAME,SAMPLEDESC,COMMENTSFORCOA,EXPERIMENT_ID,CREATOR_ID,AMMOUNT)\r\n" + 
 				"SELECT '" + stateKey + "' AS STATEKEY, T.SAMPLE_ID, T.SAMPLENAME, T.SAMPLEDESC, T.COMMENTSFORCOA, T.EXPERIMENT_ID, T.CREATOR_ID, T.AMMOUNT\r\n" + 
@@ -149,7 +158,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("EQUIVALENT") ? "   ,max(fg_get_num_display(t.EQUIVALENT,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as EQUIVALENT\r\n":"") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? "   ,max(t.INVITEMBATCHNAME) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as INVITEMBATCHNAME\r\n":"") +
 								
-								"  FROM Fg_s_Materialref_All_v t \r\n" + 
+								"  FROM FG_EXPREPORT_MATERIALREF_TMP t \r\n" + 
 								"  WHERE t.sessionid is null and t.active=1 \r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
 								"  AND lower('Step '|| t.STEPFORMNUMBERID) = lower('"  + singleStepName + "')\r\n" + 
@@ -202,7 +211,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("EQUIVALENT") ? "   ,max(fg_get_num_display(t.EQUIVALENT,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as EQUIVALENT\r\n":"") +
 								//(colMap.containsKey("INVITEMBATCHNAME") ? "   ,max(t.INVITEMBATCHNAME) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as INVITEMBATCHNAME\r\n":"") +
 								
-								"  FROM Fg_s_Materialref_All_v t \r\n" + 
+								"  FROM FG_EXPREPORT_MATERIALREF_TMP t \r\n" + 
 								"  WHERE t.sessionid is null and t.active=1\r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
 								"  AND lower('Step '|| t.STEPFORMNUMBERID) = lower('"  + singleStepName + "')\r\n" + 
@@ -254,7 +263,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("EQUIVALENT") ? "   ,fg_get_num_display(t.EQUIVALENT,0,3) as EQUIVALENT\r\n":"") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? "   ,t.INVITEMBATCHNAME as INVITEMBATCHNAME\r\n":"") +
 								
-								"  FROM Fg_s_Materialref_All_v t, FG_I_CONN_MATERIAL_TYPE_V mt \r\n" + 
+								"  FROM FG_EXPREPORT_MATERIALREF_TMP t, FG_I_CONN_MATERIAL_TYPE_V mt \r\n" + 
 								"  WHERE t.sessionid is null and t.active=1 \r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
 								"  AND lower('Step '|| t.STEPFORMNUMBERID) = lower('"  + singleStepName + "')\r\n" + 
@@ -308,7 +317,7 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("EQUIVALENT") ? "   ,fg_get_num_display(t.EQUIVALENT,0,3) as EQUIVALENT\r\n":"") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? "   ,t.INVITEMBATCHNAME as INVITEMBATCHNAME\r\n":"") +
 								
-								"  FROM Fg_s_Materialref_All_v t\r\n" + 
+								"  FROM FG_EXPREPORT_MATERIALREF_TMP t\r\n" + 
 								"  WHERE t.sessionid is null and t.active=1\r\n" + 
 								"  AND t.STEP_ID in (" + stepIds + ")\r\n" + 
 								"  AND lower('Step '|| t.STEPFORMNUMBERID) = lower('"  + singleStepName + "')\r\n" +
@@ -415,7 +424,7 @@ public class ExperimentReportSQLBuilder {
 						}
 						
 						sbPivotSql.append(" Select distinct " + stateKey + " as stateKey ," + index + " as order_, null as order2," + pivotFormat + " as result_SMARTPIVOT\n" +
-								"  FROM Fg_s_Materialref_All_v t, FG_P_EXPREPORT_SAMPLE_TMP s\r\n" + 
+								"  FROM FG_EXPREPORT_MATERIALREF_TMP t, FG_P_EXPREPORT_SAMPLE_TMP s\r\n" + 
 								"  WHERE t.experiment_id = s.experiment_id(+) and t.sessionid is null and t.active=1\r\n" + 
 								"  AND t.STEP_ID in (" + (stepIds.isEmpty()?"-1":stepIds) + ")\r\n" + 
 								//"  AND t.TABLETYPE = 'Reactant'\r\n" +  
