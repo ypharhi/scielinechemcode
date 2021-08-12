@@ -600,6 +600,11 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 						generalDao.selectSingleString(
 								"select decode(count(*),0,1,0) from fg_i_result_an_v where experiment_id = '" + structId
 										+ "' and RESULT_IS_ACTIVE ='1' and  result_is_webix = '1' "));
+				if(toReturn.get("EXPERIMENTTYPENAME").equals("General")) {
+					toReturn.put("DEFAULT_STATUSNAME", "Active");
+				} else {
+					toReturn.put("DEFAULT_STATUSNAME", "Planned");
+				}
 			}
 			//***************************************
 			//*************** getFormParam ExperimentPrCr 

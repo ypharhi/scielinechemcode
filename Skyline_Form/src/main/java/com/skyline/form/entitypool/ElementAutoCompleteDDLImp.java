@@ -52,6 +52,9 @@ public class ElementAutoCompleteDDLImp extends Element {
 	public String init(long stateKey, String formCode, String impCode, String initVal) {
 		try {
 			if (super.init(stateKey, formCode, impCode, initVal).equals("")) {
+				if(formCode != null && formCode.equalsIgnoreCase("ExperimentReport")) { // TODO add it as configuration default true and test it more...
+					ADD_ALL_ON_EMPTY_DATA = false;
+				}
 				placeHolder = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "placeHolder");
 				isMultiple = Boolean.valueOf(generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "multiple"));
 				catalogItem = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "catalogItem");

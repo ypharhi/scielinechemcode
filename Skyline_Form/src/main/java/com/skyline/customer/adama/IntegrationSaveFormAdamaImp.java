@@ -4581,16 +4581,26 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 		if (elementValueMap.get("LASTSTATUS_ID") == null || elementValueMap.get("LASTSTATUS_ID").isEmpty()) {//it's the first new save
 			//first version
 			currentVersion = "01";
-			//first status
-			List<String> wfNames = generalUtil.getWfAvailableState("experiment_status.json", WorkflowType.STATUS, "");
-			if (wfNames != null && wfNames.size() > 0) {
-				String firstStatusId = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.NAME, wfNames.get(0),
-						"id");
-				//				elementValueMap.put("LASTSTATUS_ID", firstStatusId);
+			String protocolTypeName = formDao.getFromInfoLookup("PROTOCOLTYPE", LookupType.ID, elementValueMap.get("PROTOCOLTYPE_ID"), "name") ;
+			String experimentTypeName = formDao.getFromInfoLookup("EXPERIMENTTYPE", LookupType.ID, elementValueMap.get("EXPERIMENTTYPE_ID"), "name") ;
+			if(protocolTypeName.equals("Analytical") && experimentTypeName.equals("General")) {
+				String firstStatusId = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.NAME, "Active", "id");
 				generalUtilLogger.logWriter(LevelType.DEBUG,
 						generalUtil.mapToString("update status - elementValueMap before event:", elementValueMap),
 						ActivitylogType.SaveEvent, formId);
 				elementValueMap.put("STATUS_ID", firstStatusId);
+			} else {
+				//first status
+				List<String> wfNames = generalUtil.getWfAvailableState("experiment_status.json", WorkflowType.STATUS, "");
+				if (wfNames != null && wfNames.size() > 0) {
+					String firstStatusId = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.NAME, wfNames.get(0),
+							"id");
+					//				elementValueMap.put("LASTSTATUS_ID", firstStatusId);
+					generalUtilLogger.logWriter(LevelType.DEBUG,
+							generalUtil.mapToString("update status - elementValueMap before event:", elementValueMap),
+							ActivitylogType.SaveEvent, formId);
+					elementValueMap.put("STATUS_ID", firstStatusId);
+				}
 			}
 		} else {
 			/*String lastStatusName = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.ID,
