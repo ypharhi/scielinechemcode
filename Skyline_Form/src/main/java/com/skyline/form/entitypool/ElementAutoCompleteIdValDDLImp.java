@@ -65,7 +65,9 @@ public class ElementAutoCompleteIdValDDLImp extends Element {
 	
 	private String FirstOption;
 	
-	private boolean ADD_ALL_ON_EMPTY_DATA = true;	 
+	private boolean ADD_ALL_ON_EMPTY_DATA = true;	
+	
+	private boolean SELECT_ALL_ON_EMPTY_DATA = true;	
 	
 	private boolean removeDeselectOption = false;
 	
@@ -81,6 +83,7 @@ public class ElementAutoCompleteIdValDDLImp extends Element {
 			if (super.init(stateKey, formCode, impCode, initVal).equals("")) {
 				if(formCode != null && formCode.equalsIgnoreCase("ExperimentReport")) { // TODO add it as configuration default true and test it more...
 					ADD_ALL_ON_EMPTY_DATA = false;
+					SELECT_ALL_ON_EMPTY_DATA = false;
 				}
 				
 				placeHolder = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "placeHolder");
@@ -302,8 +305,8 @@ public class ElementAutoCompleteIdValDDLImp extends Element {
 			toReturn = sb.toString();
 			if (FirstOption.equals("ALL")) { // =ALL
 				if (ADD_ALL_ON_EMPTY_DATA || (arr != null && arr.length() > 0)) {
-					toReturn = "<option " + ((!valueFound)?" selected=\"selected\" ":"") + " value=\"ALL\">" + allLabel + "</option>" + toReturn;
-					valueFound = true;
+					toReturn = "<option " + ((!valueFound && SELECT_ALL_ON_EMPTY_DATA)?" selected=\"selected\" ":"") + " value=\"ALL\">" + allLabel + "</option>" + toReturn;
+					valueFound = valueFound || SELECT_ALL_ON_EMPTY_DATA;;
 				}
 			}
 		} catch (JSONException e) {
@@ -502,7 +505,7 @@ public class ElementAutoCompleteIdValDDLImp extends Element {
 			dv_ = dv_.substring(1, dv_.length() - 1);
 		}
 		
-		if(dv_.isEmpty() && FirstOption.equals("ALL")) {
+		if(dv_.isEmpty() && (FirstOption.equals("ALL") && SELECT_ALL_ON_EMPTY_DATA)) {
 			dv_ = "ALL";
 		}
 		return dv_; 
