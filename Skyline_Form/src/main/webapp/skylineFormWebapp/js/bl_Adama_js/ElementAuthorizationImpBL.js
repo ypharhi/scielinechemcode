@@ -981,7 +981,9 @@ function ExpAnMandatoryFieldsByStatus(isActual,status_) {
     	 }
      }
      if(currentStatus=='Completed'){
-    	 elements.push('conclussion');
+    	 if(experimentType!='General'){
+    		 elements.push('conclussion');
+    	 }
      }
      else{
     	 setRequiredByElementId('conclussion',false);
