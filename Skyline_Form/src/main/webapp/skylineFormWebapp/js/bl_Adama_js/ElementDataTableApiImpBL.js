@@ -5965,7 +5965,7 @@ function collectUOMtoColumnTitle(domId, uomPlaceHolder) {
 							var newCellVal = cdata.replace('[' + uom_ + ']','');
 							cell.data(newCellVal).draw(false);
 							$(cnode).text(newCellVal);
-//							dtExt_updateCellFilterData(domId, index, i, newCellVal); // if calling from elementDataTableApiImpBL it is not needed
+							dtExt_updateCellFilterData(domId, index, i, newCellVal); // need for the export data (or if calling not from elementDataTableApiImpBL)
 						}
 					}
 				}); 
