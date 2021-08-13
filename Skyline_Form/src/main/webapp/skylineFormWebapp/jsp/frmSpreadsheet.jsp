@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	
+<!-- 	https://www.grapecity.com/spreadjs/docs/v14/online/API_documentation.html -->
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	
@@ -25,6 +25,7 @@
 	<script src="../deps/jquery-ui.custom_new.min.js"></script>
 	
 	<link href="../CSS/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="../deps/pako.js"></script>
 	
 	<style type="text/css">
 		
@@ -39,6 +40,8 @@
 	
 	<script type="text/javascript">
 
+	var ENABLE_COMPRESS = true;
+	
 	var designer = [];
 	var isToolBarDisplay=[];
 	var isDisabled = [];//an array of all the excel objects when each cell mentions whether it's disabled or not
@@ -59,8 +62,15 @@
 			this.isDisabled[domId] = isDisabled;
 			this.outputData[domId] = outputData;
 			var workBook = designer[domId].getWorkbook();
-			workBook.fromJSON(data);
-			parent.console.log(data);
+			var data_;
+			if(typeof data.version !== 'undefined') { // if the data contins the version attr it is not compress
+				data_ = data;
+			} else {
+				data_ = JSON.parse(pako.ungzip(data,{ to: 'string' }));
+			}
+
+			workBook.fromJSON(data_);
+			//parent.console.log(data);
 			customizeCommandMap(domId);
 			setTimeout(function(){//sorrounded with timeout in order to ensure that the customizations defined after the spreadJs finished loding
 				defineSpreadsheet(domId);//important! this operation should be executed after the fromJson operation.
@@ -524,8 +534,22 @@
 				    }
 			    } */
 			    fullObj["output"] = parent.getOutputValueBL(parent.$('#formCode').val(),domId,designer);
+			    var fullData_;
 			    var currSpreadConfig = workBook.toJSON({includeBindingSource:true});
-			    fullObj["excelFullData"] = currSpreadConfig;
+			    if(ENABLE_COMPRESS) {
+			    	var currSpreadConfigSfy = JSON.stringify(currSpreadConfig);
+				    var currSpreadConfigZip = pako.gzip(currSpreadConfigSfy,{ to: 'string' });
+				    var currSpreadConfigUnZip = pako.ungzip(currSpreadConfigZip,{ to: 'string' });
+				    if(currSpreadConfigSfy === currSpreadConfigUnZip) {
+				    	fullData_ = currSpreadConfigZip;
+				    } else {
+				    	fullData_ = currSpreadConfig;
+				    }
+			    } else {
+			    	fullData_ = currSpreadConfig;
+			    }
+			   
+			    fullObj["excelFullData"] = fullData_;
 			    fullObj["validationMessage"] = parent.getValidationMessage(parent.$('#formCode').val(),domId,designer);
 			    console.log("end getValueFromOutputSheet func");
 			    return JSON.stringify(fullObj);
