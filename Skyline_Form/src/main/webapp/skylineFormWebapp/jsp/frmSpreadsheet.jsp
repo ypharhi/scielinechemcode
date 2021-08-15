@@ -64,25 +64,30 @@
 			this.isDisabled[domId] = isDisabled;
 			this.outputData[domId] = outputData;
 			var workBook = designer[domId].getWorkbook();
-			var data_;
-			if(typeof data.version !== 'undefined') { // if the data contins the version attr it is not compress
-				data_ = data;
-			} else {
-				try {
-					data_ = JSON.parse(pako.ungzip(data,{ to: 'string' }));
-				} catch(e) {
-					//unable to unzip return data - to be on safe side (maybe no version attr)
-					data_ = data;
-				}
-			}
-
-			workBook.fromJSON(data_);
+			workBook.fromJSON(getJsonWrapper(data));
 			//parent.console.log(data);
 			customizeCommandMap(domId);
 			setTimeout(function(){//sorrounded with timeout in order to ensure that the customizations defined after the spreadJs finished loding
 				defineSpreadsheet(domId);//important! this operation should be executed after the fromJson operation.
 			},100);
-		}  
+		} 
+		
+		function getJsonWrapper (data) {
+			var data_ = {};
+			if(typeof data.version !== 'undefined') { // if the data contins the version attr it is not compress
+				data_ = data;
+			} else {
+				try {
+					if(!jQuery.isEmptyObject(data)) {
+						data_ = JSON.parse(pako.ungzip(data,{ to: 'string' }));
+					}
+				} catch(e) {
+					//unable to unzip return data - to be on safe side (maybe no version attr)
+					data_ = data;
+				}
+			}
+			return data_;
+		}
 		
 		function customizeCommandMap(domId){
 			var workbook = designer[domId].getWorkbook();
@@ -572,7 +577,11 @@
 
 		function setValueToSpreadSheet(domId,value){
 			var workBook = designer[domId].getWorkbook();
-			workBook.fromJSON(JSON.parse(value));
+			var data = value;
+			if (typeof value === 'string' || value instanceof String) {
+				data = JSON.parse(value);
+			}
+			workBook.fromJSON(getJsonWrapper(data));
 			defineSpreadsheet(domId);
 			onSpreadsheetChange(domId);
 		}
