@@ -1454,6 +1454,10 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								sql = "select * from " + table + " where " + tableTypeWherePart + " and PARENTID='" + formId
 										+ "' " + generalUtilFormState.getWherePartForTmpData(struct, formId);				
 							}
+							else if(struct.equalsIgnoreCase("Component")) {
+								sql = "select * from " + table + " where " + tableTypeWherePart + " and PARENTID='" + formId
+										+ "' " + generalUtilFormState.getWherePartForTmpData(struct, formId)+" order by \"No._SMARTNUM\"";
+							}
 							else {
 								sql = "select * from " + table + " where " + tableTypeWherePart + " and PARENTID='" + formId
 										+ "' " + generalUtilFormState.getWherePartForTmpData(struct, formId);
