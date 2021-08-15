@@ -36,7 +36,7 @@ public class GeneralUtilVersionData {
 	@Value("${jdbc.username}")
 	private String dbUsername;
 	
-	@Value("${excelDataInComment:0}")
+	@Value("${excelDataInComment:1}")
 	private int excelDataInComment;
 	
 	private final String DB_TIME_FORMAT = "yyyy-mm-dd hh24:mi:ss";
