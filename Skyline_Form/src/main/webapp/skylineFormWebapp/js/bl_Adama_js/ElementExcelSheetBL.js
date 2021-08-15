@@ -142,6 +142,18 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 						sheet.setValue(_rtLocation.y,firstEmptyCol,rtName);
 						sheet.setValue(_resultTypeLocation.y,firstEmptyCol,typeName);
 						firstEmptyCol++;
+					} else {
+						//update the RRT when the tested component has been updated and the RRT of the same material in the spreadsheet is empty
+						for(var i = _materialLocation.x;i<columnCount;i++){
+							var materialName = sheet.getValue(_materialLocation.y,i);
+							if(materialName == name){
+								var rtVal = sheet.getValue(_rtLocation.y,i);
+								if(rtVal == null || rtval ==''){
+									sheet.setValue(_rtLocation.y,i,rtName);
+								}
+								break;
+							}
+						}
 					}
 				}
 				
