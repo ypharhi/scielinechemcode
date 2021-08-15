@@ -283,7 +283,8 @@ function elementDataTableApiImpBL(domId) {
 	   			.remove();
 	   			//.('<a class="" tabindex="0" aria-controls="reportTable" href="#"><span>PDF</span></a>');
 	   if($('#formCode').val() == 'ExperimentReport') {
-		   collectUOMtoColumnTitle(domId,'$U');
+		  collectUOMtoColumnTitle(domId,'$U');
+		   $('#reportTable_wrapper').css('display','inline-table');
 	   }
    }else if((domId == 'rulesTable' || domId == 'separateColumnsRulesTable') && $('#formCode').val() == 'ExperimentReport'){
 	   $('#'+domId+'_Parent').css({"padding-bottom":"105px"});//padding-bottom because of ddl in edit tables
