@@ -517,10 +517,10 @@
 			parent.$('#'+domID).attr('is_changed_flag','1');
 		}
 
-		// return output sheet (spread.getSheet(2)) as array of key and values
-		function getValueFromOutputSheet(domId) {
+		// return spreadsheet object
+		function getDataFromSpreadSheet(domId, calltype) {
 			try {
-				console.log("start getValueFromOutputSheet func");
+				console.log("start getDataFromSpreadSheet func");
 				var ROW_MAX = 10;
 				var workBook = designer[domId].getWorkbook();//$('#ss').data('workbook');
 				workBook.getActiveSheet().endEdit(false);
@@ -539,24 +539,25 @@
 				    }
 			    } */
 			    fullObj["output"] = parent.getOutputValueBL(parent.$('#formCode').val(),domId,designer);
-			    var fullData_;
-			    var currSpreadConfig = workBook.toJSON({includeBindingSource:true});
-			    if(ENABLE_COMPRESS) {
-			    	var currSpreadConfigSfy = JSON.stringify(currSpreadConfig);
-				    var currSpreadConfigZip = pako.gzip(currSpreadConfigSfy,{ to: 'string' });
-				    var currSpreadConfigUnZip = pako.ungzip(currSpreadConfigZip,{ to: 'string' });
-				    if(currSpreadConfigSfy === currSpreadConfigUnZip) {
-				    	fullData_ = currSpreadConfigZip;
+			    var fullData_ = null;
+			    if(calltype == 2) {
+				    var currSpreadConfig = workBook.toJSON({includeBindingSource:true});
+				    if(ENABLE_COMPRESS) {
+				    	var currSpreadConfigSfy = JSON.stringify(currSpreadConfig);
+					    var currSpreadConfigZip = pako.gzip(currSpreadConfigSfy,{ to: 'string' });
+					    var currSpreadConfigUnZip = pako.ungzip(currSpreadConfigZip,{ to: 'string' });
+					    if(currSpreadConfigSfy === currSpreadConfigUnZip) {
+					    	fullData_ = currSpreadConfigZip;
+					    } else {
+					    	fullData_ = currSpreadConfig;
+					    }
 				    } else {
 				    	fullData_ = currSpreadConfig;
 				    }
-			    } else {
-			    	fullData_ = currSpreadConfig;
 			    }
-			   
 			    fullObj["excelFullData"] = fullData_;
 			    fullObj["validationMessage"] = parent.getValidationMessage(parent.$('#formCode').val(),domId,designer);
-			    console.log("end getValueFromOutputSheet func");
+			    console.log("end getDataFromSpreadSheet func");
 			    return JSON.stringify(fullObj);
 			} catch(err) {
 				console.log(err);	

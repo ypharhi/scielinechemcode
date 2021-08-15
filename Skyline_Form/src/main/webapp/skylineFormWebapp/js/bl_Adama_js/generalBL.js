@@ -1576,7 +1576,7 @@ function saveSpreadsheet(element){
 	'"}';
 	var stringifyToPush = {
 			code: $element.attr('id'),
-			val: getValue_(elementImpCode, element, 1),
+			val: getValue_(elementImpCode, element, 2),
 			type: "AJAX_BEAN",
 			info: stringifyInfo
 	};

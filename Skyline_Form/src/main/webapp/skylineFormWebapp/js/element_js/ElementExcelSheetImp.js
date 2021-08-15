@@ -4,7 +4,7 @@ var dataHolder = [];
 var outputDataHolder = [];
 
 var ElementExcelSheetImp = {
-    value_: function (val_) {
+    value_: function (val_, changeType) { // changeType 1-ajax / 2 -save
     	var domId = $(val_).attr('id');
         var elementID = $(val_).attr('elementID');
     	var isChangedflag=0;
@@ -17,7 +17,7 @@ var ElementExcelSheetImp = {
         }
         var data_ = {
             "elementID": elementID,
-        	"value": getValueFromOutputSheet(domId),
+        	"value": getDataFromSpreadSheet(domId, changeType),
             "isChangedflag": isChangedflag 
         };
         return JSON.stringify(data_);
@@ -125,10 +125,10 @@ function onSpreadsheetChange(domID){
 	$('#'+domID).attr('is_changed_flag','1');
 }
 
-// return output sheet (spread.getSheet(2)) as array of key and values
-function getValueFromOutputSheet(domId) {
+// return spread sheet data
+function getDataFromSpreadSheet(domId, calltype) {
 	try{
-		return window.frames[domId+'_spreadIframe'].getValueFromOutputSheet(domId);
+		return window.frames[domId+'_spreadIframe'].getDataFromSpreadSheet(domId, calltype);
 	} catch(err){
 		return null;
 	}
