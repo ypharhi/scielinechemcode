@@ -66,7 +66,12 @@
 			if(typeof data.version !== 'undefined') { // if the data contins the version attr it is not compress
 				data_ = data;
 			} else {
-				data_ = JSON.parse(pako.ungzip(data,{ to: 'string' }));
+				try {
+					data_ = JSON.parse(pako.ungzip(data,{ to: 'string' }));
+				} catch(e) {
+					//unable to unzip return data - to be on safe side (maybe no version attr)
+					data_ = data;
+				}
 			}
 
 			workBook.fromJSON(data_);
