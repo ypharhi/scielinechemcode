@@ -50,12 +50,14 @@
 		function onLoadIframeSpreadsheet(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey){
 			GC.Spread.Sheets.LicenseKey = SpreadSheetsLicenseKey;
 			GC.Spread.Sheets.Designer.LicenseKey = SpreadSheetsDesignerLicenseKey;
-			var config = getConfig(domId);
-			designer[domId] = new GC.Spread.Sheets.Designer.Designer(document.getElementById("gc-designer-container"),config);
 		}
 		
 		function onLoadSpreadsheetData(data,outputData,domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey) {
 			parent.console.log("----------------ON LOAD SPREADSHEET--------------");
+
+			var config = getConfig(domId);
+			designer[domId] = new GC.Spread.Sheets.Designer.Designer(document.getElementById("gc-designer-container"),config);
+		
 			var jsonData = {};
 			var hideRibbonPanel = "0";
 			this.isToolBarDisplay[domId] = isToolBarDisplay;
