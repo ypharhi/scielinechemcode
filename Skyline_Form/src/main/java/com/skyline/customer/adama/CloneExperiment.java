@@ -1515,7 +1515,7 @@ public class CloneExperiment {
 		columnDataFromExperiment_.put("Experiment.experimentVersion", "NULL");
 		columnDataFromExperiment_.put("Experiment.reasonForChange", "NULL");
 		columnDataFromExperiment_.put("Experiment.spreadsheetExcel", "(select spreadsheet from fg_s_spreadsheettempla_v where formid = SPREADSHEETTEMPLATE_ID)");
-		columnDataFromExperiment_.put("Experiment.SPREADSHEETRESULTS", "NULL");
+		//columnDataFromExperiment_.put("Experiment.SPREADSHEETRESULTS", "NULL");
 		
 		//calculation tab
 		columnDataFromExperiment_.put("Experiment.compVolumeRate", "NULL");

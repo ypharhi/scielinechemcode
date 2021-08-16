@@ -1066,7 +1066,15 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 
 			cloneExperimentByMain(elementValueMap, elementValueMap.get("expCloneMainName"),
 					elementValueMap.get("originExp_id"), userId, formId);
-
+			String protocolTypeName = formDao.getFromInfoLookup("PROTOCOLTYPE", LookupType.ID, elementValueMap.get("PROTOCOLTYPE_ID"), "name") ;
+			String experimentTypeName = formDao.getFromInfoLookup("EXPERIMENTTYPE", LookupType.ID, elementValueMap.get("EXPERIMENTTYPE_ID"), "name") ;
+			if(protocolTypeName.equals("Analytical") && experimentTypeName.equals("General")) {
+				String firstStatusId = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.NAME, "Active", "id");
+				generalUtilLogger.logWriter(LevelType.DEBUG,
+						generalUtil.mapToString("update status - elementValueMap before event:", elementValueMap),
+						ActivitylogType.SaveEvent, formId);
+				elementValueMap.put("STATUS_ID", firstStatusId);
+			}
 		} else if (formCode.equals("MassBalanceRef")) {
 
 			/** massBalanceCalc **/

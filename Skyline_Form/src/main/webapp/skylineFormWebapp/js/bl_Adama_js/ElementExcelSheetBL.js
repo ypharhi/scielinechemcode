@@ -42,7 +42,7 @@ function initializeFields(version){
 	}
 }
 
-function spreadOnLoadBL(formCode,domId,designer,outputData) {
+function spreadOnLoadBL(formCode,domId,designer,outputData,sheetsNamespace) {
 	if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
 		getComponentList().then(function(componentList){
 		    //1. get the expected material list& result types& samples and set them in the hidden sheets 'Materials,'Result Types','Samples'
@@ -83,26 +83,6 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 				sheet.bindColumn(1, "ID");
 				
 				var sheet = workBook.getSheet(0);
-				
-				//sheet.getRange("F6").locked(false);
-				//sheet.getRange("E:KR").locked(false);
-				//protect the sheet from deleting rows
-				//sheet.options.isProtected = true;
-				/*sheet.options.protectionOptions.allowDragInsertRows = true;
-				sheet.options.protectionOptions.allowDragInsertColumns = true;
-				sheet.options.protectionOptions.allowInsertRows = true;
-				sheet.options.protectionOptions.allowInsertColumns = true;
-				sheet.options.protectionOptions.allowDeleteRows = false;
-				sheet.options.protectionOptions.allowDeleteColumns = true;
-				sheet.options.protectionOptions.allowSelectLockedCells = true;
-				sheet.options.protectionOptions.allowSelectUnlockedCells = true;
-				sheet.options.protectionOptions.allowSort = true;
-				sheet.options.protectionOptions.allowFilter = true;
-				sheet.options.protectionOptions.allowEditObjects = true;
-				sheet.options.protectionOptions.allowResizeRows = true;
-				sheet.options.protectionOptions.allowResizeColumns = true;
-				sheet.options.protectionOptions.allowOutlineRows = true;
-				sheet.options.protectionOptions.allowOutlineColumns = true;*/
 				
 				//2. Add the tested components to the spreadsheet results(if it was not selected manually in the excel)i.e select the, in the main sheet
 				var rowCount = sheet.getRowCount();
@@ -148,7 +128,7 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 							var materialName = sheet.getValue(_materialLocation.y,i);
 							if(materialName == name){
 								var rtVal = sheet.getValue(_rtLocation.y,i);
-								if(rtVal == null || rtval ==''){
+								if(rtVal == null || rtVal ==''){
 									sheet.setValue(_rtLocation.y,i,rtName);
 								}
 								break;
@@ -182,7 +162,10 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 					if(val!=null && commonSamples.indexOf(val)==-1){//check whether the sample was deleted from the sample select
 						sheet.deleteRows(i,1);
 						--i;//decrease the index in order to check again the row that now contains the content of the original following row(before deleting this one)
-						currentSampleList = currentSampleList.slice(currentSampleList.indexOf(val)+1);
+						//sheet.getRange(i, 0, 1, 1).clear(sheetsNamespace.StorageType.data);
+						//sheet.getRange(i, _resultCommentLocation.x, 1, columnCount).clear(sheetsNamespace.StorageType.data);
+						
+						currentSampleList.splice(currentSampleList.indexOf(val),1);
 					}
 				}
 				var firstEmptyRow = _sampleLocation.y;
@@ -287,6 +270,16 @@ function spreadOnLoadBL(formCode,domId,designer,outputData) {
 			    		  }
 			    	}]);
 			}//end of if version
+			
+			/*//clear the data in the spreadsheet
+			sheet = workBook.getSheetFromName('Results');
+			var columnCount = sheet.getColumnCount();
+			var rowCount = sheet.getRowCount();
+			var experimentCloneData = componentList['CloneData'];
+			if((experimentCloneData[0]['TEMPLATEFLAG']=='' || experimentCloneData[0]['TEMPLATEFLAG'] == undefined)
+					&& (experimentCloneData[0]['CLONEID']!='' && experimentCloneData[0]['CLONEID'] != undefined)){
+				sheet.getRange(_sampleLocation.y, _resultCommentLocation.x, rowCount -_sampleLocation.y, columnCount - _resultCommentLocation.x).clear();
+			}*/
 		});
 		onSpreadFocused(domId);
 	}

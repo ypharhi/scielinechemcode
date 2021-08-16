@@ -367,7 +367,7 @@
 			};
 			
 		    disableSpreadsheet(domId);//disables the spreadsheet from being editable
- 		    parent.spreadOnLoadBL(parent.$('#formCode').val(),domId,designer,outputData[domId]); // demo for spreadsheet develop
+ 		    parent.spreadOnLoadBL(parent.$('#formCode').val(),domId,designer,outputData[domId],GC.Spread.Sheets); // demo for spreadsheet develop
 		}
 		
 		function expandCompressSpreadIframe(elem,domId){
