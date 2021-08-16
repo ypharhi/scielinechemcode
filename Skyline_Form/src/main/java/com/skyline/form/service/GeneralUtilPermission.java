@@ -801,13 +801,13 @@ public class GeneralUtilPermission {
 		// videos
 		String videoWrapper = "";
 		if(sbVideo.length() > 0) {
-			videoWrapper = "<li class=\"ugVideo-dropdown-submenu\"><a href='#' >Training Videos</a><ul>" + sbVideo.toString() + "</ul></li>";
+			videoWrapper = "<li class=\"ugVideo-dropdown-submenu\"><a href='#' >Training Videos</a><ul style=\"overflow-y:auto;max-height:250px;\">" + sbVideo.toString() + "</ul></li>";
 		}
 		
 		// Docs
 		String docWrapper = "";
 		if(sbDocs.length() > 0) {
-			docWrapper = "<li class=\"ugVideo-dropdown-submenu\"><a href='#' >Training Files</a><ul>" + sbDocs.toString() + "</ul></li>";
+			docWrapper = "<li class=\"ugVideo-dropdown-submenu\"><a href='#' >Training Files</a><ul style=\"overflow-y:auto;max-height:250px;\">" + sbDocs.toString() + "</ul></li>";
 		}
 		
 		// **** Layer1: put all together in sbToReturn ...
