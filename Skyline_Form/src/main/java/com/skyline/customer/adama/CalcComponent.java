@@ -115,6 +115,7 @@ public class CalcComponent extends CalcBasic {
 				elementValueMap.put("parentId",elementValueMap.get("PARENTID"));
 				
 				calcImpuritySiblings(elementValueMap, formId);
+				rrt = "1";
 			}
 		} catch (Exception ex) {
 			generalUtilLogger.logWriter(LevelType.ERROR,
