@@ -387,6 +387,21 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 								msgBuilder);
 						wfNames.remove("ExperimentSeries");
 					}
+					status_ = formDao.getFromInfoLookup("SUBPROJECT", LookupType.ID,
+							formId, "STATUSNAME");
+					if(status_.equals("Completed")) {
+						msg = generalUtil.getSpringMessagesByKey(statusLogOrder + "The Status of sub-project is " + status_
+								+ ". Subsubproject, Experiment and Request are removed from the list.", "");
+						generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowNew, msg, formId,
+								msgBuilder);
+						generalUtilLogger.logWriter(LevelType.DEBUG,
+								"Status of sub-project is " + status_
+										+ " Subsubproject, Experiment and Request are removed from the list.",
+								ActivitylogType.WorkFlowNew, formId);
+						wfNames.remove("Experiment");
+						wfNames.remove("Request");
+						wfNames.remove("SubSubProject");
+					}
 				}
 				if (formCode.equals("SubSubProject")) {
 					// Check if Planning required of the project is not checked or Planning level<2 => remove SubSubProject
