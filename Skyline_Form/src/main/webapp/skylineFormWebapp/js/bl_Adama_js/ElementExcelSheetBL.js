@@ -153,18 +153,31 @@ function spreadOnLoadBL(formCode,domId,designer,outputData,sheetsNamespace) {
 					sampleSelectList.push(name);
 				}
 				
-				//4. delete the rows of the samples that are not in the sample select anymore(were removed by the user)
+				//4. delete the rows of the samples that are not in the sample select anymore(were removed by the user) and add the ones that were added
+				//clear the data in the spreadsheet
+				sheet = workBook.getSheetFromName('Results');
+				var columnCount = sheet.getColumnCount();
+				var rowCount = sheet.getRowCount();
+				var experimentCloneData = componentList['CloneData'];
+				var isNewClonedExperiment = /*(experimentCloneData[0]['TEMPLATEFLAG']=='' || experimentCloneData[0]['TEMPLATEFLAG'] == undefined)
+						&&*/ (experimentCloneData[0]['CLONEID']!='' && experimentCloneData[0]['CLONEID'] != undefined)
+						&& $('#LASTSTATUS_ID').val()=='';
+				
 				var commonSamples = currentSampleList.filter(function(val){
 					return sampleSelectList.indexOf(val)!==-1;
 				});
 				for(var i = _sampleLocation.y;i<rowCount;i++){
 					var val = sheet.getValue(i,_sampleLocation.x);
 					if(val!=null && commonSamples.indexOf(val)==-1){//check whether the sample was deleted from the sample select
-						sheet.deleteRows(i,1);
-						--i;//decrease the index in order to check again the row that now contains the content of the original following row(before deleting this one)
-						//sheet.getRange(i, 0, 1, 1).clear(sheetsNamespace.StorageType.data);
-						//sheet.getRange(i, _resultCommentLocation.x, 1, columnCount).clear(sheetsNamespace.StorageType.data);
-						
+						if(!isNewClonedExperiment){
+							sheet.deleteRows(i,1);
+							--i;//decrease the index in order to check again the row that now contains the content of the original following row(before deleting this one)
+						} else {
+							//when the cloned experiment is in new state the whole range of the samples should be cleared.
+							//Therefore, we clear them and not remove the rows since it might probably delete all the rows.Instead, we just clear and assume that no holes among the rows would displayed.
+							sheet.getRange(i, _sampleLocation.x, 1, 1).clear(sheetsNamespace.StorageType.data);
+							sheet.getRange(i, _resultCommentLocation.x, 1, columnCount).clear(sheetsNamespace.StorageType.data);
+						}
 						currentSampleList.splice(currentSampleList.indexOf(val),1);
 					}
 				}
@@ -182,7 +195,7 @@ function spreadOnLoadBL(formCode,domId,designer,outputData,sheetsNamespace) {
 						continue;
 					}
 					if(currentSampleList.indexOf(name)==-1){
-						//add the material to the materials in the result spreadsheet
+						//add the sample to the samples in the result spreadsheet
 						sheet.setValue(firstEmptyRow++,_sampleLocation.x,name);
 					}
 				}

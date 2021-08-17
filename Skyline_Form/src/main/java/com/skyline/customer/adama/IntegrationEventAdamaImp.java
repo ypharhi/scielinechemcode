@@ -7249,6 +7249,12 @@ public void preperReport(Map<String, String> elementValueMap) {
 		List<Map<String,Object>> uomList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("Uom", new JSONArray(uomList));
 		
+		sql = "select t.CLONEID,t.TEMPLATEFLAG\n" + //t.ORIGINEXP_ID,- indication of a cloned experiment
+				"from fg_s_experiment_v t\n" + 
+				"where formid='"+parentId+"'";
+		List<Map<String,Object>> experimentCloneData = generalDao.getListOfMapsBySql(sql);
+		componentsJson.put("CloneData", new JSONArray(experimentCloneData));		
+		
 		toReturn = componentsJson.toString();
 		return toReturn;
 	}
