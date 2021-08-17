@@ -560,7 +560,7 @@ function getValidationMessage(formCode,domId,designer){
 		sheet = workBook.getSheet(0);
 		if(version == 'V1'){
 			var titleArr = [];
-			var expectedTitles = ['Results Type','Unknown Materials','Mass','RRT','SOP','Uom','Sample No/Materials'];
+			var expectedTitles = ['Results Type','Unknown Materials','MW','RRT','SOP','Uom','Sample No/Materials'];
 			for(var i = 0; i<_sampleLocation.y; i++){
 	    		titleArr.push(sheet.getValue(i , _sampleLocation.x));
 			}
