@@ -19,7 +19,7 @@ var _rtLocation = {
 		x:4,
 		y:3
 };
-var _massLocation = {
+var _mwLocation = {
 		x:4,
 		y:2
 };
@@ -60,6 +60,7 @@ function spreadOnLoadBL(formCode,domId,designer,outputData,sheetsNamespace) {
 				sheet.setDataSource(componentList['Materials']);
 				sheet.bindColumn(0, "NAME");
 				sheet.bindColumn(1, "ID");
+				sheet.bindColumn(2, "MW");
 				
 				var sheet = workBook.getSheetFromName('Samples'); //spread.getActiveSheet();
 				sheet.autoGenerateColumns = false;
@@ -434,8 +435,8 @@ function getOutputValueBL(formCode,domId,designer){
 		        var currFieldID = "Unknown Materials";
 		        var currFieldValue = sheet.getValue(_unknownMaterialLocation.y, j);
 		        dataObj[currFieldID] = currFieldValue;
-		        var currFieldID = "Mass";
-		        var currFieldValue = sheet.getValue(_massLocation.y, j);
+		        var currFieldID = "MW";
+		        var currFieldValue = sheet.getValue(_mwLocation.y, j);
 		        dataObj[currFieldID] = currFieldValue;
 		        var currFieldID = "RT";
 		        var currFieldValue = sheet.getValue(_rtLocation.y, j);
@@ -508,7 +509,7 @@ function onKeyDown(formCode,domId,e,designer){
 		if(col >= _materialLocation.x && 
 				(row >= _sampleLocation.y
 				|| row == _rtLocation.y
-				|| row == _massLocation.y)){
+				|| row == _mwLocation.y)){
 			if ([","].indexOf(e.key) !== -1) {
 				e.preventDefault();
 			}	

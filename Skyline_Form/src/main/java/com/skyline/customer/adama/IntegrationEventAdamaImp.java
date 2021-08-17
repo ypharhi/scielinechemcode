@@ -7179,17 +7179,19 @@ public void preperReport(Map<String, String> elementValueMap) {
 		//Material list -> taken from all the materials in the system
 		String project_id = formDao.getFromInfoLookup("experiment", LookupType.ID, parentId, "PROJECT_ID");
 		String sql = "select distinct * from\n"
-				+ "(select ID,NAME\n"
+				+ "(select ID,NAME,MW\n"
 				+ "from fg_e_expangn_material_v\n"
 				+ "where instr(','||project_id||',',','||"+project_id+"||',')>0\n"
 				+ "union all\n"
-				+ "select MATERIALID,COMPONENTNAME\n"
-				+ "from fg_s_component_all_v\n"
-				+ "where parentid = '"+parentId+"'\n"
-				+ "and sessionid is null\n"
-				+ "and active = 1\n"
+				+ "select MATERIALID,COMPONENTNAME,m.MW\n"
+				+ "from fg_s_component_all_v c\n,"
+				+ "fg_s_invitemmaterial_v m"
+				+ "where c.parentid = '"+parentId+"'\n"
+				+ "and c.sessionid is null\n"
+				+ "and c.active = 1\n"
+				+ "and c.materialid = m.invitemmaterial_id(+)"
 				+ (!materialIdList.isEmpty()?"union all\n"
-				+ "select ID,NAME\n"
+				+ "select ID,NAME,MW\n"
 				+ "from fg_e_expangn_material_v\n"
 				+ "where ID in("+generalUtil.listToCsv(materialIdList)+")":"")
 				+"\n)";

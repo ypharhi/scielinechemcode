@@ -5123,6 +5123,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				Set<String> sampleList = new LinkedHashSet<String>();
 				Set<String> resultTypeList = new LinkedHashSet<String>();
 				Set<String> uomList = new LinkedHashSet<String>();
+				Map<String,String> manualMaterialMwPairs = new HashMap();
 				if(!jsspreadsheetData.has("0")){
 					return;
 				}
@@ -5135,6 +5136,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value"));
 					String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
 					String uom = generalUtil.getNull(sampleMaterialPair.getString("Uom")) ;
+					String mw = generalUtil.getNull(sampleMaterialPair.getString("MW")) ;
 					if(material.isEmpty() && manualMaterial.isEmpty() || !material.isEmpty() && (sample.isEmpty() || resultValue.isEmpty() || resultType.isEmpty())) {
 						continue;
 					}
@@ -5148,6 +5150,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					}
 					if(material.isEmpty() && !manualMaterial.isEmpty()) {
 						manualMaterialList.add(manualMaterial);
+						manualMaterialMwPairs.put(manualMaterial, mw);
 					}
 				}
 				
@@ -5174,9 +5177,11 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				
 				//8. creates the temporary materials that has entered as unknown 
 				String project_id = elementValueMap.get("PROJECT_ID");
-				for(String manualMaterial:manualMaterialList) {
+				for(Entry<String,String> manualMaterialMwPair:manualMaterialMwPairs.entrySet()) {
+					String manualMaterial = manualMaterialMwPair.getKey();
 					if(!manualMaterial.isEmpty()) {
-						createTemporaryMaterials(manualMaterial,project_id,userId);
+						String mw = manualMaterialMwPair.getValue();
+						createTemporaryMaterials(manualMaterial,project_id,mw,userId);
 					}
 				}
 				
@@ -5400,14 +5405,24 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 		}
 	}
 
-	private String createTemporaryMaterials(String manualMaterialName, String project_id,String userId) {
+	private String createTemporaryMaterials(String manualMaterialName, String project_id, String mw, String userId) {
 			String materialtype_id=formDao.getFromInfoLookup("MaterialType",LookupType.NAME,"Impurity","id");
 			String materialTempStatus_id =formDao.getFromInfoLookup("MaterialStatus",LookupType.NAME,"Temporary","id");
+			String defaultMwUomId = "";
+			List<String> uomSelectedList = formDao.getFromInfoLookupElementData("UOM", LookupType.NAME, "gr/mole", "ID");
+			for (String uomSelectedId : uomSelectedList) {
+				Map<String, String> uomData = formDao.getFromInfoLookupAll("UOM", LookupType.ID, uomSelectedId);
+				if (uomData.get("UOMTYPENAME").equalsIgnoreCase("molar weight")) {
+					defaultMwUomId = uomSelectedId;
+					break;
+				}
+			}
 			String newFormId = formSaveDao.getStructFormId("InvItemMaterial");
 			String sql_ = "insert into FG_S_INVITEMMATERIAL_PIVOT"
 					+ " (FORMID,TIMESTAMP,CREATION_DATE,CLONEID,TEMPLATEFLAG,CHANGE_BY,CREATED_BY,SESSIONID,ACTIVE,FORMCODE_ENTITY,FORMCODE,"
-					+ "invitemmaterialname,project_id,materialprotocoltype,materialtype_id,sourceProjectId,status_id)" + " VALUES ('" + newFormId + "',SYSDATE,SYSDATE,null,null,'" + userId + "','" + userId
-					+ "',null,1,'InvItemMaterial','InvItemMaterial','"+manualMaterialName+"','"+project_id+"','Chemical Material','"+materialtype_id+"',NULL,'" + materialTempStatus_id + "')";
+					+ "invitemmaterialname,project_id,materialprotocoltype,materialtype_id,sourceProjectId,status_id,mw,MW_UOM_ID)\n"
+					+ " VALUES ('" + newFormId + "',SYSDATE,SYSDATE,null,null,'" + userId + "','" + userId
+					+ "',null,1,'InvItemMaterial','InvItemMaterial','"+manualMaterialName+"','"+project_id+"','Chemical Material','"+materialtype_id+"',NULL,'" + materialTempStatus_id + "','"+mw+"','"+defaultMwUomId+"')";
 
 			formSaveDao.insertStructTableByFormId(sql_, "FG_S_InvItemMaterial_PIVOT", newFormId);
 			return newFormId;
