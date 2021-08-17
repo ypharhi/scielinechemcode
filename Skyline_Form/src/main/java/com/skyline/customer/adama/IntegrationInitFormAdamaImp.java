@@ -381,15 +381,19 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 								toReturn.put("SUBPROJECT_COUNT", subproject_count);
 								toReturn.put("SUBSUBPROJECT_COUNT", subsubproject_count);
 								
-								if(!subsubproject_count.equals("0")){
+								/*if(!subsubproject_count.equals("0")){
 									toReturn.put("PROJECTLEVEL", "subsubproject_id");
 									sql = "select listagg(subsubproject_id,',') within group (order by project_id) from fg_s_request_v where request_id in("+requestMap.get("smartSelectList")+")";
-								}else {
+								}else {*/
 									toReturn.put("PROJECTLEVEL", "subproject_id");
 									sql = "select listagg(subproject_id,',') within group (order by project_id) from fg_s_request_v where request_id in("+requestMap.get("smartSelectList")+")";
-								}
+								//}
 								String projectList = generalDao.selectSingleStringNoException(sql);
 								toReturn.put("REQUESTS_PROJECT_ID", projectList);
+								
+								sql = "select listagg(subsubproject_id,',') within group (order by project_id) from fg_s_request_v where request_id in("+requestMap.get("smartSelectList")+")";
+								String subsubProjectList = generalDao.selectSingleStringNoException(sql);
+								toReturn.put("REQUESTS_SUBSUBPROJECT_ID", subsubProjectList);
 								
 								if(!project_count.equals("1")){
 									toReturn.put("PROJECT_ID", "");
