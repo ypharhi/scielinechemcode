@@ -7206,7 +7206,7 @@ public void preperReport(Map<String, String> elementValueMap) {
 					+ " where PARENTID = '"+parentId+"'\n"
 					+ "and sessionid is null and active =1"
 				+ ")\n";
-		String sampleCount = generalDao.selectSingleStringNoException(sql);
+		//String sampleCount = generalDao.selectSingleStringNoException(sql);
 		sql =  "select * from\n"
 				+ "(select distinct ID,NAME,Description,Comments\n"
 				+ "from fg_e_expangn_sample_v\n"
@@ -7215,10 +7215,11 @@ public void preperReport(Map<String, String> elementValueMap) {
 					+ " where PARENTID = '"+parentId+"'\n"
 					+ "and sessionid is null and active =1"
 				+ ")\n"
-		+(!sampleCount.equals("0")?
+		/*+(!sampleCount.equals("0")?
 				 "union all\n"
 				+"select '0' ID,'NA' NAME,null as Description,null as Comments\n"
-				+ "from dual":"")+") order by NAME";
+				+ "from dual":"")*/
+		+") order by NAME";
 		List<Map<String,Object>> sampleList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("Samples", new JSONArray(sampleList));
 		
