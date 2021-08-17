@@ -150,7 +150,7 @@ public class ElementExcelSheetImp extends Element
 		}
 		html.put(layoutBookMark + "_ready", spreadsheetObj);
 		String iframeSpreadJS = "<div id=\"" + domId + "\"  elementID=\"" + value + "\" basicHeight=\""+height_+"\" basicWidth=\""+width_+"\" style=\"height: "+height_+"; width:"+width_+";border: 1px solid gray;" + hidden+"\" element=\"" + this.getClass().getSimpleName() + "\" " + inputAttribute + " class=\"excelSheet "+ disabled +"\">\n"
-				+ "<iframe id = \""+domId+"_spreadIframe\" loading=\"lazy\" name = \""+domId+"_spreadIframe\" width=\"100%\" height = \"100%\" src=\"../skylineFormWebapp/jsp/frmSpreadsheet.jsp\" onload = "+onLoadIframeSpreadsheet+"></iframe>"
+				+ "<iframe id = \""+domId+"_spreadIframe\" loading=\"lazy\" name = \""+domId+"_spreadIframe\" width=\"100%\" height = \"100%\" src=\"../skylineFormWebapp/jsp/frmSpreadsheet.jsp\" onload = \""+onLoadIframeSpreadsheet+"\"></iframe>"
 				+ "</div>";
 		html.put(layoutBookMark,iframeSpreadJS);
 		return html;
