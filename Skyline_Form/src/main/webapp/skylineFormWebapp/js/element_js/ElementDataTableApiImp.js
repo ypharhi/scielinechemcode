@@ -1823,11 +1823,11 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
         } 
     	else 
     	{
-    		if(role != 'MultipleAjax' && role != 'Multiple'){//td clicking
-	            var table = $(this).closest('table').DataTable();
-	            table.$('tr.selected').removeClass('selected');
+    		if(role != 'MultipleAjax'){//td clicking
+	        	   var table = $(this).closest('table').DataTable();
+		            table.$('tr.selected').removeClass('selected');
     		}
-    		if(role == 'MultipleAjax' || role == 'Multiple'){
+    		if(role == 'MultipleAjax' || (role == 'Multiple' && window.self !== window.top)){
     			var disabledListArray= $('#'+ domId + '_disabledList').val().split(',');
             	if(disabledListArray.indexOf($(this).find('input:checkbox').val()) == -1){
 	    			$(this).find('input:checkbox').prop('checked',true);
