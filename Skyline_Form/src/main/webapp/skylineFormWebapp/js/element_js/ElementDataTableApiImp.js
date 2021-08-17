@@ -1823,17 +1823,17 @@ function buildElementDataTableApi(obj, domId, dataTableOptions, triggerAjaxChang
         } 
     	else 
     	{
-    		if(role != 'MultipleAjax'){//td clicking
+    		if(role != 'MultipleAjax' && role != 'Multiple'){//td clicking
 	            var table = $(this).closest('table').DataTable();
 	            table.$('tr.selected').removeClass('selected');
     		}
-    		if(role == 'MultipleAjax'){
+    		if(role == 'MultipleAjax' || role == 'Multiple'){
     			var disabledListArray= $('#'+ domId + '_disabledList').val().split(',');
             	if(disabledListArray.indexOf($(this).find('input:checkbox').val()) == -1){
 	    			$(this).find('input:checkbox').prop('checked',true);
 	    			smartSelectStateMng(domId,false,true,1);
             	}
-            }    
+            }  
             $(this).addClass('selected');
         }
     	
