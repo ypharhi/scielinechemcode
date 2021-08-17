@@ -5,7 +5,7 @@
 
 <script src="../skylineFormWebapp/js/element_js/ElementRichTextEditorImp.js?<spring:message code="Env" text="" />"></script>
 
-<script defer src="../skylineFormWebapp/js/element_js/ElementExcelSheetImp.js?<spring:message code="Env" text="" />"></script>
+<script src="../skylineFormWebapp/js/element_js/ElementExcelSheetImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementDiagramImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementAutoCompleteDDLImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementInputImp.js?<spring:message code="Env" text="" />"></script>
