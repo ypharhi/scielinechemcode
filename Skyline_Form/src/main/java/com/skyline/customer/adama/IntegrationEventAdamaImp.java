@@ -7228,7 +7228,7 @@ public void preperReport(Map<String, String> elementValueMap) {
 				+ "(select ID,NAME\n"
 				+ "from fg_e_expangn_resultType_v\n"
 				+ "union all\n"
-				+ "select distinct TYPE_ID,TESTEDCOMPTYPENAME\n"
+				+ "select distinct decode(TESTEDCOMPTYPENAME,'Impurity',(select id from fg_e_expangn_resulttype_v where name = 'Impurity Percent'),'Active Ingredient',(select id from fg_e_expangn_resulttype_v where name = 'Assay'),Type_id),decode(TESTEDCOMPTYPENAME,'Impurity','Impurity Percent','Active Ingredient','Assay',TESTEDCOMPTYPENAME)\n"
 				+ "from fg_s_component_all_v\n"
 				+ "where parentid = '"+parentId+"'\n"
 				+ "and sessionid is null\n"
@@ -7237,7 +7237,7 @@ public void preperReport(Map<String, String> elementValueMap) {
 		componentsJson.put("ResultTypes", new JSONArray(resultTypeList));
 		
 		//Tested Components -> taken from the tested components in the current form
-		sql = "select MATERIALID,COMPONENTNAME,RRT,TESTEDCOMPTYPENAME\n"
+		sql = "select MATERIALID,COMPONENTNAME,RRT,decode(TESTEDCOMPTYPENAME,'Impurity','Impurity Percent','Active Ingredient','Assay',TESTEDCOMPTYPENAME) TESTEDCOMPTYPENAME\n"
 				+ "from fg_s_component_all_v\n"
 				+ "where parentid = '"+parentId+"'\n"
 						+ "and sessionid is null\n"
