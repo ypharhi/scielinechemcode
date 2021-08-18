@@ -518,9 +518,11 @@
 		    return pos === -1 ? "" : fileName.substring(pos + 1).toLowerCase();
 		}
 
-		function onSpreadsheetChange(domID){
+		function onSpreadsheetChange(domID,doRaiseGeneralFlag){
 			//update the datachanged prop
-			parent.prop.dataChanged = true;
+			if(doRaiseGeneralFlag == undefined || doRaiseGeneralFlag == true){
+				parent.prop.dataChanged = true;
+			}
 			parent.$('#'+domID).attr('is_changed_flag','1');
 		}
 

@@ -295,7 +295,7 @@ function spreadOnLoadBL(formCode,domId,designer,outputData,sheetsNamespace) {
 				sheet.getRange(_sampleLocation.y, _resultCommentLocation.x, rowCount -_sampleLocation.y, columnCount - _resultCommentLocation.x).clear();
 			}*/
 		});
-		onSpreadFocused(domId);
+		onSpreadFocused(domId,false);
 	}
 	/* var workBook = designer[domId].getWorkbook();//$('#ss').data('workbook');
 			var sheet = workBook.getSheetFromName('Sheet1'); //spread.getActiveSheet();

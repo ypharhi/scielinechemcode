@@ -33,8 +33,8 @@ var ElementExcelSheetImp = {
     }
 };
 
-function onSpreadFocused(domId){
-	onSpreadsheetChange(domId);
+function onSpreadFocused(domId,doRaiseGeneralFlag){
+	onSpreadsheetChange(domId,doRaiseGeneralFlag);
 }
 
 function updateElementExcelSheet(obj){
@@ -148,10 +148,9 @@ function isSpreadsheetEmpty(domId) {
 	return window.frames[domId+'_spreadIframe'].isSpreadsheetEmpty(domId);
 }
 
-function onSpreadsheetChange(domID){
+function onSpreadsheetChange(domID,doRaiseGeneralFlag){
 	//update the datachanged prop
-	parent.prop.dataChanged = true;
-	$('#'+domID).attr('is_changed_flag','1');
+	window.frames[domID+'_spreadIframe'].onSpreadsheetChange(domID,doRaiseGeneralFlag);
 }
 
 // return spread sheet data
