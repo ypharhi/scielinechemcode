@@ -3624,7 +3624,6 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				formDao.insertToSelectTable("SAMPLESELECT", elementValueMap.get("BATCH_ID"), "SAMPLETABLE",
 						listOfSamples, true, userId, null);//add the sample to the selection in the referenced batch
 			}
-
 		}
 		/************************** BatchMain *************************/
 		else if (formCode.equals("BatchMain")) {
@@ -4821,6 +4820,19 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				elementValueMap.put("productId", materialId);
 				//String productName = formDao.getFromInfoLookup("MaterialRef", LookupType.ID, elementValueMap.get("PRODUCT_ID"), "Name");
 				elementValueMap.put("productName", materialName);
+			}
+			if (formEntityCode.equals("Action")) {//task 26720
+				String comments = generalUtil.getNull(elementValueMap.get("commentsForCoa"));
+				String richtextContent;
+				richtextContent = generalDao.selectSingleStringNoException("select fg_get_richtext_display('"+comments+"') from dual");//get the text only from fg_get richtext
+						//	generalDao.getSingleStringFromClob("select t.file_content_text from fg_richtext t where t.file_id = '" + comments + "'");
+				String desc = generalUtil.getNull(elementValueMap.get("sampleDesc"));
+				String commentsId = formSaveDao.getStructFileId("SampleMain.commentsForCoa");
+				if(generalUtil.getNull(richtextContent).isEmpty() && !desc.isEmpty()) {
+					uploadFileDao.saveRichText(commentsId, desc, desc,
+							true);
+					elementValueMap.put("commentsForCoa",commentsId);	
+				}
 			}
 		} else if (formCode.equals("Sample")) {
 			if (elementValueMap.get("batchDefinition").equals("1")) {
