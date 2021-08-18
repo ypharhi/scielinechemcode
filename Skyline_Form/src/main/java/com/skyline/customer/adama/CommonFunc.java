@@ -1431,7 +1431,8 @@ public class CommonFunc {
 		boolean isFamiliarAfterConfirm = false;
 		boolean isCurrentUserTrained = true;
         String message = "";
-		if (/* formCode.equals("ExperimentFor")|| */formCode.equals("StepFr")||formCode.equals("StepMinFr")){//TODO:remove it when the formulation familiarity validation would be defined
+        String experimentType = formDao.getFromInfoLookup("EXPERIMENT", LookupType.ID, experimentId, "EXPERIMENTTYPENAME");
+		if ( (formCode.equals("ExperimentAn") && experimentType.equals("General"))|| formCode.equals("StepFr")||formCode.equals("StepMinFr")){//TODO:remove it when the formulation familiarity validation would be defined
         	return "";
         }
 		String userName = generalUtil.getSessionUserName();
