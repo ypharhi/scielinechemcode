@@ -5950,6 +5950,7 @@ function collectUOMtoColumnTitle(domId, uomPlaceHolder) {
 		   var col_ = _table.column(i);
 			col_ = _table.column(i);
 			var _$header = $(col_.header());
+			var old_header = _$header.text();
 			if(_$header.text().indexOf(uomPlaceHolder) >= 0) { 
 				var uomData = [];
 				_table.rows().eq(0).each( function ( index ) {
@@ -5969,6 +5970,7 @@ function collectUOMtoColumnTitle(domId, uomPlaceHolder) {
 							dtExt_updateCellFilterData(domId, index, i, newCellVal); // need for the export data (or if calling not from elementDataTableApiImpBL)
 						} else if(cdata.indexOf("[]") != -1) { //cover also empty uom (remove it)
 							var newCellVal = cdata.replace('[]','').trim();
+							
 							cell.data(newCellVal).draw(false);
 							$(cnode).text(newCellVal);
 							dtExt_updateCellFilterData(domId, index, i, newCellVal); // need for the export data (or if calling not from elementDataTableApiImpBL)
@@ -5978,6 +5980,7 @@ function collectUOMtoColumnTitle(domId, uomPlaceHolder) {
 				var originHtml = _$header.html();
 				var newHtml = originHtml.replace(uomPlaceHolder,uomData.length > 0?" [" + uomData.join() + "]":"");
 				$(_table.column(col_).header()).html(newHtml); // replace the title in the column html (if using set text we will not have the sort and close icons)
+				$('[name="' + domId + '_metaData"]').val($('[name="' + domId + '_metaData"]').val().replace(old_header,_$header.text()+"_SMARTNUM"));//fixed bug in the filter 
 		    }
 	   } catch(e) {
 			console.log("collectUOMtoColumnTitlefailed in column index=" + i);
