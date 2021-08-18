@@ -170,11 +170,11 @@ public class ExperimentReportSQLBuilder {
 						sbSelectSql.append(
 								"," + aliasName + ".MAINNAME as \"" + getValidOracleColumnName("{" + index + "}" + singleStepName + " - " + colName_) + "\"" +
 										(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "}" + singleStepName + " - " + colMap.get("QUANTITY") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "} " + singleStepName + " - " + colMap.get("MOLE") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + singleStepName + " - " + colMap.get("VOLUME") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "} " + singleStepName + " - " + colMap.get("PURITY") + " [%]" + "\"":"") +
-										(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "} " + singleStepName + " - " + colMap.get("EQUIVALENT") + "\"":"") +
-										(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "} " + singleStepName + " - " + colMap.get("INVITEMBATCHNAME") + "\"":"")
+										(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "}" + singleStepName + " - " + colMap.get("MOLE") + uomPlaceHolder + "\"":"") +
+										(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "}" + singleStepName + " - " + colMap.get("VOLUME") + uomPlaceHolder + "\"":"") +
+										(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "}" + singleStepName + " - " + colMap.get("PURITY") + " [%]" + "\"":"") +
+										(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "}" + singleStepName + " - " + colMap.get("EQUIVALENT") + "\"":"") +
+										(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "}" + singleStepName + " - " + colMap.get("INVITEMBATCHNAME") + "\"":"")
 								);
 						
 						//from
@@ -222,11 +222,11 @@ public class ExperimentReportSQLBuilder {
 						sbSelectSql.append(
 								"," + aliasName + ".MAINNAME as \"" + getValidOracleColumnName("{" + index + "}" + singleStepName + " - " + colName_) + "\"" +
 										(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "}" + singleStepName + " - " + colMap.get("QUANTITY") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "} " + singleStepName + " - " + colMap.get("MOLE") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + singleStepName + " - " + colMap.get("VOLUME") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "} " + singleStepName + " - " + colMap.get("PURITY") + " [%]" + "\"":"") +
-										(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "} " + singleStepName + " - " + colMap.get("EQUIVALENT") + "\"":"")
-										//(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "} " + colMap.get("INVITEMBATCHNAME") + "\"":"")
+										(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "}" + singleStepName + " - " + colMap.get("MOLE") + uomPlaceHolder + "\"":"") +
+										(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "}" + singleStepName + " - " + colMap.get("VOLUME") + uomPlaceHolder + "\"":"") +
+										(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "}" + singleStepName + " - " + colMap.get("PURITY") + " [%]" + "\"":"") +
+										(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "}" + singleStepName + " - " + colMap.get("EQUIVALENT") + "\"":"")
+										//(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "}" + colMap.get("INVITEMBATCHNAME") + "\"":"")
 								);
 						
 						//from
@@ -274,12 +274,12 @@ public class ExperimentReportSQLBuilder {
 						//select
 						sbSelectSql.append(
 								"," + aliasName + ".MAINNAME as \"" + getValidOracleColumnName("{" + index + "}" + singleStepName + " - " + colName_) + "\"" +
-										(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "} " + singleStepName + " - " + colMap.get("QUANTITY") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "} " + singleStepName + " - " + colMap.get("MOLE") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + singleStepName + " - " + colMap.get("VOLUME") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "} " + singleStepName + " - " + colMap.get("PURITY") + " [%]" + "\"":"") +
-										(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "} " + singleStepName + " - " + colMap.get("EQUIVALENT") + "\"":"") +
-										(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "} " + singleStepName + " - " + colMap.get("INVITEMBATCHNAME") + "\"":"")
+										(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "}" + singleStepName + " - " + colMap.get("QUANTITY") + uomPlaceHolder + "\"":"") +
+										(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "}" + singleStepName + " - " + colMap.get("MOLE") + uomPlaceHolder + "\"":"") +
+										(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "}" + singleStepName + " - " + colMap.get("VOLUME") + uomPlaceHolder + "\"":"") +
+										(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "}" + singleStepName + " - " + colMap.get("PURITY") + " [%]" + "\"":"") +
+										(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "}" + singleStepName + " - " + colMap.get("EQUIVALENT") + "\"":"") +
+										(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "}" + singleStepName + " - " + colMap.get("INVITEMBATCHNAME") + "\"":"")
 								);
 						
 						//from
@@ -327,12 +327,12 @@ public class ExperimentReportSQLBuilder {
 						//select
 						sbSelectSql.append(
 								"," + aliasName + ".MAINNAME as \"" + getValidOracleColumnName("{" + index + "}" + singleStepName + " - " + colName_) + "\"" +
-										(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "} " + singleStepName + " - " + colMap.get("QUANTITY") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "} " + singleStepName + " - " + colMap.get("MOLE") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "} " + singleStepName + " - " + colMap.get("VOLUME") + uomPlaceHolder + "\"":"") +
-										(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "} " + singleStepName + " - " + colMap.get("PURITY") + "[%]" + "\"":"") +
-										(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "} " + singleStepName + " - " + colMap.get("EQUIVALENT") + "\"":"") +
-										(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "} " + singleStepName + " - " + colMap.get("INVITEMBATCHNAME") + "\"":"")
+										(colMap.containsKey("QUANTITY") ? "," + aliasName +  ".QUANTITY as \"{" + index + "}" + singleStepName + " - " + colMap.get("QUANTITY") + uomPlaceHolder + "\"":"") +
+										(colMap.containsKey("MOLE")   ? "," + aliasName +  ".MOLE as \"{" + index + "}" + singleStepName + " - " + colMap.get("MOLE") + uomPlaceHolder + "\"":"") +
+										(colMap.containsKey("VOLUME")   ? "," + aliasName +  ".VOLUME as \"{" + index + "}" + singleStepName + " - " + colMap.get("VOLUME") + uomPlaceHolder + "\"":"") +
+										(colMap.containsKey("PURITY")   ? "," + aliasName +  ".PURITY as \"{" + index + "}" + singleStepName + " - " + colMap.get("PURITY") + "[%]" + "\"":"") +
+										(colMap.containsKey("EQUIVALENT")   ? "," + aliasName +  ".EQUIVALENT as \"{" + index + "}" + singleStepName + " - " + colMap.get("EQUIVALENT") + "\"":"") +
+										(colMap.containsKey("INVITEMBATCHNAME")   ? "," + aliasName +  ".INVITEMBATCHNAME as \"{" + index + "}" + singleStepName + " - " + colMap.get("INVITEMBATCHNAME") + "\"":"")
 								);
 						
 						//from
