@@ -1231,8 +1231,8 @@ function initForm() {
 		var mainContainer_ = $('#cblist');
 		var id = 0, checked_counter = 0;
 		var showResetDefault = (parent.$('#formCode').length > 0 && (
-			  parent._formCode == 'Main' || 
-			  parent._formCode == 'StepMinFr' 
+				parent.$('#formCode').val() == 'Main' || 
+				parent.$('#formCode').val() == 'StepMinFr' 
 		    )
 		);
 		
