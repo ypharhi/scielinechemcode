@@ -5851,6 +5851,23 @@ function resetColumns(domId) {
 							console.log("toReturn",toReturn);							
 							var toReturnObj = JSON.parse(toReturn);
 							
+							var removedCols = toReturnObj["colsRemoved"].split('@');
+							var _table = $('#' + domId).DataTable();
+							
+							for(var i=0; i < _table.columns().header().length; i++)//fixed  bug 9239
+								{
+									_column = _table.column(i);
+									_header = $(_column.header())[0];
+									_title = getColumnUniqueName($(_header));
+									if(_column.visible() && removedCols.indexOf(_title)>-1)
+									{
+										var colIndex = getColumnIndexByColHeader(domId, _title);
+									    var input = $(_table.column(colIndex).footer()).find('input[class="firstString"]');
+									    $(input).val('');
+									    $(input).siblings('select').val('co');
+									    input.trigger('keyup');
+									}
+								}
 							setColVisibilityByColTitleArr(domId, true, "resetcolumns_before_colarray_update");
 							$('[id="' + domId + '_colsArray"]').val(toReturnObj["colsRemoved"]);
 							setColVisibilityByColTitleArr(domId, false, "resetcolumns_after_colarray_update");
@@ -5923,11 +5940,13 @@ function removeColumnDatatable(domId, colTitle)
     var colIndex = getColumnIndexByColHeader(domId, colTitle);
     var input = $(table.column(colIndex).footer()).find('input[class="firstString"]');
     $(input).val('');
+    $(input).siblings('select').val('co');
+    input.trigger('keyup');    
+    
     if(globalDataTableFilterColumn!=undefined && globalDataTableFilterColumn[domId]!=undefined){
 		delete globalDataTableFilterColumn[domId][colTitle];	
 	}
-    $(input).siblings('select').val('co');
-    input.trigger('keyup');    
+    
 
     //table = $('#' + domId).dataTable();
     //table.fnSetColumnVis(colIndex, false);
