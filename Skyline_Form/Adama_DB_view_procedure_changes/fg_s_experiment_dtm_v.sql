@@ -78,11 +78,7 @@ nvl(u.UnitsName,l.UNITSNAME) as "Unit",
 l.LaboratoryName as "Lab",
 '{"displayName":"' || lastbatch.batchname || '" ,"icon":"' || '' || '" ,"fileId":"' || '' || '","formCode":"' || 'InvItemBatch' || '"  ,"formId":"' || lastbatch.batchid || '","tab":"' || '' || '","smartType":"SMARTLINK", "title":"Batch #" }' as "Last Batch Created_SMARTLINK",
 t.EXTERNALCODE as "External Code",
---fg_get_richtext_display(t.CONCLUSSION)
---rt.file_content_text as "Conclusion",
---t.ISENABLESPREADSHEET as "Spreadsheet Enabled",
---t.EXPERIMENTSERIESNAME as "Series Name"
-nvl(rt.file_content_text_no_tables,
+decode(nvl(rt.job_flag,0), 1, rt.file_content_text_no_tables,
 (trim(
                 replace(
                         regexp_replace(
@@ -98,6 +94,11 @@ nvl(rt.file_content_text_no_tables,
                                        ,' {2,}', ' ')
                         ,'&nbsp;','')
                 ))) as "Conclusion",
+--fg_get_richtext_display(t.CONCLUSSION)
+--rt.file_content_text as "Conclusion",
+--t.ISENABLESPREADSHEET as "Spreadsheet Enabled",
+--t.EXPERIMENTSERIESNAME as "Series Name"
+--17012018 ta column change
 case
   when t.FORMCODE in ('Experiment', 'ExperimentCP') /*and nvl(status.EXPERIMENTSTATUSNAME,'Planned') <> 'Planned'*/ then -- show also in plan from v>1.503 --YP 12012012 ExperimentCP DEVELOP IF NEEDED
        FG_GET_SMART_LINK_OBJECT('' ,t.FORMCODE ,t."EXPERIMENT_ID" ,'','report')

@@ -899,7 +899,7 @@ end;
   COMMIT; 
   
   -- update FG_RICHTEXT
-  UPDATE FG_RICHTEXT t SET FILE_CONTENT_TEXT_NO_TABLES = trim(
+  UPDATE FG_RICHTEXT t SET t.job_flag = 1, FILE_CONTENT_TEXT_NO_TABLES = trim(
                 replace(
                         regexp_replace(
                                        regexp_replace(
@@ -913,8 +913,7 @@ end;
                                                        ,'[[:space:]]',' ')
                                        ,' {2,}', ' ')
                         ,'&nbsp;',''))
-                        where FILE_CONTENT_TEXT_NO_TABLES is null and file_content is not null;
-
+  where nvl(t.job_flag,0) = 0;
   COMMIT;
   
   --DONE!
