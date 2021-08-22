@@ -889,11 +889,34 @@ end;
   
   COMMIT; 
   
-  -- clean FG_RECIPE_MATERIAL_FUNC_REPORT - yp 29032021
+  -- delete tmp tables
   delete from FG_RECIPE_MATERIAL_FUNC_REPORT t where t.timestamp < sysdate -1;
-  
-  COMMIT; 
+  delete from fg_s_reportfilterref_pivot t where t.sessionid is not null and TRUNC(T.TIMESTAMP) < TRUNC(SYSDATE) - 1;
+  delete from FG_P_EXPREPORT_DATA_TMP t where t.row_timestamp < sysdate -1;
+  delete from FG_P_EXPREPORT_SAMPLE_TMP t where t.row_timestamp < sysdate -1;
+  delete from FG_EXPREPORT_MATERIALREF_TMP t where t.row_timestamp < sysdate -1;
 
+  COMMIT; 
+  
+  -- update FG_RICHTEXT
+  UPDATE FG_RICHTEXT t SET FILE_CONTENT_TEXT_NO_TABLES = trim(
+                replace(
+                        regexp_replace(
+                                       regexp_replace(
+                                                       regexp_replace(
+                                                                      regexp_replace(
+                                                                      regexp_replace(
+                                                                                      t.file_content,
+                                                                                      '<td>.*?</td>','')
+                                                                                     ,'<.*?>',' ')
+                                                                      ,'\&lt;.*?\&gt;',' ')
+                                                       ,'[[:space:]]',' ')
+                                       ,' {2,}', ' ')
+                        ,'&nbsp;',''))
+                        where FILE_CONTENT_TEXT_NO_TABLES is null and file_content is not null;
+
+  COMMIT;
+  
   --DONE!
   return 1;
  end;

@@ -78,10 +78,26 @@ nvl(u.UnitsName,l.UNITSNAME) as "Unit",
 l.LaboratoryName as "Lab",
 '{"displayName":"' || lastbatch.batchname || '" ,"icon":"' || '' || '" ,"fileId":"' || '' || '","formCode":"' || 'InvItemBatch' || '"  ,"formId":"' || lastbatch.batchid || '","tab":"' || '' || '","smartType":"SMARTLINK", "title":"Batch #" }' as "Last Batch Created_SMARTLINK",
 t.EXTERNALCODE as "External Code",
-fg_get_richtext_display(t.CONCLUSSION) as "Conclusion",
+--fg_get_richtext_display(t.CONCLUSSION)
+--rt.file_content_text as "Conclusion",
 --t.ISENABLESPREADSHEET as "Spreadsheet Enabled",
 --t.EXPERIMENTSERIESNAME as "Series Name"
---17012018 ta column change
+nvl(rt.file_content_text_no_tables,
+(trim(
+                replace(
+                        regexp_replace(
+                                       regexp_replace(
+                                                       regexp_replace(
+                                                                      regexp_replace(
+                                                                      regexp_replace(
+                                                                                      rt.file_content,
+                                                                                      '<td>.*?</td>','')--fixed bug 9389
+                                                                                     ,'<.*?>',' ')
+                                                                      ,'\&lt;.*?\&gt;',' ')
+                                                       ,'[[:space:]]',' ')
+                                       ,' {2,}', ' ')
+                        ,'&nbsp;','')
+                ))) as "Conclusion",
 case
   when t.FORMCODE in ('Experiment', 'ExperimentCP') /*and nvl(status.EXPERIMENTSTATUSNAME,'Planned') <> 'Planned'*/ then -- show also in plan from v>1.503 --YP 12012012 ExperimentCP DEVELOP IF NEEDED
        FG_GET_SMART_LINK_OBJECT('' ,t.FORMCODE ,t."EXPERIMENT_ID" ,'','report')
@@ -90,7 +106,8 @@ case
   end "Report_SMARTFILE"
       from FG_S_EXPERIMENT_all_V t,fg_s_user_v u, fg_s_user_v us, fg_s_experimentstatus_all_v status--/*,fg_s_project_v p*/,fg_s_subproject_all_v sp,fg_s_subsubproject_v ssp
            ,fg_s_laboratory_all_v l, fg_s_units_v u, stepList,
-           fg_s_experimentgroup_v eg, lastbatch
+           fg_s_experimentgroup_v eg, lastbatch,
+           fg_richtext rt
       where nvl(t.CREATIONDATETIME,'na') <> 'Invalid date'
       and t.TEMPLATEFLAG is null
       and t.OWNER_ID = u.USER_ID(+)
@@ -104,4 +121,5 @@ case
       --and t.PROJECT_ID = p.PROJECT_ID(+)
      -- and t.SUBPROJECT_ID = sp.SUBPROJECT_ID(+)
      -- and t.SUBSUBPROJECT_ID = ssp.SUBSUBPROJECT_ID(+)
+     and t.CONCLUSSION =  rt.file_id(+)
      order by t.CREATION_DATE desc;
