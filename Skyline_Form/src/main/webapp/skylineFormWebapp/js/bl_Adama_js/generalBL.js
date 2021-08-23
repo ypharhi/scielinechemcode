@@ -1398,6 +1398,15 @@ function initForm() {
 		$('#close_back').css('display','inline');
 		$('#newButton').css('display','none');
 		$('#saveButton').css('display','none');
+		var url=new URL(window.location);
+		var reportName = url.searchParams.get("PARENT_REPORT");
+		
+		if(reportName != undefined && reportName == "ExpAnalysisReport"){
+   			$('#pageTitle').html("Experiment Analysis Reports");
+		}
+		else if(reportName != undefined && reportName == "ExperimentReport"){
+			$('#pageTitle').html("Reaction and Results Analysis");
+		}
 	}
 	if(_formCode == 'MaterialSlctSearch'){
 		//$('#materialTable_value').val(parent.$('#INVITEMMATERIAL_ID').val());
