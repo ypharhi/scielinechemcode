@@ -777,8 +777,14 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						String formCodeEntity = formDao.getFormCodeEntityBySeqId(formCode,formId);
 						if(formCodeEntity.equals("Experiment")&&display.toLowerCase().equals("dte")){
 							wherePart = " and EXPERIMENT_ID = '"+formId+"'";
+						} 
+						if(display.equalsIgnoreCase("dte")) {
+							sql = "select t.*,\n"
+									+ "'select result_SMARTPIVOT FROM FG_P_SAMPLERESULTS_V where experiment_id = '|| "+formId+" AS result_SMARTPIVOTSQL\n"
+									+ " from " + table + " t" + " where 1=1"+wherePart;
+						} else {
+							sql = "select * from " + table + " where 1=1"+wherePart;
 						}
-						sql = "select * from " + table + " where 1=1"+wherePart;
 					}
 					
 					if(table != null && table.equalsIgnoreCase("fg_s_Sample_DT_v")) {
