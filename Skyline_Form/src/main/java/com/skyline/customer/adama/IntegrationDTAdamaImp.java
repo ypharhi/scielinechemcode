@@ -1267,6 +1267,10 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								"from FG_R_PROJECTSUMMARY_DTDOC_V t, FG_FORM_ID_DESC d \r\n" + 
 								"where t.SEARCH_MATCH_ID1 = '" + formId + "' and t.Entity_ID = d.formid(+) and t.sensitivity_permisiion <= " + generalUtilPermission.getSensitivitylevelOrder(userId);
 					}
+					else if(generalUtil.getNull(table).equalsIgnoreCase("fg_r_ExpAnalysisReport_dt_v")) {
+						String parentReport = generalUtilFormState.getFormParam(stateKey, "ExpAnalyReportMain","$P{PARENT_REPORT}");
+						sql = "select * from " + table + " where 1=1 and report_name ='" + parentReport +"'";
+					}
 					else {
 						sql = "select * from " + table + " where 1=1 " + wherePart;//+ citeriaWherePart;
 					}

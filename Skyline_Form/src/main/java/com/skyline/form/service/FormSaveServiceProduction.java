@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,13 +29,6 @@ public class FormSaveServiceProduction extends FormSaveBasic implements FormSave
 
 	@Autowired
 	protected GeneralTaskDao generalTaskDao;
-
-	// !!! WARNING !!! dropAndCreateTableFlag should be one only during DEVELOP when
-	// we want recreate tables based on form builder configurations !!!!! (there is
-	// another protection inside the DB procedure that check if in
-	// fg_sys_param.is_develop = 1 before this recreate tables action)
-	@Value("${dropAndCreateTableFlag:0}")
-	private int dropAndCreateTableFlag;
 
 	@Override
 	@Transactional(rollbackFor = Exception.class)
@@ -90,16 +82,24 @@ public class FormSaveServiceProduction extends FormSaveBasic implements FormSave
 		// elementValueMap.put("rowSessionId", sessionId);
 		boolean isStructTable = generalUtilForm.isStructFromByFormCode(formCode);
 		if (isStructTable) {
-
-			if (dropAndCreateTableFlag == 1) { // drop and create pivot tables
-				// !!! WARNING !!! this should be execute only during DEVELOP!!!!! (there is
-				// another protection inside the DB procedure that check if in
-				// fg_sys_param.is_develop = 1)
-				update = formSaveDao.doSaveDropAndCreatePivot(formCode, formId, userId,
-						removePreventSaveElements(elementValueMap, preventSaveElementList), null, saveName, "",
-						description);
-				if(generalUtil.getNullInt(update,0) > 0) {
-					formSaveDao.createStructPivotTable(formCode, formId);
+			
+			//formBuilderSaveFlag if the call is from form-builder form
+			String formBuilderSaveFlag = null;
+			try {
+				formBuilderSaveFlag = generalUtilFormState.getFormParam(stateKey, formCode,"$P{FORMBUILDERSAVEFLAG}");
+			} catch (Exception e1) {
+				// Do nothing
+			}
+			
+			if (formBuilderSaveFlag != null && formBuilderSaveFlag.equals("1")) { // drop and create pivot tables (if system make save from the form builder preview (=> FORMBUILDERSAVEFLAG=1) and in the DB fg_sys_param.is_develop = 1 (dropAndCreateTableFlag prop not in use)
+				String userName = generalUtil.getSessionUserName();
+				if(userName != null && userName.equalsIgnoreCase("system")) {
+					update = formSaveDao.doSaveDropAndCreatePivot(formCode, formId, userId,
+							removePreventSaveElements(elementValueMap, preventSaveElementList), null, saveName, "",
+							description);
+					if(generalUtil.getNullInt(update,0) > 0) {
+						formSaveDao.createStructPivotTable(formCode, formId);
+					}
 				}
 			}
 

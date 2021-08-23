@@ -1916,17 +1916,9 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 
 
 		if (eventAction.equals("getReportList")) {
-			String sql = "";
-			if(generalUtil.getNull(elementValueMap.get("formCodeElement")).equals("ExperimentReport")) {
-				sql = "select save_name_id as id,save_name as name, to_char(creation_date,'"+generalUtil.getConversionDateFormat()+"') as creation_date"
-						+ " from fg_formlastsavevalue_name" + " where active=1" + " and formCode_Name ='"+elementValueMap.get("formCodeElement")+"'";
-			}
-			else {
-				sql = "select save_name_id as id,save_name as name, to_char(creation_date,'"+generalUtil.getConversionDateFormat()+"') as creation_date"
-						+ " from fg_formlastsavevalue_name" + " where active=1" + " and userid='" + userId + "' and formCode_Name ='"+elementValueMap.get("formCodeElement")+"'";
-			}
 			List<Map<String, Object>> reportList = generalDao
-					.getListOfMapsBySql(sql);
+										.getListOfMapsBySql("select save_name_id as id,save_name as name, to_char(creation_date,'"+generalUtil.getConversionDateFormat()+"') as creation_date"
+												+ " from fg_formlastsavevalue_name" + " where active=1" + " and userid='" + userId + "' and formCode_Name ='"+elementValueMap.get("formCodeElement")+"'");
 			JSONArray reportlistJson = new JSONArray();
 			for (Map<String, Object> reportData : reportList) {
 				JSONObject data = new JSONObject();

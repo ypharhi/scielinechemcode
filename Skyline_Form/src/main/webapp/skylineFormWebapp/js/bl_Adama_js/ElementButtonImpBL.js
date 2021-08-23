@@ -839,7 +839,8 @@ function searchLabel(){
 	}
 }
 
-function viewExpAnalysisReport(){
+function viewExpAnalysisReport(parent_report){
+	var formCode = parent_report==undefined?"ExpAnalysisReport":parent_report;
 	var selectedId = "";
 	var selectedTable = $('#expAnReportTable').DataTable();
 	var custid = selectedTable.row('.selected').data();
@@ -847,7 +848,7 @@ function viewExpAnalysisReport(){
 		selectedId = custid[0];
 	}
 	// ajax- open new window of the selected save_name_id report
-	var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=ExpAnalysisReport&formId=-1" + "&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val() + "&nameId=" + selectedId;
+	var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode="+formCode+"&formId=-1" + "&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val() + "&nameId=" + selectedId;
 	if (window.self === window.top){   
 		window.location = page;
 	} else {
@@ -3455,14 +3456,13 @@ function navigateToReport(args){
 					}
 						}
 					if(reportMode=="scheme"){
-						if(formCodeElement=="ExpAnalysisReport"){
-						var href = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=ExpAnalyReportMain&formId="+fromIdElem+ "&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val();
+						var href = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=ExpAnalyReportMain&formId="+fromIdElem+ "&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val() + '&PARENT_REPORT='+formCodeElement;
 						toReturn += '<li role="menuitem" class="is-submenu-item is-dropdown-submenu-item reportItem">'
 									+'<a style="float:left;width:100%" onclick="confirmWithOutSaveMainMenu(\''+href+'\')">'
 									+'Public'
 									+'</a>'
 									+'</li>';
-					}
+					//}
 					}
 					else{
 						//var href = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=ReportDesignSearch&formId=-1&userId=" + $('#userId').val() + '&PARENT_ID=' + $('#formId').val();
