@@ -7183,7 +7183,7 @@ public void preperReport(Map<String, String> elementValueMap) {
 				+ "from fg_e_expangn_material_v\n"
 				+ "where instr(','||project_id||',',','||"+project_id+"||',')>0\n"
 				+ "union all\n"
-				+ "select MATERIALID,COMPONENTNAME,m.MW\n"
+				+ "select MATERIALID, c.INVITEMMATERIALNAME,m.MW\n"
 				+ "from fg_s_component_all_v c\n,"
 				+ "fg_s_invitemmaterial_v m\n"
 				+ "where c.parentid = '"+parentId+"'\n"
@@ -7194,7 +7194,9 @@ public void preperReport(Map<String, String> elementValueMap) {
 				+ "select ID,NAME,MW\n"
 				+ "from fg_e_expangn_material_v\n"
 				+ "where ID in("+generalUtil.listToCsv(materialIdList)+")":"")
-				+"\n)";
+				+"\n)\n"
+				+ "where name is not null\n"
+				+ "order by name";
 		List<Map<String,Object>> materialList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("Materials", new JSONArray(materialList));
 		
@@ -7237,11 +7239,12 @@ public void preperReport(Map<String, String> elementValueMap) {
 		componentsJson.put("ResultTypes", new JSONArray(resultTypeList));
 		
 		//Tested Components -> taken from the tested components in the current form
-		sql = "select MATERIALID,COMPONENTNAME,RRT,decode(TESTEDCOMPTYPENAME,'Impurity','Impurity Percent','Active Ingredient','Assay',TESTEDCOMPTYPENAME) TESTEDCOMPTYPENAME\n"
+		sql = "select MATERIALID,INVITEMMATERIALNAME as COMPONENTNAME,RRT,decode(TESTEDCOMPTYPENAME,'Impurity','Impurity Percent','Active Ingredient','Assay',TESTEDCOMPTYPENAME) TESTEDCOMPTYPENAME\n"
 				+ "from fg_s_component_all_v\n"
 				+ "where parentid = '"+parentId+"'\n"
 						+ "and sessionid is null\n"
 						+ "and active = 1\n"
+						+ "and INVITEMMATERIALNAME is not null\n"
 						+ "order by to_number(rt)";
 		List<Map<String,Object>> testedComponentList = generalDao.getListOfMapsBySql(sql);
 		componentsJson.put("TestedComponents", new JSONArray(testedComponentList));
