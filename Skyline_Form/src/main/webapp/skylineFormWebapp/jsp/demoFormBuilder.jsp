@@ -1113,7 +1113,7 @@
 
     function buildPreview() {
         //build Preview of form
-        var page = "./init.request?formCode=" + encodeURIComponent($("#formCode_hidden").val()) + "&formId=" + $('#selectFormId').val() + "&userId=" + $('#userId').val();
+        var page = "./init.request?formCode=" + encodeURIComponent($("#formCode_hidden").val()) + "&formId=" + $('#selectFormId').val() + "&userId=" + $('#userId').val() + "&PARENT_ID=-1&formBuilderSaveFlag=1";
         var $dialog = $('<div id="prevDialog" style="overflow-y: hidden;""></div>')
             .html('<iframe style="border: 0px;width:100%;height:100%" src="' + page + '"></iframe>')
             .dialog({
