@@ -1531,7 +1531,7 @@ function checkRequiredByScreen(loopThroughObj) {
                 {
                 	if($('#' + domId + '_sharedFormId').val() == '' || $('#' + domId + '_sharedFormId').val() =='-1'){
 	                	var elem = $('[id="' + domId + '_Parent"]');
-	                	elem.css('cssText', elem.attr('style') + 'outline: 1px solid #a94442 !important'); // it's important to add new css to already exists style                    
+	                	elem.css('cssText', (elem.attr('style')==undefined?"":elem.attr('style')) + 'outline: 1px solid #a94442 !important'); // it's important to add new css to already exists style                    
 	                    bool = 0;                    
 	                    if (focusFlag == 1) 
 	                    {                    	
