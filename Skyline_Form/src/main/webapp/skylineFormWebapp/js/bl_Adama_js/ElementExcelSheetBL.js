@@ -94,8 +94,18 @@ function spreadOnLoadBL(formCode,domId,designer,outputData,sheetsNamespace) {
 				for(i=0;i<columnCount-j;i++){
 					currentMaterialList[i] = sheet.getValue(_materialLocation.y,j+i);
 				}
+				
+				var currentMaterialIdList = [];
+				var sheetActualMaterialId = workBook.getSheetFromName("ActualMaterialId");
+			    var rowCount = sheetActualMaterialId.getRowCount();
+			    for (var j = _materialLocation.x; j < rowCount; j++) {
+			    	var materialId = sheetActualMaterialId.getValue(j,0);
+			    	currentMaterialIdList.push(materialId);
+			    	
+			    }
+				
 				var firstEmptyCol = _materialLocation.x;
-				for(;j<columnCount;j++){
+				for(j=_materialLocation.x;j<columnCount;j++){
 					/*for(i=0;i<rowCount;i++){
 						var val = sheet.getValue(i,j);
 						if(val != null){
@@ -114,10 +124,12 @@ function spreadOnLoadBL(formCode,domId,designer,outputData,sheetsNamespace) {
 					}
 				}
 				for(var index in componentList['TestedComponents']){
+					var materialId = componentList['TestedComponents'][index]['MATERIALID'];
 					var name = componentList['TestedComponents'][index]['COMPONENTNAME'];
+					var savedName = componentList['TestedComponents'][index]['SAVEDNAME'];
 					var rtName = componentList['TestedComponents'][index]['RRT'];
 					var typeName = componentList['TestedComponents'][index]['TESTEDCOMPTYPENAME'];
-					if(currentMaterialList.indexOf(name)==-1){
+					if(currentMaterialIdList.indexOf(materialId)==-1){
 						//add the material to the materials in the result spreadsheet
 						sheet.setValue(_materialLocation.y,firstEmptyCol,name);
 						sheet.setValue(_rtLocation.y,firstEmptyCol,rtName);
