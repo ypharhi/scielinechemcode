@@ -1691,8 +1691,22 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 		sqlParam.put("$P{STRUCT}", struct);
 		sqlParam.put("$P{USERID}", userId);
 		sqlScript = generalUtilConfig.getCriterialSql(struct, criteria, formCode, sqlParam, unfilteredList);
+		
+		if (addSelectedValuesToCriteria(formCode)) {
+			String addLastMultiValue = lastMultiValues.isEmpty() || sqlScript.isEmpty() ? ""
+					: " union all select " + idName + " from fg_s_" + struct + "_v where " + idName + " in("
+							+ lastMultiValues + ")";
+			sqlScript += addLastMultiValue;
+		}
 
 		return sqlScript;
+	}
+	
+	private boolean addSelectedValuesToCriteria(String formCode){
+		if(formCode.equals("ExperimentReport")) {
+			return true;
+		}
+		return false;
 	}
 	
 	/**
