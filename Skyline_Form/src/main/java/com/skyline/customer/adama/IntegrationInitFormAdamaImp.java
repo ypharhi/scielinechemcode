@@ -216,11 +216,15 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 			//*************** getFormParam InvItemBatch 
 			//***************************************
 			else if (formCode.equals("InvItemBatch")) {
-				String batchId=structId;
 				if (isNewFormId) {
-					String projectIdArray = requestMap.get("PARENT_ID");
-					if (projectIdArray != null) {
-						structId = projectIdArray;
+					String parentId = requestMap.get("PARENT_ID");
+					String parentFormCode = formDao.getFormCodeEntityBySeqId("", parentId);
+					if (parentId != null) {
+						if(parentFormCode.equals("Sample")) {
+							String sql = "select productid from fg_s_sample_v where sample_id = '"+parentId+"'";
+							parentId = generalDao.selectSingleStringNoException(sql);
+						}
+						structId = parentId;
 						wherePart = "INVITEMMATERIAL_ID";
 						rowNum = "2"; // < 2 for one row
 					

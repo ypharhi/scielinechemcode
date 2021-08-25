@@ -3778,7 +3778,7 @@ function onNewButtonIntegration(formCode,currentFormCode,formId,parentId) {
     formCode = (formCode == 'SelfTest') ? "SelfTestMain" : formCode;
     formCode = (formCode == 'Sample') ? "SampleMain" : formCode;
     formCode = (formCode == 'Template') ? "TemplateMain" : formCode;
-    formCode = (formCode == 'InvItemBatch') ? $("#formCode").val().indexOf("Material")!=-1? formCode:"BatchMain" : formCode;
+    formCode = (formCode == 'InvItemBatch') ? $("#formCode").val().indexOf("Material")!=-1 || $("#formCode").val().indexOf("Sample")!=-1? formCode:"BatchMain" : formCode;
     
     if(formCode == 'InvItemBatch'&& currentFormCode == 'MaterialSearch'){
     	var reactantId = parent.$('#formId').val();

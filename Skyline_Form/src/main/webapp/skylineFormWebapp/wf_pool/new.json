@@ -139,6 +139,7 @@
 	{"from":"Template", "to":"Request"},
 	
 	{"from":"Sample", "to":"Request"},
+	{"from":"Sample", "to":"InvItemBatch"},
 	
 	{"from":"InvItemBatch", "to":"Sample"},
 	
