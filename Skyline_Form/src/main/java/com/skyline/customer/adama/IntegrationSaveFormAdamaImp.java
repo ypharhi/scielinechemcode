@@ -1685,6 +1685,13 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					}
 				}
 			}
+			//task 26723
+			String description = generalUtil.getNull(elementValueMap.get("description"));
+			String fileName = generalDao.selectSingleStringNoException("select distinct FILE_NAME from FG_FILES_FAST_V where file_id ='"+elementValueMap.get("documentUpload")+"'");
+			if(generalUtil.getNull(description).isEmpty()) {
+				elementValueMap.put("description",generalUtil.getNull(fileName));	
+			}
+		
 			String parentId = elementValueMap.get("parentId");
 			String parentFormCode = formDao.getFormCodeBySeqId(parentId);
 			if(parentFormCode.equals("Request")){
