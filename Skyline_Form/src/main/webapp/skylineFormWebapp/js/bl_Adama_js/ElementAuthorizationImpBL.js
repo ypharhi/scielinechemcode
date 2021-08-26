@@ -359,7 +359,7 @@ function setExpParametricMandatoryDisableFields(condition, status_) {
     	generalBL_disablePage(enabledElementList, true);
     }else if (savedStatus == 'Completed'){
     	generalBL_disablePage(['STATUS_ID','reasonForChange','steps','action','selfTests','workups','feedbackHistory','updateVersion','conclussion','EXPERIMENTGROUP_ID','SerialNumber','sender'], true);
-    	}
+	}
 	
 
 	var shapeVal = $('#SHAPE_ID option:selected').text();

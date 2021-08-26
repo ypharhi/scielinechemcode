@@ -3003,6 +3003,7 @@ function smartRender(object, followingHiddenCols, domId, savedObject, isTableRes
 			                        		{			                        			
 			                        			$(td).css({"text-align":"center", "vertical-align": "middle"});
 			                        			var checked = (o.displayName==1)?"checked":"";
+			                        			var tooltip = (o.tooltip !== undefined)?'title = "'+o.tooltip+'"':'';  
 			                        			var isDisabled = (o.isDisabled !== undefined && o.isDisabled == "true")?' disabled ':'';
 			                        			cellData = '<input type="checkbox" rowId="'+ rowId+'" class="editableSmartCell ' + ignorDataChange + '" '
 			                        						 +' id="'+cellId+'" '
@@ -3011,6 +3012,7 @@ function smartRender(object, followingHiddenCols, domId, savedObject, isTableRes
 			                        						 +' name="chb_'+columnId+'" '
 			                        						 +' value="'+o.displayName+'" '
 			                        						 + checked
+			                        						 + tooltip
 			                        						 +' oldValue="'+o.displayName+'"'
 					                        				 +' onchange="'+onChangeFunc+'" '
 					                        				 +'/>';
