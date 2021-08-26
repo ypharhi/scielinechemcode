@@ -1418,7 +1418,38 @@ procedure unpivotFromUnitTestConf as
        collistAs_ varchar2 (4000);
      -- validateFromFormId varchar2(100); 
      
-   begin
+       sqlExcel varchar2 (3600);
+       c1 clob := '1';
+       c2 clob := '2';
+       
+   begin 
+      
+      for r in (
+        select distinct SYSCONFEXCELDATANAME from fg_s_sysconfexceldata_pivot t where t.active = 1
+      )
+      
+      loop
+        
+        sqlExcel := 'select count(*) from ' || db_name_in || '.fg_clob_files t where t.file_id =  (select exceldata from ' || db_name_in || '.fg_s_sysconfexceldata_pivot t where SYSCONFEXCELDATANAME = ''' || r.sysconfexceldataname || ''')';
+        execute immediate sqlExcel into counter_;
+        if counter_ = 1 then
+          sqlExcel := 'select t.file_content from fg_clob_files t where t.file_id =  (select exceldata from fg_s_sysconfexceldata_pivot t where SYSCONFEXCELDATANAME = ''' || r.sysconfexceldataname || ''')';
+          execute immediate sqlExcel into c1;
+          
+          sqlExcel := 'select t.file_content from ' || db_name_in || '.fg_clob_files t where t.file_id =  (select exceldata from ' || db_name_in || '.fg_s_sysconfexceldata_pivot t where SYSCONFEXCELDATANAME = ''' || r.sysconfexceldataname || ''')';
+          execute immediate sqlExcel into c2;
+
+          if(dbms_lob.compare( c1, c2 ) <> 0) then
+            dbms_output.put_line('Warning! the excel ' || r.sysconfexceldataname || ' data (in fg_s_sysconfexceldata_pivot) is different!');
+          end if;
+        else
+            dbms_output.put_line('Warning! the excel ' || r.sysconfexceldataname || ' (active row or data) is not exists in ' || db_name_in || '.fg_s_sysconfexceldata_pivot!');
+        end if;
+        
+        
+ 
+      end loop;
+      
     
       counter_ := '0';
       delete from fg_debug; 
