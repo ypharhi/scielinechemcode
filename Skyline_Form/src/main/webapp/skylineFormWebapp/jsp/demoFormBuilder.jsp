@@ -253,6 +253,7 @@
         $('.sub-header').css('border-bottom-width', '0px');
     	$('#tdIncludeBreadcrumbJsp').css('display', 'none');
     	$('.cssPageHeader').css('display', 'none');
+    	$('#pageSubTitle').css("display","none");
     	$('.cssUser:nth-child(1)').css('display','none');
     	$('.cssUser').css('position','absolute')
     	$('.cssUser').css('right','0');
@@ -1369,18 +1370,22 @@
 <form style="display:none;" action="" method="post" id="builderModal"></form>
 <!-- return to form builder main -->
 
+<div id="menuDiv">
+			<div id="dropDownMenuBar" class="sub-header"
+				style="width: 100%; text-align: left; float: left; position: relative;">
+				<div style="float: left; position: relative; width: 95%;">
+					<%=((String) session.getAttribute("MAIN_MENU")).replace("@@STATEKEY_HOLDER@@",
+						request.getParameter("stateKey"))%>
+				</div>
+				<div id="divIconQRCode" style="float: right;" class="QR_code">
+					<span onclick="openSearchLabelDialog(this);return false;"></span>
+				</div>
+			</div>
+		</div>
+		<%@ include file="PageHeaderNewForm.inc"%>
+
 <table style="width: 100%; text-align: center;">
-    <tr>
-        <td>
-            <%@ include file="PageHeaderNewForm.inc" %>
-        </td>
-    </tr>
-      </tr> 
-		<div id="menuDiv">
-     		<%@ include file="../include/includeMenu.jsp" %> 
-     	</div>
-	  <tr>
-    <tr>
+     
         <td class="ui-widget-content ui-corner-all" colspan="10">
             <table width="100%">
                 <tr>

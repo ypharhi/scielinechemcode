@@ -116,7 +116,7 @@
                 initWaitMessageDiv(); // init wait message
                 getFormTypeValues("formType");
                 $('#pageTitle').html("Form Builder Main");
-                $('#pageSubTitle').html("Form Builder Main");
+                $('#pageSubTitle').css("display","none");
                 $("button").button();
                 // init datatable
                 var table = $('#table').DataTable({
@@ -684,22 +684,21 @@
     <body>
         <form style="display:none;" action="" method="post" id="builderModal"></form>
         <form style="display:none;" action="" method="get" id="viewConnectionLogForm"></form>
-        <!-- move to form builder page -->
-        <table style="width: 100%; text-align: center;">
-            <tr>
-                <td>
-                    <%@ include file="PageHeaderNewForm.inc"%>
-                </td>
-            </tr>
-            </tr>
-				<div id="menuDiv">
-		      		<%@ include file="../include/includeMenu.jsp" %> 
-		      	</div>
-			<tr>
-            <!-- <tr>
-                <td style="line-height:40px;">&nbsp;
-                </td>
-            </tr>  -->            
+		<div id="menuDiv">
+			<div id="dropDownMenuBar" class="sub-header"
+				style="width: 100%; text-align: left; float: left; position: relative;">
+				<div style="float: left; position: relative; width: 95%;">
+					<%=((String) session.getAttribute("MAIN_MENU")).replace("@@STATEKEY_HOLDER@@",
+						request.getParameter("stateKey"))%>
+				</div>
+				<div id="divIconQRCode" style="float: right;" class="QR_code">
+					<span onclick="openSearchLabelDialog(this);return false;"></span>
+				</div>
+			</div>
+		</div>
+		<%@ include file="PageHeaderNewForm.inc"%>
+
+		<table style="width: 100%; text-align: center;">         
 			<tr><td colspan="10" style="text-align:right;font-size: 10pt;"><a href="#" id="spnLogConnection" onclick="viewConnectionLog()">view connection log</a></td></tr>
             <tr>
                 <td class="ui-widget-content ui-corner-all" colspan="10">
