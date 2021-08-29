@@ -1534,16 +1534,16 @@ function initForm() {
 			}
 		});
 	}
-	if(_formCode == 'DynamicReport') { // made for prigat demo that passes demoCall=1 in the URL
-		var url_ = url();
-		if(url_.indexOf("&demoCall=1") > 0) {
-//			window.open("http://localhost:8080/Adama/skylineForm/initid.request?formCode=DynamicReport&formId=-1&userId=288758&stateKey=1616410528906&demoCall=1&skylineUserName=Irit");
-			$('#dropDownMenuBar').css('display','none');
-			$('#tdIncludeBreadcrumbJsp').css('visibility','hidden');
-			var urlParams = new URLSearchParams( window.location.search);
-			$('.user-name').html(urlParams.get('skylineUserName'));
-		}
-	}
+//	if(_formCode == 'DynamicReport') { // made for prigat demo that passes demoCall=1 in the URL
+//		var url_ = url();
+//		if(url_.indexOf("&demoCall=1") > 0) {
+////			window.open("http://localhost:8080/Adama/skylineForm/initid.request?formCode=DynamicReport&formId=-1&userId=288758&stateKey=1616410528906&demoCall=1&skylineUserName=Irit");
+//			$('#dropDownMenuBar').css('display','none');
+//			$('#tdIncludeBreadcrumbJsp').css('visibility','hidden');
+//			var urlParams = new URLSearchParams( window.location.search);
+//			$('.user-name').html(urlParams.get('skylineUserName'));
+//		}
+//	}
 	if(_formCode == 'MultiAddRows'){
 		$('#rowQuantity').focus();
 	}
