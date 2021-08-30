@@ -206,7 +206,10 @@
 		        //printInfo.rowEnd();
 		        //printInfo.columnEnd();
 		       // printInfo.showGridLine(true);
-		        //printInfo.showRowHeader(false);
+		       	printInfo.showColumnHeader(false);
+		        printInfo.showRowHeader(false);
+		      //  printInfo.fitPagesWide(20);
+		      //  printInfo.fitPagesTall(20);
 		        sheet.printInfo(printInfo);
 		      	workBook.print(workBook.getActiveSheetIndex());
 		      	
@@ -232,6 +235,10 @@
 		        printInfo.rowEnd(currSel.row + currSel.rowCount - 1);
 		        printInfo.columnEnd(currSel.col + currSel.colCount - 1);
 		        printInfo.useMax(false);//whether to print only rows and columns that contain data.
+		        printInfo.showColumnHeader(false);
+		        printInfo.showRowHeader(false);
+		       // printInfo.fitPagesWide(1);
+		       // printInfo.fitPagesTall(1)
 		        sheet.printInfo(printInfo);
 		        workBook.print(workBook.getActiveSheetIndex());
 		    }
