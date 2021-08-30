@@ -5235,7 +5235,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					String manualMaterial = generalUtil.getNull(sampleMaterialPair.getString("Unknown Materials"));
 					String selectedMaterial = generalUtil.getNull(sampleMaterialPair.getString("Material"));					
 					String materialName = manualMaterial.isEmpty()?selectedMaterial:manualMaterial;
-					String material_id = formDao.getFromInfoLookup("invitemmaterial", LookupType.NAME, materialName , "id");//in this part of code, the temporary material probably created, thus the id already exists
+					String material_id = generalDao.selectSingleString("select distinct invitemmaterial_id from fg_s_invitemmaterial_all_v where invitemmaterialname = '"+materialName+"' and MaterialStatusName <> 'Cancelled'");//in this part of code, the temporary material probably created, thus the id already exists
 					String resultValue = generalUtil.getNull(sampleMaterialPair.getString("value") );
 					String uom = generalUtil.getNull(sampleMaterialPair.getString("Uom"));
 					String resultCommnent = generalUtil.getNull(sampleMaterialPair.getString("comment"));
