@@ -170,13 +170,15 @@ public class ElementInputImp extends Element {
 				attributes += " realvalue=\"" + value + "\" ";
 				attributes += "onkeypress=\"if(event.keyCode > 47 && event.keyCode < 58){ }else return false;\" ";
 			} else {
+				boolean isDouble = generalUtil.getNull(numericType).equals("Double");
+				//if isDouble The number is a Double else (default) the number Double >=0
 				attributes = " class=\"" + disabled + "\"  precision=\"" + precision + "\" ";	
 				if(!generalUtil.getNull(min).toLowerCase().equals("na")) {
-					attributes += (min.equals("") ? ((parentMin.equals("")) ? " min=\"0\" ":" min=\"" + parentMin + "\" ") : " min=\"" + min + "\" ");
+					attributes += (min.equals("") ? ((parentMin.equals("")) ? " min=\"" + (isDouble?"":"0") + "\" ":" min=\"" + parentMin + "\" ") : " min=\"" + min + "\" ");
 				}
 				attributes += (max.equals("") ? ((parentMax.equals("")) ? "":" max=\"" + parentMax + "\" ") : " max=\"" + max + "\" ");
 				attributes += " realvalue=\"" + value + "\" ";
-				attributes += "onkeypress=\"if(event.keyCode == 46 || event.keyCode== 101 ||(event.keyCode > 47 && event.keyCode < 58)){ }else return false;\" ";
+				attributes += "onkeypress=\"if(" + ((isDouble)?"event.keyCode == 45 ||":"") + " event.keyCode == 46 || event.keyCode== 101 ||(event.keyCode > 47 && event.keyCode < 58)){ }else return false;\" ";
 				if (!value.equals("") && !precision.equals("")) {
 					// int integerPlaces = value.indexOf('.');
 					// int decimalPlaces = value.length() - integerPlaces - 1;
@@ -375,8 +377,8 @@ public class ElementInputImp extends Element {
 				"		   },\r\n" +
 				"	numericType:{  \n" + 
 				"		      type:'string',\n" + 
-				"		      title:'Numeric Type (considerable if the input type is Number)',\n" + 
-				"		      'enum':['','Integer','Natural'] \n" + 
+				"		      title:'Numeric type (input type is Number - Non negtive Double if empty)',\n" + 
+				"		      'enum':['','Integer','Natural','Double'] \n" + 
 				"		   },\r\n" +
 				" isCalculated : {\n" +
 				"	type : 'string',\n" +
