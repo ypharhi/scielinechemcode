@@ -93,6 +93,7 @@ var ElementRichTextEditorImp = {
 			}
 			if(_removeButtonList.indexOf('insert')==-1){
 				_toolBar.push(['insert', ['link', 'picture']]);
+				_toolBar.push(['insert', ['ltr','rtl']]);
 			}
 			if(_removeButtonList.indexOf('view')==-1){
 				_toolBar.push(['view', [, 'undo', 'redo', 'codeview']]);//'fullscreen'
@@ -109,6 +110,7 @@ var ElementRichTextEditorImp = {
 					['para', ['ul', 'ol', 'paragraph','height']],
 					['table', ['table']],
 					['insert', ['link', 'picture']],
+					['insert',['ltr','rtl']],
 					['view', ['fullscreen', 'undo', 'redo', 'codeview', 'help']] // for develop use
 				 ];*/
 				

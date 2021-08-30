@@ -25,4 +25,5 @@
 			padding-right: 30px;
 		}
 	</style>
-	<script defer src="../skylineFormWebapp/js/summernote/summernote-lite.min.js" type="text/javascript"></script>
+	<script defer src="../skylineFormWebapp/js/summernote/summernote-lite.min.js" type="text/javascript"></script>	
+	<script defer src="../skylineFormWebapp/js/summernote/summernote-ext-rtl.js" type="text/javascript"></script>

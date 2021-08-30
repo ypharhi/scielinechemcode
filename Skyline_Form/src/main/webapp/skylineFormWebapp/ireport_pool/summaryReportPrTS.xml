@@ -126,7 +126,7 @@
 		<group  name="S2" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="247"  isSplitAllowed="true" >
+			<band height="225"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="278"
@@ -438,19 +438,6 @@
 						<font fontName="SansSerif" pdfFontName="Helvetica" isBold="true" isItalic="false"/>
 					</textElement>
 				<text><![CDATA[Sample Number:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="222"
-						width="113"
-						height="15"
-						key="staticText-32"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true"/>
-					</textElement>
-				<text><![CDATA[Short Description:]]></text>
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
