@@ -441,42 +441,8 @@
 
 	<div class="body-container-wrapper"> 
 	<div class="sticky-menu-header" >
-	
-
-
-	<header class="top-bar" style="width: 100%;">
+	    <%@ include file="./PageHeaderJsoTemplateFormInStickyHeader.inc" %>
 		
-			<div class="top-bar-left">
-		
-				<a id="homePageHeaderJspTempalte" href='../<%= session.getAttribute("homePage") %>'>
-					<img src="../skylineFormWebapp/images/skyline_logo.png" border="0" title="Main Menu" style="margin-top: 3px;">
-				</a>
-		
-			</div>
-		
-			<div class="top-bar-right">
-		
-				<ul class="menu">
-		
-					<li class="menu-text">
-						<span class="user-avatar">
-							<img src="../skylineFormWebapp/images/icon-user.png">
-						</span>
-						<span class="user-name">${userName}</span>
-					</li>
-		
-					<li>
-						<a href="#" onclick="Logout()">
-							<img src="../skylineFormWebapp/images/icon-logout.png" title="Logout"/>
-						</a>
-					</li>
-		
-				</ul>
-		
-			</div>
-		</header>
-
-
 		<div id="dropDownMenuBar" class="sub-header" style="width:100%;text-align: left;float: left;position: relative;">
 			<div style="float: left;position: relative;width: 95%;">
 				<%= ((String)session.getAttribute("MAIN_MENU")).replace("@@STATEKEY_HOLDER@@", request.getParameter("stateKey")) %>
