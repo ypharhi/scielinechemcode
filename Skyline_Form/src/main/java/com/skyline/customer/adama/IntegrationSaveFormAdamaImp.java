@@ -5211,7 +5211,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					//if(!resultValue.isEmpty()) {
 						if(!manualMaterial.isEmpty()) {
 							JSONObject currentNewCell = new JSONObject(sampleMaterialPair.toString());
-							String material_id = formDao.getFromInfoLookup("invitemmaterial", LookupType.NAME, manualMaterial, "id");
+							String material_id = generalDao.selectSingleString("select distinct invitemmaterial_id from fg_s_invitemmaterial_all_v where invitemmaterialname = '"+manualMaterial+"' and MaterialStatusName <> 'Cancelled'");
 							currentNewCell.put("material_id", material_id);
 							arr.put(i, currentNewCell);
 						}
