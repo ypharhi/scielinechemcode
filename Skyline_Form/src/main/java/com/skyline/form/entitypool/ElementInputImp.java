@@ -377,7 +377,7 @@ public class ElementInputImp extends Element {
 				"		   },\r\n" +
 				"	numericType:{  \n" + 
 				"		      type:'string',\n" + 
-				"		      title:'Numeric type (specific Number type [Non negtive Double if empty])',\n" + 
+				"		      title:'Numeric type (when type is number, define a specific Number type [Non negtive Double if empty])',\n" + 
 				"		      'enum':['','Integer','Natural','Double'] \n" + 
 				"		   },\r\n" +
 				" isCalculated : {\n" +
