@@ -93,6 +93,8 @@ var ElementRichTextEditorImp = {
 			}
 			if(_removeButtonList.indexOf('insert')==-1){
 				_toolBar.push(['insert', ['link', 'picture']]);
+			}
+			if(_removeButtonList.indexOf('insertrtl')==-1){
 				_toolBar.push(['insert', ['ltr','rtl']]);
 			}
 			if(_removeButtonList.indexOf('view')==-1){
