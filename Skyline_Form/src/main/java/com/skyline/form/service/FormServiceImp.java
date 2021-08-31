@@ -36,8 +36,6 @@ import com.skyline.form.dal.GeneralDao;
 //import com.skyline.form.dal.FormDao;
 import com.skyline.form.entity.Element;
 
-import chemaxon.jchem.cartridge.sharedorajcsrv.Debug;
-
 @Service
 //@Scope(value = "session", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class FormServiceImp implements FormService {
@@ -108,6 +106,16 @@ public class FormServiceImp implements FormService {
  
 		boolean isNewFormId = (isNew == null || isClone) ? isNewFormId(formCode, formId) : isNew;
 		
+		//skipAuthz for admin and system by url parameter
+		boolean skipAuthz = false;
+		String isSkipAuthz[] = requestMap.get("isSkipAuthz");
+		if (isSkipAuthz != null) {
+			String userName = generalUtil.getSessionUserName();
+			if((userName.equals("system") || userName.equals("admin"))) {
+				skipAuthz = isSkipAuthz[0] != null && isSkipAuthz[0].equals("1");
+			}
+		}
+		
 		Map<String, String> permissionMap = generalUtilPermission.getPermissionMap(userId, formCode,
 				isNewFormId ? "-1" : generalUtil.getNull(formId, "-1"), "specificResponse", "initForm");
 		if (!generalUtil.getNull(permissionMap.get("PERMISSION_ACCESS")).toLowerCase().contains("r")) {
@@ -137,7 +145,7 @@ public class FormServiceImp implements FormService {
 		generalUtilFormState.setFormParam(stateKey, formCode, permissionMap);
 		
 		//Render Form
-		Map<String, String> formEntityHtmlCodeMap = renderFormInit(stateKey, formCode, formId);
+		Map<String, String> formEntityHtmlCodeMap = renderFormInit(stateKey, formCode, formId, skipAuthz);
 		
 		//stataeKey
 		formEntityHtmlCodeMap.put("stateKey", String.valueOf(stateKey));
@@ -571,9 +579,19 @@ public class FormServiceImp implements FormService {
 
 		//form value -> from user selection
 		generalUtilFormState.setFormValue(stateKey, formCode, initElementValueMapByBeanList(dataBeanList));
+		
+		//skipAuthz for admin and system by url parameter
+		boolean skipAuthz = false;
+		String isSkipAuthz = generalUtilFormState.getFormParam(stateKey, formCode, "$P{ISSKIPAUTHZ}");
+		if (isSkipAuthz != null) {
+			String userName = generalUtil.getSessionUserName();
+			if(userName.equals("system") || userName.equals("admin")) {
+				skipAuthz =isSkipAuthz != null && isSkipAuthz.equals("1");
+			}
+		}
 
 		Map<String, String> formEntityHtmlCodeMap = renderFormAjax(stateKey, formId, formCode,
-				generalUtil.getNull(action));
+				generalUtil.getNull(action), skipAuthz);
 
 		return new ActionBean("no action needed", mapToList(formEntityHtmlCodeMap), "");
 	}
@@ -584,7 +602,7 @@ public class FormServiceImp implements FormService {
 		return null;//TODO V>9.6 IREPORT
 	}
 
-	private Map<String, String> renderFormInit(long stateKey, String formCode, String formId) {
+	private Map<String, String> renderFormInit(long stateKey, String formCode, String formId, boolean skipAuthz) {
 
 		//init renderForm
 		Map<Integer, List<Element>> elementMapTree = generalUtilFormState.getElementMapTree(stateKey, formCode);
@@ -734,10 +752,12 @@ public class FormServiceImp implements FormService {
 		//      generalUtilFormState.geta
 
 		//invoke authorizationElement in the end
-		Element authorizationElement = generalUtilFormState.getAuthorizationElement(stateKey, formCode);
-		if (authorizationElement != null) {
-			formEntityHtmlCodeMap.putAll(authorizationElement.getInitHtml(stateKey, formId, false, "", "",
-					authorizationElement.getImpCode(), getFormElementAttr(authorizationElement), ""));
+		if(!skipAuthz) {
+			Element authorizationElement = generalUtilFormState.getAuthorizationElement(stateKey, formCode);
+			if (authorizationElement != null) {
+				formEntityHtmlCodeMap.putAll(authorizationElement.getInitHtml(stateKey, formId, false, "", "",
+						authorizationElement.getImpCode(), getFormElementAttr(authorizationElement), ""));
+			}
 		}
 
 		return formEntityHtmlCodeMap;
@@ -762,7 +782,7 @@ public class FormServiceImp implements FormService {
 	}
 
 	private Map<String, String> renderFormAjax(long stateKey, String formId, String formCode,
-			String currentElementCode) {
+			String currentElementCode, boolean skipAuthz) {
 
 		//init renderForm
 		Map<String, String> formEntityHtmlCodeMap = new HashMap<String, String>();
@@ -994,13 +1014,18 @@ public class FormServiceImp implements FormService {
 		//      System.out.println("FormServiceMultiRoot renderForm state summary currentElementCode=" + currentElementCode + ":\n" + generalUtilFormState.getSummary(stateKey, formCode));
 
 		//invoke guthorizationElement in the end
-		Element authorizationElement = generalUtilFormState.getAuthorizationElement(stateKey, formCode);
-		if (authorizationElement != null) {
+		if(!skipAuthz) {
+			Element authorizationElement = generalUtilFormState.getAuthorizationElement(stateKey, formCode);
+			if (authorizationElement != null) {
 
-			formEntityHtmlCodeMap.put(authorizationElement.getImpCode(),
-					authorizationElement.getHtmlBody(stateKey, formId, false, lastsSelectedValue,
-							authorizationElement.getImpCode(), getFormElementAttr(authorizationElement), ""));
+				formEntityHtmlCodeMap.put(authorizationElement.getImpCode(),
+						authorizationElement.getHtmlBody(stateKey, formId, false, lastsSelectedValue,
+								authorizationElement.getImpCode(), getFormElementAttr(authorizationElement), ""));
+			}
 		}
+		
+		
+		
 		String userName = generalUtil.getSessionUserName();
 		if (userName.equals("system")) {
 			formEntityHtmlCodeMap.put("UPDATED_INFO_ONAJAXCHANGE", updatedInfo.toString());
