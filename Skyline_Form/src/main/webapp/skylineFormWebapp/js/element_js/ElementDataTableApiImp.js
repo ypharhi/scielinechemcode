@@ -3122,14 +3122,18 @@ function smartRender(object, followingHiddenCols, domId, savedObject, isTableRes
 			                        		}
 			                        		else if(o.htmlType == 'richtext')
 			                        		{
-			                        			width = (o.width !== undefined)?o.width:"100%";		
+			                        			width = (o.width !== undefined)?o.width:"90%";		
 			                        			var tooltip = (o.tooltip !== undefined)?o.tooltip:o.displayName;     
 			                        			var isContenteditable = (o.isDisabled !== undefined && o.isDisabled == "true")?false:true;
 			                        			if(isContenteditable) {
-			                        				cellData = '<div rowId="'+rowId+'" class="editableSmartCell richtext  ' + ignorDataChange + '" '
-	                        						+' style="width:'+width+';" '
-		                        					+'  onclick="openRichtextContent(this,event,\''+domId+'\', \''+col+'\', \''+row+'\',\''+formCode+'\',\''+dbColumnName+'\');" '
-		                        					+'  onchange="'+onChangeFunc+'" '
+			                        				cellData = '<div contenteditable="true" rowId="'+rowId+'" class="editableSmartCell richtext contentEditableMarker ' + ignorDataChange + '" '
+	                        						+' style="width:'+width+';float:left;" '
+		                        				//	+'  onclick="openRichtextContent(this,event,\''+domId+'\', \''+col+'\', \''+row+'\',\''+formCode+'\',\''+dbColumnName+'\');" '
+		                        					//+' onchange="'+onChangeFunc+'" '
+		                        					+' onblur="'+onChangeFunc+'" '
+		                        					//+' onclick="'+onChangeFunc+'"'
+		                        					//+' onkeydown="'+onChangeFunc+'"'
+		                        					//+' onpaste="'+onChangeFunc+'"'
 		                        					+' plainTextValue="" '
 		                        					+' oldValue=""'
 		                        					+' title="'+tooltip+'" '
@@ -3139,7 +3143,8 @@ function smartRender(object, followingHiddenCols, domId, savedObject, isTableRes
 		                        					+ isDisabled
 		                        					+'>'
 		                        					+  o.displayName
-		                        					+'</div>';
+		                        					+'</div>'
+		                        					+ '<i class="fa fa-expand ignor_data_change" style="float: right;width:10%" onclick="openRichtextContent(this.previousElementSibling,event,\''+domId+'\', \''+col+'\', \''+row+'\',\''+formCode+'\',\''+dbColumnName+'\');">';
 			                        				$(td).addClass('editableSmartCellParent');
 			                        			} else {
 			                        				cellData = o.displayName;
@@ -3725,7 +3730,10 @@ function onChangeTableCell(htmlObj, domId, rowInx, origColInx, paramsObj)
 	else if(htmlType == 'richtext')
 	{
 		htmlRichTextValue = $.trim($htmlObj.html());
-		plainTextRichTextValue = $.trim($htmlObj.attr('plainTextValue')); 				
+		plainTextRichTextValue = $.trim($htmlObj.attr('plainTextValue')); 
+		if(plainTextRichTextValue==""){
+			plainTextRichTextValue = $.trim($htmlObj.text());
+		}
 		richTextValueForFilter = plainTextRichTextValue.replace(/\n/g, " ");  //replace new line with empty space for filter
 		newVal = htmlRichTextValue;
 		var legals = "apostrophe";
@@ -4356,7 +4364,8 @@ function setNewCellDataRichText()
 	
 	txtAreaObj.attr('oldValue',txtAreaObj.html());
 	txtAreaObj.attr('plainTextValue',newCellData_text);
-	txtAreaObj.html(newCellData_html).trigger('change');	
+	txtAreaObj.html(newCellData_html).trigger('change');
+	txtAreaObj.trigger('blur');
 	toggleFocusToTablecell($(table.cell(row, colInd).node()), false);
 }
 

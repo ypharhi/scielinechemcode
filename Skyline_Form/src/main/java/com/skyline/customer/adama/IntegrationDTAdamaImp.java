@@ -3125,6 +3125,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 							Arrays.asList(onChangeColumnName), onChangeFormId);
 					return update;
 				} else if (saveType.equals("richtext")) {
+					String toReturn = "{}";
+					
+					if(onChangeColumnName.equalsIgnoreCase ("Observation")) {
 					// 280119 task 24013
 					sql = "update FG_S_ACTION_PIVOT set startdate= to_char( sysdate, '"
 							+ generalUtil.getConversionDateFormat() + "'),enddate =  to_char( sysdate, '"
@@ -3134,7 +3137,6 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					update = formSaveDao.updateStructTableByFormId(sql, "FG_S_Action_PIVOT",
 							Arrays.asList("startdate", "enddate", "starttime"), onChangeFormId);
 
-					String toReturn = "{}";
 					if (update.equals("1")) {
 						// task: return updated dates
 						List<Map<String, Object>> listOfMap = generalDao.getListOfMapsBySql(
@@ -3145,6 +3147,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								+ data.get("ENDDATE") + "\"," + "\"STARTTIME\":\"" + data.get("STARTTIME") + "\" "
 								+ "}";
 					}
+				}
 
 					onChangeColumnVal = formSaveElementDao.saveRichText(formCode,
 							new DataBean(onChangeColumnName, onChangeColumnVal, BeanType.CLOB, ""), true);
