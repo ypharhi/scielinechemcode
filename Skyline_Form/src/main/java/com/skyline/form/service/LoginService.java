@@ -160,7 +160,8 @@ public class LoginService { // TODO interface FormService and this should be For
 		String href = "";
 		boolean hasChild = false;
 		String css = "";
-		double dynamicPadding = 0.0;
+		String styleMain = "style='padding-left:10px;'";
+		String styleChild = "";
 		int listSize;
 		
 		try 
@@ -170,17 +171,12 @@ public class LoginService { // TODO interface FormService and this should be For
 			toReturn.append("<ul class=\"main-navbar dropdown menu\" data-dropdown-menu>");
 			listSize = listOfScreens.size()+1;
 			
-			if(listSize < 5)
-			{
-				dynamicPadding = 2;
-			}
-			else if(listSize <= 8)
-			{
-				dynamicPadding = 100.0/(listSize*5);
-			}
-			else
-			{
-				dynamicPadding = 100.0/(listSize*10);
+			if (listSize < 5) {
+				styleMain = "style='padding-left:60px;'";
+			} else if (listSize <= 8) {
+				styleMain = "style='padding-left:40px;'";
+			} else {
+				styleMain = "style='padding-left:10px;'";
 			}
 			
 			for(Map.Entry<String, List<JSONObject>> row: listOfScreens.entrySet())
@@ -258,12 +254,13 @@ public class LoginService { // TODO interface FormService and this should be For
 					
 					//css+=" onclick=\" return confirmWithOutSaveMainMenu();\"";
 					String onClick = " onclick=\" confirmWithOutSaveMainMenu("+href+");\"";
+					String style_ = !order.equals("0") ? styleChild :styleMain;
 					if(!order.equals("0") && !hasChild && rowData.size() > 1)
-					{						
+					{
 						toReturn.append("<ul class=\"menu is-dropdown-submenu\" style=\"z-index:500\">");
 						hasChild = true;
 					}
-					toReturn.append("<li "+css+" style='padding-left:"+dynamicPadding+"%;'>").append("<a ").append("href='#' "+onClick+ " >").append(o.optString("sub_category")).append("</a>");
+					toReturn.append("<li "+css + style_ +  ">").append("<a ").append("href='#' "+onClick+ " >").append(o.optString("sub_category")).append("</a>");
 					if(!subChild.toString().isEmpty())
 					{
 						toReturn.append(subChild);
@@ -285,7 +282,7 @@ public class LoginService { // TODO interface FormService and this should be For
 			
 			//User guide:
 			String userGuideLabel = (username != null && username.equalsIgnoreCase("system"))? "U-Guide":"User Guide"; //short label for system to avoid display in new line
-			toReturn.append("<li class=\"user-guide\" style='padding-left:"+dynamicPadding+"%;'>").append("<a href='#' >" + userGuideLabel + "</a>");
+			toReturn.append("<li class=\"user-guide\" " + styleMain + ">").append("<a href='#' >" + userGuideLabel + "</a>");
 			toReturn.append(generalUtilPermission.appendUserGuide(userId,username)); //fill user guide items
 			toReturn.append("</li>");
 			toReturn.append("</ul>");

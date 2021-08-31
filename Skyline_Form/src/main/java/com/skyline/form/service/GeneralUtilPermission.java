@@ -754,7 +754,7 @@ public class GeneralUtilPermission {
 		StringBuilder sbDocs = new StringBuilder();
 		Map<String,String> mapVideoOrder = new TreeMap<String,String>();
 		Map<String,String> mapDocOrder = new TreeMap<String,String>();
-		String liItemTemplate = "<li  style='padding-left:1.0%;'><a href='#' onclick=\" confirmWithOutSaveMainMenu('../skylineForm/init.request?formCode=UserGuideViewer&formId=-1&userId=@@USERID@@&stateKey=@@STATEKEY_HOLDER@@&userGuideId=@@USERGUIDEID@@');\" >@@NAME@@</a></li>";
+		String liItemTemplate = "<li><a href='#' onclick=\" confirmWithOutSaveMainMenu('../skylineForm/init.request?formCode=UserGuideViewer&formId=-1&userId=@@USERID@@&stateKey=@@STATEKEY_HOLDER@@&userGuideId=@@USERGUIDEID@@');\" >@@NAME@@</a></li>";
 		try {
 			List<Map<String, String>> userGuideInfo = generalUtilForm
 					.getCurrrentNameInfoAllContainsName("UserGuidePool", "%");
@@ -794,7 +794,7 @@ public class GeneralUtilPermission {
 		String userGuideHelpClick = "";
 		if (!generalUtil.getNull(helpUrl, "na").equals("na")) { // a
 			userGuideHelpClick = " onclick=\" openNewTab('" + helpUrl + "');\"";
-			helpUrlWrapper = "<li style='padding-left:1.0%;' class=\"is-submenu-item is-dropdown-submenu-item\" role=\"menuitem\" ><a href='#' "
+			helpUrlWrapper = "<li class=\"is-submenu-item is-dropdown-submenu-item\" role=\"menuitem\" ><a href='#' "
 			+ userGuideHelpClick + " >Get Help</a></li>";
 		}
 				
