@@ -121,7 +121,7 @@ public class CloneExperiment {
 			}
 			insertRef("TempGradientRef", sourceExperimentId, userId, "EXPERIMENT", experimentCloneId, null, null, "",
 					cloneType);
-			insertRef("Component", sourceExperimentId, userId, "EXPERIMENT", experimentCloneId, null, null, "",
+			insertRef("Component", sourceExperimentId, userId, "EXPERIMENT", experimentCloneId, null, null, "and MATERIALID not in (select invitemmaterial_id from fg_s_invitemmaterial_v m ,fg_s_materialstatus_v ms where status_id = ms.materialstatus_id(+) and nvl(ms.materialstatusname,'Active') = 'Cancelled')",
 					cloneType);
 			insertRef("EquipmentRef", sourceExperimentId, userId, "EXPERIMENT", experimentCloneId, null, null, "",
 					cloneType);
