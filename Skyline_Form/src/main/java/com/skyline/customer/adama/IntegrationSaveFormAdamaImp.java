@@ -5138,6 +5138,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				
 				//collect the materials,manual materials and the samples
 				Set<String> materialList = new LinkedHashSet<String>();
+				Set<String> materialCancelledList = new LinkedHashSet<String>();
 				Set<String> manualMaterialList = new LinkedHashSet<String>();
 				Set<String> sampleList = new LinkedHashSet<String>();
 				Set<String> resultTypeList = new LinkedHashSet<String>();
@@ -5156,12 +5157,16 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					String resultType = generalUtil.getNull(sampleMaterialPair.getString("Results Type")) ;
 					String uom = generalUtil.getNull(sampleMaterialPair.getString("Uom")) ;
 					String mw = generalUtil.getNull(sampleMaterialPair.getString("MW")) ;
+					String material_id = generalUtil.getNull(sampleMaterialPair.getString("material_id")) ;
 					if(material.isEmpty() && manualMaterial.isEmpty() || !material.isEmpty() && (sample.isEmpty() || resultValue.isEmpty() || resultType.isEmpty())) {
 						continue;
 					}
 					if(!resultValue.isEmpty()) {
 						if(!material.isEmpty()) {
 							materialList.add(material);
+							if(material_id.equals("-1")) {//if the material is chosen but no id  found, it means this material is cancelled(since it is in the saved data but not in the available list anymore)
+								materialCancelledList.add(material);
+							}
 						}
 						sampleList.add(sample);
 						resultTypeList.add(resultType);
@@ -5177,6 +5182,10 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				  //3. checks that the materials are valid, ie. all of them exist in the inventory
 				  integrationValidation.validate(ValidationCode.INVALID_MATERIAL_NAME,
 				  formCode, formId, materialList, new StringBuilder());
+				  
+				  //3. checks that the materials are not cancelled
+				  integrationValidation.validate(ValidationCode.CHECK_CANCELLED_MATERIALS,
+				  formCode, formId, materialCancelledList, new StringBuilder());
 				  
 				  //4.checks that the result types are valid, ie. all of them exist in the result type maintenance
 				  integrationValidation.validate(ValidationCode.INVALID_RESULT_TYPE, formCode,

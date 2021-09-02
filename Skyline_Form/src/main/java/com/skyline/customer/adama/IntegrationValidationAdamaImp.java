@@ -1157,6 +1157,16 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 					throw new Exception(getMessage(validationCode, new Object[] { generalUtil.listToCsv(returnCsv) }, validateValueObject));
 				}
 				break;
+			} case CHECK_CANCELLED_MATERIALS:{
+				List<String> materialList = null;
+				if(validateValueObject instanceof LinkedHashSet<?>) {
+			       // materialList = Arrays.asList((String[])validateValueObject);
+					materialList = new ArrayList<String>((LinkedHashSet<String>) validateValueObject);
+				}
+				if(materialList.isEmpty()) {
+					break;
+				}
+				throw new Exception(getMessage(validationCode, new Object[] { generalUtil.listToCsv(materialList) }, validateValueObject));
 			} case INVALID_RESULT_TYPE:{
 				List<String> resultTypeList = null;
 				if(validateValueObject instanceof LinkedHashSet<?>) {

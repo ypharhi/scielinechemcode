@@ -7168,7 +7168,7 @@ public void preperReport(Map<String, String> elementValueMap) {
 			}
 		}
 		
-		//Material list -> taken from all the materials in the system
+		//Material list -> taken from all the materials in the project
 		String project_id = formDao.getFromInfoLookup("experiment", LookupType.ID, parentId, "PROJECT_ID");
 		String sql = "select distinct * from\n"
 				+ "(select ID,NAME,MW\n"
