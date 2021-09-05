@@ -38,7 +38,7 @@
 		}
 		
 		.format-painting {
-			background-image: url("../images/paint-brush.png")
+			background-image: url("../images/artist.png")
 		}
 	</style>
 	
