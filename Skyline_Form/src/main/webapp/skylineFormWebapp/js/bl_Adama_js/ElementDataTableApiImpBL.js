@@ -284,7 +284,7 @@ function elementDataTableApiImpBL(domId) {
 	   			//.('<a class="" tabindex="0" aria-controls="reportTable" href="#"><span>PDF</span></a>');
 	   if($('#formCode').val() == 'ExperimentReport') {
 		  collectUOMtoColumnTitle(domId,'$U');
-		   $('#reportTable_wrapper').css('display','inline-table');
+		   //$('#reportTable_wrapper > .dropdown-button').css('float','left');
 	   }
    }else if((domId == 'rulesTable' || domId == 'separateColumnsRulesTable') && $('#formCode').val() == 'ExperimentReport'){
 	   $('#'+domId+'_Parent').css({"padding-bottom":"105px"});//padding-bottom because of ddl in edit tables
@@ -1164,6 +1164,11 @@ function elementDataTableApiImpBL(domId) {
 				});
 	   
  }
+   if(($('#formCode').val() == 'ExperimentReport' && domId == 'reportTable')
+		   ||($('#formCode').val() == 'Experiment' && (domId == 'experimentResults'|| domId =='selfTestResults'))
+		   || $('#formCode').val() == 'ExperimentFor' && (domId == 'experimentResults'|| domId =='selfTestResults')){
+	   $('#'+domId+'_wrapper > .dropdown-button').css('float','left');//task 26594
+   }
    return true;
 }
 
