@@ -130,7 +130,9 @@ var ElementRichTextEditorImp = {
 					maxHeight: null,             // set maximum height of editor
 					callbacks: {
 					    onChange: function(contents, $editable) {
-					    	prop.dataChanged = true;
+					    	if($element.attr('id') != 'tablecellRichtextInstance' || $("#divPopupRichText").dialog('isOpen') == true){//if the event has been fired by the richtext popup opening in the editable table->then no need to update the datachanged property yet
+					    		prop.dataChanged = true;
+					    	}
 					    	$element.attr('is_changed_flag','1');
 					    	console.log('onChange:', contents, $editable);
 					    },
