@@ -36,6 +36,10 @@
 		.insert-text-box {
 			background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAD4AAAAzCAYAAADPX7uaAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAALmSURBVGhD7ZpfSFNRHMe/jhk6y00tsbLagw3RB3NQSEl/noxRRMSe+kPv0UMQ9RQIPRVBT71L1EsREcVICPJBhyRMfVDGWmVLUyzdpjYNh2u/47kYsdzdw/nd6NwPXM7vnN+543y5d/f7O7srC4fDOWhIWS6PjLXCIVvtsIXrhi1cN2zhumHaxx8Of5MR4K504kxzjexZw4toEunlrOwBl9p3yMgcpoXvuxeREdC8vQK9l1tkzxq6esYR/b4ie8Dn634ZmaMk4d3Hd2FkJoP+6CQqnt+UGWtYOXsHnc2NONDgQnffV7XCG6vLsZzNwe1cw62meZmxhtvxWqSzDlQ6yzC5sKpO+LXQBAYHB+HxeNDpb8WNIw0yYw13B2bQHxlDKpVCR0cH7ge8MmMO0091+uC22bcIlMcsF03QGmgttKZSRRO2j+uGJcKDTz7g1OP3smcN7MIfvJvF8HRGeDDFVsEufGgqgzqXE65yB/omFuUoP6zCPyV/oj+xCP9OV/6oEleexqyAVfjT8aRoAz4PzrWu1/o9I3Oi5YZVeCiWEtXfaZ9bHHTLv46nZZYXNuEvY2lRWh7zVssR4GSTG3OZrMhxwyacrjbR1bQh3Iifja1/BThhEz6QWEJ7/qF2eM9WOQIR0xY3Mv1DjvDBIpz8OrO6hoO7q+TIBke920SONh2csAgnvybfLrS5CbbUiNzQFO9VVy6cfJr8mqAy9c/jaighcjQn/GVJxBwoF2749F73FtEWwsj1xhdEy4Fy4eTT5Nevzu/f9OD2dKXCyZ/Jp6lELQbNobmPRnkqOaXCDX++2FYn2s0w5rz5yLNxUSqc/JlK1N+9+2/QHJpL53BsXJQJp1uWHlq0ITFLsLVWnEPFjmqUCb+Qv3XpoVXKD5NXDtWLc+hc1Si91f9lbOHFoBcKo/UnEFr1sdfVhaA10FpoTbS2UrFfIRVD65eGBlq9Jtb2jwH/G7ad6YYtXDds4bqhqXDgFyNKW4+1hn87AAAAAElFTkSuQmCC')
 		}
+		
+		.format-painting {
+			background-image: url("../images/paint-brush.png")
+		}
 	</style>
 	
 	<script type="text/javascript">
@@ -46,6 +50,8 @@
 	var isToolBarDisplay=[];
 	var isDisabled = [];//an array of all the excel objects when each cell mentions whether it's disabled or not
 	var outputData = []; // contains the custom output fof the spreadsheet
+	var fromRange = [];
+	var isFormatPainting = []; 
 	
 		function onLoadIframeSpreadsheet(domId,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey){
 			GC.Spread.Sheets.LicenseKey = SpreadSheetsLicenseKey;
@@ -63,6 +69,7 @@
 			this.isToolBarDisplay[domId] = isToolBarDisplay;
 			this.isDisabled[domId] = isDisabled;
 			this.outputData[domId] = outputData;
+			isFormatPainting[domId] = false;
 			var workBook = designer[domId].getWorkbook();
 			workBook.fromJSON(getJsonWrapper(data));
 			//parent.console.log(data);
@@ -118,6 +125,34 @@
 					}
 				}
 			});
+			
+			workbook.commandManager().register('formatting', {
+				canUndo: true,
+				execute: function (workbook, options, isUndo) {
+					var Commands = GC.Spread.Sheets.Commands;
+					var sheet = workbook.getSheetFromName(options.sheetName);
+					var selectionRange = options.selectionRange;
+					if (isUndo) {
+						Commands.undoTransaction(workbook, options);
+						return true;
+					} else {
+						if (selectionRange.length > 1) {
+						    alert("Could not apply to multi selection ranges");
+						    return;
+						  }
+						  if (isFormatPainting[domId]) {
+						    resetFormatPainting(domId);
+						    return;
+						  }
+						  fromRange[domId] = selectionRange[0];
+						  isFormatPainting[domId] = true;
+					}
+				}
+			});
+		}
+		
+		function resetFormatPainting(domId) {
+			isFormatPainting[domId] = false;
 		}
 		
 		function getConfig(domId) {
@@ -158,91 +193,112 @@
 		}
 		
 		function updateHomeTab(config,domId) {
-		  var homeTab = config.ribbon.find(function(r){return r.id === 'home';});
-		  // add save option
-		  var customBtn = {
-		    label: 'Print',
-		    thumbnailClass: '',
-		    commandGroup: {
-		      children: [
-		        {
-		          direction: 'vertical',
-		          commands: ['print']
-		        }
-		      ]
-		    }
-		  };
-		  homeTab.buttonGroups = [customBtn, ...homeTab.buttonGroups];
+			config.commandMap = {
+					  formatPainting: {
+							title: "Format Painting",
+							text: "Format Painting",
+							iconClass: "format-painting",
+							bigButton: "true",
+							commandName: "formatPainting",
+							execute: function (context, propertyName) {
+								var workbook = context.getWorkbook();
+								var sheet = workbook.getActiveSheet();
+								var selectionRange = sheet.getSelections();
+								workbook.commandManager().execute({ cmd: 'formatting', sheetName: sheet.name(), selectionRange:selectionRange});
+							}
+						}
+					};
+			config.ribbon[0].buttonGroups[1].commandGroup.children.push({commands:["formatPainting"]});
+			
+			var homeTab = config.ribbon.find(function(r){return r.id === 'home';});
+			  // add save option
+			  var customBtn = {
+			    label: 'Print',
+			    thumbnailClass: '',
+			    commandGroup: {
+			      children: [
+			        {
+			          direction: 'vertical',
+			          commands: ['print']
+			        }
+			      ]
+			    }
+			  };
+			  homeTab.buttonGroups = [customBtn, ...homeTab.buttonGroups];
 		
-		  // add custom command too
-		  var commandMap = config.commandMap;
-		  if (!config.commandMap) {
-		    commandMap = config.commandMap = {};
-		  }
-		
-		  commandMap['print'] = {
-		    title: 'Print',
-		    text: 'Print',
-		    iconClass: 'fa fa-print fa-3x',
-		    bigButton: true,
-		    commandName: 'print',
-		    subCommands: ['printActiveSheet','printSelection']
-		  };
-		  
-		  commandMap['printActiveSheet'] = {
-		    title: 'Only print the active sheet',
-		    text: 'Print Active Sheet',
-		    //iconClass: 'icon-pdf',
-		    bigButton: false,
-		    commandName: 'printActiveSheet',
-		    execute: function(context, propName) {
-		      	var workBook = designer[domId].getWorkbook();
-		      	var sheet = workBook.getActiveSheet();
-				var sheetColumnCount = sheet.getColumnCount();
-				var sheetRowCount = sheet.getRowCount();
-		      	var printInfo = new GC.Spread.Sheets.Print.PrintInfo();
-		      	//printInfo.rowStart(0);
-		        //printInfo.columnStart(0);
-		        //printInfo.rowEnd();
-		        //printInfo.columnEnd();
-		       // printInfo.showGridLine(true);
-		       	printInfo.showColumnHeader(false);
-		        printInfo.showRowHeader(false);
-		      //  printInfo.fitPagesWide(20);
-		      //  printInfo.fitPagesTall(20);
-		        sheet.printInfo(printInfo);
-		      	workBook.print(workBook.getActiveSheetIndex());
-		      	
-		    }
-		  };
-		  
-		  commandMap['printSelection'] = {
-		    title: 'Only print the current selection',
-		    text: 'Print Selection',
-		    //iconClass: 'ribbon-thumbnail-cells',
-		    bigButton: false,
-		    commandName: 'printSelection',
-		    execute: function(context, propName) {
-		      	var workBook = designer[domId].getWorkbook();		      	
-		     	var sheet = workBook.getActiveSheet();
-		        var currSel = sheet.getSelections()[0];
-		        var printInfo = new GC.Spread.Sheets.Print.PrintInfo();
-
-		       // printInfo.bestFitColumns(true);
-
-		        printInfo.rowStart(currSel.row);
-		        printInfo.columnStart(currSel.col);
-		        printInfo.rowEnd(currSel.row + currSel.rowCount - 1);
-		        printInfo.columnEnd(currSel.col + currSel.colCount - 1);
-		        printInfo.useMax(false);//whether to print only rows and columns that contain data.
-		        printInfo.showColumnHeader(false);
-		        printInfo.showRowHeader(false);
-		       // printInfo.fitPagesWide(1);
-		       // printInfo.fitPagesTall(1)
-		        sheet.printInfo(printInfo);
-		        workBook.print(workBook.getActiveSheetIndex());
-		    }
-		  };
+			  // add custom command too
+			  var commandMap = config.commandMap;
+			  if (!config.commandMap) {
+			    commandMap = config.commandMap = {};
+			  }
+			
+			  commandMap['print'] = {
+			    title: 'Print',
+			    text: 'Print',
+			    iconClass: 'fa fa-print fa-3x',
+			    bigButton: true,
+			    commandName: 'print',
+			    subCommands: ['printActiveSheet','printSelection']
+			  };
+			  
+			  commandMap['printActiveSheet'] = {
+			    title: 'Only print the active sheet',
+			    text: 'Print Active Sheet',
+			    //iconClass: 'icon-pdf',
+			    bigButton: false,
+			    commandName: 'printActiveSheet',
+			    execute: function(context, propName) {
+			      	var workBook = designer[domId].getWorkbook();
+			      	var sheet = workBook.getActiveSheet();
+					var sheetColumnCount = sheet.getColumnCount();
+					var sheetRowCount = sheet.getRowCount();
+			      	var printInfo = new GC.Spread.Sheets.Print.PrintInfo();
+			      	var numOfSheetsToPrint = Math.floor(sheetColumnCount / 21)+1;
+			      	var numOfSheetsToPrintForRows = Math.floor(sheetRowCount / 21)+1;
+			      	//printInfo.rowStart(0);
+			        //printInfo.columnStart(0);
+			        //printInfo.rowEnd();
+			        //printInfo.columnEnd();
+			       // printInfo.showGridLine(true);
+			       	printInfo.showColumnHeader(false);
+			        printInfo.showRowHeader(false);
+			        printInfo.fitPagesWide(numOfSheetsToPrint);
+			        printInfo.fitPagesTall(numOfSheetsToPrintForRows);
+			        sheet.printInfo(printInfo);
+			      	workBook.print(workBook.getActiveSheetIndex());
+			      	
+			    }
+			  };
+			  
+			  commandMap['printSelection'] = {
+			    title: 'Only print the current selection',
+			    text: 'Print Selection',
+			    //iconClass: 'ribbon-thumbnail-cells',
+			    bigButton: false,
+			    commandName: 'printSelection',
+			    execute: function(context, propName) {
+			      	var workBook = designer[domId].getWorkbook();		      	
+			     	var sheet = workBook.getActiveSheet();
+			        var currSel = sheet.getSelections()[0];
+			        var printInfo = new GC.Spread.Sheets.Print.PrintInfo();
+	
+			       // printInfo.bestFitColumns(true);
+	
+			        printInfo.rowStart(currSel.row);
+			        printInfo.columnStart(currSel.col);
+			        printInfo.rowEnd(currSel.row + currSel.rowCount - 1);
+			        printInfo.columnEnd(currSel.col + currSel.colCount - 1);
+			        printInfo.useMax(false);//whether to print only rows and columns that contain data.
+			        printInfo.showColumnHeader(false);
+			        printInfo.showRowHeader(false);
+			        var numOfSheetsToPrint = Math.floor(currSel.colCount / 21)+1;
+			      	var numOfSheetsToPrintForRows = Math.floor(currSel.rowCount / 21)+1;
+			        printInfo.fitPagesWide(numOfSheetsToPrint);
+			        printInfo.fitPagesTall(numOfSheetsToPrintForRows)
+			        sheet.printInfo(printInfo);
+			        workBook.print(workBook.getActiveSheetIndex());
+			    }
+			  };
 		}
 
 		function onSpreadFocused(domId){
@@ -334,6 +390,7 @@
 			
 			workBook.bind( GC.Spread.Sheets.Events.SelectionChanged , function (e, args) {
 					onSpreadsheetChange(domId);
+					doFormatPainting(workBook,domId,e,args);
 			});
 			
 
@@ -375,6 +432,56 @@
 			
 		    disableSpreadsheet(domId);//disables the spreadsheet from being editable
  		    parent.spreadOnLoadBL(parent.$('#formCode').val(),domId,designer,outputData[domId],GC.Spread.Sheets); // demo for spreadsheet develop
+		}
+		
+		function doFormatPainting(workBook,domId,e,args){
+			if (isFormatPainting[domId]) {
+			    var sheet = workBook.getActiveSheet();
+			    resetFormatPainting(domId);
+			    workBook.suspendPaint();
+			    var toRange = sheet.getSelections()[0];
+
+			    //toRange biger than fromRange
+			    if (fromRange[domId].rowCount > toRange.rowCount) {
+			      toRange.rowCount = fromRange[domId].rowCount;
+			    }
+			    if (fromRange[domId].colCount > toRange.colCount) {
+			      toRange.colCount = fromRange[domId].colCount;
+			    }
+			    //toRange must in Sheet
+			    if (toRange.row + toRange.rowCount > sheet.getRowCount()) {
+			      toRange.rowCount = sheet.getRowCount() - toRange.row;
+			    }
+			    if (toRange.col + toRange.colCount > sheet.getColumnCount()) {
+			      toRange.colCount = sheet.getColumnCount() - toRange.col;
+			    }
+
+			    var rowStep = fromRange[domId].rowCount,
+			      colStep = fromRange[domId].colCount;
+			    var endRow = toRange.row + toRange.rowCount - 1,
+			      endCol = toRange.col + toRange.colCount - 1;
+
+			    // if toRange bigger than fromRange, repeat paint
+			    for ( var startRow = toRange.row; startRow <= endRow; startRow = startRow + rowStep) {
+			      for (var startCol = toRange.col; startCol <= endCol; startCol = startCol + colStep) {
+			        var rowCount =
+			          startRow + rowStep > endRow + 1 ? endRow - startRow + 1 : rowStep;
+			        var colCount =
+			          startCol + colStep > endCol + 1 ? endCol - startCol + 1 : colStep;
+			        sheet.copyTo(
+			          fromRange[domId].row,
+			          fromRange[domId].col,
+			          startRow,
+			          startCol,
+			          rowCount,
+			          colCount,
+			          GC.Spread.Sheets.CopyToOptions.style |
+			            GC.Spread.Sheets.CopyToOptions.span
+			        );
+			      }
+			    }
+			    workBook.resumePaint();
+			  }
 		}
 		
 		function expandCompressSpreadIframe(elem,domId){
