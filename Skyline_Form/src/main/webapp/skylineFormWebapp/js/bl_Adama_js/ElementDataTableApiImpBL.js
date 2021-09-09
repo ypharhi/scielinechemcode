@@ -1166,7 +1166,8 @@ function elementDataTableApiImpBL(domId) {
  }
    if(($('#formCode').val() == 'ExperimentReport' && domId == 'reportTable')
 		   ||($('#formCode').val() == 'Experiment' && (domId == 'experimentResults'|| domId =='selfTestResults'))
-		   || $('#formCode').val() == 'ExperimentFor' && (domId == 'experimentResults'|| domId =='selfTestResults')){
+		   || ($('#formCode').val() == 'ExperimentFor' && (domId == 'experimentResults'|| domId =='selfTestResults'))
+		   || ($('#formCode').val() == 'ExpAnalyReportMain' )){
 	   $('#'+domId+'_wrapper > .dropdown-button').css('float','left');//task 26594
    }
    return true;
