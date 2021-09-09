@@ -2138,7 +2138,7 @@ function floatingTabsPanelToggleClick(elem)
 function initFloatingButtonsPanel()
 {
 	
-	var formsArr = ['Step','SelfTest','Request','ExperimentCP','SpreadsheetTempla','ExperimentFor','Sample','Experiment','ExperimentAn'];
+	var formsArr = ['Step','SelfTest','Request','ExperimentCP','SpreadsheetTempla','ExperimentFor','Sample','Experiment','ExperimentAn','Template'];
 	var _formCode = $('#formCode').val();
 	
 	if($.inArray(_formCode, formsArr) != -1)
@@ -2255,6 +2255,21 @@ function initFloatingButtonsPanel()
 	    		.attr('title','New Request')
 	    		.text("New Request");
     		if( $("#STATUS_ID option:selected").text()!="Active"){
+    			$(button).addClass("disabledclass");
+    		}
+    		$('#newFloatingButton').css('display','none');
+    		$('.floatingButtonsPanel').prepend($(button));	    		
+    	} else  if(_formCode == 'Template')
+    	{
+    		var button = document.createElement('button');
+    		$(button)
+				.attr('type','button')
+				.attr('class','button optionalFloatingButton')
+	    		.attr('id','updateVersionFloatingButton')
+	    		.attr('onclick',"$('#updateVersion')[0].click();")
+	    		.attr('title','Update Version')
+	    		.text("Update Version");
+    		if( $("#updateVersion").hasClass("disabledclass")){
     			$(button).addClass("disabledclass");
     		}
     		$('#newFloatingButton').css('display','none');

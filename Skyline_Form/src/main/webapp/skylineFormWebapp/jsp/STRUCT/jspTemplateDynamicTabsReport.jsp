@@ -23,7 +23,7 @@
 </script>
 </head>
 @bm_list_html@
-<body style="overflow-y: hidden;">
+<body style="overflow-y: auto;">
 	<input type="hidden" id="generalDisabledFlagParam" name="generalDisabledFlagParam" value="-1">
 	<input type="hidden" id="userId" name="userId" value="${userId}"><input type="hidden" id="stateKey" name="stateKey" value="${stateKey}"><input type="hidden" id="formPathInfo" name="formPathInfo" value='${formPathInfo}'>
 	<input type="hidden" id="formId" name="formId" value="${formId}">
@@ -61,7 +61,7 @@
 												@tempalteTabs@			
 											</ul>
 										
-									<!--begin --><div class="tab-container" style="height: calc(100vh - 300px);overflow-y: auto;">
+									<!--begin --><div class="tab-container" style="overflow-y: auto;">
 												@body@
 												<!--end --></div>
 										</div>
