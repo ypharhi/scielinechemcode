@@ -427,10 +427,14 @@ public class ElementIreportImp extends Element {
 					(reportType.equals("PDF") ? JasperReportType.PDF : ((reportType.equals("DOC") ? JasperReportType.DOC :JasperReportType.JXL_EXCEL))), title, subTitle,
 					hmReportReplacerList, hmReportParameterList, DIR_JASPER_XML, DIR_JASPER_XML + "/tmp");
 			
-			Files.copy(new File(path_file), new File(ireportFileNameFullPath));
-			int indx = ireportFileNameFullPath.indexOf("skylineFormWebapp");
-			relativePath =  "../" + ireportFileNameFullPath.substring(indx);
-			
+			if(isStatic) {
+				//put the tmp report in the ireport pool for the next use
+				Files.copy(new File(path_file), new File(ireportFileNameFullPath));
+				relativePath = getRelativePath(ireportFileNameFullPath);
+			} else {
+				// return the relative path for the tmp report
+				relativePath = getRelativePath(path_file);
+			}
 
 		} catch (Exception ex) {
 			generalUtilLogger.logWrite(ex);
@@ -452,7 +456,6 @@ public class ElementIreportImp extends Element {
 			generalDao.releaseConnectionFromDataSurce(conn);
 		}
 
-		relativePath = getRelativePath(ireportFileNameFullPath);
 		return relativePath;
 	}
 
