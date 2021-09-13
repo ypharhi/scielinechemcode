@@ -8,8 +8,9 @@
 				            <td colspan="3" height="20"></td>
 				        </tr>
 				        <tr>
-				            <td width = "45%">${General11}</td>
-				            <td width="45%">${General12}</td>
+				            <td width = "30%">${General11}</td>
+				            <td width="30%">${General12}</td>
+				            <td width="10%">${General13}</td>
 				            <td></td>
 				        </tr>
 				        <tr>
@@ -18,7 +19,7 @@
 				        <tr>
 				            <td>${General21}</td>
 				            <td>${General22}</td>
-				            <td width="10%"></td>
+				            <td>${General23}</td>
 				            <td></td>
 				        </tr>
 				        <tr>
@@ -27,7 +28,7 @@
 				        <tr>
 				            <td>${General31}</td>
 				            <td>${General32}</td>
-				            <td width="10%"></td>
+				            <td>${General33}</td>
 				            <td></td>
 				        </tr>
 				        <tr>
@@ -36,6 +37,7 @@
 				        <tr>
 				            <td>${General41}</td>
 				            <td>${General42}</td>
+				            <td>${General43}</td>
 				            <td></td>
 				        </tr>
 				        <tr>
@@ -44,6 +46,7 @@
 				        <tr>
 				            <td>${General51}</td>
 				            <td>${General52}</td>
+				            <td>${General53}</td>
 				            <td></td>
 				        </tr>
 				        <tr>
@@ -53,6 +56,7 @@
 				            <td>${lValidated}</td>
 				            <td>${Validated}</td>
 				            <td></td>
+				            <td></td>
 				        </tr>
 				        <tr>
 				            <td colspan="3" height="20"></td>
@@ -60,6 +64,7 @@
 				        <tr>
 				            <td>${Gc_Hplc}</td>
 				            <td></td>
+				            <td width="30%"></td>
 				            <td></td>
 				        </tr>
 				        <tr>
@@ -68,6 +73,7 @@
 				        <tr>
 				            <td>${General61}</td>
 				            <td>${General62}</td>
+				            <td>${General63}</td>
 				            <td></td>
 				        </tr>
 				        <tr>
@@ -76,6 +82,7 @@
 				        <tr>
 				            <td>${General71}</td>
 				            <td>${General72}</td>
+				            <td>${General73}</td>
 				            <td></td>
 				        </tr>
 				        <tr>
@@ -84,6 +91,7 @@
 				        <tr>
 				            <td>${General81}</td>
 				            <td>${General82}</td>
+				            <td>${General83}</td>
 				            <td></td>
 				        </tr>
 				        <tr>
@@ -92,6 +100,7 @@
 				        <tr>
 				            <td>${General91}</td>
 				            <td>${General92}</td>
+				            <td>${General93}</td>
 				            <td></td>
 				        </tr>
 				        <tr>
@@ -115,8 +124,8 @@
 									</tr>
 									<tbody class="content" >
 										<tr>
-											<td width="45%">${General111}</td>
-											<td width="45%">${General112}</td>
+											<td width="30%">${General111}</td>
+											<td width="40%">${General112}</td>
 											<td></td>
 										</tr>
 										<tr>
@@ -169,7 +178,7 @@
 						</tr>
 					</table>
 				</td>
-				<td width="60%">
+				<td width="50%">
 					<table>
 				        <tr>
 				            <td>${General201}</td>
@@ -213,7 +222,7 @@
         </tr>
     </table>
 </div>
-<div id="FeedbacksTab" title= "HiddenFields">
+<div id="HiddenFieldsTab" title= "HiddenFields">
     <table style="width:100%;">
         <tr>
             <td>${HiddenFields11}</td>
@@ -238,3 +247,22 @@
         </tr>
     </table>
 </div>
+<script>
+	$(document).ready(function() {
+		$("#imgAdvSearchFormSearch").click(function () {
+    		//if($("#searchType").val() != "Inventory"){
+    			$('.content').slideToggle('fast', function() {
+	    	        if ($('.content').is(':hidden'))
+	    	        {
+	    	        	$('#imgAdvSearchFormSearch').children('img').attr("src", "../skylineFormWebapp/images/arrow_r.png");
+	
+	    	        }
+	    	        else
+	    	        {
+	    	        	$('#imgAdvSearchFormSearch').children('img').attr("src", "../skylineFormWebapp/images/arrow_d.png");
+	    	        }
+    	    });
+   		});
+	});
+	$("#imgAdvSearchFormSearch").click();
+</script>

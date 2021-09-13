@@ -244,6 +244,7 @@ public class ElementSmartSearchImp extends Element {
 		        + "'MaterialSlctSearch.INVITEMMATERIAL_ID',"
 		        + "'CompositionSearch.experiment_id',"
 		        + "'CompositionSearch.RECIPEFORMULATION_ID',"
-		        + "'CompositionSearch.COMPOSITION_PARENTID'";
+		        + "'CompositionSearch.COMPOSITION_PARENTID',"
+		        + "'ExpTemplateSelect.EXPERIMENT_ID'";
 	}
 }

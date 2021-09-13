@@ -3726,12 +3726,12 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			String cloneExperimentId = formSaveDao.getStructFormId("EXPERIMENT");
 			cloneExperiment.cloneExperiment(selectExperimentId, protocolTypeName, cloneExperimentId, userId, CloneType.TO_TEMPLATE,null);
 
-			formSaveDao.deleteStructTable(
+			/*formSaveDao.deleteStructTable(
 					String.format("delete from %1$s t where t.PARENTID = %2$s", "FG_S_EXPTEMPLATESELECT_PIVOT",
 							elementValueMap.get("parentId")),
 					"FG_S_EXPTEMPLATESELECT_PIVOT", "PARENTID", elementValueMap.get("parentId"));
 			formDao.insertToSelectTable("ExpTemplateSelect", elementValueMap.get("parentId"), "EXPERIMENT_ID",
-					Arrays.asList(cloneExperimentId), false, userId, null);
+					Arrays.asList(cloneExperimentId), false, userId, null);*/
 
 			//formSaveDao.updateSingleString("update FG_S_TEMPLATE_PIVOT SET SOURCEEXPNO_ID = "+cloneExperimentId+", EXPERIMENT_ID = "+cloneExperimentId+", PARENTID = "+cloneExperimentId+" WHERE formid  = " + elementValueMap.get("parentId") );
 			String sql = "update FG_S_TEMPLATE_PIVOT SET SOURCEEXPNO_ID = " + cloneExperimentId + ", EXPERIMENT_ID = "
