@@ -633,6 +633,20 @@ public class FormApiElementsService {
 					wherePart.append(" and project_id in (" + creiteriaWherePart + ") ");
 				}
 			}
+			if (( column.equalsIgnoreCase("SE") || column.equalsIgnoreCase("Experiment")) && view.equalsIgnoreCase("FG_I_TREE_CONNECTION_V")){
+				if (criteria != null && !criteria.isEmpty() && !criteria.equalsIgnoreCase("all")) {
+					
+					Map<String, String> sqlParam = new HashMap<String,String>();
+					sqlParam.put("$P{STRUCT}", "Experiment");
+					sqlParam.put("$P{USERID}", generalUtil.getSessionUserId());
+					String creiteriaWherePart = generalUtilConfig.getCriterialSql("Experiment", criteria, "Main", sqlParam, null);
+					if (column.equalsIgnoreCase("SE")) {
+						wherePart.append(" and (subsubproject_id is not null or experiment_id in (" + creiteriaWherePart + ")) ");
+					}else {
+						wherePart.append(" and experiment_id in (" + creiteriaWherePart + ") ");
+					}
+				}
+			}
 			String path = "";
 			try {
 				String parentFCode = formDao.getFormCodeBySeqId(currentformId);

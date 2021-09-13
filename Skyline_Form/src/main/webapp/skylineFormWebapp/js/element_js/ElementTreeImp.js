@@ -4,6 +4,7 @@ var ElementTreeImp = {
         var o = '{"_tree_lastValue":"' + $("#" + $(val_).attr("id") + "_tree_lastValue").val() +
             '","_selected":"' + $("#" + $(val_).attr("id") + "_selected").val() + 
             '","_filter":"' + $("#" + $(val_).attr("id") + "_ddlFilterProject").val() +
+            '","_filter_2":"' + $("#" + $(val_).attr("id") + "_ddlFilterExperiment").val() +
             '","_searchRow":"' + searchInput + '"}';
         return o;
     },
@@ -133,7 +134,7 @@ function initTree(impCode, doOnChangeJSCall, value, formCode,formId,name,rootMet
                         'structs': encodeURIComponent(structs.toString()),
                         'formId': parentFormId!=undefined&& parentFormId!=null?parentFormId:"",
                         'stateKey': $('#stateKey').val(),
-                        'criteria': $('#' + impCode + '_ddlFilterProject').length > 0 ?$('#' + impCode + '_ddlFilterProject').val():"ALL",
+                        'criteria': (id_ != '#') && (node.a_attr.child == "SE" || node.a_attr.child == "EXPERIMENT") ?$('#' + impCode + '_ddlFilterExperiment').length > 0 ?$('#' + impCode + '_ddlFilterExperiment').val():"ALL":$('#' + impCode + '_ddlFilterProject').length > 0 ?$('#' + impCode + '_ddlFilterProject').val():"ALL",
                         'currentstruct': (id_ != '#') ? node.a_attr.struct : (formId != undefined?formCode:'') //|| formId != undefined
                     };
                 },
@@ -258,7 +259,7 @@ function openFloatTree(elementObj,id,formCode,name){
 		$('#tree').parent().css({top:(locationY+height),left:locationX});
 		$('#tree').parent().css('z-index','130');
 		
-		initTree('tree',' onChangeAjax(\'tree\'); ','{"_tree_lastValue":"","_selected":"","_filter":"","_searchRow":""}',formCode,id,name);
+		initTree('tree',' onChangeAjax(\'tree\'); ','{"_tree_lastValue":"","_selected":"","_filter":"","_filter_2":"","_searchRow":""}',formCode,id,name);
 		$(elementObj).attr('encapsulated','false');
 		$(elementObj).attr('isTreeRootBreadcrumb','true');
 }
@@ -355,7 +356,7 @@ function initTreeContextMenu()
  * filter by categories of projects call on change ddl Filter projects on the tree on Main form
  * @param domId - domId.id is 'tree'
  */
-function onChangeProjectFilter(domId, name) {
+function onChangeProjectFilter(domId, name,criteriaType) {
 	$('#tree').jstree("destroy");
 	$('#tree_tree_lastValue').val("");
 	$('#tree_firstTime').val("0");
@@ -363,14 +364,15 @@ function onChangeProjectFilter(domId, name) {
 	$('#formCode').val();
 	// ** The last parameter is $('#formCode').val(). It is 'Main' for 11012021 
 	var searchInput = $('#' + domId + '_input').val().trim();
-	var criteria = $('#' + domId + '_ddlFilterProject').length > 0 ?$('#'+ domId + '_ddlFilterProject').val():"ALL";
+	var criteria = $('#' + domId + '_ddlFilter'+criteriaType).length > 0 ?$('#'+ domId + '_ddlFilter'+criteriaType).val():"ALL";
 	if (searchInput.trim().length >= 0 && searchInput.trim().length < 3) {
 		$('#' + domId + '_input').val("");
-		initTree(domId," onChangeAjax('tree'); ",'{"_tree_lastValue":"","_selected":"","_filter":"","_searchRow":""}',$('#formCode').val());
+		initTree(domId," onChangeAjax('tree'); ",'{"_tree_lastValue":"","_selected":"","_filter":"","_filter_2":"","_searchRow":""}',$('#formCode').val());
 	} else {
 		getSearchResult(searchInput, criteria, domId);
 	}
 }
+
 
 function onClickFindButton(domId, name, value) {
 		var searchInput = $('#' + domId + '_input').val().trim();
@@ -387,7 +389,7 @@ function onClickFindButton(domId, name, value) {
 				displayAlertDialog(getSpringMessage('VALIDATE_SEARCH_CHARACTERS'));
 //			}
 			$('#' + domId + '_input').val("");
-			initTree(domId," onChangeAjax('tree'); ",'{"_tree_lastValue":"","_selected":"","_filter":"","_searchRow":""}',$('#formCode').val());
+			initTree(domId," onChangeAjax('tree'); ",'{"_tree_lastValue":"","_selected":"","_filter":"","_filter_2":"","_searchRow":""}',$('#formCode').val());
 		} else {
 			getSearchResult(searchInput, criteria, domId, value);
 	    }

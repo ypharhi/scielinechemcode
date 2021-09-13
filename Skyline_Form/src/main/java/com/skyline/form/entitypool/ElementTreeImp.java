@@ -71,12 +71,14 @@ public class ElementTreeImp extends Element {
 		String tableName = generalUtilFormState.getFormCatalogDBTable(stateKey, formCode, catalogItem.substring(0,catalogItem.indexOf(".")));		
 		
 		String lastCriteria = "";
+		String lastSecondCriteria ="";
 		String searchRow = "";
 		String searchInputName = "_input";
 		try {
 			try {
 				JSONObject objValue = new JSONObject(value);
 				lastCriteria = objValue.getString("_filter").toString();
+				lastSecondCriteria = objValue.has("_filter_2")?objValue.getString("_filter_2").toString():"";
 				searchRow = objValue.getString("_searchRow").toString();
 		    } catch (Exception ex) {
 		        try {
@@ -87,14 +89,20 @@ public class ElementTreeImp extends Element {
 		    }
 			
 			StringBuilder selectedCriteria = new StringBuilder();
-			String criteriaSelectValue = getCriteriaOptions(stateKey, lastCriteria,generalUtil.getEmpty(rootObject, generalUtil.getFirstCsv("")), "" , selectedCriteria);
+			String criteriaSelectValue = getCriteriaOptions(stateKey, lastCriteria,generalUtil.getEmpty(rootObject, generalUtil.getFirstCsv("")), "" , selectedCriteria,"");
+			String experimentCriteria =  getCriteriaOptions(stateKey, lastSecondCriteria,"Experiment", "" , selectedCriteria,"tree");
 			
 			String criteriaSelect = 
 					"<label style=\"" + "\" class=\"text-left " + domId +"-select datatableapiselectloadinglabel \">Filter projects: " 
-					+ "<select id=\"" + domId + "_ddlFilterProject\" style=\"margin-left:0px;\"" + "\" class=\"" + domId +"-select datatableapiselect datatableapiselectloading\""+ "onchange=\"onChangeProjectFilter("+domId+".id,this.id);\" >\n"
+					+ "<select id=\"" + domId + "_ddlFilterProject\" style=\"margin-left:0px;\"" + "\" class=\"" + domId +"-select datatableapiselect datatableapiselectloading\""+ "onchange=\"onChangeProjectFilter("+domId+".id,this.id,'Project');\" >\n"
 							+ criteriaSelectValue 
 						+ "</select>\n"
 						+"</label>"
+						+"<label style=\"" + "\" class=\"text-left " + domId +"-select datatableapiselectloadinglabel \">Filter experiments: " 
+						+ "<select id=\"" + domId + "_ddlFilterExperiment\" style=\"margin-left:0px;\"" + "\" class=\"" + domId +"-select datatableapiselect datatableapiselectloading\""+ "onchange=\"onChangeProjectFilter("+domId+".id,this.id,'Experiment');\" >\n"
+						+ experimentCriteria 
+					+ "</select>\n"
+					+"</label>"
 					+ "<div><input id=\"" + domId + searchInputName +"\" style= \"width: 225px;\" class=\"" + domId +"-select alphanumInputForm datatableapiselect datatableapiselectloading\" alphanumallowchars=\"34,44\" autocomplete=\"off\" value="+searchRow+">\n"
 						+ "<i title=\"Search " + (treeSearchSizeLimit > 0 ?"(last " + treeSearchSizeLimit + " results)":"") + " in the tree\" id=\"search_button"+searchInputName+"\" onclick=\"onClickFindButton("+domId+".id,this.id);\" style=\"margin-left: 5px;cursor: pointer;color: #2779aa;margin-top:5px;font-size:larger;\" class=\"fa fa-search \"></i>"
 						+ "<i class=\"fa fa-trash \" title=\"Remove search\" style=\"cursor:pointer;font-size:1.5em;\" onclick=\"onClickDeleteSearch("+domId+".id);\"></i>"
@@ -180,7 +188,7 @@ public class ElementTreeImp extends Element {
 		return schema;
 	}
 
-	private String getCriteriaOptions(long stateKey, String options, String struct, String displayCatalog, StringBuilder selectedCriteria) {
+	private String getCriteriaOptions(long stateKey, String options, String struct, String displayCatalog, StringBuilder selectedCriteria,String additionalMatchInfo) {
 		List<Map<String, String>> sqlCustomMapList = null;
 		//get criteria from the maintenance
 		List<Map<String, String>> sqlPoolMapList =  formDao.getFromInfoLookupAllContainsVal("SysConfSQLCriteria", LookupType.NAME, "%."+ (struct.equals("NA")?displayCatalog:struct) +"."+formCode);
@@ -212,7 +220,7 @@ public class ElementTreeImp extends Element {
 		for (int i = 0; i < sqlCustomMapList.size(); i++) 
 		{
 			Map<String, String> sqlPoolMap = sqlCustomMapList.get(i);
-			if(!sqlPoolMap.get("IGNORE").equals("1")){
+			if(!sqlPoolMap.get("IGNORE").equals("1") && (additionalMatchInfo.isEmpty() || sqlPoolMap.get("ADDITIONALMATCHINFO").equals(additionalMatchInfo))){
 				String option = sqlPoolMap.get("SYSCONFSQLCRITERIANAME");
 				String isDefault = sqlPoolMap.get("ISDEFAULT");
 				if( options != null && !options.isEmpty()) {
