@@ -424,7 +424,7 @@ public class ElementIreportImp extends Element {
 			// the call
 			jrg = new JasperReportGenerator(myResultSetDS, mLang);
 			path_file = jrg.getPath(fileName + (new Date()).getTime(), fileName,
-					(reportType.equals("PDF") ? JasperReportType.PDF : ((reportType.equals("DOC") ? JasperReportType.DOC :JasperReportType.JXL_EXCEL))), title, subTitle,
+					((reportType.equals("PDF") || reportType.equals("PDF_PREVIEW_STATIC") || reportType.equals("PDF_PREVIEW_STATIC")) ? JasperReportType.PDF : ((reportType.equals("DOC") ? JasperReportType.DOC :JasperReportType.JXL_EXCEL))), title, subTitle,
 					hmReportReplacerList, hmReportParameterList, DIR_JASPER_XML, DIR_JASPER_XML + "/tmp");
 			
 			if(isStatic) {
