@@ -534,7 +534,7 @@ function cloneSourceExperiment(){
 				var sourceExperimentData = JSON.parse(obj.data[0].val);
 				var sourceExperimentId = sourceExperimentData["experimentId"];
 				var sourceExperimentName = sourceExperimentData["experimentName"];
-				$('#SOURCEEXPNO_ID').val(sourceExperimentId);
+				$('#lastChangeDate').val(sourceExperimentData["lastChangeDate"]);
 				var selectedOptionElem = $('#sourceExperiment option[value = "'+sourceExperimentId+'"]');
 				if(selectedOptionElem.length>0){
 					$('#sourceExperiment').val(sourceExperimentId).trigger("chosen:updated");

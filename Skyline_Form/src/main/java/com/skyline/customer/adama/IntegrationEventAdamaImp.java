@@ -624,9 +624,12 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			}
 			
 			formSaveDao.updateStructTableFormCode("Experiment", updateFormCode, cloneExperimentId, true);
+			sql = "select distinct to_char(t.TIMESTAMP,'dd/MM/yyyy  HH24:MI:SS') from FG_S_TEMPLATE_V t where FORMID = '"+formId+"'";
+			String res = generalDao.selectSingleStringNoException(sql);
 			JSONObject returnJson = new JSONObject();
 			returnJson.put("experimentId", cloneExperimentId);
 			returnJson.put("experimentName", generalDao.selectSingleStringNoException("select experimentname from fg_s_experiment_v where formid = '"+cloneExperimentId+"'"));
+			returnJson.put("lastChangeDate", res);
 			return returnJson.toString();
 		}
 		if(eventAction.equals("checkParametersStepFinished")){
@@ -2263,7 +2266,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			List<String> colList = Arrays.asList("STATUS_ID", "TEMPLATEVERSION", "APPROVER", "CREATIONDATE");
 			formSaveDao.updateStructTableByFormId(sql_, table, colList, cloneFormId);
 
-			String expTemplateSelectFormId = generalDao.selectSingleString(
+			/*String expTemplateSelectFormId = generalDao.selectSingleString(
 					"select distinct t.FORMID from FG_S_EXPTEMPLATESELECT_ALL_V t where parentid = '" + formId + "'");
 			;
 			String expTempcloneFormId = formSaveDao.cloneStructTable(expTemplateSelectFormId);
@@ -2272,7 +2275,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 					cloneFormId, expTempcloneFormId);
 			colList = Arrays.asList("PARENTID", "ACTIVE");
 			formSaveDao.updateStructTableByFormId(sql_, "FG_S_EXPTEMPLATESELECT_PIVOT", colList, expTempcloneFormId);
-
+*/
 			return cloneFormId;
 
 		}
