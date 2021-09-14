@@ -180,7 +180,7 @@ public class ElementIreportImp extends Element {
 		width = (width.equals("")) ? "width:300px;" : (width.indexOf("%") != -1) || (width.indexOf("px") != -1) ? "width:" + width + ";": "width:" + width + "px;";
 		String hidden = (isHidden) ? "visibility:hidden;" : "";
 		String disabled = (isDisabled) ? " disabledclass " : "";
-		String irCode = "";
+		
 		if(reportType.equals("PDF_PREVIEW_STATIC") || reportType.equals("PDF_PREVIEW")) {
 			String src_ = renderIreport(stateKey, formCode, impCode, fileName + ".xml", printTemplate, reportType, catalog, catalogadditionaldata,
 					isDistinct, defualtTitle, defualtSubTitle, subReportFileList, subReportCatalogList, 
@@ -189,9 +189,11 @@ public class ElementIreportImp extends Element {
 					DIR_JASPER_XML + "/" + formCode +"_" + impCode + "_" + formId + ".pdf", reportType.equals("PDF_PREVIEW_STATIC"));
 			
 			String styleDiv = "width=\"100%\"  style=\"text-align: center;\"";
-			String embed = "<embed width=\"90%\" height=\"650px\" src=\"" + src_ + "\">";
-			irCode = "<div " + styleDiv + ">" + embed + "</div>";
+			String embed = "<embed width=\"100%\" height=\"650px\" src=\"" + src_ + "\">";
+			String irElementCode = "<div " + styleDiv + ">" + embed + "</div>";
+			html.put(layoutBookMark, irElementCode);
 		} else {
+			String irCode = "";
 			irCode = "<form id='" + uniqueId
 					+ "' name='fireport' action='ireport.request' method='post'>\r\n"
 					+ "        <input type='hidden' name='irFormCode' value='" + formCode + "'/>\r\n"
@@ -217,9 +219,8 @@ public class ElementIreportImp extends Element {
 					+ "</button>";
 
 			html.put(layoutBookMark, buttonCode);
+			html.put(layoutBookMark + "_html", irCode);
 		}
-		
-		html.put(layoutBookMark + "_html", irCode);
 		return html;
 	}
 
