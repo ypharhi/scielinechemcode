@@ -209,6 +209,9 @@ function generalBL_generalClickEvent(customerFunction, action) { // customerClic
 	else if(customerFunction == 'updateTestedComponentTable'){
 		updateTestedComponentTable();
 	}
+	else if(customerFunction == 'cloneSourceExperiment'){
+		cloneSourceExperiment();
+	}
 	
 }
 
@@ -496,6 +499,62 @@ function updateProductList(){
 		    text: productName
 		}).attr("selected","selected")).trigger("chosen:updated");
 	}
+}
+
+function cloneSourceExperiment(){
+	var action = 'cloneSourceExperiment';//onChangeAjax
+	showWaitMessage("Please wait...");
+	prop.onChangeAjaxFlag = false; 
+	var allData = getformDataNoCallBack(1);
+	
+	// url call
+	var urlParam = "?formId=" + $('#formId').val() + "&formCode="
+			+ $('#formCode').val() + '&userId=' + $('#userId').val()
+			+ "&eventAction=" + action + "&isNew=" + $('#isNew').val();
+	
+	var data_ = JSON.stringify({
+		action : "doSave",
+		data : allData,
+		errorMsg : ""
+	});
+
+	// call...
+	$.ajax({
+		type : 'POST',
+		// async: false,
+		data : data_,
+		url : "./generalEvent.request" + urlParam ,
+		contentType : 'application/json',
+		dataType : 'json',
+		success : function(obj) {
+			hideWaitMessage();
+			if (obj.errorMsg != null && obj.errorMsg != '') {
+				displayAlertDialog(obj.errorMsg);
+			} else if (obj.data[0].val != "") {
+				var sourceExperimentData = JSON.parse(obj.data[0].val);
+				var sourceExperimentId = sourceExperimentData["experimentId"];
+				var sourceExperimentName = sourceExperimentData["experimentName"];
+				$('#SOURCEEXPNO_ID').val(sourceExperimentId);
+				var selectedOptionElem = $('#sourceExperiment option[value = "'+sourceExperimentId+'"]');
+				if(selectedOptionElem.length>0){
+					$('#sourceExperiment').val(sourceExperimentId).trigger("chosen:updated");
+					$('#SOURCEEXPNO_ID').val(sourceExperimentId).trigger("chosen:updated");
+				} else {
+					$('#sourceExperiment').append($('<option>', {
+					    value: sourceExperimentId,
+					    text: sourceExperimentName
+					}).attr("selected","selected")).trigger("chosen:updated");
+					$('#SOURCEEXPNO_ID').append($('<option>', {
+					    value: sourceExperimentId,
+					    text: sourceExperimentName
+					}).attr("selected","selected")).trigger("chosen:updated");
+				}
+			}
+		},
+		error : function() {
+			hideWaitMessage();
+		} 
+	});
 }
 
 function getHistoricalSpreadData(){

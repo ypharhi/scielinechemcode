@@ -47,6 +47,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.skyline.form.bean.ActivitylogType;
 import com.skyline.form.bean.BeanType;
+import com.skyline.form.bean.CloneType;
 import com.skyline.form.bean.DataBean;
 import com.skyline.form.bean.Form;
 import com.skyline.form.bean.LevelType;
@@ -576,6 +577,58 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 		//			insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_FormulantRef_PIVOT", formId); //TODO Yaron - tmp data
 		//			
 		//		}
+		if(eventAction.equals("cloneSourceExperiment")) {
+			String selectExperimentId = elementValueMap.get("searchExperimentId");
+
+			if(selectExperimentId.isEmpty()) {
+				return "";
+			}
+			//clone Experiment	
+			String protocolTypeId = generalDao.selectSingleString(
+					"select PROTOCOLTYPE_ID from FG_S_EXPERIMENT_V where EXPERIMENT_ID = '" + selectExperimentId + "'");
+			String protocolTypeName = formDao.getFromInfoLookup("ProtocolType", LookupType.ID, protocolTypeId, "name");
+
+			String cloneExperimentId = formSaveDao.getStructFormId("EXPERIMENT");
+			cloneExperiment.cloneExperiment(selectExperimentId, protocolTypeName, cloneExperimentId, userId, CloneType.TO_TEMPLATE,null);
+
+			String sql = "update FG_S_TEMPLATE_PIVOT SET SOURCEEXPNO_ID = " + cloneExperimentId + ", EXPERIMENT_ID = "
+					+ selectExperimentId + ", PARENTID = " + selectExperimentId + " WHERE formid  = "
+					+ formId;
+			formSaveDao.updateStructTableByFormId(sql, "FG_S_TEMPLATE_PIVOT",
+					Arrays.asList("SOURCEEXPNO_ID", "EXPERIMENT_ID", "PARENTID"), formId);
+
+			String experimentTypeId = generalDao
+					.selectSingleString("select EXPERIMENTTYPE_ID from FG_S_EXPERIMENT_V where EXPERIMENT_ID = '"
+							+ selectExperimentId + "'");
+			String experimentTypeName = formDao.getFromInfoLookup("EXPERIMENTTYPE", LookupType.ID, experimentTypeId,
+					"name");
+			String updateFormCode = "Experiment"; //default
+			if (protocolTypeName.equals("Analytical")) {
+				updateFormCode = "ExperimentAn";
+			} else if (protocolTypeName.equals("Formulation")) {
+				updateFormCode = "ExperimentFor";
+			} else if (protocolTypeName.equals("Parametric") && experimentTypeName.equals("Corrosion")) {
+				updateFormCode = "ExperimentPrCR";
+			} else if (protocolTypeName.equals("Parametric") && experimentTypeName.equals("Viscosity")) {
+				updateFormCode = "ExperimentPrVS";
+			} else if (protocolTypeName.equals("Parametric") && experimentTypeName.equals("TSU")) {
+				updateFormCode = "ExperimentPrTS";
+			} else if (protocolTypeName.equals("Parametric") && experimentTypeName.equals("Bottles")) {
+				updateFormCode = "ExperimentPrBT";
+			} else if (protocolTypeName.equals("Parametric")) {
+				updateFormCode = "ExperimentPrGn";
+			} else if (protocolTypeName.equals("Stability")) { // add ExperimentStb for "Taro develop"
+				updateFormCode = "ExperimentStb";
+			} else if (protocolTypeName.equals("Continuous Process")) { //add ExperimentCP for "Continuous Process"
+				updateFormCode = "ExperimentCP";
+			}
+			
+			formSaveDao.updateStructTableFormCode("Experiment", updateFormCode, cloneExperimentId, true);
+			JSONObject returnJson = new JSONObject();
+			returnJson.put("experimentId", cloneExperimentId);
+			returnJson.put("experimentName", generalDao.selectSingleStringNoException("select experimentname from fg_s_experiment_v where formid = '"+cloneExperimentId+"'"));
+			return returnJson.toString();
+		}
 		if(eventAction.equals("checkParametersStepFinished")){
 			StringBuilder sbInfo = new StringBuilder();
 			integrationValidation.validate(ValidationCode.CHECK_PARAMETERS_EXIST, formCode, formId, formId, sbInfo);
