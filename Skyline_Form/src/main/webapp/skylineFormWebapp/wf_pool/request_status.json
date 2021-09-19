@@ -9,7 +9,9 @@
   	{"id":"Declined", "text":"Declined" },
   	{"id":"Cancelled", "text":"Cancelled" },
   	{"id":"In Progress", "text":"In Progress" },
-  	{"id":"Approved", "text":"Approved" }
+  	{"id":"Approved", "text":"Approved" },
+  	{"id":"Pending Approval", "text":"Pending Approval" },
+  	{"id":"Re-Open", "text":"Re-Open" }
  ],
   "linkDataArray": 
   [
@@ -25,6 +27,13 @@
 	{"from":"Waiting", "to":"Declined"},
 	{"from":"Approved", "to":"Approved"},
 	{"from":"Cancelled", "to":"Cancelled"},
-	{"from":"Declined", "to":"Declined"}
+	{"from":"Declined", "to":"Declined"},
+	{"from":"Pending Approval", "to":"Pending Approval"},
+	{"from":"Pending Approval", "to":"Approved"},
+	{"from":"Pending Approval", "to":"Re-Open"},
+	{"from":"Re-Open", "to":"Re-Open"},
+	{"from":"Re-Open", "to":"Pending Approval"},
+	{"from":"Re-Open", "to":"Cancelled"},
+	{"from":"Re-Open", "to":"In Progress"}
 	]
 }

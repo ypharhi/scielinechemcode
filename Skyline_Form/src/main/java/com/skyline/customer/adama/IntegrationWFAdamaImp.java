@@ -1225,7 +1225,7 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 								wfNames.remove(statusMap.get("Waiting"));
 							}
 						}
-						if (formParam.get("REQUESTSTATUSNAME").equals("Waiting")) {//ab 19.03.18 changed the conditions to be exact- from the right status
+						if (formParam.get("REQUESTSTATUSNAME").equals("Waiting")||formParam.get("REQUESTSTATUSNAME").equals("Re-Open")) {//ab 19.03.18 changed the conditions to be exact- from the right status
 							String labManagerId = formDao.getFromInfoLookup("Laboratory", LookupType.ID,
 									formParam.get("DESTLAB_ID"), "LAB_MANAGER_ID");
 
@@ -1267,6 +1267,34 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 								generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowStatus, msg,
 										formId, msgBuilder);
 								wfNames.remove(statusMap.get("Planned"));
+							}
+						}
+						if(formParam.get("REQUESTSTATUSNAME").equals("Pending Approval")) {
+							if(!formParam.get("USERSTATE").equals("source")) {
+								msg = generalUtil.getSpringMessagesByKey(
+										statusLogOrder
+												+ "Userstate of request is not the creator or from the source lab team. Re-Open and Approved are removed",
+										"");
+								generalUtilLogger.logWriter(LevelType.DEBUG, msg, ActivitylogType.WorkFlowStatus, formId);
+								generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowStatus, msg, formId,
+										msgBuilder);
+
+								wfNames.remove(statusMap.get("Approved"));
+								wfNames.remove(statusMap.get("Re-Open"));
+							}
+						}
+						
+						if(formParam.get("REQUESTSTATUSNAME").equals("Re-Open")) {
+							if(!formParam.get("USERSTATE").equals("dest")) {
+								msg = generalUtil.getSpringMessagesByKey(
+										statusLogOrder
+												+ "Userstate of the request is not a destination lab team. Pending Approval is removed",
+										"");
+								generalUtilLogger.logWriter(LevelType.DEBUG, msg, ActivitylogType.WorkFlowStatus, formId);
+								generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowStatus, msg, formId,
+										msgBuilder);
+
+								wfNames.remove(statusMap.get("Pending Approval"));
 							}
 						}
 					}
