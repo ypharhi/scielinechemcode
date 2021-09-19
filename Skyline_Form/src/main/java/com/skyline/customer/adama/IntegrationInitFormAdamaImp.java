@@ -638,6 +638,8 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 			else if (formCode.equals("ExperimentPrTS")) {
 				String sql = "select distinct * from fg_authen_experimentprts_v t where t.experiment_id = " + structId;
 				toReturn = generalDao.sqlToHashMap(sql);
+				String instrumentList = generalDao.selectSingleStringNoException("select distinct listagg(inst.INVITEMINSTRUMENTNAME,',') within group (order by instrumentname) over (partition by t.parentid) from fg_s_instrumentref_all_v t,fg_s_inviteminstrument_all_v inst where t.PARENTID = '"+formId+"'and t.SESSIONID is null and t.ACTIVE = 1 and t.INVITEMINSTRUMENT_ID = inst.INVITEMINSTRUMENT_ID");
+				toReturn.put("INSTRUMENT_LIST", generalUtil.getNull(instrumentList));
 			}
 			//*************** getFormParam ExperimentPrGn 
 			//***************************************

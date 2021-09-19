@@ -117,6 +117,7 @@
 	<parameter name="parameter_DIR_JASPER_XML" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="REQUEST_SAMPLEID" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="IREPORT_PRINT_MAXPRESSURERATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_INSTRUMENT_LIST" isForPrompting="false" class="java.lang.String"/>
 	<queryString><![CDATA[select t.* from FG_DEMO_IREPORT_FILES t where 1=2]]></queryString>
 
 	<field name="FILE_ID" class="java.lang.String"/>
@@ -126,386 +127,11 @@
 		<group  name="S2" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="225"  isSplitAllowed="true" >
-				<staticText>
-					<reportElement
-						x="278"
-						y="111"
-						width="113"
-						height="15"
-						key="staticText-13"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Status:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="391"
-						y="110"
-						width="165"
-						height="15"
-						key="textField-13"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_STATUS_ID}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="278"
-						y="27"
-						width="110"
-						height="15"
-						key="staticText-14"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Serial Number:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="27"
-						width="169"
-						height="15"
-						key="textField-14"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_SERIALNUMBER}]]></textFieldExpression>
-				</textField>
+			<band height="39"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="0"
-						y="111"
-						width="113"
-						height="15"
-						key="staticText-15"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Experiment Number:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="111"
-						width="165"
-						height="15"
-						key="textField-15"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_FORMNUMBERID}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="278"
-						y="48"
-						width="110"
-						height="15"
-						key="staticText-16"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Sender:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="47"
-						width="169"
-						height="15"
-						key="textField-16"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_SENDER}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="132"
-						width="113"
-						height="15"
-						key="staticText-17"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Experiment Version:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="132"
-						width="165"
-						height="15"
-						key="textField-17"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_EXPERIMENTVERSION}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="48"
-						width="113"
-						height="15"
-						key="staticText-19"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Project Name:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="48"
-						width="165"
-						height="15"
-						key="textField-19"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PROJECT_ID}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="278"
-						y="132"
-						width="110"
-						height="15"
-						key="staticText-20"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Completion Date:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="131"
-						width="169"
-						height="15"
-						key="textField-20"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_COMPLETIONDATE}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="69"
-						width="113"
-						height="15"
-						key="staticText-21"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Sub-Project Name:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="69"
-						width="165"
-						height="15"
-						key="textField-21"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_SUBPROJECT_ID}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="1"
-						y="90"
-						width="113"
-						height="15"
-						key="staticText-23"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Sub-Sub-Project Name:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="114"
-						y="90"
-						width="165"
-						height="15"
-						key="textField-23"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_SUBSUBPROJECT_ID}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="27"
-						width="113"
-						height="15"
-						key="staticText-26"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Laboratory Name:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="278"
-						y="69"
-						width="110"
-						height="15"
-						key="staticText-26"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Owner:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="388"
-						y="68"
-						width="169"
-						height="15"
-						key="textField-26"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_OWNER_ID}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="279"
-						y="90"
-						width="110"
-						height="15"
-						key="staticText-28"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
-					</textElement>
-				<text><![CDATA[Approver:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="389"
-						y="89"
-						width="168"
-						height="15"
-						key="textField-28"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_APPROVER_ID}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="197"
-						width="113"
-						height="15"
-						key="staticText-30"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" pdfFontName="Helvetica" isBold="true" isItalic="false"/>
-					</textElement>
-				<text><![CDATA[Sample Number:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="27"
-						width="165"
-						height="15"
-						key="textField-59"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_LABORATORY_ID}]]></textFieldExpression>
-				</textField>
-				<staticText>
-					<reportElement
-						x="0"
-						y="1"
-						width="119"
-						height="21"
-						key="staticText-58"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
-					</textElement>
-				<text><![CDATA[General:]]></text>
-				</staticText>
-				<staticText>
-					<reportElement
-						x="0"
-						y="166"
-						width="193"
-						height="20"
-						key="staticText-61"/>
-					<box></box>
-					<textElement>
-						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
-					</textElement>
-				<text><![CDATA[Experiment Description: Description:]]></text>
-				</staticText>
-				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
-					<reportElement
-						x="113"
-						y="197"
-						width="169"
-						height="15"
-						key="textField-62"/>
-					<box></box>
-					<textElement>
-						<font/>
-					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{REQUEST_SAMPLEID}]]></textFieldExpression>
-				</textField>
-			</band>
-			</groupHeader>
-			<groupFooter>
-			<band height="6"  isSplitAllowed="true" >
-			</band>
-			</groupFooter>
-		</group>
-		<group  name="S1" >
-			<groupExpression><![CDATA[]]></groupExpression>
-			<groupHeader>
-			<band height="35"  isSplitAllowed="true" >
-				<staticText>
-					<reportElement
-						x="0"
-						y="1"
+						y="8"
 						width="113"
 						height="15"
 						key="staticText-62"/>
@@ -518,7 +144,7 @@
 				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="113"
-						y="0"
+						y="8"
 						width="444"
 						height="15"
 						key="textField-65"
@@ -531,6 +157,93 @@
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_AIM}]]></textFieldExpression>
 				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="6"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="S2.1" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="88"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="0"
+						y="35"
+						width="113"
+						height="15"
+						key="staticText-30"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Instrument:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="6"
+						width="193"
+						height="20"
+						key="staticText-61"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true" isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[Experiment Description: Description:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="0"
+						y="63"
+						width="113"
+						height="15"
+						key="staticText-93"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Sample Number:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="63"
+						width="169"
+						height="15"
+						key="textField-92"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{REQUEST_SAMPLEID}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="35"
+						width="169"
+						height="15"
+						key="textField"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_INSTRUMENT_LIST}]]></textFieldExpression>
+				</textField>
+			</band>
+			</groupHeader>
+			<groupFooter>
+			<band height="6"  isSplitAllowed="true" >
+			</band>
+			</groupFooter>
+		</group>
+		<group  name="S1" >
+			<groupExpression><![CDATA[]]></groupExpression>
+			<groupHeader>
+			<band height="0"  isSplitAllowed="true" >
 			</band>
 			</groupHeader>
 			<groupFooter>
@@ -941,7 +654,7 @@
 						key="staticText-59"/>
 					<box></box>
 					<textElement>
-						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true" isUnderline="true"/>
 					</textElement>
 				<text><![CDATA[TSU Conditions:]]></text>
 				</staticText>
@@ -954,7 +667,7 @@
 						key="staticText-60"/>
 					<box></box>
 					<textElement>
-						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true" isUnderline="true"/>
 					</textElement>
 				<text><![CDATA[TSU Results:]]></text>
 				</staticText>
@@ -1129,7 +842,7 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="9"  isSplitAllowed="true" >
+			<band height="6"  isSplitAllowed="true" >
 			</band>
 			</groupFooter>
 		</group>
@@ -1212,7 +925,7 @@
 		<group  name="S5" >
 			<groupExpression><![CDATA[]]></groupExpression>
 			<groupHeader>
-			<band height="122"  isSplitAllowed="true" >
+			<band height="91"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
 						x="1"
@@ -1296,7 +1009,254 @@
 			</band>
 			</groupHeader>
 			<groupFooter>
-			<band height="9"  isSplitAllowed="true" >
+			<band height="179"  isSplitAllowed="true" >
+				<staticText>
+					<reportElement
+						x="278"
+						y="114"
+						width="113"
+						height="15"
+						key="staticText-13"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Status:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="391"
+						y="107"
+						width="165"
+						height="15"
+						key="textField-13"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_STATUS_ID}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="278"
+						y="51"
+						width="110"
+						height="15"
+						key="staticText-14"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Serial Number:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="388"
+						y="45"
+						width="169"
+						height="15"
+						key="textField-14"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_SERIALNUMBER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="114"
+						width="113"
+						height="15"
+						key="staticText-15"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Experiment Number:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="114"
+						width="165"
+						height="15"
+						key="textField-15"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_FORMNUMBERID}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="72"
+						width="113"
+						height="15"
+						key="staticText-16"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Sender:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="72"
+						width="165"
+						height="15"
+						key="textField-16"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_SENDER}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="135"
+						width="113"
+						height="15"
+						key="staticText-17"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Experiment Version:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="135"
+						width="165"
+						height="15"
+						key="textField-17"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_EXPERIMENTVERSION}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="1"
+						y="93"
+						width="113"
+						height="15"
+						key="staticText-23"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Sub-Sub-Project Name:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="114"
+						y="93"
+						width="165"
+						height="15"
+						key="textField-23"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_SUBSUBPROJECT_ID}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="51"
+						width="113"
+						height="15"
+						key="staticText-26"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Laboratory Name:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement
+						x="278"
+						y="72"
+						width="110"
+						height="15"
+						key="staticText-26"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Owner:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="388"
+						y="65"
+						width="169"
+						height="15"
+						key="textField-26"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_OWNER_ID}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="279"
+						y="93"
+						width="110"
+						height="15"
+						key="staticText-28"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Approver:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="389"
+						y="86"
+						width="168"
+						height="15"
+						key="textField-28"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_APPROVER_ID}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="51"
+						width="165"
+						height="15"
+						key="textField-59"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_LABORATORY_ID}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="21"
+						width="119"
+						height="21"
+						key="staticText-58"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true" isUnderline="true"/>
+					</textElement>
+				<text><![CDATA[General:]]></text>
+				</staticText>
 			</band>
 			</groupFooter>
 		</group>
@@ -1305,20 +1265,32 @@
 			</band>
 		</background>
 		<title>
-			<band height="147"  isSplitAllowed="true" >
-				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+			<band height="174"  isSplitAllowed="true" >
+				<staticText>
 					<reportElement
-						x="0"
+						x="278"
 						y="106"
-						width="556"
-						height="19"
-						key="textField-32"
-						stretchType="RelativeToTallestObject"/>
+						width="110"
+						height="15"
+						key="staticText-20"/>
 					<box></box>
-					<textElement textAlignment="Center">
-						<font size="14" isBold="true"/>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_DESCRIPTION}]]></textFieldExpression>
+				<text><![CDATA[Completion Date:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="388"
+						y="106"
+						width="169"
+						height="15"
+						key="textField-20"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_COMPLETIONDATE}]]></textFieldExpression>
 				</textField>
 				<staticText>
 					<reportElement
@@ -1328,10 +1300,10 @@
 						height="21"
 						key="staticText-86"/>
 					<box></box>
-					<textElement textAlignment="Center">
-						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="15" isBold="true" isUnderline="true"/>
+					<textElement textAlignment="Left">
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="16" isBold="true" isUnderline="true"/>
 					</textElement>
-				<text><![CDATA[TSU Test:]]></text>
+				<text><![CDATA[Parametric Laboratory TSU Report]]></text>
 				</staticText>
 				<image  isUsingCache="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
@@ -1344,6 +1316,85 @@
 					<graphicElement stretchType="NoStretch"/>
 					<imageExpression class="java.lang.String"><![CDATA[$P{parameter_DIR_JASPER_XML} + "/logo_adama1.png"]]></imageExpression>
 				</image>
+				<staticText>
+					<reportElement
+						x="0"
+						y="106"
+						width="113"
+						height="15"
+						key="staticText-89"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Project:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="106"
+						width="165"
+						height="15"
+						key="textField-88"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_PROJECT_ID}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="127"
+						width="113"
+						height="15"
+						key="staticText-90"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" isBold="true" isUnderline="false"/>
+					</textElement>
+				<text><![CDATA[Sub-Project:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="127"
+						width="165"
+						height="15"
+						key="textField-89"/>
+					<box></box>
+					<textElement>
+						<font/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_SUBPROJECT_ID}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement
+						x="0"
+						y="149"
+						width="113"
+						height="19"
+						key="staticText-91"/>
+					<box></box>
+					<textElement>
+						<font fontName="SansSerif" pdfFontName="Helvetica" isBold="true" isItalic="false"/>
+					</textElement>
+				<text><![CDATA[Description:]]></text>
+				</staticText>
+				<textField isStretchWithOverflow="true" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
+					<reportElement
+						x="113"
+						y="149"
+						width="444"
+						height="19"
+						key="textField-90"
+						stretchType="RelativeToTallestObject"/>
+					<box></box>
+					<textElement textAlignment="Left">
+						<font pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+					</textElement>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_DESCRIPTION}]]></textFieldExpression>
+				</textField>
 			</band>
 		</title>
 		<pageHeader>
@@ -1355,24 +1406,24 @@
 			</band>
 		</columnHeader>
 		<detail>
-			<band height="515"  isSplitAllowed="true" >
+			<band height="735"  isSplitAllowed="true" >
 				<staticText>
 					<reportElement
-						x="1"
-						y="14"
+						x="0"
+						y="9"
 						width="186"
 						height="22"
 						key="staticText-84"/>
 					<box></box>
 					<textElement>
-						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true"/>
+						<font fontName="SansSerif" pdfFontName="Helvetica-Bold" size="14" isBold="true" isUnderline="true"/>
 					</textElement>
 				<text><![CDATA[Documents (images):]]></text>
 				</staticText>
 				<image  scaleImage="RetainShape" onErrorType="Blank" isUsingCache="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="1"
-						y="76"
+						x="0"
+						y="80"
 						width="489"
 						height="433"
 						key="image-1"
@@ -1385,7 +1436,7 @@
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="0"
-						y="53"
+						y="45"
 						width="501"
 						height="18"
 						key="textField"/>
