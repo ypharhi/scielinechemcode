@@ -117,7 +117,7 @@
 	<parameter name="parameter_DIR_JASPER_XML" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="REQUEST_SAMPLEID" isForPrompting="false" class="java.lang.String"/>
 	<parameter name="IREPORT_PRINT_MAXPRESSURERATE" isForPrompting="false" class="java.lang.String"/>
-	<parameter name="IREPORT_PRINT_INSTRUMENT_LIST" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="INSTRUMENT_LIST" isForPrompting="false" class="java.lang.String"/>
 	<queryString><![CDATA[select t.* from FG_DEMO_IREPORT_FILES t where 1=2]]></queryString>
 
 	<field name="FILE_ID" class="java.lang.String"/>
@@ -231,7 +231,7 @@
 					<textElement>
 						<font/>
 					</textElement>
-				<textFieldExpression   class="java.lang.String"><![CDATA[$P{IREPORT_PRINT_INSTRUMENT_LIST}]]></textFieldExpression>
+				<textFieldExpression   class="java.lang.String"><![CDATA[$P{INSTRUMENT_LIST}]]></textFieldExpression>
 				</textField>
 			</band>
 			</groupHeader>
