@@ -205,7 +205,8 @@ if (isExit)
 <div class="loginmodal-container">					
 				 <form name="form1" id="form1" method="post" action="loginAction.request">
 				 <div class="login_top_section">
-					<img src="./skylineFormWebapp/images/skyline_logo_login.png" border="0" style="width: 175px;height: auto;padding-right: 5px;">
+					<img src="./skylineFormWebapp/images/skyline_logo_login.svg" border="0" style="width: 175px;height: auto;">
+					</br>
 					<label class="title"><spring:message code="EnvTitle" text="" /><spring:message code="Env" text="" /></label>
 				</div>
 					<input type="text" name="txtUser" placeholder="User name">
