@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Skyline Reports Generator</title>
-    <link rel="icon" href="../skylineFormWebapp/images/favicon.ico?<spring:message code="Env" text="" />" />   
+    <link rel="icon" href="../skylineFormWebapp/images/favicon.png?<spring:message code="Env" text="" />" />   
     <script type="text/javascript" src="../skylineFormWebapp/deps/jquery-1.12.4.js?<spring:message code="Env" text="" />"></script>
     <script src="../skylineFormWebapp/deps/jquery-ui.custom_new.min.js"></script> 
     <script src="../skylineFormWebapp/js/foundation.min.js" ></script>

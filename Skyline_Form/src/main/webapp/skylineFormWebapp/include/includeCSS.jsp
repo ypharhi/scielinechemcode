@@ -1,5 +1,5 @@
 <!-- ******** icon ******** -->	
-	<link rel="icon" href="../skylineFormWebapp/images/favicon.ico?<spring:message code="Env" text="" />" />
+	<link rel="icon" href="../skylineFormWebapp/images/favicon.png?<spring:message code="Env" text="" />" />
 <!-- ******** webix css ******** -->
 	<link rel="stylesheet" type="text/css" href="../skylineFormWebapp/CSS/webix.min.css">
 <!-- ******** general css ******** -->

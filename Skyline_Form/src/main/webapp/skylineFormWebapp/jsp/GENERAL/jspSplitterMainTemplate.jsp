@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Skyline ${browserTitle}</title>
-<link rel="icon" href="../skylineFormWebapp/images/favicon.ico?<spring:message code="Env" text="" />" />
+<link rel="icon" href="../skylineFormWebapp/images/favicon.png?<spring:message code="Env" text="" />" />
 
 <!--  <style type="text/css">
 /*!

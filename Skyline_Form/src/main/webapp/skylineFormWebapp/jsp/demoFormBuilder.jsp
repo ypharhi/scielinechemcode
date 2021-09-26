@@ -6,7 +6,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Demo Form Builder</title>
-<link rel="icon" href="../skylineFormWebapp/images/favicon.ico?<spring:message code="Env" text="" />" />
+<link rel="icon" href="../skylineFormWebapp/images/favicon.png?<spring:message code="Env" text="" />" />
 <link href="../skylineFormWebapp/CSS/comply_theme/Skyline_9.css" rel="stylesheet" type="text/css">
 <link href="../skylineFormWebapp/CSS/comply_theme/jquery-ui.custom.css" rel="stylesheet" type="text/css" media="all" />
  <link href="../skylineFormWebapp/CSS/comply_theme/mbcsmbmcp_form.css" rel="stylesheet" type="text/css" />	

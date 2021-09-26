@@ -7,7 +7,7 @@
 	<title>
 	<spring:message code="appTitle" text="" /> <spring:message code="Env" text="" />
 	</title>
-	<link rel="icon" href="./skylineFormWebapp/images/favicon.ico?<spring:message code="Env" text="" />" />
+	<link rel="icon" href="./skylineFormWebapp/images/favicon.png?<spring:message code="Env" text="" />" />
 	<link href="./skylineFormWebapp/CSS/comply_theme/login.css" rel="stylesheet"  type="text/css">
 	<link href="./skylineFormWebapp/CSS/comply_theme/jquery-ui.custom.css" rel="stylesheet" type="text/css" media="all" />
 	<script type="text/javascript" src="skylineFormWebapp/deps/jquery-1.12.4.js"></script>
