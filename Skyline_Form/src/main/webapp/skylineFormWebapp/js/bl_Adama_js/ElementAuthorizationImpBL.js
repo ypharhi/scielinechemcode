@@ -132,10 +132,34 @@ function disableRequestInStatApprovedUpToUser(isActual, userState){
 		if(userState == 'dest'){
 			generalBL_disablePage(['testPurpose','comments','materialsPeaksTable','documents','groups','users','REQUESTSTATUS_ID','operartinTypeTable'],1);
 			disableOperationTypeDTButtons(1);
-		} else{
+		} else if(userState == 'source'){
+			generalBL_disablePage(['REQUESTSTATUS_ID','reasonForChange'],1);
+		} else {
 			generalBL_disablePage();
 		}
 	}
+}
+
+function reasonForChangeAuth(isActual){
+	if(isActual ==1){
+		var current_status = $('#REQUESTSTATUS_ID option:selected').text();
+		if(current_status!='Cancelled' && current_status != 'Declined' && current_status != 'Re-Open'){
+		//disable
+			setDisabledByElementId('reasonForChange',true);
+		} else {
+			setDisabledByElementId('reasonForChange',false);
+		}
+		if(current_status=='Cancelled' ||  current_status == 'Declined' ||  current_status == 'Re-Open'){
+		//mandatory
+			setRequiredByElementId('reasonForChange',true);
+		} else {
+			setRequiredByElementId('reasonForChange',false);
+		}
+	}
+}
+
+function dummy(){//was created in order to replace the conditions that should be removed in the auth element(in the middle of the list)
+	
 }
 
 function hideManualresultsButtons(isActual){

@@ -26,6 +26,7 @@
 	{"from":"In Progress", "to":"Cancelled"},
 	{"from":"Waiting", "to":"Declined"},
 	{"from":"Approved", "to":"Approved"},
+	{"from":"Approved", "to":"Re-Open"},
 	{"from":"Cancelled", "to":"Cancelled"},
 	{"from":"Declined", "to":"Declined"},
 	{"from":"Pending Approval", "to":"Pending Approval"},

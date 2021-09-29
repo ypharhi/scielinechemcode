@@ -1284,6 +1284,20 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 							}
 						}
 						
+						if(formParam.get("REQUESTSTATUSNAME").equals("Approved")) {
+							if(!formParam.get("USERSTATE").equals("source")) {
+								msg = generalUtil.getSpringMessagesByKey(
+										statusLogOrder
+												+ "Userstate of request is not the creator or from the source lab team. Re-Open is removed",
+										"");
+								generalUtilLogger.logWriter(LevelType.DEBUG, msg, ActivitylogType.WorkFlowStatus, formId);
+								generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowStatus, msg, formId,
+										msgBuilder);
+
+								wfNames.remove(statusMap.get("Re-Open"));
+							}
+						}
+						
 						if(formParam.get("REQUESTSTATUSNAME").equals("Re-Open")) {
 							if(!formParam.get("USERSTATE").equals("dest")) {
 								msg = generalUtil.getSpringMessagesByKey(
