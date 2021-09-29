@@ -189,7 +189,7 @@ public class ElementIreportImp extends Element {
 					DIR_JASPER_XML + "/" + formCode +"_" + impCode + "_" + formId + ".pdf", reportType.equals("PDF_PREVIEW_STATIC"));
 			
 			String styleDiv = "width=\"100%\"  style=\"text-align: center;\"";
-			String embed = "<embed width=\"100%\" height=\"650px\" src=\"" + src_ + "\">";
+			String embed = "<embed width=\"100%\" height=\"650px\" src=\"" + src_ + "#navpanes=0\">";
 			String irElementCode = "<div " + styleDiv + ">" + embed + "</div>";
 			html.put(layoutBookMark, irElementCode);
 		} else {
