@@ -6,7 +6,6 @@
   [
   	{"id":"Planned", "text":"Planned"},
   	{"id":"Active", "text":"Active" },
-  	{"id":"Finished", "text":"Finished" },
   	{"id":"Cancelled", "text":"Cancelled" },
   	{"id":"Completed", "text":"Completed" },
   	{"id":"Failed", "text":"Failed" },
@@ -18,22 +17,16 @@
 	{"from":"Planned", "to":"Active"},
 	{"from":"Planned", "to":"Cancelled"},
 	{"from":"Active", "to":"Active"},
-	{"from":"Active", "to":"Finished"},
 	{"from":"Active", "to":"Failed"},
 	{"from":"Active", "to":"Completed"},
 	{"from":"Active", "to":"Cancelled"},
-	{"from":"Finished", "to":"Finished"},
-	{"from":"Finished", "to":"Completed"},
-	{"from":"Finished", "to":"Failed"},
-	{"from":"Finished", "to":"Cancelled"},
 	{"from":"Cancelled", "to":"Cancelled"},
 	{"from":"Completed", "to":"Completed"},
 	{"from":"Completed", "to":"Failed"},
+	{"from":"Completed", "to":"Active"},
 	{"from":"Completed", "to":"Approved"},
-	{"from":"Completed", "to":"Finished"},
 	{"from":"Failed", "to":"Failed"},
 	{"from":"Approved", "to":"Approved"},
-	{"from":"Approved", "to":"Finished"},
 	{"from":"Approved", "to":"Active"}
 	]
 }
