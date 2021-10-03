@@ -187,13 +187,26 @@
 							var rect = sheet.getCellRect(sel.row, sel.col);
 							workbook.commandManager().execute({ cmd: 'insertTextBox', sheetName: sheet.name(), x: rect.x, y: rect.y, w: 150, h: 50 });
 						}
+					},
+					formatPainting: {
+						title: "Format Painting",
+						text: "Format Painting",
+						iconClass: "format-painting",
+						bigButton: "true",
+						commandName: "formatPainting",
+						execute: function (context, propertyName) {
+							var workbook = context.getWorkbook();
+							var sheet = workbook.getActiveSheet();
+							var selectionRange = sheet.getSelections();
+							workbook.commandManager().execute({ cmd: 'formatting', sheetName: sheet.name(), selectionRange:selectionRange});
+						}
 					}
 				};
 				config.ribbon[1].buttonGroups[4].commandGroup.commands.push("insertTextShape");
 		}
 		
 		function updateHomeTab(config,domId) {
-			config.commandMap = {
+			/* config.commandMap = {
 					  formatPainting: {
 							title: "Format Painting",
 							text: "Format Painting",
@@ -207,7 +220,8 @@
 								workbook.commandManager().execute({ cmd: 'formatting', sheetName: sheet.name(), selectionRange:selectionRange});
 							}
 						}
-					};
+					}; */
+					
 			config.ribbon[0].buttonGroups[1].commandGroup.children.push({commands:["formatPainting"]});
 			
 			var homeTab = config.ribbon.find(function(r){return r.id === 'home';});
