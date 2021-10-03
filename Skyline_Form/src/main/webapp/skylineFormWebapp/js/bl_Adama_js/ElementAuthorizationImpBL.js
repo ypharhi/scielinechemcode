@@ -99,15 +99,24 @@ function disableExperimentUpToStatus(isActual,statusName){
 
 function disableRequestUpToUser(isActual, userState){
 	if(isActual ==1 ){//status is waiting
-		if(userState == 'source'){
-			generalBL_disablePage(['REQUESTSTATUS_ID','reasonForChange','operartinTypeTable'],1);
-			disableOperationTypeDTButtons(0);
-		}
-		else if(userState == 'dest'){
-			disableOperationTypeDTButtons(1);
-		}
-		else{
-			disableOperationTypeDTButtons(0);
+		var status = $('#REQUESTSTATUS_ID option:selected').text();
+		var lastStatus = $('#REQUESTSTATUS_ID').attr('lastselectedname');
+		if(status == 'Waiting' && lastStatus == 'Waiting'){
+			if(userState == 'source'){
+				generalBL_disablePage(['REQUESTSTATUS_ID','reasonForChange','operartinTypeTable','dueDate'],1);
+				disableOperationTypeDTButtons(0);
+			}
+			else if(userState == 'dest'){
+				disableOperationTypeDTButtons(1);
+			}
+			else{
+				disableOperationTypeDTButtons(0);
+			}
+		} else {
+			if(status == 'Planned' && (lastStatus == 'Planned'||lastStatus == '') || status == 'Re-Open' && lastStatus == 'Re-Open'){
+				setDisabledByElementId('dueDate',false);
+			}
+			
 		}
 	}
 }

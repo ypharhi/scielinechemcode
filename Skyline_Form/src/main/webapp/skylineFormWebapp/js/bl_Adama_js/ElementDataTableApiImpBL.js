@@ -4438,7 +4438,7 @@ function bl_isTableResizable(domId)
 	{
 		toReturn = true;
 	}
-	else if(formCode == "InvItemSamplesMain"&&(domId=="upperTable"||domId=="lowerTable"))
+	else if(formCode == "InvItemSamplesMain")
 	{
 		toReturn = true;
 	}

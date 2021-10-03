@@ -3628,6 +3628,9 @@ function generalBL_disablePage(enableElements, enableEditButton) {
 		        else if($('#' + enableElements[i]).is("input[type='checkbox']")){
 		        	$('#' + enableElements[i]).prop('disabled',false);
 		        }
+		        else if($('#' + enableElements[i]).hasClass("date-picker")){
+		        	$('#' + enableElements[i]).parent().removeClass('disablePage');
+		        }
 		    }
 		}
     }
@@ -3734,6 +3737,9 @@ function generalBL_disableTab(divID,enableElements) {
 		        else if($('#' + enableElements[i]).is('[name=parentDiagramContainer]')){
 		        	setDisabledDiagram(false,$('#'+enableElements[i]));
 		    	}
+		        else if($('#' + enableElements[i]).hasClass("date-picker")){
+		        	$('#' + enableElements[i]).parent().removeClass('disablePage');
+		        }
 		    }
 		}
     }
