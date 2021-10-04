@@ -152,7 +152,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 			//***************************************
 			else if (formCode.equals("SubProject")) {
 				String role = formDao.getFromInfoLookup("USER", LookupType.ID, userId, "UserRoleName");
-
+                
 				if (isNewFormId) {
 
 					String projectIdArray = requestMap.get("PARENT_ID");
@@ -179,7 +179,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 						toReturn.put("ISENABLE_SPECIFICATION", "0");
 					}
 				}
-
+ 
 				String sql = "select distinct "
 						+ (rowNum.equals("2") ? getRelevantAuthenColumns(formCode, "SUBPROJECTNAME") : "*")
 						+ " from FG_AUTHEN_SUBPROJECT_V t where t." + wherePart + " =" + structId + " and rownum < "
@@ -192,6 +192,14 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 				} else {
 					toReturn.put("ISENABLE_SPECIFICATION", "0");
 				}
+				
+				String projectType = formDao.getFromInfoLookup("Project", LookupType.ID, toReturn.get("PROJECT_ID"), "ProjectTypeName");
+                if(projectType.equalsIgnoreCase("formulation")) {
+                	toReturn.put("enableSpreadsheet", "Yes");
+                }else {
+                	toReturn.put("enableSpreadsheet", "No");	
+                }
+				
 			}
 			//***************************************
 			//*************** getFormParam SubSubProject 

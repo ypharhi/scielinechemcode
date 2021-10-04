@@ -256,6 +256,11 @@ function initForm() {
         	var targetId = $('[aria-controls="SpecificationTab"]').attr('aria-labelledby');
         	$('[id="' + targetId + '"]').parent().css('display', 'none');
         }
+        if(_formCode == "SubProject"){
+        	if($('#project_Type_Name').val()=="Formulation"){
+        		$('#SUBPROJECTTYPE_ID').attr("onchange","onChangeTypeFormulSP();");
+        	}
+        }
     }
     if ((_formCode == "InvItemInstrument")) {
         generalBL_statusIdDisabled();
@@ -7369,4 +7374,19 @@ function restoreColumnsByDefault(level) {
     });	
 }
 
+
+function onChangeTypeFormulSP(){
+	if($('#subProjectName').val()==""){
+		$('#subProjectName').val($('#SUBPROJECTTYPE_ID option:selected').text());
+	}
+	else if($('#SUBPROJECTTYPE_ID').val()!=""){
+	 openConfirmDialog({
+			onConfirm : function (){
+				$('#subProjectName').val($('#SUBPROJECTTYPE_ID option:selected').text());
+			},
+			title : 'Warning',
+			message : getSpringMessage('TODO...')
+		});
+	}
+}
 	
