@@ -4614,7 +4614,8 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			currentVersion = "01";
 			String protocolTypeName = formDao.getFromInfoLookup("PROTOCOLTYPE", LookupType.ID, elementValueMap.get("PROTOCOLTYPE_ID"), "name") ;
 			String experimentTypeName = formDao.getFromInfoLookup("EXPERIMENTTYPE", LookupType.ID, elementValueMap.get("EXPERIMENTTYPE_ID"), "name") ;
-			if(protocolTypeName.equals("Analytical") && experimentTypeName.equals("General")) {
+			if((protocolTypeName.equals("Analytical") && experimentTypeName.equals("General"))
+					||((protocolTypeName.equals("Organic") || protocolTypeName.equals("Formulation"))&& generalUtil.getNull(elementValueMap.get("isEnableSpreadsheet")).equalsIgnoreCase("yes"))) {
 				String firstStatusId = formDao.getFromInfoLookup("EXPERIMENTSTATUS", LookupType.NAME, "Active", "id");
 				generalUtilLogger.logWriter(LevelType.DEBUG,
 						generalUtil.mapToString("update status - elementValueMap before event:", elementValueMap),
