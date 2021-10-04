@@ -1526,6 +1526,23 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 						}
 					}
 				}
+				/******** SMARTEXPERIMENTLIST handler *****************************************************************/
+				else if (!paramCol.isEmpty() && paramCol.endsWith("SMARTEXPLIST")) {
+					List<String>  requestExperimentList_ = new ArrayList<>();
+					for (int i = 0; i < rows.size(); i++) {
+						try{
+						
+							if (rows.get(i).get(paramCol) != null) {
+								String request_id =  rows.get(i).get(paramCol).toString().replaceAll("@", "");
+								requestExperimentList_ = getRequestExperimentList(request_id);
+							}
+							rows.get(i).put(paramCol , requestExperimentList_);
+						}catch(Exception e){
+							String emptyJson = "{\"displayName\":\"\" ,\"icon\":\"\" ,\"fileId\":\"\",\"formCode\":\"\"  ,\"formId\":\"\",\"tab\":\"\", \"smartType\":\"SMARTLINK\"}";
+							rows.get(i).put(paramCol , emptyJson);
+						}
+					}
+				}
 				/******** Favorite_SMARTEDIT handler *****************************************************************/
 				else if (!paramCol.isEmpty() && paramCol.equalsIgnoreCase("Favorite_SMARTEDIT")) {
 					
@@ -1994,6 +2011,32 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		return toReturn;
 	}
 
+	private List<String> getRequestExperimentList(String request_id) {
+		List<String>  requestExperimentList_ = new ArrayList<>();
+		try {
+			String sql_ = "select distinct e.EXPERIMENTNAME, e.experiment_id,e.formcode\n " + 
+					"   from fg_s_requestselect_all_v rs,\n" + 
+					"   fg_s_experiment_v e\n" + 
+					"   where rs.PARENTID = e.experiment_id\n"+ 
+					"   and rs.singleReq_id = '"+request_id+"'" ;
+			
+			List<Map<String, Object>> experimentData = null;
+			experimentData = getListOfMapsBySql(sql_);
+			
+			for (int i = 0; i < experimentData.size(); i++) {
+				String experimentName = experimentData.get(i).get("EXPERIMENTNAME").toString();
+				String experimentId = experimentData.get(i).get("EXPERIMENT_ID").toString();
+				String experimentFormcode = experimentData.get(i).get("FORMCODE").toString();
+				requestExperimentList_.add("{\"displayName\":\""+experimentName+"\" ,\"icon\":\"\" ,\"fileId\":\"\",\"formCode\":\""+experimentFormcode+"\"  ,\"formId\":\""+experimentId+"\",\"tab\":\"\", \"smartType\":\"SMARTLINK\"}");
+			}
+		}catch(Exception e){
+			generalUtilLogger.logWrite(LevelType.ERROR, "error in getRequestExperimentList(request_id).", "", ActivitylogType.GeneralError,
+					null, e);
+			requestExperimentList_ = new ArrayList<>();
+		}
+		return requestExperimentList_;
+	}
+
 	//TODO: remove not in use
 	private Map<String, String> addImageToMatrix(BufferedImage overlay, String type, List<BufferedImage> source,
 			String x, String y, int numOfMaterialinImage) throws IOException {
@@ -2129,7 +2172,9 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		if ((!rows.isEmpty())) {
 			Set<String> rowKeySet = rows.get(0).keySet(); // get all column names
 			for (String k : rowKeySet) {
-				if (paramColFlag || k.endsWith("_SMARTMONPARAM") || k.endsWith("_SMARTDYNPARAM") || k.endsWith("_SMARTPATH") || k.endsWith("SMARTACTIONS")|| k.endsWith("SMARTSAMPLELIST") || k.endsWith("SMARTSPLIT") || k.endsWith("Favorite_SMARTEDIT")) {
+				if (paramColFlag || k.endsWith("_SMARTMONPARAM") || k.endsWith("_SMARTDYNPARAM") 
+						|| k.endsWith("_SMARTPATH") || k.endsWith("SMARTACTIONS")|| k.endsWith("SMARTSAMPLELIST") 
+						|| k.endsWith("SMARTEXPLIST") || k.endsWith("SMARTSPLIT") || k.endsWith("Favorite_SMARTEDIT")) {
 					smartsList.add(arrInx++, k);
 				} else if (k.endsWith("_SMARTPIVOT") || k.endsWith("_SMARTPIVOTSQL")) {
 					hasPivot = k;

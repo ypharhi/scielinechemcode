@@ -2210,6 +2210,11 @@ function smartRender(object, followingHiddenCols, domId, savedObject, isTableRes
             object.columns[i].title = objColTitle.replace('_SMARTSAMPLELIST', '');    
             indexColsArray[i] = 'SMARTEDIT';
         }
+        if (objColTitle.indexOf('_SMARTEXPLIST', objColTitle.length - '_SMARTEXPLIST'.length) !== -1) { // endsWith '_SMARTSAMPLELIST'		
+            object.columns[i].title = objColTitle.replace('_SMARTEXPLIST', '');    
+            indexColsArray[i] = 'SMARTLINK';
+            object.columns[i].type = 'string';
+        }
         if (objColTitle.indexOf('_SMARTLINK', objColTitle.length - '_SMARTLINK'.length) !== -1) { // endsWith '_SMARTLINK'		
             object.columns[i].title = objColTitle.replace('_SMARTLINK', '');    
             indexColsArray[i] = 'SMARTLINK';
