@@ -637,8 +637,10 @@ public class FormApiElementsService {
 				if (criteria != null && !criteria.isEmpty() && !criteria.equalsIgnoreCase("all")) {
 					
 					Map<String, String> sqlParam = new HashMap<String,String>();
+					Map<String, String> userMap = formDao.getUserInfoMap( generalUtil.getSessionUserId());
 					sqlParam.put("$P{STRUCT}", "Experiment");
 					sqlParam.put("$P{USERID}", generalUtil.getSessionUserId());
+					sqlParam.put("$P{USER_INFO_LABORATORY_ID}", userMap.get("USER_INFO_LABORATORY_ID"));
 					String creiteriaWherePart = generalUtilConfig.getCriterialSql("Experiment", criteria, "Main", sqlParam, null);
 					if (column.equalsIgnoreCase("SE")) {
 						wherePart.append(" and (subsubproject_id is not null or experiment_id in (" + creiteriaWherePart + ")) ");
