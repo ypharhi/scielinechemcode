@@ -223,7 +223,11 @@ public class FormSaveBasic implements FormSaveService {
 			} else if (generalUtil.getNull(saveType_).equalsIgnoreCase("clob")) { // by savetype
 				String elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//always get new elementID 
 				String value = dataBean.getVal();
-				saveStringAsClob(elementId, value);
+				String retVal = saveStringAsClob(elementId, value);
+				if(retVal.equals("-1")) {
+					throw new Exception(generalUtil.getSpringMessagesByKey("FAILED_SAVE_CLOB",
+							"Save failed. Please, try again or call your administrator."));
+				}
 				dataBean.setVal(elementId);
 			} else if (generalUtil.getNull(saveType_).equalsIgnoreCase("excelSheet")) { // by savetype
 				String elementId = generalUtil.getJsonValById(dataBean.getVal(), "elementID");//get the saved value
@@ -237,11 +241,17 @@ public class FormSaveBasic implements FormSaveService {
 						|| generalUtil.getNull(elementId).equals("")|| generalUtil.getNull(elementId).equals("-1")) { // changed / new (after cone)  / empty are condition to get a  new elementid. Note: if isNnew and isChangedflag = 0 with elementId (NOT EMPTY) then it is clone 
 					elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//always get new elementID
 					String value = generalUtil.getJsonValById(dataBean.getVal(), "value");
-					saveStringAsClob(elementId, value);
+					//check for an empty value
+					if(value.isEmpty()) {
+						throw new Exception("The Spreadsheet save was failed. Please, call your administrator");
+					}
+					String retVal = saveStringAsClob(elementId, value);
+					if(retVal.equals("-1")) {
+						throw new Exception("The Spreadsheet save was failed. Please, try again or call your administrator");
+					}
 				}
 				if (elementId.equals("-1")) {
-					throw new Exception(generalUtil.getSpringMessagesByKey("FAILED_SAVE_CLOB",
-							"Save failed. Please, try again or call your administrator."));
+					throw new Exception("The Spreadsheet save was failed. Please, try again or call your administrator");
 				}
 				dataBean.setVal(elementId);
 			}else if (generalUtil.getNull(saveType_).equals("chemdoodle")) {
