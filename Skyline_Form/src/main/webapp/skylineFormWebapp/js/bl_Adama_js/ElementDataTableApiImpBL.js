@@ -1161,13 +1161,16 @@ function elementDataTableApiImpBL(domId) {
  					}
 					},
 					error : handleAjaxError
-				});
+				});//
 	   
  }
    if(($('#formCode').val() == 'ExperimentReport' && domId == 'reportTable')
 		   ||($('#formCode').val() == 'Experiment' && (domId == 'experimentResults'|| domId =='selfTestResults'))
-		   || ($('#formCode').val() == 'ExperimentFor' && (domId == 'experimentResults'|| domId =='selfTestResults'))
-		   || ($('#formCode').val() == 'ExpAnalyReportMain' )){
+		   ||($('#formCode').val() == 'Step' && (domId == 'results'|| domId =='selftestresults'))
+		   ||($('#formCode').val() == 'ExperimentFor' && (domId == 'experimentResults'|| domId =='selfTestResults'))
+		   ||($('#formCode').val() == 'ExperimentAn' && (domId == 'results'))
+		   ||($('#formCode').val().slice(0,12) =='ExperimentPr' && (domId == 'subsequenResults'|| domId =='subsequentResults'))
+		   ||($('#formCode').val() == 'ExpAnalyReportMain' )){
 	   $('#'+domId+'_wrapper > .dropdown-button').css('float','left');//task 26594
    }
    return true;
