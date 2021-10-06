@@ -412,6 +412,7 @@ function elementDataTableApiImpBL(domId) {
 	   } else if($('#formCode').val() == 'Step' && domId == 'Parameters'){
 		   $('#' + domId + '_dataTableStructButtons button.dataTableApiNew:not(.dataTableAddRowButton)').css('display','none');
 		   $('#' + domId + '_dataTableStructButtons button.dataTableApiView').css('display','none');
+	       $('.row-selection-helper').css('width','40px');
 	   }
 	   
 	   if($('#'+domId).hasClass('editable')){ 
