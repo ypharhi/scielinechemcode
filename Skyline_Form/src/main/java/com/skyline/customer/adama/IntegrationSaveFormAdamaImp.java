@@ -1961,12 +1961,12 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 						"id");
 				String ExternalRequestId = formDao.getFromInfoLookup("UNITS", LookupType.NAME, "External Tasks", "id");
 				List<String> colList = Arrays.asList("requeststatus_id");
-				String sql = "select singleReq_id from fg_s_requestselect_all_v where parentid = '"+formId+"' and sessionid is null and active = 1";
+				String sql = "select request_id from FG_I_REQUEST_DESTEXP_V where experiment_id = '"+formId+"'";
 				List<String> requestList = generalDao.getListOfStringBySql(sql);
 				for(String requestId:requestList) {
 					generalUtilLogger.logWriter(LevelType.INFO,
 						"Update the origin request- formid= " + requestId
-								+ ". Set status to 'In Progress'(if the request destination unit is different from 'External Tasks')",
+								+ ". Set status to 'Pending Approval'",
 						ActivitylogType.SaveEvent, formId);
 					String sql_ = "update fg_s_request_pivot set requestStatus_id = '" + pendingApprovalStatusId + "'"
 							+ " where formid = '" + requestId + "' ";

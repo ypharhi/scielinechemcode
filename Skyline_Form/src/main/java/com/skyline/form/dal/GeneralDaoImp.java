@@ -1536,7 +1536,7 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								String request_id =  rows.get(i).get(paramCol).toString().replaceAll("@", "");
 								requestExperimentList_ = getRequestExperimentList(request_id);
 							}
-							rows.get(i).put(paramCol , requestExperimentList_);
+							rows.get(i).put(paramCol , requestExperimentList_.isEmpty()?"":requestExperimentList_);
 						}catch(Exception e){
 							String emptyJson = "{\"displayName\":\"\" ,\"icon\":\"\" ,\"fileId\":\"\",\"formCode\":\"\"  ,\"formId\":\"\",\"tab\":\"\", \"smartType\":\"SMARTLINK\"}";
 							rows.get(i).put(paramCol , emptyJson);
@@ -2015,10 +2015,10 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		List<String>  requestExperimentList_ = new ArrayList<>();
 		try {
 			String sql_ = "select distinct e.EXPERIMENTNAME, e.experiment_id,e.formcode\n " + 
-					"   from fg_s_requestselect_all_v rs,\n" + 
+					"   from FG_I_REQUEST_DESTEXP_V rs,\n" + 
 					"   fg_s_experiment_v e\n" + 
-					"   where rs.PARENTID = e.experiment_id\n"+ 
-					"   and rs.singleReq_id = '"+request_id+"'" ;
+					"   where rs.experiment_id = e.experiment_id\n"+ 
+					"   and rs.request_id = '"+request_id+"'" ;
 			
 			List<Map<String, Object>> experimentData = null;
 			experimentData = getListOfMapsBySql(sql_);

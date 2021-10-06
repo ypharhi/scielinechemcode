@@ -215,6 +215,16 @@ function generalBL_generalClickEvent(customerFunction, action) { // customerClic
 	
 }
 
+
+function saveAndCreateRequest(){
+	doSave(createRequestfromNewSample,"NA","","",$('#formId').val());//after saving the sample its creation form the system creates a request contains the sample 
+}
+
+function createRequestfromNewSample(sampleId){
+	var appendUrl = 'SMARTSELECTLIST='||sampleId;
+	doNew("Request",appendUrl);//after saving the sample its creation form the system creates a request contains the sample 
+}
+
 function checkBalance(){
 	showWaitMessage("Please wait...");
 	var allData = getformDataNoCallBack(1);
