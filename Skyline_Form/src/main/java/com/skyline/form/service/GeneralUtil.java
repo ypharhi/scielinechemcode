@@ -1553,6 +1553,21 @@ public class GeneralUtil {
 	}
 
 
+	public String getSessionParam(String ParamName) {
+		// Add sessionId to the map
+		String toReturn = "";
+		try {
+			ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+			HttpSession session = attr.getRequest().getSession();
+			toReturn = (String)session.getAttribute(ParamName);
+		} catch (IllegalStateException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return toReturn;
+	}
+
+
 //	public String compressGzip(String str) {
 //		if (str == null || str.length() == 0) {
 //            return str;

@@ -27,12 +27,15 @@ public class ElementAccordionImp extends Element {
 	
 	private String currentVal;
 	
+	private String permissionScreenList;
+	
 	@Override
 	public String init(long stateKey, String formCode, String impCode, String initVal) {
 		try{
 			if(super.init(stateKey, formCode, impCode, initVal).equals(""))
 			{			
 				catalogItem = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "catalogItem");
+				permissionScreenList = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "permissionScreenList");
 				return "";
 			}
 			return "Creation failed";
@@ -109,13 +112,18 @@ public class ElementAccordionImp extends Element {
 				"        type:'string',\r\n" + 
 				"        title:'Layout BookMark Item',\r\n" + 
 				"        'enum':getResourceValueByType('LAYOUT_ITEM_TEXT')\r\n" + 
-				"    } " + 
+				"   },\r\n " + 
+				"	permissionScreenList:{  \n" + 
+				"		type:'string',\n" + 
+				"		title:'Session Param name with permission Screen csv',\n" + 
+				"   }\r\n" +
 				(schema.equals("") ? "" : ",\n" + schema) +
 				"\r\n}";		
 		return schema;
 	}
 	private String getAccordionInfo(List<String> catalogItemData){	
 		String userName = generalUtil.getSessionUserName();
+		String screenListCsv = generalUtil.getSessionParam(permissionScreenList);
 		String script = "var speed;\n"
 					  + "if($('#eMaintenanceTableApi_structCatalogItem option').val() == $(this).attr('id')){\n"
 					  + "	return;"
