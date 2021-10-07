@@ -1529,12 +1529,15 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 				/******** SMARTEXPERIMENTLIST handler *****************************************************************/
 				else if (!paramCol.isEmpty() && paramCol.endsWith("SMARTEXPLIST")) {
 					List<String>  requestExperimentList_ = new ArrayList<>();
+					
 					for (int i = 0; i < rows.size(); i++) {
 						try{
 						
 							if (rows.get(i).get(paramCol) != null) {
-								String request_id =  rows.get(i).get(paramCol).toString().replaceAll("@", "");
-								requestExperimentList_ = getRequestExperimentList(request_id);
+								String expList =  rows.get(i).get(paramCol).toString();
+								requestExperimentList_ = getRequestExperimentList(expList);
+							}else {
+								requestExperimentList_ = new ArrayList<>();
 							}
 							rows.get(i).put(paramCol , requestExperimentList_.isEmpty()?"":requestExperimentList_);
 						}catch(Exception e){
@@ -2011,22 +2014,23 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		return toReturn;
 	}
 
-	private List<String> getRequestExperimentList(String request_id) {
+	private List<String> getRequestExperimentList(String experimentCsv) {
 		List<String>  requestExperimentList_ = new ArrayList<>();
 		try {
-			String sql_ = "select distinct e.EXPERIMENTNAME, e.experiment_id,e.formcode\n " + 
+			/*String sql_ = "select distinct e.EXPERIMENTNAME, e.experiment_id,e.formcode\n " + 
 					"   from FG_I_REQUEST_DESTEXP_V rs,\n" + 
 					"   fg_s_experiment_v e\n" + 
 					"   where rs.experiment_id = e.experiment_id\n"+ 
 					"   and rs.request_id = '"+request_id+"'" ;
 			
 			List<Map<String, Object>> experimentData = null;
-			experimentData = getListOfMapsBySql(sql_);
+			experimentData = getListOfMapsBySql(sql_);*/
 			
-			for (int i = 0; i < experimentData.size(); i++) {
-				String experimentName = experimentData.get(i).get("EXPERIMENTNAME").toString();
-				String experimentId = experimentData.get(i).get("EXPERIMENT_ID").toString();
-				String experimentFormcode = experimentData.get(i).get("FORMCODE").toString();
+			List<String> experimentList = Arrays.asList(experimentCsv.split(","));
+			for (String experimentData:experimentList) {
+				String experimentName = experimentData.split(":")[1];
+				String experimentId = experimentData.split(":")[0];
+				String experimentFormcode = experimentData.split(":")[2];
 				requestExperimentList_.add("{\"displayName\":\""+experimentName+"\" ,\"icon\":\"\" ,\"fileId\":\"\",\"formCode\":\""+experimentFormcode+"\"  ,\"formId\":\""+experimentId+"\",\"tab\":\"\", \"smartType\":\"SMARTLINK\"}");
 			}
 		}catch(Exception e){
