@@ -212,6 +212,9 @@ function generalBL_generalClickEvent(customerFunction, action) { // customerClic
 	else if(customerFunction == 'cloneSourceExperiment'){
 		cloneSourceExperiment();
 	}
+	else if(customerFunction == 'updateParametersTable'){
+		updateParametersTable();
+	}
 	
 }
 
@@ -5631,4 +5634,65 @@ function updateInstrumentTable(){
 		error : handleAjaxError
 	});
 	$('#search_insrument_id').val("");		
+}
+
+function updateParametersTable(){
+	var selectedId = "";// the row to be filled with the current material data
+	var selectedTable = $('#Parameters').DataTable();
+	var custid = selectedTable.row('.selected').data();
+	if (typeof custid !== 'undefined') {
+		selectedId = custid[0];
+	}
+	
+	var parameter_id = $('#parameter_search_return').val();	
+	if(parameter_id == ''){
+		return;
+	}
+	
+	 var stringifyToPush1 = {
+			code : '_PARAMETER_ID',
+			val : parameter_id,
+			type : "AJAX_BEAN",
+			info : 'na'
+		};
+ 				
+	var allData = getformDataNoCallBack(1);
+	allData = allData.concat(stringifyToPush1);	
+	
+	// url call
+	var urlParam = "?formId="+ $('#formId').val()
+				+ "&formCode="+ $('#formCode').val()
+				+ "&userId="+ $('#userId').val()
+				+ "&eventAction=updateParametersTable"
+				+ "&isNew=" + $('#isNew').val();
+
+	var data_ = JSON.stringify({
+		action : "updateParametersTable",
+		data : allData,
+		errorMsg : ""
+	});
+
+	// call...
+	$.ajax({
+		type : 'POST',
+		data : data_,
+		url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+		contentType : 'application/json',
+		dataType : 'json',
+
+		success : function(obj) {
+			if (obj.errorMsg != null && obj.errorMsg != '') {
+				displayAlertDialog(obj.errorMsg);
+			} 
+			else
+			{
+				
+				onElementDataTableApiChange("Parameters");
+			}
+
+			hideWaitMessage();
+		},
+		error : handleAjaxError
+	});
+	$('#parameter_search_return').val("");		
 }

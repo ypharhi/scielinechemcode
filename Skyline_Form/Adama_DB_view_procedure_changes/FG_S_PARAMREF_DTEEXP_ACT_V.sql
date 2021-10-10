@@ -2,7 +2,7 @@ CREATE OR REPLACE VIEW FG_S_PARAMREF_DTEEXP_ACT_V AS
 select "PARAMREF_ID",t."FORM_TEMP_ID",t."FORMID",t.PARENTID, t.SESSIONID
       ,'{"rowDisabledClass":"'||nvl2(t.STEPNAME, 'authorizationDisabled', '')||'"}' as "SMARTACTIONS"
       ,'' as "ROW_SELECTION_HELPER"
-      ,nvl2(t.STEPNAME, t.parametername, fg_get_parameters_list(t.PARAMETER_ID)) as "Name_SMARTEDIT"
+      ,nvl2(t.STEPNAME, t.parametername, fg_get_parameters_list(t.PARAMETER_ID,t.step_project_id,t.step_subproject_id)) as "Name_SMARTEDIT"
       ,'{"displayName":"'||nvl(PARAMETERDESC,'')|| '","htmlType":"text","autoSave":"true","dbColumnName":"PARAMETERDESC"}' as "Description_SMARTEDIT"
       ,'{"displayName":"'||nvl2(t.STEPNAME, t.STEPNAME, 'Experiment')|| '","htmlType":""}' as "Level_SMARTEDIT"
       ,'{"displayName":"'||nvl2(t.STEPNAME,nvl2(t.isPlanned,t.PARAMETERSCRITERIANAME,t.PLANNEDPARAMETERSCRITERIANAME),t.PLANNEDPARAMETERSCRITERIANAME)|| '","htmlType":""}' as "Planned Sign_SMARTEDIT"
@@ -26,6 +26,8 @@ select "PARAMREF_ID",t."FORM_TEMP_ID",t."FORMID",t.PARENTID, t.SESSIONID
              ,pr.CRITERIA_ID, pr.PARAMETERSCRITERIANAME
              ,fg_get_num_display(pr.VAL1,0,3) as VAL1, fg_get_num_display(pr.VAL2,0,3) as VAL2
              ,pr.UOM_ID
+             ,pr.exp_PROJECT_ID as step_project_id
+             ,pr.exp_SUBPROJECT_ID as step_subproject_id
         from FG_S_PARAMREF_ALL_V pr,
              FG_S_STEP_ALL_V s, fg_s_stepstatus_v st
         where s.STATUS_ID = st.STEPSTATUS_ID(+)
