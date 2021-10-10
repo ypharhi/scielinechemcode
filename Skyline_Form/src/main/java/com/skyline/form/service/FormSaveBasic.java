@@ -243,7 +243,7 @@ public class FormSaveBasic implements FormSaveService {
 					String value = generalUtil.getJsonValById(dataBean.getVal(), "value");
 					//check for an empty value
 					if(value.isEmpty()) {
-						throw new Exception("The Spreadsheet save was failed. Please, call your administrator");
+						throw new Exception("The Spreadsheet save was failed. No value was accepted for save. Please, call your administrator");
 					}
 					String retVal = saveStringAsClob(elementId, value);
 					if(retVal.equals("-1")) {
