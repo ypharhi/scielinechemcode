@@ -1957,7 +1957,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			}
 			
 			if(currentStatusName.equals("Approved") && !lastStatusName.equals("Approved")) {
-				String pendingApprovalStatusId = formDao.getFromInfoLookup("REQUESTSTATUS", LookupType.NAME, "Pending Approval",
+				String approvalStatusId = formDao.getFromInfoLookup("REQUESTSTATUS", LookupType.NAME, "Approved",
 						"id");
 				String ExternalRequestId = formDao.getFromInfoLookup("UNITS", LookupType.NAME, "External Tasks", "id");
 				List<String> colList = Arrays.asList("requeststatus_id");
@@ -1968,7 +1968,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 						"Update the origin request- formid= " + requestId
 								+ ". Set status to 'Pending Approval'",
 						ActivitylogType.SaveEvent, formId);
-					String sql_ = "update fg_s_request_pivot set requestStatus_id = '" + pendingApprovalStatusId + "'"
+					String sql_ = "update fg_s_request_pivot set requestStatus_id = '" + approvalStatusId + "'"
 							+ " where formid = '" + requestId + "' ";
 					formSaveDao.updateStructTableByFormId(sql_, "fg_s_request_pivot", colList, requestId);
 				}		

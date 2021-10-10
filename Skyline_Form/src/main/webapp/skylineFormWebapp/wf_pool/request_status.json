@@ -29,11 +29,8 @@
 	{"from":"Approved", "to":"Re-Open"},
 	{"from":"Cancelled", "to":"Cancelled"},
 	{"from":"Declined", "to":"Declined"},
-	{"from":"Pending Approval", "to":"Pending Approval"},
-	{"from":"Pending Approval", "to":"Approved"},
-	{"from":"Pending Approval", "to":"Re-Open"},
 	{"from":"Re-Open", "to":"Re-Open"},
-	{"from":"Re-Open", "to":"Pending Approval"},
+	{"from":"Re-Open", "to":"Approved"},
 	{"from":"Re-Open", "to":"Cancelled"},
 	{"from":"Re-Open", "to":"In Progress"}
 	]

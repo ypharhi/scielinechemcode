@@ -1269,20 +1269,6 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 								wfNames.remove(statusMap.get("Planned"));
 							}
 						}
-						if(formParam.get("REQUESTSTATUSNAME").equals("Pending Approval")) {
-							if(!formParam.get("USERSTATE").equals("source")) {
-								msg = generalUtil.getSpringMessagesByKey(
-										statusLogOrder
-												+ "Userstate of request is not the creator or from the source lab team. Re-Open and Approved are removed",
-										"");
-								generalUtilLogger.logWriter(LevelType.DEBUG, msg, ActivitylogType.WorkFlowStatus, formId);
-								generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowStatus, msg, formId,
-										msgBuilder);
-
-								wfNames.remove(statusMap.get("Approved"));
-								wfNames.remove(statusMap.get("Re-Open"));
-							}
-						}
 						
 						if(formParam.get("REQUESTSTATUSNAME").equals("Approved")) {
 							if(!formParam.get("USERSTATE").equals("source")) {
@@ -1299,17 +1285,16 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 						}
 						
 						if(formParam.get("REQUESTSTATUSNAME").equals("Re-Open")) {
-							if(!formParam.get("USERSTATE").equals("dest")) {
-								msg = generalUtil.getSpringMessagesByKey(
-										statusLogOrder
-												+ "Userstate of the request is not a destination lab team. Pending Approval is removed",
-										"");
-								generalUtilLogger.logWriter(LevelType.DEBUG, msg, ActivitylogType.WorkFlowStatus, formId);
-								generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowStatus, msg, formId,
-										msgBuilder);
+						
+							msg = generalUtil.getSpringMessagesByKey(
+									statusLogOrder
+											+ "A re-opened request may be approved automatically only when the destination experiment is approved. Approvad is removed",
+									"");
+							generalUtilLogger.logWriter(LevelType.DEBUG, msg, ActivitylogType.WorkFlowStatus, formId);
+							generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowStatus, msg, formId,
+									msgBuilder);
 
-								wfNames.remove(statusMap.get("Pending Approval"));
-							}
+							wfNames.remove(statusMap.get("Approved"));
 						}
 					}
 				} //**** formCode: Template
