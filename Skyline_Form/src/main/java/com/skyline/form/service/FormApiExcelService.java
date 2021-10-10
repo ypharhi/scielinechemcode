@@ -67,7 +67,10 @@ public class FormApiExcelService {
 				|| generalUtil.getNull(elementId).equals("")|| generalUtil.getNull(elementId).equals("-1")) { // changed / new (after cone)  / empty are condition to get a  new elementid. Note: if isNnew and isChangedflag = 0 with elementId (NOT EMPTY) then it is clone 
 			elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//always get new elementID
 			String value = generalUtil.getJsonValById(dataBean.getVal(), "value");
-			
+			//check for an empty value
+			if(value.isEmpty()) {
+				throw new Exception("The Spreadsheet save was failed. No value was accepted for save. Please, call your administrator");
+			}
 			if(formCode.equals("ExperimentAn") && dataBean.getCode().equals("spreadsheetResults")) {
 				String experimentTypeName = formDao.getFromInfoLookup("Experiment", LookupType.ID, formId, "EXPERIMENTTYPENAME");
 				if(experimentTypeName.equals("General")) {
@@ -106,7 +109,10 @@ public class FormApiExcelService {
 			}
 			
 			String elementImpCode_ = dataBean.getCode();
-			uploadFileDao.saveStringAsClob(elementId, value);
+			String retVal = uploadFileDao.saveStringAsClob(elementId, value);
+			if(retVal.equals("-1")) {
+				throw new Exception("The Spreadsheet save was failed. Please, try again or call your administrator");
+			}
 		
 			String sql = "update "+table+"\n"
 					+ " set "+elementImpCode_+" = '"+elementId+"'\n"
