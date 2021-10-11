@@ -264,7 +264,15 @@ function elementDataTableApiImpBL(domId) {
 	   //$('#samples_dataTableStructButtons button.dataTableApiOptional1').removeClass('disabledclass');
 	   $('#samples_dataTableStructButtons button.dataTableApiOptional1').click(function(){doNew('Request');});
 	   table_.$('input[Type ="checkbox"][class="dataTableApiSelectInfoLabel"]').change(function(){
-			if($(this).prop('checked'))
+		    if(table_.$('input[class="dataTableApiSelectInfoLabel"]:checked').length!=0)//if($(this).prop('checked'))
+	        {
+				$('#samples_dataTableStructButtons button.dataTableApiOptional1').removeClass('disabledclass');
+	        }else{
+	        	 $('#samples_dataTableStructButtons button.dataTableApiOptional1').addClass('disabledclass');
+	        }
+	   });
+	   table_.$('input[Type ="checkbox"][class="dataTableApiSelectAllNone"]').change(function(){
+		    if(table_.$('input[class="dataTableApiSelectInfoLabel"]:checked').length!=0)//if($(this).prop('checked'))
 	        {
 				$('#samples_dataTableStructButtons button.dataTableApiOptional1').removeClass('disabledclass');
 	        }else{
@@ -1751,6 +1759,25 @@ function smartSelectStateMngBL(domId){
 		} else {
 			$('#action_dataTableStructButtons button.dataTableApiRemove').removeClass("disabledclass");
 		}
+	}
+	
+	if($("#formCode").val() == "InvItemBatch" && domId == "samples")
+	{
+		var counter = 0;		
+	    $("#"+domId+" > tbody > tr input[class='dataTableApiSelectInfoLabel']").each(function(i)//$('input[class="dataTableApiSelectInfo"]:checked')
+	    {
+	        if($(this).prop('checked'))
+	        {
+	            ++counter;
+	        }
+	    });
+	    var isChecked = counter==0?false:true;
+		if(isChecked == true)
+        {
+			$('#samples_dataTableStructButtons button.dataTableApiOptional1').removeClass('disabledclass');
+        }else{
+        	 $('#samples_dataTableStructButtons button.dataTableApiOptional1').addClass('disabledclass');
+        }
 	}
 }
 
