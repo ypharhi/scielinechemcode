@@ -3,7 +3,7 @@ select "PARAMREF_ID",t."FORM_TEMP_ID",t."FORMID",t.experiment_id as PARENTID, t.
     --'"hideColumns":{"condition":"Planned","cols":["Planned Sign_SMARTEDIT","Planned Value 1_SMARTNUM","Planned Value 2_SMARTNUM"]}
     ,'{"rowDisabledClass":"'||nvl2(s.STEPNAME, 'authorizationDisabled', '')||'"}' as "SMARTACTIONS"
     ,'' as "ROW_SELECTION_HELPER"
-    ,nvl2(s.STEPNAME, t.parametername,fg_get_parameters_list(t.PARAMETER_ID)) as "Name_SMARTEDIT"
+    ,nvl2(s.STEPNAME, t.parametername,fg_get_parameters_list(t.PARAMETER_ID,s.PROJECT_ID,s.SUBPROJECT_ID)) as "Name_SMARTEDIT"
      ,'{"displayName":"'||nvl(PARAMETERDESC,'')|| '","htmlType":"text","autoSave":"true","dbColumnName":"PARAMETERDESC"}' as "Description_SMARTEDIT"
      --,t.PARAMETERDESC as "Description_SMARTEDIT"
     ,'{"displayName":"'||nvl2(s.STEPNAME, s.STEPNAME, 'Experiment')|| '","htmlType":""}' as "Level_SMARTEDIT"

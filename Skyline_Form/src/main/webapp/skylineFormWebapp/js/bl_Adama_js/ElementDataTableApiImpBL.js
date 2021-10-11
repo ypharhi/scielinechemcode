@@ -421,6 +421,7 @@ function elementDataTableApiImpBL(domId) {
 		   $('#' + domId + '_dataTableStructButtons button.dataTableApiNew:not(.dataTableAddRowButton)').css('display','none');
 		   $('#' + domId + '_dataTableStructButtons button.dataTableApiView').css('display','none');
 	       $('.row-selection-helper').css('width','40px');
+	       $('#Parameters_dataTableStructButtons').append($('#parameterSearch'));
 	   }
 	   
 	   if($('#'+domId).hasClass('editable')){ 
@@ -656,6 +657,9 @@ function elementDataTableApiImpBL(domId) {
 		   $('#'+domId+'_dataTableStructButtons button.dataTableApiRemove').text('Remove Row');	
 		   $('#'+domId+'_dataTableStructButtons button.dataTableApiNew:not(.dataTableAddRowButton)').css('display','none');
   	  	}
+	   	if(_formCode == 'Experiment'){
+	   		$('#Parameters_dataTableStructButtons').append($('#parameterSearch'));
+	   	}
 	} 
    	else if (_formCode == "ExperimentCP") //for ExperimentCP only
 	{

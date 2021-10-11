@@ -2,7 +2,7 @@ CREATE OR REPLACE VIEW FG_S_PARAMREF_DTE_V AS
 select "PARAMREF_ID",t."FORM_TEMP_ID",t."FORMID",t.PARENTID
 ,'{"hideColumns":{"condition":"Planned","cols":["Planned Sign","Planned Value 1","Planned Value 2"]}}' as "SMARTACTIONS"
 ,'' as "ROW_SELECTION_HELPER"
-,fg_get_parameters_list(t.PARAMETER_ID) as "Name_SMARTEDIT"
+,fg_get_parameters_list(t.PARAMETER_ID,t.exp_project_id,t.exp_SUBPROJECT_ID) as "Name_SMARTEDIT"
 ,'{"displayName":"'||nvl(PARAMETERDESC,'')|| '","htmlType":"text","autoSave":"true","dbColumnName":"PARAMETERDESC"}' as "Description_SMARTEDIT"
 /*'{"displayName":[{"ID":"'||t.PARAMETER_ID||'","displayName":"'||t.parametername||'"}],"htmlType":"select","dbColumnName":"PARAMETER_ID", "colCalcId":"PARAMETER_ID",'||
                    ' "allowSingleDeselect":"false", "autoSave":"true",'||

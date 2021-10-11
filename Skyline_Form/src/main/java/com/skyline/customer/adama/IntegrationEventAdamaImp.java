@@ -4630,6 +4630,20 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 				String insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
 			}
 		}
+		else if(eventAction.equals("updateParametersTable"))
+		{
+			String parameter_id = elementValueMap.get("_PARAMETER_ID");
+			if (!generalUtil.getNull(parameter_id).isEmpty()) {
+				formCode = "paramref";
+				String newformId = formSaveDao.getStructFormId(formCode);
+				String sessionId = generalUtilFormState.checkAndReturnSessionId("paramref", formId);
+				String sql = "insert into FG_S_" + formCode + "_PIVOT "
+						+ "(TIMESTAMP,CHANGE_BY,SESSIONID,ACTIVE,FORMID,PARENTID,FORMCODE,FORMCODE_ENTITY,CREATED_BY,CREATION_DATE,PARAMETER_ID)"
+						+ " values (sysdate,'" + userId + "'," + sessionId + ",'1'," + newformId + "," + formId + ",'"
+						+ formCode + "','" + formCode + "','" + userId + "',sysdate,'" + parameter_id + "')";
+				String insert = formSaveDao.insertStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT", newformId);
+			}
+		}
 		else if(eventAction.equals("updateTestedComponentTable"))
 		{
 			String material_id = elementValueMap.get("_MATERIAL_ID");

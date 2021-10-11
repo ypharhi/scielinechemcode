@@ -1,5 +1,5 @@
 create or replace view fg_s_paramref_all_v as
-select t."PARAMREF_ID",t."FORM_TEMP_ID",t."PARAMREF_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."PLANNEDVAL1",t."PLANNED_CRITERIA_ID",t."VAL1",t."PARENTID",t."VAL2",t."CRITERIA_ID",t."PARAMREFNAME",t."PLANNEDVAL2",t."UOM_ID",t."PARAMETER_ID",t."TABLETYPE",t."ORIGINFORMID"
+select t."PARAMREF_ID",t."FORM_TEMP_ID",t."PARAMREF_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."PLANNED_CRITERIA_ID",t."PLANNEDVAL1",t."VAL1",t."VAL2",t."PARENTID",t."CRITERIA_ID",t."PLANNEDVAL2",t."UOM_ID",t."PARAMREFNAME",t."PARAMETER_ID",t."PARAMETERDESC",t."ORIGINFORMID",t."TABLETYPE"
 --t.* end! edit only the code below...
           ,mp.mpname as parametername,
           c1.PARAMETERSCRITERIANAME,
@@ -13,6 +13,8 @@ select t."PARAMREF_ID",t."FORM_TEMP_ID",t."PARAMREF_OBJIDVAL",t."FORMID",t."TIME
                             'From '||t.VAL1||' to'||t.VAL2||' '||u.UOMNAME)
                          ,decode(c1.PARAMETERSCRITERIANAME,'=',t.VAL1||' '||u.UOMNAME,c1.PARAMETERSCRITERIANAME||' '||t.VAL1||' '||u.UOMNAME)) as EXPRESSION,
           ex.FORMNUMBERID as EXP_FORMNUMBERID
+          ,nvl(ex.PROJECT_ID,s.PROJECT_ID) as exp_project_id
+          ,nvl(ex.SUBPROJECT_ID,s.subPROJECT_ID) as exp_SUBPROJECT_ID
           from FG_S_PARAMREF_V t,
                fg_s_parameterscriteria_all_v c1,
                 fg_s_parameterscriteria_all_v c2,

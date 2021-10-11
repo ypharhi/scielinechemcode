@@ -7385,7 +7385,7 @@ function onChangeTypeFormulSP(){
 				$('#subProjectName').val($('#SUBPROJECTTYPE_ID option:selected').text());
 			},
 			title : 'Warning',
-			message : getSpringMessage('TODO...')
+			message : getSpringMessage('Subproject name will be change to "'+$('#SUBPROJECTTYPE_ID option:selected').text()+'". Do you confirm?')
 		});
 	}
 }
