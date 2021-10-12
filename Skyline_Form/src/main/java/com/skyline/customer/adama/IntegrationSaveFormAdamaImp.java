@@ -4846,7 +4846,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				//String productName = formDao.getFromInfoLookup("MaterialRef", LookupType.ID, elementValueMap.get("PRODUCT_ID"), "Name");
 				elementValueMap.put("productName", materialName);
 			}
-			if (formEntityCode.equals("Action")) {//task 26720
+			//if (formEntityCode.equals("Action")) {//task 26720
 				String comments = generalUtil.getNull(elementValueMap.get("commentsForCoa"));
 				String richtextContent;
 				richtextContent = generalDao.selectSingleStringNoException("select fg_get_richtext_display('"+comments+"') from dual");//get the text only from fg_get richtext
@@ -4858,7 +4858,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 							true);
 					elementValueMap.put("commentsForCoa",commentsId);	
 				}
-			}
+			//}
 		} else if (formCode.equals("Sample")) {
 			if (elementValueMap.get("batchDefinition").equals("1")) {
 				integrationValidation.validate(ValidationCode.INVALID_BATCHDEFINITION_DUPLICATION, formCode, formId,
