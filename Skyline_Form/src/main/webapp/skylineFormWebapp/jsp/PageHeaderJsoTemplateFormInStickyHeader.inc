@@ -4,7 +4,7 @@
 
 		<a id="homePageHeaderJspTempalte"
 			href='../<%= session.getAttribute("homePage") %>'> <img
-			src="../skylineFormWebapp/images/skyline_logo.png" border="0"
+			src='../skylineFormWebapp/images/skyline_logo.png?<spring:message code="Env" text="" />' border="0"
 			title="Main Menu" style="margin-top: 1px;">
 		</a>
 
@@ -15,11 +15,11 @@
 		<ul class="menu">
 
 			<li class="menu-text"><span class="user-avatar"> <img
-					src="../skylineFormWebapp/images/icon-user.png">
+					src='../skylineFormWebapp/images/icon-user.png?<spring:message code="Env" text="" />'>
 			</span> <span class="user-name">${userName}</span></li>
 
 			<li style="padding-left: 10px;"><a href="#" onclick="Logout()">
-					<img src="../skylineFormWebapp/images/icon-logout.png"
+					<img src='../skylineFormWebapp/images/icon-logout.png?<spring:message code="Env" text="" />'
 					title="Logout" />
 			</a></li>
 
