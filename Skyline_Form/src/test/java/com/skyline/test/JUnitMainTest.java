@@ -789,6 +789,7 @@ public class JUnitMainTest {
 						((JavascriptExecutor) wd)
 							.executeScript("unitTestHelper_clickWhenReady('" + fieldValue_ + "_wrapper .dataTableApiEditShared')");
 					} else if (fieldValue.endsWith(".Clone")) {
+						Thread.sleep(3000); //TODO sleep with loop when until ready
 						fieldValue_ = fieldValue.replaceAll(".Clone", "");
 						((JavascriptExecutor) wd)
 							.executeScript("unitTestHelper_clickWhenReady('" + fieldValue_ + "_wrapper .dataTableApiClone')");
