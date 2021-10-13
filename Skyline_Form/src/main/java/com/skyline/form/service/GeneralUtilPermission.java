@@ -261,7 +261,7 @@ public class GeneralUtilPermission {
 	 * @param username
 	 * @return map with list of screens
 	 */
-	public Map<String, List<JSONObject>> getMenuScreenListByUserId(String userId, String username, String mainScreen) {
+	public Map<String, List<JSONObject>> getMenuScreenListByUserId(String userId, String username, String mainScreen, boolean includeMaintenance) {
 		List<String> list = new ArrayList<String>();
 		String userPerm = "";
 		JSONObject obj = new JSONObject();
@@ -278,6 +278,9 @@ public class GeneralUtilPermission {
 						"select t.screen_list from fg_i_user_screen_v t where userid = " + userId);
 				if (userPerm != null && !("," + userPerm + ",").contains("," + mainScreen + ",")) {
 					userPerm = userPerm + "," + mainScreen;
+				}
+				if (includeMaintenance && userPerm != null && !("," + userPerm + ",").contains("," + "Maintenance" + ",")) {
+					userPerm = userPerm + "," + "Maintenance";
 				}
 			}
 
@@ -846,5 +849,25 @@ public class GeneralUtilPermission {
 			permFormCodeEntity = (formDao.getFormInfoLookup(formCode, "%", true).get(0)).getFormCodeEntity();
 		}
 		return permFormCodeEntity;
+	}
+	
+	public String getMaintenanceScreenListByUserId(String userId) {
+		//List<String> list = new ArrayList<String>();
+		String userPerm="";
+		try {
+			if (!isFullPermission()) {
+				userPerm = generalDao.selectSingleStringNoException(
+						"select t.maintenance_screen_list from fg_i_user_maint_screen_v t where userid = " + userId);
+			}
+			else {
+				return "ALL";
+			}
+			//list = new ArrayList<String>(Arrays.asList(userPerm.split(",")));
+		} catch (Exception e) {
+			generalUtilLogger.logWriter(LevelType.ERROR, "Error in permissions maintenance screens list!" + e,
+					ActivitylogType.Permission, "-1", e, null);
+			userPerm="";
+		}
+		return userPerm;
 	}
 }
