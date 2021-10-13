@@ -166,8 +166,11 @@ public class LoginService { // TODO interface FormService and this should be For
 		
 		try 
 		{
-			listOfScreens = generalUtilPermission.getMenuScreenListByUserId(userId, username, mainScreen);
+			String listOfMaintenanceScreens = generalUtilPermission.getMaintenanceScreenListByUserId(userId);
+			boolean isMaintenanceScreenInclude = !generalUtil.getNull(listOfMaintenanceScreens).isEmpty();
+			listOfScreens = generalUtilPermission.getMenuScreenListByUserId(userId, username, mainScreen, isMaintenanceScreenInclude);
 			ArrayList<String> listOfFormCodeScreens = new ArrayList<String>();
+			
 			toReturn.append("<ul class=\"main-navbar dropdown menu\" data-dropdown-menu>");
 			listSize = listOfScreens.size()+1;
 			
@@ -279,6 +282,8 @@ public class LoginService { // TODO interface FormService and this should be For
 			}
 			
 			session.setAttribute("menuScreen", generalUtil.listToCsv(listOfFormCodeScreens));
+			
+			session.setAttribute("MAINTENANCE_PERMISSION_SCREEN_LIST", listOfMaintenanceScreens);
 			
 			//User guide:
 			String userGuideLabel = (username != null && username.equalsIgnoreCase("system"))? "U-Guide":"User Guide"; //short label for system to avoid display in new line

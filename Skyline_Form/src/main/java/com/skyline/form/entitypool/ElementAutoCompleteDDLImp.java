@@ -44,6 +44,8 @@ public class ElementAutoCompleteDDLImp extends Element {
 	
 	private boolean selectFirstValue = false; //TODO in next version
 	
+	private boolean REMOVE_AND_SAVE_ALL = false; 
+	
 	private boolean removeDeselectOption = false;
 	
 	private String csvValues;
@@ -54,9 +56,12 @@ public class ElementAutoCompleteDDLImp extends Element {
 	public String init(long stateKey, String formCode, String impCode, String initVal) {
 		try {
 			if (super.init(stateKey, formCode, impCode, initVal).equals("")) {
-				if(formCode != null && formCode.equalsIgnoreCase("ExperimentReport")) { // TODO add it as configuration default true and test it more...
+				if(formCode != null && (formCode.equalsIgnoreCase("ExperimentReport")|| formCode.equalsIgnoreCase("PermissionScheme"))) { // TODO add it as configuration default true and test it more...
 					ADD_ALL_ON_EMPTY_DATA = false;
 					SELECT_ALL_ON_EMPTY_DATA = false;
+					if(formCode.equalsIgnoreCase("PermissionScheme")) {
+						REMOVE_AND_SAVE_ALL = true;
+					}
 				}
 				placeHolder = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "placeHolder");
 				isMultiple = Boolean.valueOf(generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "multiple"));
@@ -209,7 +214,7 @@ public class ElementAutoCompleteDDLImp extends Element {
 					selected = " selected=\"selected\" ";
 					valueFound = true;
 					break;
-				}	
+				}
 			}
 			//ab 18032019: fix display issue of sign '<'(less than)
 			currData = generalUtil.getNull(currData).replace("<", "&lt;");
@@ -217,7 +222,11 @@ public class ElementAutoCompleteDDLImp extends Element {
 		}
 		
 		if (FirstOption.equals("ALL")) { // =ALL
-			if (ADD_ALL_ON_EMPTY_DATA || data.size() > 0) {
+			if (REMOVE_AND_SAVE_ALL && data.size() > 0 && value.equalsIgnoreCase("all")) {
+				toReturn = "<option " + " selected=\"selected\" " + " value=\"ALL\">All</option>" + sb.toString();
+				valueFound = true;
+			}
+			else if (ADD_ALL_ON_EMPTY_DATA || data.size() > 0) {
 				toReturn = "<option " + ((!valueFound && SELECT_ALL_ON_EMPTY_DATA)?" selected=\"selected\" ":"") + " value=\"ALL\">All</option>" + sb.toString();
 				valueFound = valueFound || SELECT_ALL_ON_EMPTY_DATA;
 			}

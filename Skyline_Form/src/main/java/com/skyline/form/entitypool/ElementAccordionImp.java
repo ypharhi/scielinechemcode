@@ -1,5 +1,7 @@
 package com.skyline.form.entitypool;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -123,7 +125,8 @@ public class ElementAccordionImp extends Element {
 	}
 	private String getAccordionInfo(List<String> catalogItemData){	
 		String userName = generalUtil.getSessionUserName();
-		String screenListCsv = generalUtil.getSessionParam(permissionScreenList);
+		String screenListCsv = generalUtil.getNull(generalUtil.getSessionParam(permissionScreenList));
+		List<String> screenList = new ArrayList<String>(Arrays.asList(screenListCsv.split(",")));
 		String script = "var speed;\n"
 					  + "if($('#eMaintenanceTableApi_structCatalogItem option').val() == $(this).attr('id')){\n"
 					  + "	return;"
@@ -149,21 +152,32 @@ public class ElementAccordionImp extends Element {
 					  + "  });\n";
 					
 		StringBuilder sb = new StringBuilder();
+		boolean groupInclude = false;
+		
 		for(int i=0;i<catalogItemData.size();i++){
+			groupInclude = false;
 			String[] array = catalogItemData.get(i).split(",");
 			if(showMaintenanceGroupByUser(array[0], userName)) {
-				sb.append("<h3>" + generalUtil.getSpringMessagesByKey(array[0].replace(" ", ""),array[0]) + "</h3>\n");			
-				sb.append("<div class=\"ComplyAccordion\">\n");			
-				sb.append("<ul>\n");
 				for(int j=1;j<array.length;j++){
-					sb.append("<li>\n");				
-					sb.append(" <a class=\"tabref\" id=\"" + array[j] + "\" href=\"#settingContent\"  onclick=\"" + script + 
-							"$('#pageTitle').text('Maintenance - ' + $( this ).text());\n" + // kd 25022020 fixed bug-7636: added subtitle to Maintenance screen
-							"\">" + generalUtil.getSpringMessagesByKey(array[j],"") + "</a>\n");
-					sb.append("</li>\n");
+					if (screenList != null &&( screenList.contains("ALL") || screenList.contains(array[j]))) {
+						if (!groupInclude) {
+							sb.append("<h3>" + generalUtil.getSpringMessagesByKey(array[0].replace(" ", ""), array[0])
+									+ "</h3>\n");
+							sb.append("<div class=\"ComplyAccordion\">\n");
+							sb.append("<ul>\n");
+							groupInclude = true;
+						}
+						sb.append("<li>\n");
+						sb.append(" <a class=\"tabref\" id=\"" + array[j] + "\" href=\"#settingContent\"  onclick=\""
+								+ script + "$('#pageTitle').text('Maintenance - ' + $( this ).text());\n" + // kd 25022020 fixed bug-7636: added subtitle to Maintenance screen
+								"\">" + generalUtil.getSpringMessagesByKey(array[j], "") + "</a>\n");
+						sb.append("</li>\n");
+					}
 				}
+				if(groupInclude) {
 				sb.append("</ul>\n");
 				sb.append("</div>\n");
+				}
 			}
 		}
 		return sb.toString();

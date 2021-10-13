@@ -1763,8 +1763,10 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 								if (parameters == null) {
 									if (stepNameCSV != null && !stepNameCSV.isEmpty()) {
 										parameters = getListOfMapsBySql(
-												"select distinct t.PARAMETER_ID,t.parametername from fg_s_paramref_all_v t where t.PARENTID in ("
-														+ stepNameCSV + ")  and t.active = 1 and t.sessionid is null");//or t.parentid in("+expIdCSV+"))
+												"select PARAMETER_ID,parametername ||' '|| descr as parametername from("
+												+ " select distinct t.PARAMETER_ID,t.parametername,  max(PARAMETERDESC) as descr  from fg_s_paramref_all_v t where t.PARENTID in ("
+														+ stepNameCSV + ")  and t.active = 1 and t.sessionid is null"
+																+ " group by(t.PARAMETER_ID,t.parametername,upper(parameterdesc)))");//or t.parentid in("+expIdCSV+"))
 									}
 								}
 								if (parameters != null && parametersData.isEmpty()) {
