@@ -3280,6 +3280,12 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 	//		return String.valueOf(jdbcTemplate.update(sql));
 	//	}
 
+	@Override
+	public void exeSql(String sql) {
+		jdbcTemplate.execute(sql);
+		
+	}
+
 	//	@Override
 	//	public String selectSingleStringTask(String sql) {
 	//		Object o = (String) jdbcTemplate.queryForObject(sql, String.class);

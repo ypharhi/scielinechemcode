@@ -114,6 +114,8 @@ public interface GeneralDao {
 	void logMessage(String msg);
 
 	JSONObject getJsonObjectBySqlSingleRow(String sql);
+	
+	void exeSql (String sql);
 
 	//	Connection getConnectionFromDataSurceTask();
 
