@@ -4495,6 +4495,10 @@ function bl_isTableResizable(domId)
 	{
 		toReturn = true;
 	}
+	else if(formCode == "SampleResults")
+	{
+		toReturn = true;
+	}
 	return toReturn;
 	
 }

@@ -10,7 +10,6 @@
   	{"id":"Cancelled", "text":"Cancelled" },
   	{"id":"In Progress", "text":"In Progress" },
   	{"id":"Approved", "text":"Approved" },
-  	{"id":"Pending Approval", "text":"Pending Approval" },
   	{"id":"Re-Open", "text":"Re-Open" }
  ],
   "linkDataArray": 
