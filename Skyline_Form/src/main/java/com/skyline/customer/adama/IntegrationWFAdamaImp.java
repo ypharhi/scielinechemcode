@@ -1285,16 +1285,17 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 						}
 						
 						if(formParam.get("REQUESTSTATUSNAME").equals("Re-Open")) {
-						
-							msg = generalUtil.getSpringMessagesByKey(
-									statusLogOrder
-											+ "A re-opened request may be approved automatically only when the destination experiment is approved. Approvad is removed",
-									"");
-							generalUtilLogger.logWriter(LevelType.DEBUG, msg, ActivitylogType.WorkFlowStatus, formId);
-							generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowStatus, msg, formId,
-									msgBuilder);
-
-							wfNames.remove(statusMap.get("Approved"));
+							if(formParam.get("USERSTATE").equals("source")) {
+								msg = generalUtil.getSpringMessagesByKey(
+										statusLogOrder
+												+ "A re-opened request may be approved automatically/manually by the destination lab. Approvad is removed",
+										"");
+								generalUtilLogger.logWriter(LevelType.DEBUG, msg, ActivitylogType.WorkFlowStatus, formId);
+								generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowStatus, msg, formId,
+										msgBuilder);
+	
+								wfNames.remove(statusMap.get("Approved"));
+							}
 						}
 					}
 				} //**** formCode: Template
