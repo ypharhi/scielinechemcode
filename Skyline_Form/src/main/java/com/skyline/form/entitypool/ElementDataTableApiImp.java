@@ -264,7 +264,7 @@ public class ElementDataTableApiImp extends Element {
 		String addOptional;
 		String labelSectionFormSection = "";
 		try {
-			addOptional = (addOptionalButton.equals("True"))?"<button type=\"button\" class=\"button dataTableApiButton dataTableApiOptional1 \" dataTableApiTypeNew onclick=\"\" >ADD_OPTIONAL_1</button>\n":"";
+			addOptional = (addOptionalButton.equals("True"))?"<button type=\"button\" class=\"button dataTableApiButton dataTableApiOptional1 \" dataTableApiTypeNew onclick=\"\" >&nbsp;&nbsp; </button>\n":"";
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			addOptional = "";
