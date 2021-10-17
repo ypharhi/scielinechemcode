@@ -1670,6 +1670,13 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 						"and s.SELFTESTSTATUSNAME = 'Cancelled'";
 				String resultCancelledSelfTestCsv = generalDao.getCSVBySql(sql_stest_Cancelled,false);
 				toReturn.put("ADHOC_RESULTCANCELLEDSELFTESTCSV", resultCancelledSelfTestCsv);
+				String isFormulation = generalDao.selectSingleStringNoException("select distinct 1 from fg_s_sample_all_v s where s.SAMPLE_ID = '" + structId + "' and s.exp_form_code = 'ExperimentFor'");
+				if(!generalUtil.getNull(isFormulation).isEmpty()){
+					toReturn.put("SAMPLE_IREPORT_NAME","rqrCodeLabelTestFormul");
+				}
+				else {
+					toReturn.put("SAMPLE_IREPORT_NAME","rqrCodeLabelTest");
+				}
 			}
 			
 			//***************************************

@@ -6898,7 +6898,7 @@ function setGlobalDataTableFilter( domId,colName, values,filterByEmptyVal )
 }
 
 function initFilterColumnDatatable(tableID) {
-	if(bl_initFilterColumnDatatable()){
+	if(bl_initFilterColumnDatatable(tableID)){
 	   var table = $('#' + tableID).DataTable();
 	    table.columns().iterator('column', function (ctx, idx) {
 	    	var _title = getColTitleByColIndex(idx,tableID);
@@ -6917,7 +6917,7 @@ function initFilterColumnDatatable(tableID) {
 	}
 function deleteGlobalDataTableFilterColumn(domId,idx){
 	try{
-		if(bl_initFilterColumnDatatable()){
+		if(bl_initFilterColumnDatatable(domId)){
 			 var selectedTable = $('#' + domId).DataTable();
 			 $(selectedTable.column(idx).footer()).find('#filterIcon').attr("src", "../skylineFormWebapp/images/filter_empty.png");
 		     var _title = getColTitleByColIndex(idx,domId);

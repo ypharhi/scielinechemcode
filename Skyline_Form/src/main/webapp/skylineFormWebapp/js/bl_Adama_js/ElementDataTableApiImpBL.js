@@ -4471,7 +4471,7 @@ function bl_isTableResizable(domId)
 	{
 		toReturn = true;
 	}
-	else if(formCode == "ExperimentReport" && domId == "reportTable") 
+	else if(formCode == "ExperimentReport" && domId != "rulesTable" && domId!="separateColumnsRulesTable") 
 	{
 		toReturn = true;
 	}
@@ -5944,9 +5944,12 @@ function enableCompositionDetailsButton(domId){//fixed bug 8953
 	}
 }
 
-function bl_initFilterColumnDatatable(){
+function bl_initFilterColumnDatatable(domId){
+	var formCode = $('#formCode').val();
 	var toReturn = false;
-	if ($('#formCode').val() == "Main"){
+	if (formCode == "Main" 
+		|| (formCode =='ExperimentReport' && domId!= "rulesTable" && domId!= "separateColumnsRulesTable")
+		|| formCode == "SampleResults"){
 		toReturn = true;
 	}
 	return toReturn;

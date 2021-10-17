@@ -1311,7 +1311,7 @@ function filterColumn(domId,_title){
 
 function searchSaveDisplay(domId){
 	try {
-		if (bl_initFilterColumnDatatable() && isSameStructTable(domId)) {
+		if (bl_initFilterColumnDatatable(domId) && isSameStructTable(domId)) {
 			var colNames = globalDataTableFilterColumn[domId];
 			var selectedTable = $('#' + domId).DataTable();
 			$.each(colNames, function(_title, data) {
