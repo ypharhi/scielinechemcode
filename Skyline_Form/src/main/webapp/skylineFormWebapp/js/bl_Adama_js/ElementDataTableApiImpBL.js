@@ -198,6 +198,7 @@ function elementDataTableApiImpBL(domId) {
    } else if($('#formCode').val() == 'InvItemSamplesMain'){
 	   	  $('#lowerTable th:first').text("Main");
 	   	if(domId == 'upperTable'){
+	   	    $('#' + domId + '_criteriaCatalogItem option[value="ALL"]').text("All by Date"); // rename the ALL option to 'All by Date'
 	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').text('Show Results');
 	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').off('click');
 	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').click(function(){openSampleResults();});
