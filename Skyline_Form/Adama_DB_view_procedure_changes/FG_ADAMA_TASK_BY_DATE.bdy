@@ -226,7 +226,7 @@ create or replace package body FG_ADAMA_TASK_BY_DATE is
 
   begin
       --delete from fg_debug;
-      --insert into fg_debug(comment_info,comments) values('start create table for formcode =' || formCode_in ,''); --commit;
+      insert into fg_debug(comment_info,comments) values('start create table for formcode =' || formCode_in ,''); --commit;
 
       select nvl(f.formcode_entity,f.formcode),f.form_type into formCodeEntity,formTypeParam from fg_form f where f.formcode = formCode_in;
 
@@ -295,7 +295,7 @@ create or replace package body FG_ADAMA_TASK_BY_DATE is
          --set name / type / CHANGEDATE
         sql_path := '
         update Fg_Sequence f set (f.formidname,f.formtabletype,f.formcode,f.comments) = (
-        select distinct nvl(substr(t.' || formCodeEntity || 'name,400),''NA''),''NA'',NVL(f.formcode,t.formCode),''system task '' || decode(f.formcode,'' '',''update from code from pivot because of null'')
+        select distinct nvl(substr(t.' || formCodeEntity || 'name,1,400),''NA''),''NA'',NVL(f.formcode,t.formCode),''system task '' || decode(f.formcode,'' '',''update from code from pivot because of null'')
         from fg_s_' || formCodeEntity || '_pivot t
         where to_char(t.formid) = to_char(f.id)
         AND(f.formidname || '','' || f.formcode) <> (nvl(t.' || formCodeEntity || 'name,''NA'') || '','' || NVL(f.formcode,t.formCode))
@@ -342,7 +342,7 @@ create or replace package body FG_ADAMA_TASK_BY_DATE is
           rollback;
           --FG_SEQUENCE_INSERT_TRIG enable IN EXCEPTION
           insert into fg_debug(comments,comment_info) values (null,'FG_SET_INF_COMPLETE_DATA (error) - exception in form ' || formCode_in); commit;
-          dbms_output.put_line('FG_SET_INF_COMPLETE_DATA (error) - exception in form ' || formCodeEntity); commit;
+          --dbms_output.put_line('FG_SET_INF_COMPLETE_DATA (error) - exception in form ' || formCodeEntity); commit;
           return -1;
   end;
 
@@ -374,13 +374,14 @@ create or replace package body FG_ADAMA_TASK_BY_DATE is
            select t.TABLE_NAME, replace(replace(t.TABLE_NAME,'FG_AUTHEN_',''),'_V','') as form_code from user_tab_columns t
            where t.TABLE_NAME like 'FG_AUTHEN_%_V' AND T.COLUMN_NAME = 'FORMPATH'
            and   t.TABLE_NAME <> 'FG_AUTHEN_SELFTESTMAIN_V'
+           and   t.TABLE_NAME not like 'FG_AUTHEN_STEST%_V'
          ) t1,
          fg_form f
          where upper(f.formcode) = upper(t1.form_code)
          and   instr(',' || upper(NVL(nullif(formCodeCsv_in,'ALL'),f.formcode)) || ',',',' || upper(f.formcode) || ',') <> 0
       )
       loop
-        sql_ :=  sql_ || ' select distinct t.' || r.table_entity || '_ID as formPath_id, ''' || r.formcode || ''' as formPath_formcode, t.formPath as formPath_value from ' || r.table_name || ' t where 1=1 ' || REPLACE(optionalWherePart,'@ENTITY@',r.table_entity) || ' union all ' || nl_;
+        sql_ :=  sql_ || ' select distinct t.' || r.table_entity || '_ID as formPath_id, ''' || r.formcode || ''' as formPath_formcode, t.formPath as formPath_value from ' || r.table_name || ' t where ' || r.table_entity || '_id > 0 ' || REPLACE(optionalWherePart,'@ENTITY@',r.table_entity) || ' union all ' || nl_;
         --dbms_output.put_line ('select distinct t.' || r.table_entity || '_ID as formPath_id, ''' || r.formcode || ''' as formPath_formcode, t.formPath as formPath_value from ' || r.table_name || ' t union all');
       end loop;
 
@@ -445,6 +446,12 @@ create or replace package body FG_ADAMA_TASK_BY_DATE is
           formCodeCsv_in := formCodeCsv_in || ',' || C.FORMCODE;
       END LOOP;
     else
+          select count(*) into c_ from FG_SYS_SCHED t where upper(t.sched_name) = 'NIGHTTASK' and t.start_date_success_holder is not null;   --NIGHTTASK
+          if c_ > 0 then
+             select 'to_date(''' || to_char(max(t.start_date_success_holder),'dd/MM/yyyy HH24:MI:SS')|| ''',''dd/MM/yyyy HH24:MI:SS'')' into formDateExp_ from FG_SYS_SCHED t where upper(t.sched_name) = 'NIGHTTASK';
+          else
+            formDateExp_ := '(sysdate - 30)';
+          end if;
           formCodeCsv_in := 'ALL';
           EXECUTE IMMEDIATE ' ALTER TRIGGER FG_FORMLASTSAVE_INF_I_TRIG disable ';
           EXECUTE IMMEDIATE ' ALTER TRIGGER FG_FORMLASTSAVE_INF_U_TRIG disable ';
@@ -468,7 +475,7 @@ create or replace package body FG_ADAMA_TASK_BY_DATE is
                    USER_TABLES UT
               where t.form_type in ('STRUCT','INVITEM','ATTACHMENT','REF','SELECT','MAINTENANCE')
               AND UT.TABLE_NAME = 'FG_S_' || upper(T.FORMCODE_ENTITY) || '_PIVOT'
-              and t.formcode <> 'BatchFrSelect'
+              and t.formcode not in ('BatchFrSelect')--,'Component')
               --and t.formcode not in ( 'ElementDemo1','SpecificationRef','ExcelTemplate') -- not need we check inside the function if the tables are empty - this was the purpose of this line
               --AND DECODE(formCodeCsv_in,'ALL',1,instr(',' || upper(formCodeCsv_in) || ',',',' || upper(t.formcode) || ',')) <> 0
             ) order by is_popup -- we want the main forms before the popups
