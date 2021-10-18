@@ -468,10 +468,10 @@ public class FormApiElementsService {
 		try {
 			HashMap<String, String> mLang = new HashMap<String, String>();
 
-			String isFormulationExist =  generalDao.selectSingleStringNoException("select distinct 1 from fg_s_sample_all_v s where s.SAMPLE_ID in (" + displayValuesObj + ") and s.exp_form_code='ExperimentFor'");
+			/*String isFormulationExist =  generalDao.selectSingleStringNoException("select distinct 1 from fg_s_sample_all_v s where s.SAMPLE_ID in (" + displayValuesObj + ") and s.exp_form_code='ExperimentFor'");
 			if(!generalUtil.getNull(isFormulationExist).isEmpty()) {
 				fileName = "rqrCodeLabel4callFromListFormul.xml";
-			}
+			}*/
 			// preparations...
 			HashMap<String, String> hmReportReplacerList = new HashMap<String, String>();
 			HashMap<String, Object> hmReportParameterList = new HashMap<String, Object>();
