@@ -153,11 +153,11 @@ public class ExperimentReportSQLBuilder {
 						sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
 								" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
 								"   ,max(t.INVITEMMATERIALNAME) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as MAINNAME\r\n" + 
-								(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,0,3) || '[' || t.QUANTITYUOMNAME || ']') keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as QUANTITY\r\n":"") +
-								(colMap.containsKey("MOLE") ? "   ,max(fg_get_num_display(t.MOLE,0,3) || '[' || t.MOLEUOMNAME || ']') keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as MOLE\r\n":"") +
-								(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,0,3)|| '[' || t.VOLUOMNAME || ']') keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
-								(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
-								(colMap.containsKey("EQUIVALENT") ? "   ,max(fg_get_num_display(t.EQUIVALENT,0,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as EQUIVALENT\r\n":"") +
+								(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,3,3) || '[' || t.QUANTITYUOMNAME || ']') keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as QUANTITY\r\n":"") +
+								(colMap.containsKey("MOLE") ? "   ,max(fg_get_num_display(t.MOLE,3,3) || '[' || t.MOLEUOMNAME || ']') keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as MOLE\r\n":"") +
+								(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,3,3)|| '[' || t.VOLUOMNAME || ']') keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
+								(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),3,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
+								(colMap.containsKey("EQUIVALENT") ? "   ,max(fg_get_num_display(t.EQUIVALENT,3,3)) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as EQUIVALENT\r\n":"") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? "   ,max(t.INVITEMBATCHNAME) keep (dense_rank first order by t.MATERIALREF_ID desc nulls last) over (partition by t.STEP_ID) as INVITEMBATCHNAME\r\n":"") +
 								
 								"  FROM FG_EXPREPORT_MATERIALREF_TMP t \r\n" + 
@@ -206,11 +206,11 @@ public class ExperimentReportSQLBuilder {
 						sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
 								" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
 								"   ,max(t.INVITEMMATERIALNAME) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as MAINNAME\r\n" + 
-								(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,0,3) || '[' || t.QUANTITYUOMNAME || ']') keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) QUANTITY\r\n":"") +
-								(colMap.containsKey("MOLE") ? "   ,max(fg_get_num_display(t.MOLE,0,3) || '[' || t.MOLEUOMNAME || ']') keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as MOLE\r\n":"") +
-								(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,0,3) || '[' || t.VOLUOMNAME || ']') keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
-								(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
-								(colMap.containsKey("EQUIVALENT") ? "   ,max(fg_get_num_display(t.EQUIVALENT,0,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as EQUIVALENT\r\n":"") +
+								(colMap.containsKey("QUANTITY") ? "   ,max(fg_get_num_display(t.QUANTITY,3,3) || '[' || t.QUANTITYUOMNAME || ']') keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) QUANTITY\r\n":"") +
+								(colMap.containsKey("MOLE") ? "   ,max(fg_get_num_display(t.MOLE,3,3) || '[' || t.MOLEUOMNAME || ']') keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as MOLE\r\n":"") +
+								(colMap.containsKey("VOLUME") ? "   ,max(fg_get_num_display(t.VOLUME,3,3) || '[' || t.VOLUOMNAME || ']') keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as VOLUME\r\n":"") +
+								(colMap.containsKey("PURITY") ? "   ,max(fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),3,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as PURITY\r\n":"") +
+								(colMap.containsKey("EQUIVALENT") ? "   ,max(fg_get_num_display(t.EQUIVALENT,3,3)) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as EQUIVALENT\r\n":"") +
 								//(colMap.containsKey("INVITEMBATCHNAME") ? "   ,max(t.INVITEMBATCHNAME) keep (dense_rank first order by to_number(fg_get_num_normal(t.QUANTITY,t.QUANTITYUOM_ID)) desc nulls last) over (partition by t.STEP_ID) as INVITEMBATCHNAME\r\n":"") +
 								
 								"  FROM FG_EXPREPORT_MATERIALREF_TMP t \r\n" + 
@@ -258,11 +258,11 @@ public class ExperimentReportSQLBuilder {
 						sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
 								" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
 								"   ,t.INVITEMMATERIALNAME as MAINNAME\r\n" + 
-								(colMap.containsKey("QUANTITY") ? "   ,fg_get_num_display(t.QUANTITY,0,3) || '[' || t.QUANTITYUOMNAME || ']' as QUANTITY\r\n":"") +
-								(colMap.containsKey("MOLE") ? "   ,fg_get_num_display(t.MOLE,0,3) || '[' || t.MOLEUOMNAME || ']' as MOLE\r\n":"") +
-								(colMap.containsKey("VOLUME") ? "   ,fg_get_num_display(t.VOLUME,0,3) || '[' || t.VOLUOMNAME || ']' as VOLUME\r\n":"") +
-								(colMap.containsKey("PURITY") ? "   ,fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3) as PURITY\r\n":"") +
-								(colMap.containsKey("EQUIVALENT") ? "   ,fg_get_num_display(t.EQUIVALENT,0,3) as EQUIVALENT\r\n":"") +
+								(colMap.containsKey("QUANTITY") ? "   ,fg_get_num_display(t.QUANTITY,3,3) || '[' || t.QUANTITYUOMNAME || ']' as QUANTITY\r\n":"") +
+								(colMap.containsKey("MOLE") ? "   ,fg_get_num_display(t.MOLE,3,3) || '[' || t.MOLEUOMNAME || ']' as MOLE\r\n":"") +
+								(colMap.containsKey("VOLUME") ? "   ,fg_get_num_display(t.VOLUME,3,3) || '[' || t.VOLUOMNAME || ']' as VOLUME\r\n":"") +
+								(colMap.containsKey("PURITY") ? "   ,fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),3,3) as PURITY\r\n":"") +
+								(colMap.containsKey("EQUIVALENT") ? "   ,fg_get_num_display(t.EQUIVALENT,3,3) as EQUIVALENT\r\n":"") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? "   ,t.INVITEMBATCHNAME as INVITEMBATCHNAME\r\n":"") +
 								
 								"  FROM FG_EXPREPORT_MATERIALREF_TMP t, FG_I_CONN_MATERIAL_TYPE_V mt \r\n" + 
@@ -312,11 +312,11 @@ public class ExperimentReportSQLBuilder {
 						sbWithSql.append(((index == 0) ? "with ":", ") + "CR" + index + " as (\r\n" +
 								" SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + 
 								"   ,t.INVITEMMATERIALNAME as MAINNAME\r\n" + 
-								(colMap.containsKey("QUANTITY") ? "   ,fg_get_num_display(t.QUANTITY,0,3) || '[' || t.QUANTITYUOMNAME || ']' as QUANTITY\r\n":"") +
-								(colMap.containsKey("MOLE") ? "   ,fg_get_num_display(t.MOLE,0,3) || '[' || t.MOLEUOMNAME || ']' as MOLE\r\n":"") +
-								(colMap.containsKey("VOLUME") ? "   ,fg_get_num_display(t.VOLUME,0,3) || '[' || t.VOLUOMNAME || ']' as VOLUME\r\n":"") +
-								(colMap.containsKey("PURITY") ? "   ,fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3) as PURITY\r\n":"") +
-								(colMap.containsKey("EQUIVALENT") ? "   ,fg_get_num_display(t.EQUIVALENT,0,3) as EQUIVALENT\r\n":"") +
+								(colMap.containsKey("QUANTITY") ? "   ,fg_get_num_display(t.QUANTITY,3,3) || '[' || t.QUANTITYUOMNAME || ']' as QUANTITY\r\n":"") +
+								(colMap.containsKey("MOLE") ? "   ,fg_get_num_display(t.MOLE,3,3) || '[' || t.MOLEUOMNAME || ']' as MOLE\r\n":"") +
+								(colMap.containsKey("VOLUME") ? "   ,fg_get_num_display(t.VOLUME,3,3) || '[' || t.VOLUOMNAME || ']' as VOLUME\r\n":"") +
+								(colMap.containsKey("PURITY") ? "   ,fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),3,3) as PURITY\r\n":"") +
+								(colMap.containsKey("EQUIVALENT") ? "   ,fg_get_num_display(t.EQUIVALENT,3,3) as EQUIVALENT\r\n":"") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? "   ,t.INVITEMBATCHNAME as INVITEMBATCHNAME\r\n":"") +
 								
 								"  FROM FG_EXPREPORT_MATERIALREF_TMP t\r\n" + 
@@ -401,14 +401,14 @@ public class ExperimentReportSQLBuilder {
 								(colMap.containsKey("MW") ? "," + "\"" + ("{" + displayObjId + "}" + singleDisplayName + " - " + colName_ + " " + colMap.get("MW")+ uomPlaceHolder) + "\"": "");
 						
 						String val_ = //"\" ' || (invitemmaterialname) || '\"" +
-								(colMap.containsKey("QUANTITY") ? ",\" ' || fg_get_num_display(t.QUANTITY,0,3) || '[' || t.QUANTITYUOMNAME || ']' || '\"" : "") +
-								(colMap.containsKey("MOLE") ? ",\" ' || fg_get_num_display(t.MOLE,0,3) || '[' || t.MOLEUOMNAME || ']' || '\"" : "") +
-								(colMap.containsKey("VOLUME") ? ",\" ' || fg_get_num_display(t.VOLUME,0,3) || '[' || t.VOLUOMNAME || ']' || '\"" : "") +
-								(colMap.containsKey("PURITY") ? ",\" ' || fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),0,3) || '\"" : "") +
-								(colMap.containsKey("EQUIVALENT") ? ",\" ' || fg_get_num_display(t.EQUIVALENT,0,3) || '\"" : "") +
+								(colMap.containsKey("QUANTITY") ? ",\" ' || fg_get_num_display(t.QUANTITY,3,3) || '[' || t.QUANTITYUOMNAME || ']' || '\"" : "") +
+								(colMap.containsKey("MOLE") ? ",\" ' || fg_get_num_display(t.MOLE,3,3) || '[' || t.MOLEUOMNAME || ']' || '\"" : "") +
+								(colMap.containsKey("VOLUME") ? ",\" ' || fg_get_num_display(t.VOLUME,3,3) || '[' || t.VOLUOMNAME || ']' || '\"" : "") +
+								(colMap.containsKey("PURITY") ? ",\" ' || fg_get_num_display(nvl(nvl(t.PURITYINF,t.PURITY),100),3,3) || '\"" : "") +
+								(colMap.containsKey("EQUIVALENT") ? ",\" ' || fg_get_num_display(t.EQUIVALENT,3,3) || '\"" : "") +
 								(colMap.containsKey("INVITEMBATCHNAME") ? ",\" ' || t.INVITEMBATCHNAME || '\"" : "") +
-								(colMap.containsKey("MASS") ? ",\" ' || fg_get_num_display(t.MASS,0,3)|| '[' || t.MASSUOMNAME || ']' || '\"" : "") +
-								(colMap.containsKey("MW") ? ",\" ' || fg_get_num_display(t.MW,0,3) || '[' || t.MWUOMNAME || ']' || '\"" : "");
+								(colMap.containsKey("MASS") ? ",\" ' || fg_get_num_display(t.MASS,3,3)|| '[' || t.MASSUOMNAME || ']' || '\"" : "") +
+								(colMap.containsKey("MW") ? ",\" ' || fg_get_num_display(t.MW,3,3) || '[' || t.MWUOMNAME || ']' || '\"" : "");
 						
 						if(col_ != null && col_.startsWith(",")) {
 							col_ = col_.substring(1);
