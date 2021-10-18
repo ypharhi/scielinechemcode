@@ -468,6 +468,10 @@ public class FormApiElementsService {
 		try {
 			HashMap<String, String> mLang = new HashMap<String, String>();
 
+			String isFormulationExist =  generalDao.selectSingleStringNoException("select distinct 1 from fg_s_sample_all_v s where s.SAMPLE_ID in (" + displayValuesObj + ") and s.exp_form_code='ExperimentFor'");
+			if(!generalUtil.getNull(isFormulationExist).isEmpty()) {
+				fileName = "rqrCodeLabel4callFromListFormul.xml";
+			}
 			// preparations...
 			HashMap<String, String> hmReportReplacerList = new HashMap<String, String>();
 			HashMap<String, Object> hmReportParameterList = new HashMap<String, Object>();
@@ -539,6 +543,19 @@ public class FormApiElementsService {
 		} finally {
 			generalDao.releaseConnectionFromDataSurce(conn);
 		}
+	}
+	
+	public List<Map<String, Object>> getIreportSampleFileData(String displayValuesObj) {
+		List<Map<String, Object>> sList = new ArrayList<>();
+		try {
+		String sql = "select distinct listagg(sample_id,',') WITHIN GROUP (order by sample_id) over (partition by file_name) as sample_ids,file_name as report_type from( "
+			    + " select s.sample_id ,decode(s.exp_form_code,'ExperimentFor','Formulation','')as file_name from fg_s_sample_all_v s where s.SAMPLE_ID in (" + displayValuesObj + "))";
+		
+		sList = generalDao.getListOfMapsBySql(sql);
+		}catch(Exception e) {
+			return sList;
+		}
+		return sList;
 	}
 	
 	public String getSpecificTreeRoot(String metaData, String view, String wherePartFormId,String parentFormId,Long stateKey) {

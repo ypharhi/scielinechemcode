@@ -487,6 +487,35 @@ public class ExperimentReportSQLBuilder {
 		}
 		// MAIN SQL - REPORT combineRules AND displayData table selection END!
 		
+		//Step Conclusion 
+
+		// for each step in the user selection row
+		String[] displayLevelArray = stepNumberNamesCsv.split(",", -1);
+
+		for (String singleDisplayName : displayLevelArray) {
+			String aliasName = "CR" + index; // Alias
+
+			//with
+			sbWithSql.append(((index == 0) ? "with " : ", ") + "CR" + index + " as (\r\n"
+					+ " SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + "   ,fg_get_richtext_display(t.CONCLUSSION) as step_conclusion\r\n"
+					+ "  FROM FG_s_step_v t\r\n" + "  WHERE t.sessionid is null and t.active=1\r\n"
+					+ "  AND t.STEP_ID in (" + stepIds + ")\r\n" + "  AND lower('Step '|| t.FORMNUMBERID) = lower('"
+					+ singleDisplayName + "')\r\n" + ")"); // and experiment id where part (or on temp table we create in the beginning for performance)
+
+			//select
+			sbSelectSql.append("," + aliasName + ".step_conclusion as \""
+					+ getValidOracleColumnName("{" + index + "}" + singleDisplayName + " - " + "Conclusion") + "\"");
+
+			//from
+			sbFromSql.append("," + aliasName);
+
+			//where
+			sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
+
+			index++;
+		}
+
+				
 		//+++++++++++++++++++++++++++++++++++++++++++++
 		// displayData into FG_P_EXPREPORT_DATA_TMP
 		//+++++++++++++++++++++++++++++++++++++++++++++

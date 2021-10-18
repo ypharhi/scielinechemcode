@@ -188,6 +188,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								+ "select distinct t.experiment_id, t.ExperimentName, s.samplename, decode(s.SAMPLE_ID, null,'',s.SAMPLE_ID || '_') || t.experiment_id as uniquerow,\n"
 								+ "'{\"displayName\":\"' || t.ExperimentName || '\" ,\"icon\":\"' || '' || '\" ,\"fileId\":\"' || '' || '\",\"formCode\":\"' || t.FORMCODE || '\"  ,\"formId\":\"' || t.EXPERIMENT_ID || '\",\"tab\":\"' || '' || '\" }' as \"Experiment Number_SMARTLINK\",\n"
 								+ "t.DESCRIPTION as \"Experiment Description\"\n"
+								+ ",fg_get_richtext_display(t.CONCLUSSION) as \"Experiment Conclusion\"\n"
 								+ sqlObj.getSelect() 
 							    + "from fg_s_experiment_v t, fg_s_sample_all_v s " + sqlObj.getFrom() + "\n" 
 							    + "where  t.experiment_id = s.experiment_id(+) \n"
