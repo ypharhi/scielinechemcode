@@ -87,6 +87,7 @@ public class ExperimentReportSQLBuilder {
 				" order by t.TABLETYPE, to_number(t.formid) ";
 		
 		List<Map<String,Object>> filterRefList = generalDao.getListOfMapsBySql(sqlFilterRef);
+		boolean isCombineRulseExist = false;
 		
 		// MAIN SQL - REPORT combineRules AND displayData table selection - for each filter row (filter row represent the "combine rules" and "display data" selection table)
 		for (Map<String, Object> filterRefMap : filterRefList) { 
@@ -100,6 +101,7 @@ public class ExperimentReportSQLBuilder {
 			//-----------------------------------------------------------------------------
 			if(tableType.equalsIgnoreCase("combineRules")) {
 				
+				isCombineRulseExist = true;
 				String stepName = generalUtil.getNull((String)filterRefMap.get("STEPNAME")); // List of step Names (for example STEP 01,STEP 02)
 				String ruleName = generalUtil.getNull((String)filterRefMap.get("RULENAME")); // <Main Solvent /Limiting Agent/Material Type>
 				String ruleCondition = generalUtil.getNull((String)filterRefMap.get("RULECONDITION")); // <Main Solvent /Limiting Agent/Material Type>
@@ -486,34 +488,6 @@ public class ExperimentReportSQLBuilder {
 			//----- displayData END!
 		}
 		// MAIN SQL - REPORT combineRules AND displayData table selection END!
-		
-		//Step Conclusion 
-
-		// for each step in the user selection row
-		String[] displayLevelArray = stepNumberNamesCsv.split(",", -1);
-
-		for (String singleDisplayName : displayLevelArray) {
-			String aliasName = "CR" + index; // Alias
-
-			//with
-			sbWithSql.append(((index == 0) ? "with " : ", ") + "CR" + index + " as (\r\n"
-					+ " SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n" + "   ,fg_get_richtext_display(t.CONCLUSSION) as step_conclusion\r\n"
-					+ "  FROM FG_s_step_v t\r\n" + "  WHERE t.sessionid is null and t.active=1\r\n"
-					+ "  AND t.STEP_ID in (" + stepIds + ")\r\n" + "  AND lower('Step '|| t.FORMNUMBERID) = lower('"
-					+ singleDisplayName + "')\r\n" + ")"); // and experiment id where part (or on temp table we create in the beginning for performance)
-
-			//select
-			sbSelectSql.append("," + aliasName + ".step_conclusion as \""
-					+ getValidOracleColumnName("{" + index + "}" + singleDisplayName + " - " + "Conclusion") + "\"");
-
-			//from
-			sbFromSql.append("," + aliasName);
-
-			//where
-			sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
-
-			index++;
-		}
 
 				
 		//+++++++++++++++++++++++++++++++++++++++++++++
@@ -540,10 +514,45 @@ public class ExperimentReportSQLBuilder {
 		map.put("expdIds_in", generalUtil.handleClob("," + expIds + ","));
 		numRowsResult = generalDao.callPackageFunction("FG_ADAMA_EXP_REPORT", "GET_UPDATE_P_EXPREPORT_DATA", map);
 
+		
 		// +++++++ if we have data => add RESULT_SMARTPIVOTSQL to sbSelectSql 
 		if((numRowsResult != null && !numRowsResult.equals("0")) || (numRowsDisplayData != null && !numRowsDisplayData.equals("0"))) {
 			sbSelectSql.append(",'SELECT result_SMARTPIVOT FROM FG_P_EXPREPORT_DATA_TMP where statekey=''" + stateKey + "'' order by order_, order2' AS RESULT_SMARTPIVOTSQL\n" ); 
 		}
+		
+		//+++++++++++++++++++++++++++++++++++++++++++++
+				// step conclusion
+				//+++++++++++++++++++++++++++++++++++++++++++++
+				String[] displayLevelArray = stepNumberNamesCsv.split(",", -1);
+
+				boolean first_step = true;
+				for (String singleDisplayName : displayLevelArray) {
+					if (!singleDisplayName.isEmpty()) {
+						String aliasName = "CR" + index; // Alias
+
+						//with
+						sbWithSql.append(((!isCombineRulseExist && first_step) ? "with " : ", ") + "CR" + index + " as (\r\n"
+								+ " SELECT DISTINCT T.EXPERIMENT_ID AS EXPID\r\n"
+								+ "   ,fg_get_richtext_display(t.CONCLUSSION) as step_conclusion\r\n"
+								+ "  FROM FG_s_step_v t\r\n" + "  WHERE t.sessionid is null and t.active=1\r\n"
+								+ "  AND t.STEP_ID in (" + stepIds + ")\r\n" + "  AND lower('Step '|| t.FORMNUMBERID) = lower('"
+								+ singleDisplayName + "')\r\n" + ")"); // and experiment id where part (or on temp table we create in the beginning for performance)
+
+						//select
+						sbSelectSql.append("," + aliasName + ".step_conclusion as \""
+								+ getValidOracleColumnName("{" + index + "}" + singleDisplayName + " - " + "Conclusion")
+								+ "\"");
+
+						//from
+						sbFromSql.append("," + aliasName);
+
+						//where
+						sbWhereSql.append(" AND t.EXPERIMENT_ID = " + aliasName + ".EXPID(+)");
+
+						index++;
+						first_step = false;
+					}
+				} 
 		
 		// return the sql obj...
 		return new SQLObj(sbWithSql.toString(), sbSelectHiddebSql.toString(), sbSelectSql.toString(),sbFromSql.toString(), sbWhereSql.toString(), "");
