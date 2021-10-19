@@ -4434,6 +4434,8 @@ function bl_elementDatatableEditableAfterSaveHandler(domId, isRenderTable, after
 				var rowId = $htmlObj.attr('rowId');
 				generalBL_elementDataTableClickEvent(domId, customFuncName, [rowId, 'Composition', $.trim($htmlObj.find('option:selected').val())],$htmlObj);
 			}
+		}if(formCode == "ExperimentReport" && (domId == "rulesTable"|| domId == "separateColumnsRulesTable")){
+			onElementDataTableApiChange(domId);//fix bug 9325
 		}
 	}
 }
