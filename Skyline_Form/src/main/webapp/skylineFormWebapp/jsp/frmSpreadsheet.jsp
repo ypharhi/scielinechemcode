@@ -117,6 +117,7 @@
 						style.fill.color = 'white';
 						style.line.color = 'rgb(212, 212, 212)';
 						style.textEffect.color = 'black';
+						style.textFrame.hAlign = GC.Spread.Sheets.HorizontalAlign.right;
 						shape.style(style);
 						shape.isSelected(true);
 						workbook.resumePaint();
