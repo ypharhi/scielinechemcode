@@ -806,7 +806,9 @@ function clearDataTableWhenEmpty(domId,dataTableOptions)
 
     changeElementDataTableApiCaption(domId); //kd 21122020 fixed bug-8707 part II, workaround - Label for Level not shown or had some value instead Choose
     
-//	hideWaitMessage(); // fix bug 8796 (but it is in all the system) the "please wait..." is hidden before the table complete the rendering - I think because of this line so I commented it. In the bug the main sample screen, in adama, it take couple of sec between the message is down and the new sample data.
+    if($('#formCode').val() != 'Main' && $('#formCode').val() != "InvItemSamplesMain") {
+    	hideWaitMessage(); // fix bug 8796 (but it is in all the system) the "please wait..." is hidden before the table complete the rendering - I think because of this line so I commented it. In the bug the main sample screen, in adama, it take couple of sec between the message is down and the new sample data.
+    } 
 	//initDivCount(domId);
 }
 
