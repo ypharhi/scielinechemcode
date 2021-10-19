@@ -2572,9 +2572,19 @@ function doNew(formCode, appendUrl) {
 	// collect all smartselect from the source form
 	var smartSelectList = "";
 	var toReturn = [];  
-	$('input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
-	    toReturn.push($(this).val());
-	});
+	if($('input[class="dataTableApiSelectInfo"]:checked').parents('table').length>0){
+		var tableDomId = $('input[class="dataTableApiSelectInfo"]:checked').parents('table')[0].id;
+	
+		var table = $("#"+tableDomId).DataTable();
+		var columnIndx = getColumnIndexByColHeader(tableDomId,"_SMARTSELECTALLNONE");
+		var column = table.column(columnIndx,{search:'applied'}).nodes();
+	    $(column).find("input[type='checkbox'][class='dataTableApiSelectInfo']:checked").each(function (index) {
+		    toReturn.push($(this).val());
+	    });
+		/*$('input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
+		    toReturn.push($(this).val());
+		});*/
+    }
 	smartSelectList = toReturn.toString();
 	
 	var appendUrl_ = '';

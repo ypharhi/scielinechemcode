@@ -4680,13 +4680,24 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 					        }
 					    });
 			} else {
-			    $("#"+domID+" > tbody > tr input[type='checkbox'][class='dataTableApiSelectInfo']").each(function(i)
+				if($('#formCode').val() == 'InvItemSamplesMain')
 			    {
-			        obj = $(this);
-			        if(obj.attr('disabled')==undefined||obj.attr('disabled')=='false'){
-			        	obj.prop('checked', bln);
-			        }
-			    });
+			    	var table = $('#'+domID).DataTable();	
+			    	var columnIndx = getColumnIndexByColHeader(domID,"_SMARTSELECTALLNONE");
+			    	var column = table.column(columnIndx,{search:'applied'}).nodes();
+			    	$loopThrough = $(column).find("input[type='checkbox']");
+			    }
+			    else
+			    {
+			    	$loopThrough = $("#"+domID+" > tbody > tr input[type='checkbox'][class='dataTableApiSelectInfo']");
+			    }
+			    $loopThrough.each(function(i)
+	    	    {
+	    	        obj = $(this);
+	                if(obj.attr('disabled')==undefined||obj.attr('disabled')=='false'){
+	                	obj.prop('checked', bln);
+	                }
+	    	    });
 			}
 		} 
 		else 
@@ -4717,7 +4728,7 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 		    
 		    if(role == 'MultipleAjax')
 		    {
-		    	if($('#formCode').val() == 'ExpAnalysisReport' || $('#formCode').val() == 'ExperimentReport')
+		    	if($('#formCode').val() == 'ExpAnalysisReport' || $('#formCode').val() == 'ExperimentReport'|| $('#formCode').val() == 'InvItemSamplesMain')
 			    {
 			    	var visibleRow = $('[id="' + domID + '"] tbody > tr')[0];
 		    		var table = $('#'+domID).DataTable();	
@@ -4780,7 +4791,7 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 	else if(!isParentChkbChanged)//if child/body checkbox clicked, also on table page change, sort, search
 	{
 	    var unchecked_counter = 0;
-	    if($('#formCode').val() == 'ExpAnalysisReport')
+	    if($('#formCode').val() == 'ExpAnalysisReport' )
 	    {
 	    	var table = $('#'+domID).DataTable();	
 	    	
@@ -4788,6 +4799,14 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 		    var column = table.column(0,{search:'applied'}).nodes();
 		    unchecked_counter = $(column).find("input[type='checkbox']:not(:checked)").length;
 //		    console.timeEnd("-- loopThrough column unchecked in domID - "+domID);
+	    } 
+	    else if($('#formCode').val() == 'InvItemSamplesMain' )
+	    {
+	    	var table = $('#'+domID).DataTable();	
+	    	
+	    	var columnIndx = getColumnIndexByColHeader(domID,"_SMARTSELECTALLNONE");
+	    	var column = table.column(columnIndx,{search:'applied'}).nodes();
+		    unchecked_counter = $(column).find("input[type='checkbox']:not(:checked)").length;
 	    }
 	    else
 	    {
@@ -5287,9 +5306,15 @@ function ElementDataTableApiImpOnButtonClick(input) {
             if ($('#' + parentTable).is('table')) {
                 selectedTable = $('[id="' + parentTable + '"]').DataTable();
                 custid = selectedTable.row('.selected').data();
-                $('#'+ parentTable + ' input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
+                /*$('#'+ parentTable + ' input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
                 	smartSelectList.push($(this).val());
-                });
+                });*/
+        		var table = $("#"+parentTable).DataTable();
+        		var columnIndx = getColumnIndexByColHeader(parentTable,"_SMARTSELECT");//_SMARTSELECTALLNONE- used primarly for the request table in the project management
+        		var column = table.column(columnIndx,{search:'applied'}).nodes();
+        	    $(column).find("input[type='checkbox'][class='dataTableApiSelectInfo']:checked").each(function (index) {
+        	    	smartSelectList.push($(this).val());
+        	    });
                 
                 if (typeof custid !== 'undefined'|| smartSelectList.length!=0) {
                     availableDataStructures = dataTableApiDataStructure(formCode, parentTable, true);

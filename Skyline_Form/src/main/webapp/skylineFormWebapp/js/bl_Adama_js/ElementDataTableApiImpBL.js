@@ -201,7 +201,7 @@ function elementDataTableApiImpBL(domId) {
 	   	    $('#' + domId + '_criteriaCatalogItem option[value="ALL"]').text("All by Date"); // rename the ALL option to 'All by Date'
 	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').text('Show Results');
 	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').off('click');
-	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').click(function(){openSampleResults();});
+	   		$('#'+domId+'_dataTableStructButtons button.dataTableApiOptional1').click(function(){openSampleResults(domId);});
 	   	}
 	   	if (domId == 'lowerTable'){
 	   		
@@ -1246,12 +1246,18 @@ function validateMandatoryFilledAndAddRow(formCode,domId){
     dataTableAddRow('operartinTypeTable');
 }
 
-function openSampleResults(){
+function openSampleResults(domId){
 	var smartSelectList = "";
-	var toReturn = [];  
-	$('input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
+	var toReturn = [];
+	var table = $("#"+domId).DataTable();
+	var columnIndx = getColumnIndexByColHeader(domId,"_SMARTSELECTALLNONE");
+	var column = table.column(columnIndx,{search:'applied'}).nodes();
+    $(column).find("input[type='checkbox']:checked").each(function (index) {
 	    toReturn.push($(this).val());
 	});
+	/*$('input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
+	    toReturn.push($(this).val());
+	});*/
 	smartSelectList = toReturn.toString();
 	
 	var dialogWidth = $(window).width() - 100; 
