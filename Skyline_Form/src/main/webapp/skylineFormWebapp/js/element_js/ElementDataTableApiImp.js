@@ -3132,7 +3132,7 @@ function smartRender(object, followingHiddenCols, domId, savedObject, isTableRes
 			                        			var isContenteditable = (o.isDisabled !== undefined && o.isDisabled == "true")?false:true;
 			                        			if(isContenteditable) {
 			                        				cellData = '<div contenteditable="true" rowId="'+rowId+'" class="editableSmartCell richtext contentEditableMarker ' + ignorDataChange + '" '
-	                        						+' style="width:'+width+';float:left;" '
+	                        						+' style="width:'+width+';float:left;text-align: start;unicode-bidi: plaintext;" ' // fix bug 26759
 		                        				//	+'  onclick="openRichtextContent(this,event,\''+domId+'\', \''+col+'\', \''+row+'\',\''+formCode+'\',\''+dbColumnName+'\');" '
 		                        					//+' onchange="'+onChangeFunc+'" '
 		                        					+' onblur="'+onChangeFunc+'" '
