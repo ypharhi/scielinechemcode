@@ -2,7 +2,7 @@
 <!-- Created with iReport - A designer for JasperReports -->
 <!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
 <jasperReport
-		 name="rqrCodeLabel4callFromList"
+		 name="rqrCodeLabel4callFromListFormul"
 		 columnCount="1"
 		 printOrder="Vertical"
 		 orientation="Landscape"
@@ -38,6 +38,7 @@
 		<parameterDescription><![CDATA[if this param exists the jasper tool (from version 9.6.4) will open the PDF on print screen]]></parameterDescription>
 	</parameter>
 	<parameter name="DATA_SOURCE_OUTPUTLABEL" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PARAM_FORMID" isForPrompting="false" class="java.lang.String"/>
 	<queryString><![CDATA[select * from FG_R_OUTPUTLABEL_V]]></queryString>
 
 	<field name="FORMID" class="java.lang.String"/>
@@ -50,6 +51,7 @@
 	<field name="CREATOR_ID" class="java.lang.String"/>
 	<field name="SAMPLETYPE_ID" class="java.lang.String"/>
 
+	<filterExpression><![CDATA[new Boolean(String.valueOf($F{FORMID}).equals(String.valueOf($P{PARAM_FORMID})))]]></filterExpression>
 		<background>
 			<band height="0"  isSplitAllowed="true" >
 			</band>

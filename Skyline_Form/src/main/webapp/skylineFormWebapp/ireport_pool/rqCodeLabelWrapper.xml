@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"  ?>
+<!-- Created with iReport - A designer for JasperReports -->
+<!DOCTYPE jasperReport PUBLIC "//JasperReports//DTD Report Design//EN" "http://jasperreports.sourceforge.net/dtds/jasperreport.dtd">
+<jasperReport
+		 name="rqCodeLabelWrapper"
+		 columnCount="1"
+		 printOrder="Vertical"
+		 orientation="Landscape"
+		 pageWidth="240"
+		 pageHeight="70"
+		 columnWidth="240"
+		 columnSpacing="0"
+		 leftMargin="0"
+		 rightMargin="0"
+		 topMargin="0"
+		 bottomMargin="0"
+		 whenNoDataType="NoPages"
+		 isTitleNewPage="false"
+		 isSummaryNewPage="false">
+	<property name="ireport.scriptlethandling" value="0" />
+	<property name="ireport.encoding" value="UTF-8" />
+	<import value="java.util.*" />
+	<import value="net.sf.jasperreports.engine.*" />
+	<import value="net.sf.jasperreports.engine.data.*" />
+
+	<parameter name="pTempPath" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="pSession" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CURRENT_FORMNUMBERID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="PROJECTNAME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_SAMPLETYPE_ID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_COMMENTSFORCOA" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CURRENT_CREATIONDATE" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CURRENT_PRODUCTNAME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="FORMID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="parameter_DIR_JASPER_XML" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="IREPORT_PRINT_PRODUCTNAME" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="CONFIG_PARAM_PRINT_ON_LOAD_PDF" isForPrompting="false" class="java.lang.String">
+		<parameterDescription><![CDATA[if this param exists the jasper tool (from version 9.6.4) will open the PDF on print screen]]></parameterDescription>
+	</parameter>
+	<parameter name="DATA_SOURCE_OUTPUTLABEL" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="PARAM_FORMID" isForPrompting="false" class="java.lang.String"/>
+	<parameter name="DATA_SOURCE_LABEL_INFO" isForPrompting="false" class="net.sf.jasperreports.engine.JRDataSource"/>
+	<parameter name="SUB_REPORT_RQRCODELABEL4CALLFROMLIST" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<parameter name="SUB_REPORT_RQRCODELABEL4CALLFROMLISTFORMUL" isForPrompting="false" class="net.sf.jasperreports.engine.JasperReport"/>
+	<queryString><![CDATA[select * from FG_R_OUTPUTLABEL_V where 1=2]]></queryString>
+
+	<field name="FORMID" class="java.lang.String"/>
+	<field name="FORMNUMBERID" class="java.lang.String"/>
+	<field name="CREATIONDATE" class="java.lang.String"/>
+	<field name="PROJECTNAME" class="java.lang.String"/>
+	<field name="PRODUCTNAME" class="java.lang.String"/>
+	<field name="COMMENTSFORCOA" class="java.lang.String"/>
+	<field name="SAMPLE_ID" class="java.math.BigDecimal"/>
+	<field name="CREATOR_ID" class="java.lang.String"/>
+	<field name="SAMPLETYPE_ID" class="java.lang.String"/>
+	<field name="EXP_FORM_CODE" class="java.lang.String"/>
+
+		<background>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</background>
+		<title>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</title>
+		<pageHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageHeader>
+		<columnHeader>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnHeader>
+		<detail>
+			<band height="70"  isSplitAllowed="true" >
+				<rectangle radius="0" >
+					<reportElement
+						mode="Transparent"
+						x="0"
+						y="1"
+						width="238"
+						height="68"
+						forecolor="#0099FF"
+						key="element-1"/>
+					<graphicElement stretchType="NoStretch">
+					<pen lineWidth="0.25" lineStyle="Solid"/>
+</graphicElement>
+				</rectangle>
+				<subreport  isUsingCache="false">
+					<reportElement
+						mode="Opaque"
+						x="0"
+						y="0"
+						width="240"
+						height="70"
+						key="subreport-1"
+						isPrintRepeatedValues="false"/>
+					<subreportParameter  name="PARAM_FORMID">
+						<subreportParameterExpression><![CDATA[$F{FORMID}]]></subreportParameterExpression>
+					</subreportParameter>
+					<subreportParameter  name="parameter_DIR_JASPER_XML">
+						<subreportParameterExpression><![CDATA[$P{parameter_DIR_JASPER_XML}]]></subreportParameterExpression>
+					</subreportParameter>
+					<dataSourceExpression><![CDATA[(new jasper.biz.JasperReportDataHelper()).getJRDataSourceMoveFirst($P{DATA_SOURCE_LABEL_INFO},"JRMapArrayDataSource")]]></dataSourceExpression>
+					<subreportExpression  class="net.sf.jasperreports.engine.JasperReport"><![CDATA[($F{EXP_FORM_CODE}.equals("ExperimentFor"))?$P{SUB_REPORT_RQRCODELABEL4CALLFROMLISTFORMUL}:$P{SUB_REPORT_RQRCODELABEL4CALLFROMLIST}]]></subreportExpression>
+				</subreport>
+			</band>
+		</detail>
+		<columnFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</columnFooter>
+		<pageFooter>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</pageFooter>
+		<summary>
+			<band height="0"  isSplitAllowed="true" >
+			</band>
+		</summary>
+</jasperReport>

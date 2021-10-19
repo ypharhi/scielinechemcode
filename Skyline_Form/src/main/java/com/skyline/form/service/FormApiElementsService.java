@@ -466,6 +466,7 @@ public class FormApiElementsService {
 		Connection conn = generalDao.getConnectionFromDataSurce();
 		JasperReportGenerator jrg = null;
 		try {
+			JasperDataSourceSupplier jrdss = new JasperDataSourceSupplier(conn, false);
 			HashMap<String, String> mLang = new HashMap<String, String>();
 
 			/*String isFormulationExist =  generalDao.selectSingleStringNoException("select distinct 1 from fg_s_sample_all_v s where s.SAMPLE_ID in (" + displayValuesObj + ") and s.exp_form_code='ExperimentFor'");
@@ -482,12 +483,32 @@ public class FormApiElementsService {
 			hmReportParameterList.put("parameter_DB_USER", DB_USER);
 			hmReportParameterList.put("parameter_DB_PASSWORD", DB_PASSWORD);
 			hmReportParameterList.put("parameter_DIR_JASPER_XML", DIR_JASPER_XML);
+			
+			hmReportParameterList.put("DATA_SOURCE_LABEL_INFO",
+					jrdss.createReportDataSource(
+							sql_,
+							"JRMapArrayDataSource"));
+			
+			//*** set the sub report labels (the switch between the labels is made in the rqCodeLabelWrapper that call each sub report by the experiment) 
+			//default label
+			String file_ = "rqrCodeLabel4callFromList.xml";
+			String fileName_ = file_.replaceAll(".xml", "").toUpperCase();
+			String fileTmp_ = fileName_ + sessionId + (new Date()).getTime();
+			hmReportParameterList.put("SUB_REPORT_" + fileName_, (new jasper.biz.JasperReportGenerator(mLang))
+					.getCompiled(fileTmp_, file_, DIR_JASPER_XML, DIR_JASPER_XML + "/tmp", null));
+			
+			//formulation label
+			file_ = "rqrCodeLabel4callFromListFormul.xml";
+			fileName_ = file_.replaceAll(".xml", "").toUpperCase();
+			fileTmp_ = fileName_ + sessionId + (new Date()).getTime();
+			hmReportParameterList.put("SUB_REPORT_" + fileName_, (new jasper.biz.JasperReportGenerator(mLang))
+					.getCompiled(fileTmp_, file_, DIR_JASPER_XML, DIR_JASPER_XML + "/tmp", null));
 
 			JRDataSource myResultSetDS = new JRResultSetDataSource(generalDao.getResultSet(conn, sql_));
 
 			// the call
 			jrg = new JasperReportGenerator(myResultSetDS, mLang);
-			ByteArrayOutputStream out = jrg.getByteArrayOutputStream(fileName + (new Date()).getTime(), fileName,
+			ByteArrayOutputStream out = jrg.getByteArrayOutputStream("rqCodeLabelWrapper.xml" + (new Date()).getTime(), "rqCodeLabelWrapper.xml",
 					(reportType.equals("PDF") ? JasperReportType.PDF : ((reportType.equals("DOC") ? JasperReportType.DOC :JasperReportType.JXL_EXCEL))), title, subTitle,
 					hmReportReplacerList, hmReportParameterList, DIR_JASPER_XML, DIR_JASPER_XML + "/tmp");
 
