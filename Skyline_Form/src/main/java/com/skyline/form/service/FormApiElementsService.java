@@ -647,7 +647,7 @@ public class FormApiElementsService {
 						: addQuotes;
 				wherePart.append(" and " + addQuotes + " like '%" + delimiter + curId + delimiter + "%'");
 			}
-			curId = (id.indexOf("_node_") != -1) ? id.substring(0, id.indexOf("_node_")) : id;
+			curId = (id.indexOf("_node_") != -1) ? id.substring(id.lastIndexOf("_")+1) : id;
 			addQuotes = currentstruct;
 			addQuotes = ((addQuotes.indexOf(" ") != -1) && (addQuotes.indexOf("\"") != 0)) ? "\"" + addQuotes + "\""
 					: addQuotes;
@@ -707,7 +707,8 @@ public class FormApiElementsService {
 					String keyOrder_ = recordArray[2] + delimiter + recordArray[1];
 					dataArrayOrderMap.put(keyOrder_.trim(), recordArray);//trim- in order that the order of the items will not be mess by a leading whitespace(a string with a leading whitespace shall be firstly ordered)
 				} else if((recordArray.length == 5) && !(recordArray[1].equals("")) && !(recordArray[2].equals(""))){//adib 16072020 fixed bug 8372->The fifth element represents the order in which the items should be ordered by
-					String keyOrder_ = recordArray[4];
+					String keyOrder_ = recordArray[4];//[Project, 76185, A087-Arthemis, SUBPROJECT, a087-arthemis]
+					keyOrder_ = dataArrayOrderMap.containsKey(keyOrder_.trim())?keyOrder_ +" "+  recordArray[1]:keyOrder_;
 					dataArrayOrderMap.put(keyOrder_.trim(), recordArray);//trim- in order that the order of the items will not be mess by a leading whitespace(a string with a leading whitespace shall be firstly ordered)
 				}
 			}
