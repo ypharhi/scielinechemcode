@@ -1200,8 +1200,8 @@ function elementDataTableApiImpBL(domId) {
 		   ||($('#formCode').val() == 'Experiment' && (domId == 'experimentResults'|| domId =='selfTestResults'))
 		   ||($('#formCode').val() == 'Step' && (domId == 'results'|| domId =='selftestresults'))
 		   ||($('#formCode').val() == 'ExperimentFor' && (domId == 'experimentResults'|| domId =='selfTestResults'))
-		   ||($('#formCode').val() == 'ExperimentAn' && (domId == 'results'))
-		   ||($('#formCode').val().slice(0,12) =='ExperimentPr' && (domId == 'subsequenResults'|| domId =='subsequentResults'))
+		   ||($('#formCode').val() == 'ExperimentAn' && (domId == 'results' || domId == 'subsequentResults' || domId == 'manualResultsTable'))
+		   ||($('#formCode').val().slice(0,12) =='ExperimentPr' && (domId == 'subsequenResults'|| domId =='subsequentResults' || domId == 'resultsTable'))
 		   ||($('#formCode').val() == 'ExpAnalyReportMain' )){
 	   $('#'+domId+'_wrapper > .dropdown-button').css('float','left');//task 26594
    }
@@ -1246,18 +1246,12 @@ function validateMandatoryFilledAndAddRow(formCode,domId){
     dataTableAddRow('operartinTypeTable');
 }
 
-function openSampleResults(domId){
+function openSampleResults(){
 	var smartSelectList = "";
-	var toReturn = [];
-	var table = $("#"+domId).DataTable();
-	var columnIndx = getColumnIndexByColHeader(domId,"_SMARTSELECTALLNONE");
-	var column = table.column(columnIndx,{search:'applied'}).nodes();
-    $(column).find("input[type='checkbox']:checked").each(function (index) {
+	var toReturn = [];  
+	$('input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
 	    toReturn.push($(this).val());
 	});
-	/*$('input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
-	    toReturn.push($(this).val());
-	});*/
 	smartSelectList = toReturn.toString();
 	
 	var dialogWidth = $(window).width() - 100; 
