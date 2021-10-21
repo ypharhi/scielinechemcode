@@ -5955,6 +5955,14 @@ function bl_initFilterColumnDatatable(domId){
 		|| formCode == "SampleResults"){
 		toReturn = true;
 	}
+	else if(formCode == "Sample" && domId == "sampleResults")
+	{
+		toReturn = true;
+	}
+	else if(formCode == "InvItemSamplesMain" && domId == "lowerTable")
+	{
+		toReturn = true;
+	}
 	return toReturn;
 }
 
