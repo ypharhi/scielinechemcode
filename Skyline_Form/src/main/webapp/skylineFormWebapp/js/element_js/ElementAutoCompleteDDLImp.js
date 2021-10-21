@@ -244,7 +244,9 @@ function getValueForElementAutoCompleteDDL(obj, changeType)
 	{
 		retVal = o.val().toString();//toString() is required on Multiple Select 
 		if(typeof changeType !== 'undefined' && changeType !=null && changeType == 2 && retVal != null && retVal == 'ALL') { // YP 13022019 - prevent FirstOption ALL value to enetr into the DB (critical in id val ddl) on save (changeType = 2 in ajax dataflow changeType = 1 we need it ALL)
-			retVal = "";
+			if($('#formCode').val()!='MP'){
+				retVal = "";
+			}
 		}
 	}
 	//console.log("retVal: " + retVal);

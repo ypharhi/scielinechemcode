@@ -67,7 +67,9 @@ public class ElementAutoCompleteIdValDDLImp extends Element {
 	
 	private boolean ADD_ALL_ON_EMPTY_DATA = true;	
 	
-	private boolean SELECT_ALL_ON_EMPTY_DATA = true;	
+	private boolean SELECT_ALL_ON_EMPTY_DATA = true;
+	
+	private boolean REMOVE_AND_SAVE_ALL = false; 
 	
 	private boolean removeDeselectOption = false;
 	
@@ -81,9 +83,12 @@ public class ElementAutoCompleteIdValDDLImp extends Element {
 	public String init(long stateKey, String formCode, String impCode, String initVal) {
 		try {
 			if (super.init(stateKey, formCode, impCode, initVal).equals("")) {
-				if(formCode != null && formCode.equalsIgnoreCase("ExperimentReport")) { // TODO add it as configuration default true and test it more...
+				if(formCode != null && (formCode.equalsIgnoreCase("ExperimentReport")|| formCode.equalsIgnoreCase("MP"))) { // TODO add it as configuration default true and test it more...
 					ADD_ALL_ON_EMPTY_DATA = false;
 					SELECT_ALL_ON_EMPTY_DATA = false;
+					if(formCode.equalsIgnoreCase("MP")) {
+						REMOVE_AND_SAVE_ALL = true;
+					}
 				}
 				
 				placeHolder = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "placeHolder");
@@ -304,7 +309,11 @@ public class ElementAutoCompleteIdValDDLImp extends Element {
 			
 			toReturn = sb.toString();
 			if (FirstOption.equals("ALL")) { // =ALL
-				if (ADD_ALL_ON_EMPTY_DATA || (arr != null && arr.length() > 0)) {
+				if (REMOVE_AND_SAVE_ALL && (arr != null && arr.length() > 0) && value.equalsIgnoreCase("all")) {
+					toReturn = "<option " + " selected=\"selected\" " + " value=\"ALL\">All</option>" + sb.toString();
+					valueFound = true;
+				}
+			else if (ADD_ALL_ON_EMPTY_DATA || (arr != null && arr.length() > 0)) {
 					toReturn = "<option " + ((!valueFound && SELECT_ALL_ON_EMPTY_DATA)?" selected=\"selected\" ":"") + " value=\"ALL\">" + allLabel + "</option>" + toReturn;
 					valueFound = valueFound || SELECT_ALL_ON_EMPTY_DATA;;
 				}

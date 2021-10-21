@@ -1204,6 +1204,25 @@ function elementDataTableApiImpBL(domId) {
 		   ||($('#formCode').val().slice(0,12) =='ExperimentPr' && (domId == 'subsequenResults'|| domId =='subsequentResults' || domId == 'resultsTable'))
 		   ||($('#formCode').val() == 'ExpAnalyReportMain' )){
 	   $('#'+domId+'_wrapper > .dropdown-button').css('float','left');//task 26594
+   } 
+   if(_formCode == "Maintenance"){//bug 9439
+	  var maintFormCode = $('#eMaintenanceTableApi_structCatalogItem').val();
+	  if(maintFormCode != undefined && maintFormCode =='MP'){
+		  $('[id="' + domId + '_colsArray"]').val('WL@WH@SL@SH');
+		  var _table = $('#'+domId).DataTable();
+//		   var wvLFlag = 0;
+		   for(var i=0; i < _table.columns().header().length; i++) {
+				var col_ = _table.column(i);
+				
+				col_ = _table.column(i);
+				var _$header = $(col_.header());
+				
+				if(_$header.text() == 'WL' ||_$header.text() == 'WH'
+					||_$header.text() == 'SL' ||_$header.text() == 'SH') {
+					removeColumnDatatable(domId, _$header.text());	
+				}
+		   }
+	  }
    }
    return true;
 }
