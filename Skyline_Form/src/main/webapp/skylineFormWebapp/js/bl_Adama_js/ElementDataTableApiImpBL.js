@@ -1265,12 +1265,15 @@ function validateMandatoryFilledAndAddRow(formCode,domId){
     dataTableAddRow('operartinTypeTable');
 }
 
-function openSampleResults(){
+function openSampleResults(domId){
 	var smartSelectList = "";
 	var toReturn = [];  
-	$('input[class="dataTableApiSelectInfo"]:checked').each(function (index) {
+	var table = $("#"+domId).DataTable();
+	var columnIndx = getColumnIndexByColHeader(domId,"_SMARTSELECTALLNONE");
+	var column = table.column(columnIndx,{search:'applied'}).nodes();
+    $(column).find("input[type='checkbox'][class='dataTableApiSelectInfo']:checked").each(function (index) {
 	    toReturn.push($(this).val());
-	});
+    });
 	smartSelectList = toReturn.toString();
 	
 	var dialogWidth = $(window).width() - 100; 
@@ -4473,7 +4476,7 @@ function editableBL_getAdditParams(domId,rowInx,paramName)
 function bl_isDeferRender(domId)
 {
 	var toReturn = false;
-	if($('#formCode').val() == "Main" || $('#formCode').val() == "InvItemSamplesMain" || $('#formCode').val() == 'SampleSelectHolder'  || $('#formCode').val() == 'SampleSelect' || $('#formCode').val() == 'RequestSelect')
+	if($('#formCode').val() == "Main" /*|| $('#formCode').val() == "InvItemSamplesMain"*/ || $('#formCode').val() == 'SampleSelectHolder'  || $('#formCode').val() == 'SampleSelect' || $('#formCode').val() == 'RequestSelect')
 	{
 		toReturn = true;
 	}

@@ -4684,22 +4684,56 @@ function smartSelectStateMng(domID,isParentChkbChanged,bln,columnNum)
 			} else {
 				if($('#formCode').val() == 'InvItemSamplesMain')
 			    {
-			    	var table = $('#'+domID).DataTable();	
-			    	var columnIndx = getColumnIndexByColHeader(domID,"_SMARTSELECTALLNONE");
-			    	var column = table.column(columnIndx,{search:'applied'}).nodes();
-			    	$loopThrough = $(column).find("input[type='checkbox']");
+					var columnSelectSearchProp = "";
+					var promise = new Promise(function(resolve,reject){
+						var table = $('#'+domID).DataTable();
+						if(table.page.info().pages> 1){
+							openConfirmDialog({
+			        	        onConfirm: function(){	
+			        	        	columnSelectSearchProp = {page:'current'};
+			        	        	resolve();
+			        	        },
+			        	        title: 'Confirm',
+			        	        message: getSpringMessage("CHECK_ALL_OR_CURRENT_PAGE"),
+			        	        onCancel: function(){
+			        	        	columnSelectSearchProp = {search:'applied'};
+			        	        	resolve();
+			        	        },
+			        	        confirmButtonHtml : "Current Page",
+			        	        cancelButtonHtml : "All Pages",
+			        	        hideCloseIcon : true
+			        	    });
+						} else {
+							columnSelectSearchProp = {search:'applied'};
+							resolve();
+						}
+					});
+					
+					promise.then(function(){
+						var table = $('#'+domID).DataTable();	
+				    	var columnIndx = getColumnIndexByColHeader(domID,"_SMARTSELECTALLNONE");
+				    	var column = table.column(columnIndx,columnSelectSearchProp).nodes();
+				    	$loopThrough = $(column).find("input[type='checkbox']"); 
+				    	$loopThrough.each(function(i)
+			    	    {
+			    	        obj = $(this);
+			                if(obj.attr('disabled')==undefined||obj.attr('disabled')=='false'){
+			                	obj.prop('checked', bln);
+			                }
+			    	    });
+					});
 			    }
 			    else
 			    {
 			    	$loopThrough = $("#"+domID+" > tbody > tr input[type='checkbox'][class='dataTableApiSelectInfo']");
+				    $loopThrough.each(function(i)
+		    	    {
+		    	        obj = $(this);
+		                if(obj.attr('disabled')==undefined||obj.attr('disabled')=='false'){
+		                	obj.prop('checked', bln);
+		                }
+		    	    });
 			    }
-			    $loopThrough.each(function(i)
-	    	    {
-	    	        obj = $(this);
-	                if(obj.attr('disabled')==undefined||obj.attr('disabled')=='false'){
-	                	obj.prop('checked', bln);
-	                }
-	    	    });
 			}
 		} 
 		else 
