@@ -312,7 +312,7 @@ public class FormSaveBasic implements FormSaveService {
 				} 
 				if (elementId.equals("-1")) {
 					throw new Exception(generalUtil.getSpringMessagesByKey("FAILED_SAVE_CLOB",
-							"Save failed. Please, try again or call your administrator."));
+							"Richtext saving was failed. Please, try again or call your administrator."));
 				}
 				dataBean.setVal(elementId);
 			} else if (generalUtil.getNull(saveType_).equals("clobAndResult")) {

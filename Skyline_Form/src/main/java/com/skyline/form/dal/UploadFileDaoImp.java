@@ -15,6 +15,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -422,28 +423,23 @@ public class UploadFileDaoImp extends BasicDao implements UploadFileDao {
 		return is;
 	}
 
-	private void setClob(String clobString, CLOB clob) {
-		try {
-			StringReader inputStreamReader = new StringReader(clobString);
-			Writer clobWriter = clob.getCharacterOutputStream();
-			// Buffer to hold chunks of data to being written to the Clob.
-			char[] buffer = new char[10 * 1024];
+	private void setClob(String clobString, CLOB clob) throws Exception {
+		StringReader inputStreamReader = new StringReader(clobString);
+		Writer clobWriter = clob.getCharacterOutputStream();
+		// Buffer to hold chunks of data to being written to the Clob.
+		char[] buffer = new char[10 * 1024];
 
-			// Read a chunk of data from the file input stream, and write the chunk to the Clob column output stream. 
-			// Repeat till file has been fully read.
-			int nread = 0; // Number of bytes read
-			while ((nread = inputStreamReader.read(buffer)) != -1) // Read from file
-			{
-				clobWriter.write(buffer, 0, nread);
-			}
-
-			inputStreamReader.close();
-			clobWriter.flush();
-			clobWriter.close();
-		} catch (Exception e) {
-			generalUtilLogger.logWrite(e);
-			e.printStackTrace();
+		// Read a chunk of data from the file input stream, and write the chunk to the Clob column output stream. 
+		// Repeat till file has been fully read.
+		int nread = 0; // Number of bytes read
+		while ((nread = inputStreamReader.read(buffer)) != -1) // Read from file
+		{
+			clobWriter.write(buffer, 0, nread);
 		}
+
+		inputStreamReader.close();
+		clobWriter.flush();
+		clobWriter.close();
 	}
 
 	@Override
