@@ -135,6 +135,12 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 				else {
 					toReturn.put("ISEDITABLE", "false");
 				}
+				
+				//take default as user (when new) or the created by from the DB - 
+				//this is made for the scenario that the user become inactive, it won't saved if disabled (if the default is the same as value it will be disabled but it will be saved)
+				String createdByParam = generalUtil.getNull(createdBy).equals("") ? userId :createdBy;
+				toReturn.put("DEFAULT_CREATED_BY", createdByParam);
+				
 				//update default project type param by the user unit type if formulation then formulation else chemistry
 				Map<String, String> userInfoMap = formDao.getUserInfoMap(userId);
 				String unitName = userInfoMap.get("USER_INFO_UNIT_NAME");
