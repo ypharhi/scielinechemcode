@@ -1102,6 +1102,24 @@ function elementDataTableApiImpBL(domId) {
 			});
 	   }
    }
+   if(($('#formCode').val() == 'ExperimentFor'||$('#formCode').val() == 'ExperimentAn'||$('#formCode').val() == 'Experiment'||$('#formCode').val() == 'ExperimentCP'||$('#formCode').val() == 'ExperimentStb'
+	   ||$('#formCode').val() == 'ExperimentPrGn'||$('#formCode').val() == 'ExperimentPrCr'||$('#formCode').val() == 'ExperimentPrBt'||$('#formCode').val() == 'ExperimentPrTs'||$('#formCode').val() == 'ExperimentPrVs') 
+		   && domId == 'sampleTableEdit'){
+	   var creator_id = $('#CREATOR_ID').val();
+	   var user_id = $('#userId').val();
+	   if(creator_id != user_id){
+		   var table = $('#'+domId).DataTable();	
+		   var sampleDescIndex = getColumnIndexByColHeader(domId,"Description");
+	       table.rows().eq(0).each( function ( index ) 
+			{//init the style of all the columns o the basic one
+				var cell = table.cell({row: index, column: sampleDescIndex}); 
+			    var node = cell.node();			    
+			    var $div = $(node).find('div');
+			    $div.addClass('authorizationDisabled');
+			    $div.attr('contenteditable','false');
+			});
+	   }
+   }
    if($('#formCode').val() == 'ExperimentAn' && (domId == 'instrumentsTable'||domId == 'columnSelect' ||domId == 'testedComponents')){
 	   $('#' + domId + '_dataTableStructButtons button.dataTableApiAdd').css('display','none');
 	   if(domId == 'instrumentsTable'){
