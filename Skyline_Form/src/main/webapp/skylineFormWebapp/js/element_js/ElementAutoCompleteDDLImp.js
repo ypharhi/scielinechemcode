@@ -41,6 +41,14 @@ var ElementAutoCompleteDDLImp = {
     }*/
 };
 
+function add_arrowDDL(domId){
+	var arrowElemeToAdd = '<div style="position: absolute;top: 0;right: 0;display: block; width: 18px;height: 100%;">'
+    +'<b class="arrows-search" style="height:100%;background: url(http://localhost:9080/Adama/skylineFormWebapp/js/chosen-sprite.png) no-repeat 0 5px;"></b>'
+    +'</div>';
+	var $chosenElement = $('#'+domId +"_chosen");
+	$chosenElement.find('ul.chosen-choices').first().after(arrowElemeToAdd);
+}
+
 
 //only use for testing call back this code should be removed
 function dummyEcho(elementObj_, resultArray_, callback ) {

@@ -184,6 +184,7 @@ public class ElementAutoCompleteIdValDDLImp extends Element {
 				+ ((isHidden) ? " $('[id=\"" + domId + "_chosen\"]').css('visibility','hidden');":"")
 				+ (!maxWidth.isEmpty()? " $('[id=\"" + domId + "_chosen\"]').css('max-width','"+maxWidth+"');":"")
 				+ linkHtml
+				+ (isMultiple? " add_arrowDDL(\""+domId+"\");":"")
 				);
 		
 		return html;
