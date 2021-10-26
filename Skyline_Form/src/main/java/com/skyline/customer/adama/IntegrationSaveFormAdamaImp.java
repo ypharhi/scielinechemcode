@@ -5324,7 +5324,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				jsspreadsheetData.put("0", new JSONArray(arr.toString()));
 				js.put("output", jsspreadsheetData);
 				String retVal = uploadFileDao.saveStringAsClob(elementValueMap.get("spreadsheetResults"), js.toString());
-				if(retVal.equals("1")) {
+				if(retVal.equals("-1")) {
 					throw new Exception("Spreadsheet save was failed.");
 				}
 			}
