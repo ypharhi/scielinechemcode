@@ -119,6 +119,7 @@ public class ElementAutoCompleteDDLImp extends Element {
 //						+ cleanOtherSelectionWhenAllSelected(domId)
 						+ ((isMultiple) ? " handleMultipleSelection('"+multipleSelectedValues+"',"+FirstOption.equals("ALL")+",this," + ADD_ALL_ON_EMPTY_DATA + "); \n" : "") 
 						+ doOnChangeJSCall + "});" + ((isHidden) ? " $('[id=\"" + domId + "_chosen\"]').css('visibility','hidden');\n": "\n")
+						+ (isMultiple? " add_arrowDDL(\""+domId+"\");":"")
 						//+	"$('.chosen-drop active-result').click(function(){setMultipleSelectedValues(\""+multipleSelectedValues+"\",this,this)});"
 					
 );
