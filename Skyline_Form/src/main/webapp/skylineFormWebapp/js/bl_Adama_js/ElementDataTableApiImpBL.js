@@ -5999,7 +5999,7 @@ function bl_initFilterColumnDatatable(domId){
 	{
 		toReturn = true;
 	}
-	else if(formCode == "InvItemSamplesMain" && domId == "lowerTable")
+	else if(formCode == "InvItemSamplesMain")
 	{
 		toReturn = true;
 	}

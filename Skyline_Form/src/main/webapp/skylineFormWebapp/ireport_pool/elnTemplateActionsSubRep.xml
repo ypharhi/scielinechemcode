@@ -86,7 +86,7 @@
 						mode="Transparent"
 						x="0"
 						y="22"
-						width="200"
+						width="112"
 						height="15"
 						forecolor="#FFFFFF"
 						key="staticText-2"/>
@@ -104,7 +104,7 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="200"
+						x="112"
 						y="22"
 						width="200"
 						height="15"
@@ -124,9 +124,9 @@
 				<staticText>
 					<reportElement
 						mode="Transparent"
-						x="400"
+						x="312"
 						y="22"
-						width="402"
+						width="490"
 						height="15"
 						forecolor="#FFFFFF"
 						key="staticText-4"/>
@@ -147,7 +147,7 @@
 			<band height="15"  isSplitAllowed="false" >
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="200"
+						x="112"
 						y="0"
 						width="200"
 						height="15"
@@ -167,9 +167,9 @@
 				</textField>
 				<textField isStretchWithOverflow="true" isBlankWhenNull="true" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="400"
+						x="312"
 						y="0"
-						width="402"
+						width="490"
 						height="15"
 						key="textField-2"
 						stretchType="RelativeToTallestObject"
@@ -189,7 +189,7 @@
 					<reportElement
 						x="0"
 						y="0"
-						width="200"
+						width="112"
 						height="15"
 						key="textField-4"
 						stretchType="RelativeToTallestObject"
