@@ -44,7 +44,7 @@
 	
 	<script type="text/javascript">
 
-	var ENABLE_COMPRESS = true;
+	var ENABLE_COMPRESS = false;
 	
 	var designer = [];
 	var isToolBarDisplay=[];
