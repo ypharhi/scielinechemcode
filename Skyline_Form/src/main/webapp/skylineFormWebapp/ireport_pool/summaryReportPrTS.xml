@@ -1014,7 +1014,7 @@
 					<reportElement
 						x="278"
 						y="135"
-						width="113"
+						width="110"
 						height="15"
 						key="staticText-13"/>
 					<box></box>
@@ -1025,9 +1025,9 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="391"
+						x="388"
 						y="135"
-						width="165"
+						width="168"
 						height="15"
 						key="textField-13"/>
 					<box></box>
@@ -1092,7 +1092,7 @@
 					<reportElement
 						x="278"
 						y="72"
-						width="113"
+						width="110"
 						height="15"
 						key="staticText-16"/>
 					<box></box>
@@ -1103,9 +1103,9 @@
 				</staticText>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="391"
+						x="388"
 						y="72"
-						width="165"
+						width="168"
 						height="15"
 						key="textField-16"/>
 					<box></box>
