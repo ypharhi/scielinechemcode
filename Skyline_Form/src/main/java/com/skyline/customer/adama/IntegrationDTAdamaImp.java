@@ -2891,7 +2891,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					onChangeFormId, userId);
 		}
 		//**** ExperimentFor
-		if ((parentFormCode.equals("ExperimentFor") || parentFormCode.equals("Experiment") || parentFormCode.equals("ExperimentCP")|| parentFormCode.equals("ExperimentAn"))
+		if ((parentFormCode.equals("ExperimentFor") || parentFormCode.equals("Experiment") || parentFormCode.equals("ExperimentCP")|| parentFormCode.equals("ExperimentAn")
+				||parentFormCode.equals("ExperimentPrGn") || parentFormCode.equals("ExperimentPrCR") || parentFormCode.equals("ExperimentPrBT")|| parentFormCode.equals("ExperimentPrTS")
+				||parentFormCode.equals("ExperimentPrVS") || parentFormCode.equals("ExperimentStb"))
 				&& formCode.equals("Sample")) {
 			String sql = "update FG_S_" + formCode + "_PIVOT set " + onChangeColumnName + "='" + onChangeColumnVal + "'"
 					+ " where FORMID = '" + formNumberId + "'";

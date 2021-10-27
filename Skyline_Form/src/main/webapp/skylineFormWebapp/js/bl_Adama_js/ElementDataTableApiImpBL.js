@@ -1085,7 +1085,7 @@ function elementDataTableApiImpBL(domId) {
 	   }
    }
    if(($('#formCode').val() == 'ExperimentFor'||$('#formCode').val() == 'ExperimentAn'||$('#formCode').val() == 'Experiment'||$('#formCode').val() == 'ExperimentCP'||$('#formCode').val() == 'ExperimentStb'
-	   ||$('#formCode').val() == 'ExperimentPrGn'||$('#formCode').val() == 'ExperimentPrCr'||$('#formCode').val() == 'ExperimentPrBt'||$('#formCode').val() == 'ExperimentPrTs'||$('#formCode').val() == 'ExperimentPrVs') 
+	   ||$('#formCode').val() == 'ExperimentPrGn'||$('#formCode').val() == 'ExperimentPrCR'||$('#formCode').val() == 'ExperimentPrBT'||$('#formCode').val() == 'ExperimentPrTS'||$('#formCode').val() == 'ExperimentPrVS') 
 		   && domId == 'samples'){
 	   var creator_id = $('#CREATOR_ID').val();
 	   var user_id = $('#userId').val();
@@ -1103,7 +1103,7 @@ function elementDataTableApiImpBL(domId) {
 	   }
    }
    if(($('#formCode').val() == 'ExperimentFor'||$('#formCode').val() == 'ExperimentAn'||$('#formCode').val() == 'Experiment'||$('#formCode').val() == 'ExperimentCP'||$('#formCode').val() == 'ExperimentStb'
-	   ||$('#formCode').val() == 'ExperimentPrGn'||$('#formCode').val() == 'ExperimentPrCr'||$('#formCode').val() == 'ExperimentPrBt'||$('#formCode').val() == 'ExperimentPrTs'||$('#formCode').val() == 'ExperimentPrVs') 
+	   ||$('#formCode').val() == 'ExperimentPrGn'||$('#formCode').val() == 'ExperimentPrCR'||$('#formCode').val() == 'ExperimentPrBT'||$('#formCode').val() == 'ExperimentPrTS'||$('#formCode').val() == 'ExperimentPrVS') 
 		   && domId == 'sampleTableEdit'){
 	   var creator_id = $('#CREATOR_ID').val();
 	   var user_id = $('#userId').val();
