@@ -40,7 +40,7 @@
 	
 	<script type="text/javascript">
 
-	var ENABLE_COMPRESS = true;
+	var ENABLE_COMPRESS = false; //note: the compress isn't working well when insert image
 	
 	var designer = [];
 	var isToolBarDisplay=[];
