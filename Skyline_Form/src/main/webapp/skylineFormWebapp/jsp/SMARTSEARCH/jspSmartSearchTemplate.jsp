@@ -53,7 +53,7 @@
    <table style="width:100%;">
 					<tr>
 						<td>
-							<%@ include file="./PopupHeader.inc" %>
+							<%@ include file="./PopupHeaderSelect.inc" %>
 						</td>
 					</tr>									
 					<tr>

@@ -11,9 +11,14 @@ function elementSmartSearchOnClick(domId) {
     if ($('#' + domId).is(':disabled')) {
         return false;
     }
+    if(window.self!== window.top){
+    	dialogWidth = $(window).width()*0.95;
+        dialogHeight = $(window).height()*0.95;
+    }else{
+    	dialogWidth = $(window).width() - 180;
+        dialogHeight = $(window).height() - 180; 
+    }
 
-    dialogWidth = $(window).width() - 180;
-    dialogHeight = $(window).height() - 180;
     parentId = $('#formId').val(); // maybe unnecessary
     urlCallParam = replaceSmartSearchUrlCallParamVal($('[id="' + domId + '_urlCallParam"]').val(), $('[id="' + domId + '_urlCallParamReplaceIDElement"]').val());
 
