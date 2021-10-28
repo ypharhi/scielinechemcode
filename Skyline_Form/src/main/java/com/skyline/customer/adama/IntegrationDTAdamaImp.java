@@ -1835,14 +1835,14 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					if (!searchInFiles.equals("0") && searchInDocsOnly.equals("1")) {
 						where.append("+ decode(file_id,null,0, contains(search_file_value,'" + searchFile + "',1)) ");
 					}
-					//if(searchInDocsOnly.equals("1")){
+					if(!searchInFiles.isEmpty()){
 						where = new StringBuilder();
-						if (searchInFiles.equals("0") || !searchInDocsOnly.equals("1")) {//search in files has failed
+						if ((searchInFiles.equals("0") || !searchInDocsOnly.equals("1")) ) {//search in files has failed
 							where.append(" 1=2");
 						}else{
 							where.append(" decode(file_id,null,0, contains(search_file_value,'" + searchFile + "',1)) ");
 						}
-					//}
+					}
 				} else {
 					if (searchInFiles.equals("0") || !searchInDocsOnly.equals("1") ) {//search in files has failed
 						where.append("nvl(instr(upper(search_display_value),upper('" + textForSearch + "')),0) ");
