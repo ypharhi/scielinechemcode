@@ -322,7 +322,7 @@ public class CloneExperiment {
 		valList = getColumnDataToClone("Step", colList, userId, cloneType).replace("CHANGE_BY", userId)
 				.replace("TIMESTAMP", "sysdate").replace("CREATION_DATE", "sysdate").replace("CREATED_BY", userId);
 		sql = String.format(
-				"insert into FG_S_STEP_PIVOT (%1$s, CLONEID) select  %2$s, fg_get_struct_form_id(t.formcode) from FG_S_STEP_PIVOT t where t.experiment_id = %3$s %4$s",
+				"insert into FG_S_STEP_PIVOT (%1$s, CLONEID) select  %2$s, fg_get_struct_form_id(t.formcode) from FG_S_STEP_PIVOT t where t.active = 1 and t.experiment_id = %3$s %4$s",
 				colList, valList, sourceExperimentId, stepIdConditionByCloneAndProtocolType);
 		formSaveDao.updateSingleStringInfoNoTryCatch(sql);// , "FG_S_STEP_PIVOT", "experiment_id", sourceExperimentId);
 
@@ -361,7 +361,7 @@ public class CloneExperiment {
 				.replace("TIMESTAMP", "sysdate").replace("CREATION_DATE", "sysdate").replace("CREATED_BY", userId)
 				.replace("SELFTESTIDHOLDER", "null");
 		sql = String.format(
-				"insert into FG_S_ACTION_PIVOT (%1$s, CLONEID) select  %2$s,  fg_get_struct_form_id(t.formcode) from FG_S_ACTION_PIVOT t where t.experiment_id = %3$s %4$s",
+				"insert into FG_S_ACTION_PIVOT (%1$s, CLONEID) select  %2$s,  fg_get_struct_form_id(t.formcode) from FG_S_ACTION_PIVOT t where t.active = 1 and t.experiment_id = %3$s %4$s",
 				colList, valList, sourceExperimentId, actionIdConditionByCloneAndProtocolType);
 		formSaveDao.updateSingleStringInfoNoTryCatch(sql);// , "FG_S_ACTION_PIVOT", "experiment_id",
 															// sourceExperimentId);
@@ -383,7 +383,7 @@ public class CloneExperiment {
 					.replace("TIMESTAMP", "sysdate").replace("CREATION_DATE", "sysdate")
 					.replace("CREATED_BY", userId);
 			sql = String.format(
-					"insert into FG_S_SELFTEST_PIVOT (%1$s, CLONEID) select  %2$s, fg_get_struct_form_id(t.formcode) from FG_S_SELFTEST_PIVOT t where experiment_id = %3$s and status_id <> %4$s %5$s",
+					"insert into FG_S_SELFTEST_PIVOT (%1$s, CLONEID) select  %2$s, fg_get_struct_form_id(t.formcode) from FG_S_SELFTEST_PIVOT t where t.active = 1 and experiment_id = %3$s and status_id <> %4$s %5$s",
 					colList, valList, sourceExperimentId, stCancelledStatusId, selfTestIdConditionByCloneAndProtocolType);
 			formSaveDao.updateSingleStringInfoNoTryCatch(sql);// , "FG_S_SELFTEST_PIVOT", "experiment_id",
 																// sourceExperimentId);
@@ -544,7 +544,7 @@ public class CloneExperiment {
 		String valList = getColumnDataToClone("Workup", colList, userId, cloneType).replace("CHANGE_BY", userId)
 				.replace("TIMESTAMP", "sysdate").replace("CREATION_DATE", "sysdate").replace("CREATED_BY", userId);
 		String sql = String.format(
-				"insert into FG_S_WORKUP_PIVOT (%1$s, CLONEID) select  %2$s, fg_get_struct_form_id(t.formcode) from FG_S_WORKUP_PIVOT t where experiment_id = '%3$s' %4$s",
+				"insert into FG_S_WORKUP_PIVOT (%1$s, CLONEID) select  %2$s, fg_get_struct_form_id(t.formcode) from FG_S_WORKUP_PIVOT t where t.active = 1 and experiment_id = '%3$s' %4$s",
 				colList, valList, sourceExperimentId, workupIdCondition);
 		formSaveDao.updateSingleStringInfoNoTryCatch(sql);// "FG_S_WORKUP_PIVOT", "experiment_id", sourceExperimentId);
 
