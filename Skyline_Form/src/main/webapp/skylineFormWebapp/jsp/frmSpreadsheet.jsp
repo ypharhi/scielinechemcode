@@ -685,7 +685,7 @@
 					    var currSpreadConfigZip = pako.gzip(currSpreadConfigSfy,{ to: 'string' });
 					    var currSpreadConfigUnZip = pako.ungzip(currSpreadConfigZip,{ to: 'string' });
 					    if(currSpreadConfigSfy === currSpreadConfigUnZip) {
-					    	fullData_ = currSpreadConfigZip;
+					    	fullData_ = currSpreadConfigZip;//TODO:check if the zip is actually decrease the size of the content
 					    } else {
 					    	fullData_ = currSpreadConfig;
 					    }
