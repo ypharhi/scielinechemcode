@@ -15,8 +15,8 @@ function elementSmartSearchOnClick(domId) {
     	dialogWidth = $(window).width()*0.95;
         dialogHeight = $(window).height()*0.95;
     }else{
-    	dialogWidth = $(window).width() - 180;
-        dialogHeight = $(window).height() - 180; 
+    	dialogWidth = $(window).width()*0.8;
+        dialogHeight = $(window).height()*0.8; 
     }
 
     parentId = $('#formId').val(); // maybe unnecessary
