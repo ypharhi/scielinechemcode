@@ -49,7 +49,7 @@ public interface ChemDao {
 	 * @throws SQLException
 	 * @throws Exception
 	 */
-	JSONObject saveDocData(String fullData) throws ParserConfigurationException, SAXException, IOException,
+	JSONObject saveDocData(String fullData, String formId) throws ParserConfigurationException, SAXException, IOException,
 			TransformerException, ClassNotFoundException, SQLException, Exception;
 
 	/**
@@ -64,7 +64,7 @@ public interface ChemDao {
 
 	//	String searchJChem(String mol);
 
-	String getNewChemImg(String fullData);
+	String getNewChemImg(String fullData, String formId);
 
 	/**
 	* 

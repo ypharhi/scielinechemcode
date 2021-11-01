@@ -14,7 +14,7 @@ public interface FormSaveService {
  
 	void doSaveTask(FormSaveTaskInfo formSaveTaskInfo);
 
-	String saveFile(MultipartFile file, String formCodeFull);
+	String saveFile(MultipartFile file, String formCodeFull, String formId);
 
 	String saveFileAsClob(MultipartFile file, String FORM_ID); 
 	

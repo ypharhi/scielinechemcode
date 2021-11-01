@@ -316,7 +316,7 @@ public class FormStateManager implements Serializable {
 				
 				if(byteArrayObject != null)
 				{
-					String fileID = uploadFileDao.saveByteArrayAsBlob(byteArrayObject, "breadcrumbs.serializedObject", "breadcrumbs.serializedObject");
+					String fileID = uploadFileDao.saveByteArrayAsBlob(byteArrayObject, "breadcrumbs.serializedObject", "breadcrumbs.serializedObject", "-1");
 					if(!fileID.equals(""))
 					{
 						uploadFileDao.updateUserBreadcrumbLink(sessionUserName, fileID);

@@ -65,7 +65,7 @@ public class FormApiExcelService {
 		
 		if(isChangedflag.equals("1") || isNew.equals("1") 
 				|| generalUtil.getNull(elementId).equals("")|| generalUtil.getNull(elementId).equals("-1")) { // changed / new (after cone)  / empty are condition to get a  new elementid. Note: if isNnew and isChangedflag = 0 with elementId (NOT EMPTY) then it is clone 
-			elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//always get new elementID
+			elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode(), formId);//always get new elementID
 			String value = generalUtil.getJsonValById(dataBean.getVal(), "value");
 			//check for an empty value
 			if(value.isEmpty()) {

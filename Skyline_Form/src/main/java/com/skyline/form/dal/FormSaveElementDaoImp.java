@@ -86,7 +86,7 @@ public class FormSaveElementDaoImp implements FormSaveElementDao {
 
 		//		String sql = "update fg_formMonitoParam_data t set t.IS_ACTIVE = '0' where t.PARENT_ID = '" + formId + "' and nvl(t.IS_ACTIVE,'1') <> '0' ";
 		//String calcIdentifier = getStructFormId("MonitorparamData.CalcIdentifier");ab 30/08/18
-		String calcIdentifier = formSaveDao.getStructFileId("MonitorparamData.CalcIdentifier");
+		String calcIdentifier = formSaveDao.getStructFileId("MonitorparamData.CalcIdentifier", formId);
 		for (Map.Entry<String, String> entry : paramMonitoringValueMap.entrySet()) {
 			using.append("select '");
 			using.append(formId + "' PARENT_ID,'");
@@ -238,9 +238,9 @@ public class FormSaveElementDaoImp implements FormSaveElementDao {
 	} 
 	
 	@Override
-	public String saveRichText(String formCode, DataBean dataBean, boolean isTransactional) {
+	public String saveRichText(String formCode, DataBean dataBean, boolean isTransactional, String formId) {
 		//String elementId = formSaveDao.getStructFormId(formCode + "." + dataBean.getCode());//ab 30/08/18
-		String elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//always get new elementID
+		String elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode(), formId);//always get new elementID
 		String clobString = generalUtil.getJsonValById(dataBean.getVal(), "value");
 		String plainText = generalUtil.getJsonValById(dataBean.getVal(), "plainText");
 
@@ -252,7 +252,7 @@ public class FormSaveElementDaoImp implements FormSaveElementDao {
 	}
 	
 	@Override
-	public String saveDiagram(String formCode, DataBean dataBean,String elementId) throws Exception {
+	public String saveDiagram(String formCode, DataBean dataBean,String elementId, String formId) throws Exception {
 		String clobString = generalUtil.getJsonValById(dataBean.getVal(), "value");
 		//String toReturn = uploadFileDao.saveStringAsClob(elementId, clobString);
 
@@ -271,7 +271,7 @@ public class FormSaveElementDaoImp implements FormSaveElementDao {
 			baos.flush();
 			byte[] imageBytes = baos.toByteArray();
 			
-			String image_id = formSaveDao.getStructFileId("DIAGRAM_IMAGE.png");
+			String image_id = formSaveDao.getStructFileId("DIAGRAM_IMAGE.png", formId);
 			uploadFileDao.saveDiagramImage(imageBytes, "DIAGRAM_IMAGE.png", image_id);
 			baos.close();
 			sql = "insert into fg_diagram (element_id, element_name, content, content_type, image_id) "

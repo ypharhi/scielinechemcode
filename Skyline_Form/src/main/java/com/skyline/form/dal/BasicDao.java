@@ -23,7 +23,7 @@ public class BasicDao {
 
 	protected JdbcTemplate jdbcTemplate;
 
-	private DataSource dataSource;
+	protected DataSource dataSource;
 
 	@Value("${sqlTimeOut:360}")
 	private int sqlTimeOut;

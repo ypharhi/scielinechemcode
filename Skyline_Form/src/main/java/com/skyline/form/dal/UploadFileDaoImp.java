@@ -16,6 +16,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -34,6 +35,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.jdbc.core.support.SqlLobValue;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -122,31 +129,32 @@ public class UploadFileDaoImp extends BasicDao implements UploadFileDao {
 	@Override
 	public String saveStringAsClob(String elementID, String clobString) {
 		String retVal = "1";
-
 		try {
-			Map<String, String> simpleParameters = new HashMap<>();
-			simpleParameters.put("file_id_in", elementID);
-			simpleParameters.put("file_name_in", null);
-			simpleParameters.put("CONTENT_TYPE_in", null);
-			Map<String, String> outParameters = new HashMap<>();
-			outParameters.put("empty_clob_out", null);
-			Map<String, Object> map = generalDao.callProcedureReturnsOutObject("", "FG_INSERT_CLOB_FILE",
-					simpleParameters, outParameters, OracleTypes.CLOB);
+			MapSqlParameterSource in = new MapSqlParameterSource();
+			  in.addValue("file_id", elementID);
+			  in.addValue("content_type",  new SqlLobValue(clobString, 
+			     new DefaultLobHandler()), Types.CLOB);
 
-			CLOB clob = (CLOB) map.get("empty_clob_out");
-			setClob(clobString, clob);
-
+			  String SQL = "insert into FG_CLOB_FILES(FILE_ID,FILE_CONTENT) VALUES(:file_id,:content_type)";
+			  NamedParameterJdbcTemplate jdbcTemplateObject = new 
+			     NamedParameterJdbcTemplate(dataSource);
+			  
+			 int i = jdbcTemplateObject.update(SQL, in);
+			 retVal = String.valueOf(i);
+			 if(!retVal.equals("1")) {
+				 retVal = "-1";
+			 }
 		} catch (Exception e) {
 			e.printStackTrace();
 			generalUtilLogger.logWrite(e);
 			retVal = "-1";
 		}
-
-		return retVal;
+		
+		return retVal; 
 	}
 
 	@Override
-	public String saveFile(MultipartFile file, String formCodeFull) {
+	public String saveFile(MultipartFile file, String formCodeFull, String formId) {
 
 		String sql = "";
 		CallableStatement stmtInsert = null;
@@ -157,7 +165,7 @@ public class UploadFileDaoImp extends BasicDao implements UploadFileDao {
 			con = DriverManager.getConnection(url, username, password);
 
 			logger.info("saveFile call /formCodeFull: " + formCodeFull);
-			elementID = formSaveDao.getStructFileId(formCodeFull);
+			elementID = formSaveDao.getStructFileId(formCodeFull, formId);
 			logger.info("saveFile call /elementID: " + elementID);
 
 			/*Map<String,String> simpleParameters=new HashMap<>();
@@ -234,7 +242,7 @@ public class UploadFileDaoImp extends BasicDao implements UploadFileDao {
 	}
 
 	@Override
-	public String saveFile(String path_file, String formCodeFull, String fileName, boolean isTemp) {
+	public String saveFile(String path_file, String formCodeFull, String fileName, boolean isTemp, String formId) {
 		File file = new File(path_file);
 		String sql = "";
 		CallableStatement stmtInsert = null;
@@ -242,7 +250,7 @@ public class UploadFileDaoImp extends BasicDao implements UploadFileDao {
 		String elementID = "";
 		try {
 			logger.info("saveFile call /formCodeFull: " + formCodeFull);
-			elementID = formSaveDao.getStructFileId(formCodeFull);
+			elementID = formSaveDao.getStructFileId(formCodeFull, formId);
 			logger.info("saveFile call /elementID: " + elementID);
 
 			Class.forName(driverClassName);
@@ -323,14 +331,14 @@ public class UploadFileDaoImp extends BasicDao implements UploadFileDao {
 	}
 
 	@Override
-	public String saveByteArrayAsBlob(byte[] arr, String formCodeFull, String fileName) {
+	public String saveByteArrayAsBlob(byte[] arr, String formCodeFull, String fileName, String formId) {
 		PreparedStatement prstmt = null;
 		String sql = "";
 		String elementID = "";
 		Connection con = null;
 
 		try {
-			elementID = formSaveDao.getStructFileId(formCodeFull);
+			elementID = formSaveDao.getStructFileId(formCodeFull, formId);
 
 			sql = "insert into FG_FILES (FILE_ID, FILE_NAME, CONTENT_TYPE, FILE_CONTENT, reference_form) VALUES (?,?,?,?,?)";
 
@@ -836,10 +844,10 @@ public class UploadFileDaoImp extends BasicDao implements UploadFileDao {
 	}
 
 	@Override
-	public String saveStringAsClobRenderId(String desc, String data) {
+	public String saveStringAsClobRenderId(String desc, String data, String formId) {
 
 		//String toReturnId = formSaveDao.getStructFormId(desc);ab 30/03/18
-		String toReturnId = formSaveDao.getStructFileId(desc);
+		String toReturnId = formSaveDao.getStructFileId(desc, formId);
 
 		if (saveStringAsClob(toReturnId, data).equals("-1")) {
 			return "-1";

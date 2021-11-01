@@ -9,13 +9,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface UploadFileDao {
 
-	String saveFile(MultipartFile file, String formCodeFull);
+	String saveFile(MultipartFile file, String formCodeFull, String formId);
 
 	void saveFileAsClob(String FILE_ID, MultipartFile file);
 
 	String saveStringAsClob(String elementID, String fullData);
 
-	String saveStringAsClobRenderId(String desc, String data);
+	String saveStringAsClobRenderId(String desc, String data, String formId);
 
 	String getContentType(String FORM_ID);
 
@@ -53,13 +53,13 @@ public interface UploadFileDao {
 
 	JSONArray updateWebixResultTypeList(Map<String, String> elementValueMap);
 
-	String saveFile(String path_file, String formCodeFull, String fileName, boolean isTemp);
+	String saveFile(String path_file, String formCodeFull, String fileName, boolean isTemp, String formId);
 
 	String saveStringAsClobNewConnection(String elementID, String clobString);
 
 	byte[] getByteArrayFromBlob(String FILE_ID);
 
-	String saveByteArrayAsBlob(byte[] arr, String formCodeFull, String fileName);
+	String saveByteArrayAsBlob(byte[] arr, String formCodeFull, String fileName, String formId);
 
 	void updateUserBreadcrumbLink(String string, String fileID);
 

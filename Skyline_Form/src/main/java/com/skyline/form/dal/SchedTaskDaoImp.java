@@ -115,7 +115,7 @@ public class SchedTaskDaoImp implements SchedTaskDao {
 				String molData = generalDao.getSingleStringFromBlob(
 						"select file_content file_id from fg_files where file_id = '" + fileId + "'");
 				JSONObject jo;
-				jo = chemDao.saveDocData(molData);
+				jo = chemDao.saveDocData(molData, "-1"); //TODO YARON?
 				String displayId_ = (String) jo.get("imgId");
 				String checmId = (String) jo.get("chemId");
 				generalDao.updateSingleString("update fg_files t set t.file_display_id = '" + displayId_

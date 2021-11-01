@@ -352,7 +352,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 					String cml_ = "<cml><MDocument><MChemicalStruct>" + (String) matObj.get("cml")
 							+ "</MChemicalStruct></MDocument></cml>";
 					//String cml_copy_link = formSaveDao.getStructFormId("CML_COPY_LINK");
-					String cml_copy_link = formSaveDao.getStructFileId("CML_COPY_LINK");
+					String cml_copy_link = formSaveDao.getStructFileId("CML_COPY_LINK", parentId);
 					uploadFileDao.saveStringAsClobNewConnection(cml_copy_link, cml_);
 					matObj.put("cml_copy_link", cml_copy_link);
 					return matObj.toString();
@@ -839,7 +839,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			String plainText = elementValueMap.get("reactionTableData");
 			generalUtilLogger.logWriter(LevelType.INFO, "reaction tables UI before save event:</br>" + plainText,
 					ActivitylogType.ReactionDataUI, formId);
-			String objectId = uploadFileDao.saveStringAsClobRenderId(formCode, plainText);
+			String objectId = uploadFileDao.saveStringAsClobRenderId(formCode, plainText, formId);
 			return objectId;
 		}
 		else if (eventAction.equals("calcQuantity") || eventAction.equals("calcVolume") || eventAction.equals("calcMole")
@@ -1625,7 +1625,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			if (fullData.isEmpty()) {
 				return "0";
 			}
-			String newImgId = chemDao.getNewChemImg(fullData);
+			String newImgId = chemDao.getNewChemImg(fullData, formId);
 			if (newImgId.isEmpty()) {
 				return "0";
 			}
@@ -2522,7 +2522,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			 * String formCode, String formId)
 			 */
 			String observationIdRichtext = formSaveElementDao.saveRichText(formCode,
-					new DataBean("observation", elementValueMap.get("observation"), BeanType.CLOB, ""), true);
+					new DataBean("observation", elementValueMap.get("observation"), BeanType.CLOB, ""), true, formId);
 			boolean canNewByList = false;
 			String toReturn;
 			try {
@@ -2611,7 +2611,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 //			String niceFormattedJson = JsonWriter.formatJson(quantityOfRuns);
 			
 			
-			String objectId = uploadFileDao.saveStringAsClobRenderId("CASResultLogReport", prettyJsonString);
+			String objectId = uploadFileDao.saveStringAsClobRenderId("CASResultLogReport", prettyJsonString, formId);
 			String sql = "insert into FG_CHEM_CAS_API_LOG (TIME_STAMP,user_id,material_form_id,resultid) VALUES (SYSDATE,'"
 //					+ userId + "','" + formId + "','" + (generalUtil.mapToString("CAS RESULT", elementValueMap).replace("'", "''")) + "')";
 					+ userId + "','" + formId + "','" + objectId + "')";
@@ -2631,7 +2631,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			/*
 			 * kd 25112019 save cas log
 			 */
-			String objectId = uploadFileDao.saveStringAsClobRenderId("CASResultLogReport", generalUtil.replaceDBUpdateVal(generalUtil.mapToString("CAS RESULT", elementValueMap)));
+			String objectId = uploadFileDao.saveStringAsClobRenderId("CASResultLogReport", generalUtil.replaceDBUpdateVal(generalUtil.mapToString("CAS RESULT", elementValueMap)), formId);
 			String sql = "insert into FG_CHEM_CAS_API_LOG (TIME_STAMP,user_id,material_form_id,resultid) VALUES (SYSDATE,'"
 //					+ userId + "','" + formId + "','" + (generalUtil.mapToString("CAS RESULT", elementValueMap).replace("'", "''")) + "')";
 					+ userId + "','" + formId + "','" + objectId + "')";
@@ -2651,7 +2651,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			/*
 			 * kd 25112019 save cas log
 			 */
-			String objectId = uploadFileDao.saveStringAsClobRenderId("CASResultLogReport", elementValueMap.get("quantityOfRuns").toString());
+			String objectId = uploadFileDao.saveStringAsClobRenderId("CASResultLogReport", elementValueMap.get("quantityOfRuns").toString(), formId);
 			String sql = "insert into FG_CHEM_CAS_API_LOG (TIME_STAMP,user_id,material_form_id,resultid) VALUES (SYSDATE,'"
 					+ userId + "','" + formId + "','" + objectId + "')";
 			String toReturn = "";
@@ -2985,7 +2985,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 
 				if (!generalUtil.getNull(pathFile).trim().equals("")) {
 					elementId = uploadFileDao.saveFile(pathFile, "TEMP_IREPORT",
-							"Experiment " + experimentName + "." + reportFormat, true);
+							"Experiment " + experimentName + "." + reportFormat, true, formId);
 				} else {
 					generalUtilLogger.logWriter(LevelType.WARN, "Error in Step report from main screen",
 							ActivitylogType.GeneralError, stepId);
@@ -3054,7 +3054,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 
 				if (!generalUtil.getNull(pathFile).trim().equals("")) {
 					elementId = uploadFileDao.saveFile(pathFile, "TEMP_IREPORT",
-							"Experiment " + experimentName + "." + reportFormat, true);
+							"Experiment " + experimentName + "." + reportFormat, true, formId);
 				} else {
 					generalUtilLogger.logWriter(LevelType.WARN, "Error in Experiment report from main screen",
 							ActivitylogType.GeneralError, experimentId);
@@ -3771,7 +3771,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			}
 			
 			//insert design to DB
-				insertDesign(userId);
+				insertDesign(userId, formId);
 				
 
 
@@ -6420,7 +6420,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 	}
 	
 	
-		private void insertDesign(String userId)
+		private void insertDesign(String userId, String formId)
 		{
 
 			String cols = generalDao.getTableColCsv("FG_S_REPORTDESIGNEXP_PIVOT");
@@ -6490,9 +6490,9 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 		
 			String StepsDesign = generalUtil.MapOfListToJson(generalUtilDesignData.getStepDesignMapwithList());
 			String ImpuritiesStepsDesign = generalUtil.MapOfListToJson(generalUtilDesignData.getStepImpuritesDesignMap());
-			String id_ = uploadFileDao.saveStringAsClobRenderId("ReportDesign", StepsDesign);
+			String id_ = uploadFileDao.saveStringAsClobRenderId("ReportDesign", StepsDesign, formId);
 			String parametersId_ = uploadFileDao.saveStringAsClobRenderId("parametersReportDesign",
-					generalUtilDesignData.getDesignFormElementValueMap().get("parametersDesign"));
+					generalUtilDesignData.getDesignFormElementValueMap().get("parametersDesign"),formId);
 
 			String sql_1 = "update fg_s_reportdesignexp_pivot set STEPSDESIGN  = '" + id_ + "',impuritiesStepsDesign='"
 					+ ImpuritiesStepsDesign + "',parametersDesign='" + parametersId_ + "' where formId = '" + newFormId

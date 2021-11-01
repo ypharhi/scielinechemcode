@@ -569,7 +569,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 							sql = " select * from fg_authen_requestmain_exp_v t where t.TEMPLATE_ID = '" + structId
 									+ "' ";
 							toReturn = generalDao.sqlToHashMap(sql);
-							String testPurposeId = formSaveDao.getStructFileId("RequestMain.testPurpose");
+							String testPurposeId = formSaveDao.getStructFileId("RequestMain.testPurpose", formId);
 							uploadFileDao.saveRichText(testPurposeId, "Test the Proocedure", "Test the Proocedure",
 									false);
 							String destUnit = generalDao
@@ -758,7 +758,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 						//prepare the reaction draw up to the the materials in the table
 						String xml = integrationEvent.chemDoodleReactionTabUp("", formId, "MaterialRef");
 						String formCodeFull = "Step.chemDoodleAct";
-						String elementId = formSaveDao.getStructFileId("Step.chemDoodleAct");//always get new elementID
+						String elementId = formSaveDao.getStructFileId("Step.chemDoodleAct", formId);//always get new elementID
 						String fullArray = xml;
 						String value = chemDao.saveChemData(formCode, formId, elementId, fullArray, formCodeFull, "1");
 						toReturn.put("CHEMDOODLEACT", value);
@@ -1107,7 +1107,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 							sql = " select * from fg_authen_requestmain_exp_v t where t.TEMPLATE_ID = '" + structId
 									+ "' ";
 							toReturn = generalDao.sqlToHashMap(sql);
-							String testPurposeId = formSaveDao.getStructFileId("RequestMain.testPurpose");
+							String testPurposeId = formSaveDao.getStructFileId("RequestMain.testPurpose", formId);
 							uploadFileDao.saveRichText(testPurposeId, "Test the Proocedure", "Test the Proocedure",
 									false);
 							String destUnit = generalDao

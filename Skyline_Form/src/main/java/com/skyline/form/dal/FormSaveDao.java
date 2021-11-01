@@ -41,7 +41,7 @@ public interface FormSaveDao {
 	
 	String getStructFormId(String formCode, String parentFormId);
 
-	String getStructFileId(String formCode);
+	String getStructFileId(String formCode, String formId);
 
 	String updateSingleStringInfo(String sql);
 
