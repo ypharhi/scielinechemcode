@@ -128,29 +128,38 @@ public class UploadFileDaoImp extends BasicDao implements UploadFileDao {
 
 	@Override
 	public String saveStringAsClob(String elementID, String clobString) {
-		String retVal = "1";
-		try {
-			MapSqlParameterSource in = new MapSqlParameterSource();
-			  in.addValue("file_id", elementID);
-			  in.addValue("content_type",  new SqlLobValue(clobString, 
-			     new DefaultLobHandler()), Types.CLOB);
 
-			  String SQL = "insert into FG_CLOB_FILES(FILE_ID,FILE_CONTENT) VALUES(:file_id,:content_type)";
-			  NamedParameterJdbcTemplate jdbcTemplateObject = new 
-			     NamedParameterJdbcTemplate(dataSource);
-			  
-			 int i = jdbcTemplateObject.update(SQL, in);
-			 retVal = String.valueOf(i);
-			 if(!retVal.equals("1")) {
-				 retVal = "-1";
-			 }
+		String retVal = "1";
+
+		try {
+
+			String SQL = "  select count(*)\n" + "  from  FG_CLOB_FILES t\n" + "  where t.file_id = '" + elementID
+					+ "'";
+			String isExists = generalDao.selectSingleStringNoException(SQL);
+ 
+
+			MapSqlParameterSource in = new MapSqlParameterSource();
+			in.addValue("file_id", elementID, Types.VARCHAR);
+			in.addValue("file_content", new SqlLobValue(clobString, new DefaultLobHandler()), Types.CLOB);
+
+			if (isExists.equals("0")) {
+				SQL = "insert into FG_CLOB_FILES(FILE_ID,FILE_CONTENT) VALUES(:file_id,:file_content)";
+			} else {
+				SQL = "update FG_CLOB_FILES set file_content = :file_content where file_id = :file_id ";
+			}
+
+			int i = namedParameterJdbcTemplate.update(SQL, in);
+			retVal = String.valueOf(i);
+			if (!retVal.equals("1")) {
+				retVal = "-1";
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			generalUtilLogger.logWrite(e);
 			retVal = "-1";
 		}
-		
-		return retVal; 
+
+		return retVal;
 	}
 
 	@Override
