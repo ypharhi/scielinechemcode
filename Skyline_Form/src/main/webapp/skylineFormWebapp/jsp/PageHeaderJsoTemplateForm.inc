@@ -10,7 +10,7 @@
 
 	</div>
 
-	<div class="top-bar-right">
+	<div class="top-bar-right" style="position: absolute;right: 0;">
 
 		<ul class="menu">
 
