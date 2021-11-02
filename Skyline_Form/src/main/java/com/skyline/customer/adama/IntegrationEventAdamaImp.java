@@ -1668,6 +1668,7 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 				List<String> samples = generalDao.getListOfStringBySql(
 						"select distinct t.SAMPLE_ID from fg_s_ManualResultsRef_v t where t.RESULT is not null and t.PARENTID ='"
 								+ formId + "'");
+				//List<String> duplSamplesRes = generalDao.getListOfStringBySql("select distinct t.SAMPLE_ID from fg_s_ManualResultsRef_v t where t.RESULT is not null and t.PARENTID ='"+formId+"' group by t.SAMPLE_ID,t.MATERIAL_ID,t.RESULT_TYPE_ID having count(t.result)>1");
                 String sql = String
 						.format("select distinct sample_id from(select distinct t.INVITEMMATERIAL_ID,t.RESULT_NAME,t.sample_id from fg_r_experimentresult_basedt_v t where experimentdest_id = '"
 								+ formId + "' and sample_id in(" + generalUtil.listToCsv(samples) + ")" + " INTERSECT "
@@ -1705,7 +1706,8 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
             List<Map<String,Object>> listOfRemoveResultMaps = generalDao.getListOfMapsBySql(sql);
             sql = "select distinct t.sample_id ,listagg(sr.RESULT_ID,',') WITHIN GROUP (order by RESULT_ID) OVER (partition by sr.sample_id) as resultList  "+
 					" from "+
-					" (select t.INVITEMMATERIAL_ID,t.RESULT_NAME,t.sample_id from fg_r_experimentresult_basedt_v t where experimentdest_id = '"+formId+"' and sample_id in("+generalUtil.listToCsv(samples)+")"+ 
+					" (select t.INVITEMMATERIAL_ID,t.RESULT_NAME,t.sample_id from fg_r_experimentresult_basedt_v t where experimentdest_id = '"+formId+"' and sample_id in("+generalUtil.listToCsv(samples)+") group by t.SAMPLE_ID,t.invitemMATERIAL_ID,t.RESULT_name\n" + 
+							" having count(t.result_value)<2 "+ 
 					" INTERSECT "+
 					" select t.INVITEMMATERIAL_ID,t.RESULT_NAME,t.sample_id from FG_i_SAMPLERESULTS_V t where  sample_id in("+generalUtil.listToCsv(samples)+"))t, fg_r_experimentresult_basedt_v sr   "+
 					" where t.SAMPLE_ID = sr.SAMPLE_ID and t.INVITEMMATERIAL_ID = sr.INVITEMMATERIAL_ID and t.RESULT_NAME = sr.RESULT_NAME and sr.experimentdest_id = '"+formId+"'";
