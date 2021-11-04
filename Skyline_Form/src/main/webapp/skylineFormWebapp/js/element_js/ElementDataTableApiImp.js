@@ -2906,7 +2906,7 @@ function smartRender(object, followingHiddenCols, domId, savedObject, isTableRes
 				                                	}
 				                                }
 				                        		if( $('#' + domId + '_role').val()!="Shared" && $("table[id='"+domId+"']").attr("disableeditable")=="0"){
-				                                	if(domId =="columnSelect"){
+				                                	if(domId =="columnSelect" || domId == "samples"){
 				                                		//var obj = JSON.parse(rowData[3]);
 				                                    	//rowId = obj.formId;
 				                                		cellId = cellId+"_"+row;
