@@ -2108,8 +2108,8 @@ function generalBL_elementDataTableClickEvent(domId, customerFunction, params, $
 		eventActionName = "createNewForm";
 		isPopup = true;
 		isStructAsPopup = true;
-		dialogWidth = $(parent.window).width()*0.85; 
-		dialogHeight = $(parent.window).height() *0.7; 
+		dialogWidth = $(parent.window).width()*0.8; 
+		dialogHeight = $(parent.window).height() *0.8; 
 	}
 	else if(customerFunction == "createNewRequest")
 	{

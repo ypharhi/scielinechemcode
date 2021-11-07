@@ -4930,6 +4930,35 @@ function CheckSampleResult(afterSave,saveAction){
 			if (obj.errorMsg != null && obj.errorMsg != '') {
 				displayAlertDialog(obj.errorMsg);
 			}else if (obj.data[0].val.toString() != null && obj.data[0].val.toString()!=""){//There is a confirmation message
+				if(obj.data[0].val.startsWith("-1")){//2 results or more with the same sample, material and result type
+					obj.data[0].val = obj.data[0].val.substr(2);
+					 openConfirmDialog({
+				            onConfirm: function(){
+				            	if(obj.data[0].val.toString() != null && obj.data[0].val.toString()!=""){
+				            		openConfirmDialog({
+				    			        onConfirm: function(){
+				    			        	hideWaitMessage();
+				    			        	var formId = $('#formId').val();
+				    			        	checkMainResults(formId,afterSave,saveAction);
+				    			        },
+				    			        title: 'Warning',
+				    			        //message: getSpringMessage("The following samples:</br>"+obj.data[0].val+"</br>have more than one result from the same type.</br><b>Please notice that there is no main result for the sample.</b>"),
+				    			        message: getSpringMessage("You are about to save an additional result set for sample</br>"+obj.data[0].val+"</br>Would you like to select these results as the main results set of the sample?"),
+				    			        onCancel: function(){
+				    		        		hideWaitMessage();
+				    		        		var formId = $('#formId').val();
+				    		        		sendNotifExpOwner(formId,afterSave,saveAction);
+				    			        }
+				    			    });
+				            	}else{
+				            		hideWaitMessage();
+				    				doSave(afterSave, saveAction);
+				            	}
+				            },
+				            title: 'Warning',
+				            message: getSpringMessage('EXPAN_MULTIPLE_RESULT')
+				        });
+				}else{
 				openConfirmDialog({
 			        onConfirm: function(){
 			        	hideWaitMessage();
@@ -4945,6 +4974,7 @@ function CheckSampleResult(afterSave,saveAction){
 		        		sendNotifExpOwner(formId,afterSave,saveAction);
 			        }
 			    });
+				}
 			} else {
 				hideWaitMessage();
 				doSave(afterSave, saveAction);
