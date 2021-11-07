@@ -1632,7 +1632,7 @@ function saveSpreadsheet(element){
 		}
 	},
 	error :  function(xhr, textStatus, error){
-		   	 insertSpreadsheetIntoLocalStorage();
+		   	// insertSpreadsheetIntoLocalStorage();
 			 handleAjaxError(xhr, textStatus, error);
 		 } 
 	});

@@ -637,7 +637,7 @@ function postCallbacksSave(postSaveArgObj, callbackResultArray_) {
              }
          },
          error: function(xhr, textStatus, error){
-        	 insertSpreadsheetIntoLocalStorage();
+        	 //insertSpreadsheetIntoLocalStorage();
         	 handleAjaxError(xhr, textStatus, error);
          } 
         	 
@@ -1893,6 +1893,7 @@ function dataTableStyle(table) {
 }
 
 function handleAjaxError(xhr, textStatus, error) {
+	insertSpreadsheetIntoLocalStorage();
 	hideWaitMessage();
 	//alert("error: " + xhr + " status: " + textStatus + " er:" + error);
     // ajax callback error
@@ -3562,6 +3563,7 @@ function setSpreadsheetUserData(){
 function insertSpreadsheetIntoLocalStorage(){
 	var errMessage = "Server connection error.<br>" ;
    try{
+	   var localStorageInsertCount = 0;
 	   clearLocalStorage()//localStorage.clear();
  	   var time = $.now();
  	   $('[element = "ElementExcelSheetImp"]').each(function(){
@@ -3572,9 +3574,10 @@ function insertSpreadsheetIntoLocalStorage(){
 				var key = domId+"_"+$('#formId').val()+"_"+time;
 				if($element.attr("is_changed_flag") == "1"){
 					localStorage.setItem(key,val);
+					localStorageInsertCount++;
 				}
  	   });
- 	   if(localStorage.length > 0){//localStorage is not empty->data has been stored
+ 	   if(localStorageInsertCount > 0){//localStorage is not empty->data has been stored
  		   displayFadeMessage(errMessage + getSpringMessage('The spreadsheet data saved on the local storage successfully'));
  	   }
 	}

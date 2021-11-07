@@ -1,6 +1,7 @@
 package com.skyline.form.service;
 
 import java.io.IOException;
+import java.sql.Types;
 import java.util.Arrays;
 import java.util.List;
 
@@ -12,6 +13,10 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.support.SqlLobValue;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.xml.sax.SAXException;
@@ -51,6 +56,8 @@ public class FormApiExcelService {
 
 	@Autowired
 	private GeneralDao generalDao;
+
+	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	@Transactional
 	public String saveSpreadsheet(DataBean dataBean,String isNew, String formCode, String formId) throws Exception{
@@ -174,20 +181,9 @@ public class FormApiExcelService {
 		for(DataBean dataBean:dataBeanList) {
 			String elementImpCode_ = dataBean.getCode();
 			String value = generalUtil.getJsonValById(dataBean.getVal(), "value");
-			String clobVal = "to_clob('" + value + "')";
-			if(value != null && value.length() > 3900) {
-				clobVal = generalDao.breakClob(value);
-			} 
-			String sql = "merge into fg_excel_user_temp_data t\n"
-					+ "using (select '"+formId+"' FORMID,'"+elementImpCode_+"' DOMID,'"+userId+"' USER_ID,sysdate TIMESTAMP,"+clobVal+" VALUE from dual) d\n"
-					+ "on (t.formid = d.formid\n"
-					+ "and t.domid = d.domid\n"
-					+ "and t.user_id = d.user_id)\n"
-					+ "when not matched then insert(formid,domid,user_id,timestamp,value)\n"
-					+ "values( '"+formId+"' ,'"+elementImpCode_+"' ,'"+userId+"' ,sysdate ,"+clobVal+")\n"
-					+ "when matched then update set t.timestamp = d.timestamp, t.value = d.value";
-			String update = generalDao.updateSingleString(sql);
-			if(update.equals("-1")) {
+			
+			String retVal = generalDao.setSpreadsheetTempData(formId,elementImpCode_,userId,value);
+			if(retVal.equals("-1")) {
 				throw new Exception("Error in the sql query");
 			}
 		}

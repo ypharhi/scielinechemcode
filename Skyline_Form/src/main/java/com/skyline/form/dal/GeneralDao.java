@@ -117,7 +117,7 @@ public interface GeneralDao {
 	
 	void exeSql (String sql);
 
-	String breakClob(String value);
+	String setSpreadsheetTempData(String formId, String elementImpCode_, String userId, String value);
 
 	//	Connection getConnectionFromDataSurceTask();
 

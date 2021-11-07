@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -49,6 +50,8 @@ import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.jdbc.core.support.SqlLobValue;
+import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.LinkedCaseInsensitiveMap;
 
@@ -3286,16 +3289,57 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		
 	}
 
-	@Override
-	public String breakClob(String val) {
-		String toReturn = "";
-		int index = 0;
-		while (index < val.length()) {
-			toReturn = "CONCAT_CLOB(" + generalUtil.getEmpty(toReturn, "EMPTY_CLOB()") + ",'" + val.substring(index, Math.min(index + 3900,val.length())) + "')";
-		    index += 3900;
+	public String setSpreadsheetTempData(String formId, String domId, String userId, String value) {
+		String retVal = "1";
+		try {
+			String SQL = "  select count(*)\n" + "  from  fg_excel_user_temp_data t\n" 
+					+ "  where t.formid = '" + formId+ "'\n"
+					+ " and t.domid = '"+domId+"'\n"
+					+ "and t.user_id = '"+userId+"'";
+			String isExists = selectSingleStringNoException(SQL);
+		
+		
+			MapSqlParameterSource in = new MapSqlParameterSource();
+			in.addValue("formid", formId, Types.VARCHAR);
+			in.addValue("domid", domId, Types.VARCHAR);
+			in.addValue("user_id", userId, Types.VARCHAR);
+			in.addValue("file_content", new SqlLobValue(value, new DefaultLobHandler()), Types.CLOB);
+			
+		
+			if (isExists.equals("0")) {
+				SQL = "insert into fg_excel_user_temp_data(formid,domid,user_id,timestamp,value)\n"
+					+ " VALUES(:formid,:domid,:user_id,sysdate,:file_content)";
+			} else {
+				SQL = "update fg_excel_user_temp_data \n"
+					+ "set timestamp = sysdate, value = :file_content \n"
+					+ "where formid = :formid and domid = :domid and user_id = :user_id";
+			}
+		
+			int i = namedParameterJdbcTemplate.update(SQL, in);
+			retVal = String.valueOf(i);
+			/*
+			String sql = "merge into fg_excel_user_temp_data t\n"
+					+ "using (select '"+formId+"' FORMID,'"+elementImpCode_+"' DOMID,'"+userId+"' USER_ID,sysdate TIMESTAMP,"+clobVal+" VALUE from dual) d\n"
+					+ "on (t.formid = d.formid\n"
+					+ "and t.domid = d.domid\n"
+					+ "and t.user_id = d.user_id)\n"
+					+ "when not matched then insert(formid,domid,user_id,timestamp,value)\n"
+					+ "values( '"+formId+"' ,'"+elementImpCode_+"' ,'"+userId+"' ,sysdate ,"+clobVal+")\n"
+					+ "when matched then update set t.timestamp = d.timestamp, t.value = d.value";
+			String update = generalDao.updateSingleString(sql);*/
+			if (!retVal.equals("1")) {
+				retVal = "-1";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			generalUtilLogger.logWrite(e);
+			retVal = "-1";
 		}
-		return toReturn;
+		return retVal;
 	}
+
+	
+	
 
 	//	@Override
 	//	public String selectSingleStringTask(String sql) {
