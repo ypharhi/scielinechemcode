@@ -117,6 +117,8 @@ public interface GeneralDao {
 	
 	void exeSql (String sql);
 
+	String breakClob(String value);
+
 	//	Connection getConnectionFromDataSurceTask();
 
 	//	String updateSingleStringTask(String sql);

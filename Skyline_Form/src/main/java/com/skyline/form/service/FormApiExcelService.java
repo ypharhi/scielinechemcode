@@ -2,6 +2,7 @@ package com.skyline.form.service;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -22,6 +23,7 @@ import com.skyline.form.bean.ValidationCode;
 import com.skyline.form.dal.FormDao;
 import com.skyline.form.dal.FormSaveDao;
 import com.skyline.form.dal.GeneralDao;
+import com.skyline.form.dal.GeneralLogDaoImp;
 import com.skyline.form.dal.UploadFileDao; 
 
 @Service
@@ -166,5 +168,28 @@ public class FormApiExcelService {
 			}
 		}
 		return new ActionBean("no action needed", generalUtil.StringToList(js.toString()), "");
+	}
+
+	public void setSpreadsheetUserData(List<DataBean> dataBeanList, String formId, String userId) throws Exception {
+		for(DataBean dataBean:dataBeanList) {
+			String elementImpCode_ = dataBean.getCode();
+			String value = generalUtil.getJsonValById(dataBean.getVal(), "value");
+			String clobVal = "to_clob('" + value + "')";
+			if(value != null && value.length() > 3900) {
+				clobVal = generalDao.breakClob(value);
+			} 
+			String sql = "merge into fg_excel_user_temp_data t\n"
+					+ "using (select '"+formId+"' FORMID,'"+elementImpCode_+"' DOMID,'"+userId+"' USER_ID,sysdate TIMESTAMP,"+clobVal+" VALUE from dual) d\n"
+					+ "on (t.formid = d.formid\n"
+					+ "and t.domid = d.domid\n"
+					+ "and t.user_id = d.user_id)\n"
+					+ "when not matched then insert(formid,domid,user_id,timestamp,value)\n"
+					+ "values( '"+formId+"' ,'"+elementImpCode_+"' ,'"+userId+"' ,sysdate ,"+clobVal+")\n"
+					+ "when matched then update set t.timestamp = d.timestamp, t.value = d.value";
+			String update = generalDao.updateSingleString(sql);
+			if(update.equals("-1")) {
+				throw new Exception("Error in the sql query");
+			}
+		}
 	}
 }

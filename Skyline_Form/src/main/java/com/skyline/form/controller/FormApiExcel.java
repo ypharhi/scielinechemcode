@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +58,24 @@ public class FormApiExcel {
 		try{
 			String elementIdReturnVal =  formApiExcelService.saveSpreadsheet(dataBeanList.get(0), isNew, formCode, formId);
 			return new ActionBean("no action needed", generalUtil.StringToList(elementIdReturnVal),"");
+		} catch (Exception ex){
+			String errMsg = ex.getMessage();
+			return new ActionBean("no action needed", generalUtil.StringToList("-1"), errMsg);
+		}
+	}
+	
+	@RequestMapping(value = "/setSpreadsheetUserData.request", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody ActionBean setSpreadsheetUserData(@RequestBody ActionBean actionBean, HttpServletRequest request) {
+
+		logger.info("saveSpreadsheet call");
+		String formId = request.getParameter("formId");
+		String userId = request.getParameter("userId");
+		 
+		List<DataBean> dataBeanList = actionBean.getData();
+
+		try{
+			formApiExcelService.setSpreadsheetUserData(dataBeanList, formId,userId);
+			return new ActionBean("no action needed", generalUtil.StringToList("1"),"");
 		} catch (Exception ex){
 			String errMsg = ex.getMessage();
 			return new ActionBean("no action needed", generalUtil.StringToList("-1"), errMsg);

@@ -165,6 +165,15 @@
     	    }
     	}, checkIntervalMS_);
     	
+    	//asyn call to update the local storage with the spreadsheet data
+    	var checkIntervalSpreadsheet = 300000;
+    	if($('[element = "ElementExcelSheetImp"]').length>0){
+	    	//console.log("checkIntervalMS_",checkIntervalMS_);
+	    	setInterval(function(){
+	    	    setSpreadsheetUserData();
+	    	}, checkIntervalSpreadsheet);
+    	}
+    	
 		// handel browser navigation:
 		// F5 - NOTE refresh icon is not handaled  in this case the page will reload with another statkey and the bread crunb will start form this from
 		$("body").keydown(function(e) {

@@ -434,6 +434,36 @@
 				$('.contentList.ribbon-navigation').append(expandCompressElem);
 			}
 			
+
+			//show the "restore from local storage" in case the local storage is actually  has a key contains the current domId
+			if(localStorage.length>0 && $('#restoreFromStorage_'+domId).length == 0 ){
+				var keyPart =  domId+"_"+parent.$('#formId').val()+"_";
+				var isKeyFound = false;
+				var keyVal;
+				//sort the localstorage descending order in order to get the last inserted item(by timestamp)
+				Object
+				   .keys(localStorage).filter(function(key){
+					   if(key.indexOf(keyPart)!=-1)
+						   return true; 
+					   else return false;
+					   }
+				   )
+				   .sort().reverse().every(function(key){
+					   //the first item is actually the last one inserted in the current domId and formid(as filtered above) 
+						   isKeyFound = true;
+						   keyVal = key; 
+						   return false;//break the loop
+				   });
+				
+				if(isKeyFound){
+					var time = keyVal.split('_')[2];//new Date(Number(time)).toString().split("GMT")[0]
+					var currentdate = new Date(Number(time));
+					var concatTxt = "<br>Last stored in "+ currentdate.getDate() + "/" + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + "   "   + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":"  + currentdate.getSeconds();//currentdate.getDate() + "/ + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + "   "   + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":"  + currentdate.getSeconds();
+					var restoreBtn = '<button id="restoreFromStorage_'+domId+'" class="dynamic-savedisplay-alert-box dynamic-savedisplay-success" style="display:block;position:sticky;padding: 15px; margin-bottom: 20px;border:1px solid transparent;border-radius: 2px;position: -webkit-sticky;position: sticky;bottom: 0;margin-top: -110px;width: 250px;height: 50px; color: white;background-color: #217346;border-color: #217346;font-family:Roboto;" onclick="restoreSpreadsheetFromLocalStorage(\''+keyVal+'\')">Restore spreadsheet from local storage.'+concatTxt+'</button>';
+					$('body').append(restoreBtn);
+				}
+			}
+			
 			let oldEl = GC.Spread.Sheets.CellTypes.Text.prototype.createEditorElement;
 
 			GC.Spread.Sheets.CellTypes.Text.prototype.createEditorElement = function () {
@@ -447,6 +477,31 @@
 			
 		    disableSpreadsheet(domId);//disables the spreadsheet from being editable
  		    parent.spreadOnLoadBL(parent.$('#formCode').val(),domId,designer,outputData[domId],GC.Spread.Sheets); // demo for spreadsheet develop
+		}
+		
+		function restoreSpreadsheetFromLocalStorage(key){
+			/*var keyPart = domId+"_"+$('#formId').val()+"_";
+			for (var i = 0; i <= localStorage.length - 1; i++) {
+				   var key = localStorage.key(i);
+				   if(key.indexOf(keyPart)!=-1){
+					   var value = localStorage.getItem(key);
+					   //var domId = key.split("_")[0];
+					   setValueToSpreadSheet(domId,value);
+				   }
+			}*/
+			var data;
+			var value = localStorage.getItem(key);
+			var domId = key.split("_")[0];
+			if(value == null){
+				parent.displayFadeMessage("The data is not available anymore in the local storage");
+				return;
+			}
+			if (typeof value === 'string' || value instanceof String) {
+				data = JSON.parse(value);
+			}
+			setValueToSpreadSheet(domId,data["excelFullData"]);
+			parent.clearLocalStorage();//cleaning the data stored 3 hours ago
+			//$("#restoreFromStorage_"+domId).attr('display','none');
 		}
 		
 		function doFormatPainting(workBook,domId,e,args){

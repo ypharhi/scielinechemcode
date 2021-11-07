@@ -1615,6 +1615,7 @@ function saveSpreadsheet(element){
 	
 	success : function(obj) {
 		if(obj.errorMsg != null && obj.errorMsg != ''){
+			insertSpreadsheetIntoLocalStorage();  
 			displayAlertDialog(obj.errorMsg);
 		} else {
 			if(obj.data[0].val!=''){
@@ -1626,10 +1627,14 @@ function saveSpreadsheet(element){
 					$('#lastChangeDate').val(changeDate);
 				}
 			}
+			clearLocalStorage(null,$element.attr('id'));//clear the localstorage that holds the spreadsheet data in case the spreadsheet was already saved in the DB(on the save process)
 			displayFadeMessage(getSpringMessage('updateSuccessfully'));
 		}
 	},
-	error : handleAjaxError
+	error :  function(xhr, textStatus, error){
+		   	 insertSpreadsheetIntoLocalStorage();
+			 handleAjaxError(xhr, textStatus, error);
+		 } 
 	});
 }
 

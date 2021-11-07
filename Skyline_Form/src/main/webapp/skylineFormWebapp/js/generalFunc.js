@@ -1,3 +1,5 @@
+var CLEAN_STORAGE_HOURS_AGO = 3;//how time ago inserted data cleared when clearing the localStorage
+
 /**
  * return the Browser Name that we support(see checkBrowserSupport in Login.jsp): mozilla (Firefox) / chrome/ msie (ie) or na if not one of them
  * @returns
@@ -581,14 +583,16 @@ function postCallbacksSave(postSaveArgObj, callbackResultArray_) {
                  {
                 	 displayAlertDialog(errMsg);
                  }
-                 
+                 insertSpreadsheetIntoLocalStorage();                 
              } else if (obj.data[0].val == "-1") {
                  displayAlertDialog(getSpringMessage('updateFailed'));
                  hideWaitMessage();
+                 insertSpreadsheetIntoLocalStorage();             
              } else if (obj.data[0].val.toString().indexOf(',') != '-1' && obj.data[0].val.toString().substring(0, 2) == '-2') {
                  doSaveMessage = getSpringMessage(obj.data[0].val.split(',')[1]);/*.split("_").join(" ").toLowerCase();*/
                  displayAlertDialog(doSaveMessage/*.charAt(0).toUpperCase() + doSaveMessage.slice(1)*/ + " " + getSpringMessage('alreadyExistsInSystem'));//ab 22/03/18 fixed bug 4161
                  hideWaitMessage();
+                 insertSpreadsheetIntoLocalStorage();
              } else if (obj.data[0].val.toString().indexOf(',') != '-1' && obj.data[0].val.toString().substring(0, 2) == '-3') {
                  /*doSaveMessage = obj.data[0].val.split(',')[1].split("_").join(" ").toLowerCase();
                  displayAlertDialog(doSaveMessage.charAt(0).toUpperCase() + doSaveMessage.slice(1) + " " + getSpringMessage('invalidInSystem'));*/
@@ -596,7 +600,9 @@ function postCallbacksSave(postSaveArgObj, callbackResultArray_) {
             	 var defaultMessage = doSaveMessage.split("_").join(" ").toLowerCase();
             	 displayAlertDialog(getSpringMessage(doSaveMessage,defaultMessage.charAt(0).toUpperCase() + defaultMessage.slice(1) + " " + getSpringMessage('invalidInSystem')));
                  hideWaitMessage();
+                 insertSpreadsheetIntoLocalStorage();
              } else {    
+            	 clearLocalStorage();//clear the localstorage that holds the spreadsheet data in case the spreadsheet was already saved in the DB(on the save process)
             	 if (obj.data[0].info.toString() !='') {//there's is a message to display
             		 //displayAlertDialog(getSpringMessage(obj.data[0].info.toString()));
             		 hideWaitMessage();
@@ -630,7 +636,11 @@ function postCallbacksSave(postSaveArgObj, callbackResultArray_) {
             	 }
              }
          },
-         error: handleAjaxError
+         error: function(xhr, textStatus, error){
+        	 insertSpreadsheetIntoLocalStorage();
+        	 handleAjaxError(xhr, textStatus, error);
+         } 
+        	 
      });
 	
 }
@@ -3492,6 +3502,124 @@ function isAlive()
 	
 	 console.log("isAlive(): " + toReturn);
 	return toReturn;
+}
+var IS_SPREADSHEET_SAVE_DISPLAY = true;
+function setSpreadsheetUserData(){
+	var allData = [];
+	$('[element = "ElementExcelSheetImp"]').each(function(){
+		var $element = $(this);
+		var elementImpCode = $element.attr('element');
+		var stringifyInfo = '{"formPreventSave":"' + $element.attr("formPreventSave") +
+				'", "type":"' + $element.attr("type") +
+				'", "saveType":"' + $element.attr("saveType")
+		'"}';
+		var stringifyToPush = {
+				code: $element.attr('id'),
+				val: getValue_(elementImpCode, this, 2),
+				type: "AJAX_BEAN",
+				info: stringifyInfo
+		};
+		if($element.attr("is_changed_flag") == "1"){
+			allData.push(stringifyToPush);
+		}
+	});
+	var data_ = JSON.stringify({
+		action : "saveSpreadsheet",
+		data : allData,
+		errorMsg : ""
+	});
+	if(allData.length == 0){
+		return;
+	}
+	var urlParam =
+	       "?userId=" + $('#userId').val()+"&formId="+ $('#formId').val();
+	 $.ajax({
+	       type: 'POST',
+	       data: data_,
+	       url: "setSpreadsheetUserData.request" + urlParam,
+	       contentType: 'application/json',
+	       dataType: 'json',
+	       success: function (obj) {
+	           if (obj.errorMsg != null && obj.errorMsg != '' || obj.data[0].val == "-1") {
+	        	   insertSpreadsheetIntoLocalStorage();
+	           } else {
+        		   clearLocalStorage();
+	        	   if(IS_SPREADSHEET_SAVE_DISPLAY){
+	        		   displayFadeMessage(getSpringMessage('The spreadsheet data saved on the temporary storage in the DB'));
+	        	   }
+	           }
+	       },
+	       error: insertSpreadsheetIntoLocalStorage
+	 });
+	 return;
+}
+
+/**
+ * The function invoked when the spreadsheet failed to be stored in the db on the schedular.
+ * insertSpreadsheetIntoLocalStorage() may be firedc also when the save process has been failed
+ * @returns
+ */
+function insertSpreadsheetIntoLocalStorage(){
+	var errMessage = "Server connection error.<br>" ;
+   try{
+	   clearLocalStorage()//localStorage.clear();
+ 	   var time = $.now();
+ 	   $('[element = "ElementExcelSheetImp"]').each(function(){
+				var allData = [];
+				var $element = $(this);
+				var domId = $element.attr('id');
+				var val = getDataFromSpreadSheet(domId,2);
+				var key = domId+"_"+$('#formId').val()+"_"+time;
+				if($element.attr("is_changed_flag") == "1"){
+					localStorage.setItem(key,val);
+				}
+ 	   });
+ 	   if(localStorage.length > 0){//localStorage is not empty->data has been stored
+ 		   displayFadeMessage(errMessage + getSpringMessage('The spreadsheet data saved on the local storage successfully'));
+ 	   }
+	}
+    catch(e){
+    	if( e instanceof DOMException && (//if failed because the storage space is full then clear the storage and re-try to insert the data again
+                // everything except Firefox
+                e.code === 22 ||
+                // Firefox
+                e.code === 1014 ||
+                // test name field too, because code might not be present
+                // everything except Firefox
+                e.name === 'QuotaExceededError' ||
+                // Firefox
+                e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+                // acknowledge QuotaExceededError only if there's something already stored
+                (localStorage && localStorage.length !== 0)){//if the storage has even no one item at least-> then the first item we try to insert is too large and a message is displayed to the user
+    				localStorage.clear();
+    				insertSpreadsheetIntoLocalStorage();
+    	} else {
+    		displayFadeMessage(errMessage + getSpringMessage('The spreadsheet data failed to be saved on the local storage'));
+    	}
+    }
+}
+
+
+function clearLocalStorage(hours,domId){
+	//the domId arg is in order to allow earing the keys that refer to the accepted domId
+	if(hours==undefined || hours == null){
+		hours = CLEAN_STORAGE_HOURS_AGO;
+	}
+	var keyPart="";
+	if(domId!==undefined){
+		keyPart = domId+"_"+ $('#formId').val()+"_";
+	}
+	var hours_ms = hours*60*60*1000;//hours*60 min*60 sec *1000 millisec  
+	for (var i = 0; i <= localStorage.length - 1; i++) {
+		   var key = localStorage.key(i);
+		   if(keyPart!="" && key.indexOf(keyPart)!=-1 || keyPart == ""){
+			   var value = localStorage.getItem(key);
+			   var timestamp = key.split("_")[2];
+			   if(timestamp <= $.now()-hours_ms ){
+				   localStorage.removeItem(key);
+			   }   
+		   }
+	}
 }
 
 function checkNotificationMessage() {

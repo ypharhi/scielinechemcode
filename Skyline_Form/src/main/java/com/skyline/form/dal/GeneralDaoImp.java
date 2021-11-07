@@ -3286,6 +3286,17 @@ public class GeneralDaoImp extends BasicDao implements GeneralDao {
 		
 	}
 
+	@Override
+	public String breakClob(String val) {
+		String toReturn = "";
+		int index = 0;
+		while (index < val.length()) {
+			toReturn = "CONCAT_CLOB(" + generalUtil.getEmpty(toReturn, "EMPTY_CLOB()") + ",'" + val.substring(index, Math.min(index + 3900,val.length())) + "')";
+		    index += 3900;
+		}
+		return toReturn;
+	}
+
 	//	@Override
 	//	public String selectSingleStringTask(String sql) {
 	//		Object o = (String) jdbcTemplate.queryForObject(sql, String.class);

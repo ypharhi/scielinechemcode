@@ -104,6 +104,8 @@ function onLoadIframeSpreadsheet_(isAjaxExcelLoad, fileId, defaultfileId, domId,
 	}
 } 
 
+
+
 function afterLoadIframeSpreadsheet(isAjaxExcelLoad, fileId, defaultfileId, domId,isToolBarDisplay,isDisabled,SpreadSheetsLicenseKey,SpreadSheetsDesignerLicenseKey){
 	if(isAjaxExcelLoad == 1) { //isAjaxExcelLoad (defined in app prop and pass as parameter) will use the build in compress in ajax call data (if define in the tomcat server.xml compress=on)
 		$(document).ready(function(){//not initializing the designer until the document is ready,else there are some wrong UI and functionalities(such as transparent dropdown) 
