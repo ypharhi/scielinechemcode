@@ -2407,7 +2407,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 			generalUtilDesignData.addStepListDesignToMap(currentDesignStepList, elementValueMap.get("STEP_ID"));
 			String StepsDesign = generalUtil.MapOfListToJson(generalUtilDesignData.getStepDesignMapwithList());
 			String ImpuritiesStepsDesign = generalUtil.MapOfListToJson(generalUtilDesignData.getStepImpuritesDesignMap());
-			String id_ = uploadFileDao.saveStringAsClobRenderId("ReportDesign", StepsDesign);
+			String id_ = uploadFileDao.saveStringAsClobRenderId("ReportDesign", StepsDesign, formId);
 
 			String sql_ = "update fg_s_reportdesignexp_pivot set STEPSDESIGN  = '" + id_ + "',impuritiesStepsDesign='"+ImpuritiesStepsDesign+"' where formId = '" + formId + "'";
 			formSaveDao.updateStructTableByFormId(sql_, "FG_S_REPORTDESIGNEXP_PIVOT",
@@ -4853,7 +4853,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				richtextContent = generalDao.selectSingleStringNoException("select fg_get_richtext_display('"+comments+"') from dual");//get the text only from fg_get richtext
 						//	generalDao.getSingleStringFromClob("select t.file_content_text from fg_richtext t where t.file_id = '" + comments + "'");
 				String desc = generalUtil.getNull(elementValueMap.get("sampleDesc"));
-				String commentsId = formSaveDao.getStructFileId("SampleMain.commentsForCoa");
+				String commentsId = formSaveDao.getStructFileId("SampleMain.commentsForCoa", formId);
 				if(generalUtil.getNull(richtextContent).isEmpty() && !desc.isEmpty()) {
 					uploadFileDao.saveRichText(commentsId, desc, desc,
 							true);
@@ -5590,7 +5590,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					try {
 						String molData = generalDao.getSingleStringFromBlob(
 								"select file_content file_id from fg_files where file_id = '" + fileId + "'");
-						JSONObject jo = chemDao.saveDocData(molData);
+						JSONObject jo = chemDao.saveDocData(molData, formId);
 						String displayId_ = (String) jo.get("imgId");
 						String checmId = (String) jo.get("chemId");
 						formSaveDao.updateSingleStringInfoNoTryCatch("update fg_files t set t.file_display_id = '" + displayId_
@@ -5646,7 +5646,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 		String plainText = newhtmlData.replaceAll("\\<.*?\\>", " ");
 		
 		//create rich text clob
-		String newFileId = formSaveDao.getStructFileId("Action.observation from SelfTest");
+		String newFileId = formSaveDao.getStructFileId("Action.observation from SelfTest", actionId);
 		uploadFileDao.saveRichText(newFileId, newhtmlData, plainText, true);
 		
 		//update action

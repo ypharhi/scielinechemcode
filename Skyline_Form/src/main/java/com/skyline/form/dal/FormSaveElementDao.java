@@ -17,10 +17,10 @@ public interface FormSaveElementDao {
 
 	String addMonitorParam(String newformId, String string);
 
-	String saveRichText(String formCode, DataBean dataBean, boolean b);
+	String saveRichText(String formCode, DataBean dataBean, boolean b, String formId);
 
 	String saveMonitoringParam(String mpFormId, String newVal, String mpName, String oldVal, boolean isUom);
 
-	String saveDiagram(String formCode, DataBean dataBean, String elementId) throws Exception;
+	String saveDiagram(String formCode, DataBean dataBean, String elementId, String formId) throws Exception;
 
 }

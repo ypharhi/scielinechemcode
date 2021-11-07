@@ -95,8 +95,8 @@ public class FormSaveBasic implements FormSaveService {
 	/**
 	 * save file and update file search
 	 */
-	public String saveFile(MultipartFile file, String formCodeFull) {
-		String elementID = uploadFileDao.saveFile(file, formCodeFull);
+	public String saveFile(MultipartFile file, String formCodeFull, String formId) {
+		String elementID = uploadFileDao.saveFile(file, formCodeFull, formId);
 		return elementID;
 	}
 
@@ -221,7 +221,7 @@ public class FormSaveBasic implements FormSaveService {
 				additinalDataSaveList.add(dataBean);
 				elementAdditinalDataoMap.put(dataBean.getCode(), dataBean.getVal());
 			} else if (generalUtil.getNull(saveType_).equalsIgnoreCase("clob")) { // by savetype
-				String elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//always get new elementID 
+				String elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode(), formId);//always get new elementID 
 				String value = dataBean.getVal();
 				String retVal = saveStringAsClob(elementId, value);
 				if(retVal.equals("-1")) {
@@ -239,7 +239,7 @@ public class FormSaveBasic implements FormSaveService {
 				}
 				if(isChangedflag.equals("1") || isNew.equals("1") 
 						|| generalUtil.getNull(elementId).equals("")|| generalUtil.getNull(elementId).equals("-1")) { // changed / new (after cone)  / empty are condition to get a  new elementid. Note: if isNnew and isChangedflag = 0 with elementId (NOT EMPTY) then it is clone 
-					elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//always get new elementID
+					elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode(), formId);//always get new elementID
 					String value = generalUtil.getJsonValById(dataBean.getVal(), "value");
 					//check for an empty value
 					if(value.isEmpty()) {
@@ -267,7 +267,7 @@ public class FormSaveBasic implements FormSaveService {
 				if(/*!formCode.equals("InvItemMaterial") ||*/ isChangedflag.equals("1") || isNew.equals("1") || generalUtil.getNull(elementId).equals("")) { // changed / new (after cone)  / empty are condition to get a  new elementid. Note: if isNnew and isChangedflag = 0 with elementId (NOT EMPTY) then it is clone - if the molecule is not empty it will be failed on duplication and we can prevent this in next version for better performance (in this code instead of jchem DB constructor) 
 					String formCodeFull = generalUtil.getJsonValById(dataBean.getVal(), "formCodeFull");
 					//String elementId = formSaveDao.getStructFormId(formCode + "." + dataBean.getCode());//ab 30/08/18 
-					elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//get new elementID
+					elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode(), formId);//get new elementID
 					String fullArray = generalUtil.getJsonValById(dataBean.getVal(), "fullArray");
 					dataBean.setVal(saveChemDoodleData(formCode, formId, elementId, fullArray, formCodeFull, isNew));
 					elementValueMap.put("chem_struct_change_flag", "1");//flag for InvitemMaterial save process
@@ -290,8 +290,8 @@ public class FormSaveBasic implements FormSaveService {
 				}
 				
 				if(isChangedflag.equals("1") || isNew.equals("1") || generalUtil.getNull(elementId).equals("")) { // changed / new (after cone)  / empty are condition to get a  new elementid. Note: if isNnew and isChangedflag = 0 with elementId (NOT EMPTY) then it is clone - if the molecule is not empty it will be failed on duplication and we can prevent this in next version for better performance (in this code instead of jchem DB constructor) 
-					elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//get new elementID
-					dataBean.setVal(formSaveElementDao.saveDiagram(formCode, dataBean, elementId));
+					elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode(), formId);//get new elementID
+					dataBean.setVal(formSaveElementDao.saveDiagram(formCode, dataBean, elementId, formId));
 					//elementValueMap.put("chem_struct_change_flag", "1");//flag for InvitemMaterial save process
 				} else {
 					dataBean.setVal(elementId);
@@ -308,7 +308,7 @@ public class FormSaveBasic implements FormSaveService {
 					e.printStackTrace();
 				}
 				if(isChangedflag.equals("1") || isNew.equals("1") || generalUtil.getNull(elementId).equals("")) { // changed / new (after cone)  / empty are condition to get a  new elementid. Note: if isNnew and isChangedflag = 0 with elementId (NOT EMPTY) then it is clone 
-					elementId = formSaveElementDao.saveRichText(formCode, dataBean, true);
+					elementId = formSaveElementDao.saveRichText(formCode, dataBean, true, formId);
 				} 
 				if (elementId.equals("-1")) {
 					throw new Exception(generalUtil.getSpringMessagesByKey("FAILED_SAVE_CLOB",
@@ -319,7 +319,7 @@ public class FormSaveBasic implements FormSaveService {
 				String isTableHasRows = generalUtil.getJsonValById(dataBean.getVal(), "isTableHasRows");
 				// save element only if table has at least one row
 				if (isTableHasRows.equals("1")) {
-					String elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode());//always get new elementID 
+					String elementId = formSaveDao.getStructFileId(formCode + "." + dataBean.getCode(), formId);//always get new elementID 
 					String objToSaveAsClob = generalUtil.getJsonValById(dataBean.getVal(), "objToSaveAsClob");
 					String resultValue = generalUtil.getJsonValById(dataBean.getVal(), "resultValue");
 					String output = generalUtil.getJsonValById(dataBean.getVal(), "output");

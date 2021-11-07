@@ -2906,7 +2906,7 @@ function smartRender(object, followingHiddenCols, domId, savedObject, isTableRes
 				                                	}
 				                                }
 				                        		if( $('#' + domId + '_role').val()!="Shared" && $("table[id='"+domId+"']").attr("disableeditable")=="0"){
-				                                	if(domId =="columnSelect"){
+				                                	if(domId =="columnSelect" || domId == "samples"){
 				                                		//var obj = JSON.parse(rowData[3]);
 				                                    	//rowId = obj.formId;
 				                                		cellId = cellId+"_"+row;
@@ -5227,8 +5227,8 @@ function ElementDataTableApiImpOnButtonClick(input) {
     var stateKey = $('#' + domId + '_selectDiv').attr('stateKey');
     var onActionButtons = $('[id="' + domId + '_onActionButtons"]').val();
     var popupSize = $('[id="' + domId + '_popupSize"]').val();
-    var dialogWidth = $(window).width()*0.85;
-    var dialogHeight = $(window).height()*0.85;
+    var dialogWidth = $(window).width()*0.75;
+    var dialogHeight = $(window).height()*0.75;
     var availableDataStructures, parentTable;
     var str;
     var isCloneAttrFlag = "";

@@ -2108,8 +2108,8 @@ function generalBL_elementDataTableClickEvent(domId, customerFunction, params, $
 		eventActionName = "createNewForm";
 		isPopup = true;
 		isStructAsPopup = true;
-		dialogWidth = $(parent.window).width() - 200; 
-		dialogHeight = $(parent.window).height() - 200; 
+		dialogWidth = $(parent.window).width()*0.85; 
+		dialogHeight = $(parent.window).height() *0.7; 
 	}
 	else if(customerFunction == "createNewRequest")
 	{
@@ -2171,6 +2171,8 @@ function generalBL_elementDataTableClickEvent(domId, customerFunction, params, $
 		isPopup = true;
 		isShowWaitMsg = false;
 		eventActionName = "createNewForm";
+		dialogWidth = $(parent.window).width()*0.65; 
+		dialogHeight = $(parent.window).height() *0.7; 
 	}
 	else if(customerFunction == "addNewPreventive" ||customerFunction == "addNewBreakdown")
 	{

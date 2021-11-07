@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 //import org.springframework.context.ApplicationContext;
 //import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +23,8 @@ import org.springframework.stereotype.Component;
 public class BasicDao {
 
 	protected JdbcTemplate jdbcTemplate;
+	
+	protected NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
 	private DataSource dataSource;
 
@@ -41,6 +44,10 @@ public class BasicDao {
 			this.jdbcTemplate = new JdbcTemplate(dataSource);
 			this.jdbcTemplate.setQueryTimeout(sqlTimeOut);
 		}
+		
+		if(namedParameterJdbcTemplate == null) {
+			this.namedParameterJdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
+		} 
 	}
 
 	public Connection getConnectionFromDataSurce() {

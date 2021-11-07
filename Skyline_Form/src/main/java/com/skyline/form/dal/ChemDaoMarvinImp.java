@@ -177,7 +177,7 @@ public class ChemDaoMarvinImp implements ChemDao {
 	}
 
 	@Override
-	public String getNewChemImg(String fullData) {
+	public String getNewChemImg(String fullData, String formId) {
 		String toReturn = "";
 		try {
 			Document xml = convertStringToXml(fullData);
@@ -185,7 +185,7 @@ public class ChemDaoMarvinImp implements ChemDao {
 			Molecule molecule = MolImporter.importMol(updateEmptyMarvin(cml));
 			byte[] fullImg = (byte[]) MolExporter.exportToObject(molecule, imgprop);
 			//        byte[] fullImg = (byte[])MolExporter.exportToObject(molecule, "png:w900,h250,b32,#ffffff");//1000/250
-			String fullImgId = saveChemImage(fullImg, "MOLECULE_FULL_IMAGE.png", "image/png");
+			String fullImgId = saveChemImage(fullImg, "MOLECULE_FULL_IMAGE.png", "image/png", formId);
 			toReturn = fullImgId;
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -208,9 +208,9 @@ public class ChemDaoMarvinImp implements ChemDao {
 		Molecule molecule = MolImporter.importMol(updateEmptyMarvin(cml));
 		byte[] fullImg = (byte[]) MolExporter.exportToObject(molecule, imgprop);
 		//	        byte[] fullImg = (byte[])MolExporter.exportToObject(molecule, "png:w900,h250,b32,#ffffff");//1000/250
-		String fullImgId = saveChemImage(fullImg, "MOLECULE_FULL_IMAGE.png", "image/png");
+		String fullImgId = saveChemImage(fullImg, "MOLECULE_FULL_IMAGE.png", "image/png", formId);
 		//String dataId = formSaveDao.getStructFormId("MOL_DATA_ID");ab 30/08/18
-		String dataId = formSaveDao.getStructFileId("MOL_DATA_ID");
+		String dataId = formSaveDao.getStructFileId("MOL_DATA_ID", formId);
 		uploadFileDao.saveStringAsClob(dataId, fullData);
 		String molType = "";
 
@@ -230,7 +230,7 @@ public class ChemDaoMarvinImp implements ChemDao {
 					case 1:
 						molType = "R";
 						for (HashMap<String, Object> formats : reactionMolecules.get(key)) {
-							saveMarvinMolecule(elementID, dataId, formats, molType, molOrderCounter++, fullImgId);
+							saveMarvinMolecule(elementID, dataId, formats, molType, molOrderCounter++, fullImgId, formId);
 						}
 						break;
 					// agents
@@ -238,7 +238,7 @@ public class ChemDaoMarvinImp implements ChemDao {
 						//	                    molOrderCounter = 1;
 						molType = "A";
 						for (HashMap<String, Object> formats : reactionMolecules.get(key)) {
-							saveMarvinMolecule(elementID, dataId, formats, molType, molOrderCounter++, fullImgId);
+							saveMarvinMolecule(elementID, dataId, formats, molType, molOrderCounter++, fullImgId, formId);
 						}
 						break;
 					// products
@@ -246,7 +246,7 @@ public class ChemDaoMarvinImp implements ChemDao {
 						//	                    molOrderCounter = 1;
 						molType = "P";
 						for (HashMap<String, Object> formats : reactionMolecules.get(key)) {
-							saveMarvinMolecule(elementID, dataId, formats, molType, molOrderCounter++, fullImgId);
+							saveMarvinMolecule(elementID, dataId, formats, molType, molOrderCounter++, fullImgId, formId);
 						}
 						break;
 
@@ -263,7 +263,7 @@ public class ChemDaoMarvinImp implements ChemDao {
 			HashMap<String, Object> formats = getMoleculeFormats(updateEmptyMarvin(cml));
 			molType = "S";
 
-			saveMarvinMolecule(elementID, dataId, formats, molType, molOrderCounter, fullImgId);
+			saveMarvinMolecule(elementID, dataId, formats, molType, molOrderCounter, fullImgId, formId);
 			//			if (isSaveJChem == 1 && !formId.equals("-1") && ("," + generalUtil.getNull(saveChemFormCodeList) + ",")
 			//					.contains(generalUtil.getNull(formCode))) {
 			//				saveJChem(elementID, formId, formCodeFull, molType, isNew, fullData, DB_USER + ".FG_CHEM_SEARCH");
@@ -274,7 +274,7 @@ public class ChemDaoMarvinImp implements ChemDao {
 	}
 
 	@Override
-	public JSONObject saveDocData(String fullData) throws ParserConfigurationException, SAXException, IOException,
+	public JSONObject saveDocData(String fullData, String formId) throws ParserConfigurationException, SAXException, IOException,
 			TransformerException, ClassNotFoundException, SQLException, Exception {
 
 		JSONObject jo = new JSONObject();
@@ -282,7 +282,7 @@ public class ChemDaoMarvinImp implements ChemDao {
 		//image
 		Molecule molecule = MolImporter.importMol(fullData);
 		byte[] fullImg = (byte[]) MolExporter.exportToObject(molecule, "png:w500,h300,b32,#ffffff,marginSize0");//imgprop
-		String fullImgId = saveChemImage(fullImg, "MOLECULE_FULL_IMAGE.png", "image/png");
+		String fullImgId = saveChemImage(fullImg, "MOLECULE_FULL_IMAGE.png", "image/png", formId);
 		jo.put("imgId", fullImgId);
 
 		//chem
@@ -312,7 +312,7 @@ public class ChemDaoMarvinImp implements ChemDao {
 	}
 
 	private void saveMarvinMolecule(String elementID, String dataId, HashMap<String, Object> formats, String molType,
-			int molOrder, String fullImgId) throws Exception {
+			int molOrder, String fullImgId, String formId) throws Exception {
 		PreparedStatement prStmt = null;
 		Connection con = null;
 		String sql = "";
@@ -327,13 +327,13 @@ public class ChemDaoMarvinImp implements ChemDao {
 
 			//			con = DriverManager.getConnection(url, username, password);
 			con = generalDao.getConnectionFromDataSurce();
-			molDataId = uploadFileDao.saveStringAsClobRenderId("chem_mol_data_matrix", ((String) formats.get("mol")));
+			molDataId = uploadFileDao.saveStringAsClobRenderId("chem_mol_data_matrix", ((String) formats.get("mol")), formId);
 			if (!molType.equals("S")) { // not single 
 				//dataIdMolInReacrion = formSaveDao.getStructFormId("MOL_IN_REACTION_DATA_ID");ab 30/08/18
-				dataIdMolInReacrion = formSaveDao.getStructFileId("MOL_IN_REACTION_DATA_ID");
+				dataIdMolInReacrion = formSaveDao.getStructFileId("MOL_IN_REACTION_DATA_ID", formId);
 				uploadFileDao.saveStringAsClob(dataIdMolInReacrion, "<cml><MDocument><MChemicalStruct>"
 						+ ((String) formats.get("cml")) + "</MChemicalStruct></MDocument></cml>");
-				molImgId = saveChemImage((byte[]) formats.get("img"), "MOLECULE_IMAGE.png", "image/png");
+				molImgId = saveChemImage((byte[]) formats.get("img"), "MOLECULE_IMAGE.png", "image/png", formId);
 			}
 			sql = "insert into fg_chem_doodle_data (parent_id, reaction_all_data, mol_data, smiles_data, inchi_data, mol_attr, mol_type, mol_order, MOL_IMG_FILE_ID, FULL_IMG_FILE_ID,REACTION_ALL_DATA_LINK,MOL_CML) "
 					+ " values(?,?,?,?,?,?,?,?,?,?,?,?)";
@@ -704,12 +704,12 @@ public class ChemDaoMarvinImp implements ChemDao {
 		return str;
 	}
 
-	private String saveChemImage(byte[] arr, String fileName, String fileType) {
+	private String saveChemImage(byte[] arr, String fileName, String fileType, String formId) {
 		String elementID = "";
 		try {
 			logger.info("saveFile call /formCodeFull: MOLECULE_IMAGE.png");
 			//elementID = formSaveDao.getStructFormId("MOLECULE_IMAGE.png");ab 30/08/18
-			elementID = formSaveDao.getStructFileId("MOLECULE_IMAGE.png");
+			elementID = formSaveDao.getStructFileId("MOLECULE_IMAGE.png", formId);
 			logger.info("saveFile call /elementID: " + elementID);
 			uploadFileDao.saveChemImageFile(arr, "", elementID);
 		} catch (Throwable ex) //use Throwable to catch - java.lang.AbstractMethodError:

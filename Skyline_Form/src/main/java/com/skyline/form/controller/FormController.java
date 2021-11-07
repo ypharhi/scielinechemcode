@@ -417,7 +417,7 @@ public class FormController {
 			Iterator<String> itrator = multipartRequest.getFileNames();
 	        MultipartFile multiFile = multipartRequest.getFile(itrator.next());              
         	
-			response.getWriter().write(formSaveService.saveFile(multiFile, formCodeFull));
+			response.getWriter().write(formSaveService.saveFile(multiFile, formCodeFull, "-1")); //TODO YARON
 		} 
 			catch (IOException e) 
 		{

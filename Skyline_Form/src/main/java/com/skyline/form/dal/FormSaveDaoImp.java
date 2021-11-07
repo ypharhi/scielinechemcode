@@ -130,9 +130,10 @@ public class FormSaveDaoImp extends BasicDao implements FormSaveDao {
 	}
 
 	@Override
-	public String getStructFileId(String formCode) {
+	public String getStructFileId(String formCode, String formId) {
 		Map<String, String> parameters = new HashMap<String, String>();
 		parameters.put("form_code_in", formCode);
+		parameters.put("formid_in", formId);
 		//		parameters.put("ts_in", String.valueOf(new Date().getTime()));
 		return String.valueOf(generalDao.callPackageFunction("", "FG_GET_STRUCT_FILE_ID", parameters));
 	}

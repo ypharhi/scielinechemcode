@@ -2905,7 +2905,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					JSONObject json = new JSONObject();
 					json.put("value", onChangeColumnVal);
 					onChangeColumnVal = formSaveElementDao.saveRichText(formCode, new
-					  DataBean(onChangeColumnName, json.toString(), BeanType.CLOB, ""), true);
+					  DataBean(onChangeColumnName, json.toString(), BeanType.CLOB, ""), true, formId);
 					 
 				}
 				update = onChangeEditTableCellCore(formCode, formId, saveType, onChangeColumnName, onChangeColumnVal,
@@ -3153,7 +3153,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				}
 
 					onChangeColumnVal = formSaveElementDao.saveRichText(formCode,
-							new DataBean(onChangeColumnName, onChangeColumnVal, BeanType.CLOB, ""), true);
+							new DataBean(onChangeColumnName, onChangeColumnVal, BeanType.CLOB, ""), true, formId);
 					// update action table with new value
 					sql = "update FG_S_" + formCode + "_PIVOT " + " set " + onChangeColumnName + " = '"
 							+ onChangeColumnVal + "'" + " where formId = '" + onChangeFormId + "'";
@@ -3512,7 +3512,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			
 			
 			onChangeColumnVal = formSaveElementDao.saveRichText(formCode,
-					new DataBean(onChangeColumnName, onChangeColumnVal, BeanType.CLOB, ""), true);
+					new DataBean(onChangeColumnName, onChangeColumnVal, BeanType.CLOB, ""), true, formId);
 		}
 		//if (saveType.equals("text")) 
 		{
