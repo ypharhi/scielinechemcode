@@ -61,7 +61,7 @@
 							<table class="displayOnLoad" width="100%" style="display:none;">
 								<tr>
 									<td class="innerTD">
-									 <!--begin --><div style="overflow-y: auto;">
+									 <!--begin --><div>
 									@body@
 									<!--end --></div>
 									</td>

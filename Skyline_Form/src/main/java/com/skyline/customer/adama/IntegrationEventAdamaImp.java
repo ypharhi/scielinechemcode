@@ -1668,16 +1668,18 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 				List<String> samples = generalDao.getListOfStringBySql(
 						"select distinct t.SAMPLE_ID from fg_s_ManualResultsRef_v t where t.RESULT is not null and t.PARENTID ='"
 								+ formId + "'");
-				//List<String> duplSamplesRes = generalDao.getListOfStringBySql("select distinct t.SAMPLE_ID from fg_s_ManualResultsRef_v t where t.RESULT is not null and t.PARENTID ='"+formId+"' group by t.SAMPLE_ID,t.MATERIAL_ID,t.RESULT_TYPE_ID having count(t.result)>1");
+				String duplSamplesRes = generalDao.selectSingleStringNoException("select distinct 1 from fg_s_ManualResultsRef_v t where t.RESULT is not null and t.PARENTID ='"+formId+"' group by t.SAMPLE_ID,t.MATERIAL_ID,t.RESULT_TYPE_ID having count(t.result)>1");
+				res= generalUtil.getNull(duplSamplesRes).isEmpty()?"":"-1";
                 String sql = String
 						.format("select distinct sample_id from(select distinct t.INVITEMMATERIAL_ID,t.RESULT_NAME,t.sample_id from fg_r_experimentresult_basedt_v t where experimentdest_id = '"
-								+ formId + "' and sample_id in(" + generalUtil.listToCsv(samples) + ")" + " INTERSECT "
+								+ formId + "' and sample_id in(" + generalUtil.listToCsv(samples) + ") group by t.SAMPLE_ID,t.INVITEMMATERIAL_ID,t.RESULT_NAME having count(t.result_name)<2" 
+								+ " INTERSECT "
 								+ " select distinct t.INVITEMMATERIAL_ID,t.RESULT_NAME,t.sample_id from FG_i_SAMPLERESULTS_V t where  sample_id in ("
 								+ generalUtil.listToCsv(samples) + ") and t.PROTOCOLTYPENAME <>'Organic')");
 				List<String> samplesId = generalDao.getListOfStringBySql(sql);
 				for (String sampleId : samplesId) {
 					sampleName = formDao.getFromInfoLookup("Sample", LookupType.ID, sampleId, "name");
-					if (res.isEmpty()) {
+					if (res.isEmpty()|| res.equals("-1")) {
 						res += "<a href='#' onClick=\"checkAndNavigate(['" + sampleId + "','Sample'])\" >" + sampleName
 								+ "</a>";
 					} else {
