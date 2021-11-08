@@ -3516,7 +3516,7 @@ function setSpreadsheetUserData(){
 		'"}';
 		var stringifyToPush = {
 				code: $element.attr('id'),
-				val: getValue_(elementImpCode, this, 2),
+				val: JSON.stringify(getValueFromSpreadsheet($element.attr('id'))),
 				type: "AJAX_BEAN",
 				info: stringifyInfo
 		};
@@ -3570,7 +3570,7 @@ function insertSpreadsheetIntoLocalStorage(){
 				var allData = [];
 				var $element = $(this);
 				var domId = $element.attr('id');
-				var val = getDataFromSpreadSheet(domId,2);
+				var val = JSON.stringify(getValueFromSpreadsheet(domId));
 				var key = domId+"_"+$('#formId').val()+"_"+time;
 				if($element.attr("is_changed_flag") == "1"){
 					localStorage.setItem(key,val);

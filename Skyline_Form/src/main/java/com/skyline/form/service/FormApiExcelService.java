@@ -180,7 +180,7 @@ public class FormApiExcelService {
 	public void setSpreadsheetUserData(List<DataBean> dataBeanList, String formId, String userId) throws Exception {
 		for(DataBean dataBean:dataBeanList) {
 			String elementImpCode_ = dataBean.getCode();
-			String value = generalUtil.getJsonValById(dataBean.getVal(), "value");
+			String value = dataBean.getVal();
 			
 			String retVal = generalDao.setSpreadsheetTempData(formId,elementImpCode_,userId,value);
 			if(retVal.equals("-1")) {

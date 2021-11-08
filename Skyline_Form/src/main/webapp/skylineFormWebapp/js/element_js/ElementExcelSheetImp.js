@@ -146,6 +146,10 @@ function afterLoadIframeSpreadsheet(isAjaxExcelLoad, fileId, defaultfileId, domI
 
 //***** Load DATA by data param END!
 
+function getValueFromSpreadsheet(domId){
+	return window.frames[domId+'_spreadIframe'].getValue(domId);
+}
+
 function isSpreadsheetEmpty(domId) {
 	return window.frames[domId+'_spreadIframe'].isSpreadsheetEmpty(domId);
 }

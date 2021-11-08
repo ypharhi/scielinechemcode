@@ -499,7 +499,7 @@
 			if (typeof value === 'string' || value instanceof String) {
 				data = JSON.parse(value);
 			}
-			setValueToSpreadSheet(domId,data["excelFullData"]);
+			setValueToSpreadSheet(domId,data);
 			parent.clearLocalStorage();//cleaning the data stored 3 hours ago
 			//$("#restoreFromStorage_"+domId).attr('display','none');
 		}
@@ -755,6 +755,11 @@
 			} catch(err) {
 				console.log(err);	
 			}
+		}
+		
+		function getValue(domId){
+			var workBook = designer[domId].getWorkbook();	
+			return workBook.toJSON({includeBindingSource:true});
 		}
 
 		function clearSpreadsheet(domId){
