@@ -1623,6 +1623,11 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 					toReturn = generalDao.sqlToHashMap(sql);
 					toReturn.put("LASTSTEP", "0");
 					String protocolTypeName = toReturn.get("PROTOCOLTYPENAME")!=null?toReturn.get("PROTOCOLTYPENAME").toString():"";
+					String isEnableSpreadsheet = "No";
+					if(parentFormCodeEntity.equalsIgnoreCase("Experiment")) {
+						isEnableSpreadsheet = generalDao.selectSingleStringNoException("select  nvl(ISENABLESPREADSHEET,SP_ISENABLESPREADSHEET) from fg_S_experiment_all_v where formid= '"+parentId+"'");
+					}
+					toReturn.put("ISENABLESPREADSHEET", isEnableSpreadsheet);
 					if(protocolTypeName.equals("Formulation")){
 						String experimentId = toReturn.get("EXPERIMENT_ID")!=null?toReturn.get("EXPERIMENT_ID").toString():"";
 						String lastStepId = generalDao.selectSingleStringNoException("select distinct first_value(step_id)over (partition by experiment_id order by to_number(step_id) desc)\n"
