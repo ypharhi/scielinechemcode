@@ -174,6 +174,12 @@ function initFormSaveDisplayButtons() {
 		var url = window.location.href;
 	    var isStructAsPopup =url.indexOf('&isStructAsPopup=1') > 0;
 	    if(isStructAsPopup){
+	    	//$('.text-right').after($('.submit-button-row'));
+	    	$('#popupButton').append($('.submit-button-row'));
+	    	$('#createRequestButton').css('margin-left','auto');
+	    	$('#saveAndOpen_').css('margin-left','auto');
+	    	$('#saveAndClose_').css('margin-left','auto');
+	    	$('#close_back').css('margin-left','auto');
 	    	
 	    	var calcRemoveHigh = 0;
 	    	calcRemoveHigh = $('.top-bar').height() + $('#dropDownMenuBar').height() + $('.breadcrumbs-container').height();
