@@ -40,6 +40,81 @@
 		.format-painting {
 			background-image: url("../images/artist.png")
 		}
+		
+		.ui-dialog{
+			font-family: 'Roboto';
+		}
+		
+		.ui-dialog .ui-dialog-titlebar .ui-dialog-title {
+		    background-color: #1c91cd;
+		    display: block;
+		    color: white;
+		    text-align: center;
+		    font-size: 18px;
+		    padding: 10px 0;
+		    border-radius: 3px 3px 0px 0px;
+	    }
+	    
+	    .ui-helper-clearfix:after {
+		    content: "";
+		    display: table;
+		    border-collapse: collapse;
+		}
+		
+		.ui-dialog .ui-dialog-content {
+		    padding: 20px;
+		    font-size: 13px;
+		}
+				
+		.ui-dialog .ui-dialog-buttonset {
+		    text-align: center;
+		    padding: 20px 0;
+		}
+		.ui-dialog-buttonset .ui-button {
+		    display: inline-block;
+		    vertical-align: middle;
+		    margin: 0 0 1rem 0;
+		    padding: 0.85em 1em;
+		    -webkit-appearance: none;
+		    border: 1px solid transparent;
+		    border-radius: 3px;
+		    -webkit-transition: background-color 0.25s ease-out,color 0.25s ease-out;
+		    transition: background-color 0.25s ease-out,color 0.25s ease-out;
+		    font-size: 0.9rem;
+		    line-height: 1;
+		    text-align: center;
+		    cursor: pointer;
+		    background-color: #1779ba;
+		    color: #fefefe;
+		    margin: 0 10px;
+		    font-size: 13px;
+	    }
+	    .ui-dialog {
+		    background-color: white;
+		    /* z-index: 1020; */
+		    border-radius: 3px;
+		    /* -webkit-box-shadow: 0px 4px 13px 0px rgb(0 0 0 / 48%); */
+		    box-shadow: 0px 4px 13px 0px 
+	    }
+	    .ui-dialog .ui-dialog-titlebar button {
+		    position: absolute;
+		    top: 7px;
+		    right: 0px;
+		    width: 32px;
+		    height: 32px;
+		    text-indent: -100000px;
+		    outline: none;
+		    cursor: pointer;
+		    display:none;
+		}
+		
+		.ui-dialog .ui-dialog-titlebar {
+		    cursor: move;
+		}
+		.ui-dialog .ui-dialog-content {
+		    padding: 20px;
+		    font-size: 13px;
+		}
 	</style>
 	
 	<script type="text/javascript">
@@ -436,7 +511,7 @@
 			
 
 			//show the "restore from local storage" in case the local storage is actually  has a key contains the current domId
-			if(localStorage.length>0 && $('#restoreFromStorage_'+domId).length == 0 ){
+			if(localStorage.length>0 && $('input[name = "is_localstorage_exist"]').length == 0 ){
 				var keyPart =  domId+"_"+parent.$('#formId').val()+"_";
 				var isKeyFound = false;
 				var keyVal;
@@ -458,9 +533,67 @@
 				if(isKeyFound){
 					var time = keyVal.split('_')[2];//new Date(Number(time)).toString().split("GMT")[0]
 					var currentdate = new Date(Number(time));
-					var concatTxt = "<br>Last stored in "+ currentdate.getDate() + "/" + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + "   "   + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":"  + currentdate.getSeconds();//currentdate.getDate() + "/ + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + "   "   + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":"  + currentdate.getSeconds();
+					/* var concatTxt = "<br>Last stored in "+ currentdate.getDate() + "/" + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + "   "   + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":"  + currentdate.getSeconds();//currentdate.getDate() + "/ + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + "   "   + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":"  + currentdate.getSeconds();
 					var restoreBtn = '<button id="restoreFromStorage_'+domId+'" class="dynamic-savedisplay-alert-box dynamic-savedisplay-success" style="display:block;position:sticky;padding: 15px; margin-bottom: 20px;border:1px solid transparent;border-radius: 2px;position: -webkit-sticky;position: sticky;bottom: 0;margin-top: -110px;width: 250px;height: 50px; color: white;background-color: #217346;border-color: #217346;font-family:Roboto;" onclick="restoreSpreadsheetFromLocalStorage(\''+keyVal+'\')">Restore spreadsheet from local storage.'+concatTxt+'</button>';
-					$('body').append(restoreBtn);
+					$('body').append(restoreBtn); */
+					var hiddenInput_localStorageExist = '<input type="hidden" name="is_localstorage_exist" value="true">';
+					$('body').append(hiddenInput_localStorageExist);
+					 /* parent.openConfirmDialog({
+				        onConfirm: function(){
+				        	restoreSpreadsheetFromLocalStorage(keyVal);
+				        	$('input[name = "is_localstorage_exist"]').val("false");
+				        },
+				        title: 'Warning',
+				        message: "Last data edited in " + currentdate.getDate() + "/" + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + "   "   + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":"  + currentdate.getSeconds() + " is unsaved.</br>Would you like to restore it?",
+				        onCancel: function(){
+			        		$('input[name = "is_localstorage_exist"]').val("false");
+			        		parent.clearLocalStorage(null,domId,true);
+				        }
+				    }); */
+				    var message = "Last data edited in " + currentdate.getDate() + "/" + (currentdate.getMonth()+1)  + "/" + currentdate.getFullYear() + "   "   + currentdate.getHours() + ":"  + currentdate.getMinutes() + ":"  + currentdate.getSeconds() + " is unsaved.</br>Would you like to restore it?";
+				    var bodyElem = $('body')[0]; //document.getElementsByTagName('body')[0];
+				    if (bodyElem == null)
+				        return;
+
+				    var eDiv = document.createElement('div');
+				    $(eDiv).attr('id', 'divConfirmDialog').attr('title', 'Please Confirm');
+
+				    var eInnerDiv = document.createElement('div');
+				    $(eInnerDiv).attr('id', 'divConfirmMessage').css('padding', '7px');
+				    $(eInnerDiv).attr('id', 'divConfirmMessage').css('word-break', 'break-word');//ta 19102020 fixed bug 8568
+				    $(eInnerDiv).html(message);
+				    
+				    eDiv.appendChild(eInnerDiv);
+				    bodyElem.appendChild(eDiv);
+
+				    // set dialog properties
+				    $('#divConfirmDialog').dialog({
+				        autoOpen: false,
+				        show: 0,
+				        width:'390px',
+				        modal: true,
+				        buttons: [{
+					            text: 'Confirm',
+					            click: function () {					
+					                $(this).dialog("close");
+					                restoreSpreadsheetFromLocalStorage(keyVal);
+						        	$('input[name = "is_localstorage_exist"]').val("false");
+					            },
+				           		class: 'confirmBtn'
+					        },
+					        
+				            {
+					            text: 'Cancel',
+					            click: function () {
+					                $(this).dialog("close");
+					                $('input[name = "is_localstorage_exist"]').val("false");
+					        		parent.clearLocalStorage(null,domId,true);
+					                
+					            },
+					            class: 'cancelBtn'
+					        }]
+				    });
+				    $('#divConfirmDialog').dialog('open'); 
 				}
 			}
 			
@@ -500,7 +633,7 @@
 				data = JSON.parse(value);
 			}
 			setValueToSpreadSheet(domId,data);
-			parent.clearLocalStorage();//cleaning the data stored 3 hours ago
+			parent.clearLocalStorage(null,domId,true);//cleaning the data stored for the current formId&domId
 			//$("#restoreFromStorage_"+domId).attr('display','none');
 		}
 		

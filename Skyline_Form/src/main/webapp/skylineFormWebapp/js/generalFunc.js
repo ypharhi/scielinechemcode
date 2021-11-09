@@ -3603,7 +3603,7 @@ function insertSpreadsheetIntoLocalStorage(){
 }
 
 
-function clearLocalStorage(hours,domId){
+function clearLocalStorage(hours,domId,is_general_clear){
 	//the domId arg is in order to allow earing the keys that refer to the accepted domId
 	if(hours==undefined || hours == null){
 		hours = CLEAN_STORAGE_HOURS_AGO;
@@ -3618,7 +3618,8 @@ function clearLocalStorage(hours,domId){
 		   if(keyPart!="" && key.indexOf(keyPart)!=-1 || keyPart == ""){
 			   var value = localStorage.getItem(key);
 			   var timestamp = key.split("_")[2];
-			   if(timestamp <= $.now()-hours_ms ){
+			   if((is_general_clear == undefined|| is_general_clear == false) && timestamp <= $.now()-hours_ms 
+					   || is_general_clear == true){
 				   localStorage.removeItem(key);
 			   }   
 		   }
