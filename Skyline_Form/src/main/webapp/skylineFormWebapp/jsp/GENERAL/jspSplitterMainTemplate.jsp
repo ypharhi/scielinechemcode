@@ -301,7 +301,7 @@
     	
     	//asyn call to update the local storage with the spreadsheet data
     	var checkIntervalSpreadsheet = 300000;
-    	if($('[element = "ElementExcelSheetImp"]').length>0){
+    	if($('[element = "ElementExcelSheetImp"]').length>0 && checkIntervalSpreadsheet>0){
 	    	//console.log("checkIntervalMS_",checkIntervalMS_);
 	    	setInterval(function(){
 	    	    setSpreadsheetUserData();
