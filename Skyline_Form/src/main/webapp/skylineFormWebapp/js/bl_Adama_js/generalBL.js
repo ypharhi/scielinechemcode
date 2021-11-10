@@ -176,7 +176,7 @@ function initFormSaveDisplayButtons() {
 	    if(isStructAsPopup){
 	    	//$('.text-right').after($('.submit-button-row'));
 	    	$('#popupButton').append($('.submit-button-row'));
-	    	$('#createRequestButton').css('margin-left','auto');
+	    	$('#createRequestButton').css('margin-left','50px');
 	    	$('#saveAndOpen_').css('margin-left','auto');
 	    	$('#saveAndClose_').css('margin-left','auto');
 	    	$('#close_back').css('margin-left','auto');
