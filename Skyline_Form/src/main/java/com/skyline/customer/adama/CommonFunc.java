@@ -2544,7 +2544,7 @@ public void copyComponentTablefromMaterialToBatch(String materialId,String userI
 public void createDefaultMaterial(String materialProtocolType,String projectId ,String userId,String formCode) {
 	List<Map<String, Object>> components=generalDao.getListOfMapsBySql("select m.InvItemMaterialName,t.CONCENTRATION from" + 
 			" Fg_s_Materialcomponent_All_v t,Fg_s_Invitemmaterial_v m " + 
-			"where t.MATERIAL_ID =m.formid(+) and parentId='"+projectId+"'  order by t.CONCENTRATION desc");
+			"where t.MATERIAL_ID =m.formid(+) and parentId='"+projectId+"' and t.MATERIAL_ID is not null  order by t.CONCENTRATION desc");
 	String materialName=materialProtocolType.substring(0, 1).toUpperCase()+":";
 	for (Map<String, Object> component : components) {
 		 String concentration=component.get("CONCENTRATION")==null?"":"("+component.get("CONCENTRATION")+"%)";
