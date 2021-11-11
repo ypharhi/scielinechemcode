@@ -43,6 +43,11 @@
 		
 		.ui-dialog{
 			font-family: 'Roboto';
+			background-color: white;
+		    z-index: 1020;
+		    border-radius: 3px;
+		    /* -webkit-box-shadow: 0px 4px 13px 0px rgb(0 0 0 / 48%); */
+		    box-shadow: 0px 4px 13px 0px 
 		}
 		
 		.ui-dialog .ui-dialog-titlebar .ui-dialog-title {
@@ -88,13 +93,6 @@
 		    color: #fefefe;
 		    margin: 0 10px;
 		    font-size: 13px;
-	    }
-	    .ui-dialog {
-		    background-color: white;
-		    /* z-index: 1020; */
-		    border-radius: 3px;
-		    /* -webkit-box-shadow: 0px 4px 13px 0px rgb(0 0 0 / 48%); */
-		    box-shadow: 0px 4px 13px 0px 
 	    }
 	    .ui-dialog .ui-dialog-titlebar button {
 		    position: absolute;
