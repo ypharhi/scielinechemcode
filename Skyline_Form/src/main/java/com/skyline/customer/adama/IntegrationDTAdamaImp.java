@@ -1034,37 +1034,44 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								}
 								 
 							} else{
-								sql = "select distinct t.\"Batch_SMARTLINK\",t.\"Sample origin\",t.\"Sample amount\",t.\"Sample type\""
-										+ ",t.\"Sample_SMARTLINK\",t.\"Request #_SMARTLINK\",t.\"Protocol Type\",t.\"Experiment #_SMARTLINK\""
-										+ ",t.\"Result Type\",t.\"Material_SMARTLINK\",t.\"Value_SMARTNUM\",t.\"Value (UOM)\""
-										+ (generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPERIMENTRESULTS_DTFOR_V")
-												? ",t.\"Adjusted Value\",t.\"Adjusted Value (UOM)\"" : "")
-										+ ",FG_ADAMA.GET_OOS_SMARTICON_OBJ(specificationId_in => s.SPECIFICATIONREF_ID"
-										+ ",resultvalue_in => t.RESULT_VALUE" + ",resultuom_id_in => t.RESULT_UOM_ID"
-										+ ",subproject_id_in => s.SUBPROJECT_ID) as \"OOS_SMARTICON\""
-										+ (!generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPERIMENTRESULTS_DTFOR_V")
-												? ",t.\"Chromatogram_SMARTFILE\"" : ",t.\"File_SMARTFILE\"")
-										/*+",decode(t.\"Result Type\",'Impurity Identification'"
-										+ ",FG_GET_SMART_LINK_OBJECT('' ,t.desExFormCode "
-										+",(select structure from fg_s_manualresultsmsref_v where formid = t.resultref_id and sessionid is null and active =1) "
-										          +" ,'','chemdoodle')"
-										+",FG_GET_SMART_LINK_OBJECT('' ,t.desExFormCode ,t.EXPERIMENTDEST_ID ,'Documents' ))AS \"File_SMARTFILE\""
-										+ (generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPERIMENTRESULTS_DT_V")?","
-												+"decode(t.\"Result Type\",'Impurity Identification'"
-														+ ",FG_GET_SMART_LINK_OBJECT ('' ,t.desExFormCode ,t.EXPERIMENTDEST_ID ,'Chromatograms' )"
-												+",'')AS \"Chromatogram_SMARTFILE\"":"")
-										*/ + (!(generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPERIMENTRESULTS_DTFOR_V"))? ",t.\"MS manual result_SMARTFILE\"" : "") + ",t.\"Comments\"" + " from (" + "with FILT_IN as" + "(select SAMPLE_ID from fg_s_sample_v where EXPERIMENT_ID = '" + formId + "')" + ", FILT_IN2 as" + "(select distinct dd.*,sss.SAMPLE_ID as sampledest_id"//sampledest_id contains the samples that are in the destination experiment
-										+ " from " + table + " dd" + ",fg_s_sampleselect_all_v sss"
-										+ " where dd.EXPERIMENTDEST_ID = sss.PARENTID(+))"
-										+ " select distinct * from (select * from FILT_IN2) t"
-										/*+ " where  experimentorigin_id = '" + formId +"'"
-										+ " or SAMPLE_ID in (select SAMPLE_ID from FILT_IN)"+wherePart+") t"*/
-										+ " where  decode(experimentorigin_id,'" + formId + "',1"
-										+ " ,decode(nvl(SAMPLE_ID,sampledest_id),null,0,instr(','||(select listagg(SAMPLE_ID,',') within group(order by SAMPLE_ID) from FILT_IN)||',',','||nvl(SAMPLE_ID,sampledest_id)||',')))!=0 "
-										+ wherePart + ") t" + ",fg_s_specificationref_v s" + " where nvl(t.experiment_id,'"
-										+ formId + "') = '" + formId + "'"
-										+ " and t.SPECIFICATIONREF_ID = s.SPECIFICATIONREF_ID(+)".replaceAll("'OOS'", "")
-										+ " order by \"Sample_SMARTLINK\"";//+ citeriaWherePart;
+								if(generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPERIMENTRESULTS_DTFOR_V")) {
+									sql = "select distinct t.* "
+										+ "from FG_S_EXPERIMENTRES_DTFOR_V t "
+										+ "where t.SAMPLE_EXPERIMENT_ID = '"+formId+"'"
+										+ " order by \"Sample #_SMARTLINK\"";//removed oos and "Ajusted value" since it seems not useful now.
+								} else {
+									sql = "select distinct t.\"Batch_SMARTLINK\",t.\"Sample origin\",t.\"Sample amount\",t.\"Sample type\""
+											+ ",t.\"Sample_SMARTLINK\",t.\"Request #_SMARTLINK\",t.\"Protocol Type\",t.\"Experiment #_SMARTLINK\""
+											+ ",t.\"Result Type\",t.\"Material_SMARTLINK\",t.\"Value_SMARTNUM\",t.\"Value (UOM)\""
+											+ (generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPERIMENTRESULTS_DTFOR_V")
+													? ",t.\"Adjusted Value\",t.\"Adjusted Value (UOM)\"" : "")
+											+ ",FG_ADAMA.GET_OOS_SMARTICON_OBJ(specificationId_in => s.SPECIFICATIONREF_ID"
+											+ ",resultvalue_in => t.RESULT_VALUE" + ",resultuom_id_in => t.RESULT_UOM_ID"
+											+ ",subproject_id_in => s.SUBPROJECT_ID) as \"OOS_SMARTICON\""
+											+ (!generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPERIMENTRESULTS_DTFOR_V")
+													? ",t.\"Chromatogram_SMARTFILE\"" : ",t.\"File_SMARTFILE\"")
+											/*+",decode(t.\"Result Type\",'Impurity Identification'"
+											+ ",FG_GET_SMART_LINK_OBJECT('' ,t.desExFormCode "
+											+",(select structure from fg_s_manualresultsmsref_v where formid = t.resultref_id and sessionid is null and active =1) "
+											          +" ,'','chemdoodle')"
+											+",FG_GET_SMART_LINK_OBJECT('' ,t.desExFormCode ,t.EXPERIMENTDEST_ID ,'Documents' ))AS \"File_SMARTFILE\""
+											+ (generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPERIMENTRESULTS_DT_V")?","
+													+"decode(t.\"Result Type\",'Impurity Identification'"
+															+ ",FG_GET_SMART_LINK_OBJECT ('' ,t.desExFormCode ,t.EXPERIMENTDEST_ID ,'Chromatograms' )"
+													+",'')AS \"Chromatogram_SMARTFILE\"":"")
+											*/ + (!(generalUtil.getNull(table).equalsIgnoreCase("FG_R_EXPERIMENTRESULTS_DTFOR_V"))? ",t.\"MS manual result_SMARTFILE\"" : "") + ",t.\"Comments\"" + " from (" + "with FILT_IN as" + "(select SAMPLE_ID from fg_s_sample_v where EXPERIMENT_ID = '" + formId + "')" + ", FILT_IN2 as" + "(select distinct dd.*,sss.SAMPLE_ID as sampledest_id"//sampledest_id contains the samples that are in the destination experiment
+											+ " from " + table + " dd" + ",fg_s_sampleselect_all_v sss"
+											+ " where dd.EXPERIMENTDEST_ID = sss.PARENTID(+))"
+											+ " select distinct * from (select * from FILT_IN2) t"
+											/*+ " where  experimentorigin_id = '" + formId +"'"
+											+ " or SAMPLE_ID in (select SAMPLE_ID from FILT_IN)"+wherePart+") t"*/
+											+ " where  decode(experimentorigin_id,'" + formId + "',1"
+											+ " ,decode(nvl(SAMPLE_ID,sampledest_id),null,0,instr(','||(select listagg(SAMPLE_ID,',') within group(order by SAMPLE_ID) from FILT_IN)||',',','||nvl(SAMPLE_ID,sampledest_id)||',')))!=0 "
+											+ wherePart + ") t" + ",fg_s_specificationref_v s" + " where nvl(t.experiment_id,'"
+											+ formId + "') = '" + formId + "'"
+											+ " and t.SPECIFICATIONREF_ID = s.SPECIFICATIONREF_ID(+)".replaceAll("'OOS'", "")
+											+ " order by \"Sample_SMARTLINK\"";//+ citeriaWherePart;
+								}
 							}
 						}
 					} else if(generalUtil.getNull(table).equalsIgnoreCase("FG_S_EXPERIMENTRES_DTRECIPE_V")){
