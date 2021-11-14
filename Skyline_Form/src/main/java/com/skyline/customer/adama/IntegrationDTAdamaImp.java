@@ -983,6 +983,10 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						}
 					} else if (generalUtil.getNull(table).toUpperCase().equals("FG_I_STEP_EXPERMNTRESULTS_DT_V")){						//String formId = generalUtilFormState.getFormId(formCode);
 						if (!formId.equals("-1")) {
+							if(criteria.equals("Results above 0.05")) {
+								table = "FG_I_STEP_EXPERMNTRESULT_DTF_V";
+								criteria="";
+							}
 							sql = "select distinct * from " + table + " where  sample_step_id = " + formId + wherePart
 									+" order by \"Sample #_SMARTLINK\"";//+ citeriaWherePart;
 						}
@@ -1027,8 +1031,16 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 										+(!generalUtil.getNull(runNumber).isEmpty()?(runNumber.equals("0")?"and nullif(RUNNUMBER,'0') is null":" and RUNNUMBER = '"+runNumber+"'"):"")
 										+ " order by \"Sample #_SMARTLINK\"";
 								} else {
+									if(criteria.equals("Results above 0.05")) {
+										table = "FG_S_EXPERIMENTRES_DTFIL_V";
+										criteria="";
+									}
+									else {
+										table = "FG_S_EXPERIMENTRES_DT_V";
+									}
+									
 									sql = "select distinct t.* "
-										+ "from FG_S_EXPERIMENTRES_DT_V t "
+										+ "from "+table+" t "
 										+ "where t.SAMPLE_EXPERIMENT_ID = '"+formId+"'"
 										+ " order by \"Sample #_SMARTLINK\"";
 								}
