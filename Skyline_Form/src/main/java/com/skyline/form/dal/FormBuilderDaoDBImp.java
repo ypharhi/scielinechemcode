@@ -282,7 +282,7 @@ public class FormBuilderDaoDBImp extends BasicDao implements FormBuilderDao {
 
 		StringBuilder sbInsert = new StringBuilder(
 				"insert into FG_FORMELEMENTINFOATMETA_TMP(FORMCODE,ENTITYIMPCODE,ELEMENTCLASS,DISPLAYLABEL,ISPARENTPATHID,ADDITIONALDATA,ISHIDDEN,ISSEARCHIDHOLDER,FORMCODEENTITYLABEL,FORMCODETYPLABEL,ISLISTID,ISSEARCHELEMENT,DATATYPE,DATATYPE_INFO)\n");
-
+        int i  = 0;
 		for (Map.Entry<String, ElementInfoAuditTrailMeta> entry : formElementDisplayMap.entrySet()) {
 			ElementInfoAuditTrailMeta eInf_ = entry.getValue();
 			String formCode_ = eInf_.getFormCode();
@@ -314,10 +314,13 @@ public class FormBuilderDaoDBImp extends BasicDao implements FormBuilderDao {
 					+ isParent + "','" + isAdditionalData + "','" + isHidden + "','" + isSearchIdHolder + "','"
 					+ formCodeEntityDisplay + "','" + formCodeTypeLabel + "','" + isListId + "','" + isSearchElement
 					+ "','" + dataType_ + "','" + dayaTyepInfo + "' from dual union all\n");
+			i++;
 		}
 
-		generalDao.updateSingleStringNoTryCatch(generalUtil.replaceLast(sbInsert.toString(), "union all", ""));
+		if(i > 0) {
+			generalDao.updateSingleStringNoTryCatch(generalUtil.replaceLast(sbInsert.toString(), "union all", ""));
 
-		generalDao.updateSingleString("begin dbms_mview.refresh('FG_FORMELEMENTINFOATMETA_MV'); end;");
+			generalDao.updateSingleString("begin dbms_mview.refresh('FG_FORMELEMENTINFOATMETA_MV'); end;");
+		}
 	}
 }
