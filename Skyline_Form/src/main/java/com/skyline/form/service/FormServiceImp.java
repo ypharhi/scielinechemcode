@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.skyline.customer.adama.CommonFunc;
 import com.skyline.form.bean.ActionBean;
 import com.skyline.form.bean.ActivitylogType;
 import com.skyline.form.bean.BeanType;
@@ -82,8 +81,8 @@ public class FormServiceImp implements FormService {
 
 	private static final Logger logger = LoggerFactory.getLogger(FormServiceImp.class);
 	
-	@Autowired
-	private CommonFunc commonFunc;
+//	@Autowired
+//	private CommonFunc commonFunc;
 	
 	@Value("${favoriteFormList:project,subproject,subsubproject,experiment,request,step,action,selftest,workup,spreadsheettempla}")
 	private String favoriteFormList;
@@ -1238,79 +1237,7 @@ public class FormServiceImp implements FormService {
 	public RedirectInfo redirectRules(String formId, String formCode, String parentId, Boolean isNew) {
 		String sql = "";
 		RedirectInfo redirectInfo = new RedirectInfo(formId, formCode, "", isNew);
-		try {
-			//************** StepFr **************
-			if(formCode.equals("StepFr")) {
-				JSONObject jsonResult = null;
-				//new step - create stepFr and navigate to expeirmentFor + open the new step cube
-				if (isNew) {
-					try {
-						jsonResult = commonFunc.createNewStepIframeData(parentId,new HashMap<String,String>());
-					} catch (Exception e) {
-						//DD NOTHING
-					}
-					
-					redirectInfo.setFormCode("ExperimentFor");
-					redirectInfo.setFormId(parentId);
-					redirectInfo.setTab("Overview");
-					redirectInfo.setNew(false);
-					if(jsonResult != null) {
-						redirectInfo.setAppendInfo("&cube=" + jsonResult.getString("ID"));
-					}
-				} 
-				//update step - navigate to expeirmentFor and open the step cube
-				else {
-					sql = "select distinct t.EXPERIMENT_ID,t.STEP_ID \r\n" + "from FG_S_STEP_V t\r\n"
-							+ " where t.FORMID = '" + formId + "'";
-					Map<String, String> map = generalDao.getMapsBySqlSingleRow(sql);
-					if(map != null) {
-						String expId = map.get("EXPERIMENT_ID");
-						String stepId = map.get("STEP_ID");
-						if (expId != null && !expId.isEmpty()) {
-							redirectInfo.setFormCode("ExperimentFor");
-							redirectInfo.setFormId(expId);
-							redirectInfo.setTab("Overview");
-							redirectInfo.setNew(false);
-							if (stepId != null) {
-								redirectInfo.setAppendInfo("&cube=" + stepId);
-							}
-						}
-					}
-				}
-			}
-			//************** Action (under formulation) **************
-			else if(formCode.equals("Action")) {
-				if (isNew != null && isNew) {
-					// if new we only use the following sql to open the relevant step
-					sql = "select distinct t.EXPERIMENT_ID,t.STEP_ID, NVL(lower(p.ProtocolTypeName),'NA') as PROTOCOLTYPE \r\n" + "from FG_S_STEP_ALL_V t, \r\n"
-							+ "fg_s_protocoltype_v p \r\n" + "where t.PROTOCOLTYPE_ID = p.PROTOCOLTYPE_ID(+) \r\n"
-							+ "and lower(p.ProtocolTypeName(+)) = 'formulation'\r\n" + "and t.FORMID = '" + parentId + "'";
-				} else {
-					sql = "select distinct t.EXPERIMENT_ID,t.STEP_ID, NVL(lower(p.ProtocolTypeName),'NA') as PROTOCOLTYPE \r\n" + "from FG_S_ACTION_ALL_V t, \r\n"
-							+ "fg_s_protocoltype_v p \r\n" + "where t.PROTOCOLTYPE_ID = p.PROTOCOLTYPE_ID(+) \r\n"
-							+ "and lower(p.ProtocolTypeName(+)) = 'formulation'\r\n" + "and t.FORMID = '" + formId + "'";
-				}
-				
-				Map<String, String> map = generalDao.getMapsBySqlSingleRow(sql);
-				if(map != null && generalUtil.getNull(map.get("PROTOCOLTYPE")).equals("formulation")) {
-					String expId = map.get("EXPERIMENT_ID");
-					if (expId != null && !expId.isEmpty()) {
-						redirectInfo.setFormCode("ExperimentFor");
-						redirectInfo.setFormId(expId);
-						redirectInfo.setTab("Overview");
-						redirectInfo.setNew(false);
-						String stepId = map.get("STEP_ID");
-						if (stepId != null) {
-							redirectInfo.setAppendInfo("&cube=" + stepId);
-						}
-					}
-				}
-			}
-		} catch (Exception e) {
-			generalUtilLogger.logWriter(LevelType.ERROR,
-					"redirectRules error wuth formcode =" + formCode + ", formId=" + formId,
-					ActivitylogType.GeneralError, formId, e, null);
-		}
+		//TODO need to be in customer
 		return redirectInfo;
 	}
 	

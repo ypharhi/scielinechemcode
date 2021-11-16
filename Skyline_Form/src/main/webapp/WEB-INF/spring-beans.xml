@@ -412,12 +412,7 @@
 
 	<!-- Catalog -->
 <!--     scope="prototype" -->
-	<bean id="SysHSimpleCalc" lazy-init="true" class="com.skyline.customer.adama.SysHandlerSimpleCalc"/>
-	<bean id="SysHCodeCalcRate" lazy-init="true" class="com.skyline.customer.adama.SysHandlerCodeCalcRate" />
-	<bean id="SysHCodeCalcYieldLoss" lazy-init="true" class="com.skyline.customer.adama.SysHandlerCodeCalcYieldLoss"/>
-	<bean id="SysHCodeCalcSetRecord" lazy-init="true" class="com.skyline.customer.adama.SysHandlerCodeCalcSetRecord"/>
-	<bean id="SysHCodeCalcQuantity" lazy-init="true" class="com.skyline.customer.adama.SysHandlerCodeCalcQuantity"/>
-	<bean id="SysHSaveSelfTest" lazy-init="true" class="com.skyline.customer.adama.SysHandlerPostSaveSelfTest"/>
+<!-- 	<bean id="SysHSimpleCalc" lazy-init="true" class="com.skyline.customer.adama.SysHandlerSimpleCalc"/> -->
 	
 		
 	

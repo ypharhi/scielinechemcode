@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.skyline.customer.adama.SysHandler;
-import com.skyline.customer.adama.SysHandlerFactory;
 import com.skyline.form.bean.LookupType;
 import com.skyline.form.dal.FormDao;
 
@@ -30,9 +27,6 @@ public class GeneralUtilConfig {
 	@Autowired
 	public GeneralUtil generalUtil;
 
-	@Autowired
-	private SysHandlerFactory sysHandlerFactory;
-
 	@Value("${precision}")
 	private String precision; // precision
 
@@ -41,43 +35,7 @@ public class GeneralUtilConfig {
 	public void SaveEventHandler(String formCode, String formId, Map<String, String> elementValueMap, String userId,
 			String eventType) throws ScriptException, ParseException {
 
-		String tableName = "SysEventHandler";
-		List<String> calcConfigIdList = formDao.getFromInfoLookupElementData(tableName, LookupType.NAME,
-				eventType + "." + formCode + ".", "ID");
-
-		Map<String, String> handlerMap = new HashMap<String, String>();
-		Map<String, String> handlerOrderMap = new HashMap<String, String>();
-		calcConfigIdList.remove(null);
-		for (String calcId : calcConfigIdList) {
-			handlerMap = formDao.getFromInfoLookupAll(tableName, LookupType.ID, calcId);
-			String order = handlerMap.get("HANDLERORDER");
-			if (handlerOrderMap.get(order) == null && order != null) {
-				handlerOrderMap.put(order, calcId);
-			} else {
-				if (order == null) {
-					order = "1";
-				}
-				Integer newOrder = Integer.decode(order);
-				do {
-					newOrder *= 10;
-				} while (handlerOrderMap.get(newOrder) != null);
-				handlerOrderMap.put(newOrder.toString(), calcId);
-			}
-
-		}
-
-		Map<String, String> treeMap = new TreeMap<String, String>(handlerOrderMap);
-
-		for (String calcId : treeMap.values()) {
-			handlerMap = formDao.getFromInfoLookupAll(tableName, LookupType.ID, calcId);
-			String className = handlerMap.get("SYSEVENTHANDLERNAME");
-
-			if (!generalUtil.getNull(className).isEmpty()) {
-				SysHandler sysh = sysHandlerFactory.getSysHandler(className);//SysHSimpleCalc from maintenance configuration
-				sysh.doHandler(handlerMap, formCode, formId, elementValueMap, userId);
-			}
-		}
-
+		//TODO?
 	}
 
 	public String getCriterialSql(String struct, String criteria, String formCode, Map<String, String> sqlParam,
