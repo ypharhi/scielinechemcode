@@ -223,8 +223,12 @@ public class FormState {
 		paramTitle = "from Parameters integration from param (AUTHEN SQL)";
 		toPrint.append("\n----Param [" + paramTitle + "] ----\n");
 		
-		integrationMap.putAll(integrationInitForm.getFormParam(formCode, userId, formId, formType, isNewFormId, outParamMap));
-		if(integrationMap != null){
+		Map<String,String> pMap_ = integrationInitForm.getFormParam(formCode, userId, formId, formType, isNewFormId, outParamMap);
+		if(pMap_ != null && pMap_.size() > 0) {
+			integrationMap.putAll(pMap_);
+		}
+		
+		if(integrationMap != null && integrationMap.size() > 0){
 			for (Map.Entry<String, String> entry : integrationMap.entrySet()) {
 				String key = entry.getKey();
 				String val = entry.getValue();

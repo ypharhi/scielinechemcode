@@ -1,6 +1,6 @@
 -----------------------------------------------
 -- Export file for user SKYLINE_FORM_MIN     --
--- Created by comply on 16/11/2021, 17:05:28 --
+-- Created by comply on 16/11/2021, 17:52:42 --
 -----------------------------------------------
 
 spool db_min_obj.log
@@ -127,28 +127,6 @@ comment on column FG_ACTIVITY_LOG.additionalinfo
   is 'json';
 
 prompt
-prompt Creating table FG_ACTIVITY_LOG_BU
-prompt =================================
-prompt
-create table FG_ACTIVITY_LOG_BU
-(
-  formid          VARCHAR2(500),
-  timestamp       DATE,
-  user_id         VARCHAR2(500),
-  comments        VARCHAR2(4000),
-  activitylogtype VARCHAR2(500),
-  changevalue     VARCHAR2(1000),
-  status          VARCHAR2(100),
-  location        VARCHAR2(4000),
-  startdate       DATE,
-  enddate         DATE,
-  additionalinfo  VARCHAR2(4000),
-  leveltype       VARCHAR2(500),
-  stacktrace      VARCHAR2(4000)
-)
-;
-
-prompt
 prompt Creating table FG_ACTIVITY_LOG_HST
 prompt ==================================
 prompt
@@ -170,30 +148,6 @@ create table FG_ACTIVITY_LOG_HST
   comments        CLOB
 )
 ;
-
-prompt
-prompt Creating table FG_AUTHEN_FORMPATH_TMP
-prompt =====================================
-prompt
-create table FG_AUTHEN_FORMPATH_TMP
-(
-  formpath_id       NUMBER,
-  formpath_formcode VARCHAR2(18),
-  formpath_value    VARCHAR2(4000)
-)
-;
-
-prompt
-prompt Creating table FG_AUTHEN_FORMPATH_TMP_G
-prompt =======================================
-prompt
-create global temporary table FG_AUTHEN_FORMPATH_TMP_G
-(
-  formpath_id       NUMBER,
-  formpath_formcode VARCHAR2(18),
-  formpath_value    VARCHAR2(4000)
-)
-on commit preserve rows;
 
 prompt
 prompt Creating table FG_AUTHEN_REPORT_V
@@ -1330,88 +1284,12 @@ create table FG_HISTORICAL_SPREAD_DATA
 ;
 
 prompt
-prompt Creating table FG_I_ACTION_OPERATION_V_TMP
-prompt ==========================================
-prompt
-create global temporary table FG_I_ACTION_OPERATION_V_TMP
-(
-  actionoperation VARCHAR2(4000),
-  operation       VARCHAR2(4000),
-  sample_id       VARCHAR2(500),
-  action_id       NUMBER,
-  results         VARCHAR2(4000),
-  documents       VARCHAR2(4000),
-  comments        VARCHAR2(4000),
-  action_step_id  VARCHAR2(500)
-)
-on commit preserve rows;
-
-prompt
 prompt Creating table FG_I_CHEM_DATA_V_B
 prompt =================================
 prompt
 create table FG_I_CHEM_DATA_V_B
 (
   clobcontent CLOB
-)
-;
-
-prompt
-prompt Creating table FG_I_CONNECTION_REQUEST_EXPR_T
-prompt =============================================
-prompt
-create table FG_I_CONNECTION_REQUEST_EXPR_T
-(
-  project_id       VARCHAR2(500),
-  subproject_id    VARCHAR2(500),
-  subsubproject_id VARCHAR2(500),
-  request_id       NUMBER,
-  experiment_id    VARCHAR2(500),
-  step_id          VARCHAR2(500),
-  action_id        VARCHAR2(100)
-)
-;
-
-prompt
-prompt Creating table FG_I_SERIES_INDX_DATA_V_SS
-prompt =========================================
-prompt
-create table FG_I_SERIES_INDX_DATA_V_SS
-(
-  formulationpropref_id         NUMBER,
-  form_temp_id                  VARCHAR2(603),
-  formulationpropref_objidval   VARCHAR2(671),
-  formid                        VARCHAR2(100),
-  timestamp                     DATE,
-  cloneid                       VARCHAR2(100),
-  templateflag                  VARCHAR2(100),
-  change_by                     VARCHAR2(100),
-  sessionid                     VARCHAR2(500),
-  active                        NUMBER,
-  formcode_entity               VARCHAR2(100),
-  formcode                      VARCHAR2(100),
-  factor                        VARCHAR2(500),
-  parentid                      VARCHAR2(500),
-  uomtotalmass_id               VARCHAR2(500),
-  expseriesplannum              VARCHAR2(500),
-  uomtheototalmass_id           VARCHAR2(500),
-  formulationproprefname        VARCHAR2(500),
-  density                       VARCHAR2(500),
-  caltheototalmass              VARCHAR2(500),
-  calcidentifier                VARCHAR2(500),
-  parametermonitoring           VARCHAR2(4000),
-  caltotalmass                  VARCHAR2(500),
-  densityuominf                 VARCHAR2(500),
-  experimentindex               VARCHAR2(500),
-  tabletype                     VARCHAR2(500),
-  formulationpropindex_objidval VARCHAR2(671),
-  value                         VARCHAR2(500),
-  uom_id                        VARCHAR2(500),
-  solid                         VARCHAR2(500),
-  maxcalcidentifier             VARCHAR2(500),
-  experiment_id                 VARCHAR2(100),
-  formulantref_id               VARCHAR2(100),
-  material_batch_id             VARCHAR2(100)
 )
 ;
 
@@ -1563,96 +1441,6 @@ create table FG_P_EXPREPORT_SAMPLE_TMP
 ;
 
 prompt
-prompt Creating table FG_RECIPE_MATERIAL_FUNC_HST
-prompt ==========================================
-prompt
-create table FG_RECIPE_MATERIAL_FUNC_HST
-(
-  root_id              VARCHAR2(500),
-  timestamp            DATE,
-  user_id              VARCHAR2(500),
-  invitemmaterial_id   VARCHAR2(500),
-  composition_id       VARCHAR2(1000),
-  additionalinfo       VARCHAR2(4000),
-  root_composition_id  VARCHAR2(500),
-  invitembatch_id      VARCHAR2(500),
-  function_id          VARCHAR2(500),
-  ww_p                 VARCHAR2(500),
-  ww_grk               VARCHAR2(500),
-  wv_grl               VARCHAR2(500),
-  is_active_ingredient VARCHAR2(500),
-  general_relation_val VARCHAR2(500),
-  filler               VARCHAR2(500),
-  rowtype              VARCHAR2(500),
-  tabletype            VARCHAR2(500),
-  parentid             VARCHAR2(500)
-)
-;
-
-prompt
-prompt Creating table FG_RECIPE_MATERIAL_FUNC_LOG
-prompt ==========================================
-prompt
-create global temporary table FG_RECIPE_MATERIAL_FUNC_LOG
-(
-  root_id              VARCHAR2(500),
-  timestamp            DATE,
-  user_id              VARCHAR2(500),
-  invitemmaterial_id   VARCHAR2(500),
-  composition_id       VARCHAR2(1000),
-  additionalinfo       VARCHAR2(4000),
-  root_composition_id  VARCHAR2(500),
-  invitembatch_id      VARCHAR2(500),
-  function_id          VARCHAR2(500),
-  ww_p                 VARCHAR2(500),
-  ww_grk               VARCHAR2(500),
-  wv_grl               VARCHAR2(500),
-  is_active_ingredient VARCHAR2(500),
-  general_relation_val VARCHAR2(500),
-  filler               VARCHAR2(500),
-  rowtype              VARCHAR2(500),
-  tabletype            VARCHAR2(500),
-  parentid             VARCHAR2(500)
-)
-on commit preserve rows;
-comment on column FG_RECIPE_MATERIAL_FUNC_LOG.root_id
-  is 'holds the experiment id';
-comment on column FG_RECIPE_MATERIAL_FUNC_LOG.composition_id
-  is 'material_id or recipe_id';
-comment on column FG_RECIPE_MATERIAL_FUNC_LOG.general_relation_val
-  is 'the w/w% of the parent composiiton';
-comment on column FG_RECIPE_MATERIAL_FUNC_LOG.parentid
-  is 'the parent of the composition';
-
-prompt
-prompt Creating table FG_RECIPE_MATERIAL_FUNC_REPORT
-prompt =============================================
-prompt
-create table FG_RECIPE_MATERIAL_FUNC_REPORT
-(
-  root_id              VARCHAR2(500),
-  timestamp            DATE,
-  user_id              VARCHAR2(500),
-  invitemmaterial_id   VARCHAR2(500),
-  composition_id       VARCHAR2(1000),
-  additionalinfo       VARCHAR2(4000),
-  root_composition_id  VARCHAR2(500),
-  invitembatch_id      VARCHAR2(500),
-  function_id          VARCHAR2(500),
-  ww_p                 VARCHAR2(500),
-  ww_grk               VARCHAR2(500),
-  wv_grl               VARCHAR2(500),
-  is_active_ingredient VARCHAR2(500),
-  general_relation_val VARCHAR2(500),
-  filler               VARCHAR2(500),
-  rowtype              VARCHAR2(500),
-  tabletype            VARCHAR2(500),
-  parentid             VARCHAR2(500),
-  sessionid            VARCHAR2(500)
-)
-;
-
-prompt
 prompt Creating table FG_REPORTDESIGN
 prompt ==============================
 prompt
@@ -1702,29 +1490,6 @@ comment on column FG_REPORT_LIST.meta_data
 comment on column FG_REPORT_LIST.system_row
   is '1 - rows enterd by the system and should not be deleted';
 create unique index REPORT_NAME_UNIQUE on FG_REPORT_LIST (REPORT_NAME);
-
-prompt
-prompt Creating table FG_REPORT_LIST_BU2
-prompt =================================
-prompt
-create table FG_REPORT_LIST_BU2
-(
-  id                 VARCHAR2(100),
-  report_category    VARCHAR2(100),
-  report_sql         VARCHAR2(1000),
-  report_description VARCHAR2(1000),
-  change_by          VARCHAR2(100),
-  active             NUMBER,
-  timestamp          DATE,
-  report_user_id     NUMBER,
-  report_scope       VARCHAR2(100),
-  report_style       VARCHAR2(100),
-  report_name        VARCHAR2(500) not null,
-  report_save_data   VARCHAR2(4000),
-  meta_data          VARCHAR2(4000),
-  system_row         NUMBER
-)
-;
 
 prompt
 prompt Creating table FG_RESOURCE
@@ -1823,56 +1588,6 @@ create table FG_RICHTEXT
 )
 ;
 create unique index FG_RICHTEXT on FG_RICHTEXT (FILE_ID);
-
-prompt
-prompt Creating table FG_R_ACTIONSUMMARY_V_PLAN
-prompt ========================================
-prompt
-create table FG_R_ACTIONSUMMARY_V_PLAN
-(
-  timestamp      DATE,
-  change_by      VARCHAR2(100),
-  sessionid      VARCHAR2(500),
-  active         NUMBER,
-  comments       VARCHAR2(4000),
-  document       VARCHAR2(4000),
-  results        VARCHAR2(4000),
-  operation      VARCHAR2(4000),
-  tabletype      VARCHAR2(4000),
-  sample         VARCHAR2(4000),
-  finishtime     VARCHAR2(4000),
-  starttime      VARCHAR2(4000),
-  parameter      VARCHAR2(4000),
-  observation    VARCHAR2(4000),
-  instruction    VARCHAR2(4000),
-  step_id        VARCHAR2(500),
-  action_id      NUMBER,
-  num            NUMBER,
-  stepstatusname VARCHAR2(4000),
-  action         VARCHAR2(4000),
-  startdate      VARCHAR2(500),
-  enddate        VARCHAR2(500)
-)
-;
-
-prompt
-prompt Creating table FG_R_DEMO_TEST_DATA
-prompt ==================================
-prompt
-create table FG_R_DEMO_TEST_DATA
-(
-  id             NUMBER,
-  site           VARCHAR2(50),
-  product        VARCHAR2(100),
-  run            VARCHAR2(300),
-  start_date     DATE,
-  test           VARCHAR2(100),
-  result_numeric NUMBER,
-  result         VARCHAR2(200),
-  "NICE RESULT"  VARCHAR2(200),
-  root           VARCHAR2(200)
-)
-;
 
 prompt
 prompt Creating table FG_R_MATERIALIZED_VIEW
@@ -2719,7 +2434,7 @@ prompt
 create sequence FG_FORMENTITY_SEQ
 minvalue 0
 maxvalue 999999999999999999999999999
-start with 2166948
+start with 2166968
 increment by 1
 cache 20;
 
@@ -2763,7 +2478,7 @@ prompt
 create sequence FG_FORM_SEQ
 minvalue 0
 maxvalue 999999999999999999999999999
-start with 73255
+start with 73275
 increment by 1
 cache 20;
 
@@ -2958,6 +2673,47 @@ from FG_FORMENTITY t,
 where t.formcode = t1.formcode;
 
 prompt
+prompt Creating view FG_FORMENTITY_V
+prompt =============================
+prompt
+CREATE OR REPLACE VIEW FG_FORMENTITY_V AS
+SELECT "ID",
+          "FORMCODE",
+          "NUMBEROFORDER",
+          "ENTITYTYPE",
+          "ENTITYIMPCODE",
+          "ENTITYIMPCLASS",
+          SUBSTR("ENTITYIMPINIT",2,LENGTH("ENTITYIMPINIT") - 2) AS "ENTITYIMPINIT",
+          --replace(json_ENTITYIMPINIT,'","','", "') AS "ENTITYIMPINIT",
+          json_ENTITYIMPINIT
+FROM
+(
+  select  "ID",
+          "FORMCODE",
+          "NUMBEROFORDER",
+          "ENTITYTYPE",
+          "ENTITYIMPCODE",
+          "ENTITYIMPCLASS",
+          REGEXP_REPLACE (
+                          REGEXP_REPLACE(
+                                          t.ENTITYIMPINIT,
+                                          '","',
+                                          ', '
+                                          ),
+                          '"',
+                          ''
+                          ) as  "ENTITYIMPINIT", --for display
+         /* REGEXP_REPLACE(
+                        t.ENTITYIMPINIT,
+                        '","',
+                        ', '
+                        ) as  "ENTITYIMPINIT", --for display*/
+         t.ENTITYIMPINIT as json_ENTITYIMPINIT
+  from fg_formentity t
+  --where t.entityimpclass <> 'ElementDataTableWebixImp'
+);
+
+prompt
 prompt Creating view FG_I_SCREENS_V
 prompt ============================
 prompt
@@ -2987,15 +2743,6 @@ select to_number(t.formid) as user_id,
       from FG_S_USER_PIVOT t;
 
 prompt
-prompt Creating materialized view FG_AUTHEN_FORMPATH_MV
-prompt ================================================
-prompt
-create materialized view FG_AUTHEN_FORMPATH_MV
-refresh force on demand
-as
-select * from FG_AUTHEN_FORMPATH_TMP;
-
-prompt
 prompt Creating materialized view FG_FORMELEMENTINFOATMETA_MV
 prompt ======================================================
 prompt
@@ -3021,210 +2768,12 @@ select distinct m.islistid , m.formcode_entity, m.entityimpcode
   where 1=1;
 
 prompt
-prompt Creating materialized view FG_I_CONNECTION_REQUEST_EXPR_V
-prompt =========================================================
-prompt
-create materialized view FG_I_CONNECTION_REQUEST_EXPR_V
-refresh force on demand
-as
-select * FROM FG_I_CONNECTION_REQUEST_EXPR_T;
-
-prompt
-prompt Creating package FG_ADAMA
-prompt =========================
-prompt
-create or replace package FG_ADAMA is
-  function is_crew_trained (materialId_in number, experimentId_in number) return number;
-  function is_inventory_familiar (experimentId_in number, stepId_in number default -1) return number ;
-  function CREATE_EXPERIMENT_MATERIAL_SS (stepId_in number) return number;
-  function CREATE_EXPERIMENT_FORMULANT_SS (stepId_in number) return number;
-  function CREATE_SERIES_INDX_DATA_SS (series_id_in varchar, index_in varchar, userid_in varchar, ts_in varchar) return number;
-  --function CHECK_SELFTEST_VALIDATION (stepId number) return number;
-  function CHECK_SELFTEST_VALIDATION (stepId number) return varchar2;
-  function get_originsBydelemeter(sampleId_in number, delimeter_in char) return varchar2;
-  function GET_SAMPLE_PATH(formId_in number, delimeter_in char) return varchar2;
-  function GET_SAMPLE_PATH(sampleId_in number, delimeter_in char) return varchar2;
-  function GET_OOS_SMARTICON_OBJ(specificationId_in number,resultvalue_in varchar, resultuom_id_in varchar, subproject_id_in varchar) return varchar2;
-  function CHECK_SPECIFICATION_VALIDATION(value1_in varchar ,value2_in varchar,criteria1_in varchar,criteria2_in varchar) return number;
-  function GET_SAMPLE_USE_PATH(formId_in number, delimeter_in char) return varchar2;
-  function REFRESH_DATA_TABLES(formType_in varchar, pivot_table_in varchar, formCode_in varchar default null, contextType_in varchar default null, eventContextCode_in varchar default null, auditTrailChangeType_in varchar default null) return number;
-  function CREW_UNTRAINED(materialId_in number, experimentId_in number, lastValues varchar) return varchar2;
-  function get_inventory_unfamiliar_list(experimentId_in number,stepId_in number default -1,formCode_in varchar default null,materialList_in varchar default null) return varchar2;
-  function INIT_STEPFR_DATA(EXPERIMENT_ID_IN VARCHAR, USER_ID_IN VARCHAR, DB_DATE_FORMAT_IN varchar default 'DD/MM/YYYY') RETURN VARCHAR;
-  function INIT_STEPCP_DATA(EXPERIMENT_ID_IN VARCHAR, USER_ID_IN VARCHAR, DB_DATE_FORMAT_IN varchar default 'DD/MM/YYYY') RETURN VARCHAR;
-  function INIT_STEP_DATA(EXPERIMENT_ID_IN VARCHAR, USER_ID_IN VARCHAR, DB_DATE_FORMAT_IN varchar default 'DD/MM/YYYY') RETURN VARCHAR;
-
-  function REFRESH_DATA_PERM_MAINTENANCE RETURN VARCHAR;
-  procedure REFRESH_DATA_TABLES_JOB;
-  procedure REFRESH_DATA_TABLES_JOB_5MIN;
-
- -- procedure SET_CONSTRAINTS;
-
- /* function GET_SAMPLE_PATH(formId_in number, delimeter_in char) return varchar2;*/
-  /*
-  TYPE UNPIVOT_MP IS RECORD(
-       paramName VARCHAR2(100),
-       paramVal VARCHAR2(100),
-       uomId VARCHAR2(100));
-
-  TYPE UNPIVOT_MP_TABLE IS TABLE OF UNPIVOT_MP;
-
-  FUNCTION FG_UNPIVOT_MP_TABLE(pivotMP_IN VARCHAR2) RETURN UNPIVOT_MP_TABLE PIPELINED;*/
-end;
-/
-
-prompt
-prompt Creating package FG_ADAMA_EXP_REPORT
-prompt ====================================
-prompt
-create or replace package FG_ADAMA_EXP_REPORT is
-  function GET_UPDATE_P_EXPREPORT_DATA(statekey_in varchar, resulttype_in VARCHAR,
-                                           characteristicMassBalan_in VARCHAR,
-                                           imputityMatIds_in VARCHAR,
-                                           sampleComments_in VARCHAR,
-                                           sampleCreator_in VARCHAR,
-                                           sampleAmount_in VARCHAR,
-                                           expdIds_in clob) return varchar2;
-end;
-/
-
-prompt
-prompt Creating package FG_ADAMA_TASK_BY_DATE
-prompt ======================================
-prompt
-create or replace package FG_ADAMA_TASK_BY_DATE is
-
-  FUNCTION FG_SET_INF_INIT_DATA_ALL (DB_TRANSACTION_ID_IN VARCHAR2,
-                                     exe_missing_row_in number default 0,
-                                     exe_complete_data_in number default 0,
-                                     --formCodeCsvInput_in varchar default 'NA',
-                                     onLastChangesFlag_in number default 0,
-                                     correct_all_name_path_obj_in number default 0) RETURN NUMBER;
-  FUNCTION FG_FIX_CHEM_DOODLE_DATA return number;
-  FUNCTION FG_HANDLE_INFID_FOR_SEARCH return number;
-  FUNCTION POST_SAVE_AT (formCode_in VARCHAR2,
-                         formCodeEntity_in VARCHAR2,
-                         formId_in VARCHAR2,
-                         userId_in VARCHAR2,
-                         dbTransactionId_in VARCHAR2,
-                         auditTrailChangeType_in VARCHAR2 default null) return number;
-  /*
-  FUNCTION FG_DELETE_TMP_PIVOT_POPUP_DATA return number;
-  FUNCTION FG_SET_SEQ_CLEANUP_ALL return number;
-  FUNCTION FG_SET_SEQ_CLEANUP_DATA (formCode_in varchar2, ts_suffix varchar default 'na') return number;
-  */
-  function FG_GETLASTRUNFORMID return number;
-  function FG_SET_DIPLAY_VALUE (onLastChangesFlag_in number)RETURN NUMBER;
-  function DB_CLEANUP return number;
-  function FG_SET_SERACH_HANDEL_INF_ID (DB_TRANSACTION_ID_IN VARCHAR2) RETURN NUMBER;
-end;
-/
-
-prompt
-prompt Creating package FG_UNITTEST
-prompt ============================
-prompt
-create or replace package FG_UNITTEST is
-  procedure isValidDB(db_validation_level_in number);
-  procedure REMOVE_UNITTESTTSER_DATA;
-  PROCEDURE doDBInit;
-  PROCEDURE FG_PUT_TO_UNITTEST_LOG(configform_id_in varchar2, user_id_in varchar2, unittestgroupname_in varchar2, message_in varchar2, action_in varchar2, waitingtime_in varchar2, test_status_in varchar2, fieldvalue_in varchar2, unitestlogid_in varchar2);  
-  PROCEDURE doUnitTestClean;
-  function FG_GET_UNITTEST_ID RETURN NUMBER;
-  PROCEDURE doUnitTestRunLogBackup(ignor_comp_sql number default 0);
-end;
-/
-
-prompt
-prompt Creating package FORM_TOOL
-prompt ==========================
-prompt
-create or replace package form_tool is
-  function addFormLabel(formCode_in varchar, bookmarkPrefix_in varchar, noEntityimpcodeList_in varchar) RETURN NUMBER;
-  procedure shiftElementsBookmarks(formCode_in varchar, bookmarkPrefix_in varchar, noEntityimpcodeList_in varchar, addNumber number);
-  procedure setAllStructTables;
-  procedure cleanAllData;
-  procedure printTablesRowCount(show_greater_than number); 
-  procedure removeFormEntityIntProp(formCode varchar, initProp varchar);
-  procedure favoriteSqls;
-  procedure completeData;
-  procedure initFormlastsavevalueHst;
-  function updateFormlastsavevalueFromHst (formId_in varchar) RETURN NUMBER;
-  PROCEDURE updateServerMaintenanceData;
-  --
-  FUNCTION FG_SET_ALL_STRUCT_ALL_V return number;
-  function FG_output_STRUCT_ALL_V return varchar;
-  function FG_output_system_struct_V return varchar;
-  function fg_output_materialized_view_v (db_name_in varchar) return varchar;
-  function getNextBookMark (str_in varchar) return varchar;
-  PROCEDURE setLabelElementByNextBookMark;
-  function deleteFormData (formCode_in varchar, deleteFormDef_in number default 0) RETURN NUMBER;
-  procedure cleanInvalidData (formCodeIn varchar);
-  --procedure updateServerDB (formCode_in varchar);
-  --procedure copyFormDataToServer(formCodeEntityIn VARCHAR);
-  --procedure setServerMaintenanaceDataId;
- function removeFromIdFromDB(formId_in varchar, formCodeEntity_in varchar, ts_in varchar) return number;
-  procedure unpivotFromUnitTestConf;
-  procedure removeDTRemoveButtons;
-  procedure tool_check_data(db_name_in varchar);
- --procedure deleteAllDataByUserName(userNameIn varchar);
-/* procedure updateUnittestDB (formCode_in varchar);
- procedure setUnitTestMaintenanaceDataId;
- procedure copyFormDataToUnittest (formCodeEntityIn VARCHAR);*/
-end;
-/
-
-prompt
 prompt Creating package FORM_TOOL_COPY_ADAMA_DATA
 prompt ==========================================
 prompt
 create or replace package FORM_TOOL_COPY_ADAMA_DATA is
  procedure updateVerionData;
 end;
-/
-
-prompt
-prompt Creating package SKYLINE_NOTIFICATIONS
-prompt ======================================
-prompt
-create or replace package Skyline_Notifications is
-  -- *** procedures as in the SQLServer ****
-  procedure GetNotificationFailEmailLog (SEMD_TRIES_IN in number, ds_out out sys_refcursor);
-  procedure GetNotificationMessageToSend(ds_out out sys_refcursor);
-  procedure Get_Adrssee_SP_Name (MSG_ID_IN in number,ds_out out sys_refcursor);
-  procedure GetMessageData (SelectStatment_in in varchar,WhereStatment_in in varchar ,ds_out out sys_refcursor);
-  PROCEDURE UpdateNotificEmailLogResend ( LOG_ID_IN NUMBER, SUCCESS_IN varchar,COMMENTS_IN  varchar);
-  PROCEDURE AddNotificationEmailLog
-  (
-    MSG_UNIQUE_ID_IN NUMBER,
-    MSG_UNIQUE_ID_LIST_IN varchar2,
-    MSG_ID_IN NUMBER ,
-    TO_IN varchar2,
-    CC_IN varchar2,
-    BCC_IN varchar2,
-    SUBJECT_IN varchar2,
-    BODY_IN varchar2,
-    SUCCESS_IN varchar2,
-    COMMENTS_IN varchar2 ,
-    ATTACHMENT_PATH_IN varchar2
-   );
-  PROCEDURE AddNotificationEmailGroupMLog (MSG_ID_IN NUMBER,MSG_UNIQUE_ID_IN NUMBER);
-  -- *** Oracle added procedures ***
-/*  procedure GET_USERS_BY_PRODUCT_CODE(SITE_ID_IN number, PRODUCT_CODE_IN in varchar,ds_out out sys_refcursor);
-*/  -- *** Oracle added procedures THAT WILL NEED TO ADD/UPDATE IN SQL SERVER .... ***
-  procedure GetAttachmentFilesToDelete(DAY_INTERVAL_IN in varchar,ds_out out sys_refcursor);
-  procedure GetAttachmentFileType(ATTACHMENT_REPORT_TYPE_IN in varchar,ds_out out sys_refcursor);
-  procedure GetUserEmailData (ID_IN in number, ds_out out sys_refcursor);
-  procedure GetDepEmailData (ID_IN in number,ds_out out sys_refcursor);
-  procedure GetExtEmailData (ID_IN in number,ds_out out sys_refcursor);--add external email for adama 03092017
-  PROCEDURE UpdateNotificationMLastRun(d_Notification_Message_ID_in number, dll_start_time_in varchar default null); -- dll_start_time_in dd/mm/yyyy hh24:mi:ss format
-  -- *** package function/procedures ****
-  function datediff( p_what in varchar2, p_d1 in date, p_d2 in date ) return number;
-  -- *** testing ****
-  procedure cleanup;
-  -- *** fill initial data for notification service ****
-  procedure initDBWithNotificationData;
-end Skyline_Notifications;
 /
 
 prompt
@@ -4009,27 +3558,6 @@ end;
 /
 
 prompt
-prompt Creating function FG_GET_STEP_RUN_NUMBER
-prompt ========================================
-prompt
-create or replace function fg_get_step_run_number(RUNNUMBER_IN VARCHAR2, PREPARATION_RUN_IN VARCHAR2 default null, STEP_ID_IN VARCHAR2 default null) return varchar2 as
-  returnRunNumer varchar2(100);
-begin
-  if RUNNUMBER_IN is null then
-    if nvl(upper(PREPARATION_RUN_IN),'PREPARATION') = 'PREPARATION' then
-      returnRunNumer := '0';
-    else
-      returnRunNumer := '1';
-    end if;
-  else
-    returnRunNumer := RUNNUMBER_IN;
-  end if;
-
-  return returnRunNumer;
-end;
-/
-
-prompt
 prompt Creating function FG_GET_STRUCT_FORM_ID
 prompt =======================================
 prompt
@@ -4403,185 +3931,6 @@ end;
 /
 
 prompt
-prompt Creating function FN_DAY_TO_QUARTER
-prompt ===================================
-prompt
-create or replace function fn_day_to_quarter RETURN NUMBER AS
- toReturn number;
-begin
-  select CEIL((ADD_MONTHS (TRUNC (to_date(SYSDATE, 'dd:MM:yyyy'), 'Q'), 3) - to_date(SYSDATE, 'dd:MM:yyyy'))) into toReturn
-  from dual;
-  return toReturn;
-exception
-  when others then
-    return null;
-end;
-/
-
-prompt
-prompt Creating function FN_DAY_TO_QUATER
-prompt ==================================
-prompt
-create or replace function fn_day_to_quater RETURN NUMBER AS
- toReturn number;
-begin
-  select CEIL((ADD_MONTHS (TRUNC (to_date(SYSDATE, 'dd:MM:yyyy'), 'Q'), 3) - to_date(SYSDATE, 'dd:MM:yyyy'))) into toReturn
-  from dual;
-  return toReturn;
-exception
-  when others then
-    return null;
-end;
-/
-
-prompt
-prompt Creating function FN_FORMAT_NOTIF_GROUP_MESSAGE
-prompt ===============================================
-prompt
-create or replace function fn_format_notif_group_message(col_num_in number, default_message_in clob) return clob is
-
-  Result clob;
-  rawMessage varchar2(32760) := '';
-  tableHtml varchar2(10000) := '';   
-  tdWidth number(3,0); -- up to 3 digits (100), no floating point
-begin
-  rawMessage := dbms_lob.substr(default_message_in, 32760, 1); -- convert clob to varchar
-  tdWidth := 100 / col_num_in; -- width form each TD
-  
-  for i in 1..col_num_in
-    loop
-      tableHtml := tableHtml || '<td width="' || tdWidth || '%" height="25px"></td>';  -- height added for IE 11 compatibility 
-    end loop; 
-    
-  select replace (rawMessage, '###', tableHtml) into rawMessage from dual; 
--- dbms_output.put_line(rawMessage);
-  Result :=  to_clob(rawMessage);
-  return(Result);
-end fn_format_notif_group_message;
-/
-
-prompt
-prompt Creating function FN_FORMAT_NOTIF_MESSAGE_BODY
-prompt ==============================================
-prompt
-create or replace function fn_format_notif_message_body(message_type_in number, message_body_in varchar2,
-                                                          is_for_display_in number) return varchar2 is
-  messageOut varchar2(32760) := '';
-  inDbHtml varchar2(10) := '##';
-  inDisplayHtml varchar2(10) := '<!--##-->';
-begin
-  if message_type_in <> 2 then
-     messageOut := message_body_in;
-  else
-      if is_for_display_in = 1 then
-         select replace (message_body_in, inDbHtml, inDisplayHtml) into messageOut from dual;
-      else
-         select replace (message_body_in, inDisplayHtml, inDbHtml) into messageOut from dual;
-      end if;
-  end if;
-
-  return(messageOut);
-end;
-/
-
-prompt
-prompt Creating function FN_LIST_TO_TABLE
-prompt ==================================
-prompt
-create or replace function FN_LIST_TO_TABLE  (list_comma_separated_in varchar2) return TYPE_TABLE_VARCHAR AS
-  return_table  TYPE_TABLE_VARCHAR;
-
- cursor c is
- select regexp_substr (str, '[^,]+', 1, rownum) as item
- from (select list_comma_separated_in as str from dual)
- connect by level <= length (regexp_replace (str, '[^,]+'))+ 1;
-
-begin
-  return_table  := TYPE_TABLE_VARCHAR();
-
-  for r in c
-  loop
-    return_table.extend;
-    return_table(return_table.last) := r.item;
-  end loop;
-
-  return  return_table;
-end;
-/
-
-prompt
-prompt Creating function FN_RICHTEXT_INSERT
-prompt ====================================
-prompt
-create or replace function fn_richtext_insert(text_in varchar2, fromcode_in varchar2) return number as
-
-  toReturn number;
-  id_ number;
-
-begin
-  id_ := fg_get_struct_form_id(fromcode_in);
-
-  insert into fg_richtext (file_id,file_name,file_content,content_type,file_content_text)
-  values(id_,null,text_in,null,text_in);
-
-  return id_;
-end;
-/
-
-prompt
-prompt Creating function FN_SQL_TO_LIST
-prompt ================================
-prompt
-create or replace function fn_sql_to_list(sql_in varchar, delimiter_in varchar, return_when_no_value_in varchar) return varchar as
-
-  type cType is ref cursor;
-  c cType;
-
-  val_ varchar(1000);
-
-  toReturn varchar(32767) := '';
-
-begin
-
-  open c for sql_in;
-  loop
-    fetch c into val_;
-    exit when c%notfound;
-    toReturn := toReturn || val_ || delimiter_in;
-  end loop;
-
-  if length(toReturn) > 0 then
-    toReturn := substr(toReturn,1,length(toReturn)- length(delimiter_in));
-  else
-    toReturn := return_when_no_value_in;
-  end if;
-
-  return toReturn;
-
-exception
-  when others then
-    return return_when_no_value_in;
-end;
-/
-
-prompt
-prompt Creating function FN_TOOL_CAMEL_TO_LABEL
-prompt ========================================
-prompt
-create or replace function fn_tool_camel_to_label(camel_in varchar2) return varchar2 as
-       toRetern varchar2(4000);
-begin
-  select  TRIM(regexp_replace (camel_in, '([A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z])', ' \1' )) into toRetern
-  from dual;
-
-  return toRetern;
-EXCEPTION
-    when others then
-         RETURN camel_in;
-end;
-/
-
-prompt
 prompt Creating function FORMIDFINDER
 prompt ==============================
 prompt
@@ -4670,138 +4019,6 @@ begin
 EXCEPTION WHEN OTHERS THEN
   RETURN 0;
 end IS_NUMERIC;
-/
-
-prompt
-prompt Creating function SKYLINE_API_SP_CREATE_NEW_RUN
-prompt ===============================================
-prompt
-create or replace function skyline_api_sp_create_new_run (formId_in varchar2, -- experiment_id
-                                                          start_date_in varchar2, --as 17032109
-                                                          start_time_in varchar2,  --as 23:45
-                                                          userId_in varchar2,
-                                                          sp_list_in varchar2
-                                                          ) return number as
- --develop for taro stability
- experiment_name_ varchar2(500);
- planning_code_ varchar2(500);
- planning_id_ varchar2(500);-- := '9357';
- stage_list_  varchar2(500);--:= '6267,6269';
- --sp_list_ varchar2(500); -- := '20876,20877';
- session_id_ varchar2(500);
- user_id_ varchar2(500) := '0';--system
- warning_out number;
-begin
-    return 0;
-    /*--init param
-    select to_char(sysdate,'ddMMyyyyHHmiss') into session_id_ from dual;
-    select t.PLANNINGCODE, t.FORMNUMBERID into planning_code_, experiment_name_  from fg_s_experimentstb_all_v t where t.FORMID = formId_in;
-    select distinct t.planning_id into planning_id_ from skyline_api_stb_planning_v t where t.planning_code = planning_code_;
-
-    --TODO get list from function arg (now it is all the storage / tp);
-    --sp_list_
-    \*select LISTAGG(sp_id, ',') WITHIN GROUP (ORDER BY sp_id) into sp_list_
-    from (
-          select distinct t.sp_id
-          from skyline_api_stb_planning_v t
-          where t.planning_code = planning_code_
-          and t.sp_id is not null );*\
-
-    select LISTAGG(storage_id, ',') WITHIN GROUP (ORDER BY storage_id) into stage_list_
-    from (
-          select distinct t.storage_id
-          from skyline_api_stb_planning_v t
-          where t.planning_code = planning_code_
-          and t.storage_id is not null );
-
-
-    --create skyline run
-    skyline_develop_server.SP_CREATE_NEW_RUN( experiment_name_, --run_name_in
-                                              '', -- prefix_name_in
-                                              '', --from_number_in
-                                              '1', --num_of_runs_in
-                                              planning_id_, --??? product_id_in
-                                              '-1', --???? experiment_id_in
-                                              stage_list_, --????? stage_list_in
-                                              '0', --copy_params_in
-                                              '0', --copy_mats_in
-                                              '-1', --linked_run_in
-                                              '-1', --copy_from_run_in
-                                              '0', --batch_number_in
-                                              start_date_in,--start_date_in
-                                              start_time_in, --start_time_in
-                                              sp_list_in, --sp_list_in
-                                              user_id_, --user_id_in
-                                              session_id_, --session_id_in
-                                              'S',
-                                              warning_out);
-    --update FG_S_ExperStbResult_PIVOT
-    insert into FG_S_ExperStbResult_PIVOT ( formid,
-                                            timestamp,
-                                            creation_date,
-                                            cloneid,
-                                            templateflag,
-                                            change_by,
-                                            created_by,
-                                            sessionid,
-                                            active,
-                                            formcode_entity,
-                                            formcode,
-                                            inputtype,
-                                            skylineresultid,
-                                            resultvalue,
-                                            tporder,
-                                            maintype,
-                                            skylinerunname,
-                                            storagename,
-                                            tpname,
-                                            testcode,
-                                            testdisplayname,
-                                            tpactualdate,
-                                            tpplanneddate,
-                                            experstbresultname,
-                                            testname,
-                                            experiment_id,
-                                            parentId,
-                                            tableType )
-    select                                  to_char(FG_GET_STRUCT_FORM_ID('ExperStbResult')) as formid,
-                                            timestamp,
-                                            creation_date,
-                                            cloneid,
-                                            templateflag,
-                                            userId_in as change_by,
-                                            userId_in as created_by,
-                                            sessionid,
-                                            active,
-                                            formcode_entity,
-                                            formcode,
-                                            inputtype,
-                                            skylineresultid,
-                                            resultvalue,
-                                            tporder,
-                                            maintype,
-                                            skylinerunname,
-                                            storagename,
-                                            tpname,
-                                            testcode,
-                                            testdisplayname,
-                                            tpactualdate,
-                                            tpplanneddate,
-                                            experstbresultname,
-                                            testname,
-                                            formId_in as experiment_id,
-                                            formId_in as parentId,
-                                            'NA' as tableType
-    from skyline_api_stb_result_data_v t
-    where t.skylinerunname = experiment_name_;
-
-    --update all values
-    \*update FG_S_ExperStbResult_PIVOT t set t.experiment_id = (select distinct t1.formid from fg_s_experiment_pivot t1 where t1.formnumberid = t.skylinerunname)
-    where t.skylinerunname in (select t1.formnumberid from fg_s_experiment_pivot t1);*\
-
-
-    return warning_out;*/
-end;
 /
 
 prompt

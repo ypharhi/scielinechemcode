@@ -46,14 +46,14 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 	public Map<String, String> getFormParam(String formCode, String userId, String formId, FormType formType,
 			boolean isNewFormId, Map<String, String> requestMap) {
 		// TODO Auto-generated method stub
-		return null;
+		return new HashMap<String,String>();
 	}
 
 	@Override
 	public String getFormPathInfo(long statKey, String formCode, String userId, String formId, FormType formType,
 			boolean isNewFormId) {
 		// TODO Auto-generated method stub
-		return null;
+		return "";
 	}
 
 	@Override
