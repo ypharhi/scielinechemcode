@@ -480,7 +480,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 								+ userInfoMap.get("USER_INFO_LABORATORY_ID") + " as LAB,"
 								+ userInfoMap.get("USER_INFO_SITE_ID") + " as SITE,"
 								+ userInfoMap.get("USER_INFO_UNIT_ID") + " as UNIT,"
-								+ " t.PROTOCOLTYPE_ID, t.EXPERIMENTTYPE_ID, t.EXPERIMENTVIEW_ID, t.aim, t.DESCRIPTION, t.originFormCode,t.template_id"
+								+ " t.PROTOCOLTYPE_ID, t.EXPERIMENTTYPE_ID, t.EXPERIMENTVIEW_ID, t.aim, t.DESCRIPTION, t.originFormCode,t.template_id,t.ISENABLESPREADSHEET"
 								+ " from fg_authen_expClonemain_v t where t.experiment_id = " + originExpId;
 						toReturn = generalDao.sqlToHashMap(sql);
 					}
