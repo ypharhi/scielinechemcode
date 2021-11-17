@@ -4650,6 +4650,12 @@ function bl_getColumnDefaultWidth(domId, colsCount, followingHdnColsCount)
 		$colWidth['Uom'] = 60;
 	}
 	
+	if(formCode == 'SampleResults' && domId == 'sampleResultsTable'){
+		if(resizableColDefaultWidth<110){
+			resizableColDefaultWidth = 110;
+		}
+	}
+	
 //	console.log(domId, "winWidth: "+ winWidth + "; actualDisplayedColsCount: "+actualDisplayedColsCount+"; resizableColDefaultWidth: "+resizableColDefaultWidth);
 	//set DefaultWidth_
 	$colWidth.DefaultWidth_ = resizableColDefaultWidth;
