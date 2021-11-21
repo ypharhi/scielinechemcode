@@ -104,7 +104,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 	@Autowired
 	private ExperimentReportSQLBuilder experimentReportSQLBuilder;
 
-	//	optimizer: Let the optimizer choose – the default mode
+	//	optimizer: Let the optimizer choose ï¿½ the default mode
 	//	materialize: Always materialize
 	//	inline: Always inline
 
@@ -260,6 +260,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								+ table + " where 1=1  and " + (struct.startsWith("Workup") ? "Workup" : struct)
 								+ "_id  in (SELECT FILTER_SQL_ID FROM FILTER_SQL)) where 1=1 ";//+ citeriaWherePart
 					}
+				}
+				if(struct.equalsIgnoreCase("Request")) {
+					additionalOrder = "request_id desc";
 				}
 			} else {
 				if (Arrays.asList("Project", "SubProject", "SubSubProject").contains(formCode)
@@ -1599,9 +1602,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				if(!generalUtil.getNull(permissionListSql.getSql()).isEmpty()){
 					fullSql = "select * from (WITH "
 							+ " PERM_SQL_ALL AS ("+permissionListSql.getSql()+") " + sql 
-							+ " and " + permissionListSql.getObjectId() + " in (SELECT * FROM PERM_SQL_ALL)"  + ") where 1=1";
+							+ " and " + permissionListSql.getObjectId() + " in (SELECT * FROM PERM_SQL_ALL)"  + ") where 1=1"+(additionalOrder.isEmpty()?"":" order by "+additionalOrder);
 				}else{
-					fullSql = sql;
+					fullSql = sql  +(additionalOrder.isEmpty()?"":" order by "+additionalOrder);
 				}
 			}
 
