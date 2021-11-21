@@ -205,8 +205,13 @@ public class CacheService {
 				
 				//cache singleTone Entity class
 				if(!formCode.equals("%") || !formEntityClassSingleToneMap.containsKey(formEntity.getEntityImpClass())) {
-					Entity e = entityFactory.getEntity(formEntity.getEntityImpClass());
-					formEntityClassSingleToneMap.put(formEntity.getEntityImpClass(), e);
+					try {
+						Entity e = entityFactory.getEntity(formEntity.getEntityImpClass());
+						formEntityClassSingleToneMap.put(formEntity.getEntityImpClass(), e);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				
 				

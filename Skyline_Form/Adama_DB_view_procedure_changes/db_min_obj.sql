@@ -1,6 +1,6 @@
 -----------------------------------------------
 -- Export file for user SKYLINE_FORM_MIN     --
--- Created by comply on 16/11/2021, 17:52:42 --
+-- Created by comply on 21/11/2021, 19:09:22 --
 -----------------------------------------------
 
 spool db_min_obj.log
@@ -769,6 +769,26 @@ alter table FG_FORMENTITY
 alter table FG_FORMENTITY
   add constraint UK_FG_FORMENTITY unique (ENTITYIMPCODE, FORMCODE);
 create unique index FORMENTITY_INSENSITIVE_UNIQUE on FG_FORMENTITY (UPPER(FORMCODE), UPPER(ENTITYIMPCODE));
+
+prompt
+prompt Creating table FG_FORMENTITY_2111145425
+prompt =======================================
+prompt
+create table FG_FORMENTITY_2111145425
+(
+  id             NUMBER not null,
+  formcode       VARCHAR2(100) not null,
+  numberoforder  NUMBER not null,
+  entitytype     VARCHAR2(100) not null,
+  entityimpcode  VARCHAR2(100) not null,
+  entityimpclass VARCHAR2(100) not null,
+  entityimpinit  VARCHAR2(4000) not null,
+  comments       VARCHAR2(4000),
+  fs             VARCHAR2(4000),
+  fs_gap         VARCHAR2(4000),
+  change_date    DATE
+)
+;
 
 prompt
 prompt Creating table FG_FORMENTITY_HST
@@ -1862,6 +1882,511 @@ comment on column FG_SYS_SCHED.last_end_date
   is 'LAST_END_DATE';
 
 prompt
+prompt Creating table FG_S_DYNAMICREPORTSQL_PIVOT
+prompt ==========================================
+prompt
+create table FG_S_DYNAMICREPORTSQL_PIVOT
+(
+  formid               VARCHAR2(100) not null,
+  timestamp            DATE,
+  creation_date        DATE,
+  cloneid              VARCHAR2(100),
+  templateflag         VARCHAR2(100),
+  change_by            VARCHAR2(100),
+  created_by           VARCHAR2(100),
+  sessionid            VARCHAR2(100),
+  active               NUMBER,
+  formcode_entity      VARCHAR2(100),
+  formcode             VARCHAR2(100),
+  sqltext              VARCHAR2(500),
+  dynamicreportsqlname VARCHAR2(500),
+  execute              VARCHAR2(500),
+  systemreport         VARCHAR2(500),
+  sqlresulttable       VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_GROUPSCREW_PIVOT
+prompt ====================================
+prompt
+create table FG_S_GROUPSCREW_PIVOT
+(
+  formid          VARCHAR2(100) not null,
+  timestamp       DATE,
+  change_by       VARCHAR2(100),
+  sessionid       VARCHAR2(100),
+  active          NUMBER,
+  formcode        VARCHAR2(100),
+  group_id        VARCHAR2(500),
+  parentid        VARCHAR2(500),
+  groupscrewname  VARCHAR2(500),
+  formcode_entity VARCHAR2(100),
+  cloneid         VARCHAR2(100),
+  templateflag    VARCHAR2(100),
+  created_by      VARCHAR2(100),
+  creation_date   DATE
+)
+;
+
+prompt
+prompt Creating table FG_S_GROUP_PIVOT
+prompt ===============================
+prompt
+create table FG_S_GROUP_PIVOT
+(
+  formid          VARCHAR2(100) not null,
+  timestamp       DATE,
+  change_by       VARCHAR2(100),
+  sessionid       VARCHAR2(500),
+  active          NUMBER,
+  formcode        VARCHAR2(100),
+  groupname       VARCHAR2(500),
+  selectuser      VARCHAR2(500),
+  grouptype       VARCHAR2(500),
+  description     VARCHAR2(4000),
+  site_id         VARCHAR2(500),
+  formcode_entity VARCHAR2(100),
+  cloneid         VARCHAR2(100),
+  templateflag    VARCHAR2(100),
+  created_by      VARCHAR2(100),
+  creation_date   DATE default sysdate
+)
+;
+
+prompt
+prompt Creating table FG_S_LABORATORY_PIVOT
+prompt ====================================
+prompt
+create table FG_S_LABORATORY_PIVOT
+(
+  formid          VARCHAR2(100) not null,
+  timestamp       DATE,
+  change_by       VARCHAR2(100),
+  sessionid       VARCHAR2(100),
+  active          NUMBER,
+  formcode        VARCHAR2(100),
+  laboratoryname  VARCHAR2(500),
+  formnumberid    VARCHAR2(500),
+  units_id        VARCHAR2(500),
+  site_id         VARCHAR2(500),
+  cloneid         VARCHAR2(100),
+  templateflag    VARCHAR2(100),
+  formcode_entity VARCHAR2(100),
+  lab_manager_id  VARCHAR2(500),
+  created_by      VARCHAR2(100),
+  creation_date   DATE
+)
+;
+create unique index LABORATORY_ID_UNIQUE on FG_S_LABORATORY_PIVOT (TRIM(UPPER(FORMNUMBERID)));
+
+prompt
+prompt Creating table FG_S_PERMISSIONOBJECT_PIVOT
+prompt ==========================================
+prompt
+create table FG_S_PERMISSIONOBJECT_PIVOT
+(
+  formid                 VARCHAR2(100) not null,
+  timestamp              DATE,
+  change_by              VARCHAR2(100),
+  sessionid              VARCHAR2(500),
+  active                 NUMBER,
+  formcode_entity        VARCHAR2(100),
+  formcode               VARCHAR2(100),
+  permissionobjectname   VARCHAR2(500),
+  lab                    VARCHAR2(500),
+  site                   VARCHAR2(500),
+  unit                   VARCHAR2(500),
+  objectsinherit         VARCHAR2(500),
+  cloneid                VARCHAR2(100),
+  templateflag           VARCHAR2(100),
+  objectsinheritoncreate VARCHAR2(500),
+  created_by             VARCHAR2(100),
+  creation_date          DATE default sysdate
+)
+;
+
+prompt
+prompt Creating table FG_S_SENSITIVITYLEVEL_PIVOT
+prompt ==========================================
+prompt
+create table FG_S_SENSITIVITYLEVEL_PIVOT
+(
+  formid                VARCHAR2(100) not null,
+  timestamp             DATE,
+  change_by             VARCHAR2(100),
+  sessionid             VARCHAR2(500),
+  active                NUMBER,
+  formcode              VARCHAR2(100),
+  customer_id           VARCHAR2(500),
+  sensitivitylevelname  VARCHAR2(500),
+  description           VARCHAR2(500),
+  formcode_entity       VARCHAR2(100),
+  sensitivitylevelorder VARCHAR2(500),
+  cloneid               VARCHAR2(100),
+  templateflag          VARCHAR2(100),
+  created_by            VARCHAR2(100),
+  creation_date         DATE default sysdate
+)
+;
+
+prompt
+prompt Creating table FG_S_SITE_PIVOT
+prompt ==============================
+prompt
+create table FG_S_SITE_PIVOT
+(
+  formid          VARCHAR2(100) not null,
+  timestamp       DATE,
+  change_by       VARCHAR2(100),
+  sessionid       VARCHAR2(500),
+  active          NUMBER,
+  formcode        VARCHAR2(100),
+  customer_id     VARCHAR2(500),
+  sitename        VARCHAR2(500),
+  cloneid         VARCHAR2(100),
+  templateflag    VARCHAR2(100),
+  formcode_entity VARCHAR2(100),
+  created_by      VARCHAR2(100),
+  creation_date   DATE default sysdate
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSCONFEXCELDATA_PIVOT
+prompt ==========================================
+prompt
+create table FG_S_SYSCONFEXCELDATA_PIVOT
+(
+  formid               VARCHAR2(100) not null,
+  timestamp            DATE,
+  creation_date        DATE,
+  cloneid              VARCHAR2(100),
+  templateflag         VARCHAR2(100),
+  change_by            VARCHAR2(100),
+  created_by           VARCHAR2(100),
+  sessionid            VARCHAR2(100),
+  active               NUMBER,
+  formcode_entity      VARCHAR2(100),
+  formcode             VARCHAR2(100),
+  sysconfexceldataname VARCHAR2(500),
+  excelfile            VARCHAR2(500),
+  exceldata            VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSCONFSQLCRITERIA_PIVOT
+prompt ============================================
+prompt
+create table FG_S_SYSCONFSQLCRITERIA_PIVOT
+(
+  formid                 VARCHAR2(100) not null,
+  timestamp              DATE,
+  creation_date          DATE,
+  cloneid                VARCHAR2(100),
+  templateflag           VARCHAR2(100),
+  change_by              VARCHAR2(100),
+  created_by             VARCHAR2(100),
+  sessionid              VARCHAR2(100),
+  active                 NUMBER,
+  formcode_entity        VARCHAR2(100),
+  formcode               VARCHAR2(100),
+  sqldescription         VARCHAR2(4000),
+  additionalmatchinfo    VARCHAR2(500),
+  structlevel            VARCHAR2(500),
+  sqltext                VARCHAR2(4000),
+  sysconfsqlcriterianame VARCHAR2(500),
+  ignore                 VARCHAR2(500),
+  executationtype        VARCHAR2(500),
+  screen                 VARCHAR2(500),
+  isdefault              VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSCONFWFSTATUS_PIVOT
+prompt =========================================
+prompt
+create table FG_S_SYSCONFWFSTATUS_PIVOT
+(
+  formid              VARCHAR2(100) not null,
+  timestamp           DATE,
+  creation_date       DATE,
+  cloneid             VARCHAR2(100),
+  templateflag        VARCHAR2(100),
+  change_by           VARCHAR2(100),
+  created_by          VARCHAR2(100),
+  sessionid           VARCHAR2(100),
+  active              NUMBER,
+  formcode_entity     VARCHAR2(100),
+  formcode            VARCHAR2(100),
+  wherepartparmname   VARCHAR2(500),
+  sysconfwfstatusname VARCHAR2(500),
+  statusformcode      VARCHAR2(500),
+  statusinfcolumn     VARCHAR2(500),
+  jsonname            VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSEVENTHANDLER_PIVOT
+prompt =========================================
+prompt
+create table FG_S_SYSEVENTHANDLER_PIVOT
+(
+  formid                VARCHAR2(100) not null,
+  timestamp             DATE,
+  creation_date         DATE,
+  cloneid               VARCHAR2(100),
+  templateflag          VARCHAR2(100),
+  change_by             VARCHAR2(100),
+  created_by            VARCHAR2(100),
+  sessionid             VARCHAR2(100),
+  active                NUMBER,
+  formcode_entity       VARCHAR2(100),
+  formcode              VARCHAR2(100),
+  handlervalidation     VARCHAR2(500),
+  syseventhandlername   VARCHAR2(500),
+  calcarg               VARCHAR2(500),
+  handlerorder          VARCHAR2(500),
+  syseventpointfullname VARCHAR2(500),
+  handlerdescription    VARCHAR2(500),
+  handlerunittest       VARCHAR2(500),
+  calcformula           VARCHAR2(4000)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSEVENTHANDLETYPE_PIVOT
+prompt ============================================
+prompt
+create table FG_S_SYSEVENTHANDLETYPE_PIVOT
+(
+  formid                 VARCHAR2(100) not null,
+  timestamp              DATE,
+  creation_date          DATE default sysdate,
+  cloneid                VARCHAR2(100),
+  templateflag           VARCHAR2(100),
+  change_by              VARCHAR2(100),
+  created_by             VARCHAR2(100),
+  sessionid              VARCHAR2(500),
+  active                 NUMBER,
+  formcode_entity        VARCHAR2(100),
+  formcode               VARCHAR2(100),
+  syseventhandletypename VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSEVENTPOINT_PIVOT
+prompt =======================================
+prompt
+create table FG_S_SYSEVENTPOINT_PIVOT
+(
+  formid            VARCHAR2(100) not null,
+  timestamp         DATE,
+  creation_date     DATE,
+  cloneid           VARCHAR2(100),
+  templateflag      VARCHAR2(100),
+  change_by         VARCHAR2(100),
+  created_by        VARCHAR2(100),
+  sessionid         VARCHAR2(100),
+  active            NUMBER,
+  formcode_entity   VARCHAR2(100),
+  formcode          VARCHAR2(100),
+  additionalmatch   VARCHAR2(500),
+  formcodematch     VARCHAR2(500),
+  syseventypename   VARCHAR2(500),
+  syseventpointname VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSEVENTTYPE_PIVOT
+prompt ======================================
+prompt
+create table FG_S_SYSEVENTTYPE_PIVOT
+(
+  formid           VARCHAR2(100) not null,
+  timestamp        DATE,
+  creation_date    DATE default sysdate,
+  cloneid          VARCHAR2(100),
+  templateflag     VARCHAR2(100),
+  change_by        VARCHAR2(100),
+  created_by       VARCHAR2(100),
+  sessionid        VARCHAR2(500),
+  active           NUMBER,
+  formcode_entity  VARCHAR2(100),
+  formcode         VARCHAR2(100),
+  syseventtypename VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_UNITS_PIVOT
+prompt ===============================
+prompt
+create table FG_S_UNITS_PIVOT
+(
+  formid          VARCHAR2(100) not null,
+  timestamp       DATE,
+  change_by       VARCHAR2(100),
+  sessionid       VARCHAR2(500),
+  active          NUMBER,
+  formcode        VARCHAR2(100),
+  unitsname       VARCHAR2(500),
+  site_id         VARCHAR2(500),
+  cloneid         VARCHAR2(100),
+  templateflag    VARCHAR2(100),
+  formcode_entity VARCHAR2(100),
+  created_by      VARCHAR2(100),
+  creation_date   DATE default sysdate
+)
+;
+
+prompt
+prompt Creating table FG_S_UOMTYPE_PIVOT
+prompt =================================
+prompt
+create table FG_S_UOMTYPE_PIVOT
+(
+  formid          VARCHAR2(100) not null,
+  timestamp       DATE,
+  change_by       VARCHAR2(100),
+  sessionid       VARCHAR2(500),
+  active          NUMBER,
+  formcode        VARCHAR2(100),
+  uomtypename     VARCHAR2(500),
+  formcode_entity VARCHAR2(100),
+  cloneid         VARCHAR2(100),
+  templateflag    VARCHAR2(100),
+  created_by      VARCHAR2(100),
+  creation_date   DATE default sysdate
+)
+;
+create unique index UOMTYPE_UNIQUE on FG_S_UOMTYPE_PIVOT (TRIM(UPPER(UOMTYPENAME)), TRIM(UPPER(TO_CHAR(ACTIVE))));
+
+prompt
+prompt Creating table FG_S_UOM_PIVOT
+prompt =============================
+prompt
+create table FG_S_UOM_PIVOT
+(
+  formid          VARCHAR2(100) not null,
+  timestamp       DATE,
+  change_by       VARCHAR2(100),
+  sessionid       VARCHAR2(500),
+  active          NUMBER,
+  formcode        VARCHAR2(100),
+  isnormal        VARCHAR2(500),
+  factor          VARCHAR2(500),
+  precision       VARCHAR2(500),
+  uomname         VARCHAR2(500),
+  type            VARCHAR2(500),
+  formcode_entity VARCHAR2(100),
+  cloneid         VARCHAR2(100),
+  templateflag    VARCHAR2(100),
+  created_by      VARCHAR2(100),
+  creation_date   DATE default sysdate
+)
+;
+create unique index UOM_UNIQUE on FG_S_UOM_PIVOT (TRIM(UPPER(TO_CHAR(ACTIVE))), TRIM(UPPER(UOMNAME)), TRIM(UPPER(TYPE)));
+
+prompt
+prompt Creating table FG_S_USERGUIDEPOOL_PIVOT
+prompt =======================================
+prompt
+create table FG_S_USERGUIDEPOOL_PIVOT
+(
+  formid               VARCHAR2(100) not null,
+  timestamp            DATE,
+  creation_date        DATE,
+  cloneid              VARCHAR2(100),
+  templateflag         VARCHAR2(100),
+  change_by            VARCHAR2(100),
+  created_by           VARCHAR2(100),
+  sessionid            VARCHAR2(100),
+  active               NUMBER,
+  formcode_entity      VARCHAR2(100),
+  formcode             VARCHAR2(100),
+  userguidedescription VARCHAR2(4000),
+  userguidefile        VARCHAR2(500),
+  itemorder            VARCHAR2(500),
+  userguidepoolname    VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_USERGUIDEVIDEOPOOL_PIVOT
+prompt ============================================
+prompt
+create table FG_S_USERGUIDEVIDEOPOOL_PIVOT
+(
+  formid               VARCHAR2(100) not null,
+  timestamp            DATE,
+  creation_date        DATE,
+  cloneid              VARCHAR2(100),
+  templateflag         VARCHAR2(100),
+  change_by            VARCHAR2(100),
+  created_by           VARCHAR2(100),
+  sessionid            VARCHAR2(100),
+  active               NUMBER,
+  formcode_entity      VARCHAR2(100),
+  formcode             VARCHAR2(100),
+  userguidedescription VARCHAR2(4000),
+  userguidefile        VARCHAR2(4000),
+  userguidename        VARCHAR2(4000)
+)
+;
+
+prompt
+prompt Creating table FG_S_USERROLE_PIVOT
+prompt ==================================
+prompt
+create table FG_S_USERROLE_PIVOT
+(
+  formid          VARCHAR2(100) not null,
+  timestamp       DATE,
+  change_by       VARCHAR2(100),
+  sessionid       VARCHAR2(500),
+  active          NUMBER,
+  formcode        VARCHAR2(100),
+  customer_id     VARCHAR2(500),
+  userrolename    VARCHAR2(500),
+  formcode_entity VARCHAR2(100),
+  cloneid         VARCHAR2(100),
+  templateflag    VARCHAR2(100),
+  created_by      VARCHAR2(100),
+  creation_date   DATE default sysdate
+)
+;
+
+prompt
+prompt Creating table FG_S_USERSCREW_PIVOT
+prompt ===================================
+prompt
+create table FG_S_USERSCREW_PIVOT
+(
+  formid          VARCHAR2(100) not null,
+  timestamp       DATE,
+  change_by       VARCHAR2(100),
+  sessionid       VARCHAR2(100),
+  active          NUMBER,
+  formcode        VARCHAR2(100),
+  userscrewname   VARCHAR2(500),
+  parentid        VARCHAR2(500),
+  user_id         VARCHAR2(500),
+  formcode_entity VARCHAR2(100),
+  cloneid         VARCHAR2(100),
+  disabled        VARCHAR2(500),
+  templateflag    VARCHAR2(100),
+  created_by      VARCHAR2(100),
+  creation_date   DATE
+)
+;
+
+prompt
 prompt Creating table FG_S_USER_PIVOT
 prompt ==============================
 prompt
@@ -2434,7 +2959,7 @@ prompt
 create sequence FG_FORMENTITY_SEQ
 minvalue 0
 maxvalue 999999999999999999999999999
-start with 2166968
+start with 2167388
 increment by 1
 cache 20;
 
@@ -2478,7 +3003,7 @@ prompt
 create sequence FG_FORM_SEQ
 minvalue 0
 maxvalue 999999999999999999999999999
-start with 73275
+start with 73655
 increment by 1
 cache 20;
 
@@ -2500,7 +3025,7 @@ prompt
 create sequence FG_RESOURCE_SEQ
 minvalue 0
 maxvalue 999999999999999999999999999
-start with 166171
+start with 166191
 increment by 1
 cache 20;
 
@@ -2533,7 +3058,7 @@ prompt
 create sequence FG_SEQUENCE_FILES_SEQ
 minvalue 1
 maxvalue 999999999999999999999999999
-start with 307150
+start with 307165
 increment by 1
 cache 15;
 
@@ -2544,7 +3069,7 @@ prompt
 create sequence FG_SEQUENCE_SEQ
 minvalue 1
 maxvalue 999999999999999999999999999
-start with 367461
+start with 367476
 increment by 1
 cache 15;
 
@@ -2659,6 +3184,14 @@ increment by 1
 cache 20;
 
 prompt
+prompt Creating view FG_FILES_FAST_V
+prompt =============================
+prompt
+create or replace view fg_files_fast_v as
+select "FILE_ID","FILE_NAME","CONTENT_TYPE",t.FILE_DISPLAY_ID, t.FILE_CHEM_ID
+from FG_FILES t;
+
+prompt
 prompt Creating view FG_FORMENTITY_COL_LEN_V
 prompt =====================================
 prompt
@@ -2714,6 +3247,21 @@ FROM
 );
 
 prompt
+prompt Creating view FG_I_MAINTENANCE_FORM_LIST_V
+prompt ==========================================
+prompt
+create or replace view fg_i_maintenance_form_list_v as
+select distinct group_ || ',' || listagg(name_, ',') within group (order by name_) OVER (partition by group_) as MAINTENANCE_LIST
+from (
+select decode(group_name,'General Configuration','1'||t.group_name,t.group_name) as group_--13082019 fixed bug 7592- General Configuration should be at the top of the Maintenance List
+, t.formcode as name_
+from FG_FORM t
+where t.form_type = 'MAINTENANCE'
+and   nvl(t.active,1) = 1
+and   t.group_name not like '%not in use%'
+);
+
+prompt
 prompt Creating view FG_I_SCREENS_V
 prompt ============================
 prompt
@@ -2723,13 +3271,1057 @@ select distinct
        '{"name":"' || sub_category || '","category":"' || category_ || '","category_order":"' || category_order || '","sub_category":"' || sub_category || '","sub_category_order":"' || sub_category_order || '","formCode":"' || formCode || '","css_class":"' || class_ || '","system_level":"' || system_ || '"}' as screen_info,
        category_order, sub_category_order,system_
 from (
+/*select 'Search' as category_, 0 as category_order, 'Search' as sub_category, 0 as sub_category_order, '' as formCode, '' as class_
+from dual
+union
+select 'Search' as category_, 0 as category_order, 'QRCode navigation' as sub_category, 1 as sub_category_order, 'QRCode navigation' as formCode, '' as class_, '0' as system_
+from dual
+union*/
 select 'Form Builder' as category_, 1 as category_order, 'Form Builder' as sub_category, 0 as sub_category_order, '' as formCode, 'form-builder' as class_, '1' as system_
 from dual
 union
 select 'Form Builder' as category_, 1 as category_order, 'Admin - Form Entity Summary' as sub_category, 1 as sub_category_order, 'FGEntityConfReport' as formCode, '' as class_, '1' as system_
 from dual
+union
+/*select 'Form Builder' as category_, 1 as category_order, 'Admin - DB views Summary' as sub_category, 2 as sub_category_order, 'FGViewReport' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'Form Builder' as category_, 1 as category_order, 'Admin - Form Entity And Views Summary' as sub_category, 3 as sub_category_order, 'FGEntityReport' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'Form Builder' as category_, 1 as category_order, 'Admin - QR Code: Find & Navigate' as sub_category, 3 as sub_category_order, 'FGSearchNNavigate' as formCode, '' as class_, '1' as system_
+from dual
+union*/
+select 'Project Management' as category_, 2 as category_order, 'Project Management' as sub_category, 0 as sub_category_order, '' as formCode, 'project-management' as class_, '0' as system_
+from dual
+union
+select 'Project Management' as category_, 2 as category_order, 'Project Management' as sub_category, 1 as sub_category_order, 'Main' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Project Management' as category_, 2 as category_order, 'Templates' as sub_category, 2 as sub_category_order, 'TemplateMenuMain' as formCode, '' as class_, '0' as system_
+from dual
+union
+/*select 'Project Management' as category_, 2 as category_order, 'Stability Planning' as sub_category, 3 as sub_category_order, 'Dummy' as formCode, '' as class_, '1' as system_ -- "Taro develop"
+from dual
+union*/
+select 'Project Management' as category_, 2 as category_order, 'Series Summary' as sub_category, 4 as sub_category_order, 'FGSeriesReport' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Project Management' as category_, 2 as category_order, 'Spreadsheets Templates' as sub_category, 5 as sub_category_order, 'SpreadsheetMain' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Inventory' as category_, 3 as category_order, 'Inventory' as sub_category, 0 as sub_category_order, '' as formCode, 'inventory' as class_, '0' as system_
+from dual
+union
+select 'Inventory' as category_, 3 as category_order, 'Materials' as sub_category, 1 as sub_category_order, 'InvItemMaterialsMain' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Inventory' as category_, 3 as category_order, 'Columns' as sub_category, 2 as sub_category_order, 'InvItemColumnsMain' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Inventory' as category_, 3 as category_order, 'Instruments' as sub_category, 3 as sub_category_order, 'InvItemInstrumentsMain' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Inventory' as category_, 3 as category_order, 'Samples' as sub_category, 4 as sub_category_order, 'InvItemSamplesMain' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Inventory' as category_, 3 as category_order, 'Recipes' as sub_category, 5 as sub_category_order, 'InvItemRecipesMain' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Reports' as category_, 4 as category_order, 'Reports' as sub_category, 0 as sub_category_order, '' as formCode, 'reports' as class_, '0' as system_
+from dual
+union
+select 'Reports' as category_, 4 as category_order, 'Reports' as sub_category, 1 as sub_category_order, 'Reports' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Reports' as category_, 4 as category_order, 'Experiment Analysis Report' as sub_category, 2 as sub_category_order, 'ExpAnalysisReport' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Reports' as category_, 4 as category_order, 'Reaction and Results Analysis' as sub_category, 3 as sub_category_order, 'ExperimentReport' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Reports' as category_, 4 as category_order, 'Experiment Version' as sub_category, 4 as sub_category_order, 'ExperimAuditTrail' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Reports' as category_, 4 as category_order, 'Dynamic Reports' as sub_category, 5 as sub_category_order, 'DynamicReport' as formCode, '' as class_, '0' as system_
+from dual
+union
+select 'Reports' as category_, 4 as category_order, 'Historical Data' as sub_category, 6 as sub_category_order, 'HistoricalDataMain' as formCode, '' as class_, '0' as system_
+from dual
+/*union --This is for TARO; commented in Adama
+select 'Reports' as category_, 4 as category_order, 'Stability Planning Report' as sub_category, 4 as sub_category_order, 'StabilityPlannRep' as formCode, '' as class_, '0' as system_
+from dual*/
+union
+select 'Maintenance' as category_, 5 as category_order, 'Maintenance' as sub_category, 0 as sub_category_order, 'Maintenance' as formCode, 'maintenance' as class_, '0' as system_
+from dual
+union
+select 'Notifications' as category_, 6 as category_order, 'Notifications' as sub_category, 0 as sub_category_order, 'Notifications' as formCode, 'notifications' as class_, '2' as system_
+from dual
+union
+select 'System Log' as category_, 7 as category_order, 'System Log' as sub_category, 0 as sub_category_order, '' as formCode, 'systemlosg' as class_, '1' as system_
+from dual
+union
+select 'System Log' as category_, 7 as category_order, 'System Log' as sub_category, 1 as sub_category_order, 'SystemLogReport' as formCode, '' as class_, '1' as system_
+from dual
+union
+/*select 'System Log' as category_, 7 as category_order, 'Unit Test History Log' as sub_category, 2 as sub_category_order, 'UnitTestLogReport' as formCode, '' as class_, '1' as system_
+from dual
+union*/
+select 'System Log' as category_, 7 as category_order, 'Audit Trail (History Report)' as sub_category, 3 as sub_category_order, 'HistoryReport' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'System Log' as category_, 7 as category_order, 'Notification Configuration Summary' as sub_category, 4 as sub_category_order, 'NotificationSummar' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'System Log' as category_, 7 as category_order, 'Chem Search Table' as sub_category, 5 as sub_category_order, 'ChemSearchTable' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'System Log' as category_, 7 as category_order, 'Chem Search Doc Table' as sub_category, 6 as sub_category_order, 'ChemSearchDocRepor' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'System Log' as category_, 7 as category_order, 'Unit Test Log' as sub_category, 7 as sub_category_order, 'UnitTestLogTable' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'System Log' as category_, 7 as category_order, 'Scheduler Tasks' as sub_category, 8 as sub_category_order, 'SchedulerTasksRep' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'System Log' as category_, 7 as category_order, 'Access Log Report' as sub_category, 9 as sub_category_order, 'AccessLogReport' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'System Log' as category_, 7 as category_order, 'CAS Log Report' as sub_category, 10 as sub_category_order, 'CASResultLogReport' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'System Log' as category_, 7 as category_order, 'Query Generator' as sub_category, 11 as sub_category_order, 'SQLGenerator' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'System Log' as category_, 8 as category_order, 'Demo Iframe cube' as sub_category, 12 as sub_category_order, 'DemoIFMain' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'Messages' as category_, 8 as category_order, 'Messages' as sub_category, 0 as sub_category_order, 'FGMessagesReport' as formCode, 'messages' as class_, '0' as system_
+from dual
+union
+select 'Search' as category_, 9 as category_order, 'Search' as sub_category, 0 as sub_category_order, 'SearchReport' as formCode, 'search-report' as class_, '0' as system_
+from dual
+/*union
+select 'Search Label' as category_, 9 as category_order, 'Search Label' as sub_category, 0 as sub_category_order, 'SearchLabel' as formCode, 'searchLabel' as class_, '0' as system_
+from dual*/
 )
 order by category_order, sub_category_order;
+
+prompt
+prompt Creating view FG_S_GROUPSCREW_V
+prompt ===============================
+prompt
+create or replace view fg_s_groupscrew_v as
+select to_number(t.formid) as groupscrew_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.GroupsCrewName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as GroupsCrew_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."GROUP_ID",t."PARENTID",t."GROUPSCREWNAME"
+      from FG_S_GROUPSCREW_PIVOT t;
+
+prompt
+prompt Creating view FG_S_GROUP_V
+prompt ==========================
+prompt
+CREATE OR REPLACE VIEW FG_S_GROUP_V AS
+select to_number(t.formid) as group_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.GroupName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Group_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."GROUPNAME",t."SELECTUSER",t."GROUPTYPE",t."DESCRIPTION",t."SITE_ID",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_GROUP_PIVOT t;
+
+prompt
+prompt Creating view FG_S_GROUPSCREW_ALL_V
+prompt ===================================
+prompt
+create or replace view fg_s_groupscrew_all_v as
+select t."GROUPSCREW_ID",t."FORM_TEMP_ID",t."GROUPSCREW_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."GROUP_ID",t."PARENTID",t."GROUPSCREWNAME"
+--t.* end! edit only the code below...
+,pt.GroupName as "GROUP",pt.DESCRIPTION,pt.GROUP_ID as "GROUP_ID_SINGLE"
+from FG_S_GROUPSCREW_V t,FG_S_GROUP_V pt
+    --  where t.GROUP_ID = pt.GROUP_ID(+)
+    where 1=1 and
+    instr(',' || t.GROUP_ID || ',',',' || pt.GROUP_ID || ',') > 0;
+
+prompt
+prompt Creating view FG_I_USER_GROUP_V
+prompt ===============================
+prompt
+create or replace view fg_i_user_group_v as
+select  t.GROUP_ID_SINGLE as group_id, u.formid as user_id, u.username, t."GROUP" as groupname--LISTAGG (u.formid, ',') WITHIN GROUP (ORDER BY T.formid) OVER (PARTITION BY t.GROUP_ID_SINGLE) AS user_id_list
+from FG_S_GROUPSCREW_ALL_V t,
+     fg_s_user_pivot u
+where t.PARENTID = u.formid
+and   t.ACTIVE = 1
+and t.SESSIONID is null;
+
+prompt
+prompt Creating view FG_S_DYNAMICREPORTSQL_V
+prompt =====================================
+prompt
+create or replace view fg_s_dynamicreportsql_v as
+select to_number(t.formid) as dynamicreportsql_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.DynamicReportSqlName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as DynamicReportSql_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."EXECUTE",t."SQLTEXT",t."DYNAMICREPORTSQLNAME",t."SYSTEMREPORT",t."SQLRESULTTABLE"
+      from FG_S_DYNAMICREPORTSQL_PIVOT t;
+
+prompt
+prompt Creating view FG_S_DYNAMICREPORTSQL_ALL_V
+prompt =========================================
+prompt
+create or replace view fg_s_dynamicreportsql_all_v as
+select t."DYNAMICREPORTSQL_ID",t."FORM_TEMP_ID",t."DYNAMICREPORTSQL_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."EXECUTE",t."SQLTEXT",t."DYNAMICREPORTSQLNAME",t."SYSTEMREPORT",t."SQLRESULTTABLE"
+--t.* end! edit only the code below...
+,c.file_content as SQLTEXT_CONTENT
+              from FG_S_DYNAMICREPORTSQL_V t,
+                   fg_clob_files c
+              where t.SQLTEXT = c.file_id;
+
+prompt
+prompt Creating view FG_S_DYNAMICREPORTSQL_DT_V
+prompt ========================================
+prompt
+create or replace view fg_s_dynamicreportsql_dt_v as
+select "DYNAMICREPORTSQL_ID",
+        "DYNAMICREPORTSQLNAME" as "Report SQL Name",
+        T.SQLTEXT_CONTENT AS "SQL text",
+        decode(nvl(t.SYSTEMREPORT,0),1,'Yes','No') as "System Report",
+        decode(nvl(t.active,1),1,'Yes','No') as "Active"
+from FG_S_DYNAMICREPORTSQL_ALL_V t;
+
+prompt
+prompt Creating view FG_S_DYNAMICREPORTSQL_INF_V
+prompt =========================================
+prompt
+create or replace view fg_s_dynamicreportsql_inf_v as
+select 'DynamicReportSql' as formCode, t.formid as id, t.DynamicReportSqlName as name, SQLTEXT_CONTENT
+              from FG_S_DYNAMICREPORTSQL_ALL_V t;
+
+prompt
+prompt Creating view FG_S_GROUPSCREW_DT_V
+prompt ==================================
+prompt
+create or replace view fg_s_groupscrew_dt_v as
+select g."FORMID",g."PARENTID",g."FORM_TEMP_ID",g."hidden_SMARTTOOLTIP",g."Responsibility Group Name",g."Description","Users List"
+from (
+      select distinct formid,PARENTID,form_temp_id,
+             nvl2(t.GROUPSCREW_ID, '{"objectType":"' || 'SMARTTOOLTIP' || '" ,"val":"' || 'Responsibility Group Name: ' || "GROUP" || '"}','') as "hidden_SMARTTOOLTIP",
+             "GROUP" as "Responsibility Group Name",Description as "Description",
+             LISTAGG (ug.username, ', ') WITHIN GROUP (ORDER BY username) OVER (PARTITION BY GROUPSCREW_ID,GROUP_ID_SINGLE,FORM_TEMP_ID) AS "Users List"
+            from FG_S_GROUPSCREW_ALL_V t,
+                 FG_I_USER_GROUP_V ug
+      where t.GROUP_ID_SINGLE = ug.group_id(+)
+     ) g
+     order by "Responsibility Group Name";
+
+prompt
+prompt Creating view FG_S_GROUPSCREW_INF_V
+prompt ===================================
+prompt
+create or replace view fg_s_groupscrew_inf_v as
+select 'GroupsCrew' as formCode, t.formid as id, t.GroupsCrewName as name
+      from FG_S_GROUPSCREW_ALL_V t;
+
+prompt
+prompt Creating view FG_S_GROUP_ALL_V
+prompt ==============================
+prompt
+CREATE OR REPLACE VIEW FG_S_GROUP_ALL_V AS
+select t."GROUP_ID",t."FORM_TEMP_ID",t."GROUP_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."GROUPNAME",t."SELECTUSER",t."GROUPTYPE",t."DESCRIPTION",t."SITE_ID",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+from FG_S_GROUP_V t;
+
+prompt
+prompt Creating view FG_S_SITE_V
+prompt =========================
+prompt
+create or replace view fg_s_site_v as
+select to_number(t.formid) as site_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SiteName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Site_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SITENAME",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_SITE_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SITE_ALL_V
+prompt =============================
+prompt
+create or replace view fg_s_site_all_v as
+select t."SITE_ID",t."FORM_TEMP_ID",t."SITE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SITENAME",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+from FG_S_SITE_V t;
+
+prompt
+prompt Creating view FG_S_GROUP_DT_V
+prompt =============================
+prompt
+create or replace view fg_s_group_dt_v as
+select distinct t."GROUP_ID",
+       t.GroupName as "Responsibility Group Name", s.SITENAME as "Site",t.DESCRIPTION as "Description"
+       ,LISTAGG (ug.username, ', ') WITHIN GROUP (ORDER BY ug.username) OVER (PARTITION BY t.formid) AS "Users List", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+      from FG_S_GROUP_V t,fg_s_site_all_v s,
+           fg_i_user_group_v ug
+      where t.SITE_ID = s.SITE_ID(+)
+      and   t.FORMID = ug.group_id(+);
+
+prompt
+prompt Creating view FG_S_GROUP_INF_V
+prompt ==============================
+prompt
+create or replace view fg_s_group_inf_v as
+select 'Group' as formCode, t.formid as id, t.GroupName as name
+      from FG_S_GROUP_ALL_V t;
+
+prompt
+prompt Creating view FG_S_LABORATORY_V
+prompt ===============================
+prompt
+create or replace view fg_s_laboratory_v as
+select to_number(t.formid) as laboratory_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.LaboratoryName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Laboratory_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."LAB_MANAGER_ID",t."FORMNUMBERID",t."LABORATORYNAME",t."UNITS_ID",t."SITE_ID"
+      from FG_S_LABORATORY_PIVOT t;
+
+prompt
+prompt Creating view FG_S_UNITS_V
+prompt ==========================
+prompt
+create or replace view fg_s_units_v as
+select to_number(t.formid) as units_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UnitsName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Units_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UNITSNAME",t."SITE_ID",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_UNITS_PIVOT t;
+
+prompt
+prompt Creating view FG_S_UNITS_ALL_V
+prompt ==============================
+prompt
+create or replace view fg_s_units_all_v as
+select t."UNITS_ID",t."FORM_TEMP_ID",t."UNITS_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UNITSNAME",t."SITE_ID",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+,s.SITENAME, s.SITE_OBJIDVAL, '{"VAL":"' || t.UnitsName||' ('||s.SiteName||')' || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as unit_with_site_objidval
+from FG_S_UNITS_V t,
+      FG_S_SITE_ALL_V s
+where s.SITE_ID(+) = t.SITE_ID;
+
+prompt
+prompt Creating view FG_S_LABORATORY_ALL_V
+prompt ===================================
+prompt
+create or replace view fg_s_laboratory_all_v as
+select t."LABORATORY_ID",t."FORM_TEMP_ID",t."LABORATORY_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."LAB_MANAGER_ID",t."FORMNUMBERID",t."LABORATORYNAME",t."UNITS_ID",t."SITE_ID"
+--t.* end! edit only the code below...
+,u.SITENAME,u.SITE_OBJIDVAL, u.UNITSNAME, u.UNITS_OBJIDVAL
+from FG_S_LABORATORY_V t,
+     fg_s_units_all_v u
+where u.SITE_ID(+) = t.SITE_ID
+and u.units_id(+) = t.UNITS_ID;
+
+prompt
+prompt Creating view FG_S_LABORATORY_DT_V
+prompt ==================================
+prompt
+create or replace view fg_s_laboratory_dt_v as
+select "LABORATORY_ID","LABORATORYNAME" as "Laboratory Name",t.SITENAME as "Site Name", t.UNITSNAME as "Units Name", t.FORMNUMBERID AS "Lab ID", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+      from FG_S_LABORATORY_ALL_V t;
+
+prompt
+prompt Creating view FG_S_LABORATORY_INF_V
+prompt ===================================
+prompt
+create or replace view fg_s_laboratory_inf_v as
+select 'Laboratory' as formCode, t.formid as id, t.LaboratoryName as name, lpad(t.formnumberid,3,0) as formnumberid,t.LAB_MANAGER_ID,t.UNITS_ID
+      from FG_S_LABORATORY_ALL_V t;
+
+prompt
+prompt Creating view FG_S_PERMISSIONOBJECT_V
+prompt =====================================
+prompt
+create or replace view fg_s_permissionobject_v as
+select to_number(t.formid) as permissionobject_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.PermissionObjectName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as PermissionObject_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."PERMISSIONOBJECTNAME",t."LAB",t."SITE",t."UNIT",t."OBJECTSINHERIT",t."CLONEID",t."TEMPLATEFLAG",t."OBJECTSINHERITONCREATE",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_PERMISSIONOBJECT_PIVOT t;
+
+prompt
+prompt Creating view FG_S_PERMISSIONOBJECT_ALL_V
+prompt =========================================
+prompt
+create or replace view fg_s_permissionobject_all_v as
+select t."PERMISSIONOBJECT_ID",t."FORM_TEMP_ID",t."PERMISSIONOBJECT_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."PERMISSIONOBJECTNAME",t."LAB",t."SITE",t."UNIT",t."OBJECTSINHERIT",t."CLONEID",t."TEMPLATEFLAG",t."OBJECTSINHERITONCREATE",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+ --,decode(t."OBJECTSINHERIT",null,t."PERMISSIONOBJECTNAME", t."PERMISSIONOBJECTNAME" ||','|| "OBJECTSINHERIT") "PERMISSIONOBJECTNAME_EXTEND",
+,'{"VAL":"' ||
+replace(
+    replace(
+        replace(
+            replace(
+                 regexp_replace(decode(t.PermissionObjectName,'InvItemMaterial','InvItemMaterialCm',t.PermissionObjectName),'^InvItem'),
+                'RecipeFormulation',
+                'Recipe')
+        ,'MaterialCm','Material (Chemical)'),
+    'MaterialFr','Material (Formulation)')
+,'MaterialPr','Material (Premix)')
+|| '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as PermissionObjectName_objidval -- effects only the display in the list (set it also in the fg_s_PermissionSRef_DT_v view)
+,t."PERMISSIONOBJECTNAME" || decode(t."OBJECTSINHERITONCREATE",null,'', ',' || t."OBJECTSINHERITONCREATE") || decode(t."OBJECTSINHERIT",null,'', ',' || t."OBJECTSINHERIT") AS  "PERMISSIONOBJECTNAME_GROUP"
+              from FG_S_PERMISSIONOBJECT_V t;
+
+prompt
+prompt Creating view FG_S_PERMISSIONOBJECT_DT_V
+prompt ========================================
+prompt
+create or replace view fg_s_permissionobject_dt_v as
+select "PERMISSIONOBJECT_ID","PERMISSIONOBJECTNAME","SITE" "Is Site Allowed","UNIT" "Is Unit Allowed","LAB" as "Is lab Allowed",
+"OBJECTSINHERIT" as "Inherited Objects",
+t.OBJECTSINHERITONCREATE as "Inherited On Create Objects",
+decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+              from FG_S_PERMISSIONOBJECT_ALL_V t;
+
+prompt
+prompt Creating view FG_S_PERMISSIONOBJECT_INF_V
+prompt =========================================
+prompt
+create or replace view fg_s_permissionobject_inf_v as
+select 'PermissionObject' as formCode, t.formid as id, t.PermissionObjectName as name, t.SITE as isSiteAllowed, t.UNIT as isUnitAllowed,t.LAB as isLabAllowed, t.OBJECTSINHERITONCREATE, t.OBJECTSINHERIT
+              from FG_S_PERMISSIONOBJECT_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SENSITIVITYLEVEL_V
+prompt =====================================
+prompt
+create or replace view fg_s_sensitivitylevel_v as
+select to_number(t.formid) as sensitivitylevel_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.sensitivityLevelName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as sensitivityLevel_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SENSITIVITYLEVELNAME",t."DESCRIPTION",t."FORMCODE_ENTITY",t."SENSITIVITYLEVELORDER",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_SENSITIVITYLEVEL_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SENSITIVITYLEVEL_ALL_V
+prompt =========================================
+prompt
+create or replace view fg_s_sensitivitylevel_all_v as
+select t."SENSITIVITYLEVEL_ID",t."FORM_TEMP_ID",t."SENSITIVITYLEVEL_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SENSITIVITYLEVELNAME",t."DESCRIPTION",t."FORMCODE_ENTITY",t."SENSITIVITYLEVELORDER",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+              from FG_S_SENSITIVITYLEVEL_V t;
+
+prompt
+prompt Creating view FG_S_SENSITIVITYLEVEL_DT_V
+prompt ========================================
+prompt
+create or replace view fg_s_sensitivitylevel_dt_v as
+select "SENSITIVITYLEVEL_ID" as "ID",
+       --"SENSITIVITYLEVEL_ID", t.CUSTOMER_ID as "Customer Id",
+       "SENSITIVITYLEVELNAME" as "Name", "DESCRIPTION" as "Description", t.SENSITIVITYLEVELORDER as "Sensitivity Level Order", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+              from FG_S_SENSITIVITYLEVEL_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SENSITIVITYLEVEL_INF_V
+prompt =========================================
+prompt
+create or replace view fg_s_sensitivitylevel_inf_v as
+select 'sensitivityLevel' as formCode, t.formid as id, t.sensitivityLevelName as name, t.SENSITIVITYLEVELORDER
+              from FG_S_SENSITIVITYLEVEL_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SITE_DT_V
+prompt ============================
+prompt
+create or replace view fg_s_site_dt_v as
+select "SITE_ID",
+       t.SiteName as "Site Name", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+      from FG_S_SITE_V t;
+
+prompt
+prompt Creating view FG_S_SITE_INF_V
+prompt =============================
+prompt
+create or replace view fg_s_site_inf_v as
+select 'Site' as formCode, t.formid as id, t.SiteName as name
+      from FG_S_SITE_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFEXCELDATA_V
+prompt =====================================
+prompt
+create or replace view fg_s_sysconfexceldata_v as
+select to_number(t.formid) as sysconfexceldata_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysConfExcelDataName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfExcelData_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSCONFEXCELDATANAME",t."EXCELFILE",t."EXCELDATA"
+      from FG_S_SYSCONFEXCELDATA_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSCONFEXCELDATA_ALL_V
+prompt =========================================
+prompt
+create or replace view fg_s_sysconfexceldata_all_v as
+select t."SYSCONFEXCELDATA_ID",t."FORM_TEMP_ID",t."SYSCONFEXCELDATA_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSCONFEXCELDATANAME",t."EXCELFILE",t."EXCELDATA"
+--t.* end! edit only the code below...
+              from FG_S_SYSCONFEXCELDATA_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFEXCELDATA_DT_V
+prompt ========================================
+prompt
+create or replace view fg_s_sysconfexceldata_dt_v as
+select "SYSCONFEXCELDATA_ID",
+       "SYSCONFEXCELDATANAME" as "Excel Name",
+       "EXCELDATA" as "Excel File (clob) ID",
+       decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+              from FG_S_SYSCONFEXCELDATA_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFEXCELDATA_INF_V
+prompt =========================================
+prompt
+create or replace view fg_s_sysconfexceldata_inf_v as
+select 'SysConfExcelData' as formCode, t.formid as id, t.SysConfExcelDataName as name
+              from FG_S_SYSCONFEXCELDATA_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFSQLCRITERIA_V
+prompt =======================================
+prompt
+create or replace view fg_s_sysconfsqlcriteria_v as
+select to_number(t.formid) as sysconfsqlcriteria_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysConfSQLCriteriaName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfSQLCriteria_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SQLDESCRIPTION",t."ADDITIONALMATCHINFO",t."STRUCTLEVEL",t."SQLTEXT",t."SYSCONFSQLCRITERIANAME",t."IGNORE",t."EXECUTATIONTYPE",t."SCREEN",t."ISDEFAULT"
+      from FG_S_SYSCONFSQLCRITERIA_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSCONFSQLCRITERIA_ALL_V
+prompt ===========================================
+prompt
+create or replace view fg_s_sysconfsqlcriteria_all_v as
+select t."SYSCONFSQLCRITERIA_ID",t."FORM_TEMP_ID",t."SYSCONFSQLCRITERIA_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SQLDESCRIPTION",t."ADDITIONALMATCHINFO",t."STRUCTLEVEL",t."SQLTEXT",t."SYSCONFSQLCRITERIANAME",t."IGNORE",t."EXECUTATIONTYPE",t."SCREEN",t."ISDEFAULT"
+--t.* end! edit only the code below...
+,t.SYSCONFSQLCRITERIANAME || '.' || t.STRUCTLEVEL || '.' || t.SCREEN AS infoName
+              from FG_S_SYSCONFSQLCRITERIA_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFSQLCRITERIA_DT_V
+prompt ==========================================
+prompt
+CREATE OR REPLACE VIEW FG_S_SYSCONFSQLCRITERIA_DT_V AS
+select "SYSCONFSQLCRITERIA_ID",
+       --"SQLDESCRIPTION","STRUCTLEVEL","EXECUTATIONTYPE",
+       t.STRUCTLEVEL,"SCREEN", t.SQLDESCRIPTION,"SQLTEXT",
+       --t.ADDITIONALMATCHINFO as "Additional Info",
+       "SYSCONFSQLCRITERIANAME" as "Criteria Name","ISDEFAULT" as "Is Default",t.IGNORE, t.FORMID, T.TIMESTAMP, decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+       /*, decode(screen,'Main', to_number('.56'), 'BatchFrSelect', to_number('2.10'), 100.67)   as check_num,
+       to_number('0.9') as check_num1,
+       to_number(to_char_by_precision_rounded('2.10',2)) as check_num2*/
+              from FG_S_SYSCONFSQLCRITERIA_ALL_V t
+              where 1=1
+              --AND  ("STRUCTLEVEL","SYSCONFSQLCRITERIANAME","ISDEFAULT","SQLTEXT","SCREEN") NOT IN (SELECT "STRUCTLEVEL","SYSCONFSQLCRITERIANAME","ISDEFAULT","SQLTEXT","SCREEN" FROM SKYLINE_FORM_SERVER.fg_s_sysconfsqlcriteria_PIVOT T1)
+              order by /*T.TIMESTAMP,*/ STRUCTLEVEL;
+
+prompt
+prompt Creating view FG_S_SYSCONFSQLCRITERIA_INF_V
+prompt ===========================================
+prompt
+create or replace view fg_s_sysconfsqlcriteria_inf_v as
+select 'SysConfSQLCriteria' as formCode, t.formid as id, t.infoName as name, t.SysConfSQLCriteriaName, t.SQLTEXT, t.ISDEFAULT, t.IGNORE, t.ACTIVE, t.ADDITIONALMATCHINFO
+              from FG_S_SYSCONFSQLCRITERIA_ALL_V t
+              where t.ACTIVE = 1;
+
+prompt
+prompt Creating view FG_S_SYSCONFWFSTATUS_V
+prompt ====================================
+prompt
+create or replace view fg_s_sysconfwfstatus_v as
+select to_number(t.formid) as sysconfwfstatus_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysConfWFStatusName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfWFStatus_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."WHEREPARTPARMNAME",t."SYSCONFWFSTATUSNAME",t."STATUSFORMCODE",t."STATUSINFCOLUMN",t."JSONNAME"
+      from FG_S_SYSCONFWFSTATUS_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSCONFWFSTATUS_ALL_V
+prompt ========================================
+prompt
+create or replace view fg_s_sysconfwfstatus_all_v as
+select t."SYSCONFWFSTATUS_ID",t."FORM_TEMP_ID",t."SYSCONFWFSTATUS_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."WHEREPARTPARMNAME",t."SYSCONFWFSTATUSNAME",t."STATUSFORMCODE",t."STATUSINFCOLUMN",t."JSONNAME"
+--t.* end! edit only the code below...
+              from FG_S_SYSCONFWFSTATUS_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFWFSTATUS_DT_V
+prompt =======================================
+prompt
+create or replace view fg_s_sysconfwfstatus_dt_v as
+select "SYSCONFWFSTATUS_ID",
+       t.SysConfWFStatusName as "Form Code", t.JSONNAME as "JSON Name", upper(t.STATUSFORMCODE) as "Status Form Code",
+       upper(t.STATUSINFCOLUMN) as "Status Inf Column", t.WHEREPARTPARMNAME as "Where Part Parm Name", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+from FG_S_SYSCONFWFSTATUS_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFWFSTATUS_INF_V
+prompt ========================================
+prompt
+create or replace view fg_s_sysconfwfstatus_inf_v as
+select 'SysConfWFStatus' as formCode, t.formid as id, t.SysConfWFStatusName as name, upper(t.STATUSINFCOLUMN) as STATUSINFCOLUMN, upper(t.STATUSFORMCODE) as STATUSFORMCODE, t.JSONNAME, t.WHEREPARTPARMNAME
+              from FG_S_SYSCONFWFSTATUS_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLER_V
+prompt ====================================
+prompt
+create or replace view fg_s_syseventhandler_v as
+select to_number(t.formid) as syseventhandler_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysEventHandlerName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventHandler_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
+      from FG_S_SYSEVENTHANDLER_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLER_ALL_V
+prompt ========================================
+prompt
+create or replace view fg_s_syseventhandler_all_v as
+select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
+--t.* end! edit only the code below...
+      from FG_S_SYSEVENTHANDLER_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLER_DT_V
+prompt =======================================
+prompt
+create or replace view fg_s_syseventhandler_dt_v as
+select "SYSEVENTHANDLER_ID",
+       --"FORMCODE",
+       "SYSEVENTHANDLERNAME" as "Sys Event Handler Name","HANDLERDESCRIPTION" as "Handler Description", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+              from FG_S_SYSEVENTHANDLER_ALL_V t
+              where t.formcode_entity = 'SysEventHandler';
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLER_INF_V
+prompt ========================================
+prompt
+create or replace view fg_s_syseventhandler_inf_v as
+select 'SysEventHandler' as formCode, t.formid as id, t.SYSEVENTPOINTFULLNAME as name, t.CALCARG, t.HANDLERORDER, t.CALCFORMULA, t.SYSEVENTHANDLERNAME
+from FG_S_SYSEVENTHANDLER_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLETYPE_V
+prompt =======================================
+prompt
+create or replace view fg_s_syseventhandletype_v as
+select to_number(t.formid) as syseventhandletype_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysEventHandleTypeName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventHandleType_objidval,
+             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTHANDLETYPENAME",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_SYSEVENTHANDLETYPE_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLETYPE_ALL_V
+prompt ===========================================
+prompt
+create or replace view fg_s_syseventhandletype_all_v as
+select t."SYSEVENTHANDLETYPE_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLETYPE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTHANDLETYPENAME",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+              from FG_S_SYSEVENTHANDLETYPE_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLETYPE_DT_V
+prompt ==========================================
+prompt
+create or replace view fg_s_syseventhandletype_dt_v as
+select "SYSEVENTHANDLETYPE_ID", "SYSEVENTHANDLETYPENAME" as "Sys Event Handle Type Name", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+              from FG_S_SYSEVENTHANDLETYPE_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLETYPE_INF_V
+prompt ===========================================
+prompt
+create or replace view fg_s_syseventhandletype_inf_v as
+select 'SysEventHandleType' as formCode, t.formid as id, t.SysEventHandleTypeName as name
+              from FG_S_SYSEVENTHANDLETYPE_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTPOINT_V
+prompt ==================================
+prompt
+create or replace view fg_s_syseventpoint_v as
+select to_number(t.formid) as syseventpoint_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysEventPointName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventPoint_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."ADDITIONALMATCH",t."FORMCODEMATCH",t."SYSEVENTYPENAME",t."SYSEVENTPOINTNAME"
+      from FG_S_SYSEVENTPOINT_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTPOINT_ALL_V
+prompt ======================================
+prompt
+create or replace view fg_s_syseventpoint_all_v as
+select t."SYSEVENTPOINT_ID",t."FORM_TEMP_ID",t."SYSEVENTPOINT_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."ADDITIONALMATCH",t."FORMCODEMATCH",t."SYSEVENTYPENAME",t."SYSEVENTPOINTNAME"
+--t.* end! edit only the code below...
+,'{"VAL":"' || t.SYSEVENTYPENAME || '.' || t.FORMCODEMATCH || '.' || t.ADDITIONALMATCH || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SYSEVENTPOINTFullName_objidval,
+t.SYSEVENTYPENAME || '.' || t.FORMCODEMATCH || '.' || t.ADDITIONALMATCH AS SYSEVENTPOINTFullName
+              from FG_S_SYSEVENTPOINT_V t/*,
+              FG_S_SYSEVENTTYPE_ALL_V ET*/
+                   --WHERE T.SYSEVENTTYPE_ID = ET.SYSEVENTTYPE_ID(+);
+
+prompt
+prompt Creating view FG_S_SYSEVENTPOINT_DT_V
+prompt =====================================
+prompt
+create or replace view fg_s_syseventpoint_dt_v as
+select "SYSEVENTPOINT_ID",
+       t.SYSEVENTPOINTFullName as "Sys Event Point Full Name",
+       --"ADDITIONALMATCH" as "Additional Match", t."SYSEVENTPOINTNAME" as "Sysevent Point Name",  t."SYSEVENTTYPE_ID" as "Sysevent Type Id",
+       "FORMCODEMATCH" as "Formcode Match", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+              from FG_S_SYSEVENTPOINT_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTPOINT_INF_V
+prompt ======================================
+prompt
+create or replace view fg_s_syseventpoint_inf_v as
+select 'SysEventPoint' as formCode, t.formid as id, t.SYSEVENTPOINTFullName as name, t.SysEventPointName, t.formCodeMatch --, t.SYSEVENTTYPE_ID
+              from FG_S_SYSEVENTPOINT_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTTYPE_V
+prompt =================================
+prompt
+create or replace view fg_s_syseventtype_v as
+select to_number(t.formid) as syseventtype_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysEventTypeName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventType_objidval,
+             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTTYPENAME",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_SYSEVENTTYPE_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTTYPE_ALL_V
+prompt =====================================
+prompt
+create or replace view fg_s_syseventtype_all_v as
+select t."SYSEVENTTYPE_ID",t."FORM_TEMP_ID",t."SYSEVENTTYPE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTTYPENAME",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+              from FG_S_SYSEVENTTYPE_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTTYPE_DT_V
+prompt ====================================
+prompt
+create or replace view fg_s_syseventtype_dt_v as
+select "SYSEVENTTYPE_ID",
+       --"FORMCODE",
+       "SYSEVENTTYPENAME" as "Sys Event Type Name", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+              from FG_S_SYSEVENTTYPE_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTTYPE_INF_V
+prompt =====================================
+prompt
+create or replace view fg_s_syseventtype_inf_v as
+select 'SysEventType' as formCode, t.formid as id, t.SysEventTypeName as name
+              from FG_S_SYSEVENTTYPE_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSHCODECALC_ALL_V
+prompt =====================================
+prompt
+create or replace view fg_s_syshcodecalc_all_v as
+select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
+--t.* end! edit only the code below...
+from FG_S_SYSEVENTHANDLER_V t;
+
+prompt
+prompt Creating view FG_S_SYSHCODECALC_DT_V
+prompt ====================================
+prompt
+create or replace view fg_s_syshcodecalc_dt_v as
+select "SYSEVENTHANDLER_ID",
+       ---t.SYSEVENTPOINTFullName, "HANDLERVALIDATION","CALCARG",
+       "SYSEVENTHANDLERNAME" as "Sys Event Handler Name","HANDLERORDER" as "Handler Order",
+       t.SYSEVENTPOINTFullName "Sys Event Point Name", t.HANDLERVALIDATION as "Handler Validation", "HANDLERDESCRIPTION" as "Handler Description",
+       "HANDLERUNITTEST" as "Handler UnitTest","CALCFORMULA" as "Calc Formula", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active", t.FORMID
+from FG_S_SYSHCODECALC_ALL_V t
+              where t.SYSEVENTHANDLERNAME <> 'SysHSimpleCalc';
+
+prompt
+prompt Creating view FG_S_SYSHCODECALC_INF_V
+prompt =====================================
+prompt
+create or replace view fg_s_syshcodecalc_inf_v as
+select 'SysHCodeCalc' as formCode, t.formid as id, t.SysEventHandlerName as name
+              from FG_S_SYSHCODECALC_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSHSIMPLECALC_ALL_V
+prompt =======================================
+prompt
+create or replace view fg_s_syshsimplecalc_all_v as
+select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
+--t.* end! edit only the code below...
+--, EP.SYSEVENTYPENAME || '.' || EP.FORMCODEMATCH || '.' || EP.ADDITIONALMATCH AS SYSEVENTPOINTFullName
+              from FG_S_SYSEVENTHANDLER_V t/*,
+                   FG_S_SYSEVENTPOINT_V EP--,
+                 --  FG_S_SYSEVENTTYPE_ALL_V ET
+              WHERE 1=1--EP.SYSEVENTTYPENAME = ET.SYSEVENTTYPE_ID(+)
+                    and t.SYSEVENTPOINT_ID = ep.syseventpoint_id(+);*/;
+
+prompt
+prompt Creating view FG_S_SYSHSIMPLECALC_DT_V
+prompt ======================================
+prompt
+create or replace view fg_s_syshsimplecalc_dt_v as
+select "SYSEVENTHANDLER_ID",
+       --,"SYSEVENTPOINT_ID","CALCARG","CALCFORMULA"
+       "SYSEVENTHANDLERNAME" as "Sys Event Handler Name", t.SYSEVENTPOINTFullName as "Sys Event Point Full Name", "HANDLERORDER" as "Handler Order",
+       "HANDLERVALIDATION" as "Handler Validation", "HANDLERDESCRIPTION" as "Handler Description", "HANDLERUNITTEST" as "Handler Unittest",
+       decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+from FG_S_SYSHSIMPLECALC_ALL_V t
+where t.FORMCODE = 'SysHSimpleCalc' or t.SYSEVENTHANDLERNAME = 'SysHSimpleCalc' --SysHSimpleCalc;
+
+prompt
+prompt Creating view FG_S_SYSHSIMPLECALC_INF_V
+prompt =======================================
+prompt
+create or replace view fg_s_syshsimplecalc_inf_v as
+select 'SysHSimpleCalc' as formCode, t.formid as id, t.SysEventHandlerName, t.SYSEVENTPOINTFullName as name, t.CALCARG, t.HANDLERORDER, t.CALCFORMULA
+              from FG_S_SYSHSIMPLECALC_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSHSIMPLECLAC_ALL_V
+prompt =======================================
+prompt
+create or replace view fg_s_syshsimpleclac_all_v as
+select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
+--t.* end! edit only the code below...
+       from  FG_S_SYSEVENTHANDLER_V t;
+
+prompt
+prompt Creating view FG_S_SYSHSIMPLECLAC_DT_V
+prompt ======================================
+prompt
+create or replace view fg_s_syshsimpleclac_dt_v as
+select T.SYSEVENTHANDLER_ID,"ACTIVE","FORMCODE","SYSEVENTHANDLERNAME","HANDLERDESCRIPTION"
+              from FG_S_SYSHSIMPLECLAC_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSHSIMPLECLAC_INF_V
+prompt =======================================
+prompt
+create or replace view fg_s_syshsimpleclac_inf_v as
+select 'SysHSimpleClac' as formCode, t.formid as id, t.SysEventHandlerName as name
+              from FG_S_SYSHSIMPLECLAC_ALL_V t;
+
+prompt
+prompt Creating view FG_S_UNITS_DT_V
+prompt =============================
+prompt
+create or replace view fg_s_units_dt_v as
+select "UNITS_ID",t.SITENAME AS "Site Name",
+        "UNITSNAME"  AS "Unit Name",decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+      from FG_S_UNITS_ALL_V t;
+
+prompt
+prompt Creating view FG_S_UNITS_INF_V
+prompt ==============================
+prompt
+create or replace view fg_s_units_inf_v as
+select 'Units' as formCode, t.formid as id, t.UnitsName as name
+      from FG_S_UNITS_ALL_V t;
+
+prompt
+prompt Creating view FG_S_UOMTYPE_V
+prompt ============================
+prompt
+create or replace view fg_s_uomtype_v as
+select to_number(t.formid) as uomtype_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UOMTypeName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UOMType_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UOMTYPENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_UOMTYPE_PIVOT t;
+
+prompt
+prompt Creating view FG_S_UOMTYPE_ALL_V
+prompt ================================
+prompt
+create or replace view fg_s_uomtype_all_v as
+select t."UOMTYPE_ID",t."FORM_TEMP_ID",t."UOMTYPE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UOMTYPENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+              from FG_S_UOMTYPE_V t;
+
+prompt
+prompt Creating view FG_S_UOMTYPE_DT_V
+prompt ===============================
+prompt
+create or replace view fg_s_uomtype_dt_v as
+select "UOMTYPE_ID","UOMTYPENAME" as "UOM Type", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+              from FG_S_UOMTYPE_ALL_V t;
+
+prompt
+prompt Creating view FG_S_UOMTYPE_INF_V
+prompt ================================
+prompt
+create or replace view fg_s_uomtype_inf_v as
+select 'UOMType' as formCode, t.formid as id, t.UOMTypeName as name
+              from FG_S_UOMTYPE_ALL_V t;
+
+prompt
+prompt Creating view FG_S_UOM_V
+prompt ========================
+prompt
+create or replace view fg_s_uom_v as
+select to_number(t.formid) as uom_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UOMName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UOM_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."ISNORMAL",t."FACTOR",t."PRECISION",t."UOMNAME",t."TYPE",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_UOM_PIVOT t;
+
+prompt
+prompt Creating view FG_S_UOM_ALL_V
+prompt ============================
+prompt
+create or replace view fg_s_uom_all_v as
+select t."UOM_ID",t."FORM_TEMP_ID",t."UOM_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."ISNORMAL",t."FACTOR",t."PRECISION",t."UOMNAME",t."TYPE",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+, uomtype.UOMTYPENAME,t.TYPE as "UOMTYPE_ID",uomtype.UOMTYPENAME as UOM_TYPE,
+first_value(t."UOM_ID") over (partition by uomtype.UOMTYPE_ID order by nvl(t.ISNORMAL,0) desc nulls last) as "UOM_NORMAL_ID"
+from FG_S_UOM_V t, fg_s_uomtype_all_v uomtype
+where t.TYPE = uomtype.UOMTYPE_ID;
+
+prompt
+prompt Creating view FG_S_UOM_DT_V
+prompt ===========================
+prompt
+create or replace view fg_s_uom_dt_v as
+select "UOM_ID","UOMNAME" as "UOM Name", t.UOMTYPENAME as "UOM Type name", decode(nvl(t.ISNORMAL,0),1,'Yes','No') as "Is Normal", t.FACTOR as "Factor" , decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+      from FG_S_UOM_ALL_V t;
+
+prompt
+prompt Creating view FG_S_UOM_INF_V
+prompt ============================
+prompt
+create or replace view fg_s_uom_inf_v as
+select 'UOM' as formCode,
+        t.formid as id,
+        t.UOMName as name,
+        t.ISNORMAL,
+        t.FACTOR,
+        t.PRECISION,
+        t.UOMTYPENAME,
+        t.UOMTYPE_ID
+from FG_S_UOM_ALL_V t;
+
+prompt
+prompt Creating view FG_S_USERGUIDEPOOL_V
+prompt ==================================
+prompt
+create or replace view fg_s_userguidepool_v as
+select to_number(t.formid) as userguidepool_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UserGuidePoolName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UserGuidePool_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERGUIDEDESCRIPTION",t."USERGUIDEFILE",t."ITEMORDER",t."USERGUIDEPOOLNAME"
+      from FG_S_USERGUIDEPOOL_PIVOT t;
+
+prompt
+prompt Creating view FG_S_USERGUIDEPOOL_ALL_V
+prompt ======================================
+prompt
+create or replace view fg_s_userguidepool_all_v as
+select t."USERGUIDEPOOL_ID",t."FORM_TEMP_ID",t."USERGUIDEPOOL_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERGUIDEDESCRIPTION",t."USERGUIDEFILE",t."ITEMORDER",t."USERGUIDEPOOLNAME"
+--t.* end! edit only the code below...
+      ,f.FILE_NAME, f.CONTENT_TYPE,f.FILE_ID
+              from FG_S_USERGUIDEPOOL_V t,
+                   fg_files_fast_v f
+where t.USERGUIDEFILE = f.FILE_ID(+);
+
+prompt
+prompt Creating function FG_GET_NUMERIC
+prompt ================================
+prompt
+CREATE OR REPLACE FUNCTION fg_get_numeric(p_strval in varchar2) RETURN NUMBER
+IS
+  l_numval NUMBER;
+BEGIN
+  l_numval := TO_NUMBER(p_strval);
+  RETURN l_numval;
+EXCEPTION
+  WHEN OTHERS THEN
+    RETURN null;
+END;
+/
+
+prompt
+prompt Creating view FG_S_USERGUIDEPOOL_DT_V
+prompt =====================================
+prompt
+create or replace view fg_s_userguidepool_dt_v as
+select "USERGUIDEPOOL_ID", t.USERGUIDEPOOLNAME as "Name", t.USERGUIDEDESCRIPTION as "Description",
+       t.ITEMORDER as "Item Order_SMARTNUM",
+       t.FILE_NAME as "File Name", t.CONTENT_TYPE as "File Type",decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+from FG_S_USERGUIDEPOOL_ALL_V t
+order by decode(instr(lower(t.CONTENT_TYPE),'video'),0,'DOC_UG','VIDEO_UG'), fg_get_numeric(t.itemOrder);
+
+prompt
+prompt Creating view FG_S_USERGUIDEPOOL_INF_V
+prompt ======================================
+prompt
+create or replace view fg_s_userguidepool_inf_v as
+select 'UserGuidePool' as formCode, t.formid as id, t.UserGuidePoolName as name,
+       t.FILE_NAME, t.CONTENT_TYPE, t.FILE_ID, t.ITEMORDER,
+       decode(instr(lower(t.CONTENT_TYPE),'video'),0,'DOC_UG','VIDEO_UG') AS CONTENT_CODE_UG,
+       T.USERGUIDEDESCRIPTION,
+       t.ACTIVE as IS_ACTIVE
+              from FG_S_USERGUIDEPOOL_ALL_V t;
+
+prompt
+prompt Creating view FG_S_USERROLE_V
+prompt =============================
+prompt
+create or replace view fg_s_userrole_v as
+select to_number(t.formid) as userrole_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UserRoleName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UserRole_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."USERROLENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_USERROLE_PIVOT t;
+
+prompt
+prompt Creating view FG_S_USERROLE_ALL_V
+prompt =================================
+prompt
+create or replace view fg_s_userrole_all_v as
+select t."USERROLE_ID",t."FORM_TEMP_ID",t."USERROLE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."USERROLENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+from FG_S_USERROLE_V t;
+
+prompt
+prompt Creating view FG_S_USERROLE_DT_V
+prompt ================================
+prompt
+create or replace view fg_s_userrole_dt_v as
+select "USERROLE_ID","USERROLENAME",decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+      from FG_S_USERROLE_V t;
+
+prompt
+prompt Creating view FG_S_USERROLE_INF_V
+prompt =================================
+prompt
+create or replace view fg_s_userrole_inf_v as
+select 'UserRole' as formCode, t.formid as id, t.UserRoleName as name
+      from FG_S_USERROLE_ALL_V t;
+
+prompt
+prompt Creating view FG_S_USERSCREW_V
+prompt ==============================
+prompt
+create or replace view fg_s_userscrew_v as
+select to_number(t.formid) as userscrew_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UsersCrewName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UsersCrew_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERSCREWNAME",t."PARENTID",t."USER_ID",t."DISABLED"
+      from FG_S_USERSCREW_PIVOT t;
 
 prompt
 prompt Creating view FG_S_USER_V
@@ -2741,6 +4333,120 @@ select to_number(t.formid) as user_id,
              '{"VAL":"' || t.UserName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as User_objidval,
              t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."FIRSTNAME",t."USERNAME",t."POSITION",t."CHANGEPASSWORD",t."LASTNAME",t."PERMISSIONTABLE",t."TEAMLEADER_ID",t."CUSTOMER_ID",t."DELETED",t."SENSITIVITYLEVEL_ID",t."LOCKED",t."USERROLE_ID",t."USERLDAP",t."PASSWORDDATE",t."MESSAGECHECKINTERVAL",t."LASTNOTIFICATIONCHECK",t."LABORATORY_ID",t."GROUPSCREW",t."UNIT_ID",t."CHGPASSWORDDATE",t."LAST_BREADCRUMB_LINK",t."PASSWORD",t."SITE_ID",t."LASTRETRY",t."RETRYCOUNT",t."EMAIL",t."LASTPASSWORDDATE"
       from FG_S_USER_PIVOT t;
+
+prompt
+prompt Creating view FG_S_USER_ALL_V
+prompt =============================
+prompt
+create or replace view fg_s_user_all_v as
+select t."USER_ID",t."FORM_TEMP_ID",t."USER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."FIRSTNAME",t."USERNAME",t."POSITION",t."CHANGEPASSWORD",t."LASTNAME",t."PERMISSIONTABLE",t."TEAMLEADER_ID",t."CUSTOMER_ID",t."DELETED",t."SENSITIVITYLEVEL_ID",t."LOCKED",t."USERROLE_ID",t."USERLDAP",t."PASSWORDDATE",t."MESSAGECHECKINTERVAL",t."LASTNOTIFICATIONCHECK",t."LABORATORY_ID",t."GROUPSCREW",t."UNIT_ID",t."CHGPASSWORDDATE",t."LAST_BREADCRUMB_LINK",t."PASSWORD",t."SITE_ID",t."LASTRETRY",t."RETRYCOUNT",t."EMAIL",t."LASTPASSWORDDATE"
+--t.* end! edit only the code below...
+,t1.UserRoleName,lab.SITENAME,unit.UNITSNAME,lab.LABORATORYNAME,
+       '{"VAL":"' || nvl(t.FIRSTNAME,t.UserName) || ' ' || t.LASTNAME || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UserFullName_objidval
+       ,sens.SENSITIVITYLEVELNAME
+       ,sens.SENSITIVITYLEVELORDER
+from fg_s_user_v t,
+     Fg_s_Userrole_v t1,
+     FG_S_LABORATORY_ALL_V lab,
+     fg_s_units_all_v unit,
+     fg_s_sensitivitylevel_all_v sens
+where t.userrole_id = t1.userrole_id(+)
+and   t.LABORATORY_ID = lab.LABORATORY_ID(+)
+and   t.UNIT_ID =  unit.UNITS_ID(+)
+and   t.SENSITIVITYLEVEL_ID = sens.SENSITIVITYLEVEL_ID(+);
+
+prompt
+prompt Creating view FG_S_USERSCREW_ALL_V
+prompt ==================================
+prompt
+create or replace view fg_s_userscrew_all_v as
+select t."USERSCREW_ID",t."FORM_TEMP_ID",t."USERSCREW_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERSCREWNAME",t."PARENTID",t."USER_ID",t."DISABLED"
+--t.* end! edit only the code below...
+,pt.LABORATORYNAME, pt.UNITSNAME,pt.SITENAME ,pt.POSITION, pt.USERNAME, pt.USER_ID as "USER_ID_SINGLE" --USER_ID_SINGLE used for single user id id
+ ,decode(instr(',' || t.DISABLED|| ',',',' || pt.USER_ID || ','),0,0,1) as "isDisabled"
+from FG_S_USERSCREW_V t ,fg_s_user_all_v pt
+where 1=1 --',' || t.USER_ID || ',' like '%,' || pt.user_id || ',%'
+and instr(',' || t.USER_ID || ',',',' || pt.user_id || ',') > 0;
+
+prompt
+prompt Creating view FG_S_USERSCREW_DT_V
+prompt =================================
+prompt
+create or replace view fg_s_userscrew_dt_v as
+select DISTINCT FORMID,PARENTID,t.form_temp_id,USERNAME as "User Name",t.POSITION as "Position",t.UNITSNAME as "Units",t.LABORATORYNAME as "Laboratory",t.sitename as "Site"
+      from fg_s_userscrew_all_v t
+      order by upper(USERNAME);
+
+prompt
+prompt Creating view FG_S_USERSCREW_INF_V
+prompt ==================================
+prompt
+create or replace view fg_s_userscrew_inf_v as
+select 'UsersCrew' as formCode, t.formid as id, t.UsersCrewName as name, t.PARENTID, t.USER_ID, t.USER_ID_SINGLE
+      from FG_S_USERSCREW_ALL_V t
+      where t.SESSIONID is null
+      and   nvl(t.ACTIVE,0) = 1;
+
+prompt
+prompt Creating view FG_S_USER_DTFULLN_V
+prompt =================================
+prompt
+create or replace view fg_s_user_dtfulln_v as
+select
+       t.user_id, NVL2(t.FIRSTNAME,t.FIRSTNAME ||' '|| t.LASTNAME ,T.UserName||' '|| t.LASTNAME) as "Full Name",
+       NVL(t.FIRSTNAME,T.UserName) as "First Name",
+       t.LASTNAME  as "Last Name",
+       t.POSITION  as "Position",
+       s.SITENAME as "Site",
+       t.UNITSNAME as "Units",
+       t.LABORATORYNAME as "Lab"
+from FG_S_USER_ALL_V t,fg_s_site_all_v s
+where t.SITE_ID = s.SITE_ID(+);
+
+prompt
+prompt Creating view FG_S_USER_DT_V
+prompt ============================
+prompt
+create or replace view fg_s_user_dt_v as
+select distinct
+       --1 as "IS_CHECKBOX_DISABLED",
+       t.user_id,
+       T.UserName as "User Name",
+       NVL(t.FIRSTNAME,T.UserName) ||' '|| t.LASTNAME  as "Full Name",
+       --decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active",
+       t.POSITION  as "Position",
+       s.SITENAME as "Site",
+       t.UNITSNAME as "Unit",
+       t.LABORATORYNAME as "Laboratory",
+       LISTAGG (ug.groupname, ', ') WITHIN GROUP (ORDER BY groupname) OVER (PARTITION BY t.USER_ID) AS "Group List",
+       decode(decode(nvl(t.deleted,0),0,nvl(t.active,1),0),1,'Yes','No') as "Active"
+from FG_S_USER_ALL_V t,fg_s_site_all_v s,
+     fg_i_user_group_v ug
+where t.SITE_ID = s.SITE_ID(+)
+and   lower(t.USERNAME) not in ('system'/*,'admin'*/)
+and   t.USER_ID = ug.user_id(+);
+
+prompt
+prompt Creating view FG_S_USER_INF_V
+prompt =============================
+prompt
+create or replace view fg_s_user_inf_v as
+select 'User' as formCode, t.formId as id, t.UserName as name, t.SITE_ID, t.UNIT_ID, t.LABORATORY_ID, t.LABORATORYNAME,t.USER_ID,
+       t.SiteName,  t.USERROLE_ID, t.UserRoleName, t.FirstName, t.LastName, t.Email, t.UnitsName, u.customer_id, t.TEAMLEADER_ID, t.SENSITIVITYLEVEL_ID,t.SENSITIVITYLEVELNAME,t.SENSITIVITYLEVELORDER
+      from FG_S_USER_ALL_V t,
+           FG_S_USER_V u
+WHERE u.user_id = t.user_id;
+
+prompt
+prompt Creating view FG_TOOL_INF_V_SUMMARY
+prompt ===================================
+prompt
+CREATE OR REPLACE VIEW FG_TOOL_INF_V_SUMMARY AS
+SELECT distinct T.TABLE_NAME, decode(count(t.COLUMN_NAME) over (partition by T.TABLE_NAME),2,1,0) as isIdName,
+       ' select name, id, ''' || T.TABLE_NAME || ''' as tablename from ' || T.TABLE_NAME || ' union all ' as sql_
+FROM User_Tab_Cols T
+WHERE T.TABLE_NAME LIKE 'FG_S_%_INF_V'
+and   lower(t.COLUMN_NAME) in ('name','id');
 
 prompt
 prompt Creating materialized view FG_FORMELEMENTINFOATMETA_MV
@@ -2766,6 +4472,45 @@ as
 select distinct m.islistid , m.formcode_entity, m.entityimpcode
   from   FG_FORMELEMENTINFOATMETA_MV m
   where 1=1;
+
+prompt
+prompt Creating package FORM_TOOL
+prompt ==========================
+prompt
+create or replace package form_tool is
+  function addFormLabel(formCode_in varchar, bookmarkPrefix_in varchar, noEntityimpcodeList_in varchar) RETURN NUMBER;
+  procedure shiftElementsBookmarks(formCode_in varchar, bookmarkPrefix_in varchar, noEntityimpcodeList_in varchar, addNumber number);
+  procedure setAllStructTables;
+  procedure cleanAllData;
+  procedure printTablesRowCount(show_greater_than number);
+  procedure removeFormEntityIntProp(formCode varchar, initProp varchar);
+  procedure favoriteSqls;
+  procedure completeData;
+  procedure initFormlastsavevalueHst;
+  function updateFormlastsavevalueFromHst (formId_in varchar) RETURN NUMBER;
+  PROCEDURE updateServerMaintenanceData;
+  --
+  FUNCTION FG_SET_ALL_STRUCT_ALL_V return number;
+  function FG_output_STRUCT_ALL_V return varchar;
+  function FG_output_system_struct_V return varchar;
+  function fg_output_materialized_view_v (db_name_in varchar) return varchar;
+  function getNextBookMark (str_in varchar) return varchar;
+  PROCEDURE setLabelElementByNextBookMark;
+  function deleteFormData (formCode_in varchar, deleteFormDef_in number default 0) RETURN NUMBER;
+  procedure cleanInvalidData (formCodeIn varchar);
+  --procedure updateServerDB (formCode_in varchar);
+  --procedure copyFormDataToServer(formCodeEntityIn VARCHAR);
+  --procedure setServerMaintenanaceDataId;
+ function removeFromIdFromDB(formId_in varchar, formCodeEntity_in varchar, ts_in varchar) return number;
+  procedure unpivotFromUnitTestConf;
+  procedure removeDTRemoveButtons;
+  procedure tool_check_data(db_name_in varchar);
+ --procedure deleteAllDataByUserName(userNameIn varchar);
+/* procedure updateUnittestDB (formCode_in varchar);
+ procedure setUnitTestMaintenanaceDataId;
+ procedure copyFormDataToUnittest (formCodeEntityIn VARCHAR);*/
+end;
+/
 
 prompt
 prompt Creating package FORM_TOOL_COPY_ADAMA_DATA
@@ -3331,22 +5076,6 @@ end;
 /
 
 prompt
-prompt Creating function FG_GET_NUMERIC
-prompt ================================
-prompt
-CREATE OR REPLACE FUNCTION fg_get_numeric(p_strval in varchar2) RETURN NUMBER
-IS
-  l_numval NUMBER;
-BEGIN
-  l_numval := TO_NUMBER(p_strval);
-  RETURN l_numval;
-EXCEPTION
-  WHEN OTHERS THEN
-    RETURN null;
-END;
-/
-
-prompt
 prompt Creating function FG_GET_RATIO_TYPE_LIST
 prompt ========================================
 prompt
@@ -3726,6 +5455,468 @@ begin
 
   return 1;
 
+end;
+/
+
+prompt
+prompt Creating procedure FG_SET_COL_SIZE
+prompt ==================================
+prompt
+create or replace procedure fg_set_col_size(formcode_entity_in varchar2, table_in varchar2) as
+   is_constraint_exist integer;
+   uniqe_columns varchar2(1000);
+begin
+
+   --finding out if the constraint is already defined
+   for r in (SELECT t.COLUMN_NAME
+      INTO is_constraint_exist
+   FROM user_tab_columns t
+   WHERE t.TABLE_NAME = upper(table_in)
+   and   upper(t.COLUMN_NAME) in (select upper(v.entityimpcode) from fg_formentity_col_len_v v where upper(v.Formcode_Entity) = upper(formcode_entity_in) )
+   )
+   
+   loop 
+     EXECUTE IMMEDIATE  ' alter table ' || table_in || ' modify ' || r.column_name  || ' VARCHAR2(' || fg_get_col_size(formcode_entity_in, r.column_name) || ') ';
+   end loop;
+
+end;
+/
+
+prompt
+prompt Creating function FG_SET_STRUCT_PIVOT_TABLE
+prompt ===========================================
+prompt
+CREATE OR REPLACE FUNCTION FG_SET_STRUCT_PIVOT_TABLE (formCode_in varchar2, dropAndCreateTable_in number default 1, formid_in varchar2 default null) return number as
+
+    is_pivot_exists number;
+
+    is_pivot_bu_exists number;
+
+    col_list_pivot_statment varchar2(32767);
+
+    --TYPE ref_cursor IS REF CURSOR;
+
+    --cur REF_CURSOR;
+
+    --cVal_ varchar(100);
+
+    sql_pivot varchar2(32767);
+
+    sql_create_BASIC_v varchar2(32767);
+
+    sql_create_v varchar2(32767);
+
+    isViewExists number;
+
+    CREATE_VIEW_FLAG number := 0;
+    CREATE_VIEW_FORMCODE_CSV_LIST varchar2(32767) := '';
+
+    result number;
+
+    formCodeEntity varchar2(100);
+
+    formTypeParam varchar2(100);
+
+    isDevelop number;
+
+    formidToScript varchar2(100);
+
+    systemuser_ varchar2(100);
+
+    /*l_ varchar2(32767);
+    lsql_ varchar2(32767);*/
+
+    duplicationCheck number;
+
+    --rollbackFlag number := 0;
+
+begin
+    delete from fg_debug;
+    insert into fg_debug(comment_info,comments) values('start create table for formcode =' || formCode_in ,''); --commit;
+
+    select nvl(f.formcode_entity,f.formcode),f.form_type into formCodeEntity,formTypeParam from fg_form f where f.formcode = formCode_in;
+
+    select t.userrole_id into systemuser_ from fg_s_user_pivot t where t.username = 'system';
+
+    select count(*) into is_pivot_exists
+    from user_tables t
+    where upper(t.TABLE_NAME) = upper('FG_S_' || upper(formCodeEntity) || '_PIVOT');
+
+    select nvl(t.is_develop,0) into isDevelop from fg_sys_param t;
+    if /*override_is_develop_flag = 1 or*/ isDevelop <> 1 then
+      insert into fg_debug(comments) values('not develop');
+      raise_application_error( -20001, 'Error in FG_SET_STRUCT_PIVOT_TABLE! try to re-create table when fg_sys_param.isDevelop is not in develop mode');
+      return 0;
+    end if;
+
+    select COUNT(*) into duplicationCheck from (
+    select distinct  t.id, t.entityimpcode, t.formcode,
+    count(*) over (partition by upper(t.entityimpcode)) c1, count(*) over (partition by t.entityimpcode) c2
+    from fg_formentity t
+    where t.formcode in (select f.formcode from fg_form f where UPPER(f.formcode_entity) = upper(formCodeEntity))
+    and t.entitytype = 'Element'
+    )
+    where c1 <> c2;
+
+    if duplicationCheck > 0 then
+      insert into fg_debug(comments) values('there is duplication the in column names');
+      raise_application_error( -20001, 'Error in FG_SET_STRUCT_PIVOT_TABLE! there is duplication in the column names on the same formcode_entity!');
+      return 0;
+    end if;
+
+    if is_pivot_exists = 1 and dropAndCreateTable_in = 1  then
+    -------------------------------------
+    -- updates the pivot table to get the additional columns that has been added to the form
+    -------------------------------------
+    for col in(
+        select distinct upper(t.entityimpcode) as col_name
+            from FG_FORMENTITY t
+            where t.entitytype = 'Element'
+            --remove not needed entityimpclass
+            and t.entityimpclass not in ('ElementLabelImp','ElementIreportImp','ElementSmartSearchImp')--decode(formTypeParam,'General','NA','Report','NA','ElementDataTableApiImp'))
+            -- incluse element also from other forms which "mapped" to this from (using the same formcode_entity)
+            and t.formcode = formCode_in
+            minus
+            select upper(tc.COLUMN_NAME) from user_tab_columns tc where tc.TABLE_NAME = 'FG_S_' || upper(formCodeEntity) || '_PIVOT'
+         )
+         loop
+           if col_list_pivot_statment is null then
+             col_list_pivot_statment:=col.col_name ||' VARCHAR2(' || fg_get_col_size(formCodeEntity, col.col_name)||')';
+             else
+              col_list_pivot_statment:=col_list_pivot_statment||','||col.col_name ||' VARCHAR2(' || fg_get_col_size(formCodeEntity, col.col_name)||')';
+           end if;
+         end loop;
+         if col_list_pivot_statment is not null then
+           insert into fg_debug(comment_info,comments) values('add columns to table FG_S_' || formCodeEntity||'_PIVOT'
+           ,'alter table FG_S_' || upper(formCodeEntity) || '_PIVOT add ('|| col_list_pivot_statment||')'); --commit;
+           execute immediate 'alter table FG_S_' || upper(formCodeEntity) || '_PIVOT'
+           || ' add ('|| col_list_pivot_statment||')';
+           commit;
+         end if;
+        /*for cVal in (
+          select distinct * from
+            (select distinct upper(t.entityimpcode) as col_name
+            from FG_FORMENTITY t
+            where t.entitytype = 'Element'
+            --remove not needed entityimpclass
+            and t.entityimpclass not in ('ElementLabelImp','ElementIreportImp','ElementSmartSearchImp')--decode(formTypeParam,'General','NA','Report','NA','ElementDataTableApiImp'))
+            -- incluse element also from other forms which "mapped" to this from (using the same formcode_entity)
+            and t.formcode = formCode_in
+            union all
+            select upper(tc.COLUMN_NAME) from user_tab_columns tc where tc.TABLE_NAME = 'FG_S_' || upper(formCodeEntity) || '_PIVOT'
+            )
+          )
+        LOOP
+          ----dbms_output.put_line(  cVal.val_ );
+          if col_list_pivot_statment is null then
+            col_list_pivot_statment := cVal.col_name || ' as ''' ||  cVal.col_name || '''';
+          else
+            col_list_pivot_statment := col_list_pivot_statment || ',' || cVal.col_name || ' as ''' ||  cVal.col_name || '''';
+          end if;
+        END LOOP;*/
+    end if;
+
+    col_list_pivot_statment := null;
+
+    -------------------------------------
+    --arrange last save data with production <-> develop correction
+    -------------------------------------
+    for cVal in (
+                    select distinct t.entityimpcode as val_
+                    from FG_FORMENTITY t
+                    where t.entitytype = 'Element'
+                    --remove not needed entityimpclass
+                    and t.entityimpclass not in ('ElementLabelImp','ElementIreportImp','ElementSmartSearchImp')--decode(formTypeParam,'General','NA','Report','NA','ElementDataTableApiImp'))
+                    -- incluse element also from other forms which "mapped" to this from (using the same formcode_entity)
+                    and  (t.formcode in (select f1.formcode from fg_form f1 where f1.formcode_entity = formCodeEntity)
+                         OR t.formcode = formCode_in)
+                    -- remove element with ADDITIONALDATA form builder definition
+                    and not exists (select 1 from FG_FORMENTITY t2 WHERE t.id = t2.id and upper(T2.ENTITYIMPINIT) LIKE '%"ADDITIONALDATA":TRUE%')
+                    and (
+                          is_pivot_exists = 0
+                          or
+                          1 = (select decode(count(*),0,0,1) from user_tab_columns tc where tc.TABLE_NAME = 'FG_S_' || upper(formCodeEntity) || '_PIVOT' and tc.COLUMN_NAME = upper(t.entityimpcode))
+                        )
+                  )
+    LOOP
+      ----dbms_output.put_line(  cVal.val_ );
+      if col_list_pivot_statment is null then
+        col_list_pivot_statment := cVal.val_ || ' as ''' ||  cVal.val_ || '''';
+      else
+        col_list_pivot_statment := col_list_pivot_statment || ',' || cVal.val_ || ' as ''' ||  cVal.val_ || '''';
+      end if;
+
+     -- insert into fg_debug(comments) values (cVal.val_ || ' as ''' ||  cVal.val_ || '''');
+      --commit;
+    END LOOP;
+
+    delete from FG_FORMLASTSAVEVALUE_UNPIVOT t where t.formcode_entity = formCodeEntity and t.formid <> nvl(formid_in,'-1');
+
+    --commit;
+
+        if is_pivot_exists = 1 then
+
+      execute immediate '
+      update FG_FORMLASTSAVEVALUE_UNPIVOT t set (t.cloneid,t.templateflag) = (
+      select t1.cloneid,t1.templateflag from fg_s_' || formCodeEntity || '_pivot t1 where t1.formid = ''' || formid_in || ''' )
+      where t.formid = ''' || formid_in || '''';
+      commit;
+
+      if formid_in is null then
+        formidToScript := '-1';
+      else
+        formidToScript := formid_in;
+      end if;
+
+      sql_pivot := '
+      insert into FG_FORMLASTSAVEVALUE_UNPIVOT
+                  (id,
+                  formid,
+                  formcode_entity,
+                  entityimpcode,
+                  entityimpvalue,
+                  userid,
+                  sessionid,
+                  active,
+                  --formidscript,
+                  formcode_name,
+                  created_by,
+                  creation_date,
+                  timestamp,
+                  change_by,
+                  CLONEID,
+                  TEMPLATEFLAG )
+      select  null,
+              formid,
+              ''' || formCodeEntity || ''',
+              entityimpcode,
+              entityimpvalue,
+              nvl(change_by,''' || systemuser_ || ''') as userid,
+              sessionid,
+              active,
+              --formidscript,
+              formcode,
+              created_by,
+              creation_date,
+              timestamp,
+              change_by,
+              CLONEID,
+              TEMPLATEFLAG
+      from FG_S_' || upper(formCodeEntity) || '_PIVOT unpivot include nulls
+       (entityimpvalue for(entityimpcode) in
+         (
+                 ' ||       col_list_pivot_statment || '
+         )
+        ) where active >= 0 and formid <> ' || formidToScript || ' ';
+        insert into fg_debug(comments) values (sql_pivot); commit;
+        execute immediate sql_pivot;
+    end if;
+
+    --clean col_list_pivot_statment
+    col_list_pivot_statment := '';
+
+    --commit;
+
+    -------------------------------------
+    -- done arrange last save
+    -------------------------------------
+
+
+    --update CREATE_VIEW_FLAG
+    select decode(instr( ',' || CREATE_VIEW_FORMCODE_CSV_LIST || ','
+                        , ',' || formCode_in || ',')
+                  ,0,0,1) into CREATE_VIEW_FLAG
+    from dual;
+
+    for cVal in (
+                    select distinct t.entityimpcode as val_
+                    from FG_FORMENTITY t
+                    where t.entitytype = 'Element'
+                    --remove not needed entityimpclass
+                    and t.entityimpclass not in ('ElementLabelImp','ElementIreportImp','ElementSmartSearchImp')--decode(formTypeParam,'General','NA','Report','NA','ElementDataTableApiImp'))
+                    -- incluse element also from other forms which "mapped" to this from (using the same formcode_entity)
+                    and  (t.formcode in (select f1.formcode from fg_form f1 where f1.formcode_entity = formCodeEntity)
+                         OR t.formcode = formCode_in)
+                    -- remove element with ADDITIONALDATA form builder definition
+                    and not exists (select 1 from FG_FORMENTITY t2 WHERE t.id = t2.id and upper(T2.ENTITYIMPINIT) LIKE '%"ADDITIONALDATA":TRUE%')
+                  )
+    LOOP
+      ----dbms_output.put_line(  cVal.val_ );
+      col_list_pivot_statment := col_list_pivot_statment || ',''' || cVal.val_ || ''' as ' ||  cVal.val_;
+    END LOOP;
+
+
+    sql_pivot := '
+    SELECT * FROM
+    (select "FORMID" as formId,
+           first_value(t.TIMESTAMP) over (partition by "FORMID" order by t.id desc) as "TIMESTAMP",
+           first_value(t.CREATION_DATE) over (partition by "FORMID" order by t.id desc)  as CREATION_DATE,
+           CLONEID,
+           TEMPLATEFLAG,
+           CAST(first_value(CHANGE_BY) over (partition by "FORMID" order by t.id desc) AS varchar2(100) ) as "CHANGE_BY",
+           CAST(first_value(CREATED_BY) over (partition by "FORMID" order by t.id desc) AS varchar2(100) ) as "CREATED_BY",
+           CAST(null AS varchar2(100) ) as "SESSIONID",
+           first_value("ACTIVE") over (partition by "FORMID" order by t.id desc) AS "ACTIVE",
+           CAST(first_value(FORMCODE_ENTITY) over (partition by "FORMID" order by t.id desc) AS varchar2(100) ) as FORMCODE_ENTITY,
+           CAST(first_value(t.formcode_name) over (partition by "FORMID" order by t.id desc) AS varchar2(100) ) as "FORMCODE",
+           "ENTITYIMPCODE" as col_,
+           "ENTITYIMPVALUE" as val_
+    from FG_FORMLASTSAVEVALUE_UNPIVOT t
+    where t.FORMCODE_ENTITY = ''' || formCodeEntity || ''')
+    PIVOT (max(val_) FOR col_ IN (' || substr(col_list_pivot_statment,2) || '))';
+
+    --dbms_output.put_line('sql_pivot=' || sql_pivot);
+
+      --  if col_list_pivot is not null then
+      if is_pivot_exists = 1 and dropAndCreateTable_in = 1  then
+          EXECUTE IMMEDIATE ' CREATE table ' || 'FG_S_' || upper(formCodeEntity) || '_BU AS SELECT * FROM FG_S_' || upper(formCodeEntity) || '_PIVOT';
+          EXECUTE IMMEDIATE 'drop table ' || 'FG_S_' || upper(formCodeEntity) || '_PIVOT';
+          --rollbackFlag := 1;
+      end if;
+
+      if dropAndCreateTable_in = 1 then
+        insert into fg_debug(comment_info,comments) values(' CREATE table ' || 'FG_S_' || upper(formCodeEntity) || '_PIVOT' || ' AS ...', sql_pivot);--commit;
+        EXECUTE IMMEDIATE ' CREATE table ' || 'FG_S_' || upper(formCodeEntity) || '_PIVOT' || ' AS ' || sql_pivot;
+        --rollbackFlag := 0;
+
+        select count(*) into is_pivot_bu_exists
+        from user_tables t
+        where upper(t.TABLE_NAME) = upper('FG_S_' || upper(formCodeEntity) || '_BU');
+
+        if is_pivot_bu_exists = 1 then
+          EXECUTE IMMEDIATE 'drop table ' || 'FG_S_' || upper(formCodeEntity) || '_BU';
+        end if;
+
+      end if;
+
+      --commit;
+
+      select count(*) into is_pivot_exists
+      from user_tables t
+      where upper(t.TABLE_NAME) = upper('FG_S_' || upper(formCodeEntity) || '_PIVOT');
+
+      if is_pivot_exists = 0 then
+        return 0; -- not exists
+      end if;
+
+      fg_set_col_size(formCodeEntity, 'FG_S_' || upper(formCodeEntity) || '_PIVOT');
+
+
+      sql_create_BASIC_v := '
+      create or replace view FG_S_' || upper(formCodeEntity) || '_V as
+      select to_number(t.formid) as ' || lower(formCodeEntity) || '_id,
+             t.formid || decode(nvl(t.sessionId,''-1''),''-1'',null, ''-'' || t.sessionId) || decode(nvl(t.active,1),0,''-0'') as form_temp_id,
+             ''{"VAL":"'' || t.' || formCodeEntity || 'Name || ''","ID":"'' || t.formid || ''", "ACTIVE":"'' || nvl(t.active,1) || ''"}'' as ' || formCodeEntity || '_objidval,
+             t.*
+      from ' || 'FG_S_' || upper(formCodeEntity) || '_PIVOT' || ' t ';
+
+    EXECUTE IMMEDIATE sql_create_BASIC_v;
+
+    --update from code loop for views >= all_v
+    for r in (
+            select distinct upper(t.formcode) as formCode_uppercase,
+                            t.formcode as formCode_
+            from FG_FORM T
+            WHERE 1=1
+            -- incluse element also from other forms which "mapped" to this from (using the same formcode_entity)
+            and  (t.formcode in (select f1.formcode from fg_form f1 where f1.formcode_entity = formCodeEntity)
+                         OR t.formcode = formCode_in)
+    )
+    loop
+            --CREATE 'ALL' VIEW IF NOT EXISTS (to avoid override views we develop!!!)
+            select COUNT(*) into isViewExists
+            from user_views t
+            where t.VIEW_NAME = upper('FG_S_' || r.formCode_uppercase || '_ALL_V');
+
+            if CREATE_VIEW_FLAG = 1 or isViewExists = 0 then
+              sql_create_v := '
+              create or replace view FG_S_' || r.formCode_uppercase || '_ALL_V as
+              select t.*
+                     --t.* end! edit only the code below...
+              from FG_S_' || upper(formCodeEntity) || '_V t ';
+              EXECUTE IMMEDIATE sql_create_v;
+            else
+              result := fg_set_struct_all_v('FG_S_' || r.formCode_uppercase || '_ALL_V');
+              --dbms_output.put_line(result);
+            end if;
+
+            --.. insert to FG_RESOURCE
+            select COUNT(*) into isViewExists
+            from FG_RESOURCE t
+            where t.code = 'FG_S_' || r.formCode_uppercase || '_ALL_V';
+
+            if isViewExists = 0 then
+                 INSERT INTO FG_RESOURCE (TYPE,CODE,VALUE,INFO) VALUES ('CATALOG_ORACLE_TABLE','FG_S_' || r.formCode_uppercase || '_ALL_V','FG_S_' || r.formCode_uppercase || '_ALL_V', r.formCode_uppercase || ' view. insert to FG_RESOURCE by FG_SET_STRUCT_PIVOT_TABLE func as ' || to_char(sysdate,'dd/MM/yyyy HH24:MI'));
+            end if;
+
+
+            --CREATE 'DT' (Data table) VIEW IF NOT EXISTS (to avoid override views we develop!!!)
+            select COUNT(*) into isViewExists
+            from user_views t
+            where t.VIEW_NAME = upper('FG_S_' || r.formCode_uppercase || '_DT_V');
+
+            if CREATE_VIEW_FLAG = 1 or isViewExists = 0 then
+              sql_create_v := '
+              create or replace view FG_S_' || r.formCode_uppercase || '_DT_V as
+              select *
+              from FG_S_' || r.formCode_uppercase || '_ALL_V t ';
+              EXECUTE IMMEDIATE sql_create_v;
+            end if;
+
+            --CREATE 'INF' (Data table) VIEW IF NOT EXISTS (to avoid override views we develop!!!)
+            select COUNT(*) into isViewExists
+            from user_views t
+            where t.VIEW_NAME = upper('FG_S_' || r.formCode_uppercase || '_INF_V');
+
+            if CREATE_VIEW_FLAG = 1 or isViewExists = 0 then
+              sql_create_v := '
+              create or replace view FG_S_' || r.formCode_uppercase || '_INF_V as
+              select ''' || r.formCode_ || ''' as formCode, t.formid as id, t.' || formCodeEntity || 'Name as name
+              from FG_S_' || r.formCode_uppercase || '_ALL_V t ';
+              EXECUTE IMMEDIATE sql_create_v;
+            end if;
+
+            --.. insert to FG_RESOURCE
+            select COUNT(*) into isViewExists
+            from FG_RESOURCE t
+            where t.code = 'FG_S_' || r.formCode_uppercase || '_DT_V';
+
+            if isViewExists = 0 then
+                 INSERT INTO FG_RESOURCE (TYPE,CODE,VALUE,INFO) VALUES ('CATALOG_ORACLE_TABLE','FG_S_' || r.formCode_uppercase || '_DT_V','FG_S_' || r.formCode_uppercase || '_DT_V', r.formCode_uppercase || ' view. insert to FG_RESOURCE by FG_SET_STRUCT_PIVOT_TABLE func as ' || to_char(sysdate,'dd/MM/yyyy HH24:MI'));
+            end if;
+
+             --CREATE AUTHEN VIEW (Data table) VIEW IF NOT EXISTS (to avoid override views we develop!!!) --FG_AUTHEN_PROJECT_V
+            select COUNT(*) into isViewExists
+            from user_views t
+            where t.VIEW_NAME = upper('FG_AUTHEN_' || r.formCode_uppercase || '_V');
+
+            if CREATE_VIEW_FLAG = 1 or isViewExists = 0 then
+              sql_create_v := '
+              create or replace view FG_AUTHEN_' || r.formCode_uppercase || '_V as
+              select *
+              from FG_S_' || r.formCode_uppercase || '_ALL_V ';
+              EXECUTE IMMEDIATE sql_create_v;
+            end if;
+
+            --.. insert to FG_RESOURCE
+            /*select COUNT(*) into isViewExists
+            from FG_RESOURCE t
+            where t.code = 'FG_AUTHEN_' || upper(formCode_in) || '_V';
+
+            if isViewExists = 0 then
+                 INSERT INTO FG_RESOURCE (TYPE,CODE,VALUE,INFO) VALUES ('CATALOG_ORACLE_TABLE','FG_AUTHEN_' || upper(formCode_in) || '_V','FG_AUTHEN_' || upper(formCode_in) || '_V', upper(formCode_in) || ' view. insert to FG_RESOURCE by FG_SET_STRUCT_PIVOT_TABLE func as ' || to_char(sysdate,'dd/MM/yyyy HH24:MI'));
+            end if;*/
+    end loop;
+
+    return 0;
+/*EXCEPTION
+    when others then
+      if rollbackFlag = 1 then
+        EXECUTE IMMEDIATE ' CREATE table ' || 'FG_S_' || upper(formCodeEntity) || '_PIVOT AS SELECT * FROM FG_S_' || upper(formCodeEntity) || '_BU';
+        EXECUTE IMMEDIATE ' DROP TABLE ' || 'FG_S_' || upper(formCodeEntity) || '_BU';
+        raise_application_error( -20001, 'Error in FG_SET_STRUCT_PIVOT_TABLE ROLL BACK DATA WAS MADE');
+        return 0;
+      end if;*/
 end;
 /
 
@@ -4257,30 +6448,6 @@ end;
 /
 
 prompt
-prompt Creating procedure FG_SET_COL_SIZE
-prompt ==================================
-prompt
-create or replace procedure fg_set_col_size(formcode_entity_in varchar2, table_in varchar2) as
-   is_constraint_exist integer;
-   uniqe_columns varchar2(1000);
-begin
-
-   --finding out if the constraint is already defined
-   for r in (SELECT t.COLUMN_NAME
-      INTO is_constraint_exist
-   FROM user_tab_columns t
-   WHERE t.TABLE_NAME = upper(table_in)
-   and   upper(t.COLUMN_NAME) in (select upper(v.entityimpcode) from fg_formentity_col_len_v v where upper(v.Formcode_Entity) = upper(formcode_entity_in) )
-   )
-   
-   loop 
-     EXECUTE IMMEDIATE  ' alter table ' || table_in || ' modify ' || r.column_name  || ' VARCHAR2(' || fg_get_col_size(formcode_entity_in, r.column_name) || ') ';
-   end loop;
-
-end;
-/
-
-prompt
 prompt Creating procedure SET_SINGLE_CONSTRAINTS_INFO
 prompt ==============================================
 prompt
@@ -4608,6 +6775,1725 @@ begin
   execute immediate v_sql;
 
 end TRUNCATE_IT;
+/
+
+prompt
+prompt Creating package body FORM_TOOL
+prompt ===============================
+prompt
+create or replace package body form_tool is
+
+   function addFormLabel(formCode_in varchar, bookmarkPrefix_in varchar, noEntityimpcodeList_in varchar) return number as
+   begin
+          --bu
+          EXECUTE IMMEDIATE ' CREATE table FG_FORMENTITY_' || to_char(sysdate,'DDMMHH24MISS') || ' as select * from FG_FORMENTITY ';
+
+          --insert lable before elements: 'ElementAutoCompleteIdValDDLImp','ElementInputImp','ElementAutoCompleteDDLImp' with label text as source element on one baook mark left
+          insert into FG_FORMENTITY (FORMCODE,NUMBEROFORDER,ENTITYTYPE,ENTITYIMPCODE,ENTITYIMPCLASS,ENTITYIMPINIT)
+          select * from
+          (
+
+              select formCode_in, --FORMCODE
+                     0, --NUMBEROFORDER
+                     'Element', --ENTITYTYPE
+                     'l' || t.entityimpcode,--ENTITYIMPCODE
+                     'ElementLabelImp',--ElementLabelImp
+                     -- the expression
+                     case
+                       when REGEXP_INSTR(t.entityimpinit,bookmarkPrefix_in || '[0-9][0-9][0-9][0-9]') > 0 then --4 DIGIT
+                          '{"text":"' || nvl(fg_get_value_from_json(t.entityimpinit,'label',null),initcap(t.entityimpcode)) || '","elementName":"' || t.entityimpcode || '","layoutBookMarkItem":"' || bookmarkPrefix_in  || (to_number(substr(t.entityimpinit, instr(t.entityimpinit,bookmarkPrefix_in) + length(bookmarkPrefix_in),4)) -1) || '","keepValueOnParentChange":false,"preventSave":false,"hideAlways":false,"disableAlways":false,"mandatory":false,"invIncludeInGrig":false,"invIncludeInFilter":false}'--ENTITYIMPINIT
+                       when REGEXP_INSTR(t.entityimpinit,bookmarkPrefix_in || '[0-9][0-9][0-9]') > 0 then -- 3 DIGIT
+                          '{"text":"' || nvl(fg_get_value_from_json(t.entityimpinit,'label',null),initcap(t.entityimpcode)) || '","elementName":"' || t.entityimpcode || '","layoutBookMarkItem":"' || bookmarkPrefix_in  || (to_number(substr(t.entityimpinit, instr(t.entityimpinit,bookmarkPrefix_in) + length(bookmarkPrefix_in),3)) -1) || '","keepValueOnParentChange":false,"preventSave":false,"hideAlways":false,"disableAlways":false,"mandatory":false,"invIncludeInGrig":false,"invIncludeInFilter":false}'--ENTITYIMPINIT
+                       when REGEXP_INSTR(t.entityimpinit,bookmarkPrefix_in || '[0-9][0-9]') > 0 then --2 DIGIT
+                          '{"text":"' || nvl(fg_get_value_from_json(t.entityimpinit,'label',null),initcap(t.entityimpcode)) || '","elementName":"' || t.entityimpcode || '","layoutBookMarkItem":"' || bookmarkPrefix_in  || (to_number(substr(t.entityimpinit, instr(t.entityimpinit,bookmarkPrefix_in) + length(bookmarkPrefix_in),2)) -1) || '","keepValueOnParentChange":false,"preventSave":false,"hideAlways":false,"disableAlways":false,"mandatory":false,"invIncludeInGrig":false,"invIncludeInFilter":false}'--ENTITYIMPINIT
+                       when REGEXP_INSTR(t.entityimpinit,bookmarkPrefix_in || '[0-9]') > 0 then --1 DIGIT
+                            '{"text":"' || nvl(fg_get_value_from_json(t.entityimpinit,'label',null),initcap(t.entityimpcode)) || '","elementName":"' || t.entityimpcode || '","layoutBookMarkItem":"' || bookmarkPrefix_in  || (to_number(substr(t.entityimpinit, instr(t.entityimpinit,bookmarkPrefix_in) + length(bookmarkPrefix_in),1)) -1) || '","keepValueOnParentChange":false,"preventSave":false,"hideAlways":false,"disableAlways":false,"mandatory":false,"invIncludeInGrig":false,"invIncludeInFilter":false}'--ENTITYIMPINIT
+
+                     end init_json
+              from FG_FORMENTITY t
+              where t.formcode = formCode_in
+              and   t.entityimpclass in ('ElementAutoCompleteIdValDDLImp','ElementInputImp','ElementAutoCompleteDDLImp','ElementTextareaImp','ElementRichTextEditorImp')
+              and   (t.formcode,'l' || t.entityimpcode) not in (select FORMCODE,ENTITYIMPCODE from FG_FORMENTITY)
+              and   instr(',' || noEntityimpcodeList_in || ',', ',' || t.entityimpcode || ',') = 0 --not in list
+          )
+          where init_json is not null;
+          commit;
+          return 1;
+   end;
+
+   procedure shiftElementsBookmarks(formCode_in varchar, bookmarkPrefix_in varchar, noEntityimpcodeList_in varchar, addNumber number) as
+   begin
+          --bu
+          EXECUTE IMMEDIATE ' CREATE table FG_FORMENTITY_' || to_char(sysdate,'DDMMHH24MISS') || ' as select * from FG_FORMENTITY ';
+
+          --shift
+          update FG_FORMENTITY t
+          set t.ENTITYIMPINIT = case
+                               when REGEXP_INSTR(t.entityimpinit,bookmarkPrefix_in || '[0-9][0-9][0-9][0-9]') > 0 then --4 DIGIT
+                                 REGEXP_REPLACE(t.entityimpinit,bookmarkPrefix_in || '[0-9][0-9][0-9][0-9]',bookmarkPrefix_in || (to_number(substr(t.entityimpinit, instr(t.entityimpinit,bookmarkPrefix_in) + length(bookmarkPrefix_in),4)) + addNumber))
+                               when REGEXP_INSTR(t.entityimpinit,bookmarkPrefix_in || '[0-9][0-9][0-9]') > 0 then -- 3 DIGIT
+                                 REGEXP_REPLACE(t.entityimpinit,bookmarkPrefix_in || '[0-9][0-9][0-9]',bookmarkPrefix_in || (to_number(substr(t.entityimpinit, instr(t.entityimpinit,bookmarkPrefix_in) + length(bookmarkPrefix_in),3)) + addNumber))
+                               when REGEXP_INSTR(t.entityimpinit,bookmarkPrefix_in || '[0-9][0-9]') > 0 then --2 DIGIT
+                                 REGEXP_REPLACE(t.entityimpinit,bookmarkPrefix_in || '[0-9][0-9]',bookmarkPrefix_in || (to_number(substr(t.entityimpinit, instr(t.entityimpinit,bookmarkPrefix_in) + length(bookmarkPrefix_in),2)) + addNumber))
+                               end
+          where t.formcode = formCode_in
+          and   t.entitytype = 'Element'
+          and   t.entityimpinit like '%' || bookmarkPrefix_in || '_%'
+          and   instr(',' || noEntityimpcodeList_in || ',', ',' || t.entityimpcode || ',') = 0; --not in list
+
+          commit;
+   end;
+
+   procedure setAllStructTables as
+     result number;
+   begin
+          for r in (
+            /*select distinct t.formcode
+            from FG_FORM t
+            where t.form_type in ('STRUCT','ATTACHMENT','STRUCT')*/
+            select distinct t.formcode_entity
+            from FG_FORM t where t.formcode <> t.formcode_entity
+            and t.formcode_entity in (select distinct  t1.formcode from FG_FORM t1)
+          )
+          loop
+              result := FG_SET_STRUCT_PIVOT_TABLE(r.formcode_entity, 1);
+          end loop;
+
+       /*     begin
+         \* for r in (
+            select distinct t.formcode
+            from FG_FORM t
+            where t.form_type in ('STRUCT','ATTACHMENT')
+            and t.formcode in (select t1.formcode from fg_formlastsavevalue t1)
+          )
+          loop
+            execute immediate ' delete from  FG_S_' || upper(r.formcode) || '_PIVOT ';
+            execute immediate ' delete from  fg_formlastsavevalue where formcode = ''' || r.formcode || ''' ';
+
+          end loop;*\
+
+           for r in (
+            select distinct t.formcode
+            from FG_FORM t
+            where t.form_type in ('GENERAL')
+            and t.formcode in (select t1.formcode from fg_formlastsavevalue t1)
+          )
+          loop
+            execute immediate ' delete from  fg_formlastsavevalue where formcode = ''' || r.formcode || ''' ';
+
+          end loop;
+
+          commit;
+   end;*/
+
+          commit;
+   end;
+
+   procedure cleanAllData as
+      dummy number;
+   begin
+          /*
+          CREATE TABLE FG_FORMLASTSAVEVALUE AS
+          select * from FG_FORMLASTSAVEVALUE_13072017 t
+          */
+
+         /* DELETE from FG_FORMLASTSAVEVALUE t where UPPER(t.FORMCODE_ENTITY) NOT in (SELECT UPPER(T1.FORMCODE) FROM FG_FORM T1 WHERE T1.FORM_TYPE = 'MAINTENANCE');
+
+          UPDATE FG_FORMLASTSAVEVALUE T SET T.FORMIDSCRIPT = T.FORMID;
+
+          update FG_FORMLASTSAVEVALUE t set t.formid = ( select ranki
+                                                          from (
+                                                                 select t1.*, dense_rank() over (order by formid) + 1000 as ranki from FG_FORMLASTSAVEVALUE t1
+                                                                ) s
+                                                          where s.id = t.id
+                                                         );
+
+          UPDATE FG_FORMLASTSAVEVALUE T SET T.ENTITYIMPVALUE = (SELECT DISTINCT T1.FORMID FROM FG_FORMLASTSAVEVALUE T1 WHERE T1.FORMIDSCRIPT = T.ENTITYIMPVALUE)  WHERE T.FORMCODE_ENTITY LIKE '%_ID' OR T.ENTITYIMPCODE = 'formId' OR (T.ENTITYIMPCODE = 'type' and t.FORMCODE_ENTITY = 'UOM');
+          */
+
+          for r in (
+           select t.TABLE_NAME
+            from user_tables t
+            where 1=1
+            AND (t.TABLE_NAME like 'FG_S_%_PIVOT'
+            OR    T.TABLE_NAME IN ('FG_S_FORMULANTREF_ALL_V_PLAN',
+                                  'CREATE_SERIES_INDX_DATA_SS',
+                                  'FG_ACCESS_LOG',
+                                  'FG_ACTIVITY_LOG',
+                                  'FG_AUTHEN_REPORT_V',
+                                  'FG_CHEM_DOODLE_DATA',
+                                  'FG_CLOB_FILES',
+                                  'FG_DEBUG',
+                                  'FG_FILES',
+                                  'FG_FORMID_UNPIVOT_LIST_TMP',
+                                  'FG_FORMTEST_DATA',
+                                  'FG_R_DEMO_TEST_DATA',
+                                  'FG_R_EXPERIMENT_CHEMDRAW_V_PLN',
+                                  'FG_RICHTEXT',
+                                  'FG_R_SYSTEM_VIEW',
+                                  'FG_TOOL_INF_ALL_DATA',
+                                  'FG_RESULTS',
+                                  'FG_FORMADDITIONALDATA',
+                                  'FG_FORMADDITIONALDATA_HST',
+                                  'FG_FORMMONITOPARAM_DATA',
+                                  'FG_DYNAMICPARAMS'))
+            AND   UPPER(REPLACE(REPLACE(T.TABLE_NAME,'FG_S_'),'_PIVOT')) not IN (SELECT UPPER(F.FORMCODE_ENTITY) FROM FG_FORM F WHERE F.FORM_TYPE = 'MAINTENANCE' or f.formcode = 'PermissionSRef')
+          )
+          loop
+               truncate_it(r.TABLE_NAME);
+          end loop;
+
+          delete from fg_sequence t where upper(t.formcode) not  in ( SELECT distinct UPPER(F.Formcode) FROM FG_FORM F WHERE F.FORM_TYPE = 'MAINTENANCE'
+                                                                      union
+                                                                      SELECT distinct UPPER(F.Formcode_Entity) FROM FG_FORM F WHERE F.FORM_TYPE = 'MAINTENANCE');
+
+          delete from fg_formlastsavevalue t where t.formid not in (select id from fg_sequence);
+
+           truncate_it('FG_FORMLASTSAVEVALUE_HST');
+           truncate_it('FG_FORMLASTSAVEVALUE_INF');
+
+         /* for r in (
+            SELECT  T1.FORMCODE FROM FG_FORM T1 WHERE T1.FORM_TYPE = 'MAINTENANCE'
+          )
+          loop
+              dummy := FG_SET_STRUCT_PIVOT_TABLE(r.formcode);
+          end loop;
+
+          delete from FG_SEQUENCE t;
+
+          completeData;
+
+          initFormlastsavevalueHst;*\*/
+
+          commit;
+
+          --update FG_SEQUENCE_system_SEQ to max + 1 in FG_SEQUENCE
+          --update FG_SEQUENCE_SEQ to 100000
+
+
+         /* delete from fg_form t
+          where lower(t.formcode) like '%eyal%' or lower(t.formcode) like '%yaron%' or lower(t.formcode) like '%alex%' and lower(t.formcode) not like 'protocoltypeeyal';
+
+          delete from fg_formentity t
+          where t.formcode not in (select formcode from fg_form);
+
+          --unlinked values
+          delete from fg_formlastsavevalue t
+          where t.formcode not in (select formcode from fg_form);
+
+          --developers data (developers will eneter <form>Name value
+          delete from fg_formlastsavevalue t
+          where t.formid in
+          (
+            select formid
+            from fg_formlastsavevalue t
+            where 1=1
+            and   t.formcode <> 'User'
+            and   lower(t.entityimpcode) = lower(t.formcode) || 'name'
+            and   (
+                     lower(t.entityimpvalue) like '%eyal%'
+                     or lower(t.entityimpvalue) like '%yaron%'
+                     or t.entityimpvalue in ('Ptest1')
+                  )
+          );
+
+          --unlinked doc
+          delete from fg_formlastsavevalue t
+          where t.formid in (
+            select t.formid
+            from fg_s_document_all_v t
+            where t.PARENTID not in (
+            select formid
+            from fg_formlastsavevalue t
+            )
+          );
+
+          --unlinked file
+          delete from fg_files t
+          where t.file_id not in (
+            select t.formid
+            from fg_formlastsavevalue t
+          );
+
+          commit;
+
+          --MORE CLEAN SELECT...
+          \*
+          SELECT * FROM FG_RESOURCE T WHERE UPPER(T.CODE) NOT IN (
+          select UPPER(T1.VIEW_NAME) from FG_R_SYSTEM_VIEW t1) AND UPPER(T.CODE) NOT IN  (
+          SELECT T1.TABLE_NAME FROM USER_TABLES T1
+          ) --AND UPPER(T.CODE) NOT IN ( SELECT FG_FORMENTITY.ENTITYIMPINIT FROM FG_FORMENTITY)
+          ;
+
+          select *
+          from FG_RESOURCE t,
+          FG_FORMENTITY F
+          WHERE INSTR(UPPER(F.ENTITYIMPINIT),UPPER(T.CODE))  > 0
+          AND T.TYPE IS NULL ;
+          *\*/
+   end;
+
+   procedure printTablesRowCount (show_greater_than number) as
+
+      cursor c_tables_list is
+      select TABLE_NAME from user_tables order by TABLE_NAME;
+
+      r_tables_list c_tables_list%rowtype;
+
+      flagCounter number := 0;
+
+      tmpMinusQuery varchar(4000) := '';
+
+   begin
+
+      for r_tables_list in c_tables_list
+      loop
+        tmpMinusQuery := ' select
+                              (select count(*) from ' || r_tables_list.TABLE_NAME || ')
+                          from dual ';
+        execute immediate tmpMinusQuery  into flagCounter;
+
+        if flagCounter > nvl(show_greater_than,0) then
+           dbms_output.put_line(  r_tables_list.TABLE_NAME || ' - ' || NVL(flagCounter,0) || ' rows.' );
+        end if;
+
+      end loop;
+
+   end;
+
+   procedure removeFormEntityIntProp(formCode varchar, initProp varchar) as
+   begin
+     dbms_output.put_line('dummy' || formCode || initProp); --run update sql as below
+     --update FG_FORMENTITY t set t.entityimpinit = replace(t.entityimpinit,'"invIncludeInGrig":false,"invIncludeInFilter":false','') where t.entityimpinit like '%,"invIncludeInGrig":false,"invIncludeInFilter":false%'
+   end;
+
+   procedure favoriteSqls as
+   begin
+
+     dbms_output.put_line('dummy');
+
+     --session process info
+     /* SELECT  S.USERNAME, S.MACHINE, s.LOGON_TIME, s.LOCKWAIT
+      FROM V$SESSION_CONNECT_INFO SC , V$SESSION S--, v$process p
+      WHERE S.SID = SC.SID
+      --and S.MACHINE = 'COMPLYPC161'
+      --and s.paddr = p.addr
+     */
+     --number of main objects per project - month
+    /*select  distinct t1.PROJECT_ID, T1.PROJECTNAME, t1.ProjectTypeName, t1.CREATION_DATE AS PROJECT_CREATION_DATE, u.UserName as PROJECT_CREATED_BY,
+            t1.formcodeentitylabel entity_name, t1.entity_month,
+            count(distinct t1.id) over (partition by t1.PROJECT_ID,lower(t1.formcodeentitylabel), t1.entity_month) as num_entities_project_month
+    from (
+    select distinct to_char(t.insertdate,'yyyy-MM') as entity_month, t.id, p.PROJECT_ID, p.PROJECTNAME, m.formcodeentitylabel, p.ProjectTypeName, p.CREATION_DATE , p.CREATED_BY
+    from FG_SEQUENCE t,
+         fg_s_project_all_v p,
+         FG_FORMELEMENTINFOATMETA_MV m
+    where t.search_match_id1 = p.project_id
+    and t.formcode = m.formcode
+    --AND   EXISTS (SELECT 1  FROM FG_S_EXPERIMENT_V E where e.experiment_id = t.id and e.TEMPLATEFLAG is null)
+    and exists (select 1 from fg_formlastsavevalue_inf f where f.formid = t.id AND F.ACTIVE = 1)
+    and m.formcodeentitylabel in ('SubProject','SubSubProject','Experiment','Step','Action','Self-Test','Workup')
+    ) t1, fg_s_user_v u where u.user_id = t1.CREATED_BY
+    ORDER BY T1.PROJECT_ID, t1.formcodeentitylabel, T1.entity_month;*/
+
+    --number of main objects per project
+    /*select  distinct t1.PROJECT_ID, T1.PROJECTNAME, t1.ProjectTypeName, t1.CREATION_DATE, u.UserName as createdby,
+            t1.formcodeentitylabel entity_name,
+            count(distinct t1.id) over (partition by t1.PROJECT_ID,lower(t1.formcodeentitylabel)) as num_entities_in_project
+    from (
+    select distinct t.id, p.PROJECT_ID, p.PROJECTNAME, m.formcodeentitylabel, p.ProjectTypeName, p.CREATION_DATE , p.CREATED_BY
+    from FG_SEQUENCE t,
+         fg_s_project_all_v p,
+         FG_FORMELEMENTINFOATMETA_MV m
+    where t.search_match_id1 = p.project_id
+    and t.formcode = m.formcode
+    --AND   EXISTS (SELECT 1  FROM FG_S_EXPERIMENT_V E where e.experiment_id = t.id and e.TEMPLATEFLAG is null)
+    and exists (select 1 from fg_formlastsavevalue_inf f where f.formid = t.id AND F.ACTIVE = 1)
+    and m.formcodeentitylabel in ('SubProject','SubSubProject','Experiment','Step','Action','Self-Test','Workup')
+    ) t1, fg_s_user_v u where u.user_id = t1.CREATED_BY
+    ORDER BY T1.PROJECT_ID, t1.formcodeentitylabel;*/
+
+     --user entity files
+     /*select distinct t.FORMID,t.PATH_ID, trunc(s.insertdate) as "Entity Creation Date",  trunc(t.CHANGE_DATE), s.formcode, t.formcode_entity,
+                      m.formcodeentitylabel as Entity,  unew.UserName as UserName,
+                      p.ProjectName, up.UserName as "Project creator",
+                      round(DBMS_LOB.getlength(f.file_content)/1024) AS "FILE SIZE [KB]"
+      from fg_formlastsavevalue_inf_v t
+           ,fg_files f
+           ,fg_s_user_v uchange
+           ,fg_s_user_v unew
+           ,fg_s_user_v up
+           ,fg_sequence s
+           ,FG_FORMELEMENTINFOATMETA_MV m
+           ,fg_s_project_v p
+      where 1=1--to_number(t.formid) >= 317101
+      and t.ACTIVE = 1
+      and t.IS_FILE = 1
+      and t.userid = unew.user_id
+      and t.CHANGE_BY = uchange.user_id
+      and t.ENTITYIMPVALUE = f.file_id
+      and t.PATH_ID = s.id
+      and p.project_id(+) = s.search_match_id1
+      and p.CREATED_BY = up.user_id(+)
+      and upper(m.formcode) = upper(s.formcode)
+      order by to_number(t.FORMID);*/
+
+    --user entity projects
+    /*select distinct t.FORMID,t.PATH_ID, trunc(s.insertdate) as "Entity Creation Date", trunc(t.CHANGE_DATE) as "Change Date", t.formcode_entity AS Entity,
+                    p.ProjectName, up.UserName as "Project creator",
+                    --m.formcodeentitylabel as Entity,
+                    unew.UserName as "Created By", unew.active as "Is Active", uchange.UserName as "Changed By", uchange.active as "Is Active"
+    from fg_formlastsavevalue_inf_v t
+         ,fg_s_user_v uchange
+         ,fg_s_user_v unew
+         ,fg_s_user_v up
+         ,fg_sequence s
+         ,fg_s_project_v p
+         --,FG_FORMELEMENTINFOATMETA_MV m
+    where  1=1 --to_number(t.formid) >= 317101
+    and t.ACTIVE = 1
+    and t.PATH_ID is null
+    and t.userid = unew.user_id
+    and t.CHANGE_BY = uchange.user_id
+    and t.FORMID = s.id
+    and p.project_id(+) = s.search_match_id1
+    and p.CREATED_BY = up.user_id(+);*/
+
+     /* -- csv to table (listtotable/csvtotable)
+    SELECT to_number(regexp_substr('1,77,3', '[^,]+', 1, commas.column_value)) as id_
+    FROM table(cast(multiset
+                      (SELECT LEVEL
+                       FROM dual CONNECT BY LEVEL <= LENGTH (regexp_replace('1,77,3', '[^,]+')) + 1) AS sys.OdciNumberList)) commas
+
+    */
+     /*
+     -- move init dif between forms
+     update fg_formentity t
+     set t.entityimpinit = (select t1.entityimpinit from fg_formentity t1 where t1.formcode = 'YYY' and t1.entityimpcode = 'action')
+     where t.formcode = 'XXXX'
+     and t.entityimpcode = 'action'
+     */
+
+     /*
+     --performance
+     select t.timestamp as "Time Stamp_SMARTTIME",
+             T.FORMID,
+             T.USER_ID,
+             t.comments,
+             fg_get_numeric(nvl(fg_get_value_from_json(t."ADDITIONALINFO",'SQL_TIME','-1'),fg_get_value_from_json(t."ADDITIONALINFO",'EXE_TIME','-1'))) as "Runtime_NUM" from FG_ACTIVITY_LOG t
+      where t.activitylogtype = 'PerformanceSQL'
+      and   t.timestamp > sysdate - 1
+      and   UPPER(t.comments) not like '%REFRESH%'
+      AND   UPPER(T.COMMENTS) NOT LIKE '%FG_FORMLASTSAVEVALUE_INF%'
+      AND   UPPER(T.COMMENTS) NOT LIKE '%FG_SET_INF_INIT_DATA_ALL%'
+      AND   UPPER(T.COMMENTS) NOT LIKE '%FG_N_%'
+      AND   UPPER(T.COMMENTS) NOT LIKE '%FG_R_%'
+      AND   UPPER(T.COMMENTS) NOT LIKE '%_DT%' --?
+      AND   UPPER(T.COMMENTS) NOT LIKE '%DB_CLEANUP%'
+      AND   T.COMMENTS  NOT LIKE '%insert into fg_form_change_list (formcode)%' --?
+      AND   T.COMMENTS  NOT LIKE '%FG_SET_SERACH_HANDEL_INF_ID%' --?
+      and    T.COMMENTS  NOT LIKE'select DISTINCT f.formcode from user_tab_columns t, FG_FORM F where %'
+ */
+
+     /*
+     -- FILES TABLE SIZE
+      select round(sum(DBMS_LOB.GETLENGTH(t.file_content))/1024/1024,3) || ' MB' as blob_size from FG_FILES_SRC t;
+     */
+
+     /*
+     --MV refresh time duration
+     SELECT-1 as dummy,  mview_name, last_refresh_date, fullrefreshtim, increfreshtim
+     FROM user_mview_analysis
+*/
+     /*
+     --delete experiment CP run data
+     --workup
+    delete from fg_s_workup_pivot where action_id in (
+    select t1.formid from fg_s_action_pivot t1 where t1.step_id in (
+    select formid from fg_s_step_pivot t where t.runnumber is not null)
+    );
+
+    --self test
+    delete from fg_s_selftest_pivot where action_id in (
+    select t1.formid from fg_s_action_pivot t1 where t1.step_id in (
+    select formid from fg_s_step_pivot t where t.runnumber is not null)
+    );
+
+    --action
+    delete from fg_s_action_pivot t1 where t1.step_id in (
+    select formid from fg_s_step_pivot t where t.runnumber is not null);
+
+    --material ref
+    delete from fg_s_materialref_pivot t1 where t1.parentid in (
+    select formid from fg_s_step_pivot t where t.runnumber is not null);
+
+    --step
+    delete from fg_s_step_pivot t where t.runnumber is not null;
+
+    --EXPRUNPLANNING
+    delete from FG_S_EXPRUNPLANNING_PIVOT;
+    */
+
+     /*
+     -- SMART COLUMN
+      SELECT * FROM (
+      SELECT DISTINCT SUBSTR(T.COLUMN_NAME,INSTR(T.COLUMN_NAME, '_', -1)) AS SMART_NAME
+      ,T.TABLE_NAME,T.COLUMN_NAME
+      FROM USER_TAB_COLUMNS T WHERE T.COLUMN_NAME LIKE '%_SMART%');
+*/
+     /*
+     --SEQUENCE validation
+     select max(t.id) from FG_SEQUENCE_FILES t; --less than -> FG_SEQUENCE_FILES_SEQ
+     select max(t.id) from FG_SEQUENCE t; --less than -> FG_SEQUENCE_SEQ
+     select max(to_number(t.result_id)) from fg_results t;--less than -> FG_RESULTS_SEQ
+*/
+     /*
+     -- open connection
+     select * from (
+        select distinct count(*) over () c_all, count(*) over (partition by t.OSUSER) c_user ,t.OSUSER --,t.*
+        from sys.V_$SESSION t
+      ) order by c_user
+
+     */
+     -- clone with minus  active value struct tables
+     /*DECLARE
+      C_ NUMBER;
+      begin
+       FOR r in  (
+
+                select distinct t.TABLE_NAME
+                from user_tables t, USER_TAB_COLUMNS C
+                where t.TABLE_NAME like 'FG_S_%_PIVOT'
+                AND T.TABLE_NAME = C.TABLE_NAME
+                AND C.COLUMN_NAME = 'ACTIVE')
+       LOOP
+         EXECUTE IMMEDIATE ' SELECT COUNT(*) FROM ' || R.TABLE_NAME || ' WHERE NVL(ACTIVE,0) < 0' into C_;
+         IF C_ > 0 THEN
+           DBMS_OUTPUT.put_line('TABLE ' || R.TABLE_NAME || ', COUNT MINUS ACTIVE = ' || C_);
+         END IF;
+       END LOOP;
+      END;*/
+
+     ---------------------------- update maintenance form to close on save if aftersave is missing
+     /*
+      UPDATE fg_formentity FE SET FE.ENTITYIMPINIT = REPLACE(FE.ENTITYIMPINIT,',"templateType"', ',"afterSave":"Close","templateType"' )
+      WHERE FE.ID IN (
+      select ID from fg_formentity t
+      where t.formcode in (select formcode from fg_form f where f.form_type = 'MAINTENANCE')
+      AND ENTITYTYPE = 'Layout'
+      AND T.ENTITYIMPINIT NOT LIKE '%afterSave%'
+      AND T.ENTITYIMPINIT LIKE '%,"templateType"%')
+*/
+     --------------------------- correct template flag
+     /*
+      --experiment
+      update fg_s_experiment_pivot t set t.templateflag = 1  where t.formid in (
+      select t1.sourceexpno_id from fg_s_template_pivot t1
+      )
+      and nvl(t.templateflag,0) =  0;
+
+      --step
+      update fg_s_step_pivot t set t.templateflag = 1 where t.experiment_id in (
+             select t1.formid from fg_s_experiment_pivot t1 where nvl(t1.templateflag,0) = 1
+      )
+      and nvl(t.templateflag,0) =  0;
+
+      --action
+      update fg_s_action_pivot t set t.templateflag = 1 where t.experiment_id in (
+             select t1.formid from fg_s_experiment_pivot t1 where nvl(t1.templateflag,0) = 1
+      )
+      and nvl(t.templateflag,0) =  0;
+
+      - --experiment
+      update fg_s_experiment_pivot t set t.templateflag = 1  where t.formid in (
+      select t1.sourceexpno_id from fg_s_template_pivot t1
+      )
+      and nvl(t.templateflag,0) =  0;
+
+      --step
+      update fg_s_step_pivot t set t.templateflag = 1 where t.experiment_id in (
+             select t1.formid from fg_s_experiment_pivot t1 where nvl(t1.templateflag,0) = 1
+      )
+      and nvl(t.templateflag,0) =  0;
+
+      --workup
+      update fg_s_workup_pivot t set t.templateflag = 1 where t.experiment_id in (
+             select t1.formid from fg_s_workup_pivot t1 where nvl(t1.templateflag,0) = 1
+      )
+      and nvl(t.templateflag,0) =  0;
+
+
+      --selftest
+      update fg_s_selftest_pivot t set t.templateflag = 1 where t.experiment_id in (
+             select t1.formid from fg_s_selftest_pivot t1 where nvl(t1.templateflag,0) = 1
+      )
+      and nvl(t.templateflag,0) =  0;
+*/
+     /* --------- ************** check layout entity bug(1) (on same form with dif config)
+     --create table yaron_check_jsp as
+      select --formcode_entity,
+             --formcode,
+             distinct
+             entityimpcode,
+             count(htmlName || ',' || afterSave || ',' ||templateName  || ',' || templateType) over (partition by entityimpcode )c1,
+             count(distinct htmlName || ',' || afterSave || ',' ||templateName  || ',' || templateType)over (partition by entityimpcode )c2
+             from (
+            -- htmlName,afterSave,templateName,templateType from (
+      select * from (
+      select t.entityimpcode, f.formcode_entity, f.formcode, fg_get_value_from_json(t.entityimpinit,'htmlName','na') as htmlName,
+      fg_get_value_from_json(t.entityimpinit,'afterSave','na')as afterSave,
+      fg_get_value_from_json(t.entityimpinit,'templateName','na') as templateName,
+      fg_get_value_from_json(t.entityimpinit,'templateType','na') as templateType,
+      t.entityimpinit , count(rownum) over(partition by t.entityimpcode) as counter_ from FG_FORMENTITY t,fg_form f where t.entitytype = 'Layout' and t.formcode = f.formcode )
+      where counter_ > 1);
+
+      --------- **************check layout entity bug(2) (on same form with dif config)
+      select * from fg_formentity t where t.entityimpcode in (
+      select t1.entityimpcode from YARON_CHECK_JSP t1  where t1.c2 > 1 );
+*/
+
+
+/*    yp - not worked as expected !
+     create or replace view fg_i_formentity_label_v as
+select formcode, entityimpcode, element_code,
+       replace(replace(replace(initcap(replace(replace(nvl(nvl(label_element, label_config),label_impcode_parse),'_Id',''),':','')),'_',''),'type',' Type'),'  ',' ') as element_label
+from (
+    select t.formcode, t.entityimpcode,
+           t.formcode || '.' || t.entityimpcode as element_code,
+           nullif(fg_get_value_from_json(t.init_l,'text','na'),'na') label_element,
+           nullif(fg_get_value_from_json(t.init_e ,'label','na'),'na') label_config,
+           DECODE(t.entityimpcode,upper(t.entityimpcode),initcap(replace(lower(t.entityimpcode),'_id','')),fn_tool_camel_to_label(replace(t.entityimpcode,'_Id',''))) label_impcode_parse
+    from (
+    select e.formcode, e.entityimpcode, el.entityimpinit as init_l, e.entityimpinit as init_e
+    from FG_FORMENTITY el,
+         FG_FORMENTITY e
+    where 1=1--t.formcode = formCode_in
+    and   el.entityimpclass(+) = 'ElementLabelImp'
+    and   fg_get_value_from_json(el.entityimpinit(+) ,'elementName','na') = e.entityimpcode
+    and   el.formcode(+) = e.formcode
+    and   UPPER(fg_get_value_from_json(e.entityimpinit ,'hideAlways','na')) <> 'TRUE'
+    and   e.entityimpclass not in ('ElementLabelImp',\*'ElementUOMImp'*\'ElementAuthorizationImp','ElementAsyncIframeImp')
+    and   e.entitytype = 'Element') t )
+where 1=1*/
+
+     --for automatic tests - check if there is missing data in the manual results
+     /*select distinct count(*)
+    from FG_I_CONNECTION_REQSMPLDEXP_V smplReq,
+    fG_S_SAMPLESELECT_ALL_V smpl,
+    fg_s_component_all_v c,
+    fg_s_manualresultsRef_v mr,
+    fg_s_experiment_v ex
+    where smpl.PARENTID = smplReq.EXPERIMENTDEST_ID
+    and smpl.SAMPLE_ID = smplReq.SAMPLE_ID
+    and smpl.PARENTID = ex.experiment_id
+    and smpl.sessionid is null and nvl(smpl.active,'1')='1'
+    and c.parentId = ex.experiment_id
+    and c.sessionid is null and nvl(c.active,'1') = '1'
+    and mr.SAMPLE_ID = smpl.SAMPLE_ID
+    and mr.COMPONENT_ID = c.COMPONENT_ID
+    and mr.parentid = ex.experiment_id
+    and nullif(smplReq.REQUEST_ID,to_number(mr.REQUEST_ID))is not null)*/
+
+     --check all file ids connected to fg_files
+/*     select * from
+ (
+ select instractionsFile as FILE_ID from fg_s_selftesttype_pivot
+ where sessionid is null
+ and nvl(active,'1')='1'
+ union all
+  select spectrum from fg_s_component_pivot
+ where sessionid is null
+ and nvl(active,'1')='1'
+ union all
+  select attachment from fg_s_manualresultsref_pivot
+ where sessionid is null
+ and nvl(active,'1')='1'
+ union all
+  select attachment from fg_s_prmanualresultref_pivot
+ where sessionid is null
+ and nvl(active,'1')='1'
+ union all
+   select attachment from fg_s_manualresultsmsref_pivot
+ where sessionid is null
+ and nvl(active,'1')='1'
+ union all
+   select spectrum from fg_s_invitemmaterial_pivot
+   union all
+   (
+   select d.documentupload from fg_s_Document_pivot d where 1=1 and d.LINK_ATTACHMENT = 'Attachment'
+ and d.sessionid is null
+ and d.active=1
+   )
+ union all
+   select attachment from fg_s_operationtype_pivot
+ where sessionid is null
+ and nvl(active,'1')='1'
+ ) where file_id is not null
+ and file_id not  in (select f.file_id from fg_files f)
+ */
+    /*
+
+    delete from FG_ACTIVITY_LOG t where t.activitylogtype not in ('Depletion','NotificationEvent')
+
+    --compare FG_FORMENTITY
+ select t.formcode,t.entityimpcode,t.entityimpinit from FG_FORMENTITY t where 1=1 and lower(t.formcode) like lower('MaterialRef') and lower(t.entityimpcode) like lower('%purityInf')
+ minus
+ select t.formcode,t.entityimpcode,t.entityimpinit from skyline_form_server.FG_FORMENTITY t where 1=1 and lower(t.formcode) like lower('MaterialRef') and lower(t.entityimpcode) like lower('%purityInf')
+ */
+     /*
+     --UPDATE ON SERVER fg_formentity rows
+     update FG_FORMENTITY t set t.comments = null where t.comments like 'UPDATE ON SERVER CHANGE FROM%';
+     select * from FG_FORMENTITY t where t.comments like 'UPDATE ON SERVER CHANGE FROM%';
+     */
+     /*
+      --FORMCODE <> FORMCODEENTITY
+      --select * from FG_FORM t where t.formcode <> t.formcode_entity AND t.form_type = 'STRUCT' AND UPPER(FORMCODE) NOT LIKE '%YARON%' AND UPPER(FORMCODE) NOT LIKE '%MAIN'
+
+
+     --Edit FG_FORME by formcode
+select t.*, t.rowid from FG_FORM t where UPPER(t.formcode) like UPPER('%xxx%');
+
+--Edit FG_FORMENTITY by formcode
+select t.*, t.rowid from FG_FORMENTITY t where UPPER(t.formcode) like UPPER('%xxx%');
+
+--Edit FG_FORMENTITY by init
+select t.*, t.rowid from FG_FORMENTITY t where UPPER(t.entityimpinit) like UPPER('%xxx%');
+
+--Edit FG_FORMENTITY by formcode
+select t.*, t.rowid from FG_FORMENTITY t where UPPER(t.entityimpinit) like UPPER('%xxx%');
+
+--Edit FG_RESOURCE by CODE
+select t.*, t.rowid from FG_RESOURCE t where UPPER(t.code) like UPPER('%xxx%');
+
+--Edit FG_RESOURCE by type
+select t.*, t.rowid from FG_RESOURCE t where UPPER(t.type) like UPPER('%xxx%');
+
+--Edit FG_FORMLASTSAVEVALUE by type
+select t.*, t.rowid from FG_FORMLASTSAVEVALUE t where UPPER(t.formcode) like UPPER('%xxx%');
+
+--SEQ
+select * from fg_sequence_plus_v t where t.id = to_number('xxx');
+
+-- INSERT VIEW TO RESOURCE
+INSERT INTO FG_RESOURCE (TYPE,CODE,VALUE,INFO)
+select 'INFORMATION_TABLE', T.VIEW_NAME, T.VIEW_NAME, 'TODO DESC'
+from user_views t
+where t.VIEW_NAME like 'FG__%'
+AND SUBSTR(T.VIEW_NAME,4,1) IN ('M','R','I')
+AND SUBSTR(T.VIEW_NAME,5,1) = '_'
+AND UPPER(T.VIEW_NAME) NOT IN (SELECT UPPER(T1.CODE) FROM FG_RESOURCE T1)
+
+-- no id in seq
+select * from FG_TOOL_INF_ALL_V where  id not in (select id from fg_sequence);
+--   NAME  ID  TABLENAME
+--4  Room  26885  FG_S_SAMPLETYPE_INF_V
+--3  Oven  26884  FG_S_SAMPLETYPE_INF_V
+--2  Drying 2  20799  FG_S_MP_INF_V
+--1  Drying1  20797  FG_S_MP_INF_V
+     */
+
+
+     --select * from FG_TOOL_INF_ALL_V where  id not in (select id from fg_sequence)
+/*  NAME  ID  TABLENAME
+4  Room  26885  FG_S_SAMPLETYPE_INF_V
+3  Oven  26884  FG_S_SAMPLETYPE_INF_V
+2  Drying 2  20799  FG_S_MP_INF_V
+1  Drying1  20797  FG_S_MP_INF_V*/
+/*
+1  Oven  26884  FG_S_SAMPLETYPE_INF_V
+2  Room  26885  FG_S_SAMPLETYPE_INF_V*/
+
+--CREATE TABLE YARON_CHECK_SEQ AS
+--select * from FG_TOOL_INF_ALL_V T where  UPPER(T.tablename)  not in (select UPPER('FG_S_' || f.formcode || '_INF_V')  from fg_sequence s, fg_form f where  f.formcode = s.formcode AND T.ID = S.ID );
+/*
+select * from (
+select t.*,  fg_get_numeric (t.entityimpvalue) numres
+from fg_formlastsavevalue t
+where t.active = 1 )
+where numres > 1000
+and numres is not null
+and numres not in (select id from fg_sequence)
+and formcode_entity not in ( 'ExperimentSeries' ,'ExpInSeries')
+and entityimpcode not in ('formNumberId','SESSIONID','factor','projectNumber','viscosity','quantity','serialNumber')*/
+
+
+/*DDL INF WHAT IS IN USE...
+
+select fg_get_value_from_json(t.entityimpinit ,'parentElement','na'), t.* from FG_FORMENTITY t
+--from FG_FORMENTITY t
+where 1=1--t.formcode like 'ExperimentPr%'
+--AND   t.formcode <> 'ExperimentPr'
+and t.entityimpclass in ('ElementAutoCompleteIdValDDLImp')
+--and t.entityimpinit  like '%defaultValue%'
+--and t.entityimpinit   like '%disableScript%'
+and fg_get_value_from_json(t.entityimpinit ,'parentElement','na')<>'na'
+and t.entityimpinit like '%$P{%'*/
+
+--smartsearch element
+/*select DISTINCT  f.formcode_entity, T.FORMCODE, T.ENTITYIMPCODE,T.ENTITYIMPCLASS ,T1.ENTITYIMPCODE,T1.ENTITYIMPCLASS
+from fg_formentity t,
+     fg_formentity t1,
+     fg_form f
+where t.formcode = t1.formcode
+and instr(upper(t1.entityimpinit),upper(t.entityimpcode)) > 0
+and   t1.entityimpclass like '%ElementSmartSearchImp%'
+ and  t.entityimpclass in ( 'ElementAutoCompleteIdValDDLImp' ,'ElementAutoCompleteIdValDDLImp' )
+ and t.formcode = f.formcode*/
+
+ /*--numeric calculation
+ select  * from FG_FORMENTITY t
+--from FG_FORMENTITY t
+where 1=1--t.formcode like 'ExperimentPr%'
+--AND   t.formcode <> 'ExperimentPr'
+and t.entityimpclass in ('ElementInputImp','ElementApiElementSetterImp')
+--and t.entityimpinit  like '%defaultValue%'
+ --and t.entityimpinit   like '%disableAlways%'
+ and fg_get_value_from_json(t.entityimpinit ,'disableAlways','na') = 'true'
+ and fg_get_value_from_json(t.entityimpinit ,'precision','-1') > 0
+ and (fg_get_value_from_json(t.entityimpinit ,'type','na') = 'Number' or t.entityimpclass in ('ElementApiElementSetterImp'))
+*/
+
+     /*
+     -- smart serach sql
+     select *
+       from FG_FORMENTITY p
+       -- elemet that parent is used by search (not ElementInputImp) that has suns
+       where (p.formcode, p.entityimpcode) in (
+       select f.formcode , fg_get_value_from_json(f.entityimpinit ,'parentElement','na')
+       from FG_FORMENTITY f,
+       (
+      select t.formcode, t.entityimpinit EL From FG_FORMENTITY t
+      --from FG_FORMENTITY t
+      where 1=1--t.formcode like 'ExperimentPr%'
+      and t.entityimpclass in ('ElementSmartSearchImp')
+      --and t.entityimpinit  like '%defaultValue%'
+       --and t.entityimpinit   like '%disableAlways%'
+       and t.formcode not in ('xxx','ExperimentPr')
+       --and fg_get_value_from_json(t.entityimpinit ,'parentElement','na') <> 'na'
+       ) s -- serach element with suns
+       where
+       s.formcode = f.formcode
+       and f.entityimpclass not in ('ElementInputImp') -- the trigger needed to be work on
+       and instr(s.el,f.entityimpcode) > 0 ) */
+
+      /*
+      -- data wf sql
+        select *
+       from FG_FORMENTITY p where (p.formcode, p.entityimpcode) in (
+       select f.formcode , fg_get_value_from_json(f.entityimpinit ,'parentElement','na')
+       from FG_FORMENTITY f,
+       (
+      select t.formcode, t.entityimpinit EL From FG_FORMENTITY t
+      --from FG_FORMENTITY t
+      where 1=1--t.formcode like 'ExperimentPr%'
+      and t.entityimpclass in ('ElementSmartSearchImp')
+      --and t.entityimpinit  like '%defaultValue%'
+       --and t.entityimpinit   like '%disableAlways%'
+       and t.formcode not in ('xxx','ExperimentPr')
+       --and fg_get_value_from_json(t.entityimpinit ,'parentElement','na') <> 'na'
+       ) s
+       where
+       s.formcode = f.formcode
+       and instr(s.el,f.entityimpcode) > 0 )*/
+
+       /*
+       -- element  preventSave true -- for search
+        select *
+          From FG_FORMENTITY t
+      --from FG_FORMENTITY t
+      where 1=1--t.formcode like 'ExperimentPr%'
+     -- and t.entityimpclass in ('ElementSmartSearchImp')
+      --and t.entityimpinit  like '%defaultValue%'
+       --and t.entityimpinit   like '%disableAlways%'
+       and t.formcode not in ('xxx','ExperimentPr')
+        and lower(fg_get_value_from_json(t.entityimpinit ,'preventSave','na')) = 'true'
+        and lower(fg_get_value_from_json(t.entityimpinit ,'hideAlways','na')) <> 'true'
+        and t.entityimpclass not in ('ElementAsyncIframeImp','ElementRadioImp','ElementChemDoodleImp','chemDoodleSearch')
+        */
+       /*
+       --diff in formentity
+       select t.formcode,t.entityimpcode,t.entityimpinit from FG_FORMENTITY t
+        minus
+        select t.formcode,t.entityimpcode,t.entityimpinit from skyline_form_server.FG_FORMENTITY t;
+
+        select t.formcode,t.entityimpcode,t.entityimpinit from skyline_form_server.FG_FORMENTITY t
+        minus
+        select t.formcode,t.entityimpcode,t.entityimpinit from FG_FORMENTITY t;
+
+        select t.formcode,t.entityimpcode,t.entityimpinit from FG_FORMENTITY t
+        minus
+        select t.formcode,t.entityimpcode,t.entityimpinit from skyline_form_unittest.FG_FORMENTITY t;
+
+        select t.formcode,t.entityimpcode,t.entityimpinit from skyline_form_unittest.FG_FORMENTITY t
+        minus
+        select t.formcode,t.entityimpcode,t.entityimpinit from FG_FORMENTITY t;
+ */
+ /*
+        -- columns compare
+        select t.COLUMN_NAME from dba_tab_columns t where t.TABLE_NAME = 'FG_S_ACTION_PIVOT' and t.owner = 'SKYLINE_FORM_SERVER'
+        minus
+        select t.COLUMN_NAME from user_tab_columns t where t.TABLE_NAME = 'FG_S_ACTION_PIVOT'
+ */
+        -- set all password to 1234 and exp + year
+        --update fg_s_user_pivot t set t.password = '81dc9bdb52d04dc20036dbd8313ed055', t.lastpassworddate = TO_CHAR(SYSDATE + 365,'dd/MM/yyyy')
+   end;
+
+   procedure completeData as
+      sql_ varchar2(32767);
+      newline varchar(10) :=  CHR(13) || CHR(10);
+      return_ number;
+   begin
+        --******************************************
+        --********** UPDATE fg_tool_inf_all_v FOR fill FG_TOOL_INF_ALL_DATA with id / name / inf_v view name (for the inf_v in the system)
+        --******************************************
+        --create sql for fg_tool_inf_all_v
+        dbms_output.put_line('create sql for fg_tool_inf_all_v');
+        for r in (
+        select distinct t.sql_ from FG_TOOL_INF_V_SUMMARY t where 1=1 --rownum < 5
+        ) loop
+        sql_ := sql_ || r.sql_ || newline;
+        end loop;
+        sql_ := sql_ || ' select null as name, null as id, null as tablename from dual where 1=2 ';
+
+        --create view fg_tool_inf_all_v
+        dbms_output.put_line('create view fg_tool_inf_all_v');
+        execute immediate ' create or replace view fg_tool_inf_all_v as ' || newline || sql_;
+
+        --delete FG_TOOL_INF_ALL_DATA
+        dbms_output.put_line('delete FG_TOOL_INF_ALL_DATA');
+        delete from FG_TOOL_INF_ALL_DATA;
+
+        --insert data to FG_TOOL_INF_ALL_DATA
+        /*dbms_output.put_line('insert data to FG_TOOL_INF_ALL_DATA');
+        insert into FG_TOOL_INF_ALL_DATA (NAME,ID,TABLENAME)
+        select t.name,t.id,t.tablename
+        from fg_tool_inf_all_v t;*/
+
+        --FG_SEQUENCE_INSERT_TRIG disable
+        /*dbms_output.put_line('FG_SEQUENCE_INSERT_TRIG disable');
+        execute immediate (' ALTER TRIGGER FG_SEQUENCE_INSERT_TRIG disable ');
+
+        --******************************************
+        --********** UPDATE fg_sequence with names
+        --******************************************
+        --add missing rows in fg_sequence
+        dbms_output.put_line('add missing rows in fg_sequence');
+        insert into fg_sequence (id,formcode,insertdate,formidname)
+        select distinct t.id, f.formcode, sysdate, max(nvl(name,'NA')) over (partition by t.id)
+        from FG_TOOL_INF_ALL_DATA t,
+             (SELECT distinct * FROM FG_FORM T1 WHERE T1.FORMCODE = T1.FORMCODE_ENTITY and lower(T1.FORMCODE) not like '%yaron%') f
+        where 1=1
+        AND   upper(REPLACE(REPLACE(T.TABLENAME,'FG_S_',''),'_INF_V')) = upper(f.Formcode)
+        and   t.id is not null
+        AND   t.id not in (select id from fg_sequence);
+
+        --FG_SEQUENCE_INSERT_TRIG enable
+        dbms_output.put_line('FG_SEQUENCE_INSERT_TRIG enable');
+        execute immediate (' ALTER TRIGGER FG_SEQUENCE_INSERT_TRIG enable ');*/
+
+        --Done!
+        dbms_output.put_line('Done!');
+
+        --put all system view in table
+        return_ := FG_output_system_struct_V;
+
+        --for admin report...
+        dbms_mview.refresh('FG_R_FORMENTITY_V');
+
+        --add formcode to maintenance
+        COMMIT;
+
+    EXCEPTION
+      WHEN OTHERS THEN
+        --FG_SEQUENCE_INSERT_TRIG enable IN EXCEPTION
+        --dbms_output.put_line('FG_SEQUENCE_INSERT_TRIG enable IN EXCEPTION');
+        --execute immediate (' ALTER TRIGGER FG_SEQUENCE_INSERT_TRIG enable ');
+
+        --Done WITH ERROR
+        dbms_output.put_line('Done WITH ERROR');
+
+    end;
+
+----------------------
+
+function FG_output_STRUCT_ALL_V return varchar  as
+
+  --l_search varchar2(1000) := 'union';
+  l_char varchar2(32767);
+  --toReturn varchar2(32767);
+
+begin
+  --for rec in (select text from user_views where VIEW_NAME = upper(viewName_in)  )
+for rec in (select text, VIEW_NAME from user_views where VIEW_NAME like 'FG_S_%_ALL_V'  )
+  loop
+    l_char := rec.text;
+  /*  if instr(l_char,'--t.* end! edit only the code below...') > 0 then
+       toReturn :=
+      'create or  replace view ' || upper(viewName_in) || ' as ' || chr(10) || '--t.* ' || chr(10) || 'select t.*, '  || chr(10) ||
+      substr(l_char,
+             instr(l_char,
+                   '--t.* end! edit only the code below...')
+             );
+             dbms_output.put_line(toReturn);
+      EXECUTE IMMEDIATE toReturn;
+    ELSE*/
+               dbms_output.put_line('create or  replace view ' || rec.VIEW_NAME || ' as ' || chr(10) ||
+                                     'select t.*' || chr(10) ||
+                                     '--t.* end! edit only the code below...' || chr(10) ||
+                                     ',' || chr(10) || chr(10) ||
+                                     l_char || chr(10) || chr(10));
+    /*end if;*/
+
+
+  end loop;
+
+  return 1;
+
+end;
+
+function FG_output_system_struct_V return varchar  as
+
+  --l_search varchar2(1000) := 'union';
+  l_char clob;
+  --toReturn varchar2(32767);
+
+begin
+  delete from fg_r_system_view;
+  --for rec in (select text from user_views where VIEW_NAME = upper(viewName_in)  )
+for rec in (select text, VIEW_NAME from user_views where VIEW_NAME like '%'  )
+  loop
+    l_char := rec.text;
+  /*  if instr(l_char,'--t.* end! edit only the code below...') > 0 then
+       toReturn :=
+      'create or  replace view ' || upper(viewName_in) || ' as ' || chr(10) || '--t.* ' || chr(10) || 'select t.*, '  || chr(10) ||
+      substr(l_char,
+             instr(l_char,
+                   '--t.* end! edit only the code below...')
+             );
+             dbms_output.put_line(toReturn);
+      EXECUTE IMMEDIATE toReturn;
+    ELSE*/
+               /*dbms_output.put_line('create or  replace view ' || rec.VIEW_NAME || ' as ' || chr(10) ||
+                                     'select t.*' || chr(10) ||
+                                     '--t.* end! edit only the code below...' || chr(10) ||
+                                     ',' || chr(10) || chr(10) ||
+                                     l_char || chr(10) || chr(10));     */
+                                      --dbms_output.put_line(rec.VIEW_NAME);
+                                     if rec.VIEW_NAME <> 'FG_TOOL_INF_ALL_V' then
+
+                                       /*if length(l_char) <= 4000 then*/
+                                         INSERT INTO fg_r_system_view (db_name,view_name,view_code,view_snapshot_date)
+                                         VALUES('SKYLINE_FORM',rec.VIEW_NAME,l_char,TO_CHAR(SYSDATE,'dd/MM/yyyy hh24:mi:ss' ));
+                                       /*else
+                                         INSERT INTO fg_r_system_view (db_name,view_name,view_code,view_snapshot_date)
+                                         VALUES('SKYLINE_FORM',rec.VIEW_NAME, l_char || '...',TO_CHAR(SYSDATE,'dd/MM/yyyy hh24:mi:ss' ));
+                                       end if;*/
+
+                                     end if;
+
+    /*end if;*/
+
+
+  end loop;
+  commit;
+
+  return 1;
+
+end;
+
+--function called from GeneralUtilVersionData
+--It is used for put long field to clob field of service table (FG_R_MATERIALIZED_VIEW). Temp table is used for create version data script
+
+function fg_output_materialized_view_v (db_name_in varchar) return varchar  as
+
+  l_char clob;
+
+begin
+  delete from FG_R_MATERIALIZED_VIEW;
+
+
+for rec in (select query, mview_name from sys.all_mviews where lower(owner) = db_name_in order by staleness/* and mview_name like 'DUMMY_MV%'*/ )
+  loop
+    l_char := rec.query;
+
+           INSERT INTO FG_R_MATERIALIZED_VIEW (db_name,view_name,view_code,view_snapshot_date)
+           VALUES(db_name_in,rec.mview_name,l_char,TO_CHAR(SYSDATE,'dd/MM/yyyy hh24:mi:ss' ));
+
+  end loop;
+  commit;
+
+  return 1;
+
+end;
+
+
+FUNCTION FG_SET_ALL_STRUCT_ALL_V return number as
+
+    toReturn number;
+
+begin
+
+     FOR r in  (
+         /*select distinct t.formcode
+          from fg_form t
+          where t.form_type in ('STRUCT','INVITEM','ATTACHMENT','REF','SELECT','MAINTENANCE')
+          AND T.FORMCODE NOT IN (select FORMCODE from FG_FORM t WHERE T.FORMCODE <> T.FORMCODE_ENTITY AND T.FORM_TYPE = 'MAINTENANCE')
+         and lower(t.formcode) not like 'yaron%'
+          and lower(t.formcode) not like 'alex%'
+           and lower(t.formcode) not like 'xxx%'
+          and lower(t.formcode) not like 'experiment%'
+          and lower(t.formcode) not like 'selftestfrmain%'
+          and lower(t.formcode) not like 'templateexpselect'
+          and lower(t.formcode) not like 'templateselect'
+          and lower(t.formcode) not like '%[not in use]%'
+          and lower(t.Group_Name) not like 'reftemplate%'
+          and lower(t.formcode) not like 'failuretype%'
+           and lower(t.formcode) not like 'unittest%'
+           and lower(t.formcode) not like 'syseventhandler%'
+             and lower(t.formcode) not like 'subprojecttype%'
+              and lower(t.formcode_entity) not like 'formtestname%'
+                            and lower(t.formcode_entity) not like 'testedentity%'
+                               and lower(t.formcode_entity) not like 'customer%'
+                               and lower(t.formcode_entity) not like 'prexpimmersion%'
+                                and lower(t.formcode_entity) not like 'source%'*/
+                            select distinct t.formcode
+          from fg_form t
+          where t.form_type in ('STRUCT','INVITEM','ATTACHMENT','REF','SELECT','MAINTENANCE')
+          AND T.FORMCODE NOT IN (select FORMCODE from FG_FORM t WHERE T.FORMCODE <> T.FORMCODE_ENTITY AND T.FORM_TYPE = 'MAINTENANCE')
+        and t.FORMCODE_ENTITY in (select t.formcode_entity from fg_formlastsavevalue t)
+        --and EXISTS (select 1 from user_tables t1 where t1.TABLE_NAME = 'FG_S_' || UPPER(t.formcode_entity) || '_PIVOT')
+                and lower(t.formcode) not like 'yaron%'
+          and lower(t.formcode) not like 'alex%'
+           and lower(t.formcode) not like 'xxx%'
+
+
+
+
+
+         )
+     LOOP
+       dbms_output.put_line(r.formcode);
+       toReturn := fg_set_struct_pivot_table(r.formcode, 1);
+     END LOOP;
+
+    return toReturn;
+end;
+
+procedure initFormlastsavevalueHst as
+  adminUserId number;
+begin
+  DBMS_OUTPUT.put_line('todo');
+/*  select min(t.USER_ID) into adminUserId from FG_S_USER_ALL_V t where t.UserRoleName = 'Admin';
+
+  delete from fg_formlastsavevalue_hst;
+
+  insert into fg_formlastsavevalue_hst (
+    FORMID,
+    FORMCODE_ENTITY,
+    ENTITYIMPCODE,
+    ENTITYIMPVALUE,
+    USERID,
+    change_comment,
+    change_by,
+    change_type,
+    change_date,
+    sessionid,
+    ACTIVE )
+select
+    FORMID,
+    FORMCODE_ENTITY,
+    ENTITYIMPCODE,
+    ENTITYIMPVALUE,
+    USERID,
+    'Init hst',
+    adminUserId,
+    'I',
+    sysdate,
+    sessionid,
+    ACTIVE
+from fg_formlastsavevalue;*/
+end;
+
+
+function updateFormlastsavevalueFromHst (formId_in varchar) RETURN NUMBER as
+begin
+  dbms_output.put_line('todo');
+ delete from fg_formlastsavevalue t where t.formid = formId_in;
+
+insert into fg_formlastsavevalue(formid,FORMCODE_ENTITY,entityimpcode,entityimpvalue,userid,active)
+select formid,FORMCODE_ENTITY,entityimpcode,entityimpvalue,userid,active
+from (
+select
+    FORMID,
+    FORMCODE_ENTITY,
+    ENTITYIMPCODE,
+    ENTITYIMPVALUE,
+    USERID,
+    t.change_date,
+    sessionid,
+    active,
+    max(t.change_date) over (partition by t.formid) as maxDate
+from fg_formlastsavevalue_hst t
+where  t.formid  = formId_in
+)
+where maxDate = change_date;
+--commit;
+RETURN 1;
+end;
+
+PROCEDURE updateServerMaintenanceData AS
+SQL_ VARCHAR2(4000);
+SQL_TEMPLATE_ VARCHAR2(4000) := '/*INSERT INTO FG_S_@FORMCODE@_PIVOT (@COL@)*/ SELECT count(*) /*@COL@*/ FROM skyline_form_server.FG_S_@FORMCODE@_PIVOT S WHERE S.@FORMCODE@NAME NOT IN (SELECT @FORMCODE@NAME FROM FG_S_@FORMCODE@_PIVOT);';
+SQL_COL_ VARCHAR2(4000);
+SQL_COL_LIST_ VARCHAR2(4000);
+SQL_COL_TEMPLATE_ VARCHAR2(4000) := '
+SELECT LISTAGG(COLUMN_NAME, '','') WITHIN GROUP(ORDER BY COLUMN_NAME) FROM (
+SELECT DISTINCT COLUMN_NAME FROM (
+select  t.COLUMN_NAME, COUNT(t.COLUMN_NAME) OVER (PARTITION BY t.COLUMN_NAME) AS VC
+from  all_tab_columns t
+where t.TABLE_NAME = ''FG_S_@FORMCODE@_PIVOT''
+and  t.OWNER  IN (''SKYLINE_FORM_COPY2'',''SKYLINE_FORM_SERVER'')
+)
+WHERE VC = 2)';
+
+BEGIN
+  FOR R IN (
+  SELECT UPPER(T1.FORMCODE) AS FROMCODE FROM FG_FORM T1 WHERE T1.FORM_TYPE = 'MAINTENANCE'
+  )
+  LOOP
+    SQL_COL_ := REPLACE(SQL_COL_TEMPLATE_,'@FORMCODE@',R.FROMCODE);
+    EXECUTE IMMEDIATE SQL_COL_ into SQL_COL_LIST_;
+    IF SQL_COL_LIST_ IS NOT NULL THEN
+      SQL_ := REPLACE(REPLACE(SQL_TEMPLATE_,'@FORMCODE@',R.FROMCODE),'@COL@',SQL_COL_LIST_);
+      DBMS_OUTPUT.put_line(SQL_);
+    END IF;
+  END LOOP;
+
+END;
+
+function getNextBookMark (str_in varchar) RETURN varchar as
+  toretrun varchar(300);
+  begin
+    select substr(str_in ,1, length(str_in) - 1) || (substr(str_in ,length(str_in)) + 1) into toretrun from dual;
+    return toretrun;
+exception
+  when others then
+    return 'NA';
+
+end;
+
+PROCEDURE setLabelElementByNextBookMark as
+  begin
+       update FG_FORMENTITY f set f.entityimpinit = (
+        select /*s.id,*/ REPLACE(s.entityimpinit,'"layoutBookMarkItem','"elementName":"' || t.entityimpcode || '","layoutBookMarkItem') AS GOOD_LABEL_INIT
+        from FG_FORMENTITY t,
+             (select *  from FG_FORMENTITY t where   1=1 /*and t.entityimpinit not like'%elementName%'*/ and t.entityimpclass in ('ElementLabelImp')) s
+        where 1=1
+        and t.entityimpclass in ('ElementAutoCompleteIdValDDLImp','ElementInputImp','ElementAutoCompleteDDLImp','ElementTextareaImp')
+        and s.formcode = t.formcode
+        --and '%' || lower(t.entityimpcode) || '%' not like lower(s.entityimpinit)
+        and s.entityimpinit not like'%elementName%'
+        and form_tool.getNextBookMark(fg_get_value_from_entity_int(s."FORMCODE",s.entityimpcode,'layoutBookMarkItem','')) = fg_get_value_from_entity_int(t."FORMCODE",t.entityimpcode,'layoutBookMarkItem','')
+        and f.id = s.id
+        ), f.comments = entityimpinit
+  where f.id in (
+        select s.id
+        from/* FG_FORMENTITY t,*/
+             (select *  from FG_FORMENTITY t where   1=1 /*and t.entityimpinit not like'%elementName%'*/ and t.entityimpclass in ('ElementLabelImp')) s
+        where 1=1
+       /* and t.entityimpclass in ('ElementAutoCompleteIdValDDLImp','ElementInputImp','ElementAutoCompleteDDLImp','ElementTextareaImp')
+        and s.formcode = t.formcode*/
+        --and '%' || lower(t.entityimpcode) || '%' not like lower(s.entityimpinit)
+        and s.entityimpinit not like'%elementName%'
+/*        and form_tool.getNextBookMark(fg_get_value_from_entity_int(s."FORMCODE",s.entityimpcode,'layoutBookMarkItem','')) = fg_get_value_from_entity_int(t."FORMCODE",t.entityimpcode,'layoutBookMarkItem','')
+*/
+
+
+          ) ;
+
+          update FG_FORMENTITY t1 set t1.entityimpinit = t1.comments where t1.entityimpinit is null;
+          commit;
+    end;
+
+    function deleteFormData (formCode_in varchar, deleteFormDef_in number default 0) return number as
+      formcodeEntity_in varchar2(1000);
+      is_pivot number;
+      begin
+        select nvl(t.formcode_entity,t.formcode) into formcodeEntity_in
+        from fg_form t
+        where t.formcode = formCode_in;
+        --Delete Data
+        delete from fg_sequence t where lower(t.formcode) =  lower(formCode_in); --TODO deep delete
+        delete from fg_formlastsavevalue t where lower(t.FORMCODE_ENTITY) =  lower(formCode_in);
+        delete from fg_formlastsavevalue_hst t where lower(t.FORMCODE_ENTITY) =  lower(formCode_in);
+        delete from fg_formlastsavevalue_inf t where lower(t.FORMCODE_ENTITY) =  lower(formCode_in);
+        select count(*) into is_pivot from user_tables t where t.TABLE_NAME = upper('fg_s_' || formcodeEntity_in || '_pivot');
+        if (is_pivot > 0) then
+            execute immediate('delete from fg_s_' || formcodeEntity_in || '_pivot');
+        end if;
+        --Delete Config (if deleteFormDef_in=1)
+        if nvl(deleteFormDef_in,0) = 1 then
+          --fg_form
+          --EXECUTE IMMEDIATE ' CREATE table fg_form_' || to_char(sysdate,'DDMMHH24MISS') || ' as select * from fg_form ';
+          --fg_formentity
+          --EXECUTE IMMEDIATE ' CREATE table fg_formentity_' || to_char(sysdate,'DDMMHH24MISS') || ' as select * from fg_formentity ';
+          --fg_resource
+          --EXECUTE IMMEDIATE ' CREATE table fg_resource_' || to_char(sysdate,'DDMMHH24MISS') || ' as select * from fg_resource ';
+
+          delete from fg_formentity t where lower(t.formcode) =  lower(formCode_in);
+          delete from fg_form t where lower(t.formcode) = lower(formCode_in);
+          delete from fg_resource t where lower(t.code) = lower('fg_s_' || formCode_in || '_all_v');
+          delete from fg_resource t where lower(t.code) = lower('fg_s_' || formCode_in || '_dt_v');
+        end if;
+
+        commit;
+        return 1;
+  end;
+
+procedure cleanInvalidData (formCodeIn varchar) as
+      formCodeEntity_ varchar2(500);
+      invalidSuffix_ varchar2(500);
+ begin
+        --init formCodeEntity_
+        select t.formcode_entity into formCodeEntity_ from fg_form t where upper(t.formcode) = upper(formCodeIn);
+        --select '[inv ' || to_char(sysdate,'ddMMyyyHH24MISS') || ']' into invalidSuffix_ from dual;
+        select '[inv '' || FORMID || '']' into invalidSuffix_ from dual;
+
+        --inactive form FG_FORMLASTSAVEVALUE
+        --EXECUTE IMMEDIATE
+        dbms_output.put_line (
+        ' update fg_formlastsavevalue set entityimpvalue = entityimpvalue || ''' || invalidSuffix_ || ''' where upper(entityimpcode) = upper(''' || formCodeEntity_|| 'Name'') and formid in (select formid from FG_S_' || upper(formCodeIn) || '_INVLD);'
+        );
+
+        dbms_output.put_line (
+        ' update fg_formlastsavevalue set active=0 where formid IN (select formid from FG_S_' || upper(formCodeIn) || '_INVLD);'
+        );
+
+        --inactive form pivot
+        --EXECUTE IMMEDIATE
+        dbms_output.put_line (
+        ' update FG_S_' || upper(formCodeEntity_) || '_PIVOT set active = 0, ' || formCodeEntity_|| 'Name = ' || formCodeEntity_|| 'Name ||''' || invalidSuffix_ || ''' where formid in (select formid from FG_S_' || upper(formCodeIn) || '_INVLD);'
+        );
+
+        --commit;
+ end;
+
+   function removeFromIdFromDB(formId_in varchar, formCodeEntity_in varchar,  ts_in varchar) return number as
+      inuse number;
+      sql_ varchar2(5000);
+   begin
+    select count(*) into inuse from fg_sequence t where t.id = formId_in and t.formcode in (select formcode from fg_form f where f.form_type = 'MAINTENANCE' or f.formcode = 'FormulantRef');
+    insert into fg_debug (comment_info) values('sql_1 = ' || sql_);
+    if inuse <> 1 then
+        return 0;
+     end if;
+
+     sql_ := 'delete from FG_S_' || formCodeEntity_in || '_PIVOT where formid = ''' || formId_in || ''' ';
+     --insert into fg_debug (comment_info) values('sql_2 = ' || sql_);
+
+     execute immediate sql_;
+     delete from fg_formlastsavevalue t where t.formid = formId_in;
+     delete from fg_formlastsavevalue_hst t where t.formid = formId_in;
+     delete from fg_formlastsavevalue_inf t where t.formid = formId_in;
+     delete from fg_sequence t where t.id = formId_in;
+
+     return 1;
+   end;
+
+procedure unpivotFromUnitTestConf as
+      newid varchar(100);
+  begin
+      --unpivot from  FG_S_UNITTESTCONFIG_PIVOT_TMP to FG_FORMLASTSAVEVALUE_231017_KD; formid as is
+      /*insert into FG_FORMLASTSAVEVALUE_231017_KD (formid, formcode_entity, entityimpcode,entityimpvalue, userid, active)
+      select  formid, 'UnitTestConfig' as formcode_entity, entityimpcode, entityimpvalue, 23830 as userid, 1 as active
+      from FG_S_UNITTESTCONFIG_PIVOT_TMP unpivot-- include nulls
+        (entityimpvalue for(entityimpcode) in
+          (
+          ENTITYIMPNAME as 'entityImpName',
+          FIELDVALUE as 'fieldValue',
+          IGNORETEST as 'ignoreTest',
+          ORDEROFEXECUTION as 'orderOfExecution',
+          TESTINGFORMCODE as 'testingFormCode',
+          UNITTESTACTION as 'unitTestAction',
+          UNITTESTCONFIGNAME as 'unitTestConfigName',
+          UNITTESTGROUP_ID as 'UNITTESTGROUP_ID',
+          WAITINGTIME as 'waitingTime'
+          )
+         )
+      order by formid, entityimpcode;
+      commit;*/
+
+      --copy from temp table FG_FORMLASTSAVEVALUE_231017_KD to fg_formlastsavevalue; insert with new formid
+      --declare
+        --newid varchar(100);
+      --begin
+     /*   for r in (
+          select distinct t.formid from FG_FORMLASTSAVEVALUE_231017_KD t
+        )
+        loop
+          newid := fg_get_struct_form_id ('UnitTestConfig');
+          insert into fg_formlastsavevalue (formid,formcode_entity,entityimpcode,entityimpvalue,userid,active)
+          select newid,formcode_entity,entityimpcode,entityimpvalue,userid,active
+          from FG_FORMLASTSAVEVALUE_231017_KD t
+          where t.formid = r.formid;
+        end loop;
+        commit;*/
+      --end;
+
+      --select * from FG_FORMLASTSAVEVALUE_231017_KD t
+      --delete from fg_sequence t where t.formcode = 'UnitTestConfig'
+
+      --delete from fg_formlastsavevalue t where t.formcode_entity = 'UnitTestConfig'
+
+      /*select t.*, t.rowid from fg_formlastsavevalue t
+      where 1=1
+      and t.formcode_entity like '%UnitTestConfig'
+      and t.formid in (select e.formid from fg_formlastsavevalue e where e.entityimpcode = 'testingFormCode' and e.entityimpvalue like 'ExperimentMain%')
+      and t.entityimpcode = 'ignoreTest'*/
+      /*--declare
+        newid varchar(100);
+      --begin
+        for r in (
+          select distinct t.formid from fg_formlastsavevalue_kd161117 t
+        )
+        loop
+          newid := fg_get_struct_form_id ('UnitTestConfig');
+          insert into fg_formlastsavevalue (formid,formcode_entity,entityimpcode,entityimpvalue,userid,active)
+          select newid,formcode_entity,entityimpcode,entityimpvalue,userid,active
+          from fg_formlastsavevalue_kd161117 t
+          where 1=1
+          and t.formid = r.formid
+          and t.formcode_entity like '%UnitTestConfig'
+          and t.formid in (select e.formid from fg_formlastsavevalue e where e.entityimpcode = 'testingFormCode' and e.entityimpvalue like 'SubProject')
+          and t.formid in (select e.formid from fg_formlastsavevalue e where e.entityimpcode = 'UNITTESTGROUP_ID' and e.entityimpvalue like '25319')
+          and t.formid in (select e.formid from fg_formlastsavevalue e where e.entityimpcode = 'orderOfExecution' and (e.entityimpvalue > 250 and e.entityimpvalue < 260));
+        end loop;
+        --commit;
+      --end;*/
+            dbms_output.put_line('done!');
+  end;
+
+  procedure removeDTRemoveButtons as
+  begin
+    --set the "Horizontal" button table to hide remove buttons except the maintenance table
+    update FG_FORMENTITY t set t.entityimpinit = substr(t.entityimpinit ,1,length(t.entityimpinit)-1) || ',"hideRemoveButton":"True"}', t.comments = 'remove non maintenance remove buttens from DT. BU=' || t.entityimpinit
+    where t.entityimpclass = 'ElementDataTableApiImp'
+    and fg_get_value_from_json(t.entityimpinit,'hideRemoveButton') = 'NA'
+    AND t.entityimpinit LIKE '%}'
+    --and t.entityimpinit not like '%"hideRemoveButton":"%'
+    --And  t.formcode in (select formcode from fg_form t1 where t1.form_type <> 'MAINTENANCE')
+    AND  t.entityimpinit like  '%"actionButtons":"Horizontal"%'
+    AND  t.entityimpinit not like  '%"hideButtons":"True"%'
+    --and t.entityimpinit not like '%"hideRemoveButton":"True"}'
+    And  t.formcode <> 'Maintenance';
+  end;
+
+  procedure tool_check_data(db_name_in varchar) as -- db_name_in = db_name to be check against this current user
+      --r_tables_list c_tables_list%rowtype;
+      --flagCounter number := 0;
+     tmpMinusQuery varchar2(4000) := '';
+   -- collist_ varchar2 (4000);
+     --collistAs_ varchar2 (4000);
+     -- validateFromFormId varchar2(100);
+      counter_ number;
+
+       collist_ varchar2 (4000);
+       collistAs_ varchar2 (4000);
+     -- validateFromFormId varchar2(100);
+
+       sqlExcel varchar2 (3600);
+       c1 clob := '1';
+       c2 clob := '2';
+
+   begin
+
+      for r in (
+        select distinct SYSCONFEXCELDATANAME from fg_s_sysconfexceldata_pivot t where t.active = 1
+      )
+
+      loop
+
+        sqlExcel := 'select count(*) from ' || db_name_in || '.fg_clob_files t where t.file_id =  (select exceldata from ' || db_name_in || '.fg_s_sysconfexceldata_pivot t where SYSCONFEXCELDATANAME = ''' || r.sysconfexceldataname || ''')';
+        execute immediate sqlExcel into counter_;
+        if counter_ = 1 then
+          sqlExcel := 'select t.file_content from fg_clob_files t where t.file_id =  (select exceldata from fg_s_sysconfexceldata_pivot t where SYSCONFEXCELDATANAME = ''' || r.sysconfexceldataname || ''')';
+          execute immediate sqlExcel into c1;
+
+          sqlExcel := 'select t.file_content from ' || db_name_in || '.fg_clob_files t where t.file_id =  (select exceldata from ' || db_name_in || '.fg_s_sysconfexceldata_pivot t where SYSCONFEXCELDATANAME = ''' || r.sysconfexceldataname || ''')';
+          execute immediate sqlExcel into c2;
+
+          if(dbms_lob.compare( c1, c2 ) <> 0) then
+            dbms_output.put_line('Warning! the excel ' || r.sysconfexceldataname || ' data (in fg_s_sysconfexceldata_pivot) is different!');
+          end if;
+        else
+            dbms_output.put_line('Warning! the excel ' || r.sysconfexceldataname || ' (active row or data) is not exists in ' || db_name_in || '.fg_s_sysconfexceldata_pivot!');
+        end if;
+
+
+
+      end loop;
+
+
+      counter_ := '0';
+      delete from fg_debug;
+      for r in (
+            select TABLE_NAME
+            from user_tables t
+            where 1=1
+            AND   UPPER(REPLACE(REPLACE(T.TABLE_NAME,'FG_S_'),'_PIVOT'))
+            IN (
+                  SELECT UPPER(F.FORMCODE_ENTITY)
+                  FROM FG_FORM F
+                  WHERE F.FORM_TYPE = 'MAINTENANCE'
+                  and f.group_name in ('_System Event Handler','_System Configuration Pool','_System Configuration Report')
+                )
+      )
+      loop
+        collistAs_:= gettablecolumnlistnoid(r.TABLE_NAME,'FORMID,TIMESTAMP,CHANGE_BY,ACTIVE,FORMCODE_ENTITY,FORMCODE,CHANGE_BY,SESSIONID,CREATED_BY,CREATION_DATE,EXCELDATA,SQLTEXT',1);
+        collist_:= gettablecolumnlistnoid(r.TABLE_NAME,'FORMID,TIMESTAMP,CHANGE_BY,ACTIVE,FORMCODE_ENTITY,FORMCODE,CHANGE_BY,SESSIONID,CREATED_BY,CREATION_DATE,EXCELDATA,SQLTEXT');
+        --tmpMinusQuery := ' select count(T1.formid) as formid_counter from ' || r.TABLE_NAME || ' T1 WHERE (' || collist_ || ') IN (' || chr(10) ||
+         tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+                         ' select ' || collistAs_ || ' from ' || r.TABLE_NAME || chr(10) ||
+                         ' minus  ' || chr(10) ||
+                         ' select ' || collistAs_ || ' from ' || db_name_in || '.' || r.TABLE_NAME || ')';
+        --dbms_output.put_line(tmpMinusQuery);
+        insert into fg_debug (comment_info,comments) values ( 'sql maintenanace check', tmpMinusQuery);
+
+        execute immediate tmpMinusQuery into counter_;
+
+        if counter_ > 0 then
+          dbms_output.put_line('Warning! ' || r.TABLE_NAME || ' has problem in copy data to the server.');
+        end if;
+
+      end loop;
+
+      --fg_form
+      tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+                         ' select formcode, description, active, form_type, title, subtitle, use_as_template, group_name, numberoforder, formcode_entity, ignore_nav, usecache, change_date from fg_form ' || chr(10) ||
+                         ' minus  ' || chr(10) ||
+                         ' select formcode, description, active, form_type, title, subtitle, use_as_template, group_name, numberoforder, formcode_entity, ignore_nav, usecache, change_date from ' || db_name_in || '.fg_form )';
+      --dbms_output.put_line(tmpMinusQuery);
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Error! fg_form data different from the server. diff in ' || counter_ || ' records');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql fg_form check', tmpMinusQuery);
+
+      --fg_formentity
+      tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+                         ' select formcode, numberoforder, entitytype, entityimpcode, entityimpclass, entityimpinit, comments, fs, fs_gap from fg_formentity ' || chr(10) ||
+                         ' minus  ' || chr(10) ||
+                         ' select formcode, numberoforder, entitytype, entityimpcode, entityimpclass, entityimpinit, comments, fs, fs_gap from ' || db_name_in || '.fg_formentity )';
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Error! fg_formentity data different from the server. diff in ' || counter_ || ' records');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql fg_formentity check', tmpMinusQuery);
+
+      --fg_resource
+      tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+                         ' select type, code, value, info from fg_resource ' || chr(10) ||
+                         ' minus  ' || chr(10) ||
+                         ' select type, code, value, info from ' || db_name_in || '.fg_resource )';
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Error! fg_resource data different from the server. diff in ' || counter_ || ' records');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql fg_resource check', tmpMinusQuery);
+
+
+
+    /*--d_notification_message->the process of the inserting is made in the server according to a condition
+     tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+      ' select "D_NOTIFICATION_MESSAGE_ID", "NOTIFICATION_MODULE_ID", "MESSAGE_TYPE_ID", "DESCRIPTION",
+      "EMAIL_SUBJECT",to_char("EMAIL_BODY") as "EMAIL_BODY", "NOTIFICATION_SCHEDULER_ID","SCHEDULER_INTERVAL",
+      replace(replace(to_char("WHERE_STATEMENT"), chr(10), ''''),chr(13), '''') as "WHERE_STATEMENT",to_char("SELECTED_FIELDS") as "SELECTED_FIELDS",
+      "RESEND","ISACTIVE","ISVISIBLE","ATTACHED_REPORT_NAME","ATTACHED_REPORT_TYPE","ADD_ATTACHMENTS","UPDATED_BY","TIME_STAMP","AUDIT_COMMENT","COLUMN_NUMBER",
+      "TRIGGER_TYPE_ID","ON_SAVE_ID" from d_notification_message where isactive = 1 ' || chr(10) ||
+      ' minus  ' || chr(10) ||
+      ' select "D_NOTIFICATION_MESSAGE_ID", "NOTIFICATION_MODULE_ID", "MESSAGE_TYPE_ID", "DESCRIPTION",
+      "EMAIL_SUBJECT",to_char("EMAIL_BODY") as "EMAIL_BODY", "NOTIFICATION_SCHEDULER_ID","SCHEDULER_INTERVAL",
+      replace(replace(to_char("WHERE_STATEMENT"), chr(10), ''''),chr(13), '''') as "WHERE_STATEMENT",to_char("SELECTED_FIELDS") as "SELECTED_FIELDS",
+      "RESEND","ISACTIVE","ISVISIBLE","ATTACHED_REPORT_NAME","ATTACHED_REPORT_TYPE","ADD_ATTACHMENTS","UPDATED_BY","TIME_STAMP","AUDIT_COMMENT","COLUMN_NUMBER",
+      "TRIGGER_TYPE_ID","ON_SAVE_ID" from ' || db_name_in || '.d_notification_message where isactive = 1 )';
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Error! d_notification_message data different from the server. diff in ' || counter_ || ' records');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql d_notification_message check', tmpMinusQuery);*/
+
+      tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+      ' select addressee_group_id, module_id, addressee_group_title, to_char(addressee_group_select),
+      to_char(params_field_names) from p_notification_listaddresgroup ' || chr(10) ||
+      ' minus  ' || chr(10) ||
+      ' select addressee_group_id, module_id, addressee_group_title, to_char(addressee_group_select),
+      to_char(params_field_names) from ' || db_name_in || '.p_notification_listaddresgroup )';
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Error! p_notification_listaddresgroup data different from the server. diff in ' || counter_ || ' records');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql p_notification_listaddresgroup check', tmpMinusQuery);
+
+      tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+      ' select p_notification_module_type_id, module_name, to_char(view_name), isvisible, uniq_id_filed, to_char(order_by), attached_report_name,
+      attached_report_type from p_notification_module_type ' || chr(10) ||
+      ' minus  ' || chr(10) ||
+      ' select p_notification_module_type_id, module_name, to_char(view_name), isvisible, uniq_id_filed, to_char(order_by), attached_report_name,
+      attached_report_type from ' || db_name_in || '.p_notification_module_type )';
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Error! p_notification_module_type data different from the server. diff in ' || counter_ || ' records');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql p_notification_module_type check', tmpMinusQuery);
+
+      --FG_NOTIFICATION_COMPARE (summerize  all the notification)
+      tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+      ' select d_notification_message_id,notification_module_id,message_type_id,description,trigger_type_id,email_subject,email_body,scheduler_interval,where_statement,resend,p_notification_module_type_id,module_name,select_statement,msguniqueidname,order_by,addressee_type_id,send_type,addressee_user_id,params_field_names,addressee_group_select,
+        add_attachments,attached_report_name,attached_report_type,isactive from FG_NOTIFICATION_COMPARE '  || chr(10) ||
+      ' minus  ' || chr(10) ||
+      ' select d_notification_message_id,notification_module_id,message_type_id,description,trigger_type_id,email_subject,email_body,scheduler_interval,where_statement,resend,p_notification_module_type_id,module_name,select_statement,msguniqueidname,order_by,addressee_type_id,send_type,addressee_user_id,params_field_names,addressee_group_select,
+        add_attachments,attached_report_name,attached_report_type,isactive from ' || db_name_in ||  '.FG_NOTIFICATION_COMPARE)';
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Error! FG_NOTIFICATION_COMPARE data different from the server. diff in ' || counter_ || ' records');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql FG_NOTIFICATION_COMPARE check', tmpMinusQuery);
+
+      --REPORT_CATEGORY
+      tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+      ' select id, REPORT_CATEGORY, report_sql, report_description, change_by, active, timestamp, report_user_id, report_scope, report_style,
+      report_name, report_save_data, meta_data from fg_report_list where system_row = 1' || chr(10) ||
+      ' minus  ' || chr(10) ||
+      ' select id, REPORT_CATEGORY, report_sql, report_description, change_by, active, timestamp, report_user_id, report_scope, report_style,
+      report_name, report_save_data, meta_data from ' || db_name_in || '.fg_report_list  where system_row = 1)';
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Error! fg_report_list data different from the server. diff in ' || counter_ || ' records');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql fg_report_list check', tmpMinusQuery);
+
+     /* tmpMinusQuery := ' select count (*) from (' || chr(10) ||
+      ' select  distinct c.parent_id from ' || db_name_in || '.fg_s_invitemmaterial_v m, fg_chem_doodle_data c
+      where m.STRUCTURE = c.parent_id and m.active = 1 and c.reaction_all_data_link is not null and c.smiles_data is not null' || chr(10) ||
+      'minus ' || chr(10) ||
+      ' select distinct t.elementid from ' || db_name_in || '.fg_chem_search t)';
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Warning! Table fg_chem_doodle_data presumably contains ' || counter_ || ' records with a duplicated structure');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql fg_s_invitemmaterial_v, fg_chem_search check', tmpMinusQuery);*/
+
+      /*
+      tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+      ' select formid, timestamp, creation_date, cloneid, templateflag, change_by, created_by, sessionid, active, formcode_entity, formcode,
+      unittestconfigcomments, groupname, unittestconfigname, unittestaction, orderofexecution, ignoretest, waitingtime, entityimpname,
+      testingformcode, fieldvalue from fg_s_unittestconfig_pivot  ' || chr(10) ||
+      ' minus  ' || chr(10) ||
+      ' select formid, timestamp, creation_date, cloneid, templateflag, change_by, created_by, sessionid, active, formcode_entity, formcode,
+      unittestconfigcomments, groupname, unittestconfigname, unittestaction, orderofexecution, ignoretest, waitingtime, entityimpname,
+      testingformcode, fieldvalue from ' || db_name_in || '.fg_s_unittestconfig_pivot )';
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Error! fg_s_unittestconfig_pivot data different from the server. diff in ' || counter_ || ' records');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql fg_s_unittestconfig_pivot check', tmpMinusQuery);
+
+      tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+      ' select formid, timestamp, change_by, sessionid, active, formcode_entity, formcode, unittestgroupname, orderofexecution, ignore,
+      unittestlevels, comments, cloneid, templateflag, created_by, creation_date from fg_s_unittestgroup_pivot  ' || chr(10) ||
+      ' minus  ' || chr(10) ||
+      ' select formid, timestamp, change_by, sessionid, active, formcode_entity, formcode, unittestgroupname, orderofexecution, ignore,
+      unittestlevels, comments, cloneid, templateflag, created_by, creation_date from ' || db_name_in || '.fg_s_unittestgroup_pivot )';
+      execute immediate tmpMinusQuery into counter_;
+      if counter_ > 0 then
+          dbms_output.put_line('Error! fg_s_unittestgroup_pivot data different from the server. diff in ' || counter_ || ' records');
+      end if;
+      insert into fg_debug (comment_info,comments) values ( 'sql fg_s_unittestgroup_pivot check', tmpMinusQuery);
+      */
+
+      commit;
+
+      dbms_output.put_line('If all you see is this line we are OK.');
+
+      -- show list of all_v / dt_v views with formid duplication (without views from select forms like userscrew)
+      /*   for r in (
+            select VIEW_NAME
+            from ALL_VIEWS t
+          where UPPER(t.VIEW_NAME) like UPPER('fg_s%all_v') or UPPER(t.VIEW_NAME) like UPPER('fg_s%dt_v')
+
+      )
+       loop
+         tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+                         ' select  count(*) as c, count(distinct t.formid) as cd from ' || r.VIEW_NAME ||' t) t1' ||chr(10)||
+                         ' where t1.c <> t1.cd ; ' ;
+        execute immediate tmpMinusQuery into counter_;
+        if counter_ > 0 then
+          dbms_output.put_line('Warn: duplication found in '|| r.VIEW_NAME);
+        end if;
+
+      end loop;
+      */
+      -- show list of tables (pivot) with formid that are not in FG_SEQUENCE (name of table and count of formid that are not in FG_SEQUENCE) [expect empty list]
+     /* for r in (
+            select TABLE_NAME
+            from user_tables t
+          where UPPER(t.TABLE_NAME) like UPPER('fg_s%pivot')
+
+      )
+      loop
+         tmpMinusQuery := ' select  count(*) from ' || db_name_in || '.' || r.TABLE_NAME ||' t where t.formid not in (select f.id from FG_SEQUENCE f )' ;
+         execute immediate tmpMinusQuery into counter_;
+         if counter_ > 0 then
+            dbms_output.put_line('Warn: table with missing formid in FG_SEQUENCE:'||r.table_name||'('||counter_||')');
+         end if;
+      end loop;*/
+
+
+      -- show list of tables (pivot) with missing form code (we check from validateFromFormId)
+     /* for r in (
+            select TABLE_NAME
+            from user_tables t
+          where UPPER(t.TABLE_NAME) like UPPER('fg_s%pivot')
+
+      )
+       loop
+        tmpMinusQuery := 'select count(*) from ' || db_name_in || '.'||r.TABLE_NAME ||' t where  t.formcode IS NULL';
+        execute immediate tmpMinusQuery into counter_;
+
+        if counter_ > 0 then
+         dbms_output.put_line('Warn: table with missing formcode :'||r.table_name||'('||counter_||')');
+        end if;
+      end loop; */
+
+      -- show list of tables (pivot) with missing form code entity (we check from validateFromFormId)
+     /* for r in (
+            select TABLE_NAME
+            from user_tables t
+          where UPPER(t.TABLE_NAME) like UPPER('fg_s%pivot')
+
+      )
+      loop
+         tmpMinusQuery := 'select count(*) from ' || db_name_in || '.'||r.TABLE_NAME ||' t where t.formcode_entity IS NULL';
+        execute immediate tmpMinusQuery into counter_;
+
+        if counter_ > 0 then
+         dbms_output.put_line('Warn: table with missing formcode_entity :'||r.table_name||'('||counter_||')');
+        end if;
+      end loop; */
+
+      -- show list of FG_SEQUENCE with formcode not from fg_form or from special element (see FG_GET_STRUCT_FORM_ID call in java and DB)
+      --(?) list of invalid DB object
+      /*   FOR r IN (select  OBJECT_NAME  from dba_objects where status=upper('invalid'))
+
+         loop
+            DBMS_OUTPUT.PUT_LINE(r.OBJECT_NAME ||',');
+         end loop;
+      */
+   end;
+
+
+
+end;
 /
 
 prompt
