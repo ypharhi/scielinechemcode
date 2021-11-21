@@ -261,6 +261,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 								+ "_id  in (SELECT FILTER_SQL_ID FROM FILTER_SQL)) where 1=1 ";//+ citeriaWherePart
 					}
 				}
+				if(struct.equalsIgnoreCase("Request")) {
+					additionalOrder = "request_id desc";
+				}
 			} else {
 				if (Arrays.asList("Project", "SubProject", "SubSubProject").contains(formCode)
 						&& Arrays.asList("SubProject", "SubSubProject", "Experiment").contains(struct)) {
@@ -1618,9 +1621,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				if(!generalUtil.getNull(permissionListSql.getSql()).isEmpty()){
 					fullSql = "select * from (WITH "
 							+ " PERM_SQL_ALL AS ("+permissionListSql.getSql()+") " + sql 
-							+ " and " + permissionListSql.getObjectId() + " in (SELECT * FROM PERM_SQL_ALL)"  + ") where 1=1";
+							+ " and " + permissionListSql.getObjectId() + " in (SELECT * FROM PERM_SQL_ALL)"  + ") where 1=1"+(additionalOrder.isEmpty()?"":" order by "+additionalOrder);
 				}else{
-					fullSql = sql;
+					fullSql = sql  +(additionalOrder.isEmpty()?"":" order by "+additionalOrder);
 				}
 			}
 
