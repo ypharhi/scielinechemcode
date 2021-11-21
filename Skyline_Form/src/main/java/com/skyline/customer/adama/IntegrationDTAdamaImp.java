@@ -1606,13 +1606,13 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 							+ sqlScript.replaceFirst("select ", "select /*+ " + dataTableWithHint + " */") + " )" + ", "
 							+ " PERM_SQL_ALL AS ("+permissionListSql.getSql()+") " + sql 
 							+ " and " + permissionListSql.getObjectId() + " in (SELECT * FROM PERM_SQL_ALL)" 
-							+ " and " + idName + " in (SELECT * FROM CRITERIA_SQL)" + ") where 1=1";// +
+							+ " and " + idName + " in (SELECT * FROM CRITERIA_SQL)" + ") where 1=1" +(additionalOrder.isEmpty()?"":" order by "+additionalOrder);// +
 																							// citeriaWherePart
 				}
 				else{
 					fullSql = "select * from (WITH CRITERIA_SQL AS ("
 							+ sqlScript.replaceFirst("select ", "select /*+ " + dataTableWithHint + " */") + " ) " + sql
-							+ " and " + idName + " in (SELECT * FROM CRITERIA_SQL)) where 1=1";//+ citeriaWherePart
+							+ " and " + idName + " in (SELECT * FROM CRITERIA_SQL)) where 1=1" +(additionalOrder.isEmpty()?"":" order by "+additionalOrder);//+ citeriaWherePart
 				}
 				//				}  else {
 				//					sqlScript = " and " + idName + " in (" + sqlScript + ")";
