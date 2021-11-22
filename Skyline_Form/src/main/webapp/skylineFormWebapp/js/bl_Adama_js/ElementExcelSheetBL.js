@@ -388,7 +388,7 @@ function getComponentList(){
 function isSingleSheetOnly(formCode,domId){
 	if(/*formCode == 'ExperimentAn' && domId == 'spreadsheetResults'
 		|| formCode == 'ExperimentFor' && domId == 'spreadsheetExcel'
-		||*/ formCode == 'SysConfExcelData' && domId == 'ExcelData'
+		||*/ formCode == 'SysConfExcelData' && domId == 'ExcelData' || $('.user-name').html() == 'system'
 			){
 		return false;
 	}
