@@ -1,6 +1,6 @@
 -----------------------------------------------
 -- Export file for user SKYLINE_FORM_MIN     --
--- Created by comply on 22/11/2021, 16:37:32 --
+-- Created by comply on 22/11/2021, 16:59:08 --
 -----------------------------------------------
 
 spool db_min_obj.log
@@ -3483,7 +3483,7 @@ prompt
 create sequence FG_SEQUENCE_SEQ
 minvalue 1
 maxvalue 999999999999999999999999999
-start with 367491
+start with 367506
 increment by 1
 cache 15;
 
@@ -4800,6 +4800,13 @@ FROM
 );
 
 prompt
+prompt Creating view FG_I_FORMENTITY_V
+prompt ===============================
+prompt
+create or replace view fg_i_formentity_v as
+select "ID","FORMCODE","NUMBEROFORDER","ENTITYTYPE","ENTITYIMPCODE","ENTITYIMPCLASS","ENTITYIMPINIT","JSON_ENTITYIMPINIT" from fg_formentity_v;
+
+prompt
 prompt Creating view FG_I_MAINTENANCE_FORM_LIST_V
 prompt ==========================================
 prompt
@@ -4960,6 +4967,25 @@ select 'Search Label' as category_, 9 as category_order, 'Search Label' as sub_c
 from dual*/
 )
 order by category_order, sub_category_order;
+
+prompt
+prompt Creating view FG_I_UNITTESTACTION_V
+prompt ===================================
+prompt
+create or replace view fg_i_unittestaction_v as
+select 'Click' as "MainAction" from dual
+union all
+select 'SetSelect' from dual
+union all
+select 'SetInput' from dual
+union all
+select 'Navigate' from dual
+union all
+select 'Navigate by SQL' from dual
+union all
+select 'SQL for validation' from dual
+union all
+select 'Runjavascript' from dual;
 
 prompt
 prompt Creating function FG_GET_UOM_BY_UOMTYPE
@@ -5151,6 +5177,24 @@ from    fg_s_permissionscheme_inf_v t,
         fg_s_user_pivot u
 where instr(',' || t.SCREEN || ',', ',' || s.name || ',') > 0
 and   instr(',' || t.user_crew_list || ',', ',' || u.formid || ',') > 0;
+
+prompt
+prompt Creating view FG_SYS_FORMENTITY_V
+prompt =================================
+prompt
+create or replace view fg_sys_formentity_v as
+select t."ID",t."FORMCODE",t."NUMBEROFORDER",t."ENTITYTYPE",t."ENTITYIMPCODE",t."ENTITYIMPCLASS",t."ENTITYIMPINIT",t."COMMENTS",t."FS",t."FS_GAP", f.form_type
+from fg_formentity t,
+     fg_form f
+where t.formcode = f.formcode;
+
+prompt
+prompt Creating view FG_SYS_FORM_V
+prompt ===========================
+prompt
+create or replace view fg_sys_form_v as
+select "ID","FORMCODE","DESCRIPTION","ACTIVE","FORM_TYPE","TITLE","SUBTITLE","USE_AS_TEMPLATE","GROUP_NAME","NUMBEROFORDER","FORMCODE_ENTITY","IGNORE_NAV","USECACHE"
+from fg_form t;
 
 prompt
 prompt Creating view FG_S_CUSTOMER_DT_V
