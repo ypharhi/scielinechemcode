@@ -219,6 +219,10 @@ public class GeneralUtilNotificationEvent {
 		if (generalUtil.getNull(lastCheck).isEmpty()) { //will happen only once for a new user
 			forceCheck = true;
 		}
+		
+		if(messageCheckInterval == null || messageCheckInterval.isEmpty()) {
+			messageCheckInterval = "0";
+		}
 
 		String intervalfromLastCheck = generalDao.selectSingleString(String
 				.format("select ( sysdate - TO_date('%1$s','dd/MM/yyyy HH24:MI'))* 24 * 60 from dual", lastCheck));

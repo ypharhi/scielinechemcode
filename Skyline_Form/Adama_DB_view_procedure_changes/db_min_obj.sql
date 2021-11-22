@@ -1,6 +1,6 @@
 -----------------------------------------------
 -- Export file for user SKYLINE_FORM_MIN     --
--- Created by comply on 22/11/2021, 18:02:17 --
+-- Created by comply on 22/11/2021, 18:44:06 --
 -----------------------------------------------
 
 spool db_min_obj.log
@@ -4740,91 +4740,13 @@ select distinct
        '{"name":"' || sub_category || '","category":"' || category_ || '","category_order":"' || category_order || '","sub_category":"' || sub_category || '","sub_category_order":"' || sub_category_order || '","formCode":"' || formCode || '","css_class":"' || class_ || '","system_level":"' || system_ || '"}' as screen_info,
        category_order, sub_category_order,system_
 from (
-/*select 'Search' as category_, 0 as category_order, 'Search' as sub_category, 0 as sub_category_order, '' as formCode, '' as class_
-from dual
-union
-select 'Search' as category_, 0 as category_order, 'QRCode navigation' as sub_category, 1 as sub_category_order, 'QRCode navigation' as formCode, '' as class_, '0' as system_
-from dual
-union*/
 select 'Form Builder' as category_, 1 as category_order, 'Form Builder' as sub_category, 0 as sub_category_order, '' as formCode, 'form-builder' as class_, '1' as system_
 from dual
 union
 select 'Form Builder' as category_, 1 as category_order, 'Admin - Form Entity Summary' as sub_category, 1 as sub_category_order, 'FGEntityConfReport' as formCode, '' as class_, '1' as system_
 from dual
 union
-/*select 'Form Builder' as category_, 1 as category_order, 'Admin - DB views Summary' as sub_category, 2 as sub_category_order, 'FGViewReport' as formCode, '' as class_, '1' as system_
-from dual
-union
-select 'Form Builder' as category_, 1 as category_order, 'Admin - Form Entity And Views Summary' as sub_category, 3 as sub_category_order, 'FGEntityReport' as formCode, '' as class_, '1' as system_
-from dual
-union
-select 'Form Builder' as category_, 1 as category_order, 'Admin - QR Code: Find & Navigate' as sub_category, 3 as sub_category_order, 'FGSearchNNavigate' as formCode, '' as class_, '1' as system_
-from dual
-union*/
-select 'Project Management' as category_, 2 as category_order, 'Project Management' as sub_category, 0 as sub_category_order, '' as formCode, 'project-management' as class_, '0' as system_
-from dual
-union
-select 'Project Management' as category_, 2 as category_order, 'Project Management' as sub_category, 1 as sub_category_order, 'Main' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Project Management' as category_, 2 as category_order, 'Templates' as sub_category, 2 as sub_category_order, 'TemplateMenuMain' as formCode, '' as class_, '0' as system_
-from dual
-union
-/*select 'Project Management' as category_, 2 as category_order, 'Stability Planning' as sub_category, 3 as sub_category_order, 'Dummy' as formCode, '' as class_, '1' as system_ -- "Taro develop"
-from dual
-union*/
-select 'Project Management' as category_, 2 as category_order, 'Series Summary' as sub_category, 4 as sub_category_order, 'FGSeriesReport' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Project Management' as category_, 2 as category_order, 'Spreadsheets Templates' as sub_category, 5 as sub_category_order, 'SpreadsheetMain' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Inventory' as category_, 3 as category_order, 'Inventory' as sub_category, 0 as sub_category_order, '' as formCode, 'inventory' as class_, '0' as system_
-from dual
-union
-select 'Inventory' as category_, 3 as category_order, 'Materials' as sub_category, 1 as sub_category_order, 'InvItemMaterialsMain' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Inventory' as category_, 3 as category_order, 'Columns' as sub_category, 2 as sub_category_order, 'InvItemColumnsMain' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Inventory' as category_, 3 as category_order, 'Instruments' as sub_category, 3 as sub_category_order, 'InvItemInstrumentsMain' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Inventory' as category_, 3 as category_order, 'Samples' as sub_category, 4 as sub_category_order, 'InvItemSamplesMain' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Inventory' as category_, 3 as category_order, 'Recipes' as sub_category, 5 as sub_category_order, 'InvItemRecipesMain' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Reports' as category_, 4 as category_order, 'Reports' as sub_category, 0 as sub_category_order, '' as formCode, 'reports' as class_, '0' as system_
-from dual
-union
-select 'Reports' as category_, 4 as category_order, 'Reports' as sub_category, 1 as sub_category_order, 'Reports' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Reports' as category_, 4 as category_order, 'Experiment Analysis Report' as sub_category, 2 as sub_category_order, 'ExpAnalysisReport' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Reports' as category_, 4 as category_order, 'Reaction and Results Analysis' as sub_category, 3 as sub_category_order, 'ExperimentReport' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Reports' as category_, 4 as category_order, 'Experiment Version' as sub_category, 4 as sub_category_order, 'ExperimAuditTrail' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Reports' as category_, 4 as category_order, 'Dynamic Reports' as sub_category, 5 as sub_category_order, 'DynamicReport' as formCode, '' as class_, '0' as system_
-from dual
-union
-select 'Reports' as category_, 4 as category_order, 'Historical Data' as sub_category, 6 as sub_category_order, 'HistoricalDataMain' as formCode, '' as class_, '0' as system_
-from dual
-/*union --This is for TARO; commented in Adama
-select 'Reports' as category_, 4 as category_order, 'Stability Planning Report' as sub_category, 4 as sub_category_order, 'StabilityPlannRep' as formCode, '' as class_, '0' as system_
-from dual*/
-union
 select 'Maintenance' as category_, 5 as category_order, 'Maintenance' as sub_category, 0 as sub_category_order, 'Maintenance' as formCode, 'maintenance' as class_, '0' as system_
-from dual
-union
-select 'Notifications' as category_, 6 as category_order, 'Notifications' as sub_category, 0 as sub_category_order, 'Notifications' as formCode, 'notifications' as class_, '2' as system_
 from dual
 union
 select 'System Log' as category_, 7 as category_order, 'System Log' as sub_category, 0 as sub_category_order, '' as formCode, 'systemlosg' as class_, '1' as system_
@@ -9896,7 +9818,7 @@ SELECT sys_context('USERENV','SESSION_USER') into p_db_name FROM dual;
 --admin usert
 select count(*) into check_admin_ from fg_s_user_pivot t where lower(t.USERNAME) = 'admin';
 
-if check_admin_ > 0 then
+/*if check_admin_ > 0 then
   select max(t.FORMID) into adminFormId from fg_s_user_pivot t where lower(t.USERNAME) = 'admin';
 else
   --insert with password comply2005
@@ -9906,7 +9828,7 @@ else
 end if;
 
 update fg_s_user_pivot t set t.password = 'e51e64148c4104bf2fb9f7e7b07837d5' where t.username = 'admin'; --set to comply2005
-
+*/
 --system user
 select count(*) into check_system_ from fg_s_user_pivot t where lower(t.USERNAME) = 'system';
 
@@ -9916,7 +9838,7 @@ if check_system_ = 0 then
   values (FG_GET_STRUCT_FORM_ID('User'), sysdate, null, null, 1, 'User', 'system', null, 'system', '1', null, '0', '0',null, null, null, '26/01/2017', '26/01/2017', null, null, 'ab5d6cb5ad2b840e5a7e7d02afc60ff6', '15-FEB-18', '1', null, 'skyline@comply.co.il', '26/01/2017', 'User', null, null, null, 'NA,ALL,fg_r_permissionUser_v,1,User,0,10,,', null, null, null, null);
 end if;
 
-update fg_s_user_pivot t set t.password = 'ab5d6cb5ad2b840e5a7e7d02afc60ff6' where t.username = 'system'; --set to sys_comply2005
+update fg_s_user_pivot t set t.password = 'e51e64148c4104bf2fb9f7e7b07837d5' where t.username = 'system'; --set to comply2005
 
 
 --***** FG_SYS_PARAM
