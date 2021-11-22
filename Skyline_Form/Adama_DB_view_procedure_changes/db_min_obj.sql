@@ -1,6 +1,6 @@
 -----------------------------------------------
 -- Export file for user SKYLINE_FORM_MIN     --
--- Created by comply on 21/11/2021, 19:09:22 --
+-- Created by comply on 22/11/2021, 16:37:32 --
 -----------------------------------------------
 
 spool db_min_obj.log
@@ -1329,6 +1329,29 @@ create table FG_I_UNITTEST_GLOBAL_SAVE_V_SS
 ;
 
 prompt
+prompt Creating table FG_I_USERSGROUP_SUMMARYLIST_MV
+prompt =============================================
+prompt
+create table FG_I_USERSGROUP_SUMMARYLIST_MV
+(
+  parentid VARCHAR2(500),
+  user_id  VARCHAR2(4000)
+)
+;
+
+prompt
+prompt Creating table FG_I_USERS_GROUP_SUMMARYDIS_MV
+prompt =============================================
+prompt
+create table FG_I_USERS_GROUP_SUMMARYDIS_MV
+(
+  parentid VARCHAR2(500),
+  user_id  VARCHAR2(100),
+  username VARCHAR2(500)
+)
+;
+
+prompt
 prompt Creating table FG_I_WEBIX_OUTPUT_ALL_V_SS
 prompt =========================================
 prompt
@@ -1882,6 +1905,28 @@ comment on column FG_SYS_SCHED.last_end_date
   is 'LAST_END_DATE';
 
 prompt
+prompt Creating table FG_S_CUSTOMER_PIVOT
+prompt ==================================
+prompt
+create table FG_S_CUSTOMER_PIVOT
+(
+  formid          VARCHAR2(100) not null,
+  timestamp       DATE,
+  change_by       VARCHAR2(100),
+  sessionid       VARCHAR2(500),
+  active          NUMBER,
+  formcode        VARCHAR2(100),
+  customername    VARCHAR2(500),
+  description     VARCHAR2(500),
+  cloneid         VARCHAR2(100),
+  templateflag    VARCHAR2(100),
+  formcode_entity VARCHAR2(100),
+  created_by      VARCHAR2(100),
+  creation_date   DATE default sysdate
+)
+;
+
+prompt
 prompt Creating table FG_S_DYNAMICREPORTSQL_PIVOT
 prompt ==========================================
 prompt
@@ -2007,6 +2052,126 @@ create table FG_S_PERMISSIONOBJECT_PIVOT
 ;
 
 prompt
+prompt Creating table FG_S_PERMISSIONPOLICY_PIVOT
+prompt ==========================================
+prompt
+create table FG_S_PERMISSIONPOLICY_PIVOT
+(
+  formid               VARCHAR2(100) not null,
+  timestamp            DATE,
+  change_by            VARCHAR2(100),
+  sessionid            VARCHAR2(500),
+  active               NUMBER,
+  formcode             VARCHAR2(100),
+  customer_id          VARCHAR2(500),
+  userrole_id          VARCHAR2(500),
+  permissionpolicyname VARCHAR2(500),
+  policyexpression     VARCHAR2(500),
+  policypermission     VARCHAR2(500),
+  cloneid              VARCHAR2(100),
+  templateflag         VARCHAR2(100),
+  formcode_entity      VARCHAR2(100)
+)
+;
+
+prompt
+prompt Creating table FG_S_PERMISSIONSCHEME_PIVOT
+prompt ==========================================
+prompt
+create table FG_S_PERMISSIONSCHEME_PIVOT
+(
+  formid               VARCHAR2(100) not null,
+  timestamp            DATE,
+  change_by            VARCHAR2(100),
+  sessionid            VARCHAR2(100),
+  active               NUMBER,
+  formcode_entity      VARCHAR2(100),
+  formcode             VARCHAR2(100),
+  permissionschemename VARCHAR2(500),
+  users                VARCHAR2(500),
+  permissiontable      VARCHAR2(500),
+  groupscrew           VARCHAR2(500),
+  screen               VARCHAR2(500),
+  cloneid              VARCHAR2(100),
+  templateflag         VARCHAR2(100),
+  created_by           VARCHAR2(100),
+  creation_date        DATE,
+  maintenanceformlist  VARCHAR2(1000)
+)
+;
+
+prompt
+prompt Creating table FG_S_PERMISSIONSREF_INFA_MV
+prompt ==========================================
+prompt
+create table FG_S_PERMISSIONSREF_INFA_MV
+(
+  formcode                   CHAR(14),
+  id                         VARCHAR2(100) not null,
+  permissionschemename       VARCHAR2(500),
+  permissionsrefname         VARCHAR2(500),
+  name                       VARCHAR2(500),
+  site_id                    VARCHAR2(500),
+  unit_id                    VARCHAR2(500),
+  lab_id                     VARCHAR2(500),
+  permission                 VARCHAR2(500),
+  user_crew_list             VARCHAR2(4000),
+  active                     NUMBER,
+  is_active                  VARCHAR2(40),
+  permissionobjectname_group VARCHAR2(1502)
+)
+;
+
+prompt
+prompt Creating table FG_S_PERMISSIONSREF_INF_MV
+prompt =========================================
+prompt
+create table FG_S_PERMISSIONSREF_INF_MV
+(
+  formcode                   CHAR(14),
+  id                         VARCHAR2(100) not null,
+  permissionschemename       VARCHAR2(500),
+  permissionsrefname         VARCHAR2(500),
+  name                       VARCHAR2(500),
+  site_id                    VARCHAR2(500),
+  unit_id                    VARCHAR2(500),
+  lab_id                     VARCHAR2(500),
+  permission                 VARCHAR2(500),
+  user_crew_list             VARCHAR2(4000),
+  active                     NUMBER,
+  is_active                  VARCHAR2(40),
+  permissionobjectname_group VARCHAR2(1502)
+)
+;
+
+prompt
+prompt Creating table FG_S_PERMISSIONSREF_PIVOT
+prompt ========================================
+prompt
+create table FG_S_PERMISSIONSREF_PIVOT
+(
+  formid             VARCHAR2(100) not null,
+  timestamp          DATE,
+  change_by          VARCHAR2(100),
+  sessionid          VARCHAR2(500),
+  active             NUMBER,
+  formcode_entity    VARCHAR2(100),
+  formcode           VARCHAR2(100),
+  parentid           VARCHAR2(500),
+  permission         VARCHAR2(500),
+  permissionsrefname VARCHAR2(500),
+  lab_id             VARCHAR2(500),
+  unit_id            VARCHAR2(500),
+  site_id            VARCHAR2(500),
+  tabletype          VARCHAR2(500),
+  cloneid            VARCHAR2(100),
+  templateflag       VARCHAR2(100),
+  created_by         VARCHAR2(100),
+  creation_date      DATE default sysdate
+)
+;
+
+prompt
 prompt Creating table FG_S_SENSITIVITYLEVEL_PIVOT
 prompt ==========================================
 prompt
@@ -2053,6 +2218,30 @@ create table FG_S_SITE_PIVOT
 ;
 
 prompt
+prompt Creating table FG_S_SYSCONFDTCRITERIA_PIVOT
+prompt ===========================================
+prompt
+create table FG_S_SYSCONFDTCRITERIA_PIVOT
+(
+  formid                VARCHAR2(100) not null,
+  timestamp             DATE,
+  cloneid               VARCHAR2(100),
+  templateflag          VARCHAR2(100),
+  change_by             VARCHAR2(100),
+  sessionid             VARCHAR2(500),
+  active                NUMBER,
+  formcode_entity       VARCHAR2(100),
+  formcode              VARCHAR2(100),
+  sysconfdtcriterianame VARCHAR2(4000),
+  argformcode           VARCHAR2(4000),
+  argstruct             VARCHAR2(4000),
+  sysconfsqlpool_id     VARCHAR2(4000),
+  created_by            VARCHAR2(100),
+  creation_date         DATE default sysdate
+)
+;
+
+prompt
 prompt Creating table FG_S_SYSCONFEXCELDATA_PIVOT
 prompt ==========================================
 prompt
@@ -2072,6 +2261,33 @@ create table FG_S_SYSCONFEXCELDATA_PIVOT
   sysconfexceldataname VARCHAR2(500),
   excelfile            VARCHAR2(500),
   exceldata            VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSCONFPRESAVECALC_PIVOT
+prompt ============================================
+prompt
+create table FG_S_SYSCONFPRESAVECALC_PIVOT
+(
+  formid                 VARCHAR2(100) not null,
+  timestamp              DATE,
+  change_by              VARCHAR2(100),
+  sessionid              VARCHAR2(500),
+  active                 NUMBER,
+  formcode               VARCHAR2(100),
+  arg3                   VARCHAR2(500),
+  resultelement          VARCHAR2(500),
+  arg4                   VARCHAR2(500),
+  formulaorfunction      VARCHAR2(500),
+  sysconfpresavecalcname VARCHAR2(500),
+  arg5                   VARCHAR2(500),
+  argelement             VARCHAR2(500),
+  arg2                   VARCHAR2(500),
+  arg1                   VARCHAR2(500),
+  cloneid                VARCHAR2(100),
+  templateflag           VARCHAR2(100),
+  formcode_entity        VARCHAR2(100)
 )
 ;
 
@@ -2105,6 +2321,83 @@ create table FG_S_SYSCONFSQLCRITERIA_PIVOT
 ;
 
 prompt
+prompt Creating table FG_S_SYSCONFSQLCRITERIA_PIVOT1
+prompt =============================================
+prompt
+create table FG_S_SYSCONFSQLCRITERIA_PIVOT1
+(
+  formid                 VARCHAR2(100) not null,
+  timestamp              DATE,
+  creation_date          DATE,
+  cloneid                VARCHAR2(100),
+  templateflag           VARCHAR2(100),
+  change_by              VARCHAR2(100),
+  created_by             VARCHAR2(100),
+  sessionid              VARCHAR2(100),
+  active                 NUMBER,
+  formcode_entity        VARCHAR2(100),
+  formcode               VARCHAR2(100),
+  sqltype                VARCHAR2(500),
+  sqldescription         VARCHAR2(4000),
+  structlevel            VARCHAR2(500),
+  sqltext                VARCHAR2(4000),
+  ignore                 VARCHAR2(500),
+  sysconfsqlcriterianame VARCHAR2(500),
+  executationtype        VARCHAR2(500),
+  isdefault              VARCHAR2(500),
+  screen                 VARCHAR2(500),
+  additionalmatchinfo    VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSCONFSQLPOOL_PIVOT
+prompt ========================================
+prompt
+create table FG_S_SYSCONFSQLPOOL_PIVOT
+(
+  formid             VARCHAR2(100) not null,
+  timestamp          DATE,
+  cloneid            VARCHAR2(100),
+  templateflag       VARCHAR2(100),
+  change_by          VARCHAR2(100),
+  sessionid          VARCHAR2(500),
+  active             NUMBER,
+  formcode_entity    VARCHAR2(100),
+  formcode           VARCHAR2(100),
+  sqltype            VARCHAR2(500),
+  sqldescription     VARCHAR2(4000),
+  sysconfsqlpoolname VARCHAR2(500),
+  sqltext            VARCHAR2(4000),
+  structlevel        VARCHAR2(500),
+  ignore             VARCHAR2(500),
+  executationtype    VARCHAR2(500),
+  screen             VARCHAR2(500),
+  isdefault          VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSCONFWFNEW_PIVOT
+prompt ======================================
+prompt
+create table FG_S_SYSCONFWFNEW_PIVOT
+(
+  formid           VARCHAR2(100) not null,
+  timestamp        DATE,
+  change_by        VARCHAR2(100),
+  sessionid        VARCHAR2(500),
+  active           NUMBER,
+  formcode         CHAR(12),
+  parammapname     VARCHAR2(4000),
+  parammapval      VARCHAR2(4000),
+  removefromlist   VARCHAR2(4000),
+  sysconfwfnewname VARCHAR2(4000),
+  jsonname         VARCHAR2(4000)
+)
+;
+
+prompt
 prompt Creating table FG_S_SYSCONFWFSTATUS_PIVOT
 prompt =========================================
 prompt
@@ -2126,6 +2419,53 @@ create table FG_S_SYSCONFWFSTATUS_PIVOT
   statusformcode      VARCHAR2(500),
   statusinfcolumn     VARCHAR2(500),
   jsonname            VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSEVENTHANDLERREF_PIVOT
+prompt ============================================
+prompt
+create table FG_S_SYSEVENTHANDLERREF_PIVOT
+(
+  formid                 VARCHAR2(100) not null,
+  timestamp              DATE,
+  change_by              VARCHAR2(100),
+  sessionid              VARCHAR2(500),
+  active                 NUMBER,
+  formcode               VARCHAR2(100),
+  handlerorderonfail     VARCHAR2(4000),
+  parentid               VARCHAR2(4000),
+  tabletype              VARCHAR2(4000),
+  syseventhandlerrefname VARCHAR2(4000),
+  handlerorder           VARCHAR2(4000),
+  created_by             VARCHAR2(100),
+  creation_date          DATE default sysdate
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSEVENTHANDLERSET_PIVOT
+prompt ============================================
+prompt
+create table FG_S_SYSEVENTHANDLERSET_PIVOT
+(
+  formid                 VARCHAR2(100) not null,
+  timestamp              DATE,
+  change_by              VARCHAR2(100),
+  sessionid              VARCHAR2(500),
+  active                 NUMBER,
+  formcode               VARCHAR2(100),
+  handlerorderonfail     VARCHAR2(4000),
+  handlersetcomment      VARCHAR2(4000),
+  handlerorder           VARCHAR2(4000),
+  syseventpoint_id       VARCHAR2(4000),
+  syseventhandlersetname VARCHAR2(4000),
+  cloneid                VARCHAR2(100),
+  templateflag           VARCHAR2(100),
+  formcode_entity        VARCHAR2(100),
+  created_by             VARCHAR2(100),
+  creation_date          DATE default sysdate
 )
 ;
 
@@ -2175,6 +2515,25 @@ create table FG_S_SYSEVENTHANDLETYPE_PIVOT
   formcode_entity        VARCHAR2(100),
   formcode               VARCHAR2(100),
   syseventhandletypename VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_SYSEVENTMANAGER_PIVOT
+prompt =========================================
+prompt
+create table FG_S_SYSEVENTMANAGER_PIVOT
+(
+  formid              VARCHAR2(100) not null,
+  timestamp           DATE,
+  change_by           VARCHAR2(100),
+  sessionid           VARCHAR2(500),
+  active              NUMBER,
+  formcode            VARCHAR2(100),
+  handlerset          VARCHAR2(4000),
+  formcodematch       VARCHAR2(4000),
+  syseventmanagername VARCHAR2(4000),
+  syseventtype_id     VARCHAR2(4000)
 )
 ;
 
@@ -2242,6 +2601,61 @@ create table FG_S_UNITS_PIVOT
   formcode_entity VARCHAR2(100),
   created_by      VARCHAR2(100),
   creation_date   DATE default sysdate
+)
+;
+
+prompt
+prompt Creating table FG_S_UNITTESTCONFIG_PIVOT
+prompt ========================================
+prompt
+create table FG_S_UNITTESTCONFIG_PIVOT
+(
+  formid                 VARCHAR2(100) not null,
+  timestamp              DATE,
+  change_by              VARCHAR2(100),
+  sessionid              VARCHAR2(100),
+  active                 NUMBER,
+  formcode_entity        VARCHAR2(100),
+  formcode               VARCHAR2(100),
+  orderofexecution       VARCHAR2(500),
+  unittestconfigname     VARCHAR2(500),
+  unittestaction         VARCHAR2(500),
+  ignoretest             VARCHAR2(500),
+  waitingtime            VARCHAR2(500),
+  entityimpname          VARCHAR2(500),
+  testingformcode        VARCHAR2(500),
+  fieldvalue             VARCHAR2(4000),
+  unittestconfigcomments VARCHAR2(500),
+  cloneid                VARCHAR2(100),
+  templateflag           VARCHAR2(100),
+  created_by             VARCHAR2(100),
+  creation_date          DATE,
+  groupname              VARCHAR2(500)
+)
+;
+
+prompt
+prompt Creating table FG_S_UNITTESTGROUP_PIVOT
+prompt =======================================
+prompt
+create table FG_S_UNITTESTGROUP_PIVOT
+(
+  formid            VARCHAR2(100) not null,
+  timestamp         DATE,
+  change_by         VARCHAR2(100),
+  sessionid         VARCHAR2(500),
+  active            NUMBER,
+  formcode_entity   VARCHAR2(100),
+  formcode          VARCHAR2(100),
+  orderofexecution  VARCHAR2(500),
+  ignore            VARCHAR2(500),
+  unittestgroupname VARCHAR2(500),
+  unittestlevels    VARCHAR2(500),
+  comments          VARCHAR2(500),
+  cloneid           VARCHAR2(100),
+  templateflag      VARCHAR2(100),
+  created_by        VARCHAR2(100),
+  creation_date     DATE default sysdate
 )
 ;
 
@@ -3025,7 +3439,7 @@ prompt
 create sequence FG_RESOURCE_SEQ
 minvalue 0
 maxvalue 999999999999999999999999999
-start with 166191
+start with 166271
 increment by 1
 cache 20;
 
@@ -3069,7 +3483,7 @@ prompt
 create sequence FG_SEQUENCE_SEQ
 minvalue 1
 maxvalue 999999999999999999999999999
-start with 367476
+start with 367491
 increment by 1
 cache 15;
 
@@ -3184,12 +3598,1151 @@ increment by 1
 cache 20;
 
 prompt
+prompt Creating view FG_S_DYNAMICREPORTSQL_V
+prompt =====================================
+prompt
+create or replace view fg_s_dynamicreportsql_v as
+select to_number(t.formid) as dynamicreportsql_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.DynamicReportSqlName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as DynamicReportSql_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."EXECUTE",t."SQLTEXT",t."DYNAMICREPORTSQLNAME",t."SYSTEMREPORT",t."SQLRESULTTABLE"
+      from FG_S_DYNAMICREPORTSQL_PIVOT t;
+
+prompt
+prompt Creating view FG_S_DYNAMICREPORTSQL_ALL_V
+prompt =========================================
+prompt
+create or replace view fg_s_dynamicreportsql_all_v as
+select t."DYNAMICREPORTSQL_ID",t."FORM_TEMP_ID",t."DYNAMICREPORTSQL_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."EXECUTE",t."SQLTEXT",t."DYNAMICREPORTSQLNAME",t."SYSTEMREPORT",t."SQLRESULTTABLE"
+--t.* end! edit only the code below...
+,c.file_content as SQLTEXT_CONTENT
+              from FG_S_DYNAMICREPORTSQL_V t,
+                   fg_clob_files c
+              where t.SQLTEXT = c.file_id;
+
+prompt
+prompt Creating view FG_AUTHEN_DYNAMICREPORTSQL_V
+prompt ==========================================
+prompt
+create or replace view fg_authen_dynamicreportsql_v as
+select "DYNAMICREPORTSQL_ID","FORM_TEMP_ID","DYNAMICREPORTSQL_OBJIDVAL","FORMID","TIMESTAMP","CREATION_DATE","CLONEID","TEMPLATEFLAG","CHANGE_BY","CREATED_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","SQLTEXT","DYNAMICREPORTSQLNAME"
+              from FG_S_DYNAMICREPORTSQL_ALL_V;
+
+prompt
+prompt Creating view FG_S_GROUPSCREW_V
+prompt ===============================
+prompt
+create or replace view fg_s_groupscrew_v as
+select to_number(t.formid) as groupscrew_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.GroupsCrewName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as GroupsCrew_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."GROUP_ID",t."PARENTID",t."GROUPSCREWNAME"
+      from FG_S_GROUPSCREW_PIVOT t;
+
+prompt
+prompt Creating view FG_S_GROUP_V
+prompt ==========================
+prompt
+CREATE OR REPLACE VIEW FG_S_GROUP_V AS
+select to_number(t.formid) as group_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.GroupName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Group_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."GROUPNAME",t."SELECTUSER",t."GROUPTYPE",t."DESCRIPTION",t."SITE_ID",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_GROUP_PIVOT t;
+
+prompt
+prompt Creating view FG_S_GROUPSCREW_ALL_V
+prompt ===================================
+prompt
+create or replace view fg_s_groupscrew_all_v as
+select t."GROUPSCREW_ID",t."FORM_TEMP_ID",t."GROUPSCREW_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."GROUP_ID",t."PARENTID",t."GROUPSCREWNAME"
+--t.* end! edit only the code below...
+,pt.GroupName as "GROUP",pt.DESCRIPTION,pt.GROUP_ID as "GROUP_ID_SINGLE"
+from FG_S_GROUPSCREW_V t,FG_S_GROUP_V pt
+    --  where t.GROUP_ID = pt.GROUP_ID(+)
+    where 1=1 and
+    instr(',' || t.GROUP_ID || ',',',' || pt.GROUP_ID || ',') > 0;
+
+prompt
+prompt Creating view FG_AUTHEN_GROUPSCREW_V
+prompt ====================================
+prompt
+create or replace view fg_authen_groupscrew_v as
+select "GROUPSCREW_ID","GROUPSCREW_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","PARENTID","GROUPSCREWNAME","GROUP_ID"
+      from FG_S_GROUPSCREW_ALL_V t;
+
+prompt
+prompt Creating view FG_S_GROUP_ALL_V
+prompt ==============================
+prompt
+CREATE OR REPLACE VIEW FG_S_GROUP_ALL_V AS
+select t."GROUP_ID",t."FORM_TEMP_ID",t."GROUP_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."GROUPNAME",t."SELECTUSER",t."GROUPTYPE",t."DESCRIPTION",t."SITE_ID",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+from FG_S_GROUP_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_GROUP_V
+prompt ===============================
+prompt
+create or replace view fg_authen_group_v as
+select "GROUP_ID","GROUP_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","DESCRIPTION","GROUPNAME"
+      from FG_S_GROUP_ALL_V t;
+
+prompt
+prompt Creating view FG_S_LABORATORY_V
+prompt ===============================
+prompt
+create or replace view fg_s_laboratory_v as
+select to_number(t.formid) as laboratory_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.LaboratoryName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Laboratory_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."LAB_MANAGER_ID",t."FORMNUMBERID",t."LABORATORYNAME",t."UNITS_ID",t."SITE_ID"
+      from FG_S_LABORATORY_PIVOT t;
+
+prompt
+prompt Creating view FG_S_UNITS_V
+prompt ==========================
+prompt
+create or replace view fg_s_units_v as
+select to_number(t.formid) as units_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UnitsName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Units_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UNITSNAME",t."SITE_ID",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_UNITS_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SITE_V
+prompt =========================
+prompt
+create or replace view fg_s_site_v as
+select to_number(t.formid) as site_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SiteName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Site_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SITENAME",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_SITE_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SITE_ALL_V
+prompt =============================
+prompt
+create or replace view fg_s_site_all_v as
+select t."SITE_ID",t."FORM_TEMP_ID",t."SITE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SITENAME",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+from FG_S_SITE_V t;
+
+prompt
+prompt Creating view FG_S_UNITS_ALL_V
+prompt ==============================
+prompt
+create or replace view fg_s_units_all_v as
+select t."UNITS_ID",t."FORM_TEMP_ID",t."UNITS_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UNITSNAME",t."SITE_ID",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+,s.SITENAME, s.SITE_OBJIDVAL, '{"VAL":"' || t.UnitsName||' ('||s.SiteName||')' || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as unit_with_site_objidval
+from FG_S_UNITS_V t,
+      FG_S_SITE_ALL_V s
+where s.SITE_ID(+) = t.SITE_ID;
+
+prompt
+prompt Creating view FG_S_LABORATORY_ALL_V
+prompt ===================================
+prompt
+create or replace view fg_s_laboratory_all_v as
+select t."LABORATORY_ID",t."FORM_TEMP_ID",t."LABORATORY_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."LAB_MANAGER_ID",t."FORMNUMBERID",t."LABORATORYNAME",t."UNITS_ID",t."SITE_ID"
+--t.* end! edit only the code below...
+,u.SITENAME,u.SITE_OBJIDVAL, u.UNITSNAME, u.UNITS_OBJIDVAL
+from FG_S_LABORATORY_V t,
+     fg_s_units_all_v u
+where u.SITE_ID(+) = t.SITE_ID
+and u.units_id(+) = t.UNITS_ID;
+
+prompt
+prompt Creating view FG_AUTHEN_LABORATORY_V
+prompt ====================================
+prompt
+create or replace view fg_authen_laboratory_v as
+select "LABORATORY_ID","LABORATORY_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","LABORATORYNAME"
+      from FG_S_LABORATORY_ALL_V t;
+
+prompt
+prompt Creating view FG_S_PERMISSIONOBJECT_V
+prompt =====================================
+prompt
+create or replace view fg_s_permissionobject_v as
+select to_number(t.formid) as permissionobject_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.PermissionObjectName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as PermissionObject_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."PERMISSIONOBJECTNAME",t."LAB",t."SITE",t."UNIT",t."OBJECTSINHERIT",t."CLONEID",t."TEMPLATEFLAG",t."OBJECTSINHERITONCREATE",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_PERMISSIONOBJECT_PIVOT t;
+
+prompt
+prompt Creating view FG_S_PERMISSIONOBJECT_ALL_V
+prompt =========================================
+prompt
+create or replace view fg_s_permissionobject_all_v as
+select t."PERMISSIONOBJECT_ID",t."FORM_TEMP_ID",t."PERMISSIONOBJECT_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."PERMISSIONOBJECTNAME",t."LAB",t."SITE",t."UNIT",t."OBJECTSINHERIT",t."CLONEID",t."TEMPLATEFLAG",t."OBJECTSINHERITONCREATE",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+ --,decode(t."OBJECTSINHERIT",null,t."PERMISSIONOBJECTNAME", t."PERMISSIONOBJECTNAME" ||','|| "OBJECTSINHERIT") "PERMISSIONOBJECTNAME_EXTEND",
+,'{"VAL":"' ||
+replace(
+    replace(
+        replace(
+            replace(
+                 regexp_replace(decode(t.PermissionObjectName,'InvItemMaterial','InvItemMaterialCm',t.PermissionObjectName),'^InvItem'),
+                'RecipeFormulation',
+                'Recipe')
+        ,'MaterialCm','Material (Chemical)'),
+    'MaterialFr','Material (Formulation)')
+,'MaterialPr','Material (Premix)')
+|| '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as PermissionObjectName_objidval -- effects only the display in the list (set it also in the fg_s_PermissionSRef_DT_v view)
+,t."PERMISSIONOBJECTNAME" || decode(t."OBJECTSINHERITONCREATE",null,'', ',' || t."OBJECTSINHERITONCREATE") || decode(t."OBJECTSINHERIT",null,'', ',' || t."OBJECTSINHERIT") AS  "PERMISSIONOBJECTNAME_GROUP"
+              from FG_S_PERMISSIONOBJECT_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_PERMISSIONOBJECT_V
+prompt ==========================================
+prompt
+create or replace view fg_authen_permissionobject_v as
+select "PERMISSIONOBJECT_ID","FORM_TEMP_ID","PERMISSIONOBJECT_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","PERMISSIONOBJECTNAME","LAB","SITE","UNIT","OBJECTSINHERIT"
+              from FG_S_PERMISSIONOBJECT_ALL_V;
+
+prompt
+prompt Creating view FG_S_PERMISSIONPOLICY_V
+prompt =====================================
+prompt
+create or replace view fg_s_permissionpolicy_v as
+select to_number(t.formid) as permissionpolicy_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.PermissionPolicyName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as PermissionPolicy_objidval,
+             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."CUSTOMER_ID",t."USERROLE_ID",t."PERMISSIONPOLICYNAME",t."POLICYEXPRESSION",t."POLICYPERMISSION"
+      from FG_S_PERMISSIONPOLICY_PIVOT t;
+
+prompt
+prompt Creating view FG_S_USERROLE_V
+prompt =============================
+prompt
+create or replace view fg_s_userrole_v as
+select to_number(t.formid) as userrole_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UserRoleName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UserRole_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."USERROLENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_USERROLE_PIVOT t;
+
+prompt
+prompt Creating view FG_S_USERROLE_ALL_V
+prompt =================================
+prompt
+create or replace view fg_s_userrole_all_v as
+select t."USERROLE_ID",t."FORM_TEMP_ID",t."USERROLE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."USERROLENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+from FG_S_USERROLE_V t;
+
+prompt
+prompt Creating view FG_S_CUSTOMER_V
+prompt =============================
+prompt
+create or replace view fg_s_customer_v as
+select to_number(t.formid) as customer_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.CustomerName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Customer_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMERNAME",t."DESCRIPTION",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_CUSTOMER_PIVOT t;
+
+prompt
+prompt Creating view FG_S_CUSTOMER_ALL_V
+prompt =================================
+prompt
+create or replace view fg_s_customer_all_v as
+select t."CUSTOMER_ID",t."FORM_TEMP_ID",t."CUSTOMER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMERNAME",t."DESCRIPTION",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+              from FG_S_CUSTOMER_V t;
+
+prompt
+prompt Creating view FG_S_PERMISSIONPOLICY_ALL_V
+prompt =========================================
+prompt
+create or replace view fg_s_permissionpolicy_all_v as
+select t."PERMISSIONPOLICY_ID",t."FORM_TEMP_ID",t."PERMISSIONPOLICY_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."CUSTOMER_ID",t."USERROLE_ID",t."PERMISSIONPOLICYNAME",t."POLICYEXPRESSION",t."POLICYPERMISSION"
+--t.* end! edit only the code below...
+      ,c.CUSTOMERNAME, ur.USERROLENAME
+from FG_S_PERMISSIONPOLICY_V t,
+     fg_s_customer_all_v c,
+     fg_s_userrole_all_v ur
+where t.USERROLE_ID = ur.USERROLE_ID(+)
+and   t.CUSTOMER_ID = c.CUSTOMER_ID(+);
+
+prompt
+prompt Creating view FG_AUTHEN_PERMISSIONPOLICY_V
+prompt ==========================================
+prompt
+create or replace view fg_authen_permissionpolicy_v as
+select "PERMISSIONPOLICY_ID","FORM_TEMP_ID","PERMISSIONPOLICY_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","PERMISSIONPOLICYNAME"
+              from FG_S_PERMISSIONPOLICY_ALL_V t where rownum <= 1;
+
+prompt
+prompt Creating view FG_S_PERMISSIONSCHEME_V
+prompt =====================================
+prompt
+create or replace view fg_s_permissionscheme_v as
+select to_number(t.formid) as permissionscheme_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.PermissionSchemeName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as PermissionScheme_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."MAINTENANCEFORMLIST",t."PERMISSIONSCHEMENAME",t."PERMISSIONTABLE",t."USERS",t."GROUPSCREW",t."SCREEN"
+      from FG_S_PERMISSIONSCHEME_PIVOT t;
+
+prompt
+prompt Creating view FG_S_PERMISSIONSCHEME_ALL_V
+prompt =========================================
+prompt
+create or replace view fg_s_permissionscheme_all_v as
+select t."PERMISSIONSCHEME_ID",t."FORM_TEMP_ID",t."PERMISSIONSCHEME_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."MAINTENANCEFORMLIST",t."PERMISSIONSCHEMENAME",t."PERMISSIONTABLE",t."USERS",t."GROUPSCREW",t."SCREEN"
+--t.* end! edit only the code below...
+              from FG_S_PERMISSIONSCHEME_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_PERMISSIONSCHEME_V
+prompt ==========================================
+prompt
+create or replace view fg_authen_permissionscheme_v as
+select "PERMISSIONSCHEME_ID","FORM_TEMP_ID","PERMISSIONSCHEME_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","PERMISSIONSCHEMENAME","USERS","PERMISSIONTABLE","GROUPSCREW","SCREEN"
+              from FG_S_PERMISSIONSCHEME_ALL_V;
+
+prompt
+prompt Creating view FG_S_PERMISSIONSREF_V
+prompt ===================================
+prompt
+create or replace view fg_s_permissionsref_v as
+select to_number(t.formid) as permissionsref_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.PermissionSRefName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as PermissionSRef_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."PARENTID",t."PERMISSION",t."PERMISSIONSREFNAME",t."LAB_ID",t."UNIT_ID",t."SITE_ID",t."TABLETYPE",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_PERMISSIONSREF_PIVOT t;
+
+prompt
+prompt Creating view FG_I_LABALLOWN_V
+prompt ==============================
+prompt
+create or replace view fg_i_laballown_v as
+select 10 as "LABORATORY_ID", '{"VAL":"All Labs","ID":"10", "ACTIVE":"1"}' as "LABORATORY_OBJIDVAL",'All Labs' as "LABORATORYNAME",lab.UNITS_ID as "UNITS_ID",lab.SITE_ID,'' as labunit_objidval from FG_S_LABORATORY_all_V lab
+union
+select 10 as "LABORATORY_ID", '{"VAL":"All Labs","ID":"10", "ACTIVE":"1"}' as "LABORATORY_OBJIDVAL",'All Labs' as "LABORATORYNAME",'10' as "UNITS_ID",'10' as "SITE_ID",'' as labunit_objidval from dual
+union
+select 11 as "LABORATORY_ID", '{"VAL":"Own","ID":"11", "ACTIVE":"1"}' as "LABORATORY_OBJIDVAL" ,'Own' as "LABORATORYNAME",'11' as "UNITS_ID",'11' as "SITE_ID",'' as labunit_objidval from dual
+union
+select 12 as "LABORATORY_ID", '{"VAL":"Not Own","ID":"12", "ACTIVE":"1"}' as "LABORATORY_OBJIDVAL",'Not Own' as "LABORATORYNAME" ,'12' as "UNITS_ID", '12' as "SITE_ID",'' as labunit_objidval from dual
+union
+select 11 as "LABORATORY_ID", '{"VAL":"Own","ID":"11", "ACTIVE":"1"}' as "LABORATORY_OBJIDVAL" ,'Own' as "LABORATORYNAME",lab.UNITS_ID as "UNITS_ID",lab.SITE_ID,'' as labunit_objidval from FG_S_LABORATORY_all_V lab
+union
+select 12 as "LABORATORY_ID", '{"VAL":"Not Own","ID":"12", "ACTIVE":"1"}' as "LABORATORY_OBJIDVAL",'Not Own' as "LABORATORYNAME",lab.UNITS_ID as "UNITS_ID",lab.SITE_ID,'' as labunit_objidval from FG_S_LABORATORY_all_V lab
+union all
+select "LABORATORY_ID","LABORATORY_OBJIDVAL","LABORATORYNAME","UNITS_ID","SITE_ID",'{"VAL":"'||LABORATORYNAME||' ('||UNITSNAME||')'||'","ID":"'||LABORATORY_ID||'", "ACTIVE":"'||ACTIVE||'"}' as labunit_objidval from
+(select  t."LABORATORY_ID",t."LABORATORY_OBJIDVAL",t."LABORATORYNAME",t."UNITS_ID",t.SITE_ID,t.UNITSNAME,t.ACTIVE
+from FG_S_LABORATORY_all_V t
+order by LABORATORYNAME);
+
+prompt
+prompt Creating view FG_I_PERMISSIONCRUD_V
+prompt ===================================
+prompt
+create or replace view fg_i_permissioncrud_v as
+select "NAME","CODE","OBJECTID","PERMISSIONOBJECTNAME" from (
+with permission_list as (
+-- the code is match getCrudlByPermissionItem java function but not in use in this context
+select 'All permissions' as name,'_' as code from dual
+union
+select 'Create' as name,'C' as code from dual
+union
+select 'Read' as name,'R' as code from dual
+union
+select 'Update' as name,'U' as code from dual
+union
+select 'Approval' as name,'A' as code from dual
+union
+select 'Cancellation' as name,'D' as code from dual
+union
+select 'Reopen' as name,'O' as code from dual
+)
+select distinct
+       permission_list.*,
+       o.permissionobject_id as "OBJECTID", -- for filtering by the parent object id
+       o.PermissionObjectName
+from permission_list,
+     fg_s_permissionobject_v o
+)
+where 1=1
+--approval only in experiment / Template / RecipeFormulation
+and (name <> 'Approval' or name||PermissionObjectName = 'ApprovalExperiment' or name||PermissionObjectName = 'ApprovalTemplate' or name||PermissionObjectName = 'ApprovalRecipeFormulation')
+and (name <> 'Cancellation' or name||PermissionObjectName = 'CancellationInvItemMaterial' or name||PermissionObjectName = 'CancellationInvItemMaterialFr' or name||PermissionObjectName = 'CancellationInvItemMaterialPr')
+and (name <> 'Reopen' or name||PermissionObjectName = 'ReopenExperiment' or name||PermissionObjectName = 'ReopenRecipeFormulation');
+
+prompt
+prompt Creating view FG_I_SITEALLOWN_V
+prompt ===============================
+prompt
+create or replace view fg_i_siteallown_v as
+select 10 as "SITE_ID", '{"VAL":"All Sites","ID":"10", "ACTIVE":"1"}' as "SITE_OBJIDVAL",'All Sites' as "SITENAME"   from dual
+union all
+select 11 as "SITE_ID", '{"VAL":"Own","ID":"11", "ACTIVE":"1"}' as "SITE_OBJIDVAL",'Own' as "SITENAME"   from dual
+union all
+select 12 as "SITE_ID", '{"VAL":"Not Own","ID":"12", "ACTIVE":"1"}' as "SITE_OBJIDVAL",'Not Own' as "SITENAME"   from dual
+union all
+select "SITE_ID","SITE_OBJIDVAL","SITENAME" from
+(select t."SITE_ID",t."SITE_OBJIDVAL",t."SITENAME"
+from FG_S_SITE_V t
+order by t."SITENAME");
+
+prompt
+prompt Creating view FG_I_UNITALLOWN_V
+prompt ===============================
+prompt
+create or replace view fg_i_unitallown_v as
+select 10 as "UNITS_ID", '{"VAL":"All Units","ID":"10", "ACTIVE":"1"}' as "UNITS_OBJIDVAL",'All Units' as "UNITSNAME",u.SITE_ID as "SITE_ID",'' as siteunit_objidval from FG_S_UNITS_V u
+union
+select 10 as "UNITS_ID", '{"VAL":"All Units","ID":"10", "ACTIVE":"1"}' as "UNITS_OBJIDVAL",'All Units' as "UNITSNAME",'10' as "SITE_ID",'' from dual
+union
+select 11 as "UNITS_ID", '{"VAL":"Own","ID":"11", "ACTIVE":"1"}' as "UNITS_OBJIDVAL",'Own' as "UNITSNAME", '11' as "SITE_ID",''  from dual
+union
+select 12 as "UNITS_ID", '{"VAL":"Not Own","ID":"12", "ACTIVE":"1"}' as "UNITS_OBJIDVAL",'Not Own' as "UNITSNAME" , '12' as "SITE_ID",''  from dual
+union
+select 11 as "UNITS_ID", '{"VAL":"Own","ID":"11", "ACTIVE":"1"}' as "UNITS_OBJIDVAL",'Own' as "UNITSNAME",u.SITE_ID as "SITE_ID",'' from FG_S_UNITS_V u
+union
+select 12 as "UNITS_ID", '{"VAL":"Not Own","ID":"12", "ACTIVE":"1"}' as "UNITS_OBJIDVAL",'Not Own' as "UNITSNAME" ,u.SITE_ID as "SITE_ID",'' from FG_S_UNITS_V u
+union all
+select "UNITS_ID","UNITS_OBJIDVAL","UNITSNAME","SITE_ID", '{"VAL":"'||UnitsName||' ('||SITENAME||')'||'","ID":"'||UNITS_ID||'", "ACTIVE":"'||ACTIVE||'"}' as siteunit_objidval from
+(select t."UNITS_ID" ,t.UNITS_OBJIDVAL,t.UnitsName ,t."SITE_ID",t.SITENAME,t.ACTIVE
+from FG_S_UNITS_all_V t
+order by unitsname);
+
+prompt
+prompt Creating view FG_S_PERMISSIONSREF_ALL_V
+prompt =======================================
+prompt
+create or replace view fg_s_permissionsref_all_v as
+select distinct t."PERMISSIONSREF_ID",t."FORM_TEMP_ID",t."PERMISSIONSREF_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."PARENTID",t."PERMISSION",t."PERMISSIONSREFNAME",t."LAB_ID",t."UNIT_ID",t."SITE_ID",t."TABLETYPE",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+,p."PERMISSIONOBJECTNAME"
+,s.SITENAME
+,u.UNITSNAME
+,l.LABORATORYNAME
+,ps.permission_single--regexp_substr(t."PERMISSION", '[^,]+', 1, LEVEL) as permission_single
+from FG_S_PERMISSIONSREF_V t ,fg_s_permissionobject_all_v p,fg_i_siteallown_v s,fg_i_unitallown_v u,fg_i_laballown_v l--,fg_s_site_all_v s,fg_s_units_all_v u,fg_s_laboratory_all_v l
+ --adib 151018 changed the "connect by" query in the column permission_single above to be accepted from instr
+ ,/*(select distinct regexp_substr(t."PERMISSION", '[^,]+', 1, LEVEL) as permission_single
+  from fg_s_permissionsref_v t
+  CONNECT BY REGEXP_SUBSTR(t."PERMISSION", '[^,]+', 1, LEVEL) IS NOT NULL ) ps*/ --> same result but faster (the origin result also old crudl like delete and list that should be ignored)
+  (select distinct name as permission_single from FG_I_PERMISSIONCRUD_V t) ps
+where s.SITE_ID(+) = t.SITE_ID
+ and u.UNITS_ID(+) = t.UNIT_ID
+ and l.LABORATORY_ID(+)= t.LAB_ID
+ and p.PERMISSIONOBJECT_ID(+)= t.PERMISSIONSREFNAME
+ and instr(','||t.PERMISSION||',',','||ps.permission_single||',')>0 --CONNECT BY REGEXP_SUBSTR(t."PERMISSION", '[^,]+', 1, LEVEL) IS NOT NULL;
+
+prompt
+prompt Creating view FG_AUTHEN_PERMISSIONSREF_V
+prompt ========================================
+prompt
+create or replace view fg_authen_permissionsref_v as
+select "PERMISSIONSREF_ID","FORM_TEMP_ID","PERMISSIONSREF_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","PARENTID","PERMISSION","PERMISSIONSREFNAME","LAB_ID","UNIT_ID","SITE_ID","TABLETYPE"
+              from FG_S_PERMISSIONSREF_ALL_V;
+
+prompt
+prompt Creating view FG_AUTHEN_SITE_V
+prompt ==============================
+prompt
+create or replace view fg_authen_site_v as
+select "SITE_ID","SITE_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SITENAME"
+      from FG_S_SITE_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFDTCRITERIA_V
+prompt ======================================
+prompt
+create or replace view fg_s_sysconfdtcriteria_v as
+select to_number(t.formid) as sysconfdtcriteria_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysConfDTCriteriaName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfDTCriteria_objidval,
+             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSCONFDTCRITERIANAME",t."ARGFORMCODE",t."ARGSTRUCT",t."SYSCONFSQLPOOL_ID"
+      from FG_S_SYSCONFDTCRITERIA_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSCONFDTCRITERIA_ALL_V
+prompt ==========================================
+prompt
+create or replace view fg_s_sysconfdtcriteria_all_v as
+select t."SYSCONFDTCRITERIA_ID",t."FORM_TEMP_ID",t."SYSCONFDTCRITERIA_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSCONFDTCRITERIANAME",t."ARGFORMCODE",t."ARGSTRUCT",t."SYSCONFSQLPOOL_ID"
+--t.* end! edit only the code below...
+              from FG_S_SYSCONFDTCRITERIA_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSCONFDTCRITERIA_V
+prompt ===========================================
+prompt
+create or replace view fg_authen_sysconfdtcriteria_v as
+select "SYSCONFDTCRITERIA_ID","FORM_TEMP_ID","SYSCONFDTCRITERIA_OBJIDVAL","FORMID","TIMESTAMP","CLONEID","TEMPLATEFLAG","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","SYSCONFDTCRITERIANAME","ARGFORMCODE","ARGSTRUCT","SYSCONFSQLPOOL_ID"
+              from FG_S_SYSCONFDTCRITERIA_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSCONFEXCELDATA_V
+prompt =====================================
+prompt
+create or replace view fg_s_sysconfexceldata_v as
+select to_number(t.formid) as sysconfexceldata_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysConfExcelDataName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfExcelData_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSCONFEXCELDATANAME",t."EXCELFILE",t."EXCELDATA"
+      from FG_S_SYSCONFEXCELDATA_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSCONFEXCELDATA_ALL_V
+prompt =========================================
+prompt
+create or replace view fg_s_sysconfexceldata_all_v as
+select t."SYSCONFEXCELDATA_ID",t."FORM_TEMP_ID",t."SYSCONFEXCELDATA_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSCONFEXCELDATANAME",t."EXCELFILE",t."EXCELDATA"
+--t.* end! edit only the code below...
+              from FG_S_SYSCONFEXCELDATA_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSCONFEXCELDATA_V
+prompt ==========================================
+prompt
+create or replace view fg_authen_sysconfexceldata_v as
+select "SYSCONFEXCELDATA_ID","FORM_TEMP_ID","SYSCONFEXCELDATA_OBJIDVAL","FORMID","TIMESTAMP","CREATION_DATE","CLONEID","TEMPLATEFLAG","CHANGE_BY","CREATED_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","SYSCONFEXCELDATANAME","EXCELDATA"
+              from FG_S_SYSCONFEXCELDATA_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSCONFPRESAVECALC_V
+prompt =======================================
+prompt
+create or replace view fg_s_sysconfpresavecalc_v as
+select to_number(t.formid) as sysconfpresavecalc_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysConfPreSaveCalcName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfPreSaveCalc_objidval,
+             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."ARG3",t."RESULTELEMENT",t."ARG4",t."FORMULAORFUNCTION",t."SYSCONFPRESAVECALCNAME",t."ARG5",t."ARGELEMENT",t."ARG2",t."ARG1"
+      from FG_S_SYSCONFPRESAVECALC_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSCONFPRESAVECALC_ALL_V
+prompt ===========================================
+prompt
+create or replace view fg_s_sysconfpresavecalc_all_v as
+select t."SYSCONFPRESAVECALC_ID",t."FORM_TEMP_ID",t."SYSCONFPRESAVECALC_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."ARG3",t."RESULTELEMENT",t."ARG4",t."FORMULAORFUNCTION",t."SYSCONFPRESAVECALCNAME",t."ARG5",t."ARGELEMENT",t."ARG2",t."ARG1"
+--t.* end! edit only the code below...
+              from FG_S_SYSCONFPRESAVECALC_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSCONFPRESAVECALC_V
+prompt ============================================
+prompt
+create or replace view fg_authen_sysconfpresavecalc_v as
+select "SYSCONFPRESAVECALC_ID","FORM_TEMP_ID","SYSCONFPRESAVECALC_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","ARG3","RESULTELEMENT","ARG4","FORMULAORFUNCTION","SYSCONFPRESAVECALCNAME","ARG5","ARGELEMENT","ARG2","ARG1"
+              from FG_S_SYSCONFPRESAVECALC_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSCONFSQLCRITERIA_V
+prompt =======================================
+prompt
+create or replace view fg_s_sysconfsqlcriteria_v as
+select to_number(t.formid) as sysconfsqlcriteria_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysConfSQLCriteriaName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfSQLCriteria_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SQLDESCRIPTION",t."ADDITIONALMATCHINFO",t."STRUCTLEVEL",t."SQLTEXT",t."SYSCONFSQLCRITERIANAME",t."IGNORE",t."EXECUTATIONTYPE",t."SCREEN",t."ISDEFAULT"
+      from FG_S_SYSCONFSQLCRITERIA_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSCONFSQLCRITERIA_ALL_V
+prompt ===========================================
+prompt
+create or replace view fg_s_sysconfsqlcriteria_all_v as
+select t."SYSCONFSQLCRITERIA_ID",t."FORM_TEMP_ID",t."SYSCONFSQLCRITERIA_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SQLDESCRIPTION",t."ADDITIONALMATCHINFO",t."STRUCTLEVEL",t."SQLTEXT",t."SYSCONFSQLCRITERIANAME",t."IGNORE",t."EXECUTATIONTYPE",t."SCREEN",t."ISDEFAULT"
+--t.* end! edit only the code below...
+,t.SYSCONFSQLCRITERIANAME || '.' || t.STRUCTLEVEL || '.' || t.SCREEN AS infoName
+              from FG_S_SYSCONFSQLCRITERIA_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSCONFSQLCRITERIA_V
+prompt ============================================
+prompt
+create or replace view fg_authen_sysconfsqlcriteria_v as
+select "SYSCONFSQLCRITERIA_ID","FORM_TEMP_ID","SYSCONFSQLCRITERIA_OBJIDVAL","FORMID","TIMESTAMP","CLONEID","TEMPLATEFLAG","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","SQLDESCRIPTION","SYSCONFSQLCRITERIANAME","SQLTEXT","STRUCTLEVEL","IGNORE","EXECUTATIONTYPE","SCREEN","ISDEFAULT","INFONAME"
+              from FG_S_SYSCONFSQLCRITERIA_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSCONFSQLPOOL_V
+prompt ===================================
+prompt
+create or replace view fg_s_sysconfsqlpool_v as
+select to_number(t.formid) as sysconfsqlpool_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysConfSQLPoolName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfSQLPool_objidval,
+             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SQLTYPE",t."SQLDESCRIPTION",t."SYSCONFSQLPOOLNAME",t."SQLTEXT",t."STRUCTLEVEL",t."IGNORE",t."EXECUTATIONTYPE",t."SCREEN",t."ISDEFAULT"
+      from FG_S_SYSCONFSQLPOOL_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSCONFSQLPOOL_ALL_V
+prompt =======================================
+prompt
+create or replace view fg_s_sysconfsqlpool_all_v as
+select t."SYSCONFSQLPOOL_ID",t."FORM_TEMP_ID",t."SYSCONFSQLPOOL_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SQLTYPE",t."SQLDESCRIPTION",t."SYSCONFSQLPOOLNAME",t."SQLTEXT",t."STRUCTLEVEL",t."IGNORE",t."EXECUTATIONTYPE",t."SCREEN",t."ISDEFAULT"
+--t.* end! edit only the code below...
+,t.SYSCONFSQLPOOLNAME || '.' || t.STRUCTLEVEL || '.' || t.SCREEN  AS infoName
+              from FG_S_SYSCONFSQLPOOL_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSCONFSQLPOOL_V
+prompt ========================================
+prompt
+create or replace view fg_authen_sysconfsqlpool_v as
+select "SYSCONFSQLPOOL_ID","FORM_TEMP_ID","SYSCONFSQLPOOL_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","SQLTYPE","SQLDESCRIPTION","SYSCONFSQLPOOLNAME","SQLTEXT","STRUCTLEVEL","EXECUTATIONTYPE","SCREEN","ISDEFAULT"
+              from FG_S_SYSCONFSQLPOOL_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSCONFWFNEW_V
+prompt =================================
+prompt
+create or replace view fg_s_sysconfwfnew_v as
+select to_number(t.formid) as sysconfwfnew_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysConfWFNewName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfWFNew_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."PARAMMAPNAME",t."PARAMMAPVAL",t."SYSCONFWFNEWNAME",t."REMOVEFROMLIST",t."JSONNAME"
+      from FG_S_SYSCONFWFNEW_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSCONFWFNEW_ALL_V
+prompt =====================================
+prompt
+create or replace view fg_s_sysconfwfnew_all_v as
+select t."SYSCONFWFNEW_ID",t."FORM_TEMP_ID",t."SYSCONFWFNEW_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."PARAMMAPNAME",t."PARAMMAPVAL",t."SYSCONFWFNEWNAME",t."REMOVEFROMLIST",t."JSONNAME"
+                     --t.* end! edit only the code below...
+              from FG_S_SYSCONFWFNEW_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSCONFWFNEW_V
+prompt ======================================
+prompt
+create or replace view fg_authen_sysconfwfnew_v as
+select "SYSCONFWFNEW_ID","FORM_TEMP_ID","SYSCONFWFNEW_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","PARAMMAPNAME","PARAMMAPVAL","SYSCONFWFNEWNAME","REMOVEFROMLIST","JSONNAME"
+              from FG_S_SYSCONFWFNEW_ALL_V t where rownum <= 1;
+
+prompt
+prompt Creating view FG_S_SYSCONFWFSTATUS_V
+prompt ====================================
+prompt
+create or replace view fg_s_sysconfwfstatus_v as
+select to_number(t.formid) as sysconfwfstatus_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysConfWFStatusName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfWFStatus_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."WHEREPARTPARMNAME",t."SYSCONFWFSTATUSNAME",t."STATUSFORMCODE",t."STATUSINFCOLUMN",t."JSONNAME"
+      from FG_S_SYSCONFWFSTATUS_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSCONFWFSTATUS_ALL_V
+prompt ========================================
+prompt
+create or replace view fg_s_sysconfwfstatus_all_v as
+select t."SYSCONFWFSTATUS_ID",t."FORM_TEMP_ID",t."SYSCONFWFSTATUS_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."WHEREPARTPARMNAME",t."SYSCONFWFSTATUSNAME",t."STATUSFORMCODE",t."STATUSINFCOLUMN",t."JSONNAME"
+--t.* end! edit only the code below...
+              from FG_S_SYSCONFWFSTATUS_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSCONFWFSTATUS_V
+prompt =========================================
+prompt
+create or replace view fg_authen_sysconfwfstatus_v as
+select "SYSCONFWFSTATUS_ID","FORM_TEMP_ID","SYSCONFWFSTATUS_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","WHEREPARTPARMNAME","SYSCONFWFSTATUSNAME","STATUSFORMCODE","STATUSINFCOLUMN","JSONNAME"
+              from FG_S_SYSCONFWFSTATUS_ALL_V t where rownum <= 1;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLERREF_V
+prompt =======================================
+prompt
+create or replace view fg_s_syseventhandlerref_v as
+select to_number(t.formid) as syseventhandlerref_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysEventHandlerRefName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventHandlerRef_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."HANDLERORDERONFAIL",t."PARENTID",t."TABLETYPE",t."SYSEVENTHANDLERREFNAME",t."HANDLERORDER"
+      from FG_S_SYSEVENTHANDLERREF_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLERREF_ALL_V
+prompt ===========================================
+prompt
+create or replace view fg_s_syseventhandlerref_all_v as
+select t."SYSEVENTHANDLERREF_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLERREF_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."HANDLERORDERONFAIL",t."PARENTID",t."TABLETYPE",t."SYSEVENTHANDLERREFNAME",t."HANDLERORDER"
+                     --t.* end! edit only the code below...
+              from FG_S_SYSEVENTHANDLERREF_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSEVENTHANDLERREF_V
+prompt ============================================
+prompt
+create or replace view fg_authen_syseventhandlerref_v as
+select "SYSEVENTHANDLERREF_ID","FORM_TEMP_ID","SYSEVENTHANDLERREF_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","HANDLERORDERONFAIL","PARENTID","TABLETYPE","SYSEVENTHANDLERREFNAME","HANDLERORDER"
+              from FG_S_SYSEVENTHANDLERREF_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLERSET_V
+prompt =======================================
+prompt
+create or replace view fg_s_syseventhandlerset_v as
+select to_number(t.formid) as syseventhandlerset_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysEventHandlerSetName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventHandlerSet_objidval,
+             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERORDERONFAIL",t."HANDLERSETCOMMENT",t."HANDLERORDER",t."SYSEVENTPOINT_ID",t."SYSEVENTHANDLERSETNAME"
+      from FG_S_SYSEVENTHANDLERSET_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTPOINT_V
+prompt ==================================
+prompt
+create or replace view fg_s_syseventpoint_v as
+select to_number(t.formid) as syseventpoint_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysEventPointName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventPoint_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."ADDITIONALMATCH",t."FORMCODEMATCH",t."SYSEVENTYPENAME",t."SYSEVENTPOINTNAME"
+      from FG_S_SYSEVENTPOINT_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTPOINT_ALL_V
+prompt ======================================
+prompt
+create or replace view fg_s_syseventpoint_all_v as
+select t."SYSEVENTPOINT_ID",t."FORM_TEMP_ID",t."SYSEVENTPOINT_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."ADDITIONALMATCH",t."FORMCODEMATCH",t."SYSEVENTYPENAME",t."SYSEVENTPOINTNAME"
+--t.* end! edit only the code below...
+,'{"VAL":"' || t.SYSEVENTYPENAME || '.' || t.FORMCODEMATCH || '.' || t.ADDITIONALMATCH || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SYSEVENTPOINTFullName_objidval,
+t.SYSEVENTYPENAME || '.' || t.FORMCODEMATCH || '.' || t.ADDITIONALMATCH AS SYSEVENTPOINTFullName
+              from FG_S_SYSEVENTPOINT_V t/*,
+              FG_S_SYSEVENTTYPE_ALL_V ET*/
+                   --WHERE T.SYSEVENTTYPE_ID = ET.SYSEVENTTYPE_ID(+);
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLERSET_ALL_V
+prompt ===========================================
+prompt
+create or replace view fg_s_syseventhandlerset_all_v as
+select t."SYSEVENTHANDLERSET_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLERSET_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERORDERONFAIL",t."HANDLERSETCOMMENT",t."HANDLERORDER",t."SYSEVENTPOINT_ID",t."SYSEVENTHANDLERSETNAME"
+--t.* end! edit only the code below...
+,EP.SYSEVENTPOINTFullName
+              from FG_S_SYSEVENTHANDLERSET_V t,
+                   FG_S_SYSEVENTpoint_ALL_V EP
+              WHERE T.SYSEVENTPOINT_ID = EP.SYSEVENTPOINT_ID(+);
+
+prompt
+prompt Creating view FG_AUTHEN_SYSEVENTHANDLERSET_V
+prompt ============================================
+prompt
+create or replace view fg_authen_syseventhandlerset_v as
+select "SYSEVENTHANDLERSET_ID","FORM_TEMP_ID","SYSEVENTHANDLERSET_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","HANDLERORDERONFAIL","HANDLERSETCOMMENT","HANDLERORDER","SYSEVENTPOINT_ID","SYSEVENTHANDLERSETNAME","SYSEVENTPOINTFULLNAME"
+              from FG_S_SYSEVENTHANDLERSET_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLER_V
+prompt ====================================
+prompt
+create or replace view fg_s_syseventhandler_v as
+select to_number(t.formid) as syseventhandler_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysEventHandlerName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventHandler_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
+      from FG_S_SYSEVENTHANDLER_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLER_ALL_V
+prompt ========================================
+prompt
+create or replace view fg_s_syseventhandler_all_v as
+select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
+--t.* end! edit only the code below...
+      from FG_S_SYSEVENTHANDLER_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSEVENTHANDLER_V
+prompt =========================================
+prompt
+create or replace view fg_authen_syseventhandler_v as
+select "SYSEVENTHANDLER_ID","FORM_TEMP_ID","SYSEVENTHANDLER_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","HANDLERVALIDATION","SYSEVENTHANDLERNAME","CALCARG","HANDLERORDER","HANDLERDESCRIPTION","HANDLERUNITTEST","CALCFORMULA"
+ from FG_S_SYSEVENTHANDLER_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLETYPE_V
+prompt =======================================
+prompt
+create or replace view fg_s_syseventhandletype_v as
+select to_number(t.formid) as syseventhandletype_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysEventHandleTypeName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventHandleType_objidval,
+             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTHANDLETYPENAME",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_SYSEVENTHANDLETYPE_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLETYPE_ALL_V
+prompt ===========================================
+prompt
+create or replace view fg_s_syseventhandletype_all_v as
+select t."SYSEVENTHANDLETYPE_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLETYPE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTHANDLETYPENAME",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+              from FG_S_SYSEVENTHANDLETYPE_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSEVENTHANDLETYPE_V
+prompt ============================================
+prompt
+create or replace view fg_authen_syseventhandletype_v as
+select "SYSEVENTHANDLETYPE_ID","FORM_TEMP_ID","SYSEVENTHANDLETYPE_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","SYSEVENTHANDLETYPENAME"
+              from FG_S_SYSEVENTHANDLETYPE_ALL_V;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSEVENTPOINT_V
+prompt =======================================
+prompt
+create or replace view fg_authen_syseventpoint_v as
+select "SYSEVENTPOINT_ID","FORM_TEMP_ID","SYSEVENTPOINT_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","ADDITIONALMATCH","FORMCODEMATCH","SYSEVENTPOINTNAME"
+              from FG_S_SYSEVENTPOINT_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSEVENTTYPE_V
+prompt =================================
+prompt
+create or replace view fg_s_syseventtype_v as
+select to_number(t.formid) as syseventtype_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.SysEventTypeName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventType_objidval,
+             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTTYPENAME",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_SYSEVENTTYPE_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTTYPE_ALL_V
+prompt =====================================
+prompt
+create or replace view fg_s_syseventtype_all_v as
+select t."SYSEVENTTYPE_ID",t."FORM_TEMP_ID",t."SYSEVENTTYPE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTTYPENAME",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+              from FG_S_SYSEVENTTYPE_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSEVENTTYPE_V
+prompt ======================================
+prompt
+create or replace view fg_authen_syseventtype_v as
+select "SYSEVENTTYPE_ID","FORM_TEMP_ID","SYSEVENTTYPE_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","SYSEVENTTYPENAME"
+              from FG_S_SYSEVENTTYPE_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSHCODECALC_ALL_V
+prompt =====================================
+prompt
+create or replace view fg_s_syshcodecalc_all_v as
+select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
+--t.* end! edit only the code below...
+from FG_S_SYSEVENTHANDLER_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSHCODECALC_V
+prompt ======================================
+prompt
+create or replace view fg_authen_syshcodecalc_v as
+select "SYSEVENTHANDLER_ID","FORM_TEMP_ID","SYSEVENTHANDLER_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","HANDLERVALIDATION","SYSEVENTHANDLERNAME","CALCARG","HANDLERORDER","HANDLERDESCRIPTION","HANDLERUNITTEST","CALCFORMULA"
+              from FG_S_SYSHCODECALC_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSHSIMPLECALC_ALL_V
+prompt =======================================
+prompt
+create or replace view fg_s_syshsimplecalc_all_v as
+select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
+--t.* end! edit only the code below...
+--, EP.SYSEVENTYPENAME || '.' || EP.FORMCODEMATCH || '.' || EP.ADDITIONALMATCH AS SYSEVENTPOINTFullName
+              from FG_S_SYSEVENTHANDLER_V t/*,
+                   FG_S_SYSEVENTPOINT_V EP--,
+                 --  FG_S_SYSEVENTTYPE_ALL_V ET
+              WHERE 1=1--EP.SYSEVENTTYPENAME = ET.SYSEVENTTYPE_ID(+)
+                    and t.SYSEVENTPOINT_ID = ep.syseventpoint_id(+);*/;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSHSIMPLECALC_V
+prompt ========================================
+prompt
+create or replace view fg_authen_syshsimplecalc_v as
+select "SYSEVENTHANDLER_ID","FORM_TEMP_ID","SYSEVENTHANDLER_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","HANDLERVALIDATION","SYSEVENTHANDLERNAME","CALCARG","HANDLERORDER","HANDLERDESCRIPTION","HANDLERUNITTEST","CALCFORMULA"
+              from FG_S_SYSHSIMPLECALC_ALL_V;
+
+prompt
+prompt Creating view FG_S_SYSHSIMPLECLAC_ALL_V
+prompt =======================================
+prompt
+create or replace view fg_s_syshsimpleclac_all_v as
+select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
+--t.* end! edit only the code below...
+       from  FG_S_SYSEVENTHANDLER_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_SYSHSIMPLECLAC_V
+prompt ========================================
+prompt
+create or replace view fg_authen_syshsimpleclac_v as
+select "SYSEVENTHANDLER_ID","FORM_TEMP_ID","SYSEVENTHANDLER_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","HANDLERVALIDATION","SYSEVENTHANDLERNAME","CALCARG","HANDLERORDER","HANDLERDESCRIPTION","HANDLERUNITTEST","CALCFORMULA"
+              from FG_S_SYSHSIMPLECLAC_ALL_V;
+
+prompt
+prompt Creating view FG_AUTHEN_UNITS_V
+prompt ===============================
+prompt
+create or replace view fg_authen_units_v as
+select "UNITS_ID","UNITS_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","UNITSNAME"
+      from FG_S_UNITS_ALL_V t;
+
+prompt
+prompt Creating view FG_S_UNITTESTCONFIG_V
+prompt ===================================
+prompt
+create or replace view fg_s_unittestconfig_v as
+select to_number(t.formid) as unittestconfig_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UnitTestConfigName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UnitTestConfig_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."UNITTESTCONFIGCOMMENTS",t."GROUPNAME",t."UNITTESTCONFIGNAME",t."UNITTESTACTION",t."ORDEROFEXECUTION",t."IGNORETEST",t."WAITINGTIME",t."ENTITYIMPNAME",t."TESTINGFORMCODE",t."FIELDVALUE"
+      from FG_S_UNITTESTCONFIG_PIVOT t;
+
+prompt
+prompt Creating view FG_S_UNITTESTCONFIG_ALL_V
+prompt =======================================
+prompt
+create or replace view fg_s_unittestconfig_all_v as
+select t."UNITTESTCONFIG_ID",t."FORM_TEMP_ID",t."UNITTESTCONFIG_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."UNITTESTCONFIGCOMMENTS",t."GROUPNAME",t."UNITTESTCONFIGNAME",t."UNITTESTACTION",t."ORDEROFEXECUTION",t."IGNORETEST",t."WAITINGTIME",t."ENTITYIMPNAME",t."TESTINGFORMCODE",t."FIELDVALUE"
+--t.* end! edit only the code below...
+              from FG_S_UNITTESTCONFIG_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_UNITTESTCONFIG_V
+prompt ========================================
+prompt
+create or replace view fg_authen_unittestconfig_v as
+select "UNITTESTCONFIG_ID","FORM_TEMP_ID","UNITTESTCONFIG_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","UNITTESTCONFIGNAME"
+              from FG_S_UNITTESTCONFIG_ALL_V;
+
+prompt
+prompt Creating view FG_S_UNITTESTGROUP_V
+prompt ==================================
+prompt
+create or replace view fg_s_unittestgroup_v as
+select to_number(t.formid) as unittestgroup_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UnitTestGroupName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UnitTestGroup_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."UNITTESTGROUPNAME",t."ORDEROFEXECUTION",t."IGNORE",t."UNITTESTLEVELS",t."COMMENTS",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_UNITTESTGROUP_PIVOT t;
+
+prompt
+prompt Creating view FG_S_UNITTESTGROUP_ALL_V
+prompt ======================================
+prompt
+create or replace view fg_s_unittestgroup_all_v as
+select t."UNITTESTGROUP_ID",t."FORM_TEMP_ID",t."UNITTESTGROUP_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."UNITTESTGROUPNAME",t."ORDEROFEXECUTION",t."IGNORE",t."UNITTESTLEVELS",t."COMMENTS",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+                     ,'aaa' as DUMMY
+              from FG_S_UNITTESTGROUP_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_UNITTESTGROUP_V
+prompt =======================================
+prompt
+create or replace view fg_authen_unittestgroup_v as
+select "UNITTESTGROUP_ID","FORM_TEMP_ID","UNITTESTGROUP_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","UNITTESTGROUPNAME"
+              from FG_S_UNITTESTGROUP_ALL_V;
+
+prompt
+prompt Creating view FG_S_UOMTYPE_V
+prompt ============================
+prompt
+create or replace view fg_s_uomtype_v as
+select to_number(t.formid) as uomtype_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UOMTypeName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UOMType_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UOMTYPENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_UOMTYPE_PIVOT t;
+
+prompt
+prompt Creating view FG_S_UOMTYPE_ALL_V
+prompt ================================
+prompt
+create or replace view fg_s_uomtype_all_v as
+select t."UOMTYPE_ID",t."FORM_TEMP_ID",t."UOMTYPE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UOMTYPENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+              from FG_S_UOMTYPE_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_UOMTYPE_V
+prompt =================================
+prompt
+create or replace view fg_authen_uomtype_v as
+select "UOMTYPE_ID","FORM_TEMP_ID","UOMTYPE_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","UOMTYPENAME"
+              from FG_S_UOMTYPE_ALL_V t where rownum <= 1;
+
+prompt
+prompt Creating view FG_S_UOM_V
+prompt ========================
+prompt
+create or replace view fg_s_uom_v as
+select to_number(t.formid) as uom_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UOMName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UOM_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."ISNORMAL",t."FACTOR",t."PRECISION",t."UOMNAME",t."TYPE",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_UOM_PIVOT t;
+
+prompt
+prompt Creating view FG_S_UOM_ALL_V
+prompt ============================
+prompt
+create or replace view fg_s_uom_all_v as
+select t."UOM_ID",t."FORM_TEMP_ID",t."UOM_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."ISNORMAL",t."FACTOR",t."PRECISION",t."UOMNAME",t."TYPE",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+, uomtype.UOMTYPENAME,t.TYPE as "UOMTYPE_ID",uomtype.UOMTYPENAME as UOM_TYPE,
+first_value(t."UOM_ID") over (partition by uomtype.UOMTYPE_ID order by nvl(t.ISNORMAL,0) desc nulls last) as "UOM_NORMAL_ID"
+from FG_S_UOM_V t, fg_s_uomtype_all_v uomtype
+where t.TYPE = uomtype.UOMTYPE_ID;
+
+prompt
+prompt Creating view FG_AUTHEN_UOM_V
+prompt =============================
+prompt
+create or replace view fg_authen_uom_v as
+select "UOM_ID","UOM_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","UOMNAME"
+      from FG_S_UOM_ALL_V t;
+
+prompt
+prompt Creating view FG_S_USERGUIDEPOOL_V
+prompt ==================================
+prompt
+create or replace view fg_s_userguidepool_v as
+select to_number(t.formid) as userguidepool_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UserGuidePoolName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UserGuidePool_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERGUIDEDESCRIPTION",t."USERGUIDEFILE",t."ITEMORDER",t."USERGUIDEPOOLNAME"
+      from FG_S_USERGUIDEPOOL_PIVOT t;
+
+prompt
 prompt Creating view FG_FILES_FAST_V
 prompt =============================
 prompt
 create or replace view fg_files_fast_v as
 select "FILE_ID","FILE_NAME","CONTENT_TYPE",t.FILE_DISPLAY_ID, t.FILE_CHEM_ID
 from FG_FILES t;
+
+prompt
+prompt Creating view FG_S_USERGUIDEPOOL_ALL_V
+prompt ======================================
+prompt
+create or replace view fg_s_userguidepool_all_v as
+select t."USERGUIDEPOOL_ID",t."FORM_TEMP_ID",t."USERGUIDEPOOL_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERGUIDEDESCRIPTION",t."USERGUIDEFILE",t."ITEMORDER",t."USERGUIDEPOOLNAME"
+--t.* end! edit only the code below...
+      ,f.FILE_NAME, f.CONTENT_TYPE,f.FILE_ID
+              from FG_S_USERGUIDEPOOL_V t,
+                   fg_files_fast_v f
+where t.USERGUIDEFILE = f.FILE_ID(+);
+
+prompt
+prompt Creating view FG_AUTHEN_USERGUIDEPOOL_V
+prompt =======================================
+prompt
+create or replace view fg_authen_userguidepool_v as
+select "USERGUIDEPOOL_ID","FORM_TEMP_ID","USERGUIDEPOOL_OBJIDVAL","FORMID","TIMESTAMP","CREATION_DATE","CLONEID","TEMPLATEFLAG","CHANGE_BY","CREATED_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","USERGUIDEDESCRIPTION","USERGUIDEFILE","USERGUIDEPOOLNAME"
+              from FG_S_USERGUIDEPOOL_ALL_V;
+
+prompt
+prompt Creating view FG_AUTHEN_USERROLE_V
+prompt ==================================
+prompt
+create or replace view fg_authen_userrole_v as
+select "USERROLE_ID","USERROLE_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","USERROLENAME"
+      from FG_S_USERROLE_ALL_V t;
+
+prompt
+prompt Creating view FG_S_USERSCREW_V
+prompt ==============================
+prompt
+create or replace view fg_s_userscrew_v as
+select to_number(t.formid) as userscrew_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UsersCrewName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UsersCrew_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERSCREWNAME",t."PARENTID",t."USER_ID",t."DISABLED"
+      from FG_S_USERSCREW_PIVOT t;
+
+prompt
+prompt Creating view FG_S_USER_V
+prompt =========================
+prompt
+create or replace view fg_s_user_v as
+select to_number(t.formid) as user_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.UserName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as User_objidval,
+             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."FIRSTNAME",t."USERNAME",t."POSITION",t."CHANGEPASSWORD",t."LASTNAME",t."PERMISSIONTABLE",t."TEAMLEADER_ID",t."CUSTOMER_ID",t."DELETED",t."SENSITIVITYLEVEL_ID",t."LOCKED",t."USERROLE_ID",t."USERLDAP",t."PASSWORDDATE",t."MESSAGECHECKINTERVAL",t."LASTNOTIFICATIONCHECK",t."LABORATORY_ID",t."GROUPSCREW",t."UNIT_ID",t."CHGPASSWORDDATE",t."LAST_BREADCRUMB_LINK",t."PASSWORD",t."SITE_ID",t."LASTRETRY",t."RETRYCOUNT",t."EMAIL",t."LASTPASSWORDDATE"
+      from FG_S_USER_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SENSITIVITYLEVEL_V
+prompt =====================================
+prompt
+create or replace view fg_s_sensitivitylevel_v as
+select to_number(t.formid) as sensitivitylevel_id,
+             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
+             '{"VAL":"' || t.sensitivityLevelName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as sensitivityLevel_objidval,
+             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SENSITIVITYLEVELNAME",t."DESCRIPTION",t."FORMCODE_ENTITY",t."SENSITIVITYLEVELORDER",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+      from FG_S_SENSITIVITYLEVEL_PIVOT t;
+
+prompt
+prompt Creating view FG_S_SENSITIVITYLEVEL_ALL_V
+prompt =========================================
+prompt
+create or replace view fg_s_sensitivitylevel_all_v as
+select t."SENSITIVITYLEVEL_ID",t."FORM_TEMP_ID",t."SENSITIVITYLEVEL_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SENSITIVITYLEVELNAME",t."DESCRIPTION",t."FORMCODE_ENTITY",t."SENSITIVITYLEVELORDER",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
+--t.* end! edit only the code below...
+              from FG_S_SENSITIVITYLEVEL_V t;
+
+prompt
+prompt Creating view FG_S_USER_ALL_V
+prompt =============================
+prompt
+create or replace view fg_s_user_all_v as
+select t."USER_ID",t."FORM_TEMP_ID",t."USER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."FIRSTNAME",t."USERNAME",t."POSITION",t."CHANGEPASSWORD",t."LASTNAME",t."PERMISSIONTABLE",t."TEAMLEADER_ID",t."CUSTOMER_ID",t."DELETED",t."SENSITIVITYLEVEL_ID",t."LOCKED",t."USERROLE_ID",t."USERLDAP",t."PASSWORDDATE",t."MESSAGECHECKINTERVAL",t."LASTNOTIFICATIONCHECK",t."LABORATORY_ID",t."GROUPSCREW",t."UNIT_ID",t."CHGPASSWORDDATE",t."LAST_BREADCRUMB_LINK",t."PASSWORD",t."SITE_ID",t."LASTRETRY",t."RETRYCOUNT",t."EMAIL",t."LASTPASSWORDDATE"
+--t.* end! edit only the code below...
+,t1.UserRoleName,lab.SITENAME,unit.UNITSNAME,lab.LABORATORYNAME,
+       '{"VAL":"' || nvl(t.FIRSTNAME,t.UserName) || ' ' || t.LASTNAME || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UserFullName_objidval
+       ,sens.SENSITIVITYLEVELNAME
+       ,sens.SENSITIVITYLEVELORDER
+from fg_s_user_v t,
+     Fg_s_Userrole_v t1,
+     FG_S_LABORATORY_ALL_V lab,
+     fg_s_units_all_v unit,
+     fg_s_sensitivitylevel_all_v sens
+where t.userrole_id = t1.userrole_id(+)
+and   t.LABORATORY_ID = lab.LABORATORY_ID(+)
+and   t.UNIT_ID =  unit.UNITS_ID(+)
+and   t.SENSITIVITYLEVEL_ID = sens.SENSITIVITYLEVEL_ID(+);
+
+prompt
+prompt Creating view FG_S_USERSCREW_ALL_V
+prompt ==================================
+prompt
+create or replace view fg_s_userscrew_all_v as
+select t."USERSCREW_ID",t."FORM_TEMP_ID",t."USERSCREW_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERSCREWNAME",t."PARENTID",t."USER_ID",t."DISABLED"
+--t.* end! edit only the code below...
+,pt.LABORATORYNAME, pt.UNITSNAME,pt.SITENAME ,pt.POSITION, pt.USERNAME, pt.USER_ID as "USER_ID_SINGLE" --USER_ID_SINGLE used for single user id id
+ ,decode(instr(',' || t.DISABLED|| ',',',' || pt.USER_ID || ','),0,0,1) as "isDisabled"
+from FG_S_USERSCREW_V t ,fg_s_user_all_v pt
+where 1=1 --',' || t.USER_ID || ',' like '%,' || pt.user_id || ',%'
+and instr(',' || t.USER_ID || ',',',' || pt.user_id || ',') > 0;
+
+prompt
+prompt Creating view FG_AUTHEN_USERSCREW_V
+prompt ===================================
+prompt
+create or replace view fg_authen_userscrew_v as
+select t.FORM_TEMP_ID,"USERSCREW_ID","USERSCREW_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","PARENTID","USERSCREWNAME","USER_ID","DISABLED"
+      from FG_S_USERSCREW_ALL_V t;
+
+prompt
+prompt Creating view FG_AUTHEN_USER_V
+prompt ==============================
+prompt
+create or replace view fg_authen_user_v as
+select t."USER_ID",t."FORM_TEMP_ID",t."USER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."PASSWORD",t."FIRSTNAME",t."USERLDAP",t."USERNAME",t."PASSWORDDATE",t."CHGPASSWORDDATE",t."POSITION",t."LASTNAME",t."USERROLE_ID",t."LASTRETRY",t."EMAIL",t."DELETED",t."RETRYCOUNT",t."CHANGEPASSWORD",t."LOCKED",t."LASTPASSWORDDATE",t."LABORATORY_ID",t."UNIT_ID",t."SITE_ID",t."USERROLENAME",t."SITENAME",t."UNITSNAME",t."LABORATORYNAME",t."USERFULLNAME_OBJIDVAL"
+      from FG_S_USER_ALL_V t;
 
 prompt
 prompt Creating view FG_FORMENTITY_COL_LEN_V
@@ -3409,39 +4962,117 @@ from dual*/
 order by category_order, sub_category_order;
 
 prompt
-prompt Creating view FG_S_GROUPSCREW_V
-prompt ===============================
+prompt Creating function FG_GET_UOM_BY_UOMTYPE
+prompt =======================================
 prompt
-create or replace view fg_s_groupscrew_v as
-select to_number(t.formid) as groupscrew_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.GroupsCrewName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as GroupsCrew_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."GROUP_ID",t."PARENTID",t."GROUPSCREWNAME"
-      from FG_S_GROUPSCREW_PIVOT t;
+create or replace function fg_get_Uom_by_uomtype (typename_in in varchar,uomname_in in varchar default 'NORMAL') return varchar2 as
+ toReturn varchar2(4000);
+ normalUomId_ number;
+begin
+  if uomname_in = 'NORMAL' then
+    select max(t.UOM_NORMAL_ID) into normalUomId_
+    from fg_s_uom_all_v t
+    where  t.UOMTYPENAME = typename_in
+    and    t.ISNORMAL = 1;
+   else
+     select t.UOM_ID into normalUomId_
+     from fg_s_uom_all_v t
+     where t.UOMTYPENAME = typename_in
+     and lower(t.UOMNAME) = lower(uomname_in);
+  end if;
+  return normalUomId_;
+exception
+  when others then
+    return null;
+end;
+/
 
 prompt
-prompt Creating view FG_S_GROUP_V
-prompt ==========================
+prompt Creating function FG_GET_VALUE_FROM_JSON
+prompt ========================================
 prompt
-CREATE OR REPLACE VIEW FG_S_GROUP_V AS
-select to_number(t.formid) as group_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.GroupName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Group_objidval,
-             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."GROUPNAME",t."SELECTUSER",t."GROUPTYPE",t."DESCRIPTION",t."SITE_ID",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
-      from FG_S_GROUP_PIVOT t;
+CREATE OR REPLACE FUNCTION FG_GET_VALUE_FROM_JSON (json_in varchar2, code_in varchar2, defaultVal_in varchar2 default 'NA', innerJsonAttr_in varchar2 default '"text":') return varchar2 as
+   indexOfCode number;
+   firstCharOfValue varchar2(1);
+   toReturn varchar2(2000);
+begin
+     indexOfCode := INSTR(LOWER(json_in),LOWER('"' || code_in || '"'), 1, 1);
+     if indexOfCode = 0 then
+        return defaultVal_in;
+     end if;
+
+     DBMS_OUTPUT.put_line(indexOfCode);
+
+     firstCharOfValue := SUBSTR (json_in, indexOfCode + LENGTH('"' || code_in || '"') + 1, 1);
+     -- value as string
+     if firstCharOfValue = '"' then
+         toReturn := SUBSTR(
+                        json_in,
+                        indexOfCode + LENGTH('"' || code_in || '"') + 2,
+                        instr( SUBSTR(
+                                       json_in,
+                                       indexOfCode + LENGTH('"' || code_in || '"') + 2
+                                      )
+                               ,'"'
+                             ) -1
+                      );
+
+      elsif firstCharOfValue = '{' then   -- value as json
+         indexOfCode :=  INSTR(LOWER(json_in), lower(innerJsonAttr_in), indexOfCode, 1);
+         toReturn := SUBSTR(
+                        json_in,
+                        indexOfCode + LENGTH(innerJsonAttr_in) + 1,
+                        instr( SUBSTR(
+                                       json_in,
+                                       indexOfCode + LENGTH(innerJsonAttr_in) + 1
+                                      )
+                               ,'"'
+                             ) -1
+                      );
+      else --num or bollean or array
+         toReturn :=  trim(SUBSTR (json_in,
+                              indexOfCode + LENGTH('"' || code_in || '"') + 1,
+                              instr( SUBSTR(
+                                       json_in,
+                                       indexOfCode + LENGTH('"' || code_in || '"') + 1
+                                      )
+                               ,','
+                             ) -1
+                      ));
+      end if;
+     return toReturn;
+exception
+  when others then
+    return defaultVal_in;
+end;
+/
 
 prompt
-prompt Creating view FG_S_GROUPSCREW_ALL_V
-prompt ===================================
+prompt Creating view FG_I_UOM_METADATA_V
+prompt =================================
 prompt
-create or replace view fg_s_groupscrew_all_v as
-select t."GROUPSCREW_ID",t."FORM_TEMP_ID",t."GROUPSCREW_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."GROUP_ID",t."PARENTID",t."GROUPSCREWNAME"
---t.* end! edit only the code below...
-,pt.GroupName as "GROUP",pt.DESCRIPTION,pt.GROUP_ID as "GROUP_ID_SINGLE"
-from FG_S_GROUPSCREW_V t,FG_S_GROUP_V pt
-    --  where t.GROUP_ID = pt.GROUP_ID(+)
-    where 1=1 and
-    instr(',' || t.GROUP_ID || ',',',' || pt.GROUP_ID || ',') > 0;
+create or replace view fg_i_uom_metadata_v as
+select t.entityimpcode as column_name, t.formcode,fg_get_value_from_json(json_in => t.entityimpinit,code_in => 'defaultValue') as default_value
+,fg_get_uom_by_uomtype(fg_get_value_from_json(json_in => t.entityimpinit,code_in => 'uomTypeName')) normal_value
+,fg_get_value_from_json(json_in => t.entityimpinit,code_in => 'uomTypeName') uom_type
+from fg_formentity t
+where /*t.formcode = 'MaterialRef'
+and */t.entityimpclass = 'ElementUOMImp';
+
+prompt
+prompt Creating view FG_I_USERS_GROUP_SUMMARYDIST_V
+prompt ============================================
+prompt
+create or replace view fg_i_users_group_summarydist_v as
+select "PARENTID","USER_ID","USERNAME" --YP 04032020 IMPROVE PERFORMANCE
+from fg_i_users_group_summarydis_mv;
+
+prompt
+prompt Creating view FG_I_USERS_GROUP_SUMMARYLIST_V
+prompt ============================================
+prompt
+create or replace view fg_i_users_group_summarylist_v as
+select "PARENTID","USER_ID" from fg_i_usersgroup_summarylist_mv;
 
 prompt
 prompt Creating view FG_I_USER_GROUP_V
@@ -3456,27 +5087,86 @@ and   t.ACTIVE = 1
 and t.SESSIONID is null;
 
 prompt
-prompt Creating view FG_S_DYNAMICREPORTSQL_V
-prompt =====================================
+prompt Creating view FG_I_USERS_GROUP_SUMMARY_V
+prompt ========================================
 prompt
-create or replace view fg_s_dynamicreportsql_v as
-select to_number(t.formid) as dynamicreportsql_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.DynamicReportSqlName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as DynamicReportSql_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."EXECUTE",t."SQLTEXT",t."DYNAMICREPORTSQLNAME",t."SYSTEMREPORT",t."SQLRESULTTABLE"
-      from FG_S_DYNAMICREPORTSQL_PIVOT t;
+create or replace view fg_i_users_group_summary_v as
+select parentid, user_id, username
+from (
+        --parentid (some struct entity), the user from crew
+        select t.parentid, to_char(t.USER_ID_SINGLE) as user_id, username
+        from fg_s_userscrew_all_v t
+        where nvl(t.active,0) = 1
+        and t.sessionid is null
+        and t.user_id is not null
+        union all
+        --parentid (some struct entity), the user from crew by group crew
+        select gc.parentid, ug.user_id, ug.username
+        from (
+                select t.parentid, t.group_id as group_id_list_
+                from fg_s_groupscrew_pivot t
+                where nvl(t.active,0) = 1
+                and t.sessionid is null
+                and t.group_id is not null
+              ) gc,
+              fg_i_user_group_v ug
+        where instr(',' || gc.group_id_list_ || ',', ',' || ug.group_id || ',') > 0
+);
 
 prompt
-prompt Creating view FG_S_DYNAMICREPORTSQL_ALL_V
+prompt Creating view FG_S_PERMISSIONSCHEME_INF_V
 prompt =========================================
 prompt
-create or replace view fg_s_dynamicreportsql_all_v as
-select t."DYNAMICREPORTSQL_ID",t."FORM_TEMP_ID",t."DYNAMICREPORTSQL_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."EXECUTE",t."SQLTEXT",t."DYNAMICREPORTSQLNAME",t."SYSTEMREPORT",t."SQLRESULTTABLE"
---t.* end! edit only the code below...
-,c.file_content as SQLTEXT_CONTENT
-              from FG_S_DYNAMICREPORTSQL_V t,
-                   fg_clob_files c
-              where t.SQLTEXT = c.file_id;
+create or replace view fg_s_permissionscheme_inf_v as
+select 'PermissionScheme' as formCode, t.formid as id, t.PermissionSchemeName as name, t.SCREEN, cu.user_id as user_crew_list,t.MAINTENANCEFORMLIST
+              from FG_S_PERMISSIONSCHEME_ALL_V t,
+                   fg_i_users_group_summarylist_v cu
+              where t.PERMISSIONSCHEME_ID = cu.parentid(+)
+              and   t.SESSIONID is null
+              and   nvl(t.ACTIVE,0) = 1;
+
+prompt
+prompt Creating view FG_I_USER_MAINT_SCREEN_V
+prompt ======================================
+prompt
+create or replace view fg_i_user_maint_screen_v as
+select distinct u.formid as userid,
+                --s.name as screen,
+                LISTAGG(t.MAINTENANCEFORMLIST,',') WITHIN GROUP (ORDER BY t.MAINTENANCEFORMLIST) OVER (PARTITION BY u.formid ) as maintenance_screen_list
+from    fg_s_permissionscheme_inf_v t,
+        fg_s_user_pivot u
+where   instr(',' || t.user_crew_list || ',', ',' || u.formid || ',') > 0;
+
+prompt
+prompt Creating view FG_I_USER_SCREEN_V
+prompt ================================
+prompt
+create or replace view fg_i_user_screen_v as
+select distinct u.formid as userid,
+                --s.name as screen,
+                LISTAGG(s.name,',') WITHIN GROUP (ORDER BY s.name) OVER (PARTITION BY u.formid ) as screen_list
+               -- LISTAGG(t.MAINTENANCEFORMLIST,',') WITHIN GROUP (ORDER BY t.MAINTENANCEFORMLIST) OVER (PARTITION BY u.formid ) as maintenance_screen_list
+from    fg_s_permissionscheme_inf_v t,
+        fg_i_screens_v s,
+        fg_s_user_pivot u
+where instr(',' || t.SCREEN || ',', ',' || s.name || ',') > 0
+and   instr(',' || t.user_crew_list || ',', ',' || u.formid || ',') > 0;
+
+prompt
+prompt Creating view FG_S_CUSTOMER_DT_V
+prompt ================================
+prompt
+create or replace view fg_s_customer_dt_v as
+select "CUSTOMER_ID" as "ID","CUSTOMER_ID","CUSTOMERNAME", "DESCRIPTION"
+              from FG_S_CUSTOMER_ALL_V t;
+
+prompt
+prompt Creating view FG_S_CUSTOMER_INF_V
+prompt =================================
+prompt
+create or replace view fg_s_customer_inf_v as
+select 'Customer' as formCode, t.formid as id, t.CustomerName as name
+              from FG_S_CUSTOMER_ALL_V t;
 
 prompt
 prompt Creating view FG_S_DYNAMICREPORTSQL_DT_V
@@ -3524,35 +5214,6 @@ select 'GroupsCrew' as formCode, t.formid as id, t.GroupsCrewName as name
       from FG_S_GROUPSCREW_ALL_V t;
 
 prompt
-prompt Creating view FG_S_GROUP_ALL_V
-prompt ==============================
-prompt
-CREATE OR REPLACE VIEW FG_S_GROUP_ALL_V AS
-select t."GROUP_ID",t."FORM_TEMP_ID",t."GROUP_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."GROUPNAME",t."SELECTUSER",t."GROUPTYPE",t."DESCRIPTION",t."SITE_ID",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
---t.* end! edit only the code below...
-from FG_S_GROUP_V t;
-
-prompt
-prompt Creating view FG_S_SITE_V
-prompt =========================
-prompt
-create or replace view fg_s_site_v as
-select to_number(t.formid) as site_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.SiteName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Site_objidval,
-             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SITENAME",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
-      from FG_S_SITE_PIVOT t;
-
-prompt
-prompt Creating view FG_S_SITE_ALL_V
-prompt =============================
-prompt
-create or replace view fg_s_site_all_v as
-select t."SITE_ID",t."FORM_TEMP_ID",t."SITE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SITENAME",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
---t.* end! edit only the code below...
-from FG_S_SITE_V t;
-
-prompt
 prompt Creating view FG_S_GROUP_DT_V
 prompt =============================
 prompt
@@ -3574,53 +5235,6 @@ select 'Group' as formCode, t.formid as id, t.GroupName as name
       from FG_S_GROUP_ALL_V t;
 
 prompt
-prompt Creating view FG_S_LABORATORY_V
-prompt ===============================
-prompt
-create or replace view fg_s_laboratory_v as
-select to_number(t.formid) as laboratory_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.LaboratoryName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Laboratory_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."LAB_MANAGER_ID",t."FORMNUMBERID",t."LABORATORYNAME",t."UNITS_ID",t."SITE_ID"
-      from FG_S_LABORATORY_PIVOT t;
-
-prompt
-prompt Creating view FG_S_UNITS_V
-prompt ==========================
-prompt
-create or replace view fg_s_units_v as
-select to_number(t.formid) as units_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.UnitsName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as Units_objidval,
-             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UNITSNAME",t."SITE_ID",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
-      from FG_S_UNITS_PIVOT t;
-
-prompt
-prompt Creating view FG_S_UNITS_ALL_V
-prompt ==============================
-prompt
-create or replace view fg_s_units_all_v as
-select t."UNITS_ID",t."FORM_TEMP_ID",t."UNITS_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UNITSNAME",t."SITE_ID",t."CLONEID",t."TEMPLATEFLAG",t."FORMCODE_ENTITY",t."CREATED_BY",t."CREATION_DATE"
---t.* end! edit only the code below...
-,s.SITENAME, s.SITE_OBJIDVAL, '{"VAL":"' || t.UnitsName||' ('||s.SiteName||')' || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as unit_with_site_objidval
-from FG_S_UNITS_V t,
-      FG_S_SITE_ALL_V s
-where s.SITE_ID(+) = t.SITE_ID;
-
-prompt
-prompt Creating view FG_S_LABORATORY_ALL_V
-prompt ===================================
-prompt
-create or replace view fg_s_laboratory_all_v as
-select t."LABORATORY_ID",t."FORM_TEMP_ID",t."LABORATORY_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."LAB_MANAGER_ID",t."FORMNUMBERID",t."LABORATORYNAME",t."UNITS_ID",t."SITE_ID"
---t.* end! edit only the code below...
-,u.SITENAME,u.SITE_OBJIDVAL, u.UNITSNAME, u.UNITS_OBJIDVAL
-from FG_S_LABORATORY_V t,
-     fg_s_units_all_v u
-where u.SITE_ID(+) = t.SITE_ID
-and u.units_id(+) = t.UNITS_ID;
-
-prompt
 prompt Creating view FG_S_LABORATORY_DT_V
 prompt ==================================
 prompt
@@ -3635,40 +5249,6 @@ prompt
 create or replace view fg_s_laboratory_inf_v as
 select 'Laboratory' as formCode, t.formid as id, t.LaboratoryName as name, lpad(t.formnumberid,3,0) as formnumberid,t.LAB_MANAGER_ID,t.UNITS_ID
       from FG_S_LABORATORY_ALL_V t;
-
-prompt
-prompt Creating view FG_S_PERMISSIONOBJECT_V
-prompt =====================================
-prompt
-create or replace view fg_s_permissionobject_v as
-select to_number(t.formid) as permissionobject_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.PermissionObjectName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as PermissionObject_objidval,
-             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."PERMISSIONOBJECTNAME",t."LAB",t."SITE",t."UNIT",t."OBJECTSINHERIT",t."CLONEID",t."TEMPLATEFLAG",t."OBJECTSINHERITONCREATE",t."CREATED_BY",t."CREATION_DATE"
-      from FG_S_PERMISSIONOBJECT_PIVOT t;
-
-prompt
-prompt Creating view FG_S_PERMISSIONOBJECT_ALL_V
-prompt =========================================
-prompt
-create or replace view fg_s_permissionobject_all_v as
-select t."PERMISSIONOBJECT_ID",t."FORM_TEMP_ID",t."PERMISSIONOBJECT_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."PERMISSIONOBJECTNAME",t."LAB",t."SITE",t."UNIT",t."OBJECTSINHERIT",t."CLONEID",t."TEMPLATEFLAG",t."OBJECTSINHERITONCREATE",t."CREATED_BY",t."CREATION_DATE"
---t.* end! edit only the code below...
- --,decode(t."OBJECTSINHERIT",null,t."PERMISSIONOBJECTNAME", t."PERMISSIONOBJECTNAME" ||','|| "OBJECTSINHERIT") "PERMISSIONOBJECTNAME_EXTEND",
-,'{"VAL":"' ||
-replace(
-    replace(
-        replace(
-            replace(
-                 regexp_replace(decode(t.PermissionObjectName,'InvItemMaterial','InvItemMaterialCm',t.PermissionObjectName),'^InvItem'),
-                'RecipeFormulation',
-                'Recipe')
-        ,'MaterialCm','Material (Chemical)'),
-    'MaterialFr','Material (Formulation)')
-,'MaterialPr','Material (Premix)')
-|| '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as PermissionObjectName_objidval -- effects only the display in the list (set it also in the fg_s_PermissionSRef_DT_v view)
-,t."PERMISSIONOBJECTNAME" || decode(t."OBJECTSINHERITONCREATE",null,'', ',' || t."OBJECTSINHERITONCREATE") || decode(t."OBJECTSINHERIT",null,'', ',' || t."OBJECTSINHERIT") AS  "PERMISSIONOBJECTNAME_GROUP"
-              from FG_S_PERMISSIONOBJECT_V t;
 
 prompt
 prompt Creating view FG_S_PERMISSIONOBJECT_DT_V
@@ -3690,24 +5270,78 @@ select 'PermissionObject' as formCode, t.formid as id, t.PermissionObjectName as
               from FG_S_PERMISSIONOBJECT_ALL_V t;
 
 prompt
-prompt Creating view FG_S_SENSITIVITYLEVEL_V
-prompt =====================================
+prompt Creating view FG_S_PERMISSIONPOLICY_DT_V
+prompt ========================================
 prompt
-create or replace view fg_s_sensitivitylevel_v as
-select to_number(t.formid) as sensitivitylevel_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.sensitivityLevelName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as sensitivityLevel_objidval,
-             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SENSITIVITYLEVELNAME",t."DESCRIPTION",t."FORMCODE_ENTITY",t."SENSITIVITYLEVELORDER",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
-      from FG_S_SENSITIVITYLEVEL_PIVOT t;
+create or replace view fg_s_permissionpolicy_dt_v as
+select "PERMISSIONPOLICY_ID" as  "ID","PERMISSIONPOLICY_ID","PERMISSIONPOLICYNAME"
+              from FG_S_PERMISSIONPOLICY_ALL_V t;
 
 prompt
-prompt Creating view FG_S_SENSITIVITYLEVEL_ALL_V
+prompt Creating view FG_S_PERMISSIONPOLICY_INF_V
 prompt =========================================
 prompt
-create or replace view fg_s_sensitivitylevel_all_v as
-select t."SENSITIVITYLEVEL_ID",t."FORM_TEMP_ID",t."SENSITIVITYLEVEL_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."SENSITIVITYLEVELNAME",t."DESCRIPTION",t."FORMCODE_ENTITY",t."SENSITIVITYLEVELORDER",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
---t.* end! edit only the code below...
-              from FG_S_SENSITIVITYLEVEL_V t;
+create or replace view fg_s_permissionpolicy_inf_v as
+select 'PermissionPolicy' as formCode, t.formid as id, t.PermissionPolicyName as name
+              from FG_S_PERMISSIONPOLICY_ALL_V t;
+
+prompt
+prompt Creating view FG_S_PERMISSIONSCHEME_DT_V
+prompt ========================================
+prompt
+create or replace view fg_s_permissionscheme_dt_v as
+select distinct t."PERMISSIONSCHEME_ID",t."PERMISSIONSCHEMENAME" as "Permission Scheme Name",t."SCREEN" as "Screens",
+       LISTAGG(u.USERNAME,',') WITHIN GROUP (ORDER BY u.USERNAME) OVER (PARTITION BY t.PERMISSIONSCHEME_ID ) as "User List"
+       ,decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+from FG_S_PERMISSIONSCHEME_ALL_V t,
+     fg_s_permissionscheme_inf_v t_inf,
+     fg_s_user_all_v u
+WHERE t_inf.id(+) = T.PERMISSIONSCHEME_ID
+AND   instr(',' || t_inf.user_crew_list || ',', ',' || u.user_id(+) || ',') > 0;
+
+prompt
+prompt Creating view FG_S_PERMISSIONSREF_DT_V
+prompt ======================================
+prompt
+create or replace view fg_s_permissionsref_dt_v as
+select distinct t."FORMID",T.ACTIVE, t."FORM_TEMP_ID",t."PARENTID",t.permissionsref_id,
+-- effects only the display in the table (set it also in the fg_s_Permissionobject_all_v view)
+replace(
+    replace(
+        replace(
+            replace(
+                 regexp_replace(decode(t.PermissionObjectName,'InvItemMaterial','InvItemMaterialCm',t.PermissionObjectName),'^InvItem'),
+                'RecipeFormulation',
+                'Recipe')
+        ,'MaterialCm','Material (Chemical)'),
+    'MaterialFr','Material (Formulation)')
+,'MaterialPr','Material (Premix)') as Object
+,t.SITENAME as Site
+,t.UNITSNAME as Unit
+,t.LABORATORYNAME as Lab
+,t."PERMISSION" as Permission,
+decode(T.ACTIVE,0,'NO','YES') AS "Is Active"
+from FG_S_PERMISSIONSREF_ALL_V t;
+
+prompt
+prompt Creating view FG_S_PERMISSIONSREF_INF_V
+prompt =======================================
+prompt
+create or replace view fg_s_permissionsref_inf_v as
+select 'PermissionSRef' as formCode, t.formid as id, ps.PERMISSIONSCHEMENAME, t.PermissionSRefName, po.PERMISSIONOBJECTNAME  as name,
+       --nvl((select distinct t1.PERMISSIONOBJECTNAME from fg_s_permissionobject_all_v t1 where instr(',' || nvl(t1.OBJECTSINHERITONCREATE,'na') || ',',','|| po.PERMISSIONOBJECTNAME ||',') > 0),po.PERMISSIONOBJECTNAME) as name_on_create,
+       t.SITE_ID, t.UNIT_ID, t.LAB_ID, t.PERMISSION, cu.user_id as user_crew_list,t.ACTIVE, to_char((NVL(t.ACTIVE,1) * NVL(ps.ACTIVE,1))) AS IS_ACTIVE,
+       po.PERMISSIONOBJECTNAME_GROUP --holds the list of permission object include inherit rules
+              from FG_S_PERMISSIONSREF_ALL_V t,
+                   FG_S_PERMISSIONSCHEME_ALL_V ps,
+                   fg_s_permissionobject_all_v po,
+                   fg_i_users_group_summarylist_v cu
+              where t.PARENTID = ps.PERMISSIONSCHEME_ID --yp 08092020 remove (+) from ps.PERMISSIONSCHEME_ID and ps.PERMISSIONSCHEMENAME is not null (add after clone schema develop)
+              and   ps.PERMISSIONSCHEMENAME is not null
+              and   t.PERMISSIONSREFNAME = po.PERMISSIONOBJECT_ID(+)
+              and   ps.PERMISSIONSCHEME_ID = cu.parentid(+)
+              and   NVL(t.ACTIVE,1) = 1
+              and   NVL(ps.ACTIVE,1) = 1;
 
 prompt
 prompt Creating view FG_S_SENSITIVITYLEVEL_DT_V
@@ -3745,24 +5379,20 @@ select 'Site' as formCode, t.formid as id, t.SiteName as name
       from FG_S_SITE_ALL_V t;
 
 prompt
-prompt Creating view FG_S_SYSCONFEXCELDATA_V
-prompt =====================================
-prompt
-create or replace view fg_s_sysconfexceldata_v as
-select to_number(t.formid) as sysconfexceldata_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.SysConfExcelDataName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfExcelData_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSCONFEXCELDATANAME",t."EXCELFILE",t."EXCELDATA"
-      from FG_S_SYSCONFEXCELDATA_PIVOT t;
-
-prompt
-prompt Creating view FG_S_SYSCONFEXCELDATA_ALL_V
+prompt Creating view FG_S_SYSCONFDTCRITERIA_DT_V
 prompt =========================================
 prompt
-create or replace view fg_s_sysconfexceldata_all_v as
-select t."SYSCONFEXCELDATA_ID",t."FORM_TEMP_ID",t."SYSCONFEXCELDATA_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSCONFEXCELDATANAME",t."EXCELFILE",t."EXCELDATA"
---t.* end! edit only the code below...
-              from FG_S_SYSCONFEXCELDATA_V t;
+create or replace view fg_s_sysconfdtcriteria_dt_v as
+select "SYSCONFDTCRITERIA_ID","FORM_TEMP_ID","SYSCONFDTCRITERIA_OBJIDVAL","FORMID","TIMESTAMP","CLONEID","TEMPLATEFLAG","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE_ENTITY","FORMCODE","SYSCONFDTCRITERIANAME","ARGFORMCODE","ARGSTRUCT","SYSCONFSQLPOOL_ID"
+              from FG_S_SYSCONFDTCRITERIA_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFDTCRITERIA_INF_V
+prompt ==========================================
+prompt
+create or replace view fg_s_sysconfdtcriteria_inf_v as
+select 'SysConfDTCriteria' as formCode, t.formid as id, t.SysConfDTCriteriaName as name
+              from FG_S_SYSCONFDTCRITERIA_ALL_V t;
 
 prompt
 prompt Creating view FG_S_SYSCONFEXCELDATA_DT_V
@@ -3784,25 +5414,20 @@ select 'SysConfExcelData' as formCode, t.formid as id, t.SysConfExcelDataName as
               from FG_S_SYSCONFEXCELDATA_ALL_V t;
 
 prompt
-prompt Creating view FG_S_SYSCONFSQLCRITERIA_V
-prompt =======================================
+prompt Creating view FG_S_SYSCONFPRESAVECALC_DT_V
+prompt ==========================================
 prompt
-create or replace view fg_s_sysconfsqlcriteria_v as
-select to_number(t.formid) as sysconfsqlcriteria_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.SysConfSQLCriteriaName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfSQLCriteria_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SQLDESCRIPTION",t."ADDITIONALMATCHINFO",t."STRUCTLEVEL",t."SQLTEXT",t."SYSCONFSQLCRITERIANAME",t."IGNORE",t."EXECUTATIONTYPE",t."SCREEN",t."ISDEFAULT"
-      from FG_S_SYSCONFSQLCRITERIA_PIVOT t;
+create or replace view fg_s_sysconfpresavecalc_dt_v as
+select "SYSCONFPRESAVECALC_ID","FORM_TEMP_ID","SYSCONFPRESAVECALC_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","ARG3","RESULTELEMENT","ARG4","FORMULAORFUNCTION","SYSCONFPRESAVECALCNAME","ARG5","ARGELEMENT","ARG2","ARG1"
+              from FG_S_SYSCONFPRESAVECALC_ALL_V t;
 
 prompt
-prompt Creating view FG_S_SYSCONFSQLCRITERIA_ALL_V
+prompt Creating view FG_S_SYSCONFPRESAVECALC_INF_V
 prompt ===========================================
 prompt
-create or replace view fg_s_sysconfsqlcriteria_all_v as
-select t."SYSCONFSQLCRITERIA_ID",t."FORM_TEMP_ID",t."SYSCONFSQLCRITERIA_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SQLDESCRIPTION",t."ADDITIONALMATCHINFO",t."STRUCTLEVEL",t."SQLTEXT",t."SYSCONFSQLCRITERIANAME",t."IGNORE",t."EXECUTATIONTYPE",t."SCREEN",t."ISDEFAULT"
---t.* end! edit only the code below...
-,t.SYSCONFSQLCRITERIANAME || '.' || t.STRUCTLEVEL || '.' || t.SCREEN AS infoName
-              from FG_S_SYSCONFSQLCRITERIA_V t;
+create or replace view fg_s_sysconfpresavecalc_inf_v as
+select 'SysConfPreSaveCalc' as formCode, t.formid as id, t.SysConfPreSaveCalcName as name, t.RESULTELEMENT, t.ARG1, t.ARG2, t.ARG3, t.ARG4 , t.ARG5, t.FORMULAORFUNCTION
+              from FG_S_SYSCONFPRESAVECALC_ALL_V t;
 
 prompt
 prompt Creating view FG_S_SYSCONFSQLCRITERIA_DT_V
@@ -3832,24 +5457,39 @@ select 'SysConfSQLCriteria' as formCode, t.formid as id, t.infoName as name, t.S
               where t.ACTIVE = 1;
 
 prompt
-prompt Creating view FG_S_SYSCONFWFSTATUS_V
-prompt ====================================
+prompt Creating view FG_S_SYSCONFSQLPOOL_DT_V
+prompt ======================================
 prompt
-create or replace view fg_s_sysconfwfstatus_v as
-select to_number(t.formid) as sysconfwfstatus_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.SysConfWFStatusName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysConfWFStatus_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."WHEREPARTPARMNAME",t."SYSCONFWFSTATUSNAME",t."STATUSFORMCODE",t."STATUSINFCOLUMN",t."JSONNAME"
-      from FG_S_SYSCONFWFSTATUS_PIVOT t;
+create or replace view fg_s_sysconfsqlpool_dt_v as
+select "SYSCONFSQLPOOL_ID",
+       --"SQLDESCRIPTION","SQLTEXT","STRUCTLEVEL","EXECUTATIONTYPE","SCREEN",
+       "SQLTYPE" as "SQL Type","SYSCONFSQLPOOLNAME" as "SYS CONF SQL Pool Name","ISDEFAULT" as "Is Default", decode(nvl(t.ACTIVE,1),1,'Yes','No') as "Active"
+from FG_S_SYSCONFSQLPOOL_ALL_V t
+where 1=1--t.FORMCODE = 'SysConfSQLPool';
 
 prompt
-prompt Creating view FG_S_SYSCONFWFSTATUS_ALL_V
-prompt ========================================
+prompt Creating view FG_S_SYSCONFSQLPOOL_INF_V
+prompt =======================================
 prompt
-create or replace view fg_s_sysconfwfstatus_all_v as
-select t."SYSCONFWFSTATUS_ID",t."FORM_TEMP_ID",t."SYSCONFWFSTATUS_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."WHEREPARTPARMNAME",t."SYSCONFWFSTATUSNAME",t."STATUSFORMCODE",t."STATUSINFCOLUMN",t."JSONNAME"
---t.* end! edit only the code below...
-              from FG_S_SYSCONFWFSTATUS_V t;
+create or replace view fg_s_sysconfsqlpool_inf_v as
+select 'SysConfSQLPool' as formCode, t.formid as id, t.infoName as name, t.SysConfSQLPoolName, t.SQLTEXT, t.ISDEFAULT, t.IGNORE
+              from FG_S_SYSCONFSQLPOOL_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFWFNEW_DT_V
+prompt ====================================
+prompt
+create or replace view fg_s_sysconfwfnew_dt_v as
+select "SYSCONFWFNEW_ID","FORM_TEMP_ID","SYSCONFWFNEW_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","PARAMMAPNAME","PARAMMAPVAL","SYSCONFWFNEWNAME","REMOVEFROMLIST","JSONNAME"
+              from FG_S_SYSCONFWFNEW_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSCONFWFNEW_INF_V
+prompt =====================================
+prompt
+create or replace view fg_s_sysconfwfnew_inf_v as
+select 'SysConfWFNew' as formCode, t.formid as id, t.SysConfWFNewName as name
+              from FG_S_SYSCONFWFNEW_ALL_V t;
 
 prompt
 prompt Creating view FG_S_SYSCONFWFSTATUS_DT_V
@@ -3870,24 +5510,36 @@ select 'SysConfWFStatus' as formCode, t.formid as id, t.SysConfWFStatusName as n
               from FG_S_SYSCONFWFSTATUS_ALL_V t;
 
 prompt
-prompt Creating view FG_S_SYSEVENTHANDLER_V
-prompt ====================================
+prompt Creating view FG_S_SYSEVENTHANDLERREF_DT_V
+prompt ==========================================
 prompt
-create or replace view fg_s_syseventhandler_v as
-select to_number(t.formid) as syseventhandler_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.SysEventHandlerName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventHandler_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
-      from FG_S_SYSEVENTHANDLER_PIVOT t;
+create or replace view fg_s_syseventhandlerref_dt_v as
+select "SYSEVENTHANDLERREF_ID","FORM_TEMP_ID","SYSEVENTHANDLERREF_OBJIDVAL","FORMID","TIMESTAMP","CHANGE_BY","SESSIONID","ACTIVE","FORMCODE","HANDLERORDERONFAIL","PARENTID","TABLETYPE","SYSEVENTHANDLERREFNAME","HANDLERORDER"
+              from FG_S_SYSEVENTHANDLERREF_ALL_V t;
 
 prompt
-prompt Creating view FG_S_SYSEVENTHANDLER_ALL_V
-prompt ========================================
+prompt Creating view FG_S_SYSEVENTHANDLERREF_INF_V
+prompt ===========================================
 prompt
-create or replace view fg_s_syseventhandler_all_v as
-select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
---t.* end! edit only the code below...
-      from FG_S_SYSEVENTHANDLER_V t;
+create or replace view fg_s_syseventhandlerref_inf_v as
+select 'SysEventHandlerRef' as formCode, t.formid as id, t.SysEventHandlerRefName as name
+              from FG_S_SYSEVENTHANDLERREF_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLERSET_DT_V
+prompt ==========================================
+prompt
+create or replace view fg_s_syseventhandlerset_dt_v as
+select t."SYSEVENTHANDLERSET_ID", t.SYSEVENTPOINT_ID, t."ACTIVE",t."HANDLERORDER", T.SYSEVENTPOINTFullName AS "FullName",t."HANDLERORDERONFAIL", t.HANDLERSETCOMMENT
+              from FG_S_SYSEVENTHANDLERSET_ALL_V t;
+
+prompt
+prompt Creating view FG_S_SYSEVENTHANDLERSET_INF_V
+prompt ===========================================
+prompt
+create or replace view fg_s_syseventhandlerset_inf_v as
+select 'SysEventHandlerSet' as formCode, t.formid as id, t.SysEventHandlerSetName as name
+              from FG_S_SYSEVENTHANDLERSET_ALL_V t;
 
 prompt
 prompt Creating view FG_S_SYSEVENTHANDLER_DT_V
@@ -3909,26 +5561,6 @@ select 'SysEventHandler' as formCode, t.formid as id, t.SYSEVENTPOINTFULLNAME as
 from FG_S_SYSEVENTHANDLER_ALL_V t;
 
 prompt
-prompt Creating view FG_S_SYSEVENTHANDLETYPE_V
-prompt =======================================
-prompt
-create or replace view fg_s_syseventhandletype_v as
-select to_number(t.formid) as syseventhandletype_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.SysEventHandleTypeName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventHandleType_objidval,
-             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTHANDLETYPENAME",t."CREATED_BY",t."CREATION_DATE"
-      from FG_S_SYSEVENTHANDLETYPE_PIVOT t;
-
-prompt
-prompt Creating view FG_S_SYSEVENTHANDLETYPE_ALL_V
-prompt ===========================================
-prompt
-create or replace view fg_s_syseventhandletype_all_v as
-select t."SYSEVENTHANDLETYPE_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLETYPE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTHANDLETYPENAME",t."CREATED_BY",t."CREATION_DATE"
---t.* end! edit only the code below...
-              from FG_S_SYSEVENTHANDLETYPE_V t;
-
-prompt
 prompt Creating view FG_S_SYSEVENTHANDLETYPE_DT_V
 prompt ==========================================
 prompt
@@ -3943,30 +5575,6 @@ prompt
 create or replace view fg_s_syseventhandletype_inf_v as
 select 'SysEventHandleType' as formCode, t.formid as id, t.SysEventHandleTypeName as name
               from FG_S_SYSEVENTHANDLETYPE_ALL_V t;
-
-prompt
-prompt Creating view FG_S_SYSEVENTPOINT_V
-prompt ==================================
-prompt
-create or replace view fg_s_syseventpoint_v as
-select to_number(t.formid) as syseventpoint_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.SysEventPointName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventPoint_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."ADDITIONALMATCH",t."FORMCODEMATCH",t."SYSEVENTYPENAME",t."SYSEVENTPOINTNAME"
-      from FG_S_SYSEVENTPOINT_PIVOT t;
-
-prompt
-prompt Creating view FG_S_SYSEVENTPOINT_ALL_V
-prompt ======================================
-prompt
-create or replace view fg_s_syseventpoint_all_v as
-select t."SYSEVENTPOINT_ID",t."FORM_TEMP_ID",t."SYSEVENTPOINT_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."ADDITIONALMATCH",t."FORMCODEMATCH",t."SYSEVENTYPENAME",t."SYSEVENTPOINTNAME"
---t.* end! edit only the code below...
-,'{"VAL":"' || t.SYSEVENTYPENAME || '.' || t.FORMCODEMATCH || '.' || t.ADDITIONALMATCH || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SYSEVENTPOINTFullName_objidval,
-t.SYSEVENTYPENAME || '.' || t.FORMCODEMATCH || '.' || t.ADDITIONALMATCH AS SYSEVENTPOINTFullName
-              from FG_S_SYSEVENTPOINT_V t/*,
-              FG_S_SYSEVENTTYPE_ALL_V ET*/
-                   --WHERE T.SYSEVENTTYPE_ID = ET.SYSEVENTTYPE_ID(+);
 
 prompt
 prompt Creating view FG_S_SYSEVENTPOINT_DT_V
@@ -3988,26 +5596,6 @@ select 'SysEventPoint' as formCode, t.formid as id, t.SYSEVENTPOINTFullName as n
               from FG_S_SYSEVENTPOINT_ALL_V t;
 
 prompt
-prompt Creating view FG_S_SYSEVENTTYPE_V
-prompt =================================
-prompt
-create or replace view fg_s_syseventtype_v as
-select to_number(t.formid) as syseventtype_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.SysEventTypeName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as SysEventType_objidval,
-             t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTTYPENAME",t."CREATED_BY",t."CREATION_DATE"
-      from FG_S_SYSEVENTTYPE_PIVOT t;
-
-prompt
-prompt Creating view FG_S_SYSEVENTTYPE_ALL_V
-prompt =====================================
-prompt
-create or replace view fg_s_syseventtype_all_v as
-select t."SYSEVENTTYPE_ID",t."FORM_TEMP_ID",t."SYSEVENTTYPE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."SYSEVENTTYPENAME",t."CREATED_BY",t."CREATION_DATE"
---t.* end! edit only the code below...
-              from FG_S_SYSEVENTTYPE_V t;
-
-prompt
 prompt Creating view FG_S_SYSEVENTTYPE_DT_V
 prompt ====================================
 prompt
@@ -4024,15 +5612,6 @@ prompt
 create or replace view fg_s_syseventtype_inf_v as
 select 'SysEventType' as formCode, t.formid as id, t.SysEventTypeName as name
               from FG_S_SYSEVENTTYPE_ALL_V t;
-
-prompt
-prompt Creating view FG_S_SYSHCODECALC_ALL_V
-prompt =====================================
-prompt
-create or replace view fg_s_syshcodecalc_all_v as
-select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
---t.* end! edit only the code below...
-from FG_S_SYSEVENTHANDLER_V t;
 
 prompt
 prompt Creating view FG_S_SYSHCODECALC_DT_V
@@ -4056,20 +5635,6 @@ select 'SysHCodeCalc' as formCode, t.formid as id, t.SysEventHandlerName as name
               from FG_S_SYSHCODECALC_ALL_V t;
 
 prompt
-prompt Creating view FG_S_SYSHSIMPLECALC_ALL_V
-prompt =======================================
-prompt
-create or replace view fg_s_syshsimplecalc_all_v as
-select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
---t.* end! edit only the code below...
---, EP.SYSEVENTYPENAME || '.' || EP.FORMCODEMATCH || '.' || EP.ADDITIONALMATCH AS SYSEVENTPOINTFullName
-              from FG_S_SYSEVENTHANDLER_V t/*,
-                   FG_S_SYSEVENTPOINT_V EP--,
-                 --  FG_S_SYSEVENTTYPE_ALL_V ET
-              WHERE 1=1--EP.SYSEVENTTYPENAME = ET.SYSEVENTTYPE_ID(+)
-                    and t.SYSEVENTPOINT_ID = ep.syseventpoint_id(+);*/;
-
-prompt
 prompt Creating view FG_S_SYSHSIMPLECALC_DT_V
 prompt ======================================
 prompt
@@ -4089,15 +5654,6 @@ prompt
 create or replace view fg_s_syshsimplecalc_inf_v as
 select 'SysHSimpleCalc' as formCode, t.formid as id, t.SysEventHandlerName, t.SYSEVENTPOINTFullName as name, t.CALCARG, t.HANDLERORDER, t.CALCFORMULA
               from FG_S_SYSHSIMPLECALC_ALL_V t;
-
-prompt
-prompt Creating view FG_S_SYSHSIMPLECLAC_ALL_V
-prompt =======================================
-prompt
-create or replace view fg_s_syshsimpleclac_all_v as
-select t."SYSEVENTHANDLER_ID",t."FORM_TEMP_ID",t."SYSEVENTHANDLER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."HANDLERVALIDATION",t."CALCARG",t."SYSEVENTHANDLERNAME",t."SYSEVENTPOINTFULLNAME",t."HANDLERORDER",t."HANDLERDESCRIPTION",t."CALCFORMULA",t."HANDLERUNITTEST"
---t.* end! edit only the code below...
-       from  FG_S_SYSEVENTHANDLER_V t;
 
 prompt
 prompt Creating view FG_S_SYSHSIMPLECLAC_DT_V
@@ -4133,24 +5689,67 @@ select 'Units' as formCode, t.formid as id, t.UnitsName as name
       from FG_S_UNITS_ALL_V t;
 
 prompt
-prompt Creating view FG_S_UOMTYPE_V
-prompt ============================
+prompt Creating view FG_S_UNITTESTCONFIG_DT_V
+prompt ======================================
 prompt
-create or replace view fg_s_uomtype_v as
-select to_number(t.formid) as uomtype_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.UOMTypeName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UOMType_objidval,
-             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UOMTYPENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
-      from FG_S_UOMTYPE_PIVOT t;
+create or replace view fg_s_unittestconfig_dt_v as
+select "UNITTESTCONFIG_ID",
+       t.UNITTESTCONFIGNAME as "Test Name",
+       t.GROUPNAME as "Group Name",
+       g.UNITTESTLEVELS as "Test Level",
+       --decode(g.IGNORE,0,'NO','YES') as "Group Is Ignore",
+       t.TESTINGFORMCODE as "Test form code",
+       g.ORDEROFEXECUTION as "Group Order",
+       t."ORDEROFEXECUTION" as "Order",
+       t."UNITTESTACTION" as "Action",
+       t.FIELDVALUE as "Value",
+       t."IGNORETEST",g.IGNORE,
+       decode(NVL(t."IGNORETEST",0) + NVL(g.IGNORE,0),'1','No','Yes') as "Active"
+from FG_S_UNITTESTCONFIG_ALL_V t,
+     FG_S_UNITTESTGROUP_V g
+where    t.GROUPNAME = g.UnitTestGroupName
+order by to_number(g.ORDEROFEXECUTION), to_number(t.ORDEROFEXECUTION);
 
 prompt
-prompt Creating view FG_S_UOMTYPE_ALL_V
-prompt ================================
+prompt Creating view FG_S_UNITTESTCONFIG_INF_V
+prompt =======================================
 prompt
-create or replace view fg_s_uomtype_all_v as
-select t."UOMTYPE_ID",t."FORM_TEMP_ID",t."UOMTYPE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."UOMTYPENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
---t.* end! edit only the code below...
-              from FG_S_UOMTYPE_V t;
+create or replace view fg_s_unittestconfig_inf_v as
+select 'UnitTestConfig' as formCode, t.formid as id, t.UNITTESTCONFIGNAME as name
+              from FG_S_UNITTESTCONFIG_ALL_V t;
+
+prompt
+prompt Creating view FG_S_UNITTESTDATA_V
+prompt =================================
+prompt
+create or replace view fg_s_unittestdata_v as
+select t.unittestaction, t.ignoretest, t.waitingtime, t.entityimpname, t.fieldvalue, g.unittestlevels, g.unittestgroupname, t.formid,
+       t.unittestaction || ', ' || t.ignoretest || ', ' || t.waitingtime || ', ' || t.entityimpname || ', ' || t.fieldvalue as ALLFIELDS
+from FG_S_UNITTESTCONFIG_PIVOT t, FG_S_UNITTESTGROUP_PIVOT g
+where  1=1
+       and t.orderofexecution is not null
+       and t.groupname = g.unittestgroupname
+--       and t.unittestgroup_id = '25201'
+       and t.ignoretest = '0'
+       and g.ignore = '0'
+order by g.orderofexecution, t.orderofexecution;
+
+prompt
+prompt Creating view FG_S_UNITTESTGROUP_DT_V
+prompt =====================================
+prompt
+create or replace view fg_s_unittestgroup_dt_v as
+select "UNITTESTGROUP_ID","UNITTESTGROUPNAME" as "Group name", "ORDEROFEXECUTION" as "Order", "UNITTESTLEVELS" as "Levels", decode(NVL("IGNORE",0),1,'No','Yes') as "Active"
+from FG_S_UNITTESTGROUP_ALL_V t
+order by t.UNITTESTGROUPNAME, t.IGNORE;
+
+prompt
+prompt Creating view FG_S_UNITTESTGROUP_INF_V
+prompt ======================================
+prompt
+create or replace view fg_s_unittestgroup_inf_v as
+select 'UnitTestGroup' as formCode, t.formid as id, t.UnitTestGroupName as name
+              from FG_S_UNITTESTGROUP_ALL_V t;
 
 prompt
 prompt Creating view FG_S_UOMTYPE_DT_V
@@ -4167,29 +5766,6 @@ prompt
 create or replace view fg_s_uomtype_inf_v as
 select 'UOMType' as formCode, t.formid as id, t.UOMTypeName as name
               from FG_S_UOMTYPE_ALL_V t;
-
-prompt
-prompt Creating view FG_S_UOM_V
-prompt ========================
-prompt
-create or replace view fg_s_uom_v as
-select to_number(t.formid) as uom_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.UOMName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UOM_objidval,
-             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."ISNORMAL",t."FACTOR",t."PRECISION",t."UOMNAME",t."TYPE",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
-      from FG_S_UOM_PIVOT t;
-
-prompt
-prompt Creating view FG_S_UOM_ALL_V
-prompt ============================
-prompt
-create or replace view fg_s_uom_all_v as
-select t."UOM_ID",t."FORM_TEMP_ID",t."UOM_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."ISNORMAL",t."FACTOR",t."PRECISION",t."UOMNAME",t."TYPE",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
---t.* end! edit only the code below...
-, uomtype.UOMTYPENAME,t.TYPE as "UOMTYPE_ID",uomtype.UOMTYPENAME as UOM_TYPE,
-first_value(t."UOM_ID") over (partition by uomtype.UOMTYPE_ID order by nvl(t.ISNORMAL,0) desc nulls last) as "UOM_NORMAL_ID"
-from FG_S_UOM_V t, fg_s_uomtype_all_v uomtype
-where t.TYPE = uomtype.UOMTYPE_ID;
 
 prompt
 prompt Creating view FG_S_UOM_DT_V
@@ -4213,29 +5789,6 @@ select 'UOM' as formCode,
         t.UOMTYPENAME,
         t.UOMTYPE_ID
 from FG_S_UOM_ALL_V t;
-
-prompt
-prompt Creating view FG_S_USERGUIDEPOOL_V
-prompt ==================================
-prompt
-create or replace view fg_s_userguidepool_v as
-select to_number(t.formid) as userguidepool_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.UserGuidePoolName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UserGuidePool_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERGUIDEDESCRIPTION",t."USERGUIDEFILE",t."ITEMORDER",t."USERGUIDEPOOLNAME"
-      from FG_S_USERGUIDEPOOL_PIVOT t;
-
-prompt
-prompt Creating view FG_S_USERGUIDEPOOL_ALL_V
-prompt ======================================
-prompt
-create or replace view fg_s_userguidepool_all_v as
-select t."USERGUIDEPOOL_ID",t."FORM_TEMP_ID",t."USERGUIDEPOOL_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERGUIDEDESCRIPTION",t."USERGUIDEFILE",t."ITEMORDER",t."USERGUIDEPOOLNAME"
---t.* end! edit only the code below...
-      ,f.FILE_NAME, f.CONTENT_TYPE,f.FILE_ID
-              from FG_S_USERGUIDEPOOL_V t,
-                   fg_files_fast_v f
-where t.USERGUIDEFILE = f.FILE_ID(+);
 
 prompt
 prompt Creating function FG_GET_NUMERIC
@@ -4277,26 +5830,6 @@ select 'UserGuidePool' as formCode, t.formid as id, t.UserGuidePoolName as name,
               from FG_S_USERGUIDEPOOL_ALL_V t;
 
 prompt
-prompt Creating view FG_S_USERROLE_V
-prompt =============================
-prompt
-create or replace view fg_s_userrole_v as
-select to_number(t.formid) as userrole_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.UserRoleName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UserRole_objidval,
-             t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."USERROLENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
-      from FG_S_USERROLE_PIVOT t;
-
-prompt
-prompt Creating view FG_S_USERROLE_ALL_V
-prompt =================================
-prompt
-create or replace view fg_s_userrole_all_v as
-select t."USERROLE_ID",t."FORM_TEMP_ID",t."USERROLE_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CHANGE_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE",t."CUSTOMER_ID",t."USERROLENAME",t."FORMCODE_ENTITY",t."CLONEID",t."TEMPLATEFLAG",t."CREATED_BY",t."CREATION_DATE"
---t.* end! edit only the code below...
-from FG_S_USERROLE_V t;
-
-prompt
 prompt Creating view FG_S_USERROLE_DT_V
 prompt ================================
 prompt
@@ -4311,62 +5844,6 @@ prompt
 create or replace view fg_s_userrole_inf_v as
 select 'UserRole' as formCode, t.formid as id, t.UserRoleName as name
       from FG_S_USERROLE_ALL_V t;
-
-prompt
-prompt Creating view FG_S_USERSCREW_V
-prompt ==============================
-prompt
-create or replace view fg_s_userscrew_v as
-select to_number(t.formid) as userscrew_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.UsersCrewName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UsersCrew_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERSCREWNAME",t."PARENTID",t."USER_ID",t."DISABLED"
-      from FG_S_USERSCREW_PIVOT t;
-
-prompt
-prompt Creating view FG_S_USER_V
-prompt =========================
-prompt
-create or replace view fg_s_user_v as
-select to_number(t.formid) as user_id,
-             t.formid || decode(nvl(t.sessionId,'-1'),'-1',null, '-' || t.sessionId) || decode(nvl(t.active,1),0,'-0') as form_temp_id,
-             '{"VAL":"' || t.UserName || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as User_objidval,
-             t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."FIRSTNAME",t."USERNAME",t."POSITION",t."CHANGEPASSWORD",t."LASTNAME",t."PERMISSIONTABLE",t."TEAMLEADER_ID",t."CUSTOMER_ID",t."DELETED",t."SENSITIVITYLEVEL_ID",t."LOCKED",t."USERROLE_ID",t."USERLDAP",t."PASSWORDDATE",t."MESSAGECHECKINTERVAL",t."LASTNOTIFICATIONCHECK",t."LABORATORY_ID",t."GROUPSCREW",t."UNIT_ID",t."CHGPASSWORDDATE",t."LAST_BREADCRUMB_LINK",t."PASSWORD",t."SITE_ID",t."LASTRETRY",t."RETRYCOUNT",t."EMAIL",t."LASTPASSWORDDATE"
-      from FG_S_USER_PIVOT t;
-
-prompt
-prompt Creating view FG_S_USER_ALL_V
-prompt =============================
-prompt
-create or replace view fg_s_user_all_v as
-select t."USER_ID",t."FORM_TEMP_ID",t."USER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."FIRSTNAME",t."USERNAME",t."POSITION",t."CHANGEPASSWORD",t."LASTNAME",t."PERMISSIONTABLE",t."TEAMLEADER_ID",t."CUSTOMER_ID",t."DELETED",t."SENSITIVITYLEVEL_ID",t."LOCKED",t."USERROLE_ID",t."USERLDAP",t."PASSWORDDATE",t."MESSAGECHECKINTERVAL",t."LASTNOTIFICATIONCHECK",t."LABORATORY_ID",t."GROUPSCREW",t."UNIT_ID",t."CHGPASSWORDDATE",t."LAST_BREADCRUMB_LINK",t."PASSWORD",t."SITE_ID",t."LASTRETRY",t."RETRYCOUNT",t."EMAIL",t."LASTPASSWORDDATE"
---t.* end! edit only the code below...
-,t1.UserRoleName,lab.SITENAME,unit.UNITSNAME,lab.LABORATORYNAME,
-       '{"VAL":"' || nvl(t.FIRSTNAME,t.UserName) || ' ' || t.LASTNAME || '","ID":"' || t.formid || '", "ACTIVE":"' || nvl(t.active,1) || '"}' as UserFullName_objidval
-       ,sens.SENSITIVITYLEVELNAME
-       ,sens.SENSITIVITYLEVELORDER
-from fg_s_user_v t,
-     Fg_s_Userrole_v t1,
-     FG_S_LABORATORY_ALL_V lab,
-     fg_s_units_all_v unit,
-     fg_s_sensitivitylevel_all_v sens
-where t.userrole_id = t1.userrole_id(+)
-and   t.LABORATORY_ID = lab.LABORATORY_ID(+)
-and   t.UNIT_ID =  unit.UNITS_ID(+)
-and   t.SENSITIVITYLEVEL_ID = sens.SENSITIVITYLEVEL_ID(+);
-
-prompt
-prompt Creating view FG_S_USERSCREW_ALL_V
-prompt ==================================
-prompt
-create or replace view fg_s_userscrew_all_v as
-select t."USERSCREW_ID",t."FORM_TEMP_ID",t."USERSCREW_OBJIDVAL",t."FORMID",t."TIMESTAMP",t."CREATION_DATE",t."CLONEID",t."TEMPLATEFLAG",t."CHANGE_BY",t."CREATED_BY",t."SESSIONID",t."ACTIVE",t."FORMCODE_ENTITY",t."FORMCODE",t."USERSCREWNAME",t."PARENTID",t."USER_ID",t."DISABLED"
---t.* end! edit only the code below...
-,pt.LABORATORYNAME, pt.UNITSNAME,pt.SITENAME ,pt.POSITION, pt.USERNAME, pt.USER_ID as "USER_ID_SINGLE" --USER_ID_SINGLE used for single user id id
- ,decode(instr(',' || t.DISABLED|| ',',',' || pt.USER_ID || ','),0,0,1) as "isDisabled"
-from FG_S_USERSCREW_V t ,fg_s_user_all_v pt
-where 1=1 --',' || t.USER_ID || ',' like '%,' || pt.user_id || ',%'
-and instr(',' || t.USER_ID || ',',',' || pt.user_id || ',') > 0;
 
 prompt
 prompt Creating view FG_S_USERSCREW_DT_V
@@ -5322,66 +6799,6 @@ begin
   end if;
 
   return toReturn;
-end;
-/
-
-prompt
-prompt Creating function FG_GET_VALUE_FROM_JSON
-prompt ========================================
-prompt
-CREATE OR REPLACE FUNCTION FG_GET_VALUE_FROM_JSON (json_in varchar2, code_in varchar2, defaultVal_in varchar2 default 'NA', innerJsonAttr_in varchar2 default '"text":') return varchar2 as
-   indexOfCode number;
-   firstCharOfValue varchar2(1);
-   toReturn varchar2(2000);
-begin
-     indexOfCode := INSTR(LOWER(json_in),LOWER('"' || code_in || '"'), 1, 1);
-     if indexOfCode = 0 then
-        return defaultVal_in;
-     end if;
-
-     DBMS_OUTPUT.put_line(indexOfCode);
-
-     firstCharOfValue := SUBSTR (json_in, indexOfCode + LENGTH('"' || code_in || '"') + 1, 1);
-     -- value as string
-     if firstCharOfValue = '"' then
-         toReturn := SUBSTR(
-                        json_in,
-                        indexOfCode + LENGTH('"' || code_in || '"') + 2,
-                        instr( SUBSTR(
-                                       json_in,
-                                       indexOfCode + LENGTH('"' || code_in || '"') + 2
-                                      )
-                               ,'"'
-                             ) -1
-                      );
-
-      elsif firstCharOfValue = '{' then   -- value as json
-         indexOfCode :=  INSTR(LOWER(json_in), lower(innerJsonAttr_in), indexOfCode, 1);
-         toReturn := SUBSTR(
-                        json_in,
-                        indexOfCode + LENGTH(innerJsonAttr_in) + 1,
-                        instr( SUBSTR(
-                                       json_in,
-                                       indexOfCode + LENGTH(innerJsonAttr_in) + 1
-                                      )
-                               ,'"'
-                             ) -1
-                      );
-      else --num or bollean or array
-         toReturn :=  trim(SUBSTR (json_in,
-                              indexOfCode + LENGTH('"' || code_in || '"') + 1,
-                              instr( SUBSTR(
-                                       json_in,
-                                       indexOfCode + LENGTH('"' || code_in || '"') + 1
-                                      )
-                               ,','
-                             ) -1
-                      ));
-      end if;
-     return toReturn;
-exception
-  when others then
-    return defaultVal_in;
 end;
 /
 
