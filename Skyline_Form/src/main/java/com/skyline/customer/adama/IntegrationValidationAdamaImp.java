@@ -851,7 +851,7 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 						+ "  and t.SESSIONID is null"
 						+ "  and s.step_id = st.step_id)";
 				String stepListWithNoParam = generalDao.selectSingleStringNoException(sql);
-				if(!stepListWithNoParam.isEmpty()){
+				if(!generalUtil.getNull(stepListWithNoParam).isEmpty()){
 					sbInfoMessage.append(getMessage(validationCode, new Object[] { " in the following steps:</br>"+stepListWithNoParam }, validateValueObject));
 				}
 				break;
