@@ -1,6 +1,6 @@
 -----------------------------------------------
 -- Export file for user SKYLINE_FORM_MIN     --
--- Created by comply on 22/11/2021, 17:37:06 --
+-- Created by comply on 22/11/2021, 18:02:17 --
 -----------------------------------------------
 
 spool db_min_obj.log
@@ -1382,6 +1382,29 @@ comment on column FG_REPORT_LIST.meta_data
 comment on column FG_REPORT_LIST.system_row
   is '1 - rows enterd by the system and should not be deleted';
 create unique index REPORT_NAME_UNIQUE on FG_REPORT_LIST (REPORT_NAME);
+
+prompt
+prompt Creating table FG_REPORT_LIST_BU2
+prompt =================================
+prompt
+create table FG_REPORT_LIST_BU2
+(
+  id                 VARCHAR2(100),
+  report_category    VARCHAR2(100),
+  report_sql         VARCHAR2(1000),
+  report_description VARCHAR2(1000),
+  change_by          VARCHAR2(100),
+  active             NUMBER,
+  timestamp          DATE,
+  report_user_id     NUMBER,
+  report_scope       VARCHAR2(100),
+  report_style       VARCHAR2(100),
+  report_name        VARCHAR2(500) not null,
+  report_save_data   VARCHAR2(4000),
+  meta_data          VARCHAR2(4000),
+  system_row         NUMBER
+)
+;
 
 prompt
 prompt Creating table FG_RESOURCE
@@ -9680,7 +9703,7 @@ procedure unpivotFromUnitTestConf as
       end if;
       insert into fg_debug (comment_info,comments) values ( 'sql d_notification_message check', tmpMinusQuery);*/
 
-      tmpMinusQuery := ' select count(*) from (' || chr(10) ||
+    /*  tmpMinusQuery := ' select count(*) from (' || chr(10) ||
       ' select addressee_group_id, module_id, addressee_group_title, to_char(addressee_group_select),
       to_char(params_field_names) from p_notification_listaddresgroup ' || chr(10) ||
       ' minus  ' || chr(10) ||
@@ -9729,7 +9752,7 @@ procedure unpivotFromUnitTestConf as
           dbms_output.put_line('Error! fg_report_list data different from the server. diff in ' || counter_ || ' records');
       end if;
       insert into fg_debug (comment_info,comments) values ( 'sql fg_report_list check', tmpMinusQuery);
-
+*/
      /* tmpMinusQuery := ' select count (*) from (' || chr(10) ||
       ' select  distinct c.parent_id from ' || db_name_in || '.fg_s_invitemmaterial_v m, fg_chem_doodle_data c
       where m.STRUCTURE = c.parent_id and m.active = 1 and c.reaction_all_data_link is not null and c.smiles_data is not null' || chr(10) ||

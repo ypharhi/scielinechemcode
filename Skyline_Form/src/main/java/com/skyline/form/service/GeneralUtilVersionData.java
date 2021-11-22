@@ -265,14 +265,14 @@ public class GeneralUtilVersionData {
 				+ " ALTER TRIGGER FG_FORMENTITY_UPDATE_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
 				+ " ALTER TRIGGER FG_RESOURCE_INSERT_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
 				+ " ALTER TRIGGER FG_FORMENTITY_INSERT_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
-				+ " ALTER TRIGGER D_NOTIFICATION_CRITERIA_I_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
-				+ " ALTER TRIGGER D_NOTIFICATION_CRITERIA_U_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
-				+ " ALTER TRIGGER D_NOTIF_ADDRESSEE_I_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
-				+ " ALTER TRIGGER D_NOTIF_ADDRESSEE_U_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
-				+ " ALTER TRIGGER D_NOTIF_MESSAGE_IN_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
-				+ " ALTER TRIGGER D_NOTIF_MESSAGE_UPDATE_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
-				+ " ALTER TRIGGER P_NOTIF_LISTADDRESGROUP_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
-				+ " ALTER TRIGGER P_NOTIF_MODULE_TYPE_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
+//				+ " ALTER TRIGGER D_NOTIFICATION_CRITERIA_I_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
+//				+ " ALTER TRIGGER D_NOTIFICATION_CRITERIA_U_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
+//				+ " ALTER TRIGGER D_NOTIF_ADDRESSEE_I_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
+//				+ " ALTER TRIGGER D_NOTIF_ADDRESSEE_U_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
+//				+ " ALTER TRIGGER D_NOTIF_MESSAGE_IN_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
+//				+ " ALTER TRIGGER D_NOTIF_MESSAGE_UPDATE_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
+//				+ " ALTER TRIGGER P_NOTIF_LISTADDRESGROUP_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
+//				+ " ALTER TRIGGER P_NOTIF_MODULE_TYPE_TRIG " + (isDisabled ? "disable" : "enable") + ";\n"
 				+ " ALTER TRIGGER FG_REPORT_LIST_INSERT_TRIG " + (isDisabled ? "disable" : "enable") + ";\n";
 		return toReturn;
 
