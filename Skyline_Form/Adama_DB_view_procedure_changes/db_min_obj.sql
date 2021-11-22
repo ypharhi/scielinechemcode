@@ -1,6 +1,6 @@
 -----------------------------------------------
 -- Export file for user SKYLINE_FORM_MIN     --
--- Created by comply on 22/11/2021, 16:59:08 --
+-- Created by comply on 22/11/2021, 17:37:06 --
 -----------------------------------------------
 
 spool db_min_obj.log
@@ -455,137 +455,6 @@ create table FG_EXCEL_USER_TEMP_DATA
 ;
 
 prompt
-prompt Creating table FG_EXPREPORT_MATERIALREF_TMP
-prompt ===========================================
-prompt
-create table FG_EXPREPORT_MATERIALREF_TMP
-(
-  materialref_id       NUMBER,
-  form_temp_id         VARCHAR2(203),
-  materialref_objidval VARCHAR2(671),
-  formid               VARCHAR2(100) not null,
-  timestamp            DATE,
-  creation_date        DATE,
-  cloneid              VARCHAR2(100),
-  templateflag         VARCHAR2(100),
-  change_by            VARCHAR2(100),
-  created_by           VARCHAR2(100),
-  sessionid            VARCHAR2(100),
-  active               NUMBER,
-  formcode_entity      VARCHAR2(100),
-  formcode             VARCHAR2(100),
-  yielduom_id          VARCHAR2(500),
-  mass                 VARCHAR2(500),
-  mole                 VARCHAR2(500),
-  limitingagent        VARCHAR2(500),
-  quantityuom_id       VARCHAR2(500),
-  comments             VARCHAR2(4000),
-  actualpurity         VARCHAR2(500),
-  concinreactionmass   VARCHAR2(500),
-  volumerate           VARCHAR2(500),
-  massrateppuom_id     VARCHAR2(500),
-  yield                VARCHAR2(500),
-  volume               VARCHAR2(500),
-  materialrefname      VARCHAR2(500),
-  batch_id             VARCHAR2(500),
-  catalyst             VARCHAR2(500),
-  chemdoodle           VARCHAR2(500),
-  materialnameinf      VARCHAR2(500),
-  densityuom_id_inf    VARCHAR2(500),
-  reactantmaterial_id  VARCHAR2(500),
-  auth                 VARCHAR2(500),
-  invitemmaterial_id   VARCHAR2(500),
-  equivalent           VARCHAR2(500),
-  quantratiototal      VARCHAR2(500),
-  voluom_id            VARCHAR2(500),
-  formulainf           VARCHAR2(500),
-  parentid             VARCHAR2(500),
-  batchinf             VARCHAR2(500),
-  mwinf                VARCHAR2(500),
-  watercontent         VARCHAR2(500),
-  resultid_holder      VARCHAR2(500),
-  quantityrate         VARCHAR2(500),
-  molerate             VARCHAR2(500),
-  alias_               VARCHAR2(500),
-  concentrationmole    VARCHAR2(500),
-  purityuom_id_inf     VARCHAR2(500),
-  totalvolume          VARCHAR2(500),
-  smilesinf            VARCHAR2(500),
-  casnamberinf         VARCHAR2(500),
-  ratio                VARCHAR2(500),
-  productdensity       VARCHAR2(500),
-  quantityrate_uom     VARCHAR2(500),
-  ratiotype_id         VARCHAR2(500),
-  iupacnameinf         VARCHAR2(500),
-  actpurityuom_id      VARCHAR2(500),
-  sample_id            VARCHAR2(500),
-  massrateforpp        VARCHAR2(500),
-  mwuom_id_inf         VARCHAR2(500),
-  densityinf           VARCHAR2(500),
-  watercontuom_id      VARCHAR2(500),
-  moleuom_id           VARCHAR2(500),
-  molerateuom_id       VARCHAR2(500),
-  volrateuom_id        VARCHAR2(500),
-  quantity             VARCHAR2(500),
-  purityinf            VARCHAR2(500),
-  tabletype            VARCHAR2(500),
-  massuom_id           VARCHAR2(500),
-  islimited            VARCHAR2(500),
-  totalquantity        VARCHAR2(500),
-  volratiototal        VARCHAR2(500),
-  casnameinf           VARCHAR2(500),
-  synonymsinf          VARCHAR2(4000),
-  originformid         VARCHAR2(500),
-  waterconuomname      VARCHAR2(4000),
-  mwuomname            VARCHAR2(4000),
-  densityuomname       VARCHAR2(4000),
-  actpurityuomname     VARCHAR2(4000),
-  moleuomname          VARCHAR2(4000),
-  purityuomname        VARCHAR2(4000),
-  voluomname           VARCHAR2(4000),
-  quantityuomname      VARCHAR2(4000),
-  massuomname          VARCHAR2(4000),
-  yielduomname         VARCHAR2(4000),
-  invitemmaterialname  VARCHAR2(500),
-  structure            VARCHAR2(500),
-  casnumber            VARCHAR2(500),
-  casname              VARCHAR2(500),
-  synonyms             VARCHAR2(4000),
-  density              VARCHAR2(500),
-  iupacname            VARCHAR2(500),
-  mw                   VARCHAR2(500),
-  mw_uom_id            VARCHAR2(500),
-  density_uom_id       VARCHAR2(500),
-  chemicalformula      VARCHAR2(500),
-  smiles               VARCHAR2(4000),
-  invitembatchname     VARCHAR2(500),
-  purity               VARCHAR2(500),
-  purityuom_id         VARCHAR2(500),
-  isstandart           VARCHAR2(500),
-  experiment_id        VARCHAR2(500),
-  step_id              NUMBER,
-  experimentstatusname VARCHAR2(500),
-  stepstatusname       VARCHAR2(500),
-  isplannedsnapshout   NUMBER,
-  inchi                VARCHAR2(4000),
-  mol                  VARCHAR2(4000),
-  project_id           VARCHAR2(500),
-  material_objidval    VARCHAR2(671),
-  step_objidval        VARCHAR2(671),
-  stepnumber           VARCHAR2(500),
-  stepname             VARCHAR2(500),
-  protocoltypename     VARCHAR2(500),
-  preparation_run      VARCHAR2(500),
-  runnumberdisplay     VARCHAR2(4000),
-  stepformnumberid     VARCHAR2(500),
-  runnumber            VARCHAR2(500),
-  expformcode          VARCHAR2(100),
-  statekey             VARCHAR2(500),
-  row_timestamp        DATE default sysdate
-)
-;
-
-prompt
 prompt Creating table FG_FAVORITE
 prompt ==========================
 prompt
@@ -769,26 +638,6 @@ alter table FG_FORMENTITY
 alter table FG_FORMENTITY
   add constraint UK_FG_FORMENTITY unique (ENTITYIMPCODE, FORMCODE);
 create unique index FORMENTITY_INSENSITIVE_UNIQUE on FG_FORMENTITY (UPPER(FORMCODE), UPPER(ENTITYIMPCODE));
-
-prompt
-prompt Creating table FG_FORMENTITY_2111145425
-prompt =======================================
-prompt
-create table FG_FORMENTITY_2111145425
-(
-  id             NUMBER not null,
-  formcode       VARCHAR2(100) not null,
-  numberoforder  NUMBER not null,
-  entitytype     VARCHAR2(100) not null,
-  entityimpcode  VARCHAR2(100) not null,
-  entityimpclass VARCHAR2(100) not null,
-  entityimpinit  VARCHAR2(4000) not null,
-  comments       VARCHAR2(4000),
-  fs             VARCHAR2(4000),
-  fs_gap         VARCHAR2(4000),
-  change_date    DATE
-)
-;
 
 prompt
 prompt Creating table FG_FORMENTITY_HST
@@ -4745,6 +4594,43 @@ select t."USER_ID",t."FORM_TEMP_ID",t."USER_OBJIDVAL",t."FORMID",t."TIMESTAMP",t
       from FG_S_USER_ALL_V t;
 
 prompt
+prompt Creating view FG_FORMDATA_V
+prompt ===========================
+prompt
+CREATE OR REPLACE VIEW FG_FORMDATA_V AS
+select formcode_table -- <formcode or NA;<table name or NA>;<view source data (in case if table contains clob's type fiels) or NA (in this case the data taken from table name)>;comment
+from (
+      SELECT distinct f.formcode || ';' || 'FG_S_' || upper(f.formcode_entity) || '_PIVOT' || ';NA' || ';NA' as formcode_table, 100 order_
+      FROM FG_FORM F
+      WHERE F.FORM_TYPE = 'MAINTENANCE'
+      and f.group_name in ('_System Event Handler','_System Configuration Pool','_System Configuration Report'/* ,'_System Unit Test Pool'*/) -- System Unit Test Pool is config in each ENV. - we can pass it easly by copy the relevant tests
+      UNION ALL
+      SELECT 'NA;FG_FORM;NA;NA', 1 order_  FROM DUAL
+      UNION ALL
+      --FG_FORMENTITY using pde (TABLE AS NA)
+      /*SELECT 'NA;NA;NA;FG_FORMENTITY - NEED TO BE IMPORT BY PDE FILE (in comply is made automatically in SET_POST_SCRIPT_VERSION_DATA as part of this script)' formcode_table, 0 order_ FROM DUAL
+      UNION ALL*/
+      SELECT 'NA;FG_FORMENTITY;NA;NA' formcode_table, 10 order_ FROM DUAL
+      UNION ALL
+      SELECT 'NA;FG_RESOURCE;NA;NA;', 2 order_ FROM DUAL
+      /*UNION ALL
+      SELECT 'NA;D_NOTIFICATION_CRITERIA;D_NOTIFICATION_CRITERIA_V;NA', 3 order_ FROM DUAL
+      UNION ALL
+      SELECT 'NA;D_NOTIFICATION_MESSAGE;D_NOTIFICATION_MESSAGE_V;NA', 4 order_ FROM DUAL
+      UNION ALL
+      SELECT 'NA;P_NOTIFICATION_LISTADDRESGROUP;P_NOTIFICATION_LISTADDRESGRO_V;NA', 5 order_ FROM DUAL
+      UNION ALL
+      SELECT 'NA;P_NOTIFICATION_MODULE_TYPE;P_NOTIFICATION_MODULE_TYPE_V;NA', 6 order_ FROM DUAL
+      UNION ALL
+      SELECT 'NA;D_NOTIFICATION_ADDRESSEE;D_NOTIFICATION_ADDRESSEE_V;NA', 7 order_ FROM DUAL
+      UNION ALL
+      SELECT 'NA;P_NOTIFICATION_LISTSYSTEMDATA;P_NOTIFICATION_LISTSYSTEMDAT_V;NA', 8 order_ FROM DUAL*/
+      UNION ALL
+      SELECT 'NA;FG_REPORT_LIST;FG_REPORT_LIST_V;NA', 9 order_ FROM DUAL
+      )
+order by order_;
+
+prompt
 prompt Creating view FG_FORMENTITY_COL_LEN_V
 prompt =====================================
 prompt
@@ -5177,6 +5063,16 @@ from    fg_s_permissionscheme_inf_v t,
         fg_s_user_pivot u
 where instr(',' || t.SCREEN || ',', ',' || s.name || ',') > 0
 and   instr(',' || t.user_crew_list || ',', ',' || u.formid || ',') > 0;
+
+prompt
+prompt Creating view FG_REPORT_LIST_V
+prompt ==============================
+prompt
+CREATE OR REPLACE VIEW FG_REPORT_LIST_V AS
+SELECT "ID","REPORT_CATEGORY","REPORT_SQL","REPORT_DESCRIPTION","CHANGE_BY","ACTIVE","TIMESTAMP","REPORT_USER_ID",
+       "REPORT_SCOPE","REPORT_STYLE","REPORT_NAME","REPORT_SAVE_DATA","META_DATA","SYSTEM_ROW"
+FROM FG_REPORT_LIST
+WHERE "SYSTEM_ROW" = 1;
 
 prompt
 prompt Creating view FG_SYS_FORMENTITY_V
@@ -8515,8 +8411,9 @@ create or replace package body form_tool is
         execute immediate tmpMinusQuery  into flagCounter;
 
         if flagCounter > nvl(show_greater_than,0) then
-           dbms_output.put_line(  r_tables_list.TABLE_NAME || ' - ' || NVL(flagCounter,0) || ' rows.' );
-        end if;
+           dbms_output.put_line( '--' || r_tables_list.TABLE_NAME || ' - ' || NVL(flagCounter,0) || ' rows.' );
+           dbms_output.put_line( 'delete from ' || r_tables_list.TABLE_NAME || ';' );
+       end if;
 
       end loop;
 

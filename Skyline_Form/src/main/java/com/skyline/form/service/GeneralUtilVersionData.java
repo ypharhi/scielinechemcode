@@ -43,7 +43,7 @@ public class GeneralUtilVersionData {
 
 	public void makeVersionData() {
 		try {
-			completeNotificationMetaData("NOTIF_SERVICE_TEST");
+//			completeNotificationMetaData("NOTIF_SERVICE_TEST");
 			createInsertScript();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -137,7 +137,7 @@ public class GeneralUtilVersionData {
 		sbScript.append(updateSysConfExcelData()); //SysConfExcelData
 		sbScript.append(triggerScript(false));
 		sbScript.append(createIndex());
-		sbScript.append(createNotificationCompareTable());
+//		sbScript.append(createNotificationCompareTable());
 		sbScript.append("\ncommit;\n");
 		sbScript.append(
 				"prompt RUN FORM_TOOL.tool_check_data from " + dbUsername + " DB [The output include difference in the version data between " + dbUsername + " and target DB (use as parameter)] \n");
