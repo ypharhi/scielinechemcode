@@ -44,7 +44,7 @@ public class FormApiElementsGeneralCode {
 		}
 	}
 	
-	@RequestMapping(value = "/getSampleLabel.request", method = { RequestMethod.GET, RequestMethod.POST })
+	/*@RequestMapping(value = "/getSampleLabel.request", method = { RequestMethod.GET, RequestMethod.POST })
 	public ActionBean getSampleLabel(HttpServletRequest request,
 			HttpServletResponse response) {
 		
@@ -60,5 +60,5 @@ public class FormApiElementsGeneralCode {
 			return new ActionBean("no action needed", generalUtil.StringToList("-1"), errMsg);
 		}
 		return null;
-	}
+	}*/
 }
