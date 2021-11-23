@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.skyline.form.bean.ActionBean;
 import com.skyline.form.service.FormApiElementsGeneralService;
 import com.skyline.form.service.GeneralUtil;
 import com.skyline.form.service.GeneralUtilLogger;
@@ -41,5 +42,23 @@ public class FormApiElementsGeneralCode {
 		if (product != null) {
 			formApiElementsGeneralService.getStabValuesFromApi(userId, /*allRequestParams*/product, response);
 		}
+	}
+	
+	@RequestMapping(value = "/getSampleLabel.request", method = { RequestMethod.GET, RequestMethod.POST })
+	public ActionBean getSampleLabel(HttpServletRequest request,
+			HttpServletResponse response) {
+		
+		logger.info("getSampleLabel call");
+		String formId = request.getParameter("formId");
+		try {
+			if (formId != null) {
+				String sampleData = formApiElementsGeneralService.getSampleLabel(formId);
+				return new ActionBean("no action needed", generalUtil.StringToList(sampleData),"");
+			}
+		} catch (Exception ex){
+			String errMsg = ex.getMessage();
+			return new ActionBean("no action needed", generalUtil.StringToList("-1"), errMsg);
+		}
+		return null;
 	}
 }

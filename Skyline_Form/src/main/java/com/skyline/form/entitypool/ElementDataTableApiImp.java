@@ -89,7 +89,7 @@ public class ElementDataTableApiImp extends Element {
 	
 	private String activateLinkToLastSelection, linkToLastSelectionIsHidden, chooseRequire;
 	
-	private String actionButtons, cloneButton, multiCloneButton, splitButton, addOptionalButton, addLabelButton, location, hr, wfDiv;	
+	private String actionButtons, cloneButton, multiCloneButton, splitButton, addOptionalButton, addLabelButton, addQrCodeButton, location, hr, wfDiv;	
 	
 	private String tableType, hideExtras, hideButtons, dynamicCaption, popupSize, followingHiddenCols, disallowRemoveColumns;	
 	
@@ -156,6 +156,7 @@ public class ElementDataTableApiImp extends Element {
 				splitButton = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "splitButton");
 				addOptionalButton = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "addOptionalButton");
 				addLabelButton = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "addLabelButton");
+				addQrCodeButton = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "addQrCodeButton");
 				location =  generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "location");
 				hr = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "hr");
 				wfDiv = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "wfDiv");
@@ -270,6 +271,14 @@ public class ElementDataTableApiImp extends Element {
 			addOptional = "";
 		}
 		
+		String addScanQrCode;
+		try {
+			addScanQrCode = (addQrCodeButton.equals("True"))?"<button type=\"button\" class=\"button dataTableApiButton dataTableApiQrCode \" onclick=\"openscanQrCodeDialog(this)\" >QrCode</button>\n":"";
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			addScanQrCode = "";
+		}
+		
 		String addLabel;
 		try {
 			addLabel = (addLabelButton.equals("True"))?"<button type=\"button\" class=\"button dataTableApiButton dataTableApiLabel \" onclick=\"outPutLabelDTWrapper(this)\" >Label</button>\n":"";
@@ -299,6 +308,7 @@ public class ElementDataTableApiImp extends Element {
 				+ addOptional
 				+ remove
 				+ addLabel
+				+ addScanQrCode
 				+ dragAndDropDiv
 				+ "</div>\n" 
 				
@@ -313,6 +323,7 @@ public class ElementDataTableApiImp extends Element {
 				+ edit
 				+ remove				
 				+ addLabel
+				+ addScanQrCode
 				+ "</div>\n";
 		if (!hideButtons.equals("")) {
             if(addLabelButton.equals("True")) {
@@ -331,6 +342,7 @@ public class ElementDataTableApiImp extends Element {
 			buttons = "<div id=\""+ domId +"_dataTableStructButtons\" buttonslayout=\"" + actionButtons + "\" tableid=\"" + domId + "\" class=\"dataTableStructButtons\">\n"
 					+ addOptional
 					+ addLabel
+					+ addScanQrCode
 					+ additionalBtn					
 					+ "</div>\n";			
 		}  
@@ -1031,6 +1043,11 @@ public class ElementDataTableApiImp extends Element {
 				"addLabelButton:{\n" + 
 				"     type:'string',\n" + 
 				"     title:'add Label Button (call outPutLabelDTWrapper in ElementDataTableApiImpBL) ',\n" + 
+				"	enum : ['','True'],\n" +
+				" },\n" +	
+				"addQrCodeButton:{\n" + 
+				"     type:'string',\n" + 
+				"     title:'add Scan QrCode Button (call opensScanQrCodeDialog in ElementDataTableApiImp) ',\n" + 
 				"	enum : ['','True'],\n" +
 				" },\n" +	
 				"wfDiv:{\n" + 

@@ -73,7 +73,7 @@
 				<rectangle radius="0" >
 					<reportElement
 						mode="Transparent"
-						x="0"
+						x="-1"
 						y="1"
 						width="238"
 						height="68"
@@ -85,9 +85,9 @@
 				</rectangle>
 				<textField isStretchWithOverflow="false" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
+						x="153"
 						y="2"
-						width="124"
+						width="85"
 						height="12"
 						key="textField-20"/>
 					<box>					<pen lineWidth="0.25" lineStyle="Solid" lineColor="#0099FF"/>
@@ -97,7 +97,7 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#0099FF"/>
 </box>
 					<textElement textAlignment="Center">
-						<font pdfFontName="Helvetica-Bold" size="8" isBold="true"/>
+						<font pdfFontName="Helvetica-Bold" size="7" isBold="true"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[($F{FORMNUMBERID} == null ? "" : $F{FORMNUMBERID})]]></textFieldExpression>
 				</textField>
@@ -124,10 +124,10 @@
 				</image>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="113"
-						y="15"
-						width="124"
-						height="12"
+						x="51"
+						y="14"
+						width="187"
+						height="19"
 						key="textField"
 						positionType="Float"
 						isRemoveLineWhenBlank="true"/>
@@ -138,16 +138,16 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#0099FF"/>
 </box>
 					<textElement textAlignment="Left" verticalAlignment="Top">
-						<font pdfFontName="Helvetica" size="8" isBold="false"/>
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[($F{PROJECTNAME} == null ? "" : $F{PROJECTNAME})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						x="1"
-						y="52"
+						y="51"
 						width="50"
-						height="16"
+						height="18"
 						key="textField"
 						positionType="Float"/>
 					<box>					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#0099FF"/>
@@ -157,16 +157,16 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#0099FF"/>
 </box>
 					<textElement>
-						<font pdfFontName="Helvetica" size="8" isBold="false"/>
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[($F{SAMPLETYPE_ID} == null ? "" : $F{SAMPLETYPE_ID})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="52"
-						y="52"
-						width="185"
-						height="16"
+						x="51"
+						y="51"
+						width="187"
+						height="18"
 						key="textField"
 						positionType="Float"/>
 					<box leftPadding="3">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#0099FF"/>
@@ -176,16 +176,16 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#0099FF"/>
 </box>
 					<textElement markup="html">
-						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="8" isBold="false" isItalic="false" isPdfEmbedded ="true" pdfEncoding ="Cp1250"/>
+						<font fontName="Arial" pdfFontName="ARIAL.TTF" size="7" isBold="false" isItalic="false" isPdfEmbedded ="true" pdfEncoding ="Cp1250"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[$F{COMMENTSFORCOA} == null ? "" : $F{COMMENTSFORCOA}]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Opaque"
-						x="52"
+						x="51"
 						y="2"
-						width="60"
+						width="49"
 						height="12"
 						key="textField"
 						positionType="Float"/>
@@ -196,16 +196,16 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#0099FF"/>
 </box>
 					<textElement>
-						<font pdfFontName="Helvetica" size="8" isBold="false"/>
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[($F{CREATIONDATE} == null ? "" : $F{CREATIONDATE})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
 						mode="Transparent"
-						x="52"
-						y="15"
-						width="60"
+						x="100"
+						y="2"
+						width="53"
 						height="12"
 						key="textField"
 						positionType="Float"/>
@@ -216,16 +216,16 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#0099FF"/>
 </box>
 					<textElement>
-						<font pdfFontName="Helvetica" size="8" isBold="false"/>
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[($F{CREATOR_ID} == null ? "" : $F{CREATOR_ID})]]></textFieldExpression>
 				</textField>
 				<textField isStretchWithOverflow="false" pattern="" isBlankWhenNull="false" evaluationTime="Now" hyperlinkType="None"  hyperlinkTarget="Self" >
 					<reportElement
-						x="52"
-						y="28"
-						width="186"
-						height="23"
+						x="51"
+						y="33"
+						width="187"
+						height="18"
 						key="textField-22"
 						positionType="Float"/>
 					<box leftPadding="3">					<pen lineWidth="0.0" lineStyle="Solid" lineColor="#0099FF"/>
@@ -235,7 +235,7 @@
 					<rightPen lineWidth="0.25" lineStyle="Solid" lineColor="#0099FF"/>
 </box>
 					<textElement>
-						<font pdfFontName="Helvetica" size="8" isBold="false"/>
+						<font pdfFontName="Helvetica" size="7" isBold="false"/>
 					</textElement>
 				<textFieldExpression   class="java.lang.String"><![CDATA[($F{PRODUCTNAME} == null ? "" : $F{PRODUCTNAME})]]></textFieldExpression>
 				</textField>
