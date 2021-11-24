@@ -36,6 +36,11 @@ var _sopLocation = {
 		y:4
 }
 
+
+//the following fields are defined in the Setting->General in the excel maintenance. If titles requested to be added/removed, the settings should be updated in accordance
+var _colCount = 304;
+var _rowCount = 307;
+
 function initializeFields(version){
 	if(version == 'V1'){
 		return;
@@ -484,13 +489,20 @@ function getOutputValueBL(formCode,domId,designer){
     return returnVal;
 }
 
-function onColumnChanging(formCode,domId,e,info){
-	 if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
+function onColumnChanging(formCode,domId,e,info,designer){
+	var workBook = designer[domId].getWorkbook(); 
+	if(formCode == 'ExperimentAn' && domId == 'spreadsheetResults'){
 		 if(info.propertyName == 'addColumns'|| info.propertyName == 'deleteColumns'){
-			 if(info.col>=0 && info.col<=_materialLocation.x){
+			 if(info.col>=0 && info.col<_materialLocation.x){
 				 displayAlertDialog('Data may be disrupted.</br> Please redo the last operation');
 			 }
+			 if(info.col>_materialLocation.x && info.propertyName == 'deleteColumns'){
+				 var idLookupSheet= workBook.getSheetFromName("IdLookup");
+				 idLookupSheet.deleteColumns(idLookupSheet.getColumnCount()-1, 1);
+			 }
+			 //TODO:handle the case of adding rows->add in the end of the columns in the idlookup
 		 }
+			 
 	 }
 }
 
@@ -613,6 +625,13 @@ function getValidationMessage(formCode,domId,designer){
 	    			}
 	    			sampleArr.push(sampleName);
 	    		}
+			}
+			
+			var columnCount = sheet.getColumnCount();
+			var missingCols = _colCount - columnCount;
+			if(missingCols>0){
+				//sheet.addColumns(columnCount-1,missingCols);
+				//errMessage = deltaExpectedCols + ' column'+(deltaExpectedCols==1?" was":'s were')+' removed. It may cause data disruption.</br> Please re-add '+deltaExpectedCols+' column'+(deltaExpectedCols==1?"":'s')+'.'
 			}
 		}
 	}

@@ -483,7 +483,7 @@
 			
 
 			sheet.bind(GC.Spread.Sheets.Events.ColumnChanging, function (e, info) {
-			    parent.onColumnChanging(parent.$('#formCode').val(),domId,e,info);
+			    parent.onColumnChanging(parent.$('#formCode').val(),domId,e,info,designer);
 			});
 			
 			sheet.bind(GC.Spread.Sheets.Events.RowChanging, function (e, info) {
