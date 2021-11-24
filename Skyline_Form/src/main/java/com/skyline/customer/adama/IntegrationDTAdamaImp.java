@@ -2917,10 +2917,25 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				||parentFormCode.equals("ExperimentPrGn") || parentFormCode.equals("ExperimentPrCR") || parentFormCode.equals("ExperimentPrBT")|| parentFormCode.equals("ExperimentPrTS")
 				||parentFormCode.equals("ExperimentPrVS") || parentFormCode.equals("ExperimentStb"))
 				&& formCode.equals("Sample")) {
-			String sql = "update FG_S_" + formCode + "_PIVOT set " + onChangeColumnName + "='" + onChangeColumnVal + "'"
-					+ " where FORMID = '" + formNumberId + "'";
-			update = formSaveDao.updateStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT",
-					Arrays.asList(onChangeColumnName), formNumberId);
+			if(saveType.equals("richtext")) {
+				onChangeColumnVal = formSaveElementDao.saveRichText(formCode,
+						new DataBean(onChangeColumnName, onChangeColumnVal, BeanType.CLOB, ""), true, formId);
+				// update action table with new value
+				String sql = "update FG_S_" + formCode + "_PIVOT " + " set " + onChangeColumnName + " = '"
+						+ onChangeColumnVal + "'" + " where formId = '" + onChangeFormId + "'";
+				try {
+					update = formSaveDao.updateStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT",
+							Arrays.asList(onChangeColumnName), onChangeFormId);
+				} catch (Exception e) {
+					generalUtilLogger.logWrite(e);
+					return "-3";
+				}
+			} else {
+				String sql = "update FG_S_" + formCode + "_PIVOT set " + onChangeColumnName + "='" + onChangeColumnVal + "'"
+						+ " where FORMID = '" + formNumberId + "'";
+				update = formSaveDao.updateStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT",
+						Arrays.asList(onChangeColumnName), formNumberId);
+			}
 		}else if (parentFormCode.equals("ExperimentFor") && formCode.equalsIgnoreCase("equipmentref")) {
 			try {
 				if (onChangeColumnName.equals("description")){
@@ -3154,25 +3169,25 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					
 					if(onChangeColumnName.equalsIgnoreCase ("Observation")) {
 					// 280119 task 24013
-					sql = "update FG_S_ACTION_PIVOT set startdate= to_char( sysdate, '"
-							+ generalUtil.getConversionDateFormat() + "'),enddate =  to_char( sysdate, '"
-							+ generalUtil.getConversionDateFormat()
-							+ "'),starttime= to_char( sysdate, 'HH24:MI' )where formId = '" + onChangeFormId
-							+ "' and startdate is null and enddate is null and starttime is null";
-					update = formSaveDao.updateStructTableByFormId(sql, "FG_S_Action_PIVOT",
-							Arrays.asList("startdate", "enddate", "starttime"), onChangeFormId);
-
-					if (update.equals("1")) {
-						// task: return updated dates
-						List<Map<String, Object>> listOfMap = generalDao.getListOfMapsBySql(
-								"select t.startdate, t.enddate, t.starttime from  FG_S_ACTION_PIVOT t where t.formId = '"
-										+ onChangeFormId + "'");
-						Map<String, Object> data = listOfMap.get(0);
-						toReturn = "{\"STARTDATE\":\"" + data.get("STARTDATE") + "\"," + "\"ENDDATE\":\""
-								+ data.get("ENDDATE") + "\"," + "\"STARTTIME\":\"" + data.get("STARTTIME") + "\" "
-								+ "}";
+						sql = "update FG_S_ACTION_PIVOT set startdate= to_char( sysdate, '"
+								+ generalUtil.getConversionDateFormat() + "'),enddate =  to_char( sysdate, '"
+								+ generalUtil.getConversionDateFormat()
+								+ "'),starttime= to_char( sysdate, 'HH24:MI' )where formId = '" + onChangeFormId
+								+ "' and startdate is null and enddate is null and starttime is null";
+						update = formSaveDao.updateStructTableByFormId(sql, "FG_S_Action_PIVOT",
+								Arrays.asList("startdate", "enddate", "starttime"), onChangeFormId);
+	
+						if (update.equals("1")) {
+							// task: return updated dates
+							List<Map<String, Object>> listOfMap = generalDao.getListOfMapsBySql(
+									"select t.startdate, t.enddate, t.starttime from  FG_S_ACTION_PIVOT t where t.formId = '"
+											+ onChangeFormId + "'");
+							Map<String, Object> data = listOfMap.get(0);
+							toReturn = "{\"STARTDATE\":\"" + data.get("STARTDATE") + "\"," + "\"ENDDATE\":\""
+									+ data.get("ENDDATE") + "\"," + "\"STARTTIME\":\"" + data.get("STARTTIME") + "\" "
+									+ "}";
+						}
 					}
-				}
 
 					onChangeColumnVal = formSaveElementDao.saveRichText(formCode,
 							new DataBean(onChangeColumnName, onChangeColumnVal, BeanType.CLOB, ""), true, formId);
