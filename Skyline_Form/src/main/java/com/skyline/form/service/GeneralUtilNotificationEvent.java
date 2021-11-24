@@ -120,7 +120,7 @@ public class GeneralUtilNotificationEvent {
 			}
 
 		} catch (Exception ex) {
-			generalUtilLogger.logWrite(LevelType.ERROR,
+			generalUtilLogger.logWrite(LevelType.WARN,
 					"The notification was not performed on save event of '" + formCode + "' ", formId,
 					ActivitylogType.NotificationEvent, null, ex);
 		}

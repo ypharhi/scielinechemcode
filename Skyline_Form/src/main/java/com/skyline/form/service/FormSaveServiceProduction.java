@@ -279,7 +279,7 @@ public class FormSaveServiceProduction extends FormSaveBasic implements FormSave
 		String dbTransactionId = formSaveTaskInfo.getDbTransactionId();
 
 		// *************** tasks - after transaction completed .....
-		generalTaskDao.exeNotificationEvent(formId, formCodeEntity);
+//		generalTaskDao.exeNotificationEvent(formId, formCodeEntity); .. not use in min env yet
 		// fix formCode
 		generalTaskDao.correctFgSeqTableFormCode(form, formId);
 		// update cache forms (update the maps for the forms marked as chache in the
