@@ -77,6 +77,7 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			String dateRange = generalUtilFormState.getFormParam(stateKey, formCode, "$P{CURRENT_DATERANGE}");
 			 
 			// by table
+			//**** fg_r_general_dummy_sql_v
 			if (generalUtil.getNull(table).equalsIgnoreCase("fg_r_general_dummy_sql_v")) { //Query Generator dummy sql - SQLGenerator screen
 				topRowsNum = "1000000";
 				sql = generalUtilFormState.getFormParam(stateKey, formCode)
@@ -93,13 +94,22 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 					sql = "select tr.* from (" + sql + ") tr";
 				}
 			}
+			
+			//**** fg_r_general_dummy_sql_v
+			else if (generalUtil.getNull(table).equalsIgnoreCase("fg_s_groupscrew_dt_v")) { 
+				sql = "select * from " + table + " where PARENTID='" + formId + "' "
+						+ generalUtilFormState.getWherePartForTmpData(struct, formId);
+			}
+			
 
 			// by form
-			if (formCode.equals("Maintenance") && criteria.equals("Active") && !sql.isEmpty()) {
+			else if (formCode.equals("Maintenance") && criteria.equals("Active") && !sql.isEmpty()) {
 				if (generalDao.getMetaData(sql).containsKey("Active")) {
 					sql += " and nvl(\"Active\",'Yes')= 'Yes' ";
 				}
 			}
+			
+			
 
 			//			sql += citeriaWherePart;// + permissionScema;
 			//			String citeriaWherePart = getrCiteriaWherePart((struct.equals("NA")?display:struct), (struct.equals("NA")?"ID":struct + "_ID"), criteria, userId, formCode, unfilteredList, lastMultiValues);

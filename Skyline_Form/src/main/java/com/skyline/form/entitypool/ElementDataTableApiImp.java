@@ -697,7 +697,7 @@ public class ElementDataTableApiImp extends Element {
 		//start build criteria
 		String criteriaOption = "";
 		boolean flag = false;
-		for (int i = 0; i < sqlCustomMapList.size(); i++) 
+		for (int i = 0; sqlCustomMapList != null && i < sqlCustomMapList.size(); i++) 
 		{
 			Map<String, String> sqlPoolMap = sqlCustomMapList.get(i);
 			if(!sqlPoolMap.get("IGNORE").equals("1")){
@@ -728,7 +728,7 @@ public class ElementDataTableApiImp extends Element {
 			criteriaOption +="<option selected value=\"Active\">Active</option>\n";
             selectedCriteria.append("Active");
 		}
-		else if(sqlCustomMapList.isEmpty() || !flag)	{ 
+		else if(sqlCustomMapList == null || sqlCustomMapList.isEmpty() || !flag)	{ 
 			 criteriaOption ="<option selected value=\"ALL\">ALL</option>\n" + criteriaOption;	 
 			 selectedCriteria.append("ALL");
 		 } else {

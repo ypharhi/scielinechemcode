@@ -3,6 +3,7 @@ package com.skyline.customer.adama;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.skyline.form.bean.ActionBean;
@@ -12,6 +13,9 @@ import com.skyline.form.service.IntegrationSaveForm;
 @Service
 public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 
+	@Autowired
+	CommonFunc commonFunc;
+	
 	@Override
 	public int preFormSaveEvent(Long stateKey, String formCode, String formId, Map<String, String> elementValueMap,
 			Map<String, String> elementAdditinalDataoMap, String userId, String isNew, String saveAction,
@@ -37,8 +41,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 
 	@Override
 	public String doRemove(String formCode, String formId, String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return commonFunc.doRemove(formCode,formId,userId);
 	}
 	
 	
