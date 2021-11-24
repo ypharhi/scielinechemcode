@@ -398,7 +398,6 @@
 <script src="../skylineFormWebapp/js/bl_Adama_js/ElementDataTableApiImpBL.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/bl_Adama_js/ElementAdditionalInfo.js"></script>
 <script src="../skylineFormWebapp/js/bl_Adama_js/ElementButtonImpBL<spring:message code="ElementButtonImpBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
-<script src="../skylineFormWebapp/js/bl_Adama_js/reportDesignBL.js"></script>
 
 
 

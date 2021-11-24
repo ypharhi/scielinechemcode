@@ -1,4 +1,3 @@
-<script src="../skylineFormWebapp/js/bl_Adama_js/reportDesignBL<spring:message code="reportDesignBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/bl_Adama_js/generalBL<spring:message code="generalBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/bl_Adama_js/ElementAuthorizationImpBL.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/bl_Adama_js/ElementButtonImpBL<spring:message code="ElementButtonImpBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
