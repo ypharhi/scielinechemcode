@@ -6,6 +6,16 @@ function initForm() {
 	
 }
 
+/**
+ * change landing page on new button and do some operations according to the client requirements
+ * @param formCode
+ * @returns -1 in case of operating some actions according to the client requirements
+ * else returns the formCode of the landing page 
+ */
+function onNewButtonIntegration(formCode,currentFormCode,formId,parentId) {
+    return formCode;
+}
+
 
 function getFormPathInfo(scopeElements) {
 	if(scopeElements!==undefined && scopeElements.length>0){
