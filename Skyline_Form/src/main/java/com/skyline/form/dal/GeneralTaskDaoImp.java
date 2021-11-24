@@ -84,7 +84,7 @@ public class GeneralTaskDaoImp implements GeneralTaskDao {
 		parameters.put("contextType_in", String.valueOf(contextType));
 		parameters.put("eventContextCode_in", String.valueOf(eventContextCode));
 		parameters.put("auditTrailChangeType_in", String.valueOf(auditTrailChangeType));
-		generalDao.callPackageFunction("FG_ADAMA", "REFRESH_DATA_TABLES", parameters);
+		generalDao.callPackageFunction("FG_GENERAL", "REFRESH_DATA_TABLES", parameters);
 	}
 
 	@Async
@@ -167,7 +167,7 @@ public class GeneralTaskDaoImp implements GeneralTaskDao {
 			parameters.put("userId_in", userId);
 			parameters.put("dbTransactionId_in", dbTransactionId);
 			parameters.put("auditTrailChangeType_in", auditTrailChangeType);
-			generalDao.callPackageFunction("FG_ADAMA_TASK_BY_DATE", "POST_SAVE_AT", parameters);
+			generalDao.callPackageFunction("FG_GENERAL", "POST_SAVE_AT", parameters);
 //			}
 
 		} catch (Exception e) {
