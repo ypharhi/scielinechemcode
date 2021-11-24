@@ -560,7 +560,7 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 							List<String> destLabName = generalDao.getListOfStringBySql("select distinct laboratoryname from fg_s_laboratory_v where formid in("+generalUtil.listToCsv(destLabId)+")");
 							if(samples!= null && !samples.isEmpty() && destLabName!=null && !destLabName.isEmpty()){
 								if (intOfResult > 0){
-									sbInfoMessage.append("Please Notice- you have 2 warning messages:</br> 1. you will test sample no. "+ generalUtil.listToCsv(samples) +" that was sent to destination lab: "+ generalUtil.listToCsv(destLabName)+". \r\n" +
+									sbInfoMessage.append("Please Notice- you have some warning messages:</br> 1. you will test sample no. "+ generalUtil.listToCsv(samples) +" that was sent to destination lab: "+ generalUtil.listToCsv(destLabName)+". \r\n" +
 											"Are you sure you want to continue?</br> 2. ") ;
 								}
 								else{
@@ -569,7 +569,7 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 								}
 							}else if(destLabName!=null && !destLabName.isEmpty()){
 								if (intOfResult > 0){
-									sbInfoMessage.append("Please Notice- you have 2 warning messages:</br> 1.you will test Request that was sent to destination lab: "+ generalUtil.listToCsv(destLabName)+". \r\n" +
+									sbInfoMessage.append("Please Notice- you have some warning messages:</br> 1.you will test Request that was sent to destination lab: "+ generalUtil.listToCsv(destLabName)+". \r\n" +
 											"Are you sure you want to continue?</br> 2. ") ;
 								}
 								else{
@@ -585,6 +585,11 @@ public class IntegrationValidationAdamaImp implements IntegrationValidation {
 				}
 
 				if (intOfResult > 0) {
+					String approvedRequestCount = generalDao.selectSingleStringNoException("select distinct count(*) from fg_s_request_all_v where request_id in ("+parentIdListCsv+") and requeststatusname = 'Approved'");
+					if(!approvedRequestCount.equals("0")) {
+						sbInfoMessage.append((Integer.parseInt(approvedRequestCount)>1||parentIdListCsv.split(",").length>1?"Some requests are":"The request is")+" already approved.</br>");
+					}
+					
 					sbInfoMessage.append(getMessage(validationCode, validateValueObject));
 				}
 				break;

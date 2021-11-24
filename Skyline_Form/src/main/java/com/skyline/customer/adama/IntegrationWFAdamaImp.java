@@ -518,8 +518,7 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 					//check status_ not empty...
 					if (!status_.equals("")) {
 						// status of Request is Planned or Cancelled => remove experiment 
-						if (status_.equals("Planned") || status_.equals("Cancelled") || status_.equals("Declined")
-								|| status_.equals("Approved")) {
+						if (status_.equals("Planned") || status_.equals("Cancelled") || status_.equals("Declined")) {
 							msg = generalUtil.getSpringMessagesByKey(
 									statusLogOrder + "Status of request is " + status_ + ". Experiment is removed from the list.",
 									"");
