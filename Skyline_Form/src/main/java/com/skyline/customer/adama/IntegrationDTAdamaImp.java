@@ -2922,10 +2922,10 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 						new DataBean(onChangeColumnName, onChangeColumnVal, BeanType.CLOB, ""), true, formId);
 				// update action table with new value
 				String sql = "update FG_S_" + formCode + "_PIVOT " + " set " + onChangeColumnName + " = '"
-						+ onChangeColumnVal + "'" + " where formId = '" + onChangeFormId + "'";
+						+ onChangeColumnVal + "'" + " where formId = '" + formNumberId + "'";
 				try {
 					update = formSaveDao.updateStructTableByFormId(sql, "FG_S_" + formCode + "_PIVOT",
-							Arrays.asList(onChangeColumnName), onChangeFormId);
+							Arrays.asList(onChangeColumnName), formNumberId);
 				} catch (Exception e) {
 					generalUtilLogger.logWrite(e);
 					return "-3";
