@@ -1147,6 +1147,12 @@ function initForm() {
 	    	});
     	},100);
     }
+    if(_formCode == 'ScanQrCode') {
+    	$('#close_back').hide();
+    	$('.expanded.page-header').hide();
+    	$('#pageTitle').closest('table').closest('tr').remove();
+        $('.ui-widget-content table:last').closest('div').css('height', '')
+    }
     if(_formCode == 'BatchMain'){
     	if($('#lastStep').is(":checked")){//checking it twice: first - for the initiation and the other -for the laststep changed point
     		$("font[color=red]").text('The batch will contain the components from "Planned Composition" table');
@@ -2628,12 +2634,19 @@ function doNew(formCode, appendUrl) {
 	if($('#formCode').val()=='StepMinFr'){
 		isTopWindow = '0';
 	}
+	
+	
 	if(formCode == 'Request' && parentFormCode == 'InvItemBatch'){
 		var toReturn = [];  
 		$('input[class="dataTableApiSelectInfoLabel"]:checked').each(function (index) {
 		    toReturn.push($(this).val());
 		});
 		smartSelectList = toReturn.toString();
+	}
+	
+	var url = window.location.href;
+	if (url.indexOf('&isStructAsPopup=1') > 0){//if the new form is opened from a popup form then the new form will be opened in full screen
+		isTopWindow = '0';
 	}
 	// Done! user special bl
 	
