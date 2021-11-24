@@ -76,36 +76,25 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			sql = "select * from " + table + " where 1=1";
 			String dateRange = generalUtilFormState.getFormParam(stateKey, formCode, "$P{CURRENT_DATERANGE}");
 			 
-				//get SQL by specific struct
-				// ***************************
-				// *** onElementDataTableApiChange struct InvItemBatch
-				// ***************************
+			// by table
+			if (generalUtil.getNull(table).equalsIgnoreCase("fg_r_general_dummy_sql_v")) { //Query Generator dummy sql - SQLGenerator screen
+				topRowsNum = "1000000";
+				sql = generalUtilFormState.getFormParam(stateKey, formCode)
+						.get("$P{QUERY_TEXT}");
+				if(sql == null) {
+					sql = "fg_r_general_dummy_sql_v";
+				}
 				
-				if (struct.equalsIgnoreCase("xxxx")) {
-					 
+				int numofcol = generalDao.getMetaData(sql).size();
+				
+				if(numofcol <= 1) {
+					sql = "select -1 as hidden_col, tr.* from (" + sql + ") tr";
+				} else {
+					sql = "select tr.* from (" + sql + ") tr";
 				}
-				 
-				else {
-					//get SQL by structFormType
-					switch (structFormType) {
-						//--------------------------------
-						//---- structFormType - onElementDataTableApiChange ATTACHMENT / onElementDataTableApiChange REF
-						//--------------------------------	
-						case ATTACHMENT:
-						case REF:
-						//--------------------------------
-						//---- structFormType - onElementDataTableApiChange SELECT 
-						//--------------------------------	
-						case SELECT:
-						//--------------------------------
-						//---- Form Type - getFormParam default:
-						//--------------------------------	
-						default:
-							break;
-					}
-				}
-			
+			}
 
+			// by form
 			if (formCode.equals("Maintenance") && criteria.equals("Active") && !sql.isEmpty()) {
 				if (generalDao.getMetaData(sql).containsKey("Active")) {
 					sql += " and nvl(\"Active\",'Yes')= 'Yes' ";

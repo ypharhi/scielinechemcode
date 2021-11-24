@@ -140,6 +140,11 @@ function doBack() {
     return;
 }
 
+function getForwardPage() {
+    var formCode = $('#formCode').val();
+    return formCode;
+}
+
 function favoriteHeaderMng(domId) {
 
 }
@@ -250,4 +255,22 @@ function getCkeditorEnableList(enableElements) {
 		}
 	 }
 	 return eList;
+}
+
+/**
+ * hideUnnecessaryElementsFormBuilder
+ * @param selectArray
+ * @returns
+ */
+function hideUnnecessaryElementsFormBuilder(selectArray) {
+	return selectArray;
+}
+
+function hideUnnecessaryFormTypesFormBuilder() {
+
+}
+
+function restoreUserBreadcrumbsFromLastSession()
+{
+	window.location = "./restore.request?stateKey=" + $('#stateKey').val() + "&userId=" + $('#userId').val();
 }
