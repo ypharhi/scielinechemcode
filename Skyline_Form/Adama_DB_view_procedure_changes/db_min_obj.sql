@@ -1,6 +1,6 @@
 -----------------------------------------------
 -- Export file for user SKYLINE_FORM_MIN     --
--- Created by comply on 22/11/2021, 18:44:06 --
+-- Created by comply on 24/11/2021, 12:46:40 --
 -----------------------------------------------
 
 spool db_min_obj.log
@@ -3245,7 +3245,7 @@ prompt
 create sequence FG_FORMENTITY_SEQ
 minvalue 0
 maxvalue 999999999999999999999999999
-start with 2167388
+start with 2167408
 increment by 1
 cache 20;
 
@@ -3289,7 +3289,7 @@ prompt
 create sequence FG_FORM_SEQ
 minvalue 0
 maxvalue 999999999999999999999999999
-start with 73655
+start with 73675
 increment by 1
 cache 20;
 
@@ -3344,7 +3344,7 @@ prompt
 create sequence FG_SEQUENCE_FILES_SEQ
 minvalue 1
 maxvalue 999999999999999999999999999
-start with 307165
+start with 307195
 increment by 1
 cache 15;
 
@@ -4744,6 +4744,12 @@ select 'Form Builder' as category_, 1 as category_order, 'Form Builder' as sub_c
 from dual
 union
 select 'Form Builder' as category_, 1 as category_order, 'Admin - Form Entity Summary' as sub_category, 1 as sub_category_order, 'FGEntityConfReport' as formCode, '' as class_, '1' as system_
+from dual
+union
+select 'Main' as category_, 2 as category_order, 'Main' as sub_category, 0 as sub_category_order, '' as formCode, 'project-management' as class_, '0' as system_
+from dual
+union
+select 'Main' as category_, 2 as category_order, 'Main Screen' as sub_category, 1 as sub_category_order, 'Main' as formCode, '' as class_, '0' as system_
 from dual
 union
 select 'Maintenance' as category_, 5 as category_order, 'Maintenance' as sub_category, 0 as sub_category_order, 'Maintenance' as formCode, 'maintenance' as class_, '0' as system_

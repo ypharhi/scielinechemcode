@@ -2427,6 +2427,9 @@ function initFloatingButtonPanel(addToContainerWidth)
 function initFloatingButtonPanelMain(addToContainerWidth)
 {
 	var $buttonsContainer = $('#divFloatingButtonsPanelContainerMain');
+	if($buttonsContainer.length == 0) {
+		return;
+	}
 	$buttonsContainer.css('display','inline-block');
 	$('.floatingButtonsPanel').css('display','block');
 	

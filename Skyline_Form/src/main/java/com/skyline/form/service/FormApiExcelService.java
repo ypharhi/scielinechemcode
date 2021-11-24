@@ -1,25 +1,16 @@
 package com.skyline.form.service;
 
-import java.io.IOException;
-import java.sql.Types;
 import java.util.Arrays;
 import java.util.List;
-
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.support.SqlLobValue;
-import org.springframework.jdbc.support.lob.DefaultLobHandler;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.xml.sax.SAXException;
 
 import com.skyline.form.bean.ActionBean;
 import com.skyline.form.bean.DataBean;
@@ -28,7 +19,6 @@ import com.skyline.form.bean.ValidationCode;
 import com.skyline.form.dal.FormDao;
 import com.skyline.form.dal.FormSaveDao;
 import com.skyline.form.dal.GeneralDao;
-import com.skyline.form.dal.GeneralLogDaoImp;
 import com.skyline.form.dal.UploadFileDao; 
 
 @Service

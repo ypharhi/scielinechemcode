@@ -205,24 +205,26 @@ public class GeneralUtilNotificationEvent {
 	}
 
 	public String getMessageCount(String userId, boolean forceCheck) {
-		String num = generalUtil.getNull(getSessionMessageCount(), "0"); //0
+		String num = getSessionMessageCount();
+		if(num == null || num.isEmpty()) {
+			num = "0";
+			setSessionMessageCount(num);
+		}
+		
 		Map<String, String> userMap = generalDao.sqlToHashMap(String.format(
-				"select t.messagecheckinterval, t.lastnotificationcheck from fg_s_user_pivot t where formid = '%1$s'",
+				"select nvl(t.messagecheckinterval,20) as messagecheckinterval, t.lastnotificationcheck from fg_s_user_pivot t where formid = '%1$s'",
 				userId));
 		String messageCheckInterval = userMap.get("MESSAGECHECKINTERVAL");
 		setSessionMessageCheckInterval(messageCheckInterval);
 		String lastCheck = userMap.get("LASTNOTIFICATIONCHECK");
 		String sql = String.format(
-				"update fg_s_user_pivot t set t.lastnotificationcheck = TO_CHAR(sysdate,'dd/MM/yyyy HH24:MI') where formId =  %1$s",
+				"update fg_s_user_pivot t set t.lastnotificationcheck = TO_CHAR(sysdate,'dd/MM/yyyy HH24:MI'), messagecheckinterval = '" + messageCheckInterval + "' where formId =  %1$s",
 				userId);
 
 		if (generalUtil.getNull(lastCheck).isEmpty()) { //will happen only once for a new user
 			forceCheck = true;
 		}
-		
-		if(messageCheckInterval == null || messageCheckInterval.isEmpty()) {
-			messageCheckInterval = "0";
-		}
+		 
 
 		String intervalfromLastCheck = generalDao.selectSingleString(String
 				.format("select ( sysdate - TO_date('%1$s','dd/MM/yyyy HH24:MI'))* 24 * 60 from dual", lastCheck));
