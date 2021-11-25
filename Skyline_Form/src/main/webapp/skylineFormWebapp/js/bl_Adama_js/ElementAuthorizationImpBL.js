@@ -901,7 +901,8 @@ function experimentReturnToActive(isActual) {
 				'documents',
 				'action','selfTests',
 				'webixAnalytTable', 'manualResultsMS',
-				'calculationButton','calculateButton','testedComponents',
+				'samples','request',
+				'calculationButton','calculateButton','testedComponents','material_search',
 				'chromatograms', 'resultsTable','planned_actual','steps','spreadsheetResults'];
 		 if(experimentTypeName != 'General'){
 			 enableElemArr.push('manualResultsTable');
