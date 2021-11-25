@@ -582,8 +582,7 @@ function postCallbacksSave(postSaveArgObj, callbackResultArray_) {
                  else
                  {
                 	 displayAlertDialog(errMsg);
-                 }
-                 insertSpreadsheetIntoLocalStorage();                 
+                 }               
              } else if (obj.data[0].val == "-1") {
                  displayAlertDialog(getSpringMessage('updateFailed'));
                  hideWaitMessage();
@@ -592,7 +591,6 @@ function postCallbacksSave(postSaveArgObj, callbackResultArray_) {
                  doSaveMessage = getSpringMessage(obj.data[0].val.split(',')[1]);/*.split("_").join(" ").toLowerCase();*/
                  displayAlertDialog(doSaveMessage/*.charAt(0).toUpperCase() + doSaveMessage.slice(1)*/ + " " + getSpringMessage('alreadyExistsInSystem'));//ab 22/03/18 fixed bug 4161
                  hideWaitMessage();
-                 insertSpreadsheetIntoLocalStorage();
              } else if (obj.data[0].val.toString().indexOf(',') != '-1' && obj.data[0].val.toString().substring(0, 2) == '-3') {
                  /*doSaveMessage = obj.data[0].val.split(',')[1].split("_").join(" ").toLowerCase();
                  displayAlertDialog(doSaveMessage.charAt(0).toUpperCase() + doSaveMessage.slice(1) + " " + getSpringMessage('invalidInSystem'));*/
@@ -600,7 +598,7 @@ function postCallbacksSave(postSaveArgObj, callbackResultArray_) {
             	 var defaultMessage = doSaveMessage.split("_").join(" ").toLowerCase();
             	 displayAlertDialog(getSpringMessage(doSaveMessage,defaultMessage.charAt(0).toUpperCase() + defaultMessage.slice(1) + " " + getSpringMessage('invalidInSystem')));
                  hideWaitMessage();
-                 insertSpreadsheetIntoLocalStorage();
+               //  insertSpreadsheetIntoLocalStorage();
              } else {    
             	 clearLocalStorage();//clear the localstorage that holds the spreadsheet data in case the spreadsheet was already saved in the DB(on the save process)
             	 if (obj.data[0].info.toString() !='') {//there's is a message to display
