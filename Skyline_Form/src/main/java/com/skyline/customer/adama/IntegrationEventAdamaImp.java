@@ -60,6 +60,8 @@ public class IntegrationEventAdamaImp implements IntegrationEvent {
 			generalUtilFormState.setFormParam(stateKey, formCode, "QUERY_TEXT",
 					sqlTextContent);
 			return "1";
+		} if (eventAction.equals("getFormCodeBySeqId")) {
+			return formDao.getFormCodeBySeqIdNoException(formId);
 		}
 		return null;
 	}

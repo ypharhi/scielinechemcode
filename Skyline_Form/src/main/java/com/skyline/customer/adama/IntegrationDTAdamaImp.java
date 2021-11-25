@@ -72,6 +72,9 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 			String userId = generalUtil.getSessionUserId();
 
 			String idName = (struct.equals("NA") ? "ID" : struct + "_ID");
+			
+			String wherePart = (linkToLastSelection.equals("1") ? getWherePartByFilterForDataTableApi(stateKey,
+					formCode, sourceElementImpCode, table.toUpperCase()) : "");
 
 			sql = "select * from " + table + " where 1=1";
 			String dateRange = generalUtilFormState.getFormParam(stateKey, formCode, "$P{CURRENT_DATERANGE}");
@@ -93,10 +96,16 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 				} else {
 					sql = "select tr.* from (" + sql + ") tr";
 				}
-			}
-			
+			} else if (generalUtil.getNull(table).equalsIgnoreCase("fg_r_src_hst_v")) {
+				String formIdFilter = "";
+				String formIdSearch = generalUtilFormState.getFormParam(stateKey, formCode)
+						.get("$P{ADHOC_FORMIDSEARCH}");
+				if (!generalUtil.getNull(formIdSearch).equals("")) {
+					formIdFilter += " and formId = '" + formIdSearch + "'";
+				}
+				sql = "select * from " + table + " where 1=1 " + wherePart + formIdFilter;
 			//**** fg_r_general_dummy_sql_v
-			else if (generalUtil.getNull(table).equalsIgnoreCase("fg_s_groupscrew_dt_v")) { 
+			} else if (generalUtil.getNull(table).equalsIgnoreCase("fg_s_groupscrew_dt_v")) { 
 				sql = "select * from " + table + " where PARENTID='" + formId + "' "
 						+ generalUtilFormState.getWherePartForTmpData(struct, formId);
 			}
@@ -330,6 +339,62 @@ public class IntegrationDTAdamaImp implements IntegrationDT {
 	@Override
 	public String customerDTDefaultHiddenColumns(String formCode, String impCode, String struct) {
 		// TODO Auto-generated method stub
+		return "";
+	}
+	
+	private String getWherePartByFilterForDataTableApi(long stateKey, String formCode, String sourceElementImpCode,
+			String tableName) {
+		StringBuilder where = new StringBuilder();
+		Map<String, String> tableMetaData_ = null;
+		Map<String, String> map_ = generalUtilFormState.getFormCatalog(stateKey, formCode, sourceElementImpCode);
+		for (Map.Entry<String, String> entry : map_.entrySet()) {
+			if (!entry.getKey().contains(".")) { // invalid key
+				//				System.out.println("CatalogDBTableImp - " + entry.getKey() + " is invalid catalog item !!!!");
+				where.append(" and 1=2 ");
+				break;
+			}
+			//			BeanType beanType = getBeanTypeByItem(entry.getKey().split("\\.")[0]);		
+			if (!generalUtil.getNull(entry.getValue()).equals("") && entry.getKey().contains(".")
+					&& !generalUtil.getNull(entry.getValue()).equals("'ALL'")) {
+				if (tableMetaData_ == null) {
+					tableMetaData_ = getTableMetaData(tableName);
+				}
+				String colName = colInTable(tableMetaData_, entry.getKey().split("\\.")[1]);
+				if (!colName.equals("")) {
+					//where.append(" and \"" + entry.getKey().split("\\.")[1] + "\" in (" + entry.getValue() + ")\n ");
+					//					if(colName.endsWith("OBJDATERANGE")) {
+					//						where.append(" and TO_DATE(\"" + colName + "\",'" + generalUtil.getConversionDateFormat() + "') between " + entry.getValue().split(";")[0] + " and " + entry.getValue().split("\\;")[1]);
+					//					} else {
+					//						where.append(" and \"" + colName + "\" in (" + entry.getValue() + ")\n "); 
+					//					}
+					if (colName.endsWith("OBJDATERANGE")) {
+						if (!entry.getValue().split(";", -1)[0].equals("")) {
+							where.append(" and TO_DATE(\"" + colName + "\",'" + generalUtil.getConversionDateFormat()
+									+ "') >= " + entry.getValue().split(";")[0]);
+						}
+						if (!entry.getValue().split(";", -1)[1].equals("")) {
+							where.append(" and TO_DATE(\"" + colName + "\",'" + generalUtil.getConversionDateFormat()
+									+ "') <= " + entry.getValue().split(";")[1]);
+						}
+					} else {
+						where.append(" and \"" + colName + "\" in (" + entry.getValue() + ")\n ");
+					}
+				}
+			}
+		}
+		return where.toString();
+	}
+	
+	private Map<String, String> getTableMetaData(String tableName) {
+		return generalDao.getMetaData(tableName.toUpperCase());
+	}
+	
+	private String colInTable(Map<String, String> meteDataMap, String colName) {
+		if (meteDataMap.containsKey(colName)) {
+			return colName;
+		} else if (meteDataMap.containsKey(colName.toUpperCase())) {
+			return colName.toUpperCase();
+		}
 		return "";
 	}
 

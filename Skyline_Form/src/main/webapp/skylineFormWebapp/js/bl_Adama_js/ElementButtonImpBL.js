@@ -14,6 +14,10 @@ function generalBL_generalClickEvent(customerFunction, action) { // customerClic
 		executeSQLGenerator();
 	} else if(customerFunction == "generateDynamicReport") { // yp 12042020 adama demo report develop
 		generateDynamicReport();
+	} else if (customerFunction == "generateHistoryReport") {
+		generateHistoryReport(action);
+	} else if(customerFunction == "searchLabel"){
+		searchLabel();
 	}
 }
 
@@ -139,5 +143,90 @@ function generateDynamicReport() {
 		},
 		error : handleAjaxError
 	});
+}
+
+function generateHistoryReport(action) {
+ 	var allData = getformDataNoCallBack(1);
+	// url call
+	var urlParam = "?formId="+ $('#formId').val()
+				+ "&formCode="+ $('#formCode').val()
+				+ "&userId="+ $('#userId').val()
+				+ "&eventAction=generateHistoryReport"
+				+ "&isNew=" + $('#isNew').val();
+
+	var data_ = JSON.stringify({
+		action : "generateHistoryReport",
+		data : allData,
+		errorMsg : ""
+	});
+
+	// call...
+	$.ajax({
+		type : 'POST',
+		data : data_,
+		url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+		contentType : 'application/json',
+		dataType : 'json',
+
+		success : function(obj) {
+			if(obj.data[0].val == null || obj.data[0].val.length == 0) {
+				//displayAlertDialog("Enter formId");
+				onElementDataTableApiChange('hstTable', null,null,true); 
+			} else {
+				onElementDataTableApiChange('hstTable', null,null,true); 
+			}
+		},
+		error : handleAjaxError
+	});
+}
+
+function searchLabel() {
+	var formId =$("#SeachLabelName").val().trim();
+	formCode = getFormCodeBySeqId(formId);
+	// show the Loading... label with fade
+	$("font[color=red]").css('display', 'block');
+	$("font[color=red]").fadeOut(3000);
+	if((formCode == null || formCode == "") || (formId == null || formId == ""))
+	{
+		displayAlertDialog("Not found");
+	}else{
+		// get form type=> navigate to struct and invitem only
+
+		var allData = [{
+				code : 'formCode',
+				val : formCode,
+				type : "AJAX_BEAN",
+				info : 'na'
+			}];
+		// url call
+		var urlParam = "./getFormType.request?formCode="+formCode;
+
+		var data_ = JSON.stringify({
+			action : "getFormType",
+			data : allData,
+			errorMsg : ""
+		});
+
+		//showWaitMessage();
+		// call...
+		$.ajax({
+			type : 'POST',
+			data : data_,
+			url :  urlParam ,
+			contentType : 'application/json',
+			dataType : 'json',
+
+			success : function(obj) {
+				var isStruct = (obj.data[0].val == 'STRUCT' || obj.data[0].val =='INVITEM');// obj.data[0].val
+				if(!isStruct){
+					displayAlertDialog('Navigation has been stopped since the expected form is not a struct');
+				} else {
+					checkAndNavigate([formId ,formCode,'','false',true]);
+				}
+				//hideWaitMessage();
+			},
+			error : handleAjaxError
+		});
+	}
 }
 

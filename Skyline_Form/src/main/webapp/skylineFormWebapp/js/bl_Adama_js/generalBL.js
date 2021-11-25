@@ -4,6 +4,29 @@ function initFormSaveDisplayButtons() {
 
 function initForm() {
 	
+	console.log("start initForm");
+	
+	var _formCode = "";
+	if($('#formCode').length > 0) {
+		_formCode = $('#formCode').val();
+	}
+	 
+	if(_formCode == 'SearchLabel') {
+    	$('#close_back').hide();
+    	$('.expanded.page-header').hide();
+    	$('#pageTitle').closest('table').closest('tr').remove();
+        $('.ui-widget-content table:last').closest('div').css('height', '');
+        //hide the loading label (it has no id so we use font[color=red] to get this dom element)
+        $("font[color=red]").css('display', 'none');
+    	setTimeout(function () {
+	    	$("#SeachLabelName").focus();
+	    	$("#SeachLabelName").keyup(function(e) {
+	    		if(e.which == 13){ // qrcode scan will include enter as last char
+	    			searchLabel();
+	    		}
+	    	});
+    	},100);
+    }
 }
 
 /**
@@ -143,6 +166,155 @@ function doBack() {
 function getForwardPage() {
     var formCode = $('#formCode').val();
     return formCode;
+}
+
+function confirmWithOutSaveWithPermissions(functionName, functionParams, permissParams) 
+{
+	var formCode = permissParams[0];
+	var formId = permissParams[1];
+	var isCheckDataChanged = '';
+	if(functionParams.length>3){
+		isCheckDataChanged = functionParams[3];
+	}
+	//start permission	
+    var canRead = "0"
+    $.ajax({
+        type: 'POST',
+        data: '{"action" : "getReadPermissionById","' + 'data":[' + '{"code":"formCode","val":"' + formCode + '"},' + '{"code":"formId","val":"' + formId + '"}' + '],' + '"errorMsg":""}',
+        url: "./getReadPermissionById.request",
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function (obj) {
+        	var canView= false;
+            if (obj.errorMsg != null && obj.errorMsg != '') {
+                displayAlertDialog(obj.errorMsg);
+                return;
+            } else if ((obj.data[0].val == "-1") || (obj.data[0].val == "")) {
+            	//false
+            } else {
+                canRead = obj.data[0].val;
+            }
+//            canRead = "1"; // !!! develop until we set permission
+            if(canRead != "1") 
+            {
+            	displayAlertDialog("Navigation is not allowed");
+            } 
+            else 
+            {
+            	//in popups - when confirmWithOutSavePopupMessage is different from NA then when navigating from popup to some other form, the confirmation message will be displayed with no refer to the datachanged flag
+            	if(window.self !== window.top&&!isGeneralPopup()){
+            		if(isCheckDataChanged!='false') {//its is a popup, and it's necessary to display the message
+	        			if(getSpringMessage('confirmWithOutSavePopupMessage')!='NA'){//if the message is NA then do not display the confirm massage
+	            			openConfirmDialog({
+	            	            onConfirm: functionName,
+	            	            title: 'Warning',
+	            	            onConfirmParams: functionParams,
+	            	            message: getSpringMessage('confirmWithOutSavePopupMessage')
+	            	        });
+	            			return;
+	        			}
+            		} else {
+            			functionName(functionParams);
+            			return; //fix bug 8022 - add return to avoid double tabs when navigate from popup tree
+            		}
+        		}
+            	//console.log("confirmWithOutSave: " + prop.dataChanged);
+            	if((isCheckDataChanged=='false')//if should not check the dataChanged, then displaying the confirmation message with no additional check
+            			|| skipConfirmSave()) 
+            	{ 
+            		saveForm(functionName, functionParams);
+            		//functionName(functionParams);
+            	} else {//data was changed
+            		$('#formCode_doBack').val($('#formCode').val());
+            		
+            		//if (prop.dataChanged)//the dataChanged flag is being already checked in the skipconfirmSave function
+        	    	openConfirmDialog({
+        	            onConfirm: functionName,
+        	            title: 'Warning',
+        	            onConfirmParams: functionParams,
+        	            message: getSpringMessage('confirmWithOutSaveMessage')
+        	        });
+               }
+            }
+        },
+        error: handleAjaxError
+    });
+    //////////////// end permission	
+}
+
+function openSearchLabelDialog(clickedObj)
+{
+	if($('#searchDialog iframe').length !=0)//whether the searchDialog is already opened
+		return;
+	//console.log("clickedObj",clickedObj);
+	var $this = $(clickedObj);	
+	var left, top;
+	console.log("$this",$this);
+	dialogHeight = 220;
+    dialogWidth = 450;   
+    if($this.length > 0)
+    {
+    	left = $this.offset().left - dialogWidth;
+        top = $this.offset().top + $this.height() + 10;
+        console.log("left",left);
+        console.log("top",top);
+    }
+    else
+    {
+    	left = $(document).width() - dialogWidth - 100;
+    	top = $(document).height()/2 - dialogHeight - 200;
+    	console.log("left",left);
+        console.log("top",top);
+    }    
+    
+	var parentId = $('#formId').val();
+	var page = "./init.request?stateKey=" + $('#stateKey').val() + "&formCode=SearchLabel&formId=-1&userId="
+			+ $('#userId').val()
+			+ '&tableType=&PARENT_ID=';
+
+	// open iframe inside dialog
+	var $dialog = $(
+			'<div id="searchDialog" style="overflow-y: hidden;""></div>')//prevDialog
+			.html(
+					'<iframe style="border: 0px;width:100%;height:100%" src="'
+							+ page + '"></iframe>')
+			.dialog(
+					{
+						autoOpen : false,
+						modal : true,
+						height : dialogHeight,
+						width : dialogWidth,
+						// title: title,
+						close : function() {
+							$('#searchDialog iframe').attr('src', 'about:blank');
+							$('#searchDialog').remove();
+						},
+						open: function(event, ui) 
+						{
+			                $(this).parent().css({'top': top,'left':left});
+			            }
+					});
+
+	$dialog.dialog('option', 'dialogClass', 'noTitleStuff')
+			.dialog('open');
+}
+
+function isGeneralPopup() {
+	 //TODO check the popup Kind
+	if (window.self.$('#saveButton').val()==undefined)
+		return true;
+	else return false;
+}
+
+function saveForm(functionName, functionParams){
+	if($('#formCode').val() == 'SearchReport'){
+		$('#isSavedSearch').val("1");//flag- use in ElementDataTableApiImpBL
+		doSave((function(){functionName(functionParams);}),'SAVE_FORM_AND_USER_SETTINGS');
+		//functionName(functionParams);
+	}
+	else{
+		functionName(functionParams);
+	}
 }
 
 function favoriteHeaderMng(domId) {
