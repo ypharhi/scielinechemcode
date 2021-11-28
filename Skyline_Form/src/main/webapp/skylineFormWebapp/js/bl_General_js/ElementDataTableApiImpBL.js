@@ -1358,7 +1358,46 @@ function allowCloneElementDataTableApi(domId) {
  * @returns Available DataStructure
  */
 function dataTableApiDataStructure(struct, parentTable, isParentSelected)  {
-	
+	 var parentStruct, availableDataStructureArray;
+	    var object = {
+	    	'SubProject': 'Project' 
+	    };
+
+	    
+	    // handle first table (parentTable.length == 0) new click that is not
+		// project (not allow)
+	    if($('#formCode').val() == 'XXX ') {
+	        if (typeof object[struct] !== 'undefined') {
+	            return object[struct];
+	        } else {
+	            return '';
+	        }
+	    } else if (!$('#' + parentTable).is('table')) {
+	        if ($('#formCode').val() == 'YYY ') {
+	            if (typeof object[struct] !== 'undefined') {
+	                return object[struct];
+	            }
+	        }
+	        return '';
+	    }
+
+	    parentStruct = $('#' + parentTable + '_structCatalogItem').val();
+	    if (!isParentSelected) {
+	        if (typeof object[struct] === 'undefined') {
+	            return '';
+	        } else return object[struct];
+	    } else {
+	        if (typeof object[struct] !== 'undefined') {
+	            availableDataStructureArray = object[struct].split(' or ');
+	            if ($.inArray(parentStruct, availableDataStructureArray) == -1) {
+	                return object[struct];
+	            } else {
+	                return '';
+	            }
+	        } else {
+	            return '';
+	        }
+	    }
 }
 
 /**
