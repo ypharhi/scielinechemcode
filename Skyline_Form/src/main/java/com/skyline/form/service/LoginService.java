@@ -159,7 +159,7 @@ public class LoginService { // TODO interface FormService and this should be For
 		String href = "";
 		boolean hasChild = false;
 		String css = "";
-		String styleMain = "style='padding-left:10px;'";
+		String styleMain = "style='padding-right:10px;padding-left:10px;'";
 		String styleChild = "";
 		int listSize;
 		
@@ -173,13 +173,13 @@ public class LoginService { // TODO interface FormService and this should be For
 			toReturn.append("<ul class=\"main-navbar dropdown menu\" data-dropdown-menu>");
 			listSize = listOfScreens.size()+1;
 			
-			if (listSize < 5) {
-				styleMain = "style='padding-left:60px;'";
-			} else if (listSize <= 8) {
-				styleMain = "style='padding-left:40px;'";
-			} else {
-				styleMain = "style='padding-left:10px;'";
-			}
+//			if (listSize < 5) {
+//				styleMain = "style='padding-left:60px;'";
+//			} else if (listSize <= 8) {
+//				styleMain = "style='padding-left:40px;'";
+//			} else {
+//				styleMain = "style='padding-left:10px;'";
+//			}
 			
 			for(Map.Entry<String, List<JSONObject>> row: listOfScreens.entrySet())
 			{
