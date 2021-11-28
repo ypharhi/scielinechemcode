@@ -4355,6 +4355,69 @@ function popupRichText(input, domId, colInd, rowInd, html)
 	}		
 }
 
+function openscanQrCodeDialog(clickedObj)
+{
+	if($('#scanQrCodeDialog iframe').length !=0)//whether the scanDialog is already opened
+		return;
+	//console.log("clickedObj",clickedObj);
+	//var $this = $(clickedObj);	
+	var left, top;
+	//console.log("$this",$this);
+	dialogHeight = 220;
+    dialogWidth = 300;
+    var parentId = $('#formId').val();
+    var domId = $(clickedObj).parent().attr('tableid');
+    var formCode = encodeURIComponent($('[id="' + domId + '_structCatalogItem"]').val());
+    var stateKey = $('#' + domId + '_selectDiv').attr('stateKey');
+    /*if($this.length > 0)
+    {
+    	left = $this.offset().left - dialogWidth;
+        top = $this.offset().top + $this.height() + 10;
+        console.log("left",left);
+        console.log("top",top);
+    }
+    else
+    {
+    	left = $(document).width() - dialogWidth - 100;
+    	top = $(document).height()/2 - dialogHeight - 200;
+    	console.log("left",left);
+        console.log("top",top);
+    }  */  
+    
+	var parentId = $('#formId').val();
+	
+	var page = "./init.request?stateKey=" + stateKey + "&formCode=ScanQrCode&formId=-1&userId="
+			+ $('#userId').val()
+			+ '&tableType=&PARENT_ID=';
+
+	// open iframe inside dialog
+	var $dialog = $(
+			'<div id="scanQrCodeDialog" style="overflow-y: hidden;""></div>')//prevDialog
+			.html(
+					'<iframe style="border: 0px;width:100%;height:100%" src="'
+							+ page + '"></iframe>')
+			.dialog(
+					{
+						autoOpen : false,
+						modal : true,
+						height : dialogHeight,
+						width : dialogWidth,
+						// title: title,
+						close : function() {
+							$('#scanQrCodeDialog iframe').attr('src', 'about:blank');
+							$('#scanQrCodeDialog').remove();
+							onElementDataTableApiChange(domId);
+						},
+						open: function(event, ui) 
+						{
+							setFormParamMap("ScanQrCode", "-1","SCANNEDFORMCODE","Sample");
+			            }
+					});
+
+	$dialog.dialog('option', 'dialogClass', 'noTitleStuff')
+			.dialog('open');
+}
+
 function setNewCellDataRichText()
 {
 	var rowInd = $("#divPopupRichText").attr('curRowIndex');
@@ -6493,7 +6556,7 @@ function isValidationExist(selectedFormCode,parentFormcode,formId,input,isCloneA
 	var allData = allData.concat(stringifyToPush);
 	stringifyToPush = {
  			code: "parentIdList",
- 			val:  smartSelectList,
+ 			val:  smartSelectList==undefined||smartSelectList==''?formId:smartSelectList,
  			type: "AJAX_BEAN",
  			info: 'na'
  	}; 
