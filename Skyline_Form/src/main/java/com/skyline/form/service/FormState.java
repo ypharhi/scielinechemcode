@@ -95,7 +95,7 @@ public class FormState {
 	// -- Parameters
 	private Map<String, String> formParamMap;
 	
-	@Value("${appCompany:Adama}")
+	@Value("${appCompany:General}")
 	private String appCompany;
 	
 	@Value("${Env:1.0}")
@@ -1058,7 +1058,7 @@ public class FormState {
 //			toReturn = "";
 //		}
 //		return toReturn;
-		// because we need a manipulation in adama on step under experiment we make it in the customer init class...
+		// because we need a manipulation in general on step under experiment we make it in the customer init class...
 		return integrationInitForm.showFormPathDisplayHtml(path);
 	}
 }

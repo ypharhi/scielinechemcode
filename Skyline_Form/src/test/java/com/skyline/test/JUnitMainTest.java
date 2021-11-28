@@ -34,7 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The unittest is using selenium chromedriver. the driver is locate in: Adama\Doc\Installation\Tool_chromedriver\chromedriver.exe.  
+ * The unittest is using selenium chromedriver. the driver is locate in: General\Doc\Installation\Tool_chromedriver\chromedriver.exe.  
    
  1. see makeTest function that describe the unit test flow.
  2. to summarize the places we have unit test code:
@@ -58,7 +58,7 @@ import org.slf4j.LoggerFactory;
 	2) In system log -> Unit test we have the ability to run the unit test from the system (if we have the jar described above), In order to run the test number of times simultaneously, we need to avoid the unit test cleanup (by setting the parameter doUnitestCleanup to n - never)
 	
  Notes: !!!!
- 	- in the js/bl_adama_unittest.js we have the ability to fill the elements with default values. This ability was not been used yet
+ 	- in the js/bl_General_unittest.js we have the ability to fill the elements with default values. This ability was not been used yet
 	 
  *
  */

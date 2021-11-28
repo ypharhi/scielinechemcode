@@ -1,4 +1,4 @@
-package com.skyline.customer.adama;
+package com.skyline.customer.general;
 
 import java.util.Map;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.skyline.form.service.IntegrationCloneAndSplit;
 
 @Service
-public class IntegrationCloneAnsSplitAdamaImp implements IntegrationCloneAndSplit {
+public class IntegrationCloneAnsSplitGeneralImp implements IntegrationCloneAndSplit {
 
 	@Override
 	public void postCloneSaveEvent(String formId, String cloneFormId) {

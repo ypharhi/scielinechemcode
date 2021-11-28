@@ -43,7 +43,7 @@ public class GeneralUtilNotificationEvent {
 	public GeneralUtil generalUtil;
 	
 	/**
-	 *  see doc Adama\Doc\Notification for overview description
+	 *  see doc General\Doc\Notification for overview description
 	*/
 
 	/**

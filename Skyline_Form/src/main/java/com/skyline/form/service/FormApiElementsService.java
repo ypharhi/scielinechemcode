@@ -102,7 +102,7 @@ public class FormApiElementsService {
 	public GeneralUtilLogger generalUtilLogger;
 	
 	@Autowired
-	public IntegrationDT integrationDTAdamaImp;
+	public IntegrationDT integrationDTGeneralImp;
 	
 	@Autowired
 	public GeneralUtilConfig generalUtilConfig;

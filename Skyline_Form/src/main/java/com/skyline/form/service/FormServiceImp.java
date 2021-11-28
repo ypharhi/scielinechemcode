@@ -433,7 +433,7 @@ public class FormServiceImp implements FormService {
 				}
 			}
 		} else {
-			// not in use in Adama
+			// not in use in General
 			if (!generalUtil.getNull(formId).equals("-1")) {
 				if ((!isNewFormId) || (isClone)) {
 
@@ -504,7 +504,7 @@ public class FormServiceImp implements FormService {
 	}
 
 	private boolean isPreventSave(FormEntity formEntity, boolean isStruct) {
-		// TODO this should be in customer pack. we should also remove from the map element marked as prevent save (and in this case we no longer worry old data that has already saved in the DB) - but check for example - template screen and source_exce in adama
+		// TODO this should be in customer pack. we should also remove from the map element marked as prevent save (and in this case we no longer worry old data that has already saved in the DB) - but check for example - template screen and source_exce in general
 		String formCode = formEntity.getFormCode();
 		if (isStruct) {
 			if (formEntity.getEntityImpClass().equals("ElementDataTableApiImp")
@@ -1101,7 +1101,7 @@ public class FormServiceImp implements FormService {
 
 	@Override
 	public String getCorrectNewFormCode(String formId, String formCode, Map<String, String[]> requestMap) {
-		//workaround - should be in Adama Customer code
+		//workaround - should be in General Customer code
 		String formCodeToReturn = formCode;
 
 		try {

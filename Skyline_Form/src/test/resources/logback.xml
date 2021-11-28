@@ -11,10 +11,10 @@
 	<!-- <logger name="com.base22" level="TRACE"/> -->
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>c:\logs\AdamaTest.log</file>
+		<file>c:\logs\GeneralTest.log</file>
 
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<fileNamePattern>AdamaTest.%i.log.zip</fileNamePattern>
+			<fileNamePattern>GeneralTest.%i.log.zip</fileNamePattern>
 			<minIndex>1</minIndex>
 			<maxIndex>3</maxIndex>
 		</rollingPolicy>

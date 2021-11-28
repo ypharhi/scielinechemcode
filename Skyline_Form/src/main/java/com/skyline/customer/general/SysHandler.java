@@ -1,4 +1,4 @@
-package com.skyline.customer.adama;
+package com.skyline.customer.general;
 
 import java.text.ParseException;
 import java.util.Map;

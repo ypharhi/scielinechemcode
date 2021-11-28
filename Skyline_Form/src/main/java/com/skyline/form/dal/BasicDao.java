@@ -87,7 +87,7 @@ public class BasicDao {
 	//		ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
 	//		HttpSession session = attr.getRequest().getSession();
 	//		
-	////		ApplicationContext context = new ClassPathXmlApplicationContext("C:\\code\\gitComp\\AdamaMaster\\Adama\\Skyline_Form\\src\\main\\webapp\\WEB-INF\\mvc-beans.xml");
+	////		ApplicationContext context = new ClassPathXmlApplicationContext("C:\\code\\gitComp\\GeneralMaster\\General\\Skyline_Form\\src\\main\\webapp\\WEB-INF\\mvc-beans.xml");
 	//		ApplicationContext context =
 	//                WebApplicationContextUtils.
 	//                      getWebApplicationContext(session.getServletContext());

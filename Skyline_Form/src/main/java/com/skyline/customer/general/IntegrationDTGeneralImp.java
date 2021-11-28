@@ -1,4 +1,4 @@
-package com.skyline.customer.adama;
+package com.skyline.customer.general;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,7 +24,7 @@ import com.skyline.form.service.GeneralUtilPermission;
 import com.skyline.form.service.IntegrationDT;
 
 @Service
-public class IntegrationDTAdamaImp implements IntegrationDT {
+public class IntegrationDTGeneralImp implements IntegrationDT {
 	
 	@Autowired
 	private GeneralUtil generalUtil;

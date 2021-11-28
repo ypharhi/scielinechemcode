@@ -30,7 +30,7 @@ function initElementDataTableWebixFormul(domId, tableID, tableDivID, data, isNew
 {    
 	//console.log("data for table: " + domId);
 	//console.log(data);
-	isDisabled = false; //yp 10032019 - fix patch for version 1.428.3 - adama prod - slow analytical experiment load
+	isDisabled = false; //yp 10032019 - fix patch for version 1.428.3 - general prod - slow analytical experiment load
 	
     var tableData = {};
     if(isNew == "1")

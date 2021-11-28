@@ -29,7 +29,7 @@ function initElementDataTableWebixGeneral(domId, tableID, tableDivID, colConfigS
 	console.log(" -------------------- initElementDataTableWebixGeneral() ---------------------");
 	console.log("data for table: " + domId);
 	console.log(data);
-	isDisabled = false; //yp 10032019 - fix patch for version 1.428.3 - adama prod - slow analytical experiment load
+	isDisabled = false; //yp 10032019 - fix patch for version 1.428.3 - general prod - slow analytical experiment load
 	/*console.log("additDataStr for table: " + domId);
 	console.log(additDataStr);*/
 	/*console.log("colConfigStr for table: " + domId);

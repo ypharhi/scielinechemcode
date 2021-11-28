@@ -23,7 +23,7 @@
         <script src="../skylineFormWebapp/js/comply_js/loading.js" type="text/javascript"></script>   <!-- There are error: can't to find page-loader.gif -->
         <script src="../skylineFormWebapp/js/comply_js/Lang_Selection.js" type="text/javascript"></script>
 	<title>
-		Adama - Notification List
+		General - Notification List
 	</title>
 	
 	<script type="text/javascript">

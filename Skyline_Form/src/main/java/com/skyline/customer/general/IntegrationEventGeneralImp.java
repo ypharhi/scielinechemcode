@@ -1,4 +1,4 @@
-package com.skyline.customer.adama;
+package com.skyline.customer.general;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +18,7 @@ import com.skyline.form.service.GeneralUtilFormState;
 import com.skyline.form.service.IntegrationEvent;
 
 @Service
-public class IntegrationEventAdamaImp implements IntegrationEvent {
+public class IntegrationEventGeneralImp implements IntegrationEvent {
 	
 	@Autowired
 	GeneralUtilFormState generalUtilFormState;

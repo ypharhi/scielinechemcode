@@ -1,4 +1,4 @@
-package com.skyline.customer.adama;
+package com.skyline.customer.general;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import com.skyline.form.service.IntegrationInitForm;
 
 @Service
 @Transactional
-public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
+public class IntegrationInitFormGeneralImp implements IntegrationInitForm {
 
 	@Override
 	public Map<String, String> getFormParam(String formCode, String userId, String formId, FormType formType,

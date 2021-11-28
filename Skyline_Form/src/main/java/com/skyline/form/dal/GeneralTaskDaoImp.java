@@ -158,7 +158,7 @@ public class GeneralTaskDaoImp implements GeneralTaskDao {
 				updateHistoricalSpreadData(formId, formCodeById_, userId,elementValueMap.get("spreadsheetExcel"));
 			}
 			
-//			if (auditTrailChangeType.equals("I")) { //This made to save DB calls because in this point the POST_SAVE_AT in Adama make experiment version change - if we need more flexibility the  BLconditions will be eval in the procedure
+//			if (auditTrailChangeType.equals("I")) { //This made to save DB calls because in this point the POST_SAVE_AT in General make experiment version change - if we need more flexibility the  BLconditions will be eval in the procedure
 				//call POST_SAVE_AT
 			Map<String, String> parameters = new HashMap<String, String>();
 			parameters.put("formCode_in", formCodeById_);
@@ -340,7 +340,7 @@ public class GeneralTaskDaoImp implements GeneralTaskDao {
 //			try {
 //				// refresh REFRESH_DATA_PERM_MAINTENANCE
 //				Map<String, String> parameters = new HashMap<String, String>();
-//				generalDao.callPackageFunction("FG_ADAMA", "REFRESH_DATA_PERM_MAINTENANCE", parameters);
+//				generalDao.callPackageFunction("FG_GENERAL", "REFRESH_DATA_PERM_MAINTENANCE", parameters);
 //			} catch (Exception e) {
 //				System.out.println("failed");
 //				// do nothing

@@ -14,7 +14,7 @@ import com.skyline.form.entity.Element;
  * ChemDoodle component
  *
  * Use server side Marvin Chem (not chemdoodle) 
- * Limitation: only one element of ElementChemDoodleImp can be use in a form unless the name of the the element is end with Pln (workaround for Adama organic step form)
+ * Limitation: only one element of ElementChemDoodleImp can be use in a form unless the name of the the element is end with Pln (workaround for General organic step form)
  * ElementChemDoodleImp is define in the general javascript as callback element because of the async promise calls that uses marvin in order to get the chem info 
  * 
  */

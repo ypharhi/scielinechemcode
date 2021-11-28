@@ -1,5 +1,5 @@
 Please notes, that in case the whole folder updated/replaced, there should be provided some changes:
-- in the file 'main.js' find the next text: '/AdamaUX/skylineForm/getUIReportData.request' and replace it with '../skylineForm/getUIReportData.request'.
+- in the file 'main.js' find the next text: '/GeneralUX/skylineForm/getUIReportData.request' and replace it with '../skylineForm/getUIReportData.request'.
 - in the file index.html should be compared with file already exists in 'skylineFormWebapp/jsp/webix_reports_main.jsp' in case there were changes.
 
 changes main.js /webix.js

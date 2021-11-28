@@ -1,5 +1,5 @@
 /**
- * ElementDataTableApiImp BL Adama integration
+ * ElementDataTableApiImp BL General integration
  * 
  * @param domId
  * @returns
@@ -1292,7 +1292,7 @@ function changeElementDataTableApiCaption(domId) {
  * Disable datatableApi's buttons after loading. 
  * Note! - this function should cover the scenario in which the table is render after the authz. 
  *         the isGeneralDisabledStateForLateRender return true if this scenario happened (mostly when no permission on the page)
- *		   in Adama we only put the disabled page on all of the 
+ *		   in General we only put the disabled page on all of the 
  *       
  * 
  * @param domId

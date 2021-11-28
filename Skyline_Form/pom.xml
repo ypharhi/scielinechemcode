@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.skyline</groupId>
-	<artifactId>AdamaUX</artifactId>
-	<name>AdamaUX</name>
+	<artifactId>GeneralUX</artifactId>
+	<name>GeneralUX</name>
 	<packaging>war</packaging>
 	<version>1.000</version>
 	<properties>
@@ -656,9 +656,9 @@
 <!-- 			<filtering>true</filtering> -->
 <!-- 		</resource> -->
 <!-- 	</resources> -->
-		<finalName>Adama</finalName>
+		<finalName>General</finalName>
 		<!-- server in server: -->
-<!-- 		<finalName>AdamaUX##${Env}</finalName> -->
+<!-- 		<finalName>GeneralUX##${Env}</finalName> -->
 		<plugins>
 
 			<plugin>
@@ -766,7 +766,7 @@
 			                <cssSourceFile>file-n.css</cssSourceFile>
 			              </cssSourceFiles>
 			              <cssFinalFile>style.css</cssFinalFile> -->
-			              <jsSourceDir>./skylineFormWebapp/js/bl_Adama_js</jsSourceDir>
+			              <jsSourceDir>./skylineFormWebapp/js/bl_General_js</jsSourceDir>
 			              <jsSourceFiles>
 			                <jsSourceFile>generalBL.js</jsSourceFile>
 			                
@@ -787,7 +787,7 @@
 			            <configuration>
 			              <charset>UTF-8</charset>
 			              <webappSourceDir>${project.basedir}/src/main/webapp</webappSourceDir>
-			              <jsSourceDir>./skylineFormWebapp/js/bl_Adama_js</jsSourceDir>
+			              <jsSourceDir>./skylineFormWebapp/js/bl_General_js</jsSourceDir>
 			              <jsSourceFiles>
 			                <jsSourceFile>ElementButtonImpBL.js</jsSourceFile>
 			              </jsSourceFiles>

@@ -810,7 +810,7 @@ public class FormSaveDaoImp extends BasicDao implements FormSaveDao {
 //		String toReturn = "";
 //		Form form = formDao.getFormInfoLookup(formCode, "%", true).get(0);
 //		// system USER will remove it totally from the DB
-//		if (generalUtil.getSessionUserName().equals("system") || formCode.equals("FormulantRef")) { // system // TODO fix in adama > 1.X - workaround because FormulantRef can not be tmp (if temp it was to complicated to implement it)
+//		if (generalUtil.getSessionUserName().equals("system") || formCode.equals("FormulantRef")) { // system // TODO fix in general > 1.X - workaround because FormulantRef can not be tmp (if temp it was to complicated to implement it)
 //			toReturn = formDao.removeFromDB(formId, form.getFormCodeEntity());
 //		} else {
 //

@@ -12,7 +12,7 @@ function generalBL_generalClickEvent(customerFunction, action) { // customerClic
 		sysConfigCalcSetter(action);
 	} else if (customerFunction == "executeSQLGenerator") {
 		executeSQLGenerator();
-	} else if(customerFunction == "generateDynamicReport") { // yp 12042020 adama demo report develop
+	} else if(customerFunction == "generateDynamicReport") { // yp 12042020 general demo report develop
 		generateDynamicReport();
 	} else if (customerFunction == "generateHistoryReport") {
 		generateHistoryReport(action);

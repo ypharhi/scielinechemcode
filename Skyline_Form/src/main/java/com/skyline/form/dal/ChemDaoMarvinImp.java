@@ -564,8 +564,8 @@ public class ChemDaoMarvinImp implements ChemDao {
 
 		if (isSearchSubStructure == 1) {
 
-			//		Need license in ENV (for example VARS NAME:CHEMAXON_LICENSE_URL / PATH: instruction) the license.cxl is in the Adama\License\chemaxon-license.cxl. 
-			//	    See instruction in Adama\License\instruction.txt
+			//		Need license in ENV (for example VARS NAME:CHEMAXON_LICENSE_URL / PATH: instruction) the license.cxl is in the General\License\chemaxon-license.cxl. 
+			//	    See instruction in General\License\instruction.txt
 			try {
 				JChemSearch searcher = new JChemSearch(); // Create searcher object
 				searcher.setQueryStructure(mol);
@@ -608,8 +608,8 @@ public class ChemDaoMarvinImp implements ChemDao {
 
 		if (isSearchSubStructure == 1) {
 
-			//		Need license in ENV (for example VARS NAME:CHEMAXON_LICENSE_URL / PATH: instruction) the license.cxl is in the Adama\License\chemaxon-license.cxl. 
-			//	    See instruction in Adama\License\instruction.txt
+			//		Need license in ENV (for example VARS NAME:CHEMAXON_LICENSE_URL / PATH: instruction) the license.cxl is in the General\License\chemaxon-license.cxl. 
+			//	    See instruction in General\License\instruction.txt
 			try {
 				JChemSearch searcher = new JChemSearch(); // Create searcher object
 				searcher.setQueryStructure(mol);
@@ -652,8 +652,8 @@ public class ChemDaoMarvinImp implements ChemDao {
 
 		if (isSearchSubStructure == 1) {
 
-			//		Need license in ENV (for example VARS NAME:CHEMAXON_LICENSE_URL / PATH: instruction) the license.cxl is in the Adama\License\chemaxon-license.cxl. 
-			//	    See instruction in Adama\License\instruction.txt
+			//		Need license in ENV (for example VARS NAME:CHEMAXON_LICENSE_URL / PATH: instruction) the license.cxl is in the General\License\chemaxon-license.cxl. 
+			//	    See instruction in General\License\instruction.txt
 			try {
 				JChemSearch searcher = new JChemSearch(); // Create searcher object
 				searcher.setQueryStructure(smiles);

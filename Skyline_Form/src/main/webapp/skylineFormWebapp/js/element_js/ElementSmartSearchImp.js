@@ -74,7 +74,7 @@ function elementSmartSearchOnClick(domId) {
                             	//val update
                                 $('#' + elementsArray[i]).val(toReturn[elementsNameArray[i]]);
 //                                $('#' + elementsArray[i]).trigger('change'); // yp 31012018   THE CLEAN SOLUTION IS (for next version) TO MAKE ALL THE BL IN "generalBL_generalClickEvent (customerFunction, action);" AFTER THE SET IS DONE WITHOUT ANY CALL TO THE SERVER HERE (without DDLelementsToOnChange[DDLelementsToOnChange.length] and trigger change that invoke ajax call)
-//                                 										     // (adi added(?) for "fraction scenario" (it seems DDLelementsToOnChange[DDLelementsToOnChange.length] do the same) -> http://localhost:8080/Adama/skylineForm/initid.request?formCode=WorkupDistillation&formId=76976&userId=1109&tableType=&urlCallParam=&PARENT_ID=-1) )
+//                                 										     // (adi added(?) for "fraction scenario" (it seems DDLelementsToOnChange[DDLelementsToOnChange.length] do the same) -> http://localhost:8080/General/skylineForm/initid.request?formCode=WorkupDistillation&formId=76976&userId=1109&tableType=&urlCallParam=&PARENT_ID=-1) )
                                 
                                 if($('#' + elementsArray[i]).attr('element') == 'ElementAutoCompleteDDLImp'){
                                     $('#' + elementsArray[i]).trigger('chosen:updated');

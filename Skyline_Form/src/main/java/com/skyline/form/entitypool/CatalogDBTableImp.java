@@ -26,8 +26,8 @@ import com.skyline.form.service.GeneralUtilConfig;
  * @author YPharhi
  * implement Catalog interface 
  * NOTE: the sqlFilter support the following patterns:
- * 1) getTmpDataFilter(<formCode>,<formId>) replaced by formDao.getWherePartForTmpData - tmp data sql expression (as in data tables in Adama)
- * 2) getCriterialSql(<struct>,<criteria>,<userId>) - behaves as in the intagrationDTAdamaImp
+ * 1) getTmpDataFilter(<formCode>,<formId>) replaced by formDao.getWherePartForTmpData - tmp data sql expression (as in data tables in General)
+ * 2) getCriterialSql(<struct>,<criteria>,<userId>) - behaves as in the intagrationDTGeneralImp
  */
 public class CatalogDBTableImp extends Catalog implements CatalogDBInterface {
 

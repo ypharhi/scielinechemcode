@@ -130,7 +130,7 @@ function renderElementAuthorizationImp() { // on init form
 		});
     }
     
-    //permissions Sensitivitylevel order (on tabs in adama)
+    //permissions Sensitivitylevel order (on tabs in general)
     var perm_sens_level_order = $('#permissionsSensLevelOrder').val();
     console.log("perm_sens_level_order: " + perm_sens_level_order);
     
@@ -159,7 +159,7 @@ function renderElementAuthorizationImp() { // on init form
 	
 	navigationTabSelection();
     
-	//yp 10032019 - fix patch for version 1.428.3 - adama prod - slow analytical experiment load ->
+	//yp 10032019 - fix patch for version 1.428.3 - general prod - slow analytical experiment load ->
 //	setWebixTablesDisabled(false);
 }
 

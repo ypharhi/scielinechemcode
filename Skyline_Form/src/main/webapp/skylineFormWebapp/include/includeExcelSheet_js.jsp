@@ -1,1 +1,1 @@
-<script defer src="../skylineFormWebapp/js/bl_Adama_js/ElementExcelSheetBL<spring:message code="ElementExcelSheetBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
+<script defer src="../skylineFormWebapp/js/bl_General_js/ElementExcelSheetBL<spring:message code="ElementExcelSheetBLMin" text="." />js?<spring:message code="Env" text="" />"></script>

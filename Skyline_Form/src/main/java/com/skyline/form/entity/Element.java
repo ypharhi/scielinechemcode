@@ -464,7 +464,7 @@ public abstract class Element extends Entity implements ElementInterface {
 							"    <p style=\"color:blue;\">init json:</p><p>" + initVal.replace(",", ", ") + "</p>    \r\n" + 
 							"    <p style=\"color:blue;\">form builder SQL:</p><p>select t.*,t.rowid from fg_formentity t where t.formcode = '" + formCode + "' and t.entityimpcode = '" + impCode + "'</p>\r\n" + 
 							"    <p style=\"color:blue;\">form builder SQL (set server fg_formentity script):</p><p>" + sqlFormEntityScript.replace("\n", "<br />") + "</p>\r\n" + 
-							"    <p style=\"color:blue;\">form builder Configuration:</p><p>/Adama/skylineForm/demoFormBuilderInit.request?formCode=" + formCode + "&update=true</p>\r\n" + 
+							"    <p style=\"color:blue;\">form builder Configuration:</p><p>/General/skylineForm/demoFormBuilderInit.request?formCode=" + formCode + "&update=true</p>\r\n" + 
 							"    <p style=\"color:blue;\">inputVal:</p><p>" + inputVal + "</p>\r\n" +
 							"    <p style=\"color:blue;\">isHidden/ isDisabled/ ismandatory:</p><p>isHidden=" + isHidden + ", isDisabled="+ isDisabled + ", isMandatory = " + ismandatory + "</p>\r\n" + 
 							"    <p style=\"color:blue;\">catalog SQL:</p><p id=\"CATALOG_SQL_INFO\">" + generalUtil.getNull(intHtml.get(domId + "_elementSQLInfo")) + "</p>\r\n" + 

@@ -625,7 +625,7 @@ public class FormSchedTaskService {
 
 	private void moveChemCmlToClob() {
 		Map<String, String> parameters = new HashMap<String, String>();
-		generalDao.callPackageFunction("FG_ADAMA_TASK_BY_DATE", "FG_FIX_CHEM_DOODLE_DATA", parameters);
+		generalDao.callPackageFunction("FG_GENERAL_TASK_BY_DATE", "FG_FIX_CHEM_DOODLE_DATA", parameters);
 	}
 
 	private void updateChemSearch() throws Exception {

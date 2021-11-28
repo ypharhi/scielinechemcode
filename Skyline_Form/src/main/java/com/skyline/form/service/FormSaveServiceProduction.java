@@ -283,7 +283,7 @@ public class FormSaveServiceProduction extends FormSaveBasic implements FormSave
 		// fix formCode
 		generalTaskDao.correctFgSeqTableFormCode(form, formId);
 		// update cache forms (update the maps for the forms marked as chache in the
-		// from builder from there DB inf_v (in Adama it is the maintenance forms))
+		// from builder from there DB inf_v (in General it is the maintenance forms))
 		generalTaskDao.updateCach(form);
 
 		if (sessionId == null) {

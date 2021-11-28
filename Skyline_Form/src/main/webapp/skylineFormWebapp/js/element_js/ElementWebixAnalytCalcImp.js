@@ -34,7 +34,7 @@ function initElementDataTableWebixAnalyt(domId, tableID, tableDivID, data, isNew
 {    
     console.log("initElementDataTableWebixAnalyt(): isNew: " + isNew);
 	console.log(data);
-	isDisabled = false; //yp 10032019 - fix patch for version 1.428.3 - adama prod - slow analytical experiment load
+	isDisabled = false; //yp 10032019 - fix patch for version 1.428.3 - general prod - slow analytical experiment load
 	
 	tableIDArr.push(tableID);
     var tableData = {};

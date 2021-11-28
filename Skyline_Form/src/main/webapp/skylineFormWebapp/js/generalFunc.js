@@ -647,7 +647,7 @@ function postCallbacksSave(postSaveArgObj, callbackResultArray_) {
 
 function doAftersave(afterSave,additionalInfAfterSave)
 {
-	//init passPrintParam (this made for adama print label on load task so for now we pass it only afterSave action that we have in SampleMain screen)
+	//init passPrintParam (this made for general print label on load task so for now we pass it only afterSave action that we have in SampleMain screen)
 	var passPrintParam = "";
  	if($('#_pass_labelCode').length > 0 && $('#_pass_labelCode').val() != null && $('#_pass_labelData').length > 0 && $('#_pass_labelData').val() != null) {
  		var printParam_ = JSON.stringify({
@@ -1992,7 +1992,7 @@ function initAlphaNumEntity() {
  
     $('input[type="text"]:not("#Subtitle_text"),input[type="number"]').attr('maxlength', '100');
     $('textarea').attr('maxlength', '3999');
-    if ($('#entity_code').length) { // from builder new entity (element can be max 28 because we need to save 2 chars to element prop when we insert fg_formlastsavevalue_inf using pivot sql on the pivot table inf in FG_ADAMA_TASK.FG_SET_INF_MISSING_ROW_DATA DB Procedure)
+    if ($('#entity_code').length) { // from builder new entity (element can be max 28 because we need to save 2 chars to element prop when we insert fg_formlastsavevalue_inf using pivot sql on the pivot table inf in FG_GENERAL_TASK.FG_SET_INF_MISSING_ROW_DATA DB Procedure)
         $('#entity_code').attr('maxlength', '28');
     }
 }
@@ -3069,7 +3069,7 @@ function initWFDialog() {
  * 
  *  ***  Important: 
  *       The code **.replace("InvItem","")** which exists 
- *       in the success callback is workaround for Adama. *  
+ *       in the success callback is workaround for General. *  
  *  ***
  *  
  * @param okHandlerAndParamsArray. **The first cell of the array is the function, the rest of the array is the params**

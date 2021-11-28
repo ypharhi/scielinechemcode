@@ -392,12 +392,12 @@
 <script src="../skylineFormWebapp/js/element_js/ElementWebixCommonFuncImp.js?<spring:message code="Env" text="" />"></script>
 
 <%-- <%@ include file="../include/includeBL_js.jsp"%> --%>
-<script src="../skylineFormWebapp/js/bl_Adama_unittest_js/unittestFunc.js?<spring:message code="Env" text="" />"></script>
-<script src="../skylineFormWebapp/js/bl_Adama_js/generalBL<spring:message code="generalBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
-<script src="../skylineFormWebapp/js/bl_Adama_js/ElementAuthorizationImpBL.js?<spring:message code="Env" text="" />"></script>
-<script src="../skylineFormWebapp/js/bl_Adama_js/ElementDataTableApiImpBL.js?<spring:message code="Env" text="" />"></script>
-<script src="../skylineFormWebapp/js/bl_Adama_js/ElementAdditionalInfo.js"></script>
-<script src="../skylineFormWebapp/js/bl_Adama_js/ElementButtonImpBL<spring:message code="ElementButtonImpBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
+<script src="../skylineFormWebapp/js/bl_General_unittest_js/unittestFunc.js?<spring:message code="Env" text="" />"></script>
+<script src="../skylineFormWebapp/js/bl_General_js/generalBL<spring:message code="generalBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
+<script src="../skylineFormWebapp/js/bl_General_js/ElementAuthorizationImpBL.js?<spring:message code="Env" text="" />"></script>
+<script src="../skylineFormWebapp/js/bl_General_js/ElementDataTableApiImpBL.js?<spring:message code="Env" text="" />"></script>
+<script src="../skylineFormWebapp/js/bl_General_js/ElementAdditionalInfo.js"></script>
+<script src="../skylineFormWebapp/js/bl_General_js/ElementButtonImpBL<spring:message code="ElementButtonImpBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
 
 
 

@@ -1,4 +1,4 @@
-package com.skyline.customer.adama;
+package com.skyline.customer.general;
 
 import java.util.List;
 import java.util.Map;
@@ -11,7 +11,7 @@ import com.skyline.form.bean.DataBean;
 import com.skyline.form.service.IntegrationSaveForm;
 
 @Service
-public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
+public class IntegrationSaveFormGeneralImp implements IntegrationSaveForm {
 
 	@Autowired
 	CommonFunc commonFunc;

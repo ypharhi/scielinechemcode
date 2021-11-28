@@ -50,7 +50,7 @@ function generalClickEvent(action) {
         dataType: 'json',
         success: function (obj) {
         	hideWaitMessage();
-        	//TODO find solution or use in Adama BL to the below code....
+        	//TODO find solution or use in General BL to the below code....
         	if(action != null && (action == 'AddExpSeriesIndex' || action == 'RemoveExpSeriesIndex')) { 
         		onElementDataTableApiChange('experimensTable');
             	onElementDataTableApiChange('formulationPropertiesTable');

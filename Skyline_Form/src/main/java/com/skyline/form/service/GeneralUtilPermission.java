@@ -61,7 +61,7 @@ public class GeneralUtilPermission {
 	/**
 	 *   Permissions used for:
 	 * - menu screens
-	 * - data tables edit create and navigation (list is not used in Adama verion 1.0)
+	 * - data tables edit create and navigation (list is not used in General verion 1.0)
 	 * - forms new / edit / save
 	 * - Sensitivity level - effects tab visibility
 	 * 
@@ -82,7 +82,7 @@ public class GeneralUtilPermission {
 			 The ElementAuthorizationImp.js is also handle authzCheckOnDonReady call in page load that log out in case no permission and more (see description in ElementAuthorizationImp.js)
 	 * Note: in includeJS.jsp 
 	 * return empty map in case of failure and write to the log
-	 * In Adama the PERMISSION_SENSITIVITYLEVEL_ORDER is used in the view FG_R_PROJECTSUMMARY_DTDOC_V (hard-coded (as in the tab definitions) for filtering the records under the sensitive Tabs) 
+	 * In General the PERMISSION_SENSITIVITYLEVEL_ORDER is used in the view FG_R_PROJECTSUMMARY_DTDOC_V (hard-coded (as in the tab definitions) for filtering the records under the sensitive Tabs) 
 	 */
 	public Map<String, String> getPermissionMap(String userId, String formCode, String formId, String permissionType,
 			String callContext) {

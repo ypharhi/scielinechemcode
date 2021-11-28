@@ -1,4 +1,4 @@
-package com.skyline.customer.adama;
+package com.skyline.customer.general;
 
 import java.text.ParseException;
 import java.util.Map;
@@ -60,7 +60,7 @@ public class SysHandlerSimpleCalc extends SysHandler {
 			    	String[] paramParts = param.split(Pattern.quote(";"));
 			    	String elementName = paramParts[0];
 			    	String uomName = paramParts[1];
-			    	Double defaultValFloat = 0d; // 0 was the value during Adama tests (yp next version -> ability to add default value as 3th arg with null or empty as null)
+			    	Double defaultValFloat = 0d; // 0 was the value during General tests (yp next version -> ability to add default value as 3th arg with null or empty as null)
 //			    	if(paramParts.length > 2) {
 //			    		String defaultVal = paramParts[2];
 //			    		if(generalUtil.getNull(defaultVal).equals("") || generalUtil.getNull(defaultVal).trim().equalsIgnoreCase("null")) {

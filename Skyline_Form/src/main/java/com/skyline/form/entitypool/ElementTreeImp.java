@@ -16,7 +16,7 @@ import com.skyline.form.service.FormState;
  * 
  * Tree view element
  *
- * The tree gets the data from view (see Adama's view: fg_i_tree_connection_v).
+ * The tree gets the data from view (see General's view: fg_i_tree_connection_v).
  * Every record of the view should looks like this: Project@100897@Yaron1@SUBPROJECT.
  * Project - current sturct
  * 100897 - formId

@@ -25,7 +25,7 @@
         <script src="../skylineFormWebapp/js/comply_js/loading.js" type="text/javascript"></script>
         
 	<title>
-		Adama - Notification Module
+		General - Notification Module
 	</title>
 	
 	<style type="text/css">

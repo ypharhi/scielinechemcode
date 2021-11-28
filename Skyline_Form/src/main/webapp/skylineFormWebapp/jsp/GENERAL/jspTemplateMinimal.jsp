@@ -18,7 +18,7 @@
 <script src="../skylineFormWebapp/deps/jquery.ui-contextmenu.min.js"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementTreeImp.js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementAuthorizationImp.js?<spring:message code="Env" text="" />"></script>
-<script src="../skylineFormWebapp/js/bl_Adama_js/generalBL<spring:message code="generalBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
+<script src="../skylineFormWebapp/js/bl_General_js/generalBL<spring:message code="generalBLMin" text="." />js?<spring:message code="Env" text="" />"></script>
 <script src="../skylineFormWebapp/js/element_js/ElementInputImp.js?<spring:message code="Env" text="" />"></script>
 
 <script src="../skylineFormWebapp/js/generalFunc<spring:message code="generalFuncMin" text="." />js?<spring:message code="Env" text="" />"></script>

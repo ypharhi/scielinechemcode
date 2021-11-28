@@ -2,7 +2,7 @@ package com.skyline.form.bean;
 
 
 /**
- * TODO arrange it after the implementation in adama
+ * TODO arrange it after the implementation in general
  *
  */
 public enum DataType {

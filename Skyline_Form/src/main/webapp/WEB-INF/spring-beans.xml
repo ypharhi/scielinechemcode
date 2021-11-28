@@ -15,7 +15,7 @@
 	<task:annotation-driven />
 	<context:annotation-config />
 	<context:component-scan 
-		base-package="com.skyline.form.service,com.skyline.form.dal,com.skyline.form.entity,com.skyline.form.entitypool,com.skyline.general.bean,com.skyline.notification.dal,com.skyline.form.bouncer,com.skyline.notification.service,com.skyline.customer.adama,com.skyline.customer.skyline"/>
+		base-package="com.skyline.form.service,com.skyline.form.dal,com.skyline.form.entity,com.skyline.form.entitypool,com.skyline.general.bean,com.skyline.notification.dal,com.skyline.form.bouncer,com.skyline.notification.service,com.skyline.customer.general,com.skyline.customer.skyline"/>
 		 
     <bean  id="dataSource"
            class="org.apache.commons.dbcp.BasicDataSource"
@@ -401,7 +401,7 @@
 	<!-- Definition for EventFactory bean -->
 	<bean
 		class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
-		<property name="serviceLocatorInterface" value="com.skyline.customer.adama.SysHandlerFactory" />
+		<property name="serviceLocatorInterface" value="com.skyline.customer.general.SysHandlerFactory" />
 	</bean>
 	
 	
@@ -412,7 +412,7 @@
 
 	<!-- Catalog -->
 <!--     scope="prototype" -->
-<!-- 	<bean id="SysHSimpleCalc" lazy-init="true" class="com.skyline.customer.adama.SysHandlerSimpleCalc"/> -->
+<!-- 	<bean id="SysHSimpleCalc" lazy-init="true" class="com.skyline.customer.general.SysHandlerSimpleCalc"/> -->
 	
 		
 	

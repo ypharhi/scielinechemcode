@@ -29,7 +29,7 @@ function initElementDataTableWebixExpStep(domId, tableID, tableDivID, data, isTa
 {    
 	//console.log("data for table: " + domId + " isDisabled: " + isDisabled);
 	//console.log(data);
-	isDisabled = false; //yp 10032019 - fix patch for version 1.428.3 - adama prod - slow analytical experiment load
+	isDisabled = false; //yp 10032019 - fix patch for version 1.428.3 - general prod - slow analytical experiment load
 	
     var tableData = JSON.parse(data);
     if(isTableNew == "1")

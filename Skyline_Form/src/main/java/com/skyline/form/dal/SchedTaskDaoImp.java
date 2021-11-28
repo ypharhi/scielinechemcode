@@ -254,7 +254,7 @@ public class SchedTaskDaoImp implements SchedTaskDao {
 		//parameters.put("formCodeCsvInput_in", formcodeList);
 		parameters.put("onLastChangesFlag_in", onLastChangesOnly ? "1" : "0");
 		parameters.put("correct_all_name_path_obj_in", correctAllPathObj ? "1" : "0");
-		generalDao.callPackageFunction("FG_ADAMA_TASK_BY_DATE", "FG_SET_INF_INIT_DATA_ALL", parameters);
+		generalDao.callPackageFunction("FG_GENERAL_TASK_BY_DATE", "FG_SET_INF_INIT_DATA_ALL", parameters);
 	}
 
 	@Override
@@ -276,7 +276,7 @@ public class SchedTaskDaoImp implements SchedTaskDao {
 		try {
 			Map<String, String> parameters = new HashMap<String, String>();
 			parameters.put("onLastChangesFlag_in", onLastChangesOnly ? "1" : "0");
-			generalDao.callPackageFunction("FG_ADAMA_TASK_BY_DATE", "FG_SET_DIPLAY_VALUE", parameters);
+			generalDao.callPackageFunction("FG_GENERAL_TASK_BY_DATE", "FG_SET_DIPLAY_VALUE", parameters);
 		} catch (Exception e1) {
 			// do noting because this is not ready yet in the db TODO imp in the DB
 		}
@@ -332,14 +332,14 @@ public class SchedTaskDaoImp implements SchedTaskDao {
 
 	@Override
 	/**
-	 * If the DB func (FG_ADAMA_TASK.FG_SET_SERACH_HANDEL_INF_ID) not set (and it is not set when writing this lines) we use the java code to be able to implement is from both (DB imp can be use to override this java Imp))
+	 * If the DB func (FG_GENERAL_TASK.FG_SET_SERACH_HANDEL_INF_ID) not set (and it is not set when writing this lines) we use the java code to be able to implement is from both (DB imp can be use to override this java Imp))
 	 */
 	public void handelInfId(String dbTransactionId) throws Exception {
 
 		try {
 			Map<String, String> parameters = new HashMap<String, String>();
 			parameters.put("DB_TRANSACTION_ID_IN", "999");
-			generalDao.callPackageFunction("FG_ADAMA_TASK_BY_DATE", "FG_SET_SERACH_HANDEL_INF_ID", parameters);
+			generalDao.callPackageFunction("FG_GENERAL_TASK_BY_DATE", "FG_SET_SERACH_HANDEL_INF_ID", parameters);
 		} catch (Exception e) {
 			// delete old
 			generalDao.updateSingleStringNoTryCatch(
@@ -413,6 +413,6 @@ public class SchedTaskDaoImp implements SchedTaskDao {
 	@Override
 	public void dbCleanup() {
 		Map<String, String> parameters = new HashMap<String, String>();
-		generalDao.callPackageFunction("FG_ADAMA_TASK_BY_DATE", "DB_CLEANUP", parameters);
+		generalDao.callPackageFunction("FG_GENERAL_TASK_BY_DATE", "DB_CLEANUP", parameters);
 	}
 }

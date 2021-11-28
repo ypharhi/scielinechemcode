@@ -1,4 +1,4 @@
-package com.skyline.customer.adama;
+package com.skyline.customer.general;
 
 import java.util.Map;
 
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.skyline.form.service.IntegrationWF;
 
 @Service
-public class IntegrationWFAdamaImp implements IntegrationWF {
+public class IntegrationWFGeneralImp implements IntegrationWF {
 
 	@Override
 	public Map<String, String> getFormWFStateGeneral(String formCode, String userId, String formId, boolean isNewFormId,

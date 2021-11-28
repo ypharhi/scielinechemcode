@@ -58,7 +58,7 @@ public class GeneralUtilVersionData {
 	}
 
 	private String makeSystemAndAdminUsers() { 
-		return "-- script created from DB: " + dbUsername + " at " + generalUtil.getCurrentDateByFromat("dd/MM/yyyy HH:mm:ss") + "\n exec FORM_TOOL_COPY_ADAMA_DATA.updateVerionData;\n set define off;\n";
+		return "-- script created from DB: " + dbUsername + " at " + generalUtil.getCurrentDateByFromat("dd/MM/yyyy HH:mm:ss") + "\n exec FORM_TOOL_COPY_GENERAL_DATA.updateVerionData;\n set define off;\n";
 	}
 
 	/**
