@@ -88,7 +88,7 @@
 				  text-decoration: none;
 				  white-space: nowrap;
 				  padding: 0 3px 0 3px;
-				  width:800px;
+				  width:300px;
 			}
         </style>
         <script>

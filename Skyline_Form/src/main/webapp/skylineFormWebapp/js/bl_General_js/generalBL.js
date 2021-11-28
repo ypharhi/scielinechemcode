@@ -1,5 +1,16 @@
 function initFormSaveDisplayButtons() {
+	console.log("start initForm");
 	
+	var _formCode = "";
+	if($('#formCode').length > 0) {
+		_formCode = $('#formCode').val();
+	}
+	
+	//********** ColumnsDefinition *************
+	if (_formCode == 'ColumnsDefinition') 
+	{
+		$('.popupSaveDefinitionBtn').css('display', 'none');
+	}
 }
 
 function initForm() {
@@ -11,6 +22,7 @@ function initForm() {
 		_formCode = $('#formCode').val();
 	}
 	 
+	//********** SearchLabel *************
 	if(_formCode == 'SearchLabel') {
     	$('#close_back').hide();
     	$('.expanded.page-header').hide();
@@ -27,6 +39,167 @@ function initForm() {
 	    	});
     	},100);
     }
+	
+	//********** ColumnsDefinition *************
+	if (_formCode == 'ColumnsDefinition') 
+	{
+		var colObjArr = parent.$('#prevDialog').data('colArray');
+		var removedArr = parent.$('#prevDialog').data('removedArray');
+		var tableId = $('#tableId').val();
+		$('#close_back').html('OK');
+		$('#close_back').attr('onclick', 'doReset();');
+		
+		
+		var ulAll = "<ul>";
+		var ulElem = "<ul id=\"reorderable\">";
+		var mainContainer_ = $('#cblist');
+		var id = 0, checked_counter = 0;
+		var showResetDefault = (parent.$('#formCode').length > 0 && (
+				parent.$('#formCode').val() == 'Main' || 
+				parent.$('#formCode').val() == 'StepMinFr' 
+		    )
+		);
+		
+		for (var j = 0; j < colObjArr.length; j++) {
+			if (colObjArr[j] != undefined) 
+			{
+				var obj = colObjArr[j];
+				var isColRemoveEnabled = obj.isColRemoveEnabled;
+				var isColReorderEnabled = obj.isColReorderEnabled;
+				var name = obj.title;
+			    var val = name;
+			    if(name.indexOf(';') != '-1'){
+				   val = name.split(';')[0];
+				   name = name.split(';')[1];
+			    }
+			    if(id == 0)
+			    {
+			    	ulAll += "<td>";
+			    	ulAll += "<input type='checkbox' id='chbAllNone'></>" + "<label>All</label>";
+			    	if(showResetDefault) {
+			    		ulAll += "<span> <img src='../skylineFormWebapp/images/settings.png' style='cursor:pointer;width: 26px;float: right;margin-right: 25px;' onclick='restoreColumnsByDefault()'> </span>" //"+domId+".id
+			    	}
+			    	ulAll += "</td>";
+			    	ulAll += "</ul>";
+			    	mainContainer_.append($(ulAll));
+			    }
+			    id++;			    
+			    var checked = "", disabled = "", 
+			    	reorderDisabledClass = "", 
+			    	colIndex="colIndex="+obj.colIndex+"";
+			    
+			    if (removedArr.indexOf(val) == '-1') {
+			    	checked = "checked";
+			    	checked_counter++;
+				}
+			    if(!isColReorderEnabled) {
+			    	reorderDisabledClass = "ui-state-disabled";
+				}
+			    
+			    if(!isColRemoveEnabled) {
+			    	disabled = "disabled";
+		    	}
+			    
+			    ulElem += "<li class='ui-state-default "+reorderDisabledClass+"'>";
+			    ulElem += "<input type='checkbox' id='cb"+id+"' value='"+val+"' "+checked+" "+disabled+" "+colIndex+"></>";
+			    ulElem += "<label>"+name+"</label>";
+			    ulElem += "</li>";	
+			}
+		}
+		ulElem += "</ul>";
+		mainContainer_.append($(ulElem));
+		
+		var checkbox_counter = $( "#reorderable" ).find('input[type="checkbox"]').length;
+		if(checkbox_counter > 0 && checkbox_counter == checked_counter) 
+		{
+			$('#chbAllNone').prop('checked',true);
+		}
+		
+		$( function() {
+		    $( "#reorderable" ).sortable({
+		      items: "li:not(.ui-state-disabled)"
+		    });
+		});
+		
+		$('ul#reorderable input[type="checkbox"]').on('click',function(){
+			var isChecked = $(this).is(':checked');
+			if(isChecked) {				
+				var unchecked_counter = $( "#reorderable" ).find('input[type="checkbox"]:not(:checked)').length;
+				if(checkbox_counter > 0 && unchecked_counter == 0) 
+				{
+					$('#chbAllNone').prop('checked',true);
+					}
+				}
+			else {
+				$('#chbAllNone').prop('checked',false)
+			}
+		});
+		
+		$('#chbAllNone').change(function() {
+			var chk = false;
+			if ($('#chbAllNone').is(":checked")) {
+				chk = true;
+			}
+			$('ul#reorderable input[type="checkbox"]:not(:disabled)').each(function(){
+				var $el = $(this);
+				$el.prop("checked", chk);
+			});
+		});
+
+	}
+	 
+	//********** NavigationTree *************
+    if(_formCode == 'NavigationTree') {
+    	var parentFormId = parent.$('#prevDialog').data('parentFormId');
+    	var parentFormCode = parent.$('#prevDialog').data('parentFormCode');
+    	
+    	var elementTree='<div id="tree" style="font-size: 11px;element=\"ElementTreeImp\"></div>'
+    	+ '<input type="hidden" id="tree_catalog_hidden" value="FG_I_TREE_CONNECTION_V">'
+    	+ '<input type="hidden" id="tree_tree_lastValue" value="">'
+    	+ '<input type="hidden" id="tree_selected" value="">'
+    	+ '<input type="hidden" id="tree_firstTime" value="0">'
+    	+ '<input type="hidden" id="tree_doOnChangeJSCall" value=" onChangeAjax(\'tree\'); ">';
+    		
+    	var urlParam = "?formId="+ parentFormId
+		+ "&formCode="+ _formCode
+		+ "&userId="+ $('#userId').val()
+		+ "&eventAction=getNavigationProject"
+		+ "&isNew=" + $('#isNew').val();
+    	
+    	var allData = getformDataNoCallBack(1);
+    	
+    	var data_ = JSON.stringify({
+    		action : "getNavigationProject",
+    		data : [],
+    		errorMsg : ""
+    			});
+    	// call...
+    	$.ajax({
+    		type : 'POST',
+    		data : data_,
+    		url : "./generalEvent.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+    		contentType : 'application/json',
+    		dataType : 'json',
+    		success : function(obj) {
+    			if (obj.errorMsg != null && obj.errorMsg != '') {
+    				displayAlertDialog(obj.errorMsg);
+    				}
+    			else{
+    				if(obj.data[0].val!=undefined && obj.data[0].val!=null){
+    					var res = obj.data[0].val.split('@');
+        				var projectId = res[0];
+        				var projectName = res[1];
+        				var lastValue = res[2];
+        				$('#navigationTree_').append(elementTree);
+        				initTree('tree',' onChangeAjax(\'tree\'); ','{"_tree_lastValue":"'+lastValue+'","_selected":"'+parentFormId+','+parentFormCode+'"}','Project',projectId,projectName,'Project',projectId,parentFormId);
+    				}else{
+    					displayAlertDialog(getSpringMessage('alertError'));
+    				}
+    			}
+    			},
+    			error : handleAjaxError
+    			});
+	}
 }
 
 /**
