@@ -295,6 +295,7 @@ function spreadOnLoadBL(formCode,domId,designer,outputData,sheetsNamespace) {
 			    		ascending:true,
 			    		compareFunction:function compare(value1, value2) {
 			    		    //console.log("value =>", value1, value2);
+			    			if(value1 == null && value2 == null) return 0;
 			    		    if(value1 == null) return 1;
 			    		    else if(value2 == null) return -1;
 			    		    return Number(value1) > Number(value2) ? 1 : -1;
