@@ -4544,6 +4544,12 @@ function bl_isTableResizable(domId)
 	{
 		toReturn = true;
 	}
+	else if(formCode == "SampleSelectHolder" && domId == 'sampleTable'){
+		toReturn = true;
+	}
+	else if(domId == 'sampleTableEdit'){
+		toReturn = true;
+	}
 	return toReturn;
 	
 }
@@ -4651,6 +4657,12 @@ function bl_getColumnDefaultWidth(domId, colsCount, followingHdnColsCount)
 	}
 	
 	if(formCode == 'SampleResults' && domId == 'sampleResultsTable'){
+		if(resizableColDefaultWidth<110){
+			resizableColDefaultWidth = 110;
+		}
+	}
+	
+	if(formCode == "SampleSelectHolder" && domId == 'sampleTable'){
 		if(resizableColDefaultWidth<110){
 			resizableColDefaultWidth = 110;
 		}
