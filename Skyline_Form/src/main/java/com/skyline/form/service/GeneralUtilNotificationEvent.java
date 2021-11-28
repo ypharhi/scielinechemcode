@@ -232,6 +232,11 @@ public class GeneralUtilNotificationEvent {
 			num = generalDao.selectSingleString("SELECT count(t.ID) FROM FG_R_MESSAGES_V t "
 					+ " WHERE  NOT EXISTS (SELECT s.message_id " + " FROM fg_r_messages_state s "
 					+ " WHERE t.id = s.message_id and s.is_readed = 1) and t.user_id = " + userId);
+			
+			if(num == null || num.isEmpty()) {
+				num = "0";
+			}
+			
 			setSessionMessageCount(num);
 			generalDao.updateSingleString(sql);
 		}
