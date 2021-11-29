@@ -69,6 +69,9 @@ public class ElementGeneralCodeImp extends Element {
 			html.put(layoutBookMark + "_ready", "");
 		} else if (codeName.equals("CODE_DESIGN_REPORT_PARAMETERS")) {
 			html = getReportDesignParameters(stateKey);
+		} else if (codeName.equals("CODE_QR_CODE")) {
+			String expectedFormcode = generalUtilFormState.getFormParam(stateKey, "ScanQrCode", "$P{SCANNEDFORMCODE}");
+			html = buildQrCodeElement(stateKey);
 		} else if (codeName.equals("CODE_PURITY_LIST")){
 			String plannedCompositionId = generalUtilFormState.getFormParam(stateKey, "PurityList", "$P{PARENTID}");
 			html = getPurityList(plannedCompositionId,stateKey);
@@ -115,6 +118,38 @@ public class ElementGeneralCodeImp extends Element {
 			html.put(layoutBookMark, html_);
 		}
 		return html;
+	}
+	
+	private Map<String, String> buildQrCodeElement(long stateKey) {
+		StringBuilder valueByCode = new StringBuilder();
+		StringBuilder valueByCode_onReady = new StringBuilder();
+		Map<String, String> html = new HashMap<String, String>();
+		try {
+				valueByCode.append("<div class=\"row\">\n");
+				/*valueByCode.append("<div class=\"column cell-label\" style = \"width:20%\">");
+				valueByCode.append("<div formlabelelement=\"1\" id=\"Label_"+material_id+"\" style=\"\">"
+								+"<label style=\"display: table-cell\"> "+materialName+"</label></div>");
+				valueByCode.append("</div>");
+				valueByCode.append("<div class=\"column cell-element\" style=\"width:5%\"></div>");		*/
+				valueByCode.append("<div class=\"column cell-element\" style=\"width:15%\">\n");
+				valueByCode.append(
+						"<input autocomplete=\"off\" style=\"width:100%;\" type=\"text\" placeholder=\"Scan a QR-Code...\" \n" + 
+								"formElement=1 formPreventSave=0 saveType=\"none\"  maxlength=\"500\" onkeyup = function(e) {\n" + 
+										"	    		if(e.which == 13){ // qrcode scan will include enter as last char\n" + 
+										"	    			clearAndSearchCode(this);\n" + 
+										"	    		} \n}\n" +
+						"element=\"ElementInputImp\" type=\"Number\" >");
+				valueByCode.append("</div>");
+				valueByCode.append("<div class=\"column cell-element\"></div>");	
+				valueByCode.append("</div>");	
+			
+		} catch (Exception e) {
+			return html;
+		}
+		html.put(layoutBookMark, valueByCode.toString());
+		html.put(layoutBookMark + "_ready", valueByCode_onReady.toString());
+		return html;
+		
 	}
 	
 	private Map<String, String> getPurityList(String plannedCompositionId, long stateKey) {

@@ -207,4 +207,22 @@ public class FormApiElementsGeneralService { // TODO interface FormService and t
 		return "<table width=100%><tr><td class='cssStaticData_1'></td></tr></table>"; //No condition found
 	}
 
+	/***
+	 * 
+	 * @param formId- qrCode. expect to get a sample formId
+	 * @return message of 'No sample was found'or sample No+sample description
+	 * @throws Exception 
+	 */
+	public String getSampleLabel(String formId) throws Exception {
+		String sql = "select formcode from fg_sequence where id = '"+formId+"'";
+		String formCode = generalDao.selectSingleStringNoException(sql);
+		if(!formCode.equals("Sample")) {
+			throw new Exception("No Sample was found");
+		}
+		sql = "select samplename||' '||sampledesc\n"
+				+ "from fg_s_sample_v\n"
+				+ "where formid = '"+formId+"'";
+		return generalDao.selectSingleStringNoException(sql);
+	}
+
 }

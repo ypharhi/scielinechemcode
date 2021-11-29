@@ -384,11 +384,51 @@ function setParametersData() {
 	}
 }
 
-
-
-
-
-
-
-
-
+function clearAndSearchCode(element){
+	var $input = $(element);
+	var barCodeFormId = $input.text();
+	$input.text('');//clear the barCode in  order to let the user continue scanning barCodes
+	var urlParam = "?formId="+ barCodeFormId
+	+ "&userId="+ $('#userId').val()
+	+ "&eventAction=getSampleLabel";
+	
+	var allData = getformDataNoCallBack(1);
+	
+	var data_ = JSON.stringify({
+		action : "getSampleLabel",
+		data : [],
+		errorMsg : ""
+			});
+	// call...
+	$.ajax({
+		type : 'POST',
+		data : data_,
+		url : "./getSampleLabel.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+		contentType : 'application/json',
+		dataType : 'json',
+		success : function(obj) {
+			if (obj.errorMsg != null && obj.errorMsg != '') {
+				displayAlertDialog(obj.errorMsg);
+				}
+			else{
+				if(obj.data[0].val!=undefined && obj.data[0].val!=null){
+					var sampleData = obj.data[0].val;
+					var currentRow = $input.parent('div.row');
+					var newRow = '<div class="row">\n'
+						+ '<div class="column cell-label" style = "width:20%">\n'
+						+ '	<div formlabelelement="1" id="Label_'+barCodeFormId+' barcode_id = "'+barCodeFormId+'">'
+						+ '		<label style="display: table-cell">'+sampleData+'</label>'
+						+ '	</div>'
+						+ '</div>'
+						+ '<label onclick="removeSample(this)" style="width:5%;float:right">'
+						+ '	<i class="fa fa-times" title="Remove"></i>'
+						+ '</label>'
+						+ '<div class="column cell-element" style="width:5%"></div>'
+						+"</div>";
+					currentRow.after(newRow);
+				}
+			}
+		},
+		error : handleAjaxError
+	});
+}
