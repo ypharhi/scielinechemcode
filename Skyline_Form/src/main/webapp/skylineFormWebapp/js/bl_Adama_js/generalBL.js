@@ -615,7 +615,7 @@ function initForm() {
 		});
         if((_formCode == "Experiment") || (_formCode == "ExperimentCP")){// develop ExperimentCP "Continuous Process"
         	$("#saveButton").removeAttr('onclick');
-        	$("#saveButton").attr("onclick", "checkSpreadsheetFullScreen(doSaveWithConfirmCharSample,'Reload')");
+        	$("#saveButton").attr("onclick", "checkSpreadsheetFullScreenInExperiment(doSaveWithConfirmCharSample,'Reload')");
         	
     		initExperimentMassBalanceTab("webixMassBalanceTable","");
         	initExperimentMassBalanceTab("webixMassBalanceTable2","2");
@@ -637,7 +637,7 @@ function initForm() {
         } 
         else if(_formCode == "ExperimentAn"){
         	$("#saveButton").removeAttr('onclick');
-        	$("#saveButton").attr("onclick", "checkSpreadsheetFullScreen(doSaveWithConfirmManualResults,'Reload')");
+        	$("#saveButton").attr("onclick", "checkSpreadsheetFullScreenInExperiment(doSaveWithConfirmManualResults,'Reload')");
         	//lower the spreadsheet tab flag so that when clicking it, the spreadsheet would be reloaded
         	if(getActiveTabID() != "SpreadsheetTab") {
         		checkTabClickFlag('SpreadsheetTab');
@@ -651,7 +651,7 @@ function initForm() {
         else if(_formCode == "ExperimentFor")
         {
         	$("#saveButton").removeAttr('onclick');
-        	$("#saveButton").attr("onclick", "checkSpreadsheetFullScreen(doSaveExperimentFr,'Reload')");
+        	$("#saveButton").attr("onclick", "checkSpreadsheetFullScreenInExperiment(doSaveExperimentFr,'Reload')");
         	initEditableTableOnReadyScript();
         	
         	if(getActiveTabID() != "SpreadsheetTab") {
@@ -1582,7 +1582,7 @@ function initForm() {
 
 
 //specific function for the experiment forms
-function checkSpreadsheetFullScreen(callBackFunc,doAfterSave){
+function checkSpreadsheetFullScreenInExperiment(callBackFunc,doAfterSave){
 	if(isSpreadsheetFullScreen()){
 		saveSpreadsheet(getSpreadsheetElementFullScreen()[0]);
 	}
