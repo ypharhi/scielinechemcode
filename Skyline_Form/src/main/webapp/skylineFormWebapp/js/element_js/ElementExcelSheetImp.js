@@ -179,3 +179,74 @@ function setValueToSpreadSheet(domId,value){
 function importExcel(domId,fileWrapper,buffer, file){
 	window.frames[domId+'_spreadIframe'].importExcel(domId,fileWrapper,buffer, file);
 }
+
+function isSpreadsheetFullScreen(){
+	var excelElem = $('[element = "ElementExcelSheetImp"]');
+	var excelElemFullScreen = excelElem.filter(function(){return $(this).hasClass('full-screen')});
+	return excelElemFullScreen.length>0;
+}
+
+function getSpreadsheetElementFullScreen(){
+	var excelElem = $('[element = "ElementExcelSheetImp"]');
+	var excelElemFullScreen = excelElem.filter(function(){return $(this).hasClass('full-screen')});
+	return excelElemFullScreen;
+}
+
+//save specific excel element
+function saveSpreadsheet(element){
+	var allData = [];
+	var $element = $(element);
+	var elementImpCode = $element.attr('element');
+	var stringifyInfo = '{"formPreventSave":"' + $element.attr("formPreventSave") +
+			'", "type":"' + $element.attr("type") +
+			'", "saveType":"' + $element.attr("saveType")
+	'"}';
+	var stringifyToPush = {
+			code: $element.attr('id'),
+			val: getValue_(elementImpCode, element, 2),
+			type: "AJAX_BEAN",
+			info: stringifyInfo
+	};
+	allData.push(stringifyToPush);
+	var urlParam = "?formId=" + $('#formId').val() + "&formCode="
+			+ $('#formCode').val() + "&userId=" + $('#userId').val()
+			+ "&isNew=" + $('#isNew').val();
+
+	var data_ = JSON.stringify({
+			action : "saveSpreadsheet",
+			data : allData,
+			errorMsg : ""
+	});
+	
+	// call...
+	$.ajax({
+	type : 'POST',
+	data : data_,
+	url : "./saveSpreadsheet.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+	contentType : 'application/json',
+	dataType : 'json',
+	
+	success : function(obj) {
+		if(obj.errorMsg != null && obj.errorMsg != ''){
+			insertSpreadsheetIntoLocalStorage();  
+			displayAlertDialog(obj.errorMsg);
+		} else {
+			if(obj.data[0].val!=''){
+				var retVal =  JSON.parse(obj.data[0].val);
+				var elementId = retVal["elementId"];//the elementId of the new saved clob or the same one if no change has been done
+				var changeDate = retVal["lastChangeDate"];
+				$element.attr('elementId',elementId);
+				if(changeDate!= undefined){
+					$('#lastChangeDate').val(changeDate);
+				}
+			}
+			clearLocalStorage(null,$element.attr('id'));//clear the localstorage that holds the spreadsheet data in case the spreadsheet was already saved in the DB(on the save process)
+			displayFadeMessage(getSpringMessage('updateSuccessfully'));
+		}
+	},
+	error :  function(xhr, textStatus, error){
+		   	// insertSpreadsheetIntoLocalStorage();
+			 handleAjaxError(xhr, textStatus, error);
+		 } 
+	});
+}
