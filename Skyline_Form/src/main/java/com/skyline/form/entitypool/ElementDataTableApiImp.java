@@ -1045,11 +1045,11 @@ public class ElementDataTableApiImp extends Element {
 				"     title:'add Label Button (call outPutLabelDTWrapper in ElementDataTableApiImpBL) ',\n" + 
 				"	enum : ['','True'],\n" +
 				" },\n" +	
-				"addQrCodeButton:{\n" + 
+				/*"addQrCodeButton:{\n" + 
 				"     type:'string',\n" + 
 				"     title:'add Scan QrCode Button (call opensScanQrCodeDialog in ElementDataTableApiImp) ',\n" + 
 				"	enum : ['','True'],\n" +
-				" },\n" +	
+				" },\n" +	*/
 				"wfDiv:{\n" + 
 				"     type:'string',\n" + 
 				"     title:'WF Div',\n" + 

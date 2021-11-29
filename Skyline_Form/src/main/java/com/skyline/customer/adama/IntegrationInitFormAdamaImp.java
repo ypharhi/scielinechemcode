@@ -1023,7 +1023,7 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 							toReturn.put("UNIT_ID", userInfoMap.get("USER_INFO_UNIT_ID"));
 						} else if (generalUtil.getNull(parentForm).toLowerCase().contains("sample")) {
 							//create from sample/sampleMain
-							sql = " select distinct t.PROJECT_ID, t.SUBPROJECT_ID, t.SUBSUBPROJECT_ID,t.experiment_id as SAMPLE_EXP_ID"
+							sql = " select distinct t.PROJECT_ID, t.SUBPROJECT_ID, t.SUBSUBPROJECT_ID,t.experiment_id as SAMPLE_EXP_ID,t.experiment_id as ORIGIN_EXPERIMENT_ID"
 									+ " from fg_s_sample_v t where t.sample_id = "
 									+ structId;
 							toReturn = generalDao.sqlToHashMap(sql);
