@@ -113,9 +113,9 @@
 		}
 		
 		// we don't need the login img during develop 
-		if(url().indexOf("localhost") > 0) {
-			$("body").removeClass("login_body");
-		}
+// 		if(url().indexOf("localhost") > 0) {
+// 			$("body").removeClass("login_body");
+// 		}
 		
 	});
 	</script>
