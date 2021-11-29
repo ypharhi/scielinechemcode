@@ -1968,10 +1968,10 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				for(String requestId:requestList) {
 					generalUtilLogger.logWriter(LevelType.INFO,
 						"Update the origin request- formid= " + requestId
-								+ ". Set status to 'Pending Approval'",
+								+ ". Set status to 'Approved'",
 						ActivitylogType.SaveEvent, formId);
-					String sql_ = "update fg_s_request_pivot set requestStatus_id = '" + approvalStatusId + "'"
-							+ " where formid = '" + requestId + "' ";
+					String sql_ = "update fg_s_request_pivot set requestStatus_id = '" + approvalStatusId + "',completionDate=TO_CHAR(sysdate,'"+  generalUtil.getConversionDateFormat() + "')"
+							+ " where formid = '" + requestId + "' and nvl(requestStatus_id,'-1')<>'"+approvalStatusId+"'";
 					formSaveDao.updateStructTableByFormId(sql_, "fg_s_request_pivot", colList, requestId);
 				}		
 			}
