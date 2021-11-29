@@ -12,10 +12,18 @@ import com.skyline.form.bean.BeanType;
 import com.skyline.form.bean.DataBean;
 import com.skyline.form.entity.Layout;
 
+/**
+ * Jsp that can be useed by developers to have more flexible code
+ * - keep the bookmarks between <!-- body --> and </body> the same format of tabs if the integration with the formbuilder display screen is important as in testForm.jsp for example).
+ * @author comply
+ *
+ */
 public class LayoutJspSelectImp extends Layout {
 	private String jspName;
 	@Value("${jspPath}")
 	private String path;
+	
+	private String tabsCSV = "";
 
 	@Override
 	public String init(long stateKey, String formCode, String impCode, String initVal) {
@@ -24,6 +32,7 @@ public class LayoutJspSelectImp extends Layout {
 			{
 				this.jspName = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "jspName");
 				jspName=jspName.substring(0, jspName.lastIndexOf('.'));
+				this.tabsCSV = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "tabsCSV");
 				return "";
 			}
 			return "Creation failed";
@@ -44,7 +53,12 @@ public class LayoutJspSelectImp extends Layout {
 	public String getInitSchemaVal() {
 		String schema = super.getInitSchemaVal();
 		schema = "schema:{ \r\n" + "jspName:{  \r\n" + "      type:'string',\r\n" + "      title:'Page',\r\n"
-				+ "      'enum':getResourceCodeValueInfoByType(\"PATH_JSP\")\r\n" + "   }" + (schema.equals("") ? "" : ",\n" + schema) + "\r\n"
+				+ "      'enum':getResourceCodeValueInfoByType(\"PATH_JSP\")\r\n" + "   }," +
+				"    tabsCSV:{\n" + 
+				"        type:'string',\n" + 
+				"        title:'Tabs CSV'\n" + 			
+				"    },\n"
+				+ (schema.equals("") ? "" : ",\n" + schema) + "\r\n"
 				+ "}";
 		return schema;
 	}
@@ -57,15 +71,20 @@ public class LayoutJspSelectImp extends Layout {
 		String content = "";
 		try {
 			String jspName_ = generalUtil.getJsonValById(initVal, "jspName");
-			Scanner scanner = new Scanner(new File(path + "\\" + jspName_+ ".jsp"));
+			jspName_ = (!jspName_.endsWith(".jsp"))?jspName_+ ".jsp":jspName_;
+			Scanner scanner = new Scanner(new File(path + "\\" + jspName_));
 			content = scanner.useDelimiter("\\Z").next();
 			scanner.close();
-			content = content.substring(content.indexOf("<body>"), content.indexOf("</body>"));
-			Pattern pattern = Pattern.compile("(\\$\\{)(.*?)(\\})");
-			Matcher matcher = pattern.matcher(content);
-			while (matcher.find()) {
-				dataBeanList.add(new DataBean(matcher.group(2), matcher.group(2), BeanType.LAYOUT_ITEM_TEXT,
-						"Info: " + matcher.group(2)));
+			int start = content.indexOf("<!-- body -->");
+			int end = content.indexOf("</body>");
+			if(start > 0 && end > start) {
+				content = content.substring(content.indexOf("<!-- body -->"), content.indexOf("</body>"));
+				Pattern pattern = Pattern.compile("(\\$\\{)(.*?)(\\})");
+				Matcher matcher = pattern.matcher(content);
+				while (matcher.find()) {
+					dataBeanList.add(new DataBean(matcher.group(2), matcher.group(2), BeanType.LAYOUT_ITEM_TEXT,
+							"Info: " + matcher.group(2)));
+				}
 			}
 		} catch (Exception e) {
 			generalUtilLogger.logWrite(e);

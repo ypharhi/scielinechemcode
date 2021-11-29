@@ -131,8 +131,13 @@
 	<!-- Layout -->
 	<bean id="LayoutJspSelectImp" class="com.skyline.form.entitypool.LayoutJspSelectImp"
 		scope="prototype">
-		<property name="active" value="false" />
+		<property name="active" value="true" />
 		<property name="impName" value="Select jsp" />
+	</bean>
+	<bean id="LayoutDesignHtmlImp" class="com.skyline.form.entitypool.LayoutDesignHtmlImp"
+		scope="prototype">
+		<property name="active" value="true" />
+		<property name="impName" value="Design Html" />
 	</bean>
 	<!-- Element -->
 	<bean id="ElementAutoCompleteDDLImp" class="com.skyline.form.entitypool.ElementAutoCompleteDDLImp"
@@ -169,12 +174,7 @@
 		<property name="impName" value="Ireport" />
 		<property name="isAjaxDataFlowElement" value="false" />
 		<property name="saveType" value="none" />
-	</bean>
-	<bean id="LayoutDesignHtmlImp" class="com.skyline.form.entitypool.LayoutDesignHtmlImp"
-		scope="prototype">
-		<property name="active" value="true" />
-		<property name="impName" value="Design Html" />
-	</bean>
+	</bean> 
 	<bean id="ElementDataTableImp" class="com.skyline.form.entitypool.ElementDataTableImp"
 		scope="prototype">
 		<property name="active" value="true" />

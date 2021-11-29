@@ -343,6 +343,12 @@ public class FormBuilderService {
 		
 		StringBuffer sb = new StringBuffer();
 		try {
+			String layoutInit = formBuilderDao.getFormEntityInit(formCode, formEntity, "Layout");
+			String jspNameConfig = generalUtil.getJsonValById(layoutInit, "jspName");
+			
+			if(jspNameConfig != null && !jspNameConfig.isEmpty()) {
+				jspName  = jspNameConfig;
+			}
 			String path = jspPath + "/" + jspName;
 			if (!jspName.contains(".jsp")) {
 				path += ".jsp";
@@ -350,13 +356,18 @@ public class FormBuilderService {
 			Scanner scanner = new Scanner(new File(path));
 			content = scanner.useDelimiter("\\Z").next();
 			scanner.close();
-			content = content.substring(content.indexOf("<!--begin --><div"), content.indexOf("<!--end --></div>"));
-			Pattern pattern = Pattern.compile("(\\$\\{)(.*?)(\\})");
-			Matcher matcher = pattern.matcher(content);
-			while (matcher.find()) {
-				matcher.appendReplacement(sb, matcher.group(2));
+			int start = content.indexOf("<!--begin -->");
+			int end = content.indexOf("<!--end -->");
+			if(start > 0 && end > start) {
+				content = content.substring(start, end);
+				Pattern pattern = Pattern.compile("(\\$\\{)(.*?)(\\})");
+				Matcher matcher = pattern.matcher(content);
+				while (matcher.find()) {
+					matcher.appendReplacement(sb, matcher.group(2));
+				}
+				matcher.appendTail(sb);
 			}
-			matcher.appendTail(sb);
+			
 		} catch (Exception e) {
 			generalUtilLogger.logWrite(e);
 			e.printStackTrace();

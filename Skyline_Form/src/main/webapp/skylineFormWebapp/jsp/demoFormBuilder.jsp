@@ -830,7 +830,8 @@
     }
 
     function newFormEntity(selectedEntity, selectedType, isEdit) { //insert into db
-        if ((selectedEntity == "Layout") && (isEdit == false))        
+    	var isDesignHtmlImp = $('#LayoutType').length > 0 && $('#LayoutType').val() == 'LayoutDesignHtmlImp';
+    	if ((selectedEntity == "Layout") && (isEdit == false) && isDesignHtmlImp)        
             $("#entity_code").val(getValidJspName($("#formCode_hidden").val(),$("#entity_code").val()));
         //         	else if (selectedEntity == "Catalog")
         //         		$("#entity_code").val("catalog_" + $("#entity_code").val());
