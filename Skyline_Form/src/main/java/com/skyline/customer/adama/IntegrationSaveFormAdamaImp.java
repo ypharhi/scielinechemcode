@@ -2493,6 +2493,11 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				String parentId = elementValueMap.get("parentId");
 				String parentFormCodeEntity = formDao.getFormCodeEntityBySeqId("", parentId);
 				String parentFormCode = formDao.getFormCodeBySeqId(parentId);
+				if(parentFormCode.equals("Sample")){
+					parentId = generalDao.selectSingleStringNoException("select parentid from fg_s_sample_v where sample_id = '"+parentId+"'");
+					parentFormCodeEntity = formDao.getFormCodeEntityBySeqId("", parentId);
+					parentFormCode = formDao.getFormCodeBySeqId(parentId);
+				}
 
 				List<String> listOfAncestors = new ArrayList<String>();
 				if (parentFormCodeEntity.equals("Experiment")&& !parentFormCode.equals("ExperimentAn") && !parentFormCode.startsWith("ExperimentPr")) {
