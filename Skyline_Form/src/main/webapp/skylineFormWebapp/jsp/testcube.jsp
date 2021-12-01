@@ -53,12 +53,7 @@
 	<form id="doBackForm" action="doBack.request" method="post"><input type="hidden" id="formCode_request" name="formCode_request" value="${formCode}"><input type="hidden" id="stateKey_request" name="stateKey_request" value="${stateKey}"><input type="hidden" id="formCode_doBack" name="formCode_doBack"></form>
 	<%@ include file="../include/includeBodyJS.jsp"%>
 	<!-- body -->
-   <table style="width:100%;">
-					<tr>
-						<td>
-							<%@ include file="./PopupHeader.inc" %>
-						</td>
-					</tr>									
+   <table style="width:100%;">							
 					<tr>
 						<td class="ui-widget-content ui-corner-all innerTD" colspan="10">
 							<table class="displayOnLoad" width="100%" style="display:none;">

@@ -21,12 +21,14 @@
     width:20p%;
     height:100%;
     border: 1px solid red;
+    vertical-align: top;
 }
 #div2 {
     display: inline-block;
     width:80%;
     height:100%;
     border: 1px solid green;
+    vertical-align: top;
 }
 
  .my-iframe-container {
@@ -47,6 +49,13 @@
   height: 100%;
   border: 1px blue solid;
 }
+.edit-item-wrapper {
+
+ }
+ .edit-item {
+ 	display:inline; /*override block that make icons to move under the text*/
+ 	width:80%;
+ }
 </style>
 <script>
 	$(document).ready(function() { 
@@ -107,11 +116,21 @@
 							<table class="displayOnLoad" width="100%" style="display:none;">
 								<tr>
 									<td class="innerTD">
-									
-									<!--begin --> 
+									<!--begin -->
 									<div id="wrapper">
-									<div id="div1">The two divs are</div>
-    								<div id="div2">next to each other.
+									<div id="div1">
+										<div>	
+								            <div class="edit-item-wrapper">
+								                <input class="edit-item">
+								                <span class="fa fa-edit"></span>
+								            	<span class="fa fa-remove"></span>
+								            </div>
+								            <div>
+								                <span id="btnAddItem" class="fa fa-plus"" onclick="addItem()">Add Item</span>
+								            </div>
+										</div>
+									</div>
+    								<div id="div2">
 										<div class="my-iframe-container">
 											<embed class="my-responsive-iframe" src="init.request?formCode=TestCube&formId=367642&userId=28991&stateKey=1638274980435991&tableType=&PARENT_ID=-1">
 										</div>
