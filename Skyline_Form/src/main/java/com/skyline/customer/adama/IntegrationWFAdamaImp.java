@@ -867,7 +867,7 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 					} else {
 						String experiment_id = formParam.get("EXPERIMENT_ID");
 						Map<String,String> expData = generalDao.sqlToHashMap("select distinct protocoltypename,nvl(ISENABLESPREADSHEET,SP_ISENABLESPREADSHEET) ISENABLESPREADSHEET from fg_s_experiment_all_v where experiment_id = '"+experiment_id+"'");
-						if(!expData.get("PROTOCOLTYPENAME").equals("Formulation") || !expData.get("ISENABLESPREADSHEET").equals("Yes")) {
+						if(!expData.isEmpty()&&(!expData.get("PROTOCOLTYPENAME").equals("Formulation") || !expData.get("ISENABLESPREADSHEET").equals("Yes"))) {
 							msg = generalUtil.getSpringMessagesByKey(statusLogOrder + "The sample was created from an un-formulation experiment or a regular experiment(no spreadsheet)"
 								+ ". Batch are removed from the list.", "");
 							generalUtilLogger.logWriter(LevelType.DEBUG, ActivitylogType.WorkFlowNew, msg, formId,
@@ -898,6 +898,7 @@ public class IntegrationWFAdamaImp implements IntegrationWF {
 						generalUtilLogger.logWriter(LevelType.DEBUG,
 								"Default request does not exist for specific project and user. Request (Copy Default) is removed from the list.",
 								ActivitylogType.WorkFlowNew, formId);
+						wfNames.remove("Request (Copy Default)");
 					}
 				}
 				break;
