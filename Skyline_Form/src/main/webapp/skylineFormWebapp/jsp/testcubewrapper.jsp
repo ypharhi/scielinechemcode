@@ -33,7 +33,7 @@
 
  .my-iframe-container {
   position: relative;
-/*   overflow: hidden; */
+  overflow: hidden;
   width: 100%;
   padding-top: 40.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
 }
@@ -92,7 +92,7 @@
 	/* screen BL funcs */
 	/******************************/
 	function initFrame() {
-		var arrCubeIds = [{id:'367642' ,val:'aaa'}]; //TODO serverside
+		var arrCubeIds = [{id:'367672' ,val:'t1'}, {id:'367676' ,val:'t3'}]; //TODO serverside
 	    
 	    $.each(arrCubeIds, function( index, objIdVal ) {
 	    	  insertLink(objIdVal);
@@ -160,7 +160,7 @@
 	}
 	
 	function addLink() {
-		var $input = insertLink({id:'367656', val:'bbb'}); //TODO serverside
+		var $input = insertLink({id:'367675', val:'t2'}); //TODO serverside
 		editLink($input);
 	}
 	
@@ -172,7 +172,7 @@
 </script>
 </head>
  ${page_TestForm2_Testform2_html}  ${page_TestForm2_Testform2_html}  ${bookmark11_html}  ${bookmark12_html}  ${bookmark13_html}  ${bookmark14_html}  ${bookmark15_html}  ${bookmark21_html}  ${bookmark22_html}  ${bookmark23_html}  ${bookmark24_html}  ${bookmark25_html}  ${bookmark26_html}  ${bookmark27_html}  ${bookmark28_html}  ${bookmark29_html}  ${bookmark51_html}  ${bookmark52_html}  ${bookmark53_html}  ${bookmark54_html}  ${bookmark31_html}  ${bookmark32_html}  ${bookmark33_html}  ${bookmark34_html}  ${bookmark35_html}  ${bookmark41_html}  ${bookmark42_html}  ${bookmark43_html}  ${bookmark44_html}  ${bookmark45_html} 
-<body style="overflow-y: hidden;">
+<body"> <!--  REMOVE THE OVERFLOE HIDEN  AJUST WITH THE my-iframe-container TOP ???!!!-->
 	<input type="hidden" id="generalDisabledFlagParam" name="generalDisabledFlagParam" value="-1">
 	<input type="hidden" id="isStruct" name="isStruct" value="${isStruct}">
 	<input type="hidden" id="isNew" name="isNew" value="${isNew}">
