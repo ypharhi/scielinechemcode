@@ -83,31 +83,21 @@
 	    
 	    //!!!!!!!!!!!develop!!!!!!!!!!!!!!!! 
 	    // ids -> 367642,367656
-	    var arrCubeIds = [ {id:'367646' ,val:'bbb'},{id:'367642', val:'aaa'}]; 
+	    var arrCubeIds = [ {id:'367646' ,val:'aaa'},{id:'367642', val:'bbb'}]; 
 	    
 	    $.each(arrCubeIds, function( index, objIdVal ) {
-	    	  //alert( index + ": " + value );
-	    	  debugger;
-	    	  //clone to adhoc section
+	    	  //clone edit-item-wrapper-0  -> change id and val -> put before '.div-adhoc-marker'
 	    	  var $div = $('#edit-item-wrapper-0').clone();
 	    	  $div.attr('id','edit-item-wrapper-' + objIdVal.id); // change the id
-// 	    	  $div.removeClass('edit-item-wrapper');
 		      $('#div-adhoc-marker').before($div); // add before div-adhoc
 		      var $input = $div.find(':input');
-		      $input.val(objIdVal.val);
+		      $input.val(objIdVal.val); // change the val
 		      
 	    });
 	    
-// 	    debugger;
+	    //show links (without edit-item-wrapper-0);
+	    ($('.edit-item-wrapper').not('#edit-item-wrapper-0')).css("display", "block");
 	    
-	    //show links in disabled mode
-	    $('.edit-item-wrapper').each(function() {
-	    	 var $div = $( this );
-	    	 var id = $div.attr('id');
-	    	 if(id != "edit-item-wrapper-0") { // the first one (our template need to stay hidden)
-	    		 $div.css("display", "block");
-	    	 }
-	    }); 
 	});
 	${page_TestForm2_Testform2_function} 	${page_TestForm2_Testform2_function} 	${bookmark11_function} 	${bookmark12_function} 	${bookmark13_function} 	${bookmark14_function} 	${bookmark15_function} 	${bookmark21_function} 	${bookmark22_function} 	${bookmark23_function} 	${bookmark24_function} 	${bookmark25_function} 	${bookmark26_function} 	${bookmark27_function} 	${bookmark28_function} 	${bookmark29_function} 	${bookmark51_function} 	${bookmark52_function} 	${bookmark53_function} 	${bookmark54_function} 	${bookmark31_function} 	${bookmark32_function} 	${bookmark33_function} 	${bookmark34_function} 	${bookmark35_function} 	${bookmark41_function} 	${bookmark42_function} 	${bookmark43_function} 	${bookmark44_function} 	${bookmark45_function} 
 
