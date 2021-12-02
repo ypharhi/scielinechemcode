@@ -83,7 +83,7 @@
 	    
 	    //!!!!!!!!!!!develop!!!!!!!!!!!!!!!! 
 	    // ids -> 367642,367656
-	    var arrCubeIds = [ , {id:'367646' ,val:'bbb'},{id:'367642', val:'aaa'}]; 
+	    var arrCubeIds = [ {id:'367646' ,val:'bbb'},{id:'367642', val:'aaa'}]; 
 	    
 	    $.each(arrCubeIds, function( index, objIdVal ) {
 	    	  //alert( index + ": " + value );
