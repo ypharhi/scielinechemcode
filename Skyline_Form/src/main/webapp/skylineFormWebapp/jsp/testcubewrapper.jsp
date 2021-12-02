@@ -81,19 +81,50 @@
 	    renderElementAuthorizationImp();
 	    //$('.displayOnLoad').css('display','');
 	    
-	    //develop!!!!!!!!!!!!!!!!
+	    //!!!!!!!!!!!develop!!!!!!!!!!!!!!!! 
+	    // ids -> 367642,367656
+	    var arrCubeIds = [ '367642', '367656' ];
 	    
-	    $('#btnAddItem').attr('onclick', 'addItemClick_();');
+	    $.each(arrCubeIds, function( index, value ) {
+	    	  //alert( index + ": " + value );
+	    	  
+	    	  //clone to adhoc section
+	    	  var $div = $('.edit-item-wrapper').clone();
+		      $('#div-adhoc').html($div);
+		      $div.attr('frameId',value);
+		      
+	    });
 	    
-	    //test adhocitem
-	    var $div = $('.edit-item-wrapper').clone();
-	    $('#div-adhoc').html($div);
+// 	    debugger;
+	    
+	    //show links in disabled mode
+	    $('.edit-item-wrapper').each(function() {
+	    	 var $div = $( this );
+	    	 var frameId = $div.attr('frameId');
+	    	 if(frameId != "-1") { // the first one (our template need to stay hidden)
+	    		 $div.css("display", "block");
+	    	 }
+	    }); 
 	});
 	${page_TestForm2_Testform2_function} 	${page_TestForm2_Testform2_function} 	${bookmark11_function} 	${bookmark12_function} 	${bookmark13_function} 	${bookmark14_function} 	${bookmark15_function} 	${bookmark21_function} 	${bookmark22_function} 	${bookmark23_function} 	${bookmark24_function} 	${bookmark25_function} 	${bookmark26_function} 	${bookmark27_function} 	${bookmark28_function} 	${bookmark29_function} 	${bookmark51_function} 	${bookmark52_function} 	${bookmark53_function} 	${bookmark54_function} 	${bookmark31_function} 	${bookmark32_function} 	${bookmark33_function} 	${bookmark34_function} 	${bookmark35_function} 	${bookmark41_function} 	${bookmark42_function} 	${bookmark43_function} 	${bookmark44_function} 	${bookmark45_function} 
 
-	function addItemClick_ () {
-		alert('addItemClick_');
+	
+	/******************************/
+	/* inner funcs */
+	/******************************/
+	
+	function editLink(obj) {
+		alert('editLink');
 	}
+	
+	function removeLink(obj) {
+		alert('removeLink');
+	}
+	
+	function addLink(obj) {
+		alert('addLink');
+	}
+	
 </script>
 </head>
  ${page_TestForm2_Testform2_html}  ${page_TestForm2_Testform2_html}  ${bookmark11_html}  ${bookmark12_html}  ${bookmark13_html}  ${bookmark14_html}  ${bookmark15_html}  ${bookmark21_html}  ${bookmark22_html}  ${bookmark23_html}  ${bookmark24_html}  ${bookmark25_html}  ${bookmark26_html}  ${bookmark27_html}  ${bookmark28_html}  ${bookmark29_html}  ${bookmark51_html}  ${bookmark52_html}  ${bookmark53_html}  ${bookmark54_html}  ${bookmark31_html}  ${bookmark32_html}  ${bookmark33_html}  ${bookmark34_html}  ${bookmark35_html}  ${bookmark41_html}  ${bookmark42_html}  ${bookmark43_html}  ${bookmark44_html}  ${bookmark45_html} 
@@ -130,20 +161,16 @@
 									<!--begin -->
 									<div id="wrapper">
 									<div id="div1">
-<!-- 										<div>	 -->
-								            <div class="edit-item-wrapper">
-								                <input class="edit-item">
-								                <span class="fa fa-edit"></span>
-								            	<span class="fa fa-remove"></span>
+								            <div frameId="-1" class="edit-item-wrapper" style="display: none;">
+								                <input class="edit-item disabledclass">
+								                <span class="fa fa-edit" onclick="editLink(this)"></span>
+								            	<span class="fa fa-remove" onclick="removeLink(this)"></span>
 								            </div>
 								            <div id="div-adhoc">
-
 											</div>
 								            <div>
-								                <span id="btnAddItem" class="fa fa-plus">Add Item</span>
+								                <span id="btnAddLink" class="fa fa-plus" onclick="addLink(this)">Add Item</span>
 								            </div>
-<!-- 										</div> -->
-										
 									</div>
     								<div id="div2">
 										<div class="my-iframe-container">
@@ -151,9 +178,7 @@
 										</div>
 									</div>
 								    </div>
-									
 									<!--end -->
-									
 									</td>
 								</tr>										
 							</table>
