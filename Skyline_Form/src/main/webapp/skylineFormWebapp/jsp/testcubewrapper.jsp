@@ -164,6 +164,11 @@
 		editLink($input);
 	}
 	
+	function updateEditLinkName(obj) {
+		var newVal = obj.value;
+		displayAlertDialog("TODO remove to new val: " + newVal + " on server side"); //TODO serverside
+	}
+	
 </script>
 </head>
  ${page_TestForm2_Testform2_html}  ${page_TestForm2_Testform2_html}  ${bookmark11_html}  ${bookmark12_html}  ${bookmark13_html}  ${bookmark14_html}  ${bookmark15_html}  ${bookmark21_html}  ${bookmark22_html}  ${bookmark23_html}  ${bookmark24_html}  ${bookmark25_html}  ${bookmark26_html}  ${bookmark27_html}  ${bookmark28_html}  ${bookmark29_html}  ${bookmark51_html}  ${bookmark52_html}  ${bookmark53_html}  ${bookmark54_html}  ${bookmark31_html}  ${bookmark32_html}  ${bookmark33_html}  ${bookmark34_html}  ${bookmark35_html}  ${bookmark41_html}  ${bookmark42_html}  ${bookmark43_html}  ${bookmark44_html}  ${bookmark45_html} 
@@ -201,7 +206,7 @@
 									<div id="wrapper">
 									<div id="div1">
 								            <div id="edit-item-wrapper-0" class="edit-item-wrapper" style="display: none;">
-								                <input class="edit-item alphanumInputForm" type="text">
+								                <input class="edit-item alphanumInputForm" type="text" onBlur='updateEditLinkName(this);'>
 								                <span class="fa fa-edit" onclick="editLink(this)"></span>
 								            	<span class="fa fa-remove" onclick="removeLink(this)"></span>
 								            </div>
