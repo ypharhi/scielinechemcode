@@ -773,6 +773,7 @@ public class FormServiceImp implements FormService {
 			retAttr += " " + FORM_ELEMENT_PREVENT_SAVE_ATTRIBUTE_;
 		} else if (element.isAdditionalData()) {
 			retAttr += " " + FORM_ELEMENT_FORM_ADDITIONALDATA_ATTRIBUTE_;
+			retAttr += " " + FORM_ELEMENT_SAVE_TYPE_ATTRIBUTE_.replace("none", element.getSaveType());
 		} else {
 			retAttr += " " + FORM_ELEMENT_SAVE_ATTRIBUTE_;
 			retAttr += " " + FORM_ELEMENT_SAVE_TYPE_ATTRIBUTE_.replace("none", element.getSaveType());
