@@ -152,7 +152,7 @@
 		openConfirmDialog({
 			onConfirm : function()
 			{
-				alert('TODO server side');
+				alert('TODO server side - by source? if first?');
 			},
 			title : 'Warning',
 			message : getSpringMessage('REMOVE_LINK_ITEM')
