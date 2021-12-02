@@ -78,28 +78,28 @@
 	    	 $('#backHeaderJspTempalte').css('cursor','pointer');  
 	    } 	
 	    
+	    //**********screen BL.....
+	    initFrame();
+	    //**********screen Done!
+	    
 	    renderElementAuthorizationImp();
 	    //$('.displayOnLoad').css('display','');
-	    
-	    //!!!!!!!!!!!develop!!!!!!!!!!!!!!!!
-	    var arrCubeIds = [{id:'367642' ,val:'aaa'}]; 
+	});
+	${page_TestForm2_Testform2_function} 	${page_TestForm2_Testform2_function} 	${bookmark11_function} 	${bookmark12_function} 	${bookmark13_function} 	${bookmark14_function} 	${bookmark15_function} 	${bookmark21_function} 	${bookmark22_function} 	${bookmark23_function} 	${bookmark24_function} 	${bookmark25_function} 	${bookmark26_function} 	${bookmark27_function} 	${bookmark28_function} 	${bookmark29_function} 	${bookmark51_function} 	${bookmark52_function} 	${bookmark53_function} 	${bookmark54_function} 	${bookmark31_function} 	${bookmark32_function} 	${bookmark33_function} 	${bookmark34_function} 	${bookmark35_function} 	${bookmark41_function} 	${bookmark42_function} 	${bookmark43_function} 	${bookmark44_function} 	${bookmark45_function} 
+
+	
+	/******************************/
+	/* screen BL funcs */
+	/******************************/
+	function initFrame() {
+		var arrCubeIds = [{id:'367642' ,val:'aaa'}]; //TODO serverside
 	    
 	    $.each(arrCubeIds, function( index, objIdVal ) {
 	    	  insertLink(objIdVal);
 	    });
 	    
 	    disableAllLinks();
-	    
-	    //show links (without edit-item-wrapper-0);
-// 	    ($('.edit-item-wrapper').not('#edit-item-wrapper-0')).css("display", "block");
-	    
-	});
-	${page_TestForm2_Testform2_function} 	${page_TestForm2_Testform2_function} 	${bookmark11_function} 	${bookmark12_function} 	${bookmark13_function} 	${bookmark14_function} 	${bookmark15_function} 	${bookmark21_function} 	${bookmark22_function} 	${bookmark23_function} 	${bookmark24_function} 	${bookmark25_function} 	${bookmark26_function} 	${bookmark27_function} 	${bookmark28_function} 	${bookmark29_function} 	${bookmark51_function} 	${bookmark52_function} 	${bookmark53_function} 	${bookmark54_function} 	${bookmark31_function} 	${bookmark32_function} 	${bookmark33_function} 	${bookmark34_function} 	${bookmark35_function} 	${bookmark41_function} 	${bookmark42_function} 	${bookmark43_function} 	${bookmark44_function} 	${bookmark45_function} 
-
-	
-	/******************************/
-	/* inner funcs */
-	/******************************/
+	}
 	
 	function disableAllLinks() {
 		$('.edit-item').addClass('disabledclass');
@@ -149,11 +149,18 @@
 	}
 	
 	function removeLink(obj) {
-		debugger;
+		openConfirmDialog({
+			onConfirm : function()
+			{
+				alert('TODO server side');
+			},
+			title : 'Warning',
+			message : getSpringMessage('REMOVE_LINK_ITEM')
+		})
 	}
 	
 	function addLink() {
-		var $input = insertLink({id:'367656', val:'bbb'}); 
+		var $input = insertLink({id:'367656', val:'bbb'}); //TODO serverside
 		editLink($input);
 	}
 	
