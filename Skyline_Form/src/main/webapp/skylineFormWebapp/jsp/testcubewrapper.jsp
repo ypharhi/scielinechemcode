@@ -81,22 +81,17 @@
 	    renderElementAuthorizationImp();
 	    //$('.displayOnLoad').css('display','');
 	    
-	    //!!!!!!!!!!!develop!!!!!!!!!!!!!!!! 
-	    // ids -> 367642,367656
-	    var arrCubeIds = [ {id:'367646' ,val:'aaa'},{id:'367642', val:'bbb'}]; 
+	    //!!!!!!!!!!!develop!!!!!!!!!!!!!!!!
+	    var arrCubeIds = [{id:'367642' ,val:'aaa'}]; 
 	    
 	    $.each(arrCubeIds, function( index, objIdVal ) {
-	    	  //clone edit-item-wrapper-0  -> change id and val -> put before '.div-adhoc-marker'
-	    	  var $div = $('#edit-item-wrapper-0').clone();
-	    	  $div.attr('id','edit-item-wrapper-' + objIdVal.id); // change the id
-		      $('#div-adhoc-marker').before($div); // add before div-adhoc
-		      var $input = $div.find(':input');
-		      $input.val(objIdVal.val); // change the val
-		      
+	    	  insertLink(objIdVal);
 	    });
 	    
+	    disableAllLinks();
+	    
 	    //show links (without edit-item-wrapper-0);
-	    ($('.edit-item-wrapper').not('#edit-item-wrapper-0')).css("display", "block");
+// 	    ($('.edit-item-wrapper').not('#edit-item-wrapper-0')).css("display", "block");
 	    
 	});
 	${page_TestForm2_Testform2_function} 	${page_TestForm2_Testform2_function} 	${bookmark11_function} 	${bookmark12_function} 	${bookmark13_function} 	${bookmark14_function} 	${bookmark15_function} 	${bookmark21_function} 	${bookmark22_function} 	${bookmark23_function} 	${bookmark24_function} 	${bookmark25_function} 	${bookmark26_function} 	${bookmark27_function} 	${bookmark28_function} 	${bookmark29_function} 	${bookmark51_function} 	${bookmark52_function} 	${bookmark53_function} 	${bookmark54_function} 	${bookmark31_function} 	${bookmark32_function} 	${bookmark33_function} 	${bookmark34_function} 	${bookmark35_function} 	${bookmark41_function} 	${bookmark42_function} 	${bookmark43_function} 	${bookmark44_function} 	${bookmark45_function} 
@@ -106,16 +101,60 @@
 	/* inner funcs */
 	/******************************/
 	
-	function editLink(obj) {
-		alert('editLink');
+	function disableAllLinks() {
+		$('.edit-item').addClass('disabledclass');
+	} 
+	
+	function removeIframe() {
+		$('.my-responsive-iframe').remove();
+	}
+	
+	function insertLink(objIdVal) {
+		//clone edit-item-wrapper-0  -> change id and val -> put before '.div-adhoc-marker'
+  	  	var $div = $('#edit-item-wrapper-0').clone();
+  	  	$div.attr('id','edit-item-wrapper-' + objIdVal.id); // change the id
+	    $('#div-adhoc-marker').before($div); // add before div-adhoc
+	    var $input = $div.find(':input');
+	    $input.val(objIdVal.val); // change the val
+	    $div.css("display", "block");
+	    return $input;
+	}
+	
+	function loadIframeById(id_) {
+		var $iframeParent = $('.my-iframe-container');
+		
+		var formCode_ = 'TestCube';
+		var stataky_ = $('#stateKey').val();
+		var userId_ = $('#userId').val();
+		
+		var src = 'init.request?formCode=' + formCode_ + 
+				  '&formId=' + id_ + 
+				  '&userId=' + userId_ + 
+				  '&stateKey=' + stataky_ + 
+				  '&tableType=&PARENT_ID=-1';
+		
+		var newElement = "<embed class='my-responsive-iframe' src='" + src + "'>";
+
+		removeIframe();
+		$iframeParent.append(newElement);
+	}
+	
+	function editLink(obj) { 
+		disableAllLinks();
+		var $div = $(obj).parent('div');
+		var $input = $div.find(':input');
+		$input.removeClass('disabledclass');
+		var id_ = $div.attr('id').replace('edit-item-wrapper-','');
+		loadIframeById(id_);
 	}
 	
 	function removeLink(obj) {
-		alert('removeLink');
+		debugger;
 	}
 	
-	function addLink(obj) {
-		alert('addLink');
+	function addLink() {
+		var $input = insertLink({id:'367656', val:'bbb'}); 
+		editLink($input);
 	}
 	
 </script>
@@ -155,19 +194,19 @@
 									<div id="wrapper">
 									<div id="div1">
 								            <div id="edit-item-wrapper-0" class="edit-item-wrapper" style="display: none;">
-								                <input class="edit-item disabledclass">
+								                <input class="edit-item alphanumInputForm" type="text">
 								                <span class="fa fa-edit" onclick="editLink(this)"></span>
 								            	<span class="fa fa-remove" onclick="removeLink(this)"></span>
 								            </div>
 								            <div id="div-adhoc-marker">
 											</div>
 								            <div>
-								                <span id="btnAddLink" class="fa fa-plus" onclick="addLink(this)">Add Item</span>
+								                <span id="btnAddLink" class="fa fa-plus" onclick="addLink()">Add Item</span>
 								            </div>
 									</div>
     								<div id="div2">
 										<div class="my-iframe-container">
-											<embed class="my-responsive-iframe" src="init.request?formCode=TestCube&formId=367656&userId=28991&stateKey=1638274980435991&tableType=&PARENT_ID=-1">
+											<embed class="my-responsive-iframe">
 										</div>
 									</div>
 								    </div>
