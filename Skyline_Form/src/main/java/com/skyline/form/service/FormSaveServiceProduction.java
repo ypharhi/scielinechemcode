@@ -94,12 +94,12 @@ public class FormSaveServiceProduction extends FormSaveBasic implements FormSave
 			if (formBuilderSaveFlag != null && formBuilderSaveFlag.equals("1")) { // drop and create pivot tables (if system make save from the form builder preview (=> FORMBUILDERSAVEFLAG=1) and in the DB fg_sys_param.is_develop = 1 (dropAndCreateTableFlag prop not in use)
 				String userName = generalUtil.getSessionUserName();
 				if(userName != null && userName.equalsIgnoreCase("system")) {
-					update = formSaveDao.doSaveDropAndCreatePivot(formCode, formId, userId,
-							removePreventSaveElements(elementValueMap, preventSaveElementList), null, saveName, "",
-							description);
-					if(generalUtil.getNullInt(update,0) > 0) {
+//					update = formSaveDao.doSaveDropAndCreatePivot(formCode, formId, userId,
+//							removePreventSaveElements(elementValueMap, preventSaveElementList), null, saveName, "",
+//							description);
+//					if(generalUtil.getNullInt(update,0) > 0) {
 						formSaveDao.createStructPivotTable(formCode, formId);
-					}
+//					}
 				}
 			}
 

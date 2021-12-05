@@ -225,8 +225,9 @@ public abstract class Element extends Entity implements ElementInterface {
 				" title: 'Search ID holder (for hidden element that holds a search ID)'\r\n" +
 				"   },\r\n" +
 				"	additionalData: { \r\n" +
+				" 'default': 'true',\r\n" + 
 				" type: 'boolean',\r\n" + 
-				" title: 'Is additional data (if checcked will be saved as additional data in FG_FORMADDITIONALDATA)'\r\n" + 
+				" title: 'Is additional data - uncheck only if no data!! (will be saved as additional data in FG_FORMADDITIONALDATA and not in table column)'\r\n" + 
 				"	},\r\n" +
 				"	resultData: { \r\n" +
 				" type: 'boolean',\r\n" + 

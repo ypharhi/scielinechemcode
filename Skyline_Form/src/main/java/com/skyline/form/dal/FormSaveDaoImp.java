@@ -209,39 +209,7 @@ public class FormSaveDaoImp extends BasicDao implements FormSaveDao {
 	public String doSaveDropAndCreatePivot(String formCode, String formId, String userId, Map<String, String> elementValueMap,
 			String sessionId, String saveName, String useLoginsessionidScopeFlag, String description) {
 
-		int intUpdate = 0;
-		Form form = formDao.getFormInfoLookup(formCode, "%", true).get(0);
-
-		if (elementValueMap.isEmpty()) {
-			return "0";
-		}
-
-		String sql = "merge into FG_FORMLASTSAVEVALUE_UNPIVOT p using ( "
-				+ getUsingFordoSave(formCode, form.getFormCodeEntity(), formId, userId, sessionId, elementValueMap,
-						"", useLoginsessionidScopeFlag)
-				+ " ) t1"
-				+ " on( p.formid=t1.formid and p.formcode_name = t1.formcode_name and p.entityimpcode = t1.entityimpcode and nvl(p.sessionId,'-1') = nvl(t1.sessionId,'-1') and nvl(p.active,'1') = nvl(t1.active,'1') "
-				+ (generalUtil.getNull(formId).equals("-1")
-						? (!saveName.isEmpty() ? "and p.save_name_id = t1.save_name_id "
-								: "and p.save_name_id is null and p.userid = t1.userid ")
-						: "")
-				+ ") "
-				+ "when not matched then insert (formid,formcode_name,formcode_entity,entityimpcode,entityimpvalue,userid,sessionId,active,created_by,save_name_id,login_sessionid)"
-				+ " values (t1.formid,t1.formcode_name,t1.formcode_entity,t1.entityimpcode,entityimpvalue,t1.userid, t1.sessionId, t1.active, t1.userid, t1.save_name_id, t1.login_sessionid) "
-				+ "when matched then update set p.entityimpvalue = t1.entityimpvalue, p.change_by = t1.userid, p.login_sessionid = t1.login_sessionid";
-		logger.info("doSave sql=" + sql);
-
-		intUpdate = generalDao.updateSingleStringNoTryCatch(sql);
-		if (intUpdate > 0) {
-			//update name in FG_SEQUENCE
-			sql = "update FG_SEQUENCE SET FORMIDNAME = '"
-					+ elementValueMap.get(generalUtil.changeFirstChar(form.getFormCodeEntity(), true) + "Name")
-					+ "'  where id = '" + formId + "' ";
-			logger.info("update FG_SEQUENCE formidname sql=" + sql);
-			intUpdate = generalDao.updateSingleStringNoTryCatch(sql);
-		}
-
-		return String.valueOf(intUpdate);
+		return ""; // not in use
 	}
 
 	private String getUsingFordoSave(String formCode, String formCodeEntity, String formId, String userId,
