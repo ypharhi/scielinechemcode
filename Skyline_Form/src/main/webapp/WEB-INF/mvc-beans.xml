@@ -13,7 +13,7 @@
 		components. Otherwise, we might have a mess and transactional and service 
 		contexts may not work properly -->
 <aop:aspectj-autoproxy />
-	<context:component-scan base-package="com.skyline.form.controller,com.skyline.notification.controller" />
+	<context:component-scan base-package="com.skyline.form.controller,com.skyline.form.prigatcontroller" />
 	<mvc:annotation-driven />
 
 

@@ -92,13 +92,33 @@
 	/* screen BL funcs */
 	/******************************/
 	function initFrame() {
-		var arrCubeIds = [{id:'367672' ,val:'t1'}, {id:'367676' ,val:'t3'}]; //TODO serverside
+		var arrCubeIds = [{id:'367760' ,val:'at1'}]; //TODO serverside
+		var appId = $('#formId').val();
+// 		debugger;
+	    $.ajax({
+	        type: 'POST',
+	        data: '{"action" : "getappitems","' + 'data":[' + '{"code":"appid","val":"' + appId + '"}' + '],' + '"errorMsg":""}',
+	        url: "./getappitems.request",
+	        contentType: 'application/json',
+	        dataType: 'json',
+	        async: false,
+	        success: function (obj) { 
+				if(obj.errorMsg != null && obj.errorMsg.length > 0) {
+					displayAlertDialog(obj.errorMsg);
+				} else {
+					$.each(obj.data, function( index, objIdVal ) {
+			  	    	  insertLink(objIdVal);
+				  	});
+					disableAllLinks();
+				} 
+	        },
+	        error: function () {
+	        	displayAlertDialog("Error - get item list!");
+	        }
+	    });  
+		 
 	    
-	    $.each(arrCubeIds, function( index, objIdVal ) {
-	    	  insertLink(objIdVal);
-	    });
 	    
-	    disableAllLinks();
 	}
 	
 	function disableAllLinks() {
@@ -112,7 +132,7 @@
 	function insertLink(objIdVal) {
 		//clone edit-item-wrapper-0  -> change id and val -> put before '.div-adhoc-marker'
   	  	var $div = $('#edit-item-wrapper-0').clone();
-  	  	$div.attr('id','edit-item-wrapper-' + objIdVal.id); // change the id
+  	  	$div.attr('id','edit-item-wrapper-' + objIdVal.code); // change the id
 	    $('#div-adhoc-marker').before($div); // add before div-adhoc
 	    var $input = $div.find(':input');
 	    $input.val(objIdVal.val); // change the val
@@ -123,7 +143,7 @@
 	function loadIframeById(id_) {
 		var $iframeParent = $('.my-iframe-container');
 		
-		var formCode_ = 'TestCube';
+		var formCode_ = 'ApplicationItem';
 		var stataky_ = $('#stateKey').val();
 		var userId_ = $('#userId').val();
 		
@@ -160,7 +180,7 @@
 	}
 	
 	function addLink() {
-		var $input = insertLink({id:'367675', val:'t2'}); //TODO serverside
+		var $input = insertLink({id:'-1', val:''}); //TODO serverside
 		editLink($input);
 	}
 	
@@ -184,6 +204,8 @@
 	<input type="hidden" id="backUrl" name="backUrl" value='../skylineFormWebapp/<%= session.getAttribute("homePage") %>'>
 	<input type="hidden" id="springMessages" name="springMessages" value='${springMessages}'>
 	<input type="hidden" id="waitMessageCounter" name="waitMessageCounter" value="0">
+	<input type="hidden" id="lastChangeUserId" name="lastChangeUserId" value="${lastChangeUserId}">
+	<input type="hidden" id="lastChangeDate" name="lastChangeDate" value="${lastChangeDate}">
 	<input type="hidden" id="permissionsAccess" name="permissionsAccess" value="${PERMISSION_ACCESS}">
 	<form id="doBackForm" action="doBack.request" method="post"><input type="hidden" id="formCode_request" name="formCode_request" value="${formCode}"><input type="hidden" id="stateKey_request" name="stateKey_request" value="${stateKey}"><input type="hidden" id="formCode_doBack" name="formCode_doBack"></form>
 	<%@ include file="../include/includeBodyJS.jsp"%>
@@ -203,7 +225,7 @@
 								<tr>
 									<td class="innerTD">
 									<!--begin -->
-									<button  type="button" perm_attr="cu" class="button" id="save_" onclick="doSave('Close')"><spring:message code="Save" text="Save" /></button>
+									<button  type="button" perm_attr="cu" class="button" id="save_" onclick="doSave('Reload')"><spring:message code="Save" text="Save" /></button>
 									<button id="close_back" class="button" type="button" style="margin-left: 15px;" onclick="parent.$('#prevDialog').dialog('close');"><spring:message code="Close" text="Close" /></button>
 									${bookmark11}  ${bookmark12}
 									<div id="wrapper">
