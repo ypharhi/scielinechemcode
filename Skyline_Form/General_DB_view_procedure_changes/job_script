@@ -1,0 +1,12 @@
+BEGIN
+ dbms_scheduler.create_job
+ (
+    job_name        => 'night_job',
+    job_type        => 'STORED_PROCEDURE',
+    job_action      => 'FG_GENERAL.night_job',
+    enabled         => true,
+    comments        => 'Gemeral night job',
+    start_date      => to_date('18/10/2010 01:58:00','dd/MM/yyyy HH24:MI:SS'),
+    repeat_interval => 'freq=HOURLY;interval=12'
+ );
+END;
