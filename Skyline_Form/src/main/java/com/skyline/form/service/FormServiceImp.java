@@ -188,10 +188,8 @@ public class FormServiceImp implements FormService {
 				+ generalUtilFormState.getSummary(stateKey, formCode, false);
 		logger.info(formInitInfo);
 		
-		if (isClone && (formCode.equalsIgnoreCase("InvitemMaterial") ||formCode.equalsIgnoreCase("InvItemMaterialFr")||formCode.equalsIgnoreCase("InvItemMaterialPr")|| formCode.equalsIgnoreCase("InvitemInstrument")
-				|| formCode.equalsIgnoreCase("InvitemColumn") || formCode.equalsIgnoreCase("SelfTest")
-				|| formCode.equalsIgnoreCase("Request") || formCode.equalsIgnoreCase("PermissionScheme")
-				|| formCode.equalsIgnoreCase("RecipeFormulation") || formCode.equalsIgnoreCase("MaterialFunction"))) {
+		//... remove on clone_ form code
+		if (isClone) { // && (formCode.equalsIgnoreCase("XXX") -to be on safe side !?
 			generalDao.updateSingleString("delete from fg_s_" + formCode + "_pivot where formid = '" + formId
 					+ "' and active = '-" + formId + "'");
 		}
@@ -230,10 +228,13 @@ public class FormServiceImp implements FormService {
 		
 		Form form = formDao.getFormInfoLookup(formCode, "%", true).get(0);
 		String title = generalUtil.getNull(form.getTitle());
-		String subtitle = "";
-		String additSymbolsForTitle = "";
+		title = generalUtil.getSpringMessagesByKey(title,title);
+		
+		String subtitle = generalUtil.getNull(form.getSubtitle());
+		subtitle = generalUtil.getSpringMessagesByKey(subtitle,subtitle);
+		
 		try {
-			subtitle = generalUtil.getNull(form.getSubtitle());
+			
 			if (!subtitle.equals("") && subtitle.contains("$P{")) {
 				// replace all parameter ->
 				subtitle = generalUtilFormState.replaceFormParam(stateKey, formCode, subtitle, true);
@@ -242,20 +243,6 @@ public class FormServiceImp implements FormService {
 			
 			subtitle = subtitle.replaceAll("\\[\\s+\\]", "").replaceAll("\\(\\s+\\)", "").trim();
 			
-			// 18082020 kd fixed bug-8458. Goal is to change " }}" on ", " 
-			
-			if(subtitle.matches(".*}}step\\s+\\}}")){  // change "}}step }}" on "" in case there is no any text after "}}step" (no 2 last parts of subtitle)"
-				subtitle = subtitle.replaceAll("}}step\\s+\\}}", "");
-			}
-			else if (subtitle.matches(".*}}step\\s+\\}}.*")) { // change "}}step" on "," in case there is no any text between "}}" (no second from the end part of subtitle)
-				subtitle = subtitle.replaceAll("}}step\\s+}}", ", ").replaceAll(" ,", ",");
-			}
-			else if (subtitle.matches(".*}}")) { // change "}}" on "" in case there is no any text after "}}" (no last part of subtitle)
-				subtitle = subtitle.replaceAll("}}", ""); 
-			}
-			else {
-				subtitle = subtitle.replaceAll(" }}", ", "); // change " }}" on ", ".
-			}
 		} catch (Exception e) {
 			try {
 				subtitle = generalUtil.getNull(form.getSubtitle());
@@ -263,92 +250,14 @@ public class FormServiceImp implements FormService {
 				// DO NOTHING
 			}
 		}
-
-		String titleNewFlag = "";
-		String userName = generalUtil.getSessionUserName();
-		if ((userName.equals("admin?") || userName.equals("system?") || userName.equals("unittestuser?"))
-				&& isNewFormId) {
-			titleNewFlag = "(new" + (isClone ? " by clone" : "") + ")";
-		}
-		
-		String[] titleStrParts = subtitle.split("\\{\\{");//kd 28072020 task-25483 Screens Header improvements.
-		if(titleStrParts.length > 0) 
-		{
-			if (!titleStrParts[0].trim().equals("")){
-				if (formCode.startsWith("Experiment") || formCode.startsWith("Sample")){ 
-					additSymbolsForTitle = " #: ";
-				} else if (formCode.equals("InvItemMaterialsMain") || formCode.equals("InvItemInstrumentsMain") || formCode.equals("InvItemSamplesMain")||formCode.equals("InvItemColumnsMain")){
-					additSymbolsForTitle = " ";
-				} else {
-					additSymbolsForTitle = ": ";
-				}
-			}
-		}
-		title = titleNewFlag + " " + title + additSymbolsForTitle + subtitle;
 		
 		toReturn.put("formTitle", title);
-		toReturn.put("tooltip", "");
-		String tooltip = "";
+		toReturn.put("formSubTitle", subtitle);
+		toReturn.put("formTitleCss", "");
+
+	 
 		String subTitleTooltip = "";
-		String titleWithNewLine = "";
-		String formTitleCss = "";
-
-		titleStrParts = title.split("\\{\\{");
-		titleWithNewLine = titleStrParts.length > 0 ? titleStrParts[0] : "";
-		if (formCode.equals("ExperimentAn") || formCode.equals("Experiment") || formCode.equals("ExperimentFor") || formCode.equals("ExperimentCP") // add ExperimentCP for "Continuous Process"
-				|| formCode.startsWith("ExperimentPr") || formCode.equals("Step") || formCode.equals("StepFr") || formCode.startsWith("ExperimentStb") // add ExperimentStb for "Taro develop"
-				|| formCode.equals("Action") || formCode.equals("Template") || formCode.equals("InvItemMaterialFr")  || formCode.equals("InvItemMaterialPr")  || formCode.equals("InvItemMaterial") || formCode.equals("InvItemInstrument") // kd 28072020 added for task-25483 Screens Header improvements
-				|| formCode.equals("RecipeFormulation")){
-			//arrange the title
-			//String titleSuffix = "";
-			String titleSubTitle = "";
-			
-			//if one of the parts or both of them are too long then shortening it and adding a title
-			if (titleStrParts[0].length() > 36) {
-				titleWithNewLine = (titleStrParts[0]).substring(0, 35) + "...";
-				tooltip = titleStrParts[0];
-			}
-			if (titleStrParts.length > 1) {
-				titleSubTitle = generalUtil.trimBrackets(titleStrParts[1]);
-				
-				if ((generalUtil.trimBrackets(titleStrParts[1])).length() > 55) {
-					titleSubTitle = (generalUtil.trimBrackets(titleStrParts[1])).substring(0, 51) + " ...";
-					subTitleTooltip = generalUtil.trimBrackets(titleStrParts[1]);
-				}
-				if ((formCode.equals("Step") || formCode.equals("StepFr")) && !titleSubTitle.equals("")){
-					titleSubTitle = "Exp: " + titleSubTitle;
-				}
-				toReturn.put("formSubTitle", titleSubTitle);
-				//titleWithNewLine = titleWithNewLine + titleSuffix;
-			}
-			//titleWithNewLine = titleWithNewLine + titleSuffix;
-			formTitleCss = "white-space:pre";
-
-		} 
-		else if (formCode.equals("SelfTest") || formCode.startsWith("Workup") || formCode.startsWith("STest")) {
-
-			//String titleSuffix = "";
-			//if the sub title is too long, then shortening it and adding a tooltip
-			String titleSubTitle = "";
-			if (titleStrParts.length > 1) {
-				titleSubTitle = generalUtil.trimBrackets(titleStrParts[1]);
-				if ((titleStrParts[1]).length() > 55) {
-					titleSubTitle = (titleSubTitle).substring(0, 51) + " ...";
-					subTitleTooltip = titleSubTitle;
-				}
-			}
-			toReturn.put("formSubTitle", titleSubTitle);
-			//titleWithNewLine = titleWithNewLine + titleSuffix;
-		}
-		else if(formCode.equals("SpreadsheetTempla")){//fixed bug 8567
-			if (titleStrParts[0].length() > 55) {
-				titleWithNewLine = (titleStrParts[0]).substring(0, 51) + "...";
-				tooltip = titleStrParts[0];
-			}
-		}
-
-		toReturn.put("formTitleCss", formTitleCss);
-		toReturn.put("formTitle", titleWithNewLine);
+		String tooltip = "";
 		if (!tooltip.isEmpty()) {
 			toReturn.put("tooltip", "title=\"" + tooltip + "\"");
 		}

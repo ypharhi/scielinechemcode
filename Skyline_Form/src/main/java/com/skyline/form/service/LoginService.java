@@ -262,7 +262,7 @@ public class LoginService { // TODO interface FormService and this should be For
 						toReturn.append("<ul class=\"menu is-dropdown-submenu\" style=\"z-index:500\">");
 						hasChild = true;
 					}
-					toReturn.append("<li "+css + style_ +  ">").append("<a ").append("href='#' "+onClick+ " >").append(o.optString("sub_category")).append("</a>");
+					toReturn.append("<li "+css + style_ +  ">").append("<a ").append("href='#' "+onClick+ " >").append(generalUtil.getSpringMessagesByKey(o.optString("sub_category"), o.optString("sub_category"))).append("</a>");
 					if(!subChild.toString().isEmpty())
 					{
 						toReturn.append(subChild);

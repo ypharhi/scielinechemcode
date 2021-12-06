@@ -566,7 +566,7 @@ public class ElementDataTableApiImp extends Element {
 			"<div id=\"" + domId + "_Parent\" " + chooseRequireAttr + " isfirstload=\"1\" parentElement=\"" +  getParentElement()  + "\" class=\"dataTableParent dataTableParentWidth "+expandClass+"\">"
 				+ loadingDiv	
 				+ " <div id=\""+domId+"_tableFilterControls\" class=\"tableFilterControls\">"
-				+ " <h2 style=\"" + isLabel + "\">"+expandIcon+ getLabel() + "</h2>"	
+				+ " <h2 style=\"" + isLabel + "\">"+expandIcon+ generalUtil.getSpringMessagesByKey(getLabel(), getLabel())  + "</h2>"	
 				+ " <h2 id=\"" + domId + "_Caption\" style=\"" + isdynamicCaption + "\" ></h2>"					
 				+ " <div id=\"" + domId + "_selectDiv\" class=\"row small-collapse expanded cssSelectDiv\"  formCode=\"" + formCode + "\" stateKey=\"" + stateKey + "\" thisFormId=\"" + formId + "\">"
 					+ "<div class=\"data-select-controls\">"
