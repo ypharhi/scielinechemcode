@@ -91,23 +91,20 @@
 	/******************************/
 	/* screen BL funcs */
 	/******************************/
-	function initFrame() {
-		var arrCubeIds = [{id:'367760' ,val:'at1'}]; //TODO serverside
-		var appId = $('#formId').val();
-// 		debugger;
+	function initFrame() { 
+		var appId = $('#formId').val(); 
 	    $.ajax({
 	        type: 'POST',
-	        data: '{"action" : "getappitems","' + 'data":[' + '{"code":"appid","val":"' + appId + '"}' + '],' + '"errorMsg":""}',
+	        data: '{"action" : "getappitems","data":[{"code":"appid","val":"' + appId + '"}],' + '"errorMsg":""}',
 	        url: "./getappitems.request",
 	        contentType: 'application/json',
 	        dataType: 'json',
-	        async: false,
 	        success: function (obj) { 
 				if(obj.errorMsg != null && obj.errorMsg.length > 0) {
 					displayAlertDialog(obj.errorMsg);
 				} else {
-					$.each(obj.data, function( index, objIdVal ) {
-			  	    	  insertLink(objIdVal);
+					$.each(obj.data, function( index, objCodeVal ) { //obj.data -> list of links objects -> [{code:'367760' ,val:'at1'},...]
+			  	    	  insertLink(objCodeVal);
 				  	});
 					disableAllLinks();
 				} 
@@ -115,10 +112,7 @@
 	        error: function () {
 	        	displayAlertDialog("Error - get item list!");
 	        }
-	    });  
-		 
-	    
-	    
+	    });
 	}
 	
 	function disableAllLinks() {
@@ -129,13 +123,13 @@
 		$('.my-responsive-iframe').remove();
 	}
 	
-	function insertLink(objIdVal) {
+	function insertLink(objCodeVal) {
 		//clone edit-item-wrapper-0  -> change id and val -> put before '.div-adhoc-marker'
   	  	var $div = $('#edit-item-wrapper-0').clone();
-  	  	$div.attr('id','edit-item-wrapper-' + objIdVal.code); // change the id
+  	  	$div.attr('id','edit-item-wrapper-' + objCodeVal.code); // change the id
 	    $('#div-adhoc-marker').before($div); // add before div-adhoc
 	    var $input = $div.find(':input');
-	    $input.val(objIdVal.val); // change the val
+	    $input.val(objCodeVal.val); // change the val
 	    $div.css("display", "block");
 	    return $input;
 	}
@@ -143,7 +137,7 @@
 	function loadIframeById(id_) {
 		var $iframeParent = $('.my-iframe-container');
 		
-		var formCode_ = 'ApplicationItem';
+		var formCode_ = 'ApplicationItem'; // TODO by some param
 		var stataky_ = $('#stateKey').val();
 		var userId_ = $('#userId').val();
 		
@@ -180,8 +174,32 @@
 	}
 	
 	function addLink() {
-		var $input = insertLink({id:'-1', val:''}); //TODO serverside
-		editLink($input);
+		debugger;
+		var formCode_ = 'ApplicationItem'; // TODO by some param
+		var appId = $('#formId').val();
+		$.ajax({
+	        type: 'POST',
+	        data: '{"action" : "insertappitems","data":[{"code":"appid","val":"' +appId +'"},{"code":"formcode","val":"' + formCode_ + '"}],"errorMsg":""}',
+	        url: "./insertappitems.request",
+	        contentType: 'application/json',
+	        dataType: 'json',
+	        async: false,
+	        success: function (obj) { 
+	        	debugger;
+				if(obj.errorMsg != null && obj.errorMsg.length > 0) {
+					displayAlertDialog(obj.errorMsg);
+				} else {
+					$.each(obj.data, function( index, objCodeVal) { //obj.data -> list of links objects -> [{code:'367760' ,val:'at1'},...]
+			  	    	var $input = insertLink(objCodeVal); //TODO serverside
+			  			editLink($input);
+				  	});
+					disableAllLinks();
+				} 
+	        },
+	        error: function () {
+	        	displayAlertDialog("Error - add item!");
+	        }
+	    });
 	}
 	
 	function updateEditLinkName(obj) {

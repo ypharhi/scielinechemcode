@@ -55,8 +55,20 @@ public class ApplicationService {
 		String sql = "select distinct to_char(t.applicationitem_id) as id, t.ApplicationItemName as name from FG_S_APPLICATIONITEM_v t where t.active = 1";
 		List<Map<String, Object>> mapList = generalDao.getListOfMapsBySql(sql);
 		for (Map<String, Object> map : mapList) {
-			dataBeanList.add(new DataBean(map.get("ID").toString(), map.get("NAME").toString(), BeanType.NA, "app id as code app name as value"));
+			dataBeanList.add(new DataBean(map.get("ID").toString(), map.get("NAME").toString(), BeanType.NA, "appitemid as code - appitemname as value"));
 		}
+		return dataBeanList;
+	}
+
+	public List<DataBean> insertappitems(String appId, String formCode) {
+		String newAppItemId = formSaveDao.getStructFormId(formCode);
+		String newAppItemName = "[" + formSaveDao.getStructFormId(formCode) + "]";
+		String userId = generalUtil.getSessionUserId();
+		String sql = "insert into fg_s_applicationitem_pivot (formid,timestamp,creation_date,active,change_by,created_by,formcode_entity,formCode,applicationitemname,applicationid)\r\n" + 
+				"values('" + newAppItemId + "',sysdate,sysdate,1,'" + userId + "','" + userId + "','ApplicationItem','" + formCode + "','"+ newAppItemName + "','" + appId + "')";
+		generalDao.updateSingleStringNoTryCatch(sql);
+		List<DataBean> dataBeanList = new ArrayList<DataBean>();
+		dataBeanList.add(new DataBean(newAppItemId,newAppItemName, BeanType.NA, "new appitemid as code - appitemname as value"));
 		return dataBeanList;
 	}
 

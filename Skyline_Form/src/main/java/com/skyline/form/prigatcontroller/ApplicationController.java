@@ -39,8 +39,8 @@ public class ApplicationController {
 	
  
 	@RequestMapping(value = "/getappitems.request", method = { RequestMethod.GET, RequestMethod.POST })
-	public @ResponseBody ActionBean getPropByName(@RequestBody ActionBean actionBean) {
-		logger.info("getPropByName call: /actionBean=" + actionBean);	
+	public @ResponseBody ActionBean getappitems(@RequestBody ActionBean actionBean) {
+		logger.info("getappitems call: /actionBean=" + actionBean);	
 		String appId = actionBean.getData().get(0).getVal(); 
 		String errorMsg = "";
 		List<DataBean> appItemList = null;
@@ -51,6 +51,23 @@ public class ApplicationController {
 		}
 		return new ActionBean("na", appItemList, errorMsg);
 	}
+	
+	@RequestMapping(value = "/insertappitems.request", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody ActionBean insertappitem(@RequestBody ActionBean actionBean) {
+		logger.info("insertappitems call: /actionBean=" + actionBean);	
+		String appId = actionBean.getData().get(0).getVal(); 
+		String formCode = actionBean.getData().get(1).getVal(); 
+		String errorMsg = "";
+		List<DataBean> appItemList = null;
+		try {
+			appItemList = applicationService.insertappitems(appId, formCode);
+		} catch (Exception e) {
+			errorMsg = "insert items error";
+		}
+		return new ActionBean("na", appItemList, errorMsg);
+	}
+	
+	
 	
 	
 }
