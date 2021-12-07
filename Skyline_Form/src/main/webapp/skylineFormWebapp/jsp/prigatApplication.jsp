@@ -116,6 +116,17 @@
 	/******************************/
 	/* screen BL funcs */
 	/******************************/
+	
+	function getAppItemDisplayByMarket() {
+		if($('#market').val() == 'International') {
+			return "ApplicationItemIn";
+		} else if($('#market').val() == 'Local') {
+			return "ApplicationItemLC";
+		} else {
+			return null;
+		}
+	}
+	
 	function initFrame() { 
 		var appId = $('#formId').val(); 
 	    $.ajax({
@@ -160,9 +171,13 @@
 	}
 	
 	function loadIframeById(id_) {
-		var $iframeParent = $('.my-iframe-container');
-		
-		var formCode_ = 'ApplicationItem'; // TODO by some param
+		var $iframeParent = $('.my-iframe-container'); 
+		var formCode_ = getAppItemDisplayByMarket();
+		if(formCode_ == null) {
+			displayAlertDialog("Display by market not found");
+			return;
+		}
+		 
 		var stataky_ = $('#stateKey').val();
 		var userId_ = $('#userId').val();
 		
@@ -219,7 +234,12 @@
 	}
 	
 	function addLink() { 
-		var formCode_ = 'ApplicationItem'; // TODO by some param
+		var formCode_ = getAppItemDisplayByMarket();
+		if(formCode_ == null) {
+			displayAlertDialog("Display by market not found");
+			return;
+		}
+
 		var appId = $('#formId').val();
 		$.ajax({
 	        type: 'POST',
