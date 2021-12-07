@@ -75,6 +75,12 @@
 										  <TD>
 											<button type="button" class="button" perm_attr="cu" id="save_" onclick="doSave('Reload')"><spring:message code="Save" text="Save" /></button>
 										  </TD>
+										  <td>
+										  	${bookmarkappid}
+										  </td>
+										  <td>
+										    ${bookmarkitemname}
+										  </td>
 										</TR>
 										<tr>
 											<td style="width: 10%;">${bookmark11}</td>
