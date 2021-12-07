@@ -657,7 +657,7 @@ function doAftersave(afterSave,additionalInfAfterSave)
 	 	
  	// make afterSave....
 	if (typeof afterSave==='function'){
-		afterSave(additionalInfAfterSave);
+		afterSave(additionalInfAfterSave,passPrintParam);
 	} else if ((typeof afterSave !== 'undefined') && (afterSave.toLowerCase() == "close")){
 		var formCode = getForwardPage();
 		

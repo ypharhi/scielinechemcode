@@ -223,8 +223,8 @@ function saveAndCreateRequest(){
 	doSave(createRequestfromNewSample,"NA","","",$('#formId').val());//after saving the sample its creation form the system creates a request contains the sample 
 }
 
-function createRequestfromNewSample(sampleId){
-	var appendUrl = 'SMARTSELECTLIST='||sampleId;
+function createRequestfromNewSample(sampleId,passPrintParam){
+	var appendUrl = 'SMARTSELECTLIST='+sampleId+'&'+passPrintParam;
 	doNew("Request",appendUrl);//after saving the sample its creation form the system creates a request contains the sample 
 }
 
