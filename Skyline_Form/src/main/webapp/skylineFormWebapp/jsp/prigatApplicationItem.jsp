@@ -11,6 +11,13 @@
 <%@ include file="../include/includeBL_js.jsp"%>
 <%@ include file="../include/includeJS.jsp"%>
 <%@ include file="../include/includeExtendedJS.jsp"%>
+<style>
+ #inner-main-table { 
+   width:95%;
+/*   border: 1px solid red;  */
+/*   padding : 5px;  */
+ } 
+</style>
 <script>
 
 	$(document).ready(function() { 
@@ -60,7 +67,7 @@
 								<tr>
 									<td class="innerTD">
 									 <!--begin --><div  overflow-y: auto;">
-									<table style="width:100%;">
+									<table id="inner-main-table">
 									<TR>
 									<TD>
 																			<button  type="button" class="button" perm_attr="cu" id="save_" onclick="doSave('Reload')"><spring:message code="Save" text="Save" /></button>
@@ -68,10 +75,10 @@
 									</TD>
 									</TR>
 	<tr>
-		<td style="width: 15%;">${bookmark11}</td>
-		<td style="width: 25%;">${bookmark12}</td>
+		<td style="width: 10%;">${bookmark11}</td>
+		<td style="width: 40%;">${bookmark12}</td>
 		<td style="width: 10%;">${bookmark13}</td>
-		<td>${bookmark14}</td>
+		<td style="width: 40%;">${bookmark14}</td>
 	</tr>
 	<tr>
 		<td colspan="4" height="20"></td>
