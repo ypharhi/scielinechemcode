@@ -67,6 +67,41 @@ public class ApplicationController {
 		return new ActionBean("na", appItemList, errorMsg);
 	}
 	
+	@RequestMapping(value = "/updateappitemname.request", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody ActionBean updateappitemname(@RequestBody ActionBean actionBean) {
+		logger.info("updateappitemname call: /actionBean=" + actionBean);	
+		String id = actionBean.getData().get(0).getVal(); 
+		String val = actionBean.getData().get(1).getVal(); 
+		String errorMsg = "";
+		List<DataBean> appItemList = null;
+		try {
+			applicationService.updateappitemname(id, val);
+		} catch (Exception e) {
+			errorMsg = "update item name error";
+		}
+		return new ActionBean("na", appItemList, errorMsg);
+	}
+	
+	@RequestMapping(value = "/deleteappitemname.request", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody ActionBean deleteappitemname(@RequestBody ActionBean actionBean) {
+		logger.info("deleteappitemname call: /actionBean=" + actionBean);	
+		String id = actionBean.getData().get(0).getVal();  
+		String errorMsg = "";
+		List<DataBean> appItemList = null;
+		try {
+			applicationService.deleteappitemname(id);
+		} catch (Exception e) {
+			errorMsg = "update item name error";
+		}
+		return new ActionBean("na", appItemList, errorMsg);
+	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

@@ -190,16 +190,35 @@
 	function removeLink(obj) {
 		openConfirmDialog({
 			onConfirm : function()
-			{
-				alert('TODO server side - by source? if first?');
+			{ 
+				var $div = $(obj).parent('div');
+				var id_ = $div.attr('id').replace('edit-item-wrapper-','');
+				$.ajax({
+			        type: 'POST',
+			        data: '{"action" : "deleteappitemname","data":[{"code":"id","val":"' +id_ +'"}],"errorMsg":""}',
+			        url: "./deleteappitemname.request",
+			        contentType: 'application/json',
+			        dataType: 'json',
+			        async: false,
+			        success: function (obj) {
+						if(obj.errorMsg != null && obj.errorMsg.length > 0) {
+							displayAlertDialog(obj.errorMsg);
+						} else {
+ 							$div.remove(); // remove from dom
+ 							removeIframe();
+						}
+			        },
+			        error: function () {
+			        	displayAlertDialog("Error - remove item!");
+			        }
+			    });
 			},
 			title : 'Warning',
 			message : getSpringMessage('REMOVE_LINK_ITEM')
 		})
 	}
 	
-	function addLink() {
-		debugger;
+	function addLink() { 
 		var formCode_ = 'ApplicationItem'; // TODO by some param
 		var appId = $('#formId').val();
 		$.ajax({
@@ -209,8 +228,7 @@
 	        contentType: 'application/json',
 	        dataType: 'json',
 	        async: false,
-	        success: function (obj) { 
-	        	debugger;
+	        success: function (obj) {
 				if(obj.errorMsg != null && obj.errorMsg.length > 0) {
 					displayAlertDialog(obj.errorMsg);
 				} else {
@@ -218,7 +236,6 @@
 			  	    	var $input = insertLink(objCodeVal); //TODO serverside
 			  			editLink($input);
 				  	});
-					disableAllLinks();
 				} 
 	        },
 	        error: function () {
@@ -227,9 +244,26 @@
 	    });
 	}
 	
-	function updateEditLinkName(obj) {
+	function updateAppItemName(obj) {
 		var newVal = obj.value;
-		displayAlertDialog("TODO remove to new val: " + newVal + " on server side"); //TODO serverside
+		var $div = $(obj).parent('div');
+		var id_ = $div.attr('id').replace('edit-item-wrapper-','');
+		$.ajax({
+	        type: 'POST',
+	        data: '{"action" : "updateappitemname","data":[{"code":"id","val":"' +id_ +'"},{"code":"newval","val":"' + newVal + '"}],"errorMsg":""}',
+	        url: "./updateappitemname.request",
+	        contentType: 'application/json',
+	        dataType: 'json',
+	        async: false,
+	        success: function (obj) {
+				if(obj.errorMsg != null && obj.errorMsg.length > 0) {
+					displayAlertDialog(obj.errorMsg);
+				}
+	        },
+	        error: function () {
+	        	displayAlertDialog("Error - update item name!");
+	        }
+	    });
 	}
 	
 </script>
@@ -412,7 +446,7 @@ ${bookmark45_html}
 										<div id="edit-item-wrapper-0" class="edit-item-wrapper"
 											style="display: none;">
 											<input class="edit-item alphanumInputForm" type="text"
-												onBlur='updateEditLinkName(this);'> <span
+												onBlur='updateAppItemName(this);'> <span
 												class="fa fa-edit" onclick="editLink(this)"></span> <span
 												class="fa fa-remove" onclick="removeLink(this)"></span>
 										</div>
