@@ -52,6 +52,9 @@ ${bookmark192_ready} ${bookmark193_ready} ${bookmark194_ready}
 	    } 
 	    renderElementAuthorizationImp();
 	    //$('.displayOnLoad').css('display','');
+	    
+	    //align radio fix
+	    $(":radio").closest('td').css('vertical-align','bottom').css('padding-bottom','2px');
 	});
 	
 	${bookmark111_function} ${bookmark112_function} ${bookmark113_function}
