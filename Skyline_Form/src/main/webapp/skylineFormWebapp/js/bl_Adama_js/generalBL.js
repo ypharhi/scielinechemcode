@@ -2585,6 +2585,11 @@ function doNew(formCode, appendUrl) {
 		smartSelectList = toReturn.toString();
 	}
 	
+	if(formCode == 'Request' && parentFormCode == 'Sample'){
+		var toReturn = [];  
+		smartSelectList = $("#_pass_labelData").val();		
+	}
+	
 	var url = window.location.href;
 	if (url.indexOf('&isStructAsPopup=1') > 0){//if the new form is opened from a popup form then the new form will be opened in full screen
 		isTopWindow = '0';

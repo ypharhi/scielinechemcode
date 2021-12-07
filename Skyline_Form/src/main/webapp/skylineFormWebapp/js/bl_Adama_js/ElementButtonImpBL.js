@@ -224,7 +224,7 @@ function saveAndCreateRequest(){
 }
 
 function createRequestfromNewSample(sampleId,passPrintParam){
-	var appendUrl = 'SMARTSELECTLIST='+sampleId+'&'+passPrintParam;
+	var appendUrl = passPrintParam;
 	doNew("Request",appendUrl);//after saving the sample its creation form the system creates a request contains the sample 
 }
 

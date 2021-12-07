@@ -2252,7 +2252,8 @@ public class IntegrationInitFormAdamaImp implements IntegrationInitForm {
 					sampleList = !generalUtil.getNull(requestMap.get("ACTION_SAMPLE_ID")).isEmpty()
 							? Arrays.asList(requestMap.get("ACTION_SAMPLE_ID").split(",")) : sampleList;
 				} else if(parentFormCodeEntity.equals("Sample")){
-					sampleList = Arrays.asList(parentId);
+					sampleList = !generalUtil.getNull(requestMap.get("smartSelectList")).isEmpty()
+							? Arrays.asList(requestMap.get("smartSelectList").split(",")) :Arrays.asList(parentId);
 				} else {
 					sampleList = generalDao.getListOfStringBySql(
 							"select distinct SAMPLE_ID from FG_S_SAMPLESELECT_ALL_V where PARENTID = '" + parentId
