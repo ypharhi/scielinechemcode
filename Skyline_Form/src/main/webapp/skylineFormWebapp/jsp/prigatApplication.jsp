@@ -33,7 +33,7 @@
 }
 
 .my-iframe-container {
-    border: 1px blue solid;
+    border: 1px #1779ba solid;
 	position: relative;
 	overflow: hidden;
 	width: 100%;
@@ -64,7 +64,7 @@
 
 .main-data-div{ 
 /*  display:none; */
-  border: 1px blue solid; 
+  border: 1px #1779ba solid; 
   margin: auto;
   padding: 2px;
   width: 98%;
@@ -76,6 +76,9 @@
    width: 80%;
    margin: auto;
   padding: 2px;
+}
+.td-place-holder {
+  height: 5px;
 }
 
 </style>
