@@ -130,6 +130,7 @@ ${bookmark192_html} ${bookmark193_html} ${bookmark194_html}
 												<spring:message code="Save" text="Save" />
 											</button>
 										</TD>
+										<td>Local</td>
 										<td>${bookmarkappid}</td>
 										<td>${bookmarkitemname}</td>
 									</TR>

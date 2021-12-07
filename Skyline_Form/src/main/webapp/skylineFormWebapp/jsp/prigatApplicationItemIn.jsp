@@ -129,7 +129,8 @@ ${bookmark192_html} ${bookmark193_html} ${bookmark194_html}
 												id="save_" onclick="doSave('Reload')">
 												<spring:message code="Save" text="Save" />
 											</button>
-										</TD>
+										</TD> 
+										<td>International</td>
 										<td>${bookmarkappid}</td>
 										<td>${bookmarkitemname}</td>
 									</TR>

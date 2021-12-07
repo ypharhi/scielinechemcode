@@ -339,6 +339,7 @@ ${bookmark45_html}
 									onclick="parent.$('#prevDialog').dialog('close');">
 									<spring:message code="Close" text="Close" />
 								</button>
+								${bookmarkappname}
 								<div class ="div-table-wrapper">
 									<table>
 										<tr>
