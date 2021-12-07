@@ -61,10 +61,27 @@
 	/*override block that make icons to move under the text*/
 	width: 80%;
 }
+
+.main-data-div{ 
+/*  display:none; */
+  border: 1px blue solid; 
+  margin: auto;
+  padding: 2px;
+  width: 98%;
+  
+}
+
+.div-table-wrapper {  
+/*    border: 1px green solid;  */
+   width: 80%;
+   margin: auto;
+  padding: 2px;
+}
+
 </style>
 <script>
 	$(document).ready(function() { 
-		 ${page_TestForm2_Testform2_ready}  ${page_TestForm2_Testform2_ready}  ${bookmark11_ready}  ${bookmark12_ready}  ${bookmark13_ready}  ${bookmark14_ready}  ${bookmark15_ready}  ${bookmark21_ready}  ${bookmark22_ready}  ${bookmark23_ready}  ${bookmark24_ready}  ${bookmark25_ready}  ${bookmark26_ready}  ${bookmark27_ready}  ${bookmark28_ready}  ${bookmark29_ready}  ${bookmark51_ready}  ${bookmark52_ready}  ${bookmark53_ready}  ${bookmark54_ready}  ${bookmark31_ready}  ${bookmark32_ready}  ${bookmark33_ready}  ${bookmark34_ready}  ${bookmark35_ready}  ${bookmark41_ready}  ${bookmark42_ready}  ${bookmark43_ready}  ${bookmark44_ready}  ${bookmark45_ready} 
+		${bookmark11_ready}  ${bookmark12_ready}  ${bookmark13_ready}  ${bookmark14_ready}  ${bookmark15_ready}  ${bookmark21_ready}  ${bookmark22_ready}  ${bookmark23_ready}  ${bookmark24_ready}  ${bookmark25_ready}  ${bookmark26_ready}  ${bookmark27_ready}  ${bookmark28_ready}  ${bookmark29_ready}  ${bookmark51_ready}  ${bookmark52_ready}  ${bookmark53_ready}  ${bookmark54_ready}  ${bookmark31_ready}  ${bookmark32_ready}  ${bookmark33_ready}  ${bookmark34_ready}  ${bookmark35_ready}  ${bookmark41_ready}  ${bookmark42_ready}  ${bookmark43_ready}  ${bookmark44_ready}  ${bookmark45_ready} 
  
 		initPage();
 	    if (window.self === window.top){    	
@@ -90,7 +107,7 @@
 	    renderElementAuthorizationImp();
 	    //$('.displayOnLoad').css('display','');
 	});
-	${page_TestForm2_Testform2_function} 	${page_TestForm2_Testform2_function} 	${bookmark11_function} 	${bookmark12_function} 	${bookmark13_function} 	${bookmark14_function} 	${bookmark15_function} 	${bookmark21_function} 	${bookmark22_function} 	${bookmark23_function} 	${bookmark24_function} 	${bookmark25_function} 	${bookmark26_function} 	${bookmark27_function} 	${bookmark28_function} 	${bookmark29_function} 	${bookmark51_function} 	${bookmark52_function} 	${bookmark53_function} 	${bookmark54_function} 	${bookmark31_function} 	${bookmark32_function} 	${bookmark33_function} 	${bookmark34_function} 	${bookmark35_function} 	${bookmark41_function} 	${bookmark42_function} 	${bookmark43_function} 	${bookmark44_function} 	${bookmark45_function} 
+	${bookmark11_function} 	${bookmark12_function} 	${bookmark13_function} 	${bookmark14_function} 	${bookmark15_function} 	${bookmark21_function} 	${bookmark22_function} 	${bookmark23_function} 	${bookmark24_function} 	${bookmark25_function} 	${bookmark26_function} 	${bookmark27_function} 	${bookmark28_function} 	${bookmark29_function} 	${bookmark51_function} 	${bookmark52_function} 	${bookmark53_function} 	${bookmark54_function} 	${bookmark31_function} 	${bookmark32_function} 	${bookmark33_function} 	${bookmark34_function} 	${bookmark35_function} 	${bookmark41_function} 	${bookmark42_function} 	${bookmark43_function} 	${bookmark44_function} 	${bookmark45_function} 
 
 	
 	/******************************/
@@ -214,7 +231,6 @@
 	
 </script>
 </head>
-${page_TestForm2_Testform2_html} ${page_TestForm2_Testform2_html}
 ${bookmark11_html} ${bookmark12_html} ${bookmark13_html}
 ${bookmark14_html} ${bookmark15_html} ${bookmark21_html}
 ${bookmark22_html} ${bookmark23_html} ${bookmark24_html}
@@ -276,139 +292,140 @@ ${bookmark45_html}
 				<table class="displayOnLoad" width="100%" style="display: none;">
 					<tr>
 						<td class="innerTD">
-							<!--begin -->
-							<button type="button" perm_attr="cu" class="button" id="save_"
-								onclick="doSave('Reload')">
-								<spring:message code="Save" text="Save" />
-							</button>
-							<button id="close_back" class="button" type="button"
-								style="margin-left: 15px;"
-								onclick="parent.$('#prevDialog').dialog('close');">
-								<spring:message code="Close" text="Close" />
-							</button>
-
-							<table style="width: 100%;">
-								<tr>
-									<td style="width: 15%;">${bookmark11}</td>
-									<td style="width: 25%;">${bookmark12}</td>
-									<td style="width: 10%;">${bookmark13}</td>
-									<td>${bookmark14}</td>
-								</tr>
-								<tr>
-									<td class="td-place-holder"></td>
-								</tr>
-								<tr>
-									<td>${bookmark21}</td>
-									<td>${bookmark22}</td>
-									<td>${bookmark23}</td>
-									<td>${bookmark24}</td>
-								</tr>
-								<tr>
-									<td class="td-place-holder"></td>
-								</tr>
-								<tr>
-									<td>${bookmark31}</td>
-									<td>${bookmark32}</td>
-									<td>${bookmark33}</td>
-									<td>${bookmark34}</td>
-								</tr>
-								<tr>
-									<td class="td-place-holder"></td>
-								</tr>
-								<tr>
-									<td>${bookmark41}</td>
-									<td>${bookmark42}</td>
-									<td>${bookmark43}</td>
-									<td>${bookmark44}</td>
-								</tr>
-								<tr>
-									<td class="td-place-holder"></td>
-								</tr>
-								<tr>
-									<td>${bookmark51}</td>
-									<td>${bookmark52}</td>
-									<td>${bookmark53}</td>
-									<td>${bookmark54}</td>
-								</tr>
-								<tr>
-									<td class="td-place-holder"></td>
-								</tr>
-								<tr>
-									<td>${bookmark61}</td>
-									<td>${bookmark62}</td>
-									<td>${bookmark63}</td>
-									<td>${bookmark64}</td>
-								</tr>
-								<tr>
-									<td class="td-place-holder"></td>
-								</tr>
-								<tr>
-									<td>${bookmark71}</td>
-									<td>${bookmark72}</td>
-									<td>${bookmark73}</td>
-									<td>${bookmark74}</td>
-								</tr>
-								<tr>
-									<td class="td-place-holder"></td>
-								</tr>
-								<tr>
-									<td>${bookmark81}</td>
-									<td>${bookmark82}</td>
-									<td>${bookmark83}</td>
-									<td>${bookmark84}</td>
-								</tr>
-								<tr>
-									<td class="td-place-holder"></td>
-								</tr>
-								<tr>
-									<td>${bookmark91}</td>
-									<td>${bookmark92}</td>
-									<td>${bookmark93}</td>
-									<td>${bookmark94}</td>
-								</tr>
-								<tr>
-									<td class="td-place-holder"></td>
-								</tr>
-								<tr>
-									<td>${bookmark101}</td>
-									<td>${bookmark102}</td>
-									<td>${bookmark103}</td>
-									<td>${bookmark104}</td>
-								</tr>
-								<tr>
-									<td class="td-place-holder"></td>
-								</tr>
-								<tr>
-									<td>${bookmark111}</td>
-									<td>${bookmark112}</td>
-									<td>${bookmark113}</td>
-									<td>${bookmark114}</td>
-								</tr>
-							</table>
-						</td>
-					<tr>
-						<td>
-							<div id="wrapper">
-								<div id="div1">
-									<div id="edit-item-wrapper-0" class="edit-item-wrapper"
-										style="display: none;">
-										<input class="edit-item alphanumInputForm" type="text"
-											onBlur='updateEditLinkName(this);'> <span
-											class="fa fa-edit" onclick="editLink(this)"></span> <span
-											class="fa fa-remove" onclick="removeLink(this)"></span>
-									</div>
-									<div id="div-adhoc-marker"></div>
-									<div>
-										<span id="btnAddLink" class="fa fa-plus" onclick="addLink()">Add
-											Item</span>
-									</div>
+						    <div class ="main-data-div">
+								<!--begin -->
+								<button type="button" perm_attr="cu" class="button" id="save_"
+									onclick="doSave('Reload')">
+									<spring:message code="Save" text="Save" />
+								</button>
+								<button id="close_back" class="button" type="button" 
+									onclick="parent.$('#prevDialog').dialog('close');">
+									<spring:message code="Close" text="Close" />
+								</button>
+								<div class ="div-table-wrapper">
+									<table>
+										<tr>
+											<td style="width: 15%;">${bookmark11}</td>
+											<td style="width: 35%;">${bookmark12}</td>
+											<td style="width: 15%;">${bookmark13}</td>
+											<td style="width: 35%;">${bookmark14}</td>
+										</tr>
+										<tr>
+											<td class="td-place-holder"></td>
+										</tr>
+										<tr>
+											<td>${bookmark21}</td>
+											<td>${bookmark22}</td>
+											<td>${bookmark23}</td>
+											<td>${bookmark24}</td>
+										</tr>
+										<tr>
+											<td class="td-place-holder"></td>
+										</tr>
+										<tr>
+											<td>${bookmark31}</td>
+											<td>${bookmark32}</td>
+											<td>${bookmark33}</td>
+											<td>${bookmark34}</td>
+										</tr>
+										<tr>
+											<td class="td-place-holder"></td>
+										</tr>
+										<tr>
+											<td>${bookmark41}</td>
+											<td>${bookmark42}</td>
+											<td>${bookmark43}</td>
+											<td>${bookmark44}</td>
+										</tr>
+										<tr>
+											<td class="td-place-holder"></td>
+										</tr>
+										<tr>
+											<td>${bookmark51}</td>
+											<td>${bookmark52}</td>
+											<td>${bookmark53}</td>
+											<td>${bookmark54}</td>
+										</tr>
+										<tr>
+											<td class="td-place-holder"></td>
+										</tr>
+										<tr>
+											<td>${bookmark61}</td>
+											<td>${bookmark62}</td>
+											<td>${bookmark63}</td>
+											<td>${bookmark64}</td>
+										</tr>
+										<tr>
+											<td class="td-place-holder"></td>
+										</tr>
+										<tr>
+											<td>${bookmark71}</td>
+											<td>${bookmark72}</td>
+											<td>${bookmark73}</td>
+											<td>${bookmark74}</td>
+										</tr>
+										<tr>
+											<td class="td-place-holder"></td>
+										</tr>
+										<tr>
+											<td>${bookmark81}</td>
+											<td>${bookmark82}</td>
+											<td>${bookmark83}</td>
+											<td>${bookmark84}</td>
+										</tr>
+										<tr>
+											<td class="td-place-holder"></td>
+										</tr>
+										<tr>
+											<td>${bookmark91}</td>
+											<td>${bookmark92}</td>
+											<td>${bookmark93}</td>
+											<td>${bookmark94}</td>
+										</tr>
+										<tr>
+											<td class="td-place-holder"></td>
+										</tr>
+										<tr>
+											<td>${bookmark101}</td>
+											<td>${bookmark102}</td>
+											<td>${bookmark103}</td>
+											<td>${bookmark104}</td>
+										</tr>
+										<tr>
+											<td class="td-place-holder"></td>
+										</tr>
+										<tr>
+											<td>${bookmark111}</td>
+											<td>${bookmark112}</td>
+											<td>${bookmark113}</td>
+											<td>${bookmark114}</td>
+										</tr>
+									</table>
 								</div>
-								<div id="div2">
-									<div class="my-iframe-container">
-										<embed class="my-responsive-iframe">
+							
+						 
+								<div id="wrapper">
+									<div id="div1">
+										<div id="edit-item-wrapper-0" class="edit-item-wrapper"
+											style="display: none;">
+											<input class="edit-item alphanumInputForm" type="text"
+												onBlur='updateEditLinkName(this);'> <span
+												class="fa fa-edit" onclick="editLink(this)"></span> <span
+												class="fa fa-remove" onclick="removeLink(this)"></span>
+										</div>
+										<div id="div-adhoc-marker"></div>
+										<div>
+											<span id="btnAddLink" class="fa fa-plus" onclick="addLink()">Add
+												Item</span>
+										</div>
 									</div>
-								</div>
-							</div> <!--end -->
+									<div id="div2">
+										<div class="my-iframe-container">
+											<embed class="my-responsive-iframe">
+										</div>
+									</div>
+								</div> <!--end -->
+							</div>
 						</td>
 					</tr>
 				</table>
