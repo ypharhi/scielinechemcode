@@ -59,9 +59,9 @@ public class ElementAutoCompleteDDLImp extends Element {
 				if(formCode != null && (formCode.equalsIgnoreCase("ExperimentReport")|| formCode.equalsIgnoreCase("PermissionScheme"))) { // TODO add it as configuration default true and test it more...
 					ADD_ALL_ON_EMPTY_DATA = false;
 					SELECT_ALL_ON_EMPTY_DATA = false;
-					if(formCode.equalsIgnoreCase("PermissionScheme")) {
+					//if(formCode.equalsIgnoreCase("PermissionScheme")) {
 						REMOVE_AND_SAVE_ALL = true;
-					}
+					//}
 				}
 				placeHolder = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "placeHolder");
 				isMultiple = Boolean.valueOf(generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "multiple"));
