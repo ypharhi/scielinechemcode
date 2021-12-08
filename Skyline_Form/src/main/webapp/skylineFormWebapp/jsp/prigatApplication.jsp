@@ -104,6 +104,7 @@
 	    } 	
 	    
 	    //**********screen BL.....
+	    initDisplay();
 	    initFrame();
 	    //**********screen Done!
 	    
@@ -116,6 +117,17 @@
 	/******************************/
 	/* screen BL funcs */
 	/******************************/
+	
+	function initDisplay () {
+		
+		if($("#isNew").val() == '1') {
+			//disabled add item on new
+			$("#btnAddLink").css("pointer-events", "none");
+		} else {
+			//disabled change market on save
+			setDisabledByElementId('market',true);
+		}
+	}
 	
 	function getAppItemDisplayByMarket() {
 		if($('#market').val() == 'International') {
@@ -254,6 +266,7 @@
 				} else {
 					$.each(obj.data, function( index, objCodeVal) { //obj.data -> list of links objects -> [{code:'367760' ,val:'at1'},...]
 			  	    	var $input = insertLink(objCodeVal); //TODO serverside
+			  	    	$input.focus();
 			  			editLink($input);
 				  	});
 				} 
@@ -266,6 +279,10 @@
 	
 	function updateAppItemName(obj) {
 		var newVal = obj.value;
+		if(newVal == null || newVal.trim().length == 0) {
+			displayAlertDialog("Please Enter Item Name!");
+			return;
+		}
 		var $div = $(obj).parent('div');
 		var id_ = $div.attr('id').replace('edit-item-wrapper-','');
 		$.ajax({

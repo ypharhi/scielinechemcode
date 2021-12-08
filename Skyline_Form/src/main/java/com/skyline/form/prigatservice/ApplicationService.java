@@ -37,7 +37,8 @@ public class ApplicationService {
 				+ appId + "' and t.active = 1 order by t.applicationitem_id";
 		List<Map<String, Object>> mapList = generalDao.getListOfMapsBySql(sql);
 		for (Map<String, Object> map : mapList) {
-			dataBeanList.add(new DataBean(map.get("ID").toString(), map.get("NAME").toString(), BeanType.NA,
+			String name_ = map.get("NAME") == null?"":map.get("NAME").toString();
+			dataBeanList.add(new DataBean(map.get("ID").toString(), name_, BeanType.NA,
 					"appitemid as code - appitemname as value"));
 		}
 		return dataBeanList;
@@ -45,7 +46,7 @@ public class ApplicationService {
 
 	public List<DataBean> insertappitems(String appId, String formCode) {
 		String newAppItemId = formSaveDao.getStructFormId(formCode);
-		String newAppItemName = "[" + formSaveDao.getStructFormId(formCode) + "]";
+		String newAppItemName = "";
 		String userId = generalUtil.getSessionUserId();
 		String sql = "insert into fg_s_applicationitem_pivot (formid,timestamp,creation_date,active,change_by,created_by,formcode_entity,formCode,applicationitemname,applicationid)\r\n"
 				+ "values('" + newAppItemId + "',sysdate,sysdate,1,'" + userId + "','" + userId
