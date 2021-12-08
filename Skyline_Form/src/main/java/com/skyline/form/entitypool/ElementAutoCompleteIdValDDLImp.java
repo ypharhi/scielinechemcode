@@ -83,14 +83,17 @@ public class ElementAutoCompleteIdValDDLImp extends Element {
 	public String init(long stateKey, String formCode, String impCode, String initVal) {
 		try {
 			if (super.init(stateKey, formCode, impCode, initVal).equals("")) {
-				if(formCode != null && (formCode.equalsIgnoreCase("ExperimentReport")|| formCode.equalsIgnoreCase("MP"))) { // TODO add it as configuration default true and test it more...
+				/*if(formCode != null && (formCode.equalsIgnoreCase("ExperimentReport")|| formCode.equalsIgnoreCase("MP"))) { // TODO add it as configuration default true and test it more...
 					ADD_ALL_ON_EMPTY_DATA = false;
 					SELECT_ALL_ON_EMPTY_DATA = false;
 					if(formCode.equalsIgnoreCase("MP")) {
 						REMOVE_AND_SAVE_ALL = true;
 					}
-				}
+				}*/
 				
+				ADD_ALL_ON_EMPTY_DATA = generalUtil.getNullBoolean(generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "addAllOnEmptyData"),true);
+				SELECT_ALL_ON_EMPTY_DATA = generalUtil.getNullBoolean(generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "selectAllOnEmptyData"),true);
+				REMOVE_AND_SAVE_ALL = generalUtil.getNullBoolean(generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "removeAndSaveAll"),false);
 				placeHolder = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "placeHolder");
 				isMultiple = Boolean.valueOf(generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "multiple"));
 				catalogItem = generalUtilForm.getJsonVal(stateKey, formCode, jsonInit, "catalogItem");
@@ -395,6 +398,24 @@ public class ElementAutoCompleteIdValDDLImp extends Element {
 				"		type: 'boolean',\r\n" +  
 				"		title:'Select First Value'\r\n" + 
 				"   },\n" + 
+				"	addAllOnEmptyData:{  \r\n" + 
+				"		type: 'string',\r\n" +  
+				"		title:'Add All on empty data (adding All option when no value was selected and the First Option is set to All)',\r\n" + 
+				"		'enum':['','True','False'],\r\n"+
+				"		'default':'True'\r\n"+
+				"   },\n" + 
+				"	selectAllOnEmptyData:{  \r\n" + 
+				"		type: 'string',\r\n" +  
+				"		title:'Select All on empty data (select All option when no value was selected and the First Option is set to All)',\r\n" + 
+				"		'enum':['','True','False'],\r\n"+
+				"		'default':'True'\r\n"+
+				"   },\n" + 
+				"	removeAndSaveAll:{  \r\n" + 
+				"		type: 'string',\r\n" +  
+				"		title:'Remove and Save All (save the option All when it was selected and the First Option is set to All)',\r\n" + 
+				"		'enum':['','True','False'],\r\n"+
+				"		'default':'False'\r\n"+
+				"   },\n" +
 				"	singleRowParamVal:{  \r\n" + 
 				"		type: 'string',\r\n" +  
 				"		title:'parameter value for single row display (to avoid SQL call) [do not use on element that may changed by search or js code]'\r\n" + 
