@@ -17,6 +17,11 @@
 	/*   border: 1px solid red;  */
 	/*   padding : 5px;  */
 }
+
+.my-header {
+  font-size: medium;
+  padding-left:30px;
+ }
 </style>
 <script>
 
@@ -116,26 +121,26 @@ ${bookmark192_html} ${bookmark193_html} ${bookmark194_html}
 	<!-- body -->
 	<table style="width: 100%;">
 		<tr>
+			<td colspan="4" height="5"></td>
+		</tr>
+		<TR>
+			<TD>
+				<button type="button" class="button" perm_attr="cu"
+					id="save_" onclick="doSave('Reload')">
+					<spring:message code="Save" text="Save" />
+				</button>
+				<span class="my-header">Local</span> 
+			</TD>
+			<td>${bookmarkappid}</td>
+			<td>${bookmarkitemname}</td>
+		</TR>
+		<tr>
 			<td class="ui-widget-content ui-corner-all innerTD" colspan="10">
 				<table class="displayOnLoad" width="100%" style="display: none;">
 					<tr>
 						<td class="innerTD">
 							<!--begin --> <divoverflow-y:auto;">
 								<table id="inner-main-table">
-									<tr>
-										<td colspan="4" height="20"></td>
-									</tr>
-									<TR>
-										<TD>
-											<button type="button" class="button" perm_attr="cu"
-												id="save_" onclick="doSave('Reload')">
-												<spring:message code="Save" text="Save" />
-											</button>
-										</TD>
-										<td>Local</td>
-										<td>${bookmarkappid}</td>
-										<td>${bookmarkitemname}</td>
-									</TR>
 									<tr>
 										<td style="width: 10%;">${bookmark111}</td>
 										<td style="width: 40%;">${bookmark112}</td>
