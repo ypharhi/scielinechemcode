@@ -316,4 +316,69 @@ function navigationTabSelection() {
 	}
 	
 }
+
+function setDisabledByElementId(elementName, isDisabled) {
+	var selectAddition = "";
+	var hasParentDiv = false;	
+	var element = $('[id="' + elementName + '"]');
+	
+	console.log("setDisabledByElementId() isDisabled: " + isDisabled + ",elementName=" + elementName);
+	
+	if(element.is("select") && $('[id="' + elementName + '_chosen"]').length > 0) {
+		selectAddition = "_chosen";
+	} 
+	else if(element.hasClass('ckeditor') && $('[id="' + elementName + '_parent"]').length > 0) {
+		selectAddition = "_parent";
+	} 
+	else if(element.is("input") && $('[id="fileUploadElementForm_' + elementName + '"]').length > 0) {
+		hasParentDiv = true;
+		selectAddition = "dragAndDropHandler";
+	} 
+	else if(element.is("input") && element.hasClass('date-picker')) {
+		hasParentDiv = true;
+	}
+	if (element.attr("name") == 'parentWebixContainer'){
+		setDisableWebixTableId(isDisabled, elementName);
+	} 
+	else if(element.is("div") && element.attr('name')=='parentDiagramContainer'){
+		setDisabledDiagram(isDisabled,element);
+	}
+	else if(element.hasClass('excelSheet')){
+		disableSpreadsheet(elementName,isDisabled);
+    } 
+	
+	if ((isDisabled) && (!$('[id="' + elementName + selectAddition +'"]').hasClass('authorizationDisabled'))) 
+	{
+		if($('#' + elementName).is("table")){
+		    changeSingleDTLabelByDisabledState(elementName, true);
+		} else if(element.is("div") && element.hasClass('ckeditor')) {
+			$('[id="' + elementName + selectAddition +'"]').addClass('authorizationDisabled');
+			setRichTextEditorDisabled(elementName, true, 'AUTHEZ');
+		} else {
+			$('[id="' + elementName + selectAddition +'"]').addClass('authorizationDisabled');
+		}
+		
+		if(hasParentDiv) 
+		{
+			// important set 'authorizationDisabled' class to datepicker parent div element  for disable datepicker's icon too
+			element.parent().addClass('authorizationDisabled');
+		}
+    } 
+	else if((!isDisabled) && $('#' + elementName).is("table")){
+		changeSingleDTLabelByDisabledState(elementName, false);
+	}
+	else if ((!isDisabled) && ($('[id="' + elementName + selectAddition +'"]').hasClass('authorizationDisabled'))) 
+    {
+        $('[id="' + elementName + selectAddition +'"]').removeClass('authorizationDisabled');
+        if(hasParentDiv)
+		{
+        	element.parent().removeClass('authorizationDisabled');
+		}
+        if(element.hasClass('ckeditor'))
+		{
+        	setRichTextEditorDisabled(elementName, false, 'AUTHEZ');
+		}
+    }
+}
+
  
