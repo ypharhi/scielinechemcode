@@ -1970,7 +1970,7 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 					sql = "select count(*) from FG_I_REQUEST_DESTEXP_V\n"
 							+ "where request_id = '"+requestId+"'\n"
 							+ "and experiment_id <> '"+formId+"'\n"
-							+ "and  not in ('Approved','Cancelled')'\n";
+							+ "and nvl(EXPERIMENTSTATUSNAME,'Planned') not in ('Approved','Cancelled')\n";
 							
 					String countrequestExperimentsNotApproved = generalDao.selectSingleStringNoException(sql);
 					//gets the count of the experiments that created from the request and not approved
