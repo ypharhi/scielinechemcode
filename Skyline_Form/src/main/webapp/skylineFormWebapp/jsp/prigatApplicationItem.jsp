@@ -20,20 +20,21 @@
 </style>
 <script>
 
-${bookmark111_ready} ${bookmark112_ready} ${bookmark113_ready}
-${bookmark114_ready} ${bookmark121_ready} ${bookmark122_ready}
-${bookmark123_ready} ${bookmark124_ready} ${bookmark131_ready}
-${bookmark132_ready} ${bookmark133_ready} ${bookmark134_ready}
-${bookmark141_ready} ${bookmark142_ready} ${bookmark143_ready}
-${bookmark144_ready} ${bookmark151_ready} ${bookmark152_ready}
-${bookmark153_ready} ${bookmark154_ready} ${bookmark161_ready}
-${bookmark162_ready} ${bookmark163_ready} ${bookmark164_ready}
-${bookmark171_ready} ${bookmark172_ready} ${bookmark173_ready}
-${bookmark174_ready} ${bookmark181_ready} ${bookmark182_ready}
-${bookmark183_ready} ${bookmark184_ready} ${bookmark191_ready}
-${bookmark192_ready} ${bookmark193_ready} ${bookmark194_ready}
-
 	$(document).ready(function() { 
+		
+		${bookmark111_ready} ${bookmark112_ready} ${bookmark113_ready}
+		${bookmark114_ready} ${bookmark121_ready} ${bookmark122_ready}
+		${bookmark123_ready} ${bookmark124_ready} ${bookmark131_ready}
+		${bookmark132_ready} ${bookmark133_ready} ${bookmark134_ready}
+		${bookmark141_ready} ${bookmark142_ready} ${bookmark143_ready}
+		${bookmark144_ready} ${bookmark151_ready} ${bookmark152_ready}
+		${bookmark153_ready} ${bookmark154_ready} ${bookmark161_ready}
+		${bookmark162_ready} ${bookmark163_ready} ${bookmark164_ready}
+		${bookmark171_ready} ${bookmark172_ready} ${bookmark173_ready}
+		${bookmark174_ready} ${bookmark181_ready} ${bookmark182_ready}
+		${bookmark183_ready} ${bookmark184_ready} ${bookmark191_ready}
+		${bookmark192_ready} ${bookmark193_ready} ${bookmark194_ready}
+
  
 		initPage();
 	    if (window.self === window.top){    	
