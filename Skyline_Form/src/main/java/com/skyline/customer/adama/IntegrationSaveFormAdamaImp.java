@@ -1958,22 +1958,43 @@ public class IntegrationSaveFormAdamaImp implements IntegrationSaveForm {
 				}
 			}
 			
-			if(currentStatusName.equals("Approved") && !lastStatusName.equals("Approved")) {
+			if(currentStatusName.equals("Approved") && !lastStatusName.equals("Approved")
+					||currentStatusName.equals("Cancelled") && !lastStatusName.equals("Cancelled")) {
 				String approvalStatusId = formDao.getFromInfoLookup("REQUESTSTATUS", LookupType.NAME, "Approved",
 						"id");
-				String ExternalRequestId = formDao.getFromInfoLookup("UNITS", LookupType.NAME, "External Tasks", "id");
+				//String ExternalRequestId = formDao.getFromInfoLookup("UNITS", LookupType.NAME, "External Tasks", "id");
 				List<String> colList = Arrays.asList("requeststatus_id");
 				String sql = "select request_id from FG_I_REQUEST_DESTEXP_V where experiment_id = '"+formId+"'";
 				List<String> requestList = generalDao.getListOfStringBySql(sql);
 				for(String requestId:requestList) {
+					sql = "select count(*) from FG_I_REQUEST_DESTEXP_V\n"
+							+ "where request_id = '"+requestId+"'\n"
+							+ "and experiment_id <> '"+formId+"'\n"
+							+ "and  not in ('Approved','Cancelled')'\n";
+							
+					String countrequestExperimentsNotApproved = generalDao.selectSingleStringNoException(sql);
+					//gets the count of the experiments that created from the request and not approved
+					if(!countrequestExperimentsNotApproved.equals("0")){//if not all the destination experiments are approved/cancelled
+						continue;
+					}
+					if(currentStatusName.equals("Cancelled")){
+						sql = "select count(*) from FG_I_REQUEST_DESTEXP_V\n"
+							+ "where request_id = '"+requestId+"'\n"
+							+ "and nvl(EXPERIMENTSTATUSNAME,'Planned') = 'Approved'";
+						String countRequestApprovedExperiments = generalDao.selectSingleStringNoException(sql);
+						if(countRequestApprovedExperiments.equals("0")){//if not any of the requests is approved then all of them are cancelled->no need to approve the request
+							continue;
+						}
+					}
 					generalUtilLogger.logWriter(LevelType.INFO,
 						"Update the origin request- formid= " + requestId
 								+ ". Set status to 'Approved'",
 						ActivitylogType.SaveEvent, formId);
-					String sql_ = "update fg_s_request_pivot set requestStatus_id = '" + approvalStatusId + "',completionDate=TO_CHAR(sysdate,'"+  generalUtil.getConversionDateFormat() + "')"
+					String sql_ = "update fg_s_request_pivot\n"
+							+ " set requestStatus_id = '" + approvalStatusId + "',completionDate=TO_CHAR(sysdate,'"+  generalUtil.getConversionDateFormat() + "')"
 							+ " where formid = '" + requestId + "' and nvl(requestStatus_id,'-1')<>'"+approvalStatusId+"'";
 					formSaveDao.updateStructTableByFormId(sql_, "fg_s_request_pivot", colList, requestId);
-				}		
+				}
 			}
 			
 			List<String> ownerList = Arrays.asList(elementValueMap.get("OWNER_ID"));
