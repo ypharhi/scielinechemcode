@@ -22,7 +22,8 @@ import com.skyline.form.entity.Element;
  * ElementGeneralCodeImp
  * 
  * codeName - CODE_STB_SELECT_TABLE ....TODO full description after taro development for stability (this is the reason for entering this element)
- * 
+ * codeName - CODE_QR_CODE - when using it then should implement the bl function getExpectedFormCodeByStructSelection in order to return the formcode entity that the selection is using(for example: SampleSelect uses the Sample formcode)
+ * 					also it's necessary to add implementation in the Java BL function formDao.getSelectColumnNameByFormCode to return the column select name in the selection form(for example: SampleTable holds the value of the selection SampleSelect)
  */
 public class ElementGeneralCodeImp extends Element {
 
@@ -70,8 +71,8 @@ public class ElementGeneralCodeImp extends Element {
 		} else if (codeName.equals("CODE_DESIGN_REPORT_PARAMETERS")) {
 			html = getReportDesignParameters(stateKey);
 		} else if (codeName.equals("CODE_QR_CODE")) {
-			String expectedFormcode = generalUtilFormState.getFormParam(stateKey, "ScanQrCode", "$P{SCANNEDFORMCODE}");
-			html = buildQrCodeElement(stateKey);
+			String saveStructFormCode = generalUtilFormState.getFormParam(stateKey, "ScanQrCode", "$P{SCANNEDFORMCODE}");
+			html = buildQrCodeElement(stateKey,saveStructFormCode);
 		} else if (codeName.equals("CODE_PURITY_LIST")){
 			String plannedCompositionId = generalUtilFormState.getFormParam(stateKey, "PurityList", "$P{PARENTID}");
 			html = getPurityList(plannedCompositionId,stateKey);
@@ -120,7 +121,7 @@ public class ElementGeneralCodeImp extends Element {
 		return html;
 	}
 	
-	private Map<String, String> buildQrCodeElement(long stateKey) {
+	private Map<String, String> buildQrCodeElement(long stateKey, String saveStructFormCode) {
 		StringBuilder valueByCode = new StringBuilder();
 		StringBuilder valueByCode_onReady = new StringBuilder();
 		Map<String, String> html = new HashMap<String, String>();
@@ -131,14 +132,11 @@ public class ElementGeneralCodeImp extends Element {
 								+"<label style=\"display: table-cell\"> "+materialName+"</label></div>");
 				valueByCode.append("</div>");
 				valueByCode.append("<div class=\"column cell-element\" style=\"width:5%\"></div>");		*/
-				valueByCode.append("<div class=\"column cell-element\" style=\"width:15%\">\n");
+				valueByCode.append("<div class=\"column cell-element\" style=\"width:90%\">\n");
 				valueByCode.append(
-						"<input autocomplete=\"off\" style=\"width:100%;\" type=\"text\" placeholder=\"Scan a QR-Code...\" \n" + 
-								"formElement=1 formPreventSave=0 saveType=\"none\"  maxlength=\"500\" onkeyup = function(e) {\n" + 
-										"	    		if(e.which == 13){ // qrcode scan will include enter as last char\n" + 
-										"	    			clearAndSearchCode(this);\n" + 
-										"	    		} \n}\n" +
-						"element=\"ElementInputImp\" type=\"Number\" >");
+						"<input codeName =\""+codeName+"\" id=\"scanQrCodeName\" autocomplete=\"off\" style=\"width:100%;\" type=\"text\" placeholder=\"Scan a QR-Code...\" \n" + 
+								"formElement=1 formPreventSave=0 saveStructFormCode=\""+saveStructFormCode+"\" saveType=\"none\"  maxlength=\"500\" onkeyup =\"getIdQrCodeAndSearch(this)\""+
+						"element=\"" + this.getClass().getSimpleName()+"\" type=\"Number\" >");
 				valueByCode.append("</div>");
 				valueByCode.append("<div class=\"column cell-element\"></div>");	
 				valueByCode.append("</div>");	

@@ -1,3 +1,7 @@
+/**
+ * 
+ */
+
 var ElementGeneralCodeImp = {
 	value_ : function(val_) {
 		var toReturn = "";
@@ -15,6 +19,10 @@ var ElementGeneralCodeImp = {
 			if(existsFlag_ == 1) {
 				toReturn = $('#txtSpIdList').val();
 			}
+		}
+		
+		if(element.attr('codeName') == 'CODE_QR_CODE') {
+			var toReturn = getQrCodeList(element.attr('id'));
 		}
 		return toReturn;
 	},
@@ -384,18 +392,25 @@ function setParametersData() {
 	}
 }
 
+function getIdQrCodeAndSearch(elem){
+	if(event.which == 13){ // qrcode scan will include enter as last char\n" + 
+		clearAndSearchCode(elem); 
+	} 
+}
+
 function clearAndSearchCode(element){
 	var $input = $(element);
-	var barCodeFormId = $input.text();
-	$input.text('');//clear the barCode in  order to let the user continue scanning barCodes
+	var barCodeFormId = $input.val();
+	var domId = $input.attr('id');
+	$input.val('');//clear the barCode in  order to let the user continue scanning barCodes
 	var urlParam = "?formId="+ barCodeFormId
 	+ "&userId="+ $('#userId').val()
-	+ "&eventAction=getSampleLabel";
+	+ "&eventAction=getQrCodeLabel&structFormCode="+getExpectedFormCodeByStructSelection($input.attr("saveStructFormCode"));
 	
 	var allData = getformDataNoCallBack(1);
 	
 	var data_ = JSON.stringify({
-		action : "getSampleLabel",
+		action : "getQrCodeLabel",
 		data : [],
 		errorMsg : ""
 			});
@@ -403,7 +418,7 @@ function clearAndSearchCode(element){
 	$.ajax({
 		type : 'POST',
 		data : data_,
-		url : "./getSampleLabel.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+		url : "./getQrCodeLabel.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
 		contentType : 'application/json',
 		dataType : 'json',
 		success : function(obj) {
@@ -413,14 +428,14 @@ function clearAndSearchCode(element){
 			else{
 				if(obj.data[0].val!=undefined && obj.data[0].val!=null){
 					var sampleData = obj.data[0].val;
-					var currentRow = $input.parent('div.row');
+					var currentRow = $input.parents('div.row');
 					var newRow = '<div class="row">\n'
-						+ '<div class="column cell-label" style = "width:20%">\n'
-						+ '	<div formlabelelement="1" id="Label_'+barCodeFormId+' barcode_id = "'+barCodeFormId+'">'
+						+ '<div class="column cell-label" style = "width:80%">\n'
+						+ '	<div formlabelelement="1" id="'+domId+'_Label_'+barCodeFormId+'" barcode_id = "'+barCodeFormId+'">'
 						+ '		<label style="display: table-cell">'+sampleData+'</label>'
 						+ '	</div>'
 						+ '</div>'
-						+ '<label onclick="removeSample(this)" style="width:5%;float:right">'
+						+ '<label onclick="removeSampleFromBarCodeList(this)" style="width:5%;float:right">'
 						+ '	<i class="fa fa-times" title="Remove"></i>'
 						+ '</label>'
 						+ '<div class="column cell-element" style="width:5%"></div>'
@@ -431,4 +446,19 @@ function clearAndSearchCode(element){
 		},
 		error : handleAjaxError
 	});
+}
+
+function removeSampleFromBarCodeList(element){
+	$(element).parent('div').remove();
+}
+
+function getQrCodeList(domId){
+	var barCodeList = [];
+	$('[formlabelelement = 1][id*="'+domId+'_Label_"]').each(function () {
+    	var elementObj = $(this);
+    	if(elementObj.attr('barcode_id')!=undefined && elementObj.attr('barcode_id')!=null){
+    		barCodeList.push(elementObj.attr('barcode_id'));
+    	}
+	});
+	return barCodeList.toString();
 }

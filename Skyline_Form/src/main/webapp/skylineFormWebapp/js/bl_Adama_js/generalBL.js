@@ -1152,6 +1152,12 @@ function initForm() {
     	$('.expanded.page-header').hide();
     	$('#pageTitle').closest('table').closest('tr').remove();
         $('.ui-widget-content table:last').closest('div').css('height', '')
+        var savestructformcode = $('#scanQrCodeName').attr('savestructformcode');
+        $('#save_').removeAttr('onclick');
+		$('#save_').attr('onclick','doSaveQrCode("scanQrCodeName","'+savestructformcode+'")');
+		setTimeout(function () {
+	    	$("#scanQrCodeName").focus();
+    	},100);
     }
     if(_formCode == 'BatchMain'){
     	if($('#lastStep').is(":checked")){//checking it twice: first - for the initiation and the other -for the laststep changed point
@@ -6926,6 +6932,14 @@ function doSaveExperimentGroup(){
 	parent.$('#prevDialog').data("experimentGroupDesc",$('#ExperimentGroupName').val());
 	parent.$('#prevDialog').data("experimentGroupId",$('#formId').val());
 	doSave('close');
+}
+
+function getExpectedFormCodeByStructSelection(selectionFormCode){
+	var toReturn = selectionFormCode;
+	if(selectionFormCode == 'SampleSelect'){
+		toReturn = "Sample";
+	}
+	return toReturn;
 }
 
 function doSavePurityList(){

@@ -7,8 +7,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.skyline.form.bean.ActionBean;
 import com.skyline.form.service.FormApiElementsGeneralService;
@@ -44,21 +46,43 @@ public class FormApiElementsGeneralCode {
 		}
 	}
 	
-	/*@RequestMapping(value = "/getSampleLabel.request", method = { RequestMethod.GET, RequestMethod.POST })
-	public ActionBean getSampleLabel(HttpServletRequest request,
+	@RequestMapping(value = "/getQrCodeLabel.request", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody ActionBean getQrCodeLabel(HttpServletRequest request,
 			HttpServletResponse response) {
 		
-		logger.info("getSampleLabel call");
+		logger.info("getQrCodeLabel call");
 		String formId = request.getParameter("formId");
+		String structFormCode = request.getParameter("structFormCode");
 		try {
 			if (formId != null) {
-				String sampleData = formApiElementsGeneralService.getSampleLabel(formId);
-				return new ActionBean("no action needed", generalUtil.StringToList(sampleData),"");
+				String labelData = formApiElementsGeneralService.getQrCodeLabel(formId,structFormCode);
+				return new ActionBean("no action needed", generalUtil.StringToList(labelData),"");
 			}
 		} catch (Exception ex){
 			String errMsg = ex.getMessage();
 			return new ActionBean("no action needed", generalUtil.StringToList("-1"), errMsg);
 		}
 		return null;
-	}*/
+	}
+	
+	@RequestMapping(value = "/doSaveQrcode.request", method = { RequestMethod.GET, RequestMethod.POST })
+	public @ResponseBody ActionBean doSaveQrcode(@RequestBody ActionBean actionBean, HttpServletRequest request) {
+		
+		logger.info("doSaveQrCode call");
+		String saveStructFormCode = request.getParameter("saveStructFormCode");
+		String parentId = request.getParameter("PARENT_ID");
+		String userId = request.getParameter("userId");
+		String qrCodeCsv = actionBean.getData().get(0).getVal();
+		try {
+			if (saveStructFormCode != null && !qrCodeCsv.isEmpty()) {
+				String[] qrCodeList = qrCodeCsv.split(",");
+				formApiElementsGeneralService.doSaveQrcode(saveStructFormCode,qrCodeList,parentId,userId);
+				return new ActionBean("no action needed", generalUtil.StringToList("1"),"");
+			}
+		} catch (Exception ex){
+			String errMsg = ex.getMessage();
+			return new ActionBean("no action needed", generalUtil.StringToList("-1"), errMsg);
+		}
+		return new ActionBean("no action needed", generalUtil.StringToList("1"),"");
+	}
 }

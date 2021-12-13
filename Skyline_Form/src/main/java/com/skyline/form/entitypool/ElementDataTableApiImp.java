@@ -273,7 +273,7 @@ public class ElementDataTableApiImp extends Element {
 		
 		String addScanQrCode;
 		try {
-			addScanQrCode = (addQrCodeButton.equals("True"))?"<button type=\"button\" class=\"button dataTableApiButton dataTableApiQrCode \" onclick=\"openscanQrCodeDialog(this)\" >QrCode</button>\n":"";
+			addScanQrCode = (addQrCodeButton.equals("True"))?"<button type=\"button\" class=\"button dataTableApiButton dataTableApiQrCode \" dataTableApiTypeNew onclick=\"openscanQrCodeDialog(this)\" ></button>\n":"";
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			addScanQrCode = "";
@@ -342,8 +342,8 @@ public class ElementDataTableApiImp extends Element {
 			buttons = "<div id=\""+ domId +"_dataTableStructButtons\" buttonslayout=\"" + actionButtons + "\" tableid=\"" + domId + "\" class=\"dataTableStructButtons\">\n"
 					+ addOptional
 					+ addLabel
-					+ addScanQrCode
-					+ additionalBtn					
+					+ additionalBtn	
+					+ addScanQrCode				
 					+ "</div>\n";			
 		}  
 		
@@ -1045,11 +1045,11 @@ public class ElementDataTableApiImp extends Element {
 				"     title:'add Label Button (call outPutLabelDTWrapper in ElementDataTableApiImpBL) ',\n" + 
 				"	enum : ['','True'],\n" +
 				" },\n" +	
-				/*"addQrCodeButton:{\n" + 
+				"addQrCodeButton:{\n" + 
 				"     type:'string',\n" + 
 				"     title:'add Scan QrCode Button (call opensScanQrCodeDialog in ElementDataTableApiImp) ',\n" + 
 				"	enum : ['','True'],\n" +
-				" },\n" +	*/
+				" },\n" +
 				"wfDiv:{\n" + 
 				"     type:'string',\n" + 
 				"     title:'WF Div',\n" + 

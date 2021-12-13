@@ -583,6 +583,20 @@ table#toRemove {
 	display:none;
 }
 
+.dataTableApiQrCode:before {
+	background: transparent url(../../images/qr-code.png) no-repeat;
+	height: 35px;
+	width: 49px;
+	display: -webkit-inline-box;
+	display: -ms-inline-flexbox;
+	content: '';
+	background-position: -61px 0px;
+}
+
+.dataTableApiQrCode{
+	background-color: transparent;
+}
+
 // .datatableapiselectloading
 // {
 // 	//visibility: hidden;

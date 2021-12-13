@@ -7331,5 +7331,17 @@ public void preperReport(Map<String, String> elementValueMap) {
 		return toReturn;
 	}
 
+	@Override
+	public String getQrCodeLabel(String formId, String structFormCode) {
+		String toReturn = formId;
+		if(structFormCode.equals("Sample")){
+			String sql = "select samplename||' '||sampledesc\n"
+					+ "from fg_s_sample_v\n"
+					+ "where formid = '"+formId+"'";
+			toReturn = generalDao.selectSingleStringNoException(sql);
+		}
+		return toReturn;
+	}
+
 }
 

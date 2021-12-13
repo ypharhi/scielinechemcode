@@ -3,6 +3,7 @@ package com.skyline.form.service;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -15,6 +16,7 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.skyline.form.dal.FormDao;
 import com.skyline.form.dal.GeneralDao;
 
 import oracle.jdbc.OracleTypes;
@@ -27,6 +29,15 @@ public class FormApiElementsGeneralService { // TODO interface FormService and t
 
 	@Autowired
 	private GeneralDao generalDao;
+
+	@Autowired
+	private FormDao formDao;
+
+	@Autowired
+	private GeneralUtilFormState generalUtilFormState;
+
+	@Autowired
+	private IntegrationEvent integrationEvent;
 
 	public void getStabValuesFromApi(int userId, /*Map<String, String> allRequestParams*/String product,
 			HttpServletResponse response) {
@@ -209,20 +220,22 @@ public class FormApiElementsGeneralService { // TODO interface FormService and t
 
 	/***
 	 * 
-	 * @param formId- qrCode. expect to get a sample formId
-	 * @return message of 'No sample was found'or sample No+sample description
+	 * @param structFormCode 
+	 * @param formId- qrCode. expect to get a structFormCode formId
+	 * @return message of 'No structFormCode was found'or the label description
 	 * @throws Exception 
 	 */
-	public String getSampleLabel(String formId) throws Exception {
+	public String getQrCodeLabel(String formId, String structFormCode) throws Exception {
 		String sql = "select formcode from fg_sequence where id = '"+formId+"'";
 		String formCode = generalDao.selectSingleStringNoException(sql);
-		if(!formCode.equals("Sample")) {
-			throw new Exception("No Sample was found");
+		if(!formCode.equals(structFormCode)) {
+			throw new Exception("No "+structFormCode+" was found");
 		}
-		sql = "select samplename||' '||sampledesc\n"
-				+ "from fg_s_sample_v\n"
-				+ "where formid = '"+formId+"'";
-		return generalDao.selectSingleStringNoException(sql);
+		return integrationEvent.getQrCodeLabel (formId, structFormCode);
+	}
+
+	public void doSaveQrcode(String saveStructFormCode, String[] qrCodeList, String parentId, String userId) {
+		formDao.insertToSelectTable(saveStructFormCode, parentId, formDao.getSelectColumnNameByFormCode(saveStructFormCode) , Arrays.asList(qrCodeList), false, userId, generalUtilFormState.getSessionId(parentId));
 	}
 
 }

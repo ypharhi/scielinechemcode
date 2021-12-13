@@ -869,8 +869,8 @@ public class FormDaoDBImp extends BasicDao implements FormDao {
 			Map<String, String> selectionData = generalDao.getMetaDataRowValues("select " + selectColumn
 					+ ",DISABLED from " + table + " where formid = '" + selectionId.get(0) + "' ");
 			List<String> similar = new ArrayList<String>();
-			if(!generalUtil.getNull(selectionData.get(selectColumn)).equals("")) { //yp 25032020 make this check to avoid insert empty string to similar (that cause leading comma in the csv)
-				similar.addAll(Arrays.asList(selectionData.get(selectColumn).split(",")));
+			if(!generalUtil.getNull(selectionData.get(selectColumn.toUpperCase())).equals("")) { //yp 25032020 make this check to avoid insert empty string to similar (that cause leading comma in the csv)
+				similar.addAll(Arrays.asList(selectionData.get(selectColumn.toUpperCase()).split(",")));
 			}
 			List<String> different = new ArrayList<String>();
 			different.addAll(similar);
@@ -926,5 +926,17 @@ public class FormDaoDBImp extends BasicDao implements FormDao {
 			e.printStackTrace();
 		}
 		return lastFormSaveInfoMap;
+	}
+
+	/***
+	 * get a formcode of a select form and return the element name that holds the selection csv
+	 */
+	@Override
+	public String getSelectColumnNameByFormCode(String formCode) {
+		String toReturn = "";
+		if(formCode.equals("SampleSelect")){
+			toReturn = "SampleTable";
+		}
+		return toReturn;
 	}
 }

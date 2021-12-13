@@ -4364,7 +4364,7 @@ function openscanQrCodeDialog(clickedObj)
 	var left, top;
 	//console.log("$this",$this);
 	dialogHeight = 220;
-    dialogWidth = 300;
+    dialogWidth = 450;
     var parentId = $('#formId').val();
     var domId = $(clickedObj).parent().attr('tableid');
     var formCode = encodeURIComponent($('[id="' + domId + '_structCatalogItem"]').val());
@@ -4388,7 +4388,7 @@ function openscanQrCodeDialog(clickedObj)
 	
 	var page = "./init.request?stateKey=" + stateKey + "&formCode=ScanQrCode&formId=-1&userId="
 			+ $('#userId').val()
-			+ '&tableType=&PARENT_ID=';
+			+ '&tableType=&PARENT_ID=&SCANNEDFORMCODE='+formCode;
 
 	// open iframe inside dialog
 	var $dialog = $(
@@ -4410,12 +4410,62 @@ function openscanQrCodeDialog(clickedObj)
 						},
 						open: function(event, ui) 
 						{
-							setFormParamMap("ScanQrCode", "-1","SCANNEDFORMCODE","Sample");
+							/*setTimeout(function(){
+							$('#save_').attr('onclick','doSaveQrCode(\"'+formCode+'\")');
+							},3000);*/
 			            }
 					});
 
 	$dialog.dialog('option', 'dialogClass', 'noTitleStuff')
 			.dialog('open');
+}
+
+function doSaveQrCode(domId,saveStructFormCode){
+	//var allData = getformDataNoCallBack(1);
+	var allData = [];
+	var barCodeList = [];
+	var $qrCodeElement = $('#'+domId);
+	var elementImpCode = $qrCodeElement.attr('element');
+	stringifyToPush = {
+			code: domId,
+			val: getValue_(elementImpCode, $qrCodeElement),
+			type: "AJAX_BEAN"
+	};
+	allData.push(stringifyToPush);
+	/*$('[formlabelelement = 1]').each(function () {
+    	var elementObj = $(this);
+    	if(elementObj.attr('barcode_id')!=undefined && elementObj.attr('barcode_id')!=null){
+    		barCodeList.push(elementObj.attr('barcode_id'));
+    	}
+	});*/
+	
+	//var allData = [{"code":"qrCodeList","val":barCodeList.toString()}];
+	var data_ = JSON.stringify({
+	       action: "doSaveQrcode",
+	       data: allData,
+	       errorMsg: ''
+	   });
+	
+	showWaitMessage("Please wait..."); 
+    // url call
+    var urlParam =
+        "?formId=" + $('#formId').val() + "&formCode=" + $('#formCode').val() + "&userId=" + $('#userId').val() 
+        + "&saveStructFormCode="+ saveStructFormCode + "&isNew=" + $('#isNew').val()+"&PARENT_ID="+parent.$('#formId').val();
+
+    // call...
+    $.ajax({
+        type: 'POST',
+        data: data_,
+        url: "./doSaveQrcode.request" + urlParam + "&stateKey=" + $('#stateKey').val(),
+        contentType: 'application/json',
+        dataType: 'json',
+        success: function (obj) {
+        	hideWaitMessage();
+    		parent.$('#scanQrCodeDialog').dialog('close');
+        	
+        },
+        error: handleAjaxError
+    });
 }
 
 function setNewCellDataRichText()
@@ -6513,6 +6563,7 @@ function changeSingleDTLabelByDisabledState (domid, disabled_state) {
 	} else { //enable
 		$('#' + domid + "_Parent").find("button.dataTableApiEdit").text(getSpringMessage("Edit"));
 		$('#' + domid + "_Parent").find("button.dataTableApiEditShared").text(getSpringMessage("Edit"));
+		$('#' + domid + "_Parent").find("button.dataTableApiQrCode").removeClass('disabledclass');
 		disableSingleDTinnerElements(domid,disabled_state);//adib 211220 enables the table
 //		setTimeout(function () {
 //            $('#' + domid).find("tbody tr td input[name='checkCharSample']").attr("disabled",false);
@@ -6525,7 +6576,7 @@ function disableSingleDTinnerElements(domid,disabled_state) {//adib 211220 added
 	setTimeout(function () {
 		if(disabled_state){//disabled
 		    $('#' + domid + '_Parent input:not([type="search"],.firstString,[id*="_LinkToLastSelection"],.dataTableApiSelectInfo,[name="checkCharSample"],.dataTableApiSelectInfoLabel,.dataTableApiSelectAllNone)').addClass('disablePage');
-		    $('#' + domid + '_Parent button:not(.dataTableApiEditShared,.dataTableApiEdit,.dataTableApiView,.dataTableApiButtonTools,.ireport,.dataTableApiLabel,.collapsible_iframes)').addClass('disablePage');//,
+		    $('#' + domid + '_Parent button:not(.dataTableApiEditShared,.dataTableApiEdit,.dataTableApiQrCode,.dataTableApiView,.dataTableApiButtonTools,.ireport,.dataTableApiLabel,.collapsible_iframes)').addClass('disablePage');//,
 		    $('#' + domid + '_Parent select.disablePage,input[type="radio"].disablePage,input[type="checkbox"]:not(.dataTableApiSelectInfo,[name="checkCharSample"]).disablePage').prop("disabled", true);
 	        //$('#' + domid).find("tbody tr td input[name='checkCharSample']").attr("disabled",true);adib 25072019 removed the disabling operation bug 7507
 	        if($('#'+domid).hasClass('editable')){
@@ -6534,7 +6585,7 @@ function disableSingleDTinnerElements(domid,disabled_state) {//adib 211220 added
 			}
 		} else {//TODO handle the editable tables when enabling them
 		    $('#' + domid + '_Parent input:not([type="search"],.firstString,[id*="_LinkToLastSelection"],.dataTableApiSelectInfo,[name="checkCharSample"],.dataTableApiSelectInfoLabel,.dataTableApiSelectAllNone)').removeClass('disablePage');
-		    $('#' + domid + '_Parent button:not(.dataTableApiEditShared,.dataTableApiEdit,.dataTableApiView,.dataTableApiButtonTools,.ireport,.dataTableApiLabel,.collapsible_iframes)').removeClass('disablePage');//,
+		    $('#' + domid + '_Parent button:not(.dataTableApiEditShared,.dataTableApiEdit,.dataTableApiView,.dataTableApiQrCode,.dataTableApiButtonTools,.ireport,.dataTableApiLabel,.collapsible_iframes)').removeClass('disablePage');//,
 		    $('#' + domid + '_Parent select.disablePage,input[type="radio"].disablePage,input[type="checkbox"]:not(.dataTableApiSelectInfo,[name="checkCharSample"]).disablePage').prop("disabled", false);
 		}
     }, 100);

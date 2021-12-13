@@ -98,6 +98,8 @@ public interface FormDao { //TODO add CacheImp implementation
 
 	public Map<String, String> getLastFormDataMap(String formCode, String formId, FormType formType);
 
+	public String getSelectColumnNameByFormCode(String saveStructFormCode);
+
 //	Map<String, String> getFormEntityImpcodeCaseInsensitiveMap(String formCode);
 	
 }

@@ -30,4 +30,6 @@ public interface IntegrationEvent
 	void copyReactionFromPrevStep(String formId, String prevStepFormId, String userId) throws Exception;
 
 	String getExcelComponentList(String parentId);
+
+	String getQrCodeLabel(String formId, String structFormCode);
 };
