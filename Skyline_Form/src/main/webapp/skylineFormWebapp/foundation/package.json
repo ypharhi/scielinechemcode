@@ -16,7 +16,7 @@
   "dependencies": {
     "browserslist": "^4.5.5",
     "caniuse-lite": "^1.0.30000963",
-    "foundation-sites": "^6.5.1",
+    "foundation-sites": "^6.7.4",
     "jquery": ">=3.0.0",
     "motion-ui": "~2.0.0",
     "what-input": "^5.1.2"
