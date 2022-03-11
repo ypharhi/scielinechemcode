@@ -202,7 +202,7 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
-			<version>3.0.0.RELEASE</version>
+			<version>5.2.19.RELEASE</version>
 		</dependency>
 		<dependency>
 			<groupId>cglib</groupId>
